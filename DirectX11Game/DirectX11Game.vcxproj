@@ -24,7 +24,7 @@
     <ProjectGuid>{230a64ed-a434-4179-9725-46e81a9d2f14}</ProjectGuid>
     <RootNamespace>DirectX11Game</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Client</ProjectName>
+    <ProjectName>TestConsole</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
