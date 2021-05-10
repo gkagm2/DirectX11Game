@@ -9,3 +9,7 @@ int Minus(int a, int b)
 {
 	return a - b;
 }
+
+int Plus(int a, int b) {
+	return a + b;
+}
