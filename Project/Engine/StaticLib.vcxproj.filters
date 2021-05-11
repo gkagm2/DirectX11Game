@@ -22,6 +22,21 @@
     <ClInclude Include="Global.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CKeyManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Engine\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="StringTable.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -35,6 +50,18 @@
     </ClCompile>
     <ClCompile Include="Static_Func.cpp">
       <Filter>Engine\01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Engine\Support</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +82,9 @@
     </Filter>
     <Filter Include="Engine\03. Device">
       <UniqueIdentifier>{4c8eed8a-af5e-4fde-89ed-7449afd10f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Support">
+      <UniqueIdentifier>{50d6eda3-fa74-470e-83d7-346ac1a0e6a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
