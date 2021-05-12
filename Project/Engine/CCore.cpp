@@ -6,7 +6,8 @@
 #include "CKeyManager.h"
 
 CCore::CCore() :
-	m_hWnd(nullptr)
+	m_hWnd(nullptr),
+	m_vWindowResolution{}
 {
 }
 
@@ -14,11 +15,12 @@ CCore::~CCore() {
 
 }
 
-int CCore::Init(HWND _hWnd)
+int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution)
 {
-	m_hWnd = _hWnd;
+	m_hWnd = _hOutputWnd;
+	m_vWindowResolution = _vWindowResolution;
 
-	if (FAILED(CDevice::GetInstance()->Init(m_hWnd, true))) {
+	if (FAILED(CDevice::GetInstance()->Init(m_hWnd, _vRenderResolution, true))) {
 		MessageBox(nullptr, STR_MSG_FailDeviceInitializing, STR_MSG_InitError, MB_OK);
 		return E_FAIL;
 	}

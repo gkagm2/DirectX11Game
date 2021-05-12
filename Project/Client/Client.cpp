@@ -43,15 +43,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     // Game Init
-
-
+    Vector2 vWindowResolution{ 1440, 810 };
+    Vector2 vRenderResolution{ 1440, 810 };
+    if (FAILED(CCore::GetInstance()->Init(g_hWnd, vWindowResolution, vRenderResolution)))
+        return 0;
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
-
-    if (FAILED(CCore::GetInstance()->Init(g_hWnd)))
-        return 0;
 
     // Main message loop:
     while (true)
