@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Tools.h"
-
-
-
+/* SimpleMath 대체
 ///////////////// Matrix ////////////////
 
 // 단위행렬
@@ -114,8 +112,7 @@ void TransposedMatrix(Matrix4x4& m) {
 // 행렬 내적
 
 // 행렬 외적
-
-
+*/
 
 // TODO :  공식으로 추려야한다.! (성능 엄청안좋음)
 // 비율을 유지하면서 원하는 사이즈로 맞춘다.

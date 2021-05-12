@@ -50,7 +50,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    CCore::GetInstance();
+    if (FAILED(CCore::GetInstance()->Init(g_hWnd)))
+        return 0;
 
     // Main message loop:
     while (true)

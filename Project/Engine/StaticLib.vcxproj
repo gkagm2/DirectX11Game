@@ -163,6 +163,7 @@ call EngineCopy.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -192,6 +193,9 @@ call EngineCopy.bat</Command>
     <ClCompile Include="StaticLib.cpp" />
     <ClCompile Include="Static_Func.cpp" />
     <ClCompile Include="Tools.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

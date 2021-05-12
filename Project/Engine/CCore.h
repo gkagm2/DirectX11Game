@@ -6,7 +6,7 @@ private:
 	HWND m_hWnd;
 
 public:
-	void Init(HWND _hWnd);
+	int Init(HWND _hWnd);
 	void Progress();
 	HWND GetWndHandle() { return m_hWnd; }
 };

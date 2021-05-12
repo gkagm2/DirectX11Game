@@ -78,6 +78,7 @@ void CKeyManager::Update()
 		POINT ptMousePoint;
 		GetCursorPos(&ptMousePoint);
 		ScreenToClient(CCore::GetInstance()->GetWndHandle(), &ptMousePoint);
-		m_mousePosition = ptMousePoint;
+		m_mousePosition.x = (float)ptMousePoint.x;
+		m_mousePosition.y = (float)ptMousePoint.y;
 	}
 }

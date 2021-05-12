@@ -40,6 +40,9 @@
     <ClInclude Include="CDevice.h">
       <Filter>Engine\03. Device</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h">
+      <Filter>Engine\Support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -92,5 +95,10 @@
     <Filter Include="Engine\Support">
       <UniqueIdentifier>{50d6eda3-fa74-470e-83d7-346ac1a0e6a9}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
+      <Filter>Engine\Support</Filter>
+    </None>
   </ItemGroup>
 </Project>

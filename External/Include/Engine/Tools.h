@@ -1,4 +1,5 @@
 #pragma once
+/* SimpleMath ¥Î√º
 class Matrix4x4;
 struct Vector2;
 struct Vector3;
@@ -319,7 +320,7 @@ public:
 	}
 };
 
-
+*/
 
 
 class CMyMath {
