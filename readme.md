@@ -1,5 +1,6 @@
 + x64버전만 사용한다.
 
++ MBCS, WBCS 동시 지원하게 만듬
 ++ 폴더 소개
 OutputFile - Release, Debug  실행파일 모음
 External - 외부 종속 파일
