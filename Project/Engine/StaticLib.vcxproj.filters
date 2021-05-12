@@ -37,6 +37,9 @@
     <ClInclude Include="StringTable.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CDevice.h">
+      <Filter>Engine\03. Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>Engine\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="CDevice.cpp">
+      <Filter>Engine\03. Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

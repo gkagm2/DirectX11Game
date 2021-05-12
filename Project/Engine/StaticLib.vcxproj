@@ -164,6 +164,7 @@ call EngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CDevice.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CPathManager.h" />
     <ClInclude Include="CSingleton.h" />
@@ -178,6 +179,7 @@ call EngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CPathManager.cpp" />
     <ClCompile Include="CTimeManager.cpp" />

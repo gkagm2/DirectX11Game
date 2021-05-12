@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <tchar.h>
 
 #include <vector>
 using std::vector;
@@ -14,7 +15,26 @@ using std::unordered_map;
 using std::map;
 
 #include <string>
-using std::wstring;
+#ifdef UNICODE
+typedef std::wstring tstring;
+#else
+typedef std::string tstring;
+#endif
+
+
+//Dx11
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+//using namespace DirectX;
+//using namespace DirectX::PackedVector;
+
+
+#pragma comment(lib, "d3d11")
+#pragma comment(lib, "d3dcompiler")
+#pragma comment(lib, "dxguid")
+
 
 #include "CSingleton.h"
 #include "Define.h"
