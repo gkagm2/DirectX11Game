@@ -10,4 +10,5 @@ public:
 	int Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution);
 	void Progress();
 	HWND GetWndHandle() { return m_hWnd; }
+	const Vector2& GetWindowResolution() const { return m_vWindowResolution; }
 };

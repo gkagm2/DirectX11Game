@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CDevice.h"
+#include "CCore.h"
 
 CDevice::CDevice() :
 	m_tDefaultRefreshRate{ 60,1 }, // 60 / 
@@ -14,7 +15,8 @@ CDevice::CDevice() :
 	m_pRTV(nullptr),
 	m_pDSV(nullptr),
 	m_pDSTex(nullptr),
-	m_pSample(nullptr)
+	m_pSample(nullptr),
+	m_tViewPort{}
 {
 }
 
@@ -61,20 +63,32 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 		return E_FAIL;
 	}
 	
-	bIsFail = FAILED(CreateSwapChain()); // 스왑체인 생성
+
+	// 스왑체인 생성
+	bIsFail = FAILED(CreateSwapChain()); 
 
 	if (bIsFail) {
 		MessageBox(nullptr, STR_MSG_FailSwapChain, STR_MSG_OccurError, MB_OK);
 		return E_FAIL;
 	}
-
+	////////////////////////////////////////
 	// Render Target View, DepthStencilView
-	
+	///////////////////////////////////////
+	// 뷰 생성
+	if (FAILED(CreateView())) {
+		MessageBox(nullptr, STR_MSG_FailCreateView, STR_MSG_OccurError, MB_OK);
+		return E_FAIL;
+	}
 
+	///////////////////////////////////////
 	// Viewport 설정
+	///////////////////////////////////////
+	CreateViewport();
 
+	////////////////////
 	// SamplerState 생성
-		
+	////////////////////
+
 	return S_OK;
 }
 
@@ -132,7 +146,7 @@ int CDevice::CreateSwapChain() {
 	pDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&pAdapter);
 	pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&pFactory);
 
-	if (FAILED(pFactory->CreateSwapChain(m_pDevice, &tDesc, &m_pSwapChain))) {
+	if (FAILED(pFactory->CreateSwapChain(m_pDevice.Get(), &tDesc, m_pSwapChain.GetAddressOf()))) {
 		MessageBox(nullptr, STR_MSG_FailCreateSwapChain, STR_MSG_FailDeviceInitializing, MB_OK);
 		return E_FAIL;
 	}
@@ -143,8 +157,69 @@ int CDevice::CreateSwapChain() {
 
 int CDevice::CreateView()
 {
+	//////////////////////////
 	// RenderTargetView 만들기
-	// Stencil
+	/////////////////////////
+	// 1. SwapChain으로부터 출력 버퍼 열기
+	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_pRTTex.GetAddressOf());
+	// 2. 출력 버퍼로 RenderTargetView Create
+	m_pDevice->CreateRenderTargetView(m_pRTTex.Get(), 0, m_pRTV.GetAddressOf());
+
+	//////////////////////////
+	// DepthStencilView 만들기
+	//////////////////////////
+	// DepthStencil용 Texture2D 만들기
+	D3D11_TEXTURE2D_DESC tTexDesc = {};
+	tTexDesc.Width = (UINT)m_vRenderResolution.x;
+	tTexDesc.Height = (UINT)m_vRenderResolution.y;
+	tTexDesc.MipLevels = 1; // 원본 하나만 지정
+	tTexDesc.ArraySize = 1;
+	tTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 픽셀포멧
+
+	tTexDesc.SampleDesc.Count = 1;
+	tTexDesc.SampleDesc.Quality = 0;
+
+	tTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	tTexDesc.Usage = D3D11_USAGE_DEFAULT;
+	//tTexDesc.CPUAccessFlags;
+	//tTexDesc.MiscFlags;
+
+	m_pDevice->CreateTexture2D(&tTexDesc, nullptr, m_pDSTex.GetAddressOf()); // 2param : 초기 색상 넣기
+
+	// 2. 생성한 DepthStencil Texture로 DepthStencilView를 생성한다.
+	m_pDevice->CreateDepthStencilView(m_pDSTex.Get(), 0, m_pDSV.GetAddressOf());
+
+	// 출력 타겟 및 깊이버퍼 설정
+	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get());
 
 	return S_OK;
+}
+
+void CDevice::CreateViewport()
+{
+	m_tViewPort.TopLeftX = 0;
+	m_tViewPort.TopLeftY = 0;
+	m_tViewPort.Width = CCore::GetInstance()->GetWindowResolution().x;
+	m_tViewPort.Height = CCore::GetInstance()->GetWindowResolution().y;
+	m_tViewPort.MinDepth = 0;
+	m_tViewPort.MaxDepth = 1;
+
+	m_pContext->RSSetViewports(1, &m_tViewPort);
+}
+
+void CDevice::ClearTarget()
+{
+	float fArr[4] = { 0.f, 0.5f, 0.f, 1.f}; // black color
+	m_pContext->ClearRenderTargetView(m_pRTV.Get(), fArr);
+
+	float fDepth = 1.0f;
+	UINT8 iStencil = 0;
+	m_pContext->ClearDepthStencilView(m_pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, fDepth, iStencil);
+}
+
+void CDevice::Present()
+{
+	int iSyncInterval = 0;
+	int iFlags = 0;
+	m_pSwapChain->Present(iSyncInterval, iFlags);
 }

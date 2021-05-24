@@ -43,6 +43,9 @@
     <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h">
       <Filter>Engine\Support</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTest.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="CDevice.cpp">
       <Filter>Engine\03. Device</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTest.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
