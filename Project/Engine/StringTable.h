@@ -10,6 +10,13 @@
 #define STR_MSG_FailCreateSwapChain _T("스왑체인 생성 실패")
 #define STR_MSG_FailCreateView _T("뷰 생성 실패")
 
+  // Ascii code character set
+#define STR_MSG_FailedToCreateVertexShader "버텍스 쉐이더 생성 실패"
+#define STR_MSG_FailedToCreatePixelShader "픽셀 쉐이더 생성 실패"
 
 
+// Path
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
+#define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+
+
