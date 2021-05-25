@@ -7,7 +7,7 @@ struct VTX_IN {
 };
 
 struct VTX_OUT {
-	float3 vPosition : SV_Position;
+	float4 vPosition : SV_Position;
 	float4 vColor : COLOR;
 };
 
@@ -31,7 +31,7 @@ VTX_OUT VTXShader(VTX_IN _in) {
 ///////////////
 // Pixel shader
 ///////////////
-float4 PIXShader(VTX_OUT _in) : SV_Target{
+float4 PIXShader(VTX_OUT _in) : SV_Target {
 	float4 vOutColor = float4(1.f, 0.f, 0.f, 1.f);
 	return vOutColor;
 }
