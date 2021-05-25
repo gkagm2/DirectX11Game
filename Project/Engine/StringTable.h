@@ -18,5 +18,3 @@
 // Path
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
-
-

@@ -14,6 +14,8 @@ ComPtr<ID3DBlob> g_PSBlob;		 // 픽셀 쉐이더 컴파일 코드
 
 ComPtr<ID3DBlob> g_ErrBlob;		 // 에러 메세지 저장 용도
 
+ComPtr<ID3D11InputLayout> g_Layout;// 입력 어셈블러 단계에 대한 입력 버퍼 데이털르 설명하는 입력 레이어웃 개체를 만든다.
+
 
 void Render_Test::TestInit()
 {
@@ -73,6 +75,30 @@ void Render_Test::TestInit()
 	if (FAILED(DEVICE->CreatePixelShader(g_PSBlob->GetBufferPointer(), g_PSBlob->GetBufferSize(), nullptr, g_PS.GetAddressOf()))) {
 		assert(nullptr);
 	}
+
+	/////////////////////////////
+	// InputLayout(Sementic) 설정
+	/////////////////////////////
+	const UINT iEleCnt = 2;
+	D3D11_INPUT_ELEMENT_DESC tLayoutDesc[iEleCnt] = {};
+	tLayoutDesc[0].SemanticName = "POSITION";
+	tLayoutDesc[0].SemanticIndex = 0;
+	tLayoutDesc[0].AlignedByteOffset = 0;
+	tLayoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT; // offset 0부터 12byte인것을 포멧으로 알려준다.
+	tLayoutDesc[0].InputSlot = 0;
+	tLayoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA; // 시멘틱이 정점마다 존재한다 (덩어리 단계로)
+	tLayoutDesc[0].InstanceDataStepRate = 0;
+
+	tLayoutDesc[1].SemanticName = "COLOR";
+	tLayoutDesc[1].SemanticIndex = 0;
+	tLayoutDesc[1].AlignedByteOffset = 12;
+	tLayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT; // offset 12부터 16byte인것을 포멧으로 알려준다.
+	tLayoutDesc[1].InputSlot = 0;
+	tLayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA; // 시멘틱이 정점마다 존재한다 (덩어리 단계로)
+	tLayoutDesc[1].InstanceDataStepRate = 0;
+
+	// param3 : 컴파일된 코드의 시작주소, param4 : 코드의 길이
+	DEVICE->CreateInputLayout(tLayoutDesc, iEleCnt, g_VSBlob->GetBufferPointer(), g_VSBlob->GetBufferSize(), g_Layout.GetAddressOf());
 }
 
 void Render_Test::TestUpdate()
@@ -85,20 +111,22 @@ void Render_Test::TestRender()
 	// Input Assembler -> Vertex Shader -> Rasterizer -> PixelShader -> OutputMerge
 
 	// Input Asselmber Stage 셋팅
-	UINT iStride = 0;
+	UINT iStride = sizeof(VTX); // 정점 하나의 최대 사이즈 (간격)
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_pVB.GetAddressOf(), &iStride, &iOffset);
+
+	// Topology(위상구조) 설정
+	CONTEXT->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 삼각형
+
+	// InputLayout(Semantic) 설정
+	CONTEXT->IASetInputLayout(g_Layout.Get());
 	
 	// 장치가 사용 할 VertexShader, PixelShader 세팅
 	CONTEXT->VSSetShader(g_VS.Get(), nullptr, 0);
 	CONTEXT->PSSetShader(g_PS.Get(), nullptr, 0);
 
-	// Topology(위상구조) 설정
-	CONTEXT->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 삼각형
-
-	// InputLayout(Sementic) 설정
-
-
 	// 파이프라인 시작
-	//CONTEXT->Draw();
+	UINT iVertexCnt = 3;
+	UINT iStartVertexLocation = 0;
+	CONTEXT->Draw(iVertexCnt, iStartVertexLocation);
 }
