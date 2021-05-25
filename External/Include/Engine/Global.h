@@ -43,6 +43,6 @@ using namespace DirectX::SimpleMath;
 
 #include "CSingleton.h"
 #include "Define.h"
-
+#include "Struct.h"
 #include "Tools.h"
 #include "StringTable.h"

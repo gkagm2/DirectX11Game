@@ -16,5 +16,8 @@
 
 #define MousePosition CKeyManager::GetInstance()->GetMousePosition()
 
+#define DEVICE CDevice::GetInstance()->GetDevice()
+#define CONTEXT CDevice::GetInstance()->GetDeviceContext()
+
 // Math
 #define PI 3.14159265f

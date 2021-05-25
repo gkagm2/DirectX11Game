@@ -16,14 +16,14 @@ private:
 
 private:
 	// D3D11 Version
-	ComPtr<ID3D11Device> m_pDevice;		// 장치 인터페이스(객체 생성, 메모리 관리)
-	ComPtr<ID3D11DeviceContext> m_pContext;// 장치 인터페이스(렌더링)
+	ComPtr<ID3D11Device> m_pDevice;			// 장치 인터페이스(객체 생성, 메모리 관리)
+	ComPtr<ID3D11DeviceContext> m_pContext; // 장치 인터페이스(렌더링)
 
 	ComPtr<IDXGISwapChain> m_pSwapChain;
 	ComPtr<ID3D11Texture2D> m_pRTTex;		// RTTex : Render Target Texture
-	ComPtr<ID3D11RenderTargetView> m_pRTV; // RTV : Render Target View
+	ComPtr<ID3D11RenderTargetView> m_pRTV;	// RTV : Render Target View
 
-	ComPtr<ID3D11DepthStencilView> m_pDSV; // DSV : Depth Stencil View
+	ComPtr<ID3D11DepthStencilView> m_pDSV;	// DSV : Depth Stencil View
 	ComPtr<ID3D11Texture2D> m_pDSTex;		// DSTex : Depth Stencil Texture
 
 	ComPtr<ID3D11SamplerState> m_pSample;
@@ -40,9 +40,13 @@ public:
 	// _bWindowed : 창모드
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);
 
+	void ClearTarget();
+	void Present();
+
+	ComPtr<ID3D11Device> GetDevice() { return m_pDevice; }
+	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return m_pContext; }
+
 	int CreateSwapChain();
 	int CreateView();
 	void CreateViewport();
-	void ClearTarget();
-	void Present();
-}; 
+};

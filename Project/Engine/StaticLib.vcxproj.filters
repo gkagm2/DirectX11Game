@@ -46,6 +46,9 @@
     <ClInclude Include="RenderTest.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -101,10 +104,18 @@
     <Filter Include="Engine\Support">
       <UniqueIdentifier>{50d6eda3-fa74-470e-83d7-346ac1a0e6a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{ad7d2027-a57d-4d1d-8a66-a9c67a847c47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
       <Filter>Engine\Support</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="std2d.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
