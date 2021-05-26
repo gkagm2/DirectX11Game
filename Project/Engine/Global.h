@@ -5,6 +5,11 @@
 #include <assert.h>
 #include <tchar.h>
 
+// µð¹ö±×
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
+
 #include <vector>
 using std::vector;
 #include <list>

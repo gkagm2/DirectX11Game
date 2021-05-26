@@ -49,6 +49,15 @@
     <ClInclude Include="Struct.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CResource.h">
+      <Filter>Engine\05. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>Engine\05. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>Engine\05. Resource\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -81,6 +90,15 @@
     <ClCompile Include="RenderTest.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Engine\05. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CResource.cpp">
+      <Filter>Engine\05. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>Engine\05. Resource\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -104,7 +122,22 @@
     <Filter Include="Engine\Support">
       <UniqueIdentifier>{50d6eda3-fa74-470e-83d7-346ac1a0e6a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader">
+    <Filter Include="Engine\05. Resource">
+      <UniqueIdentifier>{2a376735-3f07-4e8d-8bad-d7e1411fc991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Shader">
+      <UniqueIdentifier>{00bec9a9-aca2-4b81-a174-5320d878e01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Texture">
+      <UniqueIdentifier>{e464dabe-e1b8-45c0-b26e-604d0ea0ed57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Mesh">
+      <UniqueIdentifier>{89767618-892a-401b-9574-bfc9227f0bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Sound">
+      <UniqueIdentifier>{eb02c469-b932-4c49-9329-b6666e453ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Script">
       <UniqueIdentifier>{ad7d2027-a57d-4d1d-8a66-a9c67a847c47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -115,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
-      <Filter>Shader</Filter>
+      <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

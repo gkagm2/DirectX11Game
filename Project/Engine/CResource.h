@@ -1,0 +1,17 @@
+#pragma once
+#include "CEntity.h"
+
+class CResource : public CEntity
+{
+private:
+	UINT m_iRefCount;			// 리소스를 참조 개수 (Ref : Reference)
+	tstring m_strKey;			// 고유 키 값
+	tstring m_strRelativePath;  // 상대경로
+
+public:
+	virtual void Load(const tstring _strFilePath) = 0;
+
+public:
+	CResource();
+	virtual ~CResource() override;
+};

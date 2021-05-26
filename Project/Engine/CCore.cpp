@@ -15,7 +15,7 @@ CCore::CCore() :
 }
 
 CCore::~CCore() {
-
+	Render_Test::TestRelease();
 }
 
 int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution)
