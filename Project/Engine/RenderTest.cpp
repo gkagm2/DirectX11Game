@@ -4,7 +4,8 @@
 #include "CPathManager.h"
 
 // Tip : (Blob : 문자열 데이터 메모리 덩어리)
-ComPtr<ID3D11Buffer> g_pVB;
+ComPtr<ID3D11Buffer> g_pVB;		 // 정점 정보를 저장하는 버퍼
+ComPtr<ID3D11Buffer> g_pIB;		 // 인덱스 정보를 저장하는 버퍼
 
 ComPtr<ID3D11VertexShader> g_VS; // 버텍스 쉐이더
 ComPtr<ID3DBlob> g_VSBlob;		 // 베텍스 쉐이더 컴파일 코드
@@ -20,30 +21,64 @@ ComPtr<ID3D11InputLayout> g_Layout;// 입력 어셈블러 단계에 대한 입력 버퍼 데이털
 void Render_Test::TestInit()
 {
 	// Triangle
-	VTX arr[3] = {};
-	arr[0].vPos = Vector3(-1.f, -1.f, 0.5f);
-	arr[0].vColor = Vector4{ 1.f,1.f,1.f,1.f };
 
-	arr[1].vPos = Vector3(0.f, 1.f, 0.5f);
-	arr[1].vColor = Vector4{ 1.f,1.f,1.f,1.f };
+	////////////////////
+	// 버텍스 버퍼 만들기
+	////////////////////
+	VTX vertexArr[4] = {};
+	float fScale = 0.8f;
+	vertexArr[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.5f);
+	vertexArr[0].vColor = Vector4{ 1.f,0.f,0.f,1.f };
 
-	arr[2].vPos = Vector3(1.f, -1.f, 0.5f);
-	arr[2].vColor = Vector4{ 1.f,1.f,1.f,1.f };
+	vertexArr[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.5f);
+	vertexArr[1].vColor = Vector4{ 0.f,1.f,0.f,1.f };
+
+	vertexArr[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.5f);
+	vertexArr[2].vColor = Vector4{ 0.f,0.f,1.f,1.f };
+
+	vertexArr[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.5f);
+	vertexArr[3].vColor = Vector4{ 0.f,0.f,1.f,1.f };
 
 	D3D11_BUFFER_DESC tBufferDesc = {};
-	tBufferDesc.ByteWidth = sizeof(VTX) * 3; // 크기
+	tBufferDesc.ByteWidth = sizeof(VTX) * 4; // 크기
 	tBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	// 생성 이후의 수정 여부 설정
 	tBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	tBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; // GPU에 다시 접근해서 수정할 수 있도록 write
-	tBufferDesc.MiscFlags;
-	tBufferDesc.StructureByteStride;
+	//tBufferDesc.MiscFlags;
+	//tBufferDesc.StructureByteStride;
 
 	D3D11_SUBRESOURCE_DATA tSubResData = {};
-	tSubResData.pSysMem = arr; // 배열의 시작주소 (ByteWidth가 설정되어있어서 크기설정은 안해줘도 됨)
+	tSubResData.pSysMem = vertexArr; // 배열의 시작주소 (ByteWidth가 설정되어있어서 크기설정은 안해줘도 됨)
 
 	DEVICE->CreateBuffer(&tBufferDesc, &tSubResData, g_pVB.GetAddressOf());
+
+	////////////////////
+	// 인덱스 버퍼 만들기
+	////////////////////
+	UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
+	/*
+	1------2
+	|↘     |
+	|  ↘   |
+	|    ↘ |
+	0------3
+	*/
+
+	tBufferDesc = {};
+	tBufferDesc.ByteWidth = sizeof(UINT) * 6; // 크기
+	tBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+	// 생성 이후의 수정 여부 설정
+	tBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	//tBufferDesc.MiscFlags;
+	//tBufferDesc.StructureByteStride;
+
+	tSubResData = {};
+	tSubResData.pSysMem = arrIdx; // 배열의 시작주소 (ByteWidth가 설정되어있어서 크기설정은 안해줘도 됨)
+
+	DEVICE->CreateBuffer(&tBufferDesc, &tSubResData, g_pIB.GetAddressOf());
 
 	////////////////////
 	// VertexShader 생성
@@ -114,6 +149,7 @@ void Render_Test::TestRender()
 	UINT iStride = sizeof(VTX); // 정점 하나의 최대 사이즈 (간격)
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_pVB.GetAddressOf(), &iStride, &iOffset);
+	CONTEXT->IASetIndexBuffer(g_pIB.Get(), DXGI_FORMAT_R32_UINT, 0); // 4byte unsigned int타입으로
 
 	// Topology(위상구조) 설정
 	CONTEXT->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 삼각형
@@ -126,7 +162,14 @@ void Render_Test::TestRender()
 	CONTEXT->PSSetShader(g_PS.Get(), nullptr, 0);
 
 	// 파이프라인 시작
-	UINT iVertexCnt = 3;
-	UINT iStartVertexLocation = 0;
-	CONTEXT->Draw(iVertexCnt, iStartVertexLocation);
+	// 버텍스 버프를 사용할 경우
+	//UINT iVertexCnt = 3;
+	//UINT iStartVertexLocation = 0;
+	// CONTEXT->Draw(iVertexCnt, iStartVertexLocation); 
+
+	// 인덱스 버퍼를 사용할 경우
+	UINT iIndexCnt = 6;
+	UINT iStartIndexLocation = 0;
+	UINT iBaseVertexLocation = 0;
+	CONTEXT->DrawIndexed(iIndexCnt, iStartIndexLocation, iBaseVertexLocation);
 }
