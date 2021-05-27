@@ -8,13 +8,22 @@ private:
 	void* m_pVtxSys;			 //  VtxSys : Vertex System
 	void* m_pIdxSys;			 //  IdxSys :: Index System
 
+	UINT m_iIdxCount;
+
 	D3D11_BUFFER_DESC m_tVtxDesc;
 	D3D11_BUFFER_DESC m_tIdxDesc;
 
 public:
-	virtual void Load(const tstring _strFilePath) {};
+	void* GetVtxSysMem() { return m_pVtxSys; }
+	void* GetIdxSysMem() { return m_pIdxSys; }
+
+public:
+	virtual void Load(const tstring& _strFilePath) {};
 	virtual void Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage);
 	virtual void UpdateData();
+	virtual void Render() final;
+
+	void Reset();
 
 public:
 	CMesh();

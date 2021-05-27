@@ -7,7 +7,9 @@ private:
 public:
 	void SetName(const tstring& _strName) { m_strName = _strName; }
 	const tstring& GetName() const { return m_strName; }
-	
+
+	virtual void UpdateData() {}
+
 public:
 	CEntity();
 	virtual ~CEntity();
