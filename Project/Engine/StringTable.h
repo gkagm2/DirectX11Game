@@ -14,7 +14,14 @@
 #define STR_MSG_FailedToCreateVertexShader "버텍스 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreatePixelShader "픽셀 쉐이더 생성 실패"
 
-
 // Path
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+
+// std2.fx functions name
+#define STR_FUNCTION_NAME_VTXShader "VTXShader"
+#define STR_FUNCTION_NAME_PIXShader "PIXShader"
+
+// Resource Key
+#define STR_KEY_RectMash _T("RectMash")
+#define STR_KEY_StandardShader _T("StandardShader")

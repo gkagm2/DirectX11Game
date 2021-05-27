@@ -4,6 +4,7 @@
 #include "CPathManager.h"
 #include "CTimeManager.h"
 #include "CKeyManager.h"
+#include "CResourceManager.h"
 
 // Test
 #include "RenderTest.h"
@@ -15,7 +16,6 @@ CCore::CCore() :
 }
 
 CCore::~CCore() {
-	Render_Test::TestRelease();
 }
 
 int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution)
@@ -35,7 +35,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CPathManager::GetInstance()->Init();
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
-	Render_Test::TestInit();
+	CResourceManager::GetInstance()->Init();
 
 	return S_OK;
 }
@@ -48,9 +48,7 @@ void CCore::Progress()
 	// Update
 	Render_Test::TestUpdate();
 
-	//////////
 	// Render
-	//////////
 	// 1. Å¸°Ù Å¬¸®¾î
 	CDevice::GetInstance()->ClearTarget();
 

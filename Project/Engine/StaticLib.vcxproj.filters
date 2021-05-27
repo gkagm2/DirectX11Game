@@ -10,7 +10,7 @@
     <ClInclude Include="CCore.h">
       <Filter>Engine\02. Core</Filter>
     </ClInclude>
-    <ClInclude Include="Static_Func.h">
+    <ClInclude Include="Function.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CSingleton.h">
@@ -58,6 +58,21 @@
     <ClInclude Include="CMesh.h">
       <Filter>Engine\05. Resource\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="CShader.h">
+      <Filter>Engine\05. Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicsShader.h">
+      <Filter>Engine\05. Resource\Shader\GraphicsShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>Engine\05. Resource\Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Extern.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CResourceManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -69,7 +84,7 @@
     <ClCompile Include="CCore.cpp">
       <Filter>Engine\02. Core</Filter>
     </ClCompile>
-    <ClCompile Include="Static_Func.cpp">
+    <ClCompile Include="Function.cpp">
       <Filter>Engine\01. Header</Filter>
     </ClCompile>
     <ClCompile Include="CKeyManager.cpp">
@@ -98,6 +113,21 @@
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>Engine\05. Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CShader.cpp">
+      <Filter>Engine\05. Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicsShader.cpp">
+      <Filter>Engine\05. Resource\Shader\GraphicsShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>Engine\05. Resource\Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Extern.cpp">
+      <Filter>Engine\01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +169,12 @@
     </Filter>
     <Filter Include="Shader Script">
       <UniqueIdentifier>{ad7d2027-a57d-4d1d-8a66-a9c67a847c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Shader\GraphicsShader">
+      <UniqueIdentifier>{a9e62296-95ea-4364-be72-3bf4832c2700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Shader\ComputeShader">
+      <UniqueIdentifier>{59518001-ebf2-4679-9d48-3e84898b300f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

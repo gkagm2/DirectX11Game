@@ -21,3 +21,13 @@
 
 // Math
 #define PI 3.14159265f
+
+
+enum class E_ResourceType {
+	MATRIAL,
+	SHADER,
+	MESH,
+	TEXTURE,
+	SOUND,
+	END,
+};

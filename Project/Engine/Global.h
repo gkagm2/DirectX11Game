@@ -20,11 +20,14 @@ using std::unordered_map;
 using std::map;
 
 #include <string>
+using std::string;
+using std::wstring;
 #ifdef UNICODE
-typedef std::wstring tstring;
+typedef wstring tstring;
 #else
-typedef std::string tstring;
+typedef string tstring;
 #endif
+
 
 
 //Dx11
@@ -49,5 +52,7 @@ using namespace DirectX::SimpleMath;
 #include "CSingleton.h"
 #include "Define.h"
 #include "Struct.h"
+#include "Extern.h"
 #include "Tools.h"
 #include "StringTable.h"
+#include "Function.h"

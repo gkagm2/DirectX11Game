@@ -7,7 +7,8 @@ CMesh::CMesh() :
 	m_pVB(nullptr),
 	m_pIB(nullptr),
 	m_tVtxDesc{},
-	m_tIdxDesc{}
+	m_tIdxDesc{},
+	m_iIdxCount(0)
 {
 }
 
@@ -21,10 +22,11 @@ CMesh::~CMesh()
 
 void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage)
 {
+	m_iIdxCount = _iIdxBufferSize / sizeof(UINT);
+
 	////////////////////
 	// 버텍스 버퍼 만들기
 	////////////////////
-	D3D11_BUFFER_DESC m_tVtxDesc = {};
 	m_tVtxDesc.ByteWidth = sizeof(VTX) * 4; // 크기
 	m_tVtxDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
@@ -78,8 +80,31 @@ void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _i
 
 void CMesh::UpdateData()
 {
+	// Input Asselmber Stage 셋팅
 	UINT iStride = sizeof(VTX); // 정점 하나의 최대 사이즈 (간격)
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, m_pVB.GetAddressOf(), &iStride, &iOffset);
 	CONTEXT->IASetIndexBuffer(m_pIB.Get(), DXGI_FORMAT_R32_UINT, 0); // 4byte unsigned int타입으로
+}
+
+void CMesh::Render()
+{
+	// 파이프라인 시작
+	// 버텍스 버프를 사용할 경우
+	//UINT iVertexCnt = 3;
+	//UINT iStartVertexLocation = 0;
+	// CONTEXT->Draw(iVertexCnt, iStartVertexLocation); 
+
+	// 인덱스 버퍼를 사용
+	UINT iStartIndexLocation = 0;
+	UINT iBaseVertexLocation = 0;
+	CONTEXT->DrawIndexed(m_iIdxCount, iStartIndexLocation, iBaseVertexLocation);
+}
+
+void CMesh::Reset()
+{
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+	CONTEXT->Map(m_pVB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+	memcpy(tSub.pData, m_pVtxSys, m_tVtxDesc.ByteWidth);
+	CONTEXT->Unmap(m_pVB.Get(), 0);
 }

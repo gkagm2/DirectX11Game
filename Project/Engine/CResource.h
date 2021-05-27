@@ -9,7 +9,11 @@ private:
 	tstring m_strRelativePath;  // 상대경로
 
 public:
-	virtual void Load(const tstring _strFilePath) = 0;
+	virtual void Load(const tstring& _strFilePath) = 0;
+
+private:
+	void AddRef() { ++m_iRefCount; }
+	void SubRef() { --m_iRefCount; }
 
 public:
 	CResource();
