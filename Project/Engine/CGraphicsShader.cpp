@@ -12,7 +12,7 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-void CGraphicsShader::UpdateData()
+void CGraphicsShader::UpdateData() const
 {
 	//// Topology(위상구조) 설정
 	CONTEXT->IASetPrimitiveTopology(m_eTopology); // 삼각형
@@ -30,7 +30,7 @@ void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const 
 	tstring strShaderFilePath = CPathManager::GetInstance()->GetContentPath();
 	strShaderFilePath += _strRelativePath;
 
-	int iFlag = D3DCOMPILE_DEBUG;
+	UINT iFlag = D3DCOMPILE_DEBUG;
 
 	if (FAILED(D3DCompileFromFile(strShaderFilePath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str(), "vs_5_0", iFlag, 0, m_pVSBlob.GetAddressOf(), m_pErrBlob.GetAddressOf()))) {
 		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
@@ -43,7 +43,8 @@ void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const 
 	}
 
 	// InputLayout(Sementic) 설정
-	DEVICE->CreateInputLayout(g_arrLayoutDesc, LAYOUT_DESCRIPTION_COUNT, m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), m_pLayout.GetAddressOf());
+	UINT iElementsCnt = ARRAYSIZE(g_arrLayoutDesc); // sizeof(g_LayoutDesc) / sizeof(D3D11_INPUT_ELEMENT_DESC);
+	DEVICE->CreateInputLayout(g_arrLayoutDesc, iElementsCnt, m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), m_pLayout.GetAddressOf());
 }
 
 void CGraphicsShader::CreatePixelShader(const tstring& _strRelativePath, const string& _strFuncName)
@@ -51,8 +52,9 @@ void CGraphicsShader::CreatePixelShader(const tstring& _strRelativePath, const s
 	tstring strShaderFilePath = CPathManager::GetInstance()->GetContentPath();
 	strShaderFilePath += _strRelativePath;
 
-	int iFlag = D3DCOMPILE_DEBUG;
+	UINT iFlag = D3DCOMPILE_DEBUG;
 
+	// D3DCompileFromFile -> D3DCompile2
 	if (FAILED(D3DCompileFromFile(strShaderFilePath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str(), "ps_5_0", iFlag, 0, m_pPSBlob.GetAddressOf(), m_pErrBlob.GetAddressOf()))) {
 		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
 		MessageBoxA(nullptr, pErrorMessage, STR_MSG_FailedToCreatePixelShader, MB_OK);

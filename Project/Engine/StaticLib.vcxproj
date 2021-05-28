@@ -165,6 +165,7 @@ call EngineCopy.bat</Command>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
     <ClInclude Include="CComputeShader.h" />
+    <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CEntity.h" />
@@ -190,6 +191,7 @@ call EngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CComputeShader.cpp" />
+    <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CEntity.cpp" />

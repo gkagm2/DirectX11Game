@@ -22,17 +22,19 @@ CMesh::~CMesh()
 
 void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage)
 {
-	m_iIdxCount = _iIdxBufferSize / sizeof(UINT);
 
 	////////////////////
 	// 버텍스 버퍼 만들기
 	////////////////////
-	m_tVtxDesc.ByteWidth = sizeof(VTX) * 4; // 크기
+	m_tVtxDesc.ByteWidth = sizeof(VTX) * _iIdxBufferSize; // 크기
 	m_tVtxDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	// 생성 이후의 수정 여부 설정
-	m_tVtxDesc.Usage = D3D11_USAGE_DYNAMIC;
-	m_tVtxDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; // GPU에 다시 접근해서 수정할 수 있도록 write
+	m_tVtxDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_tVtxDesc.CPUAccessFlags = 0;
+
+	//m_tVtxDesc.Usage = D3D11_USAGE_DYNAMIC;
+	//m_tVtxDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; // GPU에 다시 접근해서 수정할 수 있도록 write
 	//tBufferDesc.MiscFlags;
 	//tBufferDesc.StructureByteStride;
 
@@ -45,16 +47,16 @@ void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _i
 	////////////////////
 	// 인덱스 버퍼 만들기
 	////////////////////
+	m_iIdxCount = _iIdxBufferSize / sizeof(UINT);
+
 	m_tIdxDesc = {};
-	m_tIdxDesc.ByteWidth = sizeof(UINT) * 6; // 크기
+	m_tIdxDesc.ByteWidth = _iIdxBufferSize; // 크기
 	m_tIdxDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	// 생성 이후의 수정 여부 설정
 	m_tIdxDesc.Usage = _eIdxUsage;
 	if (D3D11_USAGE_DYNAMIC == m_tIdxDesc.Usage)
 		m_tIdxDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	//tBufferDesc.MiscFlags;
-	//tBufferDesc.StructureByteStride;
 
 	tSubResData = {};
 	tSubResData.pSysMem = _pIdxSys; // 배열의 시작주소 (ByteWidth가 설정되어있어서 크기설정은 안해줘도 됨)

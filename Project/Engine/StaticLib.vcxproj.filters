@@ -73,6 +73,9 @@
     <ClInclude Include="CResourceManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>Engine\03. Device\ConstBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -129,6 +132,9 @@
     <ClCompile Include="CResourceManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>Engine\03. Device\ConstBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -175,6 +181,9 @@
     </Filter>
     <Filter Include="Engine\05. Resource\Shader\ComputeShader">
       <UniqueIdentifier>{59518001-ebf2-4679-9d48-3e84898b300f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Device\ConstBuffer">
+      <UniqueIdentifier>{823ac946-da82-48a6-b96e-0e5169dea95d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

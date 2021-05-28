@@ -22,19 +22,19 @@ void CResourceManager::CreateDefaultMesh()
 	// 버퍼 만들기
 
 	
-	VTX vertexArr[4] = {};
+	VTX vertices[4] = {};
 	float fScale = 0.8f;
-	vertexArr[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.5f);
-	vertexArr[0].vColor = Vector4{ 1.f,0.f,0.f,1.f };
+	vertices[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.5f);
+	vertices[0].vColor = Vector4{ 1.f,0.f,0.f,1.f };
 
-	vertexArr[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.5f);
-	vertexArr[1].vColor = Vector4{ 0.f,1.f,0.f,1.f };
+	vertices[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.5f);
+	vertices[1].vColor = Vector4{ 0.f,1.f,0.f,1.f };
 
-	vertexArr[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.5f);
-	vertexArr[2].vColor = Vector4{ 0.f,0.f,1.f,1.f };
+	vertices[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.5f);
+	vertices[2].vColor = Vector4{ 0.f,0.f,1.f,1.f };
 
-	vertexArr[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.5f);
-	vertexArr[3].vColor = Vector4{ 0.f,0.f,1.f,1.f };
+	vertices[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.5f);
+	vertices[3].vColor = Vector4{ 0.f,0.f,1.f,1.f };
 
 	// create index buffer
 	UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
@@ -47,7 +47,7 @@ void CResourceManager::CreateDefaultMesh()
 	*/
 
 	CMesh* pMesh = new CMesh();
-	pMesh->Create(vertexArr, sizeof(VTX) * 4, arrIdx, sizeof(UINT) * 6, D3D11_USAGE_DEFAULT);
+	pMesh->Create(vertices, sizeof(VTX) * 4, arrIdx, sizeof(UINT) * 6, D3D11_USAGE_DEFAULT);
 
 	AddResource(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 }

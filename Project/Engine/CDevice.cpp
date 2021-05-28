@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "CDevice.h"
 #include "CCore.h"
+#include "CConstBuffer.h"
 
 CDevice::CDevice() :
+	m_arrCB{},
 	m_tDefaultRefreshRate{ 60,1 }, // 60 / 
 	m_iBufferCnt{ 1 },
 	m_vRenderResolution{},
@@ -21,7 +23,7 @@ CDevice::CDevice() :
 }
 
 CDevice::~CDevice() {
-
+	Safe_Delete_Array(m_arrCB);
 }
 
 int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode)
@@ -34,8 +36,15 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 	// 릴리즈에서는 플래그를 넣어주면 안된다.
 	UINT iFlag = 0;
 #ifdef _DEBUG
-	iFlag = D3D11_CREATE_DEVICE_DEBUG;
+	iFlag |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
+
+	//D3D_DRIVER_TYPE eDriverTypes[] = {
+	//	D3D_DRIVER_TYPE_HARDWARE,
+	//	D3D_DRIVER_TYPE_WARP,
+	//	D3D_DRIVER_TYPE_REFERENCE
+	//};
+	//UINT iNumDriverTypes = ARRAYSIZE(eDriverTypes);
 
 	D3D_FEATURE_LEVEL eFeatureLevel = D3D_FEATURE_LEVEL_11_0;
 	int bIsFail = FAILED(D3D11CreateDevice(
@@ -80,14 +89,13 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 		return E_FAIL;
 	}
 
-	///////////////////////////////////////
 	// Viewport 설정
-	///////////////////////////////////////
 	CreateViewport();
 
-	////////////////////
 	// SamplerState 생성
-	////////////////////
+
+	// ConstBuffer 생성
+	CreateConstBuffer();
 
 	return S_OK;
 }
@@ -190,21 +198,27 @@ int CDevice::CreateView()
 	m_pDevice->CreateDepthStencilView(m_pDSTex.Get(), 0, m_pDSV.GetAddressOf());
 
 	// 출력 타겟 및 깊이버퍼 설정
-	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get());
+	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get()); // OM : output manager
 
 	return S_OK;
 }
 
 void CDevice::CreateViewport()
 {
-	m_tViewPort.TopLeftX = 0;
-	m_tViewPort.TopLeftY = 0;
+	m_tViewPort.TopLeftX = 0.f;
+	m_tViewPort.TopLeftY = 0.f;
 	m_tViewPort.Width = CCore::GetInstance()->GetWindowResolution().x;
 	m_tViewPort.Height = CCore::GetInstance()->GetWindowResolution().y;
-	m_tViewPort.MinDepth = 0;
-	m_tViewPort.MaxDepth = 1;
+	m_tViewPort.MinDepth = 0.f;
+	m_tViewPort.MaxDepth = 1.f;
 
-	m_pContext->RSSetViewports(1, &m_tViewPort);
+	m_pContext->RSSetViewports(1, &m_tViewPort); // RS : Rasterizer stage
+}
+
+void CDevice::CreateConstBuffer()
+{
+	m_arrCB[(UINT)E_ConstBuffer::transform] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::transform]->Create(E_ConstBuffer::transform, sizeof(Vector4));
 }
 
 void CDevice::ClearTarget()

@@ -31,3 +31,18 @@ enum class E_ResourceType {
 	SOUND,
 	END,
 };
+
+enum class E_ConstBuffer {
+	transform,
+	end,
+};
+
+enum class E_ShaderStage {
+	vertex		= 0x01, // 1
+	hull		= 0x02, // 2
+	domain		= 0x04, // 4
+	geometry	= 0x08, // 8
+	pixel		= 0x10, // 16
+	compute		= 0x20, // 32
+	all = vertex | hull | domain | geometry | pixel | compute,
+};

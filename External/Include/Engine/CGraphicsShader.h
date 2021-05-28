@@ -5,7 +5,7 @@ class CGraphicsShader : public CShader
 {
 private:
 	ComPtr<ID3D11VertexShader>		m_pVS;
-	ComPtr<ID3DBlob>				m_pVSBlob; // 컴파일 코드(Blob : 문자열 데이터 메모리 덩어리)
+	ComPtr<ID3DBlob>				m_pVSBlob; // 컴파일 코드(Blob : 컴파일 된 바이너리 데이터)
 	ComPtr<ID3D11HullShader>		m_pHS;
 	ComPtr<ID3DBlob>				m_pHSBlob;
 	ComPtr<ID3D11DomainShader>		m_pDS;
@@ -16,7 +16,7 @@ private:
 	ComPtr<ID3DBlob>				m_pPSBlob;
 	ComPtr<ID3DBlob>				m_pErrBlob; // 에러 메세지 저장 용도
 
-	ComPtr<ID3D11InputLayout>		m_pLayout; // 입력 어셈블러 단계에 대한 입력 버퍼 데이털르 설명하는 입력 레이어웃 개체를 만든다.
+	ComPtr<ID3D11InputLayout>		m_pLayout; // 입력 어셈블러 단계에 대한 입력 버퍼 데이터를 설명하는 입력 레이어웃 개체를 만든다.(GPU에 전달할 버텍스가 어떤 구성요소인지 알려주는 역할)
 	D3D11_PRIMITIVE_TOPOLOGY		m_eTopology; 
 
 public:
@@ -32,7 +32,7 @@ public:
 
 public:
 	virtual void Load(const tstring& _strFilePath) override {} ;
-	virtual void UpdateData() override;
+	virtual void UpdateData() const override;
 
 public:
 	CGraphicsShader();
