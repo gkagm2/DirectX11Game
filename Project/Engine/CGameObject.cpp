@@ -9,6 +9,7 @@ CGameObject::CGameObject() :
 
 CGameObject::~CGameObject()
 {
+	Safe_Delete_Array(m_arrComponent);
 }
 
 void CGameObject::Awake()

@@ -173,7 +173,9 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CKeyManager.h" />
-    <ClInclude Include="CLifeCycleInterface.h" />
+    <ClInclude Include="CMeshRenderer.h" />
+    <ClInclude Include="CRenderer.h" />
+    <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CPathManager.h" />
@@ -182,6 +184,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CShader.h" />
     <ClInclude Include="CSingleton.h" />
     <ClInclude Include="CTimeManager.h" />
+    <ClInclude Include="CTransform.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Extern.h" />
     <ClInclude Include="framework.h" />
@@ -203,7 +206,9 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
-    <ClCompile Include="CLifeCycleInterface.cpp" />
+    <ClCompile Include="CMeshRenderer.cpp" />
+    <ClCompile Include="CRenderer.cpp" />
+    <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CPathManager.cpp" />
@@ -211,6 +216,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CResourceManager.cpp" />
     <ClCompile Include="CShader.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
+    <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="Extern.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

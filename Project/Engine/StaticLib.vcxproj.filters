@@ -85,7 +85,18 @@
     <ClInclude Include="CGameObject.h">
       <Filter>Engine\08. Objects\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="CLifeCycleInterface.h" />
+    <ClInclude Include="CTransform.h">
+      <Filter>Engine\07. Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces.h">
+      <Filter>Engine\09. Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderer.h">
+      <Filter>Engine\07. Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRenderer.h">
+      <Filter>Engine\07. Component\Renderer\MeshRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -154,7 +165,18 @@
     <ClCompile Include="CGameObject.cpp">
       <Filter>Engine\08. Objects\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="CLifeCycleInterface.cpp" />
+    <ClCompile Include="CTransform.cpp">
+      <Filter>Engine\07. Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Interfaces.cpp">
+      <Filter>Engine\09. Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderer.cpp">
+      <Filter>Engine\07. Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRenderer.cpp">
+      <Filter>Engine\07. Component\Renderer\MeshRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -237,6 +259,12 @@
     </Filter>
     <Filter Include="Engine\09. Interface">
       <UniqueIdentifier>{ad94f2ed-eb02-4c5c-beac-5bb854aef2bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Renderer">
+      <UniqueIdentifier>{b9799131-33ec-48f0-90c8-5a6cb63446c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Renderer\MeshRender">
+      <UniqueIdentifier>{262f64ed-036b-4aff-89c2-db1c55578e36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

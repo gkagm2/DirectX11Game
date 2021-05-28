@@ -49,7 +49,7 @@ enum class E_ShaderStage {
 
 enum class E_ComponentType {
 	transform,
-	meshRender,
+	meshRenderer,
 	collider2d,
 	collider3d,
 	rigidbody2d,

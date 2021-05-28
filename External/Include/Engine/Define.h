@@ -46,3 +46,22 @@ enum class E_ShaderStage {
 	compute		= 0x20, // 32
 	all = vertex | hull | domain | geometry | pixel | compute,
 };
+
+enum class E_ComponentType {
+	transform,
+	meshRenderer,
+	collider2d,
+	collider3d,
+	rigidbody2d,
+	rigidbody3d,
+	animator2d,
+	animator3d,
+	light2d,
+	light3d,
+	camera,
+	particle,
+	listener,
+	audio,
+	script,
+	end,
+};

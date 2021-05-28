@@ -8,11 +8,17 @@
 #include "CTimeManager.h"
 #include "CConstBuffer.h"
 
+#include "CGameObject.h"
+#include "CTransform.h"
+
+CGameObject g_Obj;
+
 Vector4 g_vPos;
 
 void Render_Test::TestInit() {
+	CTransform* pTransform = g_Obj.AddComponent<CTransform>();
+	CTransform* pTr = g_Obj.GetComponent<CTransform>();
 }
-
 
 void Render_Test::TestUpdate()
 {

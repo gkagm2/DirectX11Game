@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CComponent.h"
 
-CComponent::CComponent()
+CComponent::CComponent(E_ComponentType _eType) :
+	m_eType{ _eType }
 {
 }
 
