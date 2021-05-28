@@ -76,6 +76,16 @@
     <ClInclude Include="CConstBuffer.h">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>Engine\05. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>Engine\07. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>Engine\08. Objects\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CLifeCycleInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -135,6 +145,16 @@
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>Engine\05. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>Engine\07. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>Engine\08. Objects\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CLifeCycleInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -184,6 +204,39 @@
     </Filter>
     <Filter Include="Engine\03. Device\ConstBuffer">
       <UniqueIdentifier>{823ac946-da82-48a6-b96e-0e5169dea95d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component">
+      <UniqueIdentifier>{f1f40f42-762a-4d2c-a37c-7af34dcffa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Camera">
+      <UniqueIdentifier>{05da4afa-0468-4011-bdd3-7412d3c9ac75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Rigidbody2D">
+      <UniqueIdentifier>{2b53afe3-84f8-493d-a47d-6744fff2050a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Rigidbody3D">
+      <UniqueIdentifier>{2f3c4be6-4c7d-4422-b3ff-5d03eebefba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\ParticleSystem">
+      <UniqueIdentifier>{41ba0245-cc3d-407e-a58e-16b18ccb6848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Animator">
+      <UniqueIdentifier>{6886fdc2-e3e6-43ce-9c03-29c826e098d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Audio">
+      <UniqueIdentifier>{ddd92021-5625-46f8-9546-129ad799f2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Transform">
+      <UniqueIdentifier>{ec592a36-98e6-4a34-85a8-8935061961c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Objects">
+      <UniqueIdentifier>{8c0ce65c-2738-4f30-96db-de59751d81d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08. Objects\GameObject">
+      <UniqueIdentifier>{bfbd0d8d-3586-49ca-8b59-ba4807958884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\09. Interface">
+      <UniqueIdentifier>{ad94f2ed-eb02-4c5c-beac-5bb854aef2bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
