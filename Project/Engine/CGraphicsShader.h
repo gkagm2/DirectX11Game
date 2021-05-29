@@ -32,7 +32,7 @@ public:
 
 public:
 	virtual void Load(const tstring& _strFilePath) override {} ;
-	virtual void UpdateData() const override;
+	virtual void UpdateData() override;
 
 public:
 	CGraphicsShader();

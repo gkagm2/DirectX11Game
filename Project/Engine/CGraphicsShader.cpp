@@ -12,7 +12,7 @@ CGraphicsShader::~CGraphicsShader()
 {
 }
 
-void CGraphicsShader::UpdateData() const
+void CGraphicsShader::UpdateData()
 {
 	//// Topology(위상구조) 설정
 	CONTEXT->IASetPrimitiveTopology(m_eTopology); // 삼각형

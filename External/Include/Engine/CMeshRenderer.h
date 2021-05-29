@@ -2,7 +2,6 @@
 #include "CRenderer.h"
 
 class CMesh;
-class CShader;
 class CGraphicsShader;
 class CMeshRenderer : public CRenderer
 {
@@ -14,10 +13,14 @@ public:
 	virtual void Render() override;
 
 public:
-	void SetMesh(CMesh* _pMesh) { m_pMesh = _pMesh; }
-	CMesh* GetMesh() { return m_pMesh; }
+	void SetMeshRenderer(CMesh* _pMesh, CGraphicsShader* _pShader) { m_pMesh = _pMesh; m_pShader = _pShader; }
 
+protected:
+	void SetMesh(CMesh* _pMesh) { m_pMesh = _pMesh; }
 	void SetShader(CGraphicsShader* _pShader) { m_pShader = _pShader; }
+
+public:
+	CMesh* GetMesh() { return m_pMesh; }
 	CGraphicsShader* GetShader() { return m_pShader; }
 
 public:

@@ -10,15 +10,16 @@ private:
 	E_ComponentType m_eType;
 
 public:
-	E_ComponentType GetComponentType() { return m_eType; }
-
-public:
 	virtual void Awake() override {}
 	virtual void Start() override {}
 	virtual void PrevUpdate() override {}
 	virtual void Update() override {}
 	virtual void LateUpdate() override {}
 	virtual void Render() override {}
+
+public:
+	CGameObject* GetGameObject() { return m_pGameObj; }
+	E_ComponentType GetComponentType() { return m_eType; }
 
 public:
 	CComponent() = delete;

@@ -6,7 +6,7 @@ class CComponent;
 class CGameObject : public CObject, ILifeCycleInterface
 {
 private:
-	CComponent* m_arrComponent[(UINT)E_ComponentType::end];
+	CComponent* m_arrComponent[(UINT)E_ComponentType::End];
 
 public:
 	virtual void Awake() override;
@@ -33,7 +33,7 @@ inline TYPE* CGameObject::AddComponent()
 {
 	TYPE* pComponent = nullptr;
 	// 이미 추가되어있으면 그 컴포넌트를 리턴
-	for (UINT i = 0; i < (UINT)E_ComponentType::end; ++i) {
+	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
 		if (nullptr != pComponent) {
 			// TODO : 이미 컴포넌트가 존재한다고 warning 표시
@@ -61,7 +61,7 @@ inline TYPE* CGameObject::AddComponent()
 template<typename TYPE>
 inline TYPE* CGameObject::GetComponent()
 {
-	for (UINT i = 0; i < (UINT)E_ComponentType::end; ++i) {
+	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		TYPE* pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
 		if (nullptr != pComponent) {
 			return pComponent;

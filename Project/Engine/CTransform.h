@@ -7,6 +7,8 @@ private:
 	Vector3 m_vLocalScale;
 	Vector3 m_vLocalRotation;
 
+	Matrix m_matWorld;
+
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
 	const Vector3& GetLocalPosition() const { return m_vLocalPosition; }
@@ -18,8 +20,8 @@ public:
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
 
 public:
-	virtual void Update();
-	virtual void LateUpdate();
+	virtual void LateUpdate() override;
+	virtual void UpdateData() override;
 	
 public:
 	CTransform();

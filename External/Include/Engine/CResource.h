@@ -1,7 +1,7 @@
 #pragma once
-#include "CEntity.h"
+#include "CObject.h"
 
-class CResource : public CEntity
+class CResource : public CObject
 {
 private:
 	UINT m_iRefCount;			// 리소스를 참조 개수 (Ref : Reference)

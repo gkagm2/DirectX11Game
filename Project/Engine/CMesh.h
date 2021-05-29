@@ -14,6 +14,7 @@ private:
 	D3D11_BUFFER_DESC m_tIdxDesc;
 
 public:
+	// TODO : template ¿€º∫
 	void* GetVtxSysMem() { return m_pVtxSys; }
 	void* GetIdxSysMem() { return m_pIdxSys; }
 

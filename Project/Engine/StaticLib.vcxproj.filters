@@ -52,9 +52,6 @@
     <ClInclude Include="CResource.h">
       <Filter>Engine\05. Resource</Filter>
     </ClInclude>
-    <ClInclude Include="CEntity.h">
-      <Filter>Engine\05. Resource</Filter>
-    </ClInclude>
     <ClInclude Include="CMesh.h">
       <Filter>Engine\05. Resource\Mesh</Filter>
     </ClInclude>
@@ -97,6 +94,13 @@
     <ClInclude Include="CMeshRenderer.h">
       <Filter>Engine\07. Component\Renderer\MeshRender</Filter>
     </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Engine\10. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -128,9 +132,6 @@
     </ClCompile>
     <ClCompile Include="RenderTest.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="CEntity.cpp">
-      <Filter>Engine\05. Resource</Filter>
     </ClCompile>
     <ClCompile Include="CResource.cpp">
       <Filter>Engine\05. Resource</Filter>
@@ -177,6 +178,13 @@
     <ClCompile Include="CMeshRenderer.cpp">
       <Filter>Engine\07. Component\Renderer\MeshRender</Filter>
     </ClCompile>
+    <ClCompile Include="CSceneManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>Engine\10. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -265,6 +273,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Renderer\MeshRender">
       <UniqueIdentifier>{262f64ed-036b-4aff-89c2-db1c55578e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10. Scene">
+      <UniqueIdentifier>{a79582ae-07dc-4cfe-b018-5b65348ca042}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

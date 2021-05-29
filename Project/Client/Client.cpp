@@ -32,11 +32,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    // _crtBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
-    //_CrtSetBreakAlloc(9557);
-    //_CrtSetBreakAlloc(33880);
-    //_CrtSetBreakAlloc(10655);
-    //_CrtSetBreakAlloc(10498);
+    // _CrtSetBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
+    //_CrtSetBreakAlloc(303);
+    //_CrtSetBreakAlloc(300);
+    //_CrtSetBreakAlloc(299);
+    //_CrtSetBreakAlloc(298);
     //_CrtSetBreakAlloc(55139);
     //_CrtSetBreakAlloc(54983);
     //_CrtSetBreakAlloc(54827);

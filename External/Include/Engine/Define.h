@@ -38,30 +38,36 @@ enum class E_ConstBuffer {
 };
 
 enum class E_ShaderStage {
-	vertex		= 0x01, // 1
-	hull		= 0x02, // 2
-	domain		= 0x04, // 4
-	geometry	= 0x08, // 8
-	pixel		= 0x10, // 16
-	compute		= 0x20, // 32
-	all = vertex | hull | domain | geometry | pixel | compute,
+	Vertex		= 0x01, // 1
+	Hull		= 0x02, // 2
+	Domain		= 0x04, // 4
+	Geometry	= 0x08, // 8
+	Pixel		= 0x10, // 16
+	Compute		= 0x20, // 32
+	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
 enum class E_ComponentType {
-	transform,
-	meshRenderer,
-	collider2d,
-	collider3d,
-	rigidbody2d,
-	rigidbody3d,
-	animator2d,
-	animator3d,
-	light2d,
-	light3d,
-	camera,
-	particle,
-	listener,
-	audio,
-	script,
-	end,
+	Transform,
+	MeshRenderer,
+	Collider2d,
+	Collider3d,
+	Rigidbody2d,
+	Rigidbody3d,
+	Animator2d,
+	Animator3d,
+	Light2d,
+	Light3d,
+	Camera,
+	Particle,
+	Listener,
+	Audio,
+	Script,
+	End,
+};
+
+enum class E_Layer {
+	Default,
+	UI,
+	End = 32,
 };

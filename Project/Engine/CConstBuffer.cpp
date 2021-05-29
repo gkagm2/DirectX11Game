@@ -36,16 +36,16 @@ void CConstBuffer::SetData(void* _pSysMem, UINT _iSize) const
 
 void CConstBuffer::UpdateData(E_ShaderStage _eStage) const
 {
-	if ((UINT)_eStage & (UINT)E_ShaderStage::vertex)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Vertex)
 		CONTEXT->VSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
-	if ((UINT)_eStage & (UINT)E_ShaderStage::hull)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Hull)
 		CONTEXT->HSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
-	if ((UINT)_eStage & (UINT)E_ShaderStage::domain)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Domain)
 		CONTEXT->DSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
-	if ((UINT)_eStage & (UINT)E_ShaderStage::geometry)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Geometry)
 		CONTEXT->GSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
-	if ((UINT)_eStage & (UINT)E_ShaderStage::pixel)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Pixel)
 		CONTEXT->PSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
-	if ((UINT)_eStage & (UINT)E_ShaderStage::compute)
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Compute)
 		CONTEXT->CSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
 }

@@ -10,11 +10,14 @@
 
 #include "CGameObject.h"
 
+#include "CScene.h"
+
 // component
 #include "CTransform.h"
 #include "CMeshRenderer.h"
 #include "CGraphicsShader.h"
 
+CScene testScene;
 CGameObject g_Obj;
 
 Vector4 g_vPos;
@@ -22,19 +25,19 @@ Vector4 g_vPos;
 void Render_Test::TestInit() {
 	CTransform* pTransform = g_Obj.AddComponent<CTransform>();
 	CMeshRenderer* pRenderer = g_Obj.AddComponent<CMeshRenderer>();
-	pRenderer = g_Obj.AddComponent<CMeshRenderer>();
 	CGraphicsShader* pShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(STR_KEY_StandardShader);
 	CMesh* pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
 
-	pRenderer->SetMesh(pMesh);
-	//pRenderer->SetShader(pShader);
+	pRenderer->SetMeshRenderer(pMesh, pShader);
+	pTransform->SetLocalPosition(Vector3(0.f, 0.f, 0.5f));
 
-	pTransform->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+	testScene.Awake();
+	testScene.Start();
 }
 
 void Render_Test::TestUpdate()
 {
-	CMesh* pMesh = dynamic_cast<CMesh*>(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash));
+	CMesh* pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
 	VTX* pVtx = (VTX*)pMesh->GetVtxSysMem();
 
 	Vector3 vPos = g_Obj.GetComponent<CTransform>()->GetLocalPosition();
@@ -49,7 +52,7 @@ void Render_Test::TestUpdate()
 		for (int i = 0; i < 4; ++i) {
 			vPos.y -= DeltaTime * 4.f;
 		}
-	}
+	} 
 	if (InputKeyHold(E_Key::D)) {
 		for (int i = 0; i < 4; ++i) {
 			vPos.x += DeltaTime * 4.f;
@@ -62,20 +65,17 @@ void Render_Test::TestUpdate()
 	}
 	g_Obj.GetComponent<CTransform>()->SetLocalPosition(vPos);
 	g_Obj.LateUpdate();
+
+	CGameObject* pObj = &g_Obj;
+	testScene.AddGameObject(pObj);
+
+	testScene.PrevUpdate();
+	testScene.Update();
+	testScene.LateUpdate();
 }
 
 void Render_Test::TestRender()
 {
-	////////// 아래와 같은 파이프 라인대로 설정함 //////////
-	// Input Assembler -> Vertex Shader -> Rasterizer -> PixelShader -> OutputMerge
-	
-	CMesh* pMesh = dynamic_cast<CMesh*>(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash));
-	CGraphicsShader* pShader = dynamic_cast<CGraphicsShader*>(CResourceManager::GetInstance()->FindRes< CGraphicsShader>(STR_KEY_StandardShader));
-	
-	pMesh->UpdateData();
-	pShader->UpdateData();
-
-	pMesh->Render();
-
+	testScene.Render();
 	g_Obj.Render();
 }

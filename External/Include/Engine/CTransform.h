@@ -18,8 +18,8 @@ public:
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
 
 public:
-	virtual void Update();
-	virtual void LateUpdate();
+	virtual void LateUpdate() override;
+	virtual void UpdateData() override;
 	
 public:
 	CTransform();

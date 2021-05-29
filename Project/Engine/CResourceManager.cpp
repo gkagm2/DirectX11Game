@@ -24,16 +24,16 @@ void CResourceManager::CreateDefaultMesh()
 	
 	VTX vertices[4] = {};
 	float fScale = 0.8f;
-	vertices[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.5f);
+	vertices[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.f);
 	vertices[0].vColor = Vector4{ 1.f,0.f,0.f,1.f };
 
-	vertices[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.5f);
+	vertices[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.f);
 	vertices[1].vColor = Vector4{ 0.f,1.f,0.f,1.f };
 
-	vertices[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.5f);
+	vertices[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.f);
 	vertices[2].vColor = Vector4{ 0.f,0.f,1.f,1.f };
 
-	vertices[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.5f);
+	vertices[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.f);
 	vertices[3].vColor = Vector4{ 0.f,0.f,1.f,1.f };
 
 	// create index buffer
