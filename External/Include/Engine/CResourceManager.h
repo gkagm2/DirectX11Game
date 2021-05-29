@@ -25,7 +25,7 @@ public:
 	void AddResource(const tstring& _strKey, T* _pRes);
 
 	template<typename T>
-	CResource* FindRes(const tstring& _strKey);
+	T* FindRes(const tstring& _strKey);
 
 };
 
@@ -62,12 +62,12 @@ inline void CResourceManager::AddResource(const tstring& _strKey, T* _pRes)
 }
 
 template<typename T>
-inline CResource* CResourceManager::FindRes(const tstring& _strKey)
+inline T* CResourceManager::FindRes(const tstring& _strKey)
 {
 	E_ResourceType eResourceType = GetResourceType<T>();
 
 	if (eResourceType == E_ResourceType::END) {
-		assert(nullptr || _T("Resource의 타입을 지정하지 않음"));
+		assert(nullptr && _T("Resource의 타입을 지정하지 않음"));
 		return nullptr;
 	}
 
@@ -75,8 +75,13 @@ inline CResource* CResourceManager::FindRes(const tstring& _strKey)
 	auto endIter = m_umapResource[(UINT)eResourceType].end();
 
 	if (iter == endIter) {
-		assert(nullptr || _T("Resource를 찾지 못함."));
+		assert(nullptr && _T("Resource를 찾지 못함."));
 		return nullptr;
 	}
-	return iter->second;
+	T* pResource = dynamic_cast<T*>(iter->second);
+
+	if (nullptr == pResource)
+		assert(nullptr && _T("Resource를 찾지 못함."));
+
+	return pResource;
 }

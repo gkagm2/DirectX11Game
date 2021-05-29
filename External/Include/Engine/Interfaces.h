@@ -8,4 +8,5 @@ class ILifeCycleInterface
 	virtual void PrevUpdate() = 0;
 	virtual void Update() = 0;
 	virtual void LateUpdate() = 0;
+	virtual void Render() = 0;
 };

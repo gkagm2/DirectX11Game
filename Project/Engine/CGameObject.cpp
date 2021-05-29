@@ -51,3 +51,11 @@ void CGameObject::LateUpdate()
 			m_arrComponent[i]->LateUpdate();
 	}
 }
+
+void CGameObject::Render()
+{
+	for (UINT i = 0; i < (UINT)E_ComponentType::end; ++i) {
+		if (nullptr != m_arrComponent[i])
+			m_arrComponent[i]->Render();
+	}
+}
