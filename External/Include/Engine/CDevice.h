@@ -34,12 +34,12 @@ private:
 	D3D11_VIEWPORT m_tViewPort;
 
 private:
-	const Vector2& _GetRenderResolution() const { return m_vRenderResolution; }
-
 	// OptionFunction
 	const DXGI_RATIONAL& _GetDefaultRefreshRate() const { return m_tDefaultRefreshRate; }
 	int _GetBufferCnt() const { return m_iBufferCnt; }
 
+public:
+	const Vector2& GetRenderResolution() const { return m_vRenderResolution; }
 public:
 	// _bWindowed : Ã¢¸ðµå
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);

@@ -1,10 +1,14 @@
 // Using 5.0 version
 
-cbuffer POSITION : register(b0)
+// 상수 버퍼 레지스터	
+cbuffer TRANSFORM : register(b0)
 {
-    float4 vOffsetPos;
+    row_major Matrix g_matWorld; // 행기반 v (L-)
+    row_major Matrix g_matView;
+    row_major Matrix g_matProjection;
 }
 
+// Texture register (t)
 
 struct VTX_IN {
 	// semantic : input layout쪽에서 작성해놓은 정적 내부 구조 정보를 설명하는 역할
@@ -22,12 +26,15 @@ struct VTX_OUT {
 ////////////////
 
 // vPos, vColor를 입력받아서 처리해주는 함수
-VTX_OUT VTXShader(VTX_IN _in) {
+VTX_OUT VTXShader(VTX_IN _in)
+{
 	VTX_OUT output = (VTX_OUT)0.f; // 초기화
 	
-    _in.vPosition += vOffsetPos.xyz;
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
 	
-	output.vPosition = float4(_in.vPosition, 1.f);
+    output.vPosition = vProjPos;
 	output.vColor = _in.vColor;
 	return output;
 }

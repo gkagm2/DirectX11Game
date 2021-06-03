@@ -16,20 +16,29 @@
 #include "CTransform.h"
 #include "CMeshRenderer.h"
 #include "CGraphicsShader.h"
+#include "CCamera.h"
 
 CScene testScene;
-CGameObject g_Obj;
-
-Vector4 g_vPos;
-
+CGameObject* pObj = nullptr;
 void Render_Test::TestInit() {
-	CTransform* pTransform = g_Obj.AddComponent<CTransform>();
-	CMeshRenderer* pRenderer = g_Obj.AddComponent<CMeshRenderer>();
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(500.f, 0.f, 0.f));
+	testScene.AddGameObject(pCameraObj);
+
+	pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+
 	CGraphicsShader* pShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(STR_KEY_StandardShader);
 	CMesh* pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
+	pObj->GetComponent<CMeshRenderer>()->SetMeshRenderer(pMesh, pShader);
 
-	pRenderer->SetMeshRenderer(pMesh, pShader);
-	pTransform->SetLocalPosition(Vector3(0.f, 0.f, 0.5f));
+	pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 100.f));
+	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(100.f, 100.f, 100.f));
+	pObj->GetComponent<CTransform>()->SetLocalRotation(Vector3(60.f, 50.f, 50.f));
+	testScene.AddGameObject(pObj);
 
 	testScene.Awake();
 	testScene.Start();
@@ -37,38 +46,6 @@ void Render_Test::TestInit() {
 
 void Render_Test::TestUpdate()
 {
-	CMesh* pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	VTX* pVtx = (VTX*)pMesh->GetVtxSysMem();
-
-	Vector3 vPos = g_Obj.GetComponent<CTransform>()->GetLocalPosition();
-
-
-	if (InputKeyHold(E_Key::A)) {
-		for (int i = 0; i < 4; ++i) {
-			vPos.x -= DeltaTime * 4.f;
-		}
-	}
-	if (InputKeyHold(E_Key::S)) {
-		for (int i = 0; i < 4; ++i) {
-			vPos.y -= DeltaTime * 4.f;
-		}
-	} 
-	if (InputKeyHold(E_Key::D)) {
-		for (int i = 0; i < 4; ++i) {
-			vPos.x += DeltaTime * 4.f;
-		}
-	}
-	if (InputKeyHold(E_Key::W)) {
-		for (int i = 0; i < 4; ++i) {
-			vPos.y += DeltaTime * 4.f;
-		}
-	}
-	g_Obj.GetComponent<CTransform>()->SetLocalPosition(vPos);
-	g_Obj.LateUpdate();
-
-	CGameObject* pObj = &g_Obj;
-	testScene.AddGameObject(pObj);
-
 	testScene.PrevUpdate();
 	testScene.Update();
 	testScene.LateUpdate();
@@ -77,5 +54,4 @@ void Render_Test::TestUpdate()
 void Render_Test::TestRender()
 {
 	testScene.Render();
-	g_Obj.Render();
 }

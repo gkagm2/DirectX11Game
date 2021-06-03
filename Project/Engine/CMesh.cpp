@@ -26,7 +26,7 @@ void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _i
 	////////////////////
 	// 버텍스 버퍼 만들기
 	////////////////////
-	m_tVtxDesc.ByteWidth = sizeof(VTX) * _iIdxBufferSize; // 크기
+	m_tVtxDesc.ByteWidth = _iVtxBufferSize; // 크기
 	m_tVtxDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	// 생성 이후의 수정 여부 설정

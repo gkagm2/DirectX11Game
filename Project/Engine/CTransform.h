@@ -7,7 +7,7 @@ private:
 	Vector3 m_vLocalScale;
 	Vector3 m_vLocalRotation;
 
-	Matrix m_matWorld;
+	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
 
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}

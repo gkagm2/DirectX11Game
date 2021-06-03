@@ -21,33 +21,53 @@ void CResourceManager::CreateDefaultMesh()
 {
 	// 버퍼 만들기
 
-	
-	VTX vertices[4] = {};
 	float fScale = 0.8f;
-	vertices[0].vPos = Vector3(-1.f * fScale, -1.f * fScale, 0.f);
-	vertices[0].vColor = Vector4{ 1.f,0.f,0.f,1.f };
-
-	vertices[1].vPos = Vector3(-1.f * fScale, 1.f * fScale, 0.f);
-	vertices[1].vColor = Vector4{ 0.f,1.f,0.f,1.f };
-
-	vertices[2].vPos = Vector3(1.f * fScale, 1.f * fScale, 0.f);
-	vertices[2].vColor = Vector4{ 0.f,0.f,1.f,1.f };
-
-	vertices[3].vPos = Vector3(1.f * fScale, -1.f * fScale, 0.f);
-	vertices[3].vColor = Vector4{ 0.f,0.f,1.f,1.f };
+	VTX vertices[] = {
+		{ Vector3(-1.0f, 1.0f, -1.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f) },
+		{ Vector3(1.0f, 1.0f, -1.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f) },
+		{ Vector3(1.0f, 1.0f, 1.0f), Vector4(0.0f, 1.0f, 1.0f, 1.0f) },
+		{ Vector3(-1.0f, 1.0f, 1.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f) },
+		{ Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 0.0f, 1.0f, 1.0f) },
+		{ Vector3(1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 0.0f, 1.0f) },
+		{ Vector3(1.0f, -1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) },
+		{ Vector3(-1.0f, -1.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f) },
+	};
 
 	// create index buffer
-	UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
+	//UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
 	/*
-	1-------2
-	|＼     |
-	|  ＼   |
-	|    ＼ |
-	0-------3
+	    3----- 2
+	      ＼
+	0-------1  |
+	|＼     |  |
+	|  ＼   |  |
+	|   7＼ |--6
+	4-------5
 	*/
 
+	UINT arrIdx[] =
+	{
+		3,1,0,
+		2,1,3,
+
+		0,5,4,
+		1,5,0,
+
+		3,4,7,
+		0,4,3,
+
+		1,6,5,
+		2,6,1,
+
+		2,7,6,
+		3,7,2,
+
+		6,4,5,
+		7,4,6,
+	};
+
 	CMesh* pMesh = new CMesh();
-	pMesh->Create(vertices, sizeof(VTX) * 4, arrIdx, sizeof(UINT) * 6, D3D11_USAGE_DEFAULT);
+	pMesh->Create(vertices, sizeof(VTX) * 8, arrIdx, sizeof(UINT) * 36, D3D11_USAGE_DEFAULT);
 
 	AddResource(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 }

@@ -23,3 +23,5 @@ D3D11_INPUT_ELEMENT_DESC g_arrLayoutDesc[LAYOUT_DESCRIPTION_COUNT] = {
 		0								//InstanceDataStepRate;
 	}
 };
+
+TTransform g_transform = {};

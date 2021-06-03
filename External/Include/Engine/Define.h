@@ -71,3 +71,8 @@ enum class E_Layer {
 	UI,
 	End = 32,
 };
+
+enum class E_ProjectionType {
+	Perspective,
+	Orthographic,
+};

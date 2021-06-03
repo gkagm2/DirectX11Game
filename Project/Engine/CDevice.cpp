@@ -106,8 +106,8 @@ int CDevice::CreateSwapChain() {
 	DXGI_SWAP_CHAIN_DESC tDesc = {};
 
 	// 렌더링 해상도
-	tDesc.BufferDesc.Width = (UINT)_GetRenderResolution().x;
-	tDesc.BufferDesc.Height = (UINT)_GetRenderResolution().y;
+	tDesc.BufferDesc.Width = (UINT)GetRenderResolution().x;
+	tDesc.BufferDesc.Height = (UINT)GetRenderResolution().y;
 
 	// 모니터 재생비율 (헤르츠)
 	tDesc.BufferDesc.RefreshRate = _GetDefaultRefreshRate();
@@ -218,7 +218,7 @@ void CDevice::CreateViewport()
 void CDevice::CreateConstBuffer()
 {
 	m_arrCB[(UINT)E_ConstBuffer::transform] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::transform]->Create(E_ConstBuffer::transform, sizeof(Vector4));
+	m_arrCB[(UINT)E_ConstBuffer::transform]->Create(E_ConstBuffer::transform, sizeof(TTransform));
 }
 
 void CDevice::ClearTarget()
