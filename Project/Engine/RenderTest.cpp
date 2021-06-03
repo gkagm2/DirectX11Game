@@ -36,7 +36,7 @@ void Render_Test::TestInit() {
 	pObj->GetComponent<CMeshRenderer>()->SetMeshRenderer(pMesh, pShader);
 
 	pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 100.f));
-	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(100.f, 100.f, 100.f));
+	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(50.f, 50.f, 50.f));
 	pObj->GetComponent<CTransform>()->SetLocalRotation(Vector3(60.f, 50.f, 50.f));
 	testScene.AddGameObject(pObj);
 

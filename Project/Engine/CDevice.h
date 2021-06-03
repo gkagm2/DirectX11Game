@@ -40,6 +40,7 @@ private:
 
 public:
 	const Vector2& GetRenderResolution() const { return m_vRenderResolution; }
+	float GetAspectRatio() { return m_vRenderResolution.x == 0.0f ? 0.f : m_vRenderResolution.x / m_vRenderResolution.y; }
 public:
 	// _bWindowed : Ã¢¸ðµå
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);

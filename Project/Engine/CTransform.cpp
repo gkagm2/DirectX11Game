@@ -25,34 +25,36 @@ void CTransform::LateUpdate()
 {
 	Vector3 vPos = GetLocalPosition();
 	Vector3 vScale = GetLocalScale();
+
+	float fSpeed = 50.f;
 	if (InputKeyHold(E_Key::A)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x - DeltaTime * 20.f, vPos.y, vPos.z));
+			SetLocalPosition(Vector3(vPos.x - DeltaTime * fSpeed, vPos.y, vPos.z));
 		}
 	}
 	if (InputKeyHold(E_Key::S)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x, vPos.y - DeltaTime * 20.f, vPos.z));
+			SetLocalPosition(Vector3(vPos.x, vPos.y - DeltaTime * fSpeed, vPos.z));
 		}
 	}
 	if (InputKeyHold(E_Key::D)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x + DeltaTime * 20.f, vPos.y, vPos.z));
+			SetLocalPosition(Vector3(vPos.x + DeltaTime * fSpeed, vPos.y, vPos.z));
 		}
 	}
 	if (InputKeyHold(E_Key::W)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x, vPos.y + DeltaTime * 20.f, vPos.z));
+			SetLocalPosition(Vector3(vPos.x, vPos.y + DeltaTime * fSpeed, vPos.z));
 		}
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalScale(Vector3(vScale.x + DeltaTime * 20.f, vScale.y + DeltaTime * 20.f, vScale.z));
+			SetLocalScale(Vector3(vScale.x + DeltaTime * fSpeed, vScale.y + DeltaTime * fSpeed, vScale.z));
 		}
 	}
 	if (InputKeyHold(E_Key::LEFT)) {
 		for (int i = 0; i < 8; ++i) {
-			SetLocalScale(Vector3(vScale.x - DeltaTime * 20.f, vScale.y - DeltaTime * 20.f, vScale.z));
+			SetLocalScale(Vector3(vScale.x - DeltaTime * fSpeed, vScale.y - DeltaTime * fSpeed, vScale.z));
 		}
 	}
 
