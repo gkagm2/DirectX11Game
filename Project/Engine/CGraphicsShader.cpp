@@ -4,7 +4,8 @@
 #include "CDevice.h"
 
 CGraphicsShader::CGraphicsShader() :
-	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
+	m_eRSState(E_RasterizerState::CullBack)
 {
 }
 
@@ -23,6 +24,8 @@ void CGraphicsShader::UpdateData()
 	//// 장치가 사용 할 VertexShader, PixelShader 세팅
 	CONTEXT->VSSetShader(m_pVS.Get(), nullptr, 0);
 	CONTEXT->PSSetShader(m_pPS.Get(), nullptr, 0);
+
+	CDevice::GetInstance()->SetRasterizerState(m_eRSState);
 }
 
 void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName)

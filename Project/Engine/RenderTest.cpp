@@ -19,9 +19,13 @@
 #include "CCamera.h"
 #include "CTexture.h"
 
+#include "Ptr.h"
 CScene testScene;
 CGameObject* pObj = nullptr;
 void Render_Test::TestInit() {
+	//Ptr<CTexture> pTex = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
+	//pTex->UpdateData(E_ShaderStage::Pixel, 0);
+
 	CTexture* pTexture = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
 
 	UINT iRegisterNum = 0;
@@ -30,7 +34,7 @@ void Render_Test::TestInit() {
 	CGameObject* pCameraObj = new CGameObject();
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
-	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(500.f, 0.f, 0.f));
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	testScene.AddGameObject(pCameraObj);
 
 	pObj = new CGameObject();
@@ -53,6 +57,43 @@ void Render_Test::TestInit() {
 void Render_Test::TestUpdate()
 {
 	testScene.PrevUpdate();
+	
+	Vector3 vPos = pObj->GetComponent<CTransform>()->GetLocalPosition();
+	Vector3 vScale = pObj->GetComponent<CTransform>()->GetLocalScale();
+	/*
+	float fSpeed = 30.f;
+	if (InputKeyHold(E_Key::A)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(vPos.x - DeltaTime * fSpeed, vPos.y, vPos.z));
+		}
+	}
+	if (InputKeyHold(E_Key::S)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(vPos.x, vPos.y - DeltaTime * fSpeed, vPos.z));
+		}
+	}
+	if (InputKeyHold(E_Key::D)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(vPos.x + DeltaTime * fSpeed, vPos.y, vPos.z));
+		}
+	}
+	if (InputKeyHold(E_Key::W)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(vPos.x, vPos.y + DeltaTime * fSpeed, vPos.z));
+		}
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(vScale.x + DeltaTime * fSpeed, vScale.y + DeltaTime * fSpeed, vScale.z));
+		}
+	}
+	if (InputKeyHold(E_Key::LEFT)) {
+		for (int i = 0; i < 4; ++i) {
+			pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(vScale.x - DeltaTime * fSpeed, vScale.y - DeltaTime * fSpeed, vScale.z));
+		}
+	}
+	*/
+
 	testScene.Update();
 	testScene.LateUpdate();
 }

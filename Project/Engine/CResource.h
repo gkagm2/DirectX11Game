@@ -27,4 +27,7 @@ public:
 	virtual ~CResource() override;
 
 	friend class CResourceManager;
+
+	template<typename T>
+	friend class Ptr;
 };

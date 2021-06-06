@@ -116,5 +116,8 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_PIXShader);
 
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
 	AddRes(STR_KEY_StandardShader, pShader);
 }

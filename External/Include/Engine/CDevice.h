@@ -18,6 +18,8 @@ private:
 
 private:
 	CConstBuffer* m_arrCB[(UINT)E_ConstBuffer::end];
+	ComPtr<ID3D11SamplerState> m_pSamplerStates[2];
+	ComPtr<ID3D11RasterizerState> m_pRasterizerStates[(UINT)E_RasterizerState::End];
 
 	// D3D11 Version
 	ComPtr<ID3D11Device> m_pDevice;			// 장치 인터페이스(객체 생성, 해제, 메모리 관리)
@@ -29,8 +31,7 @@ private:
 
 	ComPtr<ID3D11DepthStencilView> m_pDSV;	// DSV : Depth Stencil View
 	ComPtr<ID3D11Texture2D> m_pDSTex;		// DSTex : Depth Stencil Texture
-
-	ComPtr<ID3D11SamplerState> m_pSample;
+	
 	D3D11_VIEWPORT m_tViewPort;
 
 private:
@@ -41,6 +42,9 @@ private:
 public:
 	const Vector2& GetRenderResolution() const { return m_vRenderResolution; }
 	float GetAspectRatio() { return m_vRenderResolution.x == 0.0f ? 0.f : m_vRenderResolution.x / m_vRenderResolution.y; }
+
+	void SetRasterizerState(E_RasterizerState _eRasterizerState);
+
 public:
 	// _bWindowed : 창모드
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);
@@ -52,8 +56,11 @@ public:
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return m_pContext; }
 	const CConstBuffer* GetConstBuffer(E_ConstBuffer _eType) { return m_arrCB[(UINT)_eType]; }
 
+private:
 	int CreateSwapChain(); 
 	int CreateView();
 	void CreateViewport();
 	void CreateConstBuffer();
+	void CreateSampler();
+	void CreateRasterizerState();
 };

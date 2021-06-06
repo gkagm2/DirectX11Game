@@ -198,6 +198,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Ptr.h" />
     <ClInclude Include="RenderTest.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="StringTable.h" />

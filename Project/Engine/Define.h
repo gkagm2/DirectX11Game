@@ -76,3 +76,11 @@ enum class E_ProjectionType {
 	Perspective,
 	Orthographic,
 };
+
+enum class E_RasterizerState {
+	CullBack,
+	CullFront,
+	CullNone,  //앞면 뒷면 다 컬링 안한다.
+	Wireframe, 
+	End,
+};

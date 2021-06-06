@@ -23,41 +23,6 @@ CTransform::~CTransform()
 
 void CTransform::LateUpdate()
 {
-	Vector3 vPos = GetLocalPosition();
-	Vector3 vScale = GetLocalScale();
-
-	float fSpeed = 50.f;
-	if (InputKeyHold(E_Key::A)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x - DeltaTime * fSpeed, vPos.y, vPos.z));
-		}
-	}
-	if (InputKeyHold(E_Key::S)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x, vPos.y - DeltaTime * fSpeed, vPos.z));
-		}
-	}
-	if (InputKeyHold(E_Key::D)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x + DeltaTime * fSpeed, vPos.y, vPos.z));
-		}
-	}
-	if (InputKeyHold(E_Key::W)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalPosition(Vector3(vPos.x, vPos.y + DeltaTime * fSpeed, vPos.z));
-		}
-	}
-	if (InputKeyHold(E_Key::RIGHT)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalScale(Vector3(vScale.x + DeltaTime * fSpeed, vScale.y + DeltaTime * fSpeed, vScale.z));
-		}
-	}
-	if (InputKeyHold(E_Key::LEFT)) {
-		for (int i = 0; i < 8; ++i) {
-			SetLocalScale(Vector3(vScale.x - DeltaTime * fSpeed, vScale.y - DeltaTime * fSpeed, vScale.z));
-		}
-	}
-
 	// 크기 행렬
 	Matrix matScale = XMMatrixScaling(m_vLocalScale.x, m_vLocalScale.y, m_vLocalScale.z);
 

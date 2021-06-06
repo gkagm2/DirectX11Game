@@ -109,6 +109,9 @@
     <ClInclude Include="CLayer.h">
       <Filter>Engine\10. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Ptr.h">
+      <Filter>Engine\05. Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

@@ -17,7 +17,6 @@ CDevice::CDevice() :
 	m_pRTV(nullptr),
 	m_pDSV(nullptr),
 	m_pDSTex(nullptr),
-	m_pSample{nullptr,},
 	m_tViewPort{}
 {
 }
@@ -91,11 +90,17 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 
 	// Viewport 설정
 	CreateViewport();
-
 	// SamplerState 생성
+
 
 	// ConstBuffer 생성
 	CreateConstBuffer();
+
+	// Sampler 생성
+	CreateSampler();
+
+	// Rasterizer State 설정
+	CreateRasterizerState();
 
 	return S_OK;
 }
@@ -223,17 +228,52 @@ void CDevice::CreateConstBuffer()
 
 void CDevice::CreateSampler()
 {
-	/*D3D11_SAMPLER_DESC tDesc = {};
+	D3D11_SAMPLER_DESC tDesc = {};
 	tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-	tDesc.AddressU;
-	tDesc.AddressV;
-	tDesc.AddressW;
-	tDesc.MipLODBias;
-	tDesc.MaxAnisotropy;
-	tDesc.ComparisonFunc;
-	tDesc.BorderColor[4];
-	tDesc.MinLOD;
-	tDesc.MaxLOD;*/
+	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	DEVICE->CreateSamplerState(&tDesc, m_pSamplerStates[0].GetAddressOf());
+
+	tDesc = {}; // 확대 시 픽셀의 각진 느낌 그대로 유지
+	tDesc.Filter = D3D11_FILTER_MINIMUM_MIN_MAG_MIP_POINT;
+	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	DEVICE->CreateSamplerState(&tDesc, m_pSamplerStates[1].GetAddressOf());
+
+	ID3D11SamplerState* arrSamplerState[2] = { m_pSamplerStates[0].Get(), m_pSamplerStates[1].Get() };
+
+	CONTEXT->VSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->HSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->DSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->GSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->PSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->CSSetSamplers(0, 2, arrSamplerState); // compute shader에서는 
+}
+
+void CDevice::CreateRasterizerState()
+{
+	// default는 D3D11_CULL_BACK으로 되어있으므로 nullptr로 줌.
+	m_pRasterizerStates[(UINT)E_RasterizerState::CullBack] = nullptr;
+
+	D3D11_RASTERIZER_DESC tDesc = {};
+	tDesc.FillMode = D3D11_FILL_SOLID;
+	tDesc.CullMode = D3D11_CULL_FRONT;
+	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::CullFront].GetAddressOf());
+	
+	tDesc.FillMode = D3D11_FILL_SOLID;
+	tDesc.CullMode = D3D11_CULL_NONE;
+	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::CullNone].GetAddressOf());
+
+	tDesc.FillMode = D3D11_FILL_WIREFRAME;
+	tDesc.CullMode = D3D11_CULL_NONE;
+	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::Wireframe].GetAddressOf());
+}
+
+void CDevice::SetRasterizerState(E_RasterizerState _eRasterizerState)
+{
+	CONTEXT->RSSetState(m_pRasterizerStates[(UINT)_eRasterizerState].Get());
 }
 
 void CDevice::ClearTarget()
