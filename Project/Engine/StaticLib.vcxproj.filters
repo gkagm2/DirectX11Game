@@ -100,9 +100,14 @@
     <ClInclude Include="CScene.h">
       <Filter>Engine\10. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CLayer.h" />
     <ClInclude Include="CCamera.h">
       <Filter>Engine\07. Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Engine\05. Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h">
+      <Filter>Engine\10. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -187,9 +192,14 @@
     <ClCompile Include="CScene.cpp">
       <Filter>Engine\10. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CLayer.cpp" />
     <ClCompile Include="CCamera.cpp">
       <Filter>Engine\07. Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>Engine\05. Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp">
+      <Filter>Engine\10. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

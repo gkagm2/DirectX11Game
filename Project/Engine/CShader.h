@@ -3,8 +3,8 @@
 
 class CShader : public CResource
 {
-public:
-	virtual void Load(const tstring& _strFilePath) override {};
+private:
+	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
 public:
 	CShader();
 	virtual ~CShader() override;

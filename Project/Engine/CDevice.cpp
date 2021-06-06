@@ -17,7 +17,7 @@ CDevice::CDevice() :
 	m_pRTV(nullptr),
 	m_pDSV(nullptr),
 	m_pDSTex(nullptr),
-	m_pSample(nullptr),
+	m_pSample{nullptr,},
 	m_tViewPort{}
 {
 }
@@ -219,6 +219,21 @@ void CDevice::CreateConstBuffer()
 {
 	m_arrCB[(UINT)E_ConstBuffer::transform] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::transform]->Create(E_ConstBuffer::transform, sizeof(TTransform));
+}
+
+void CDevice::CreateSampler()
+{
+	/*D3D11_SAMPLER_DESC tDesc = {};
+	tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	tDesc.AddressU;
+	tDesc.AddressV;
+	tDesc.AddressW;
+	tDesc.MipLODBias;
+	tDesc.MaxAnisotropy;
+	tDesc.ComparisonFunc;
+	tDesc.BorderColor[4];
+	tDesc.MinLOD;
+	tDesc.MaxLOD;*/
 }
 
 void CDevice::ClearTarget()

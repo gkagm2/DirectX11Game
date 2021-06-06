@@ -30,8 +30,10 @@ public:
 	//void CreateGeometryShader(const tstring& _strRelativePath, const string& _strFuncName);
 	void CreatePixelShader(const tstring& _strRelativePath, const string& _strFuncName);
 
+private:
+	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
+
 public:
-	virtual void Load(const tstring& _strFilePath) override {} ;
 	virtual void UpdateData() override;
 
 public:

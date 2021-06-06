@@ -4,6 +4,7 @@
 struct VTX { // Vertex
 	Vector3 vPos;
 	Vector4 vColor;
+	Vector2 vUV;
 };
 
 // 상수버퍼 용도

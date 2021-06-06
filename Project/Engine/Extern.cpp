@@ -16,9 +16,18 @@ D3D11_INPUT_ELEMENT_DESC g_arrLayoutDesc[LAYOUT_DESCRIPTION_COUNT] = {
 	D3D11_INPUT_ELEMENT_DESC{
 		"COLOR",						//SemanticName;
 		0,								//SemanticIndex;
-		DXGI_FORMAT_R32G32B32A32_FLOAT,	//Format;
+		DXGI_FORMAT_R32G32B32A32_FLOAT,	//Format; (12byte ~28)
 		0,								//InputSlot;
 		12,								//AlignedByteOffset;
+		D3D11_INPUT_PER_VERTEX_DATA,	//InputSlotClass
+		0								//InstanceDataStepRate;
+	},
+	D3D11_INPUT_ELEMENT_DESC{
+		"TEXCOORD",						//SemanticName;
+		0,								//SemanticIndex;
+		DXGI_FORMAT_R32G32_FLOAT,		//Format;
+		0,								//InputSlot;
+		28,								//AlignedByteOffset;
 		D3D11_INPUT_PER_VERTEX_DATA,	//InputSlotClass
 		0								//InstanceDataStepRate;
 	}

@@ -2,8 +2,8 @@
 #include "CShader.h"
 class CComputeShader : public CShader
 {
-public:
-	virtual void Load(const tstring& _strFilePath) override {};
+private:
+	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
 public:
 	CComputeShader();
 	virtual ~CComputeShader() override;

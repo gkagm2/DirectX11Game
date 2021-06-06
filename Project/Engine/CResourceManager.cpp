@@ -20,8 +20,45 @@ void CResourceManager::Init()
 void CResourceManager::CreateDefaultMesh()
 {
 	// 버퍼 만들기
+	VTX vertices[] = {
+		{	Vector3(-1.f, 1.f, 0.f), 
+			Vector4(0.0f, 0.0f, 1.0f, 1.0f), 
+			Vector2(0.f,0.f) },
+		{	Vector3(1.f, 1.f, 0.f), 
+			Vector4(0.0f, 1.0f, 0.0f, 1.0f), 
+			Vector2(1.f,0.f) },
+		{	Vector3(1.f, -1.f, 0.f), 
+			Vector4(0.0f, 1.0f, 1.0f, 1.0f), 
+			Vector2(1.f,1.f) },
+		{	Vector3(-1.f, -1.f, 0.f), 
+			Vector4(1.0f, 0.0f, 0.0f, 1.0f), 
+			Vector2(0.f,1.f) }
+	};
 
-	float fScale = 0.8f;
+
+	// create index buffer
+	UINT arrIdx[6] = { 
+		0,1,2,
+		0,2,3 };
+	/*
+	0-------1
+	|＼     |
+	|  ＼   |
+	|    ＼ |
+	3-------2
+	*/
+
+	CMesh* pMesh = new CMesh();
+	pMesh->Create(vertices, sizeof(VTX) * 4, arrIdx, sizeof(UINT) * 6, D3D11_USAGE_DEFAULT);
+
+	AddRes(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
+}
+
+void CResourceManager::CreateDefaultCubeMesh3D()
+{
+	// TODO (Jang): 20210606 UV 좌표 값 넣기
+	// 
+	// 버퍼 만들기
 	VTX vertices[] = {
 		{ Vector3(-1.0f, 1.0f, -1.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f) },
 		{ Vector3(1.0f, 1.0f, -1.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f) },
@@ -36,8 +73,8 @@ void CResourceManager::CreateDefaultMesh()
 	// create index buffer
 	//UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
 	/*
-	    3----- 2
-	      ＼
+		3----- 2
+		  ＼
 	0-------1  |
 	|＼     |  |
 	|  ＼   |  |
@@ -69,7 +106,7 @@ void CResourceManager::CreateDefaultMesh()
 	CMesh* pMesh = new CMesh();
 	pMesh->Create(vertices, sizeof(VTX) * 8, arrIdx, sizeof(UINT) * 36, D3D11_USAGE_DEFAULT);
 
-	AddResource(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
+	AddRes(STR_KEY_CubeMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 }
 
 void CResourceManager::CreateDefaultShader()
@@ -79,5 +116,5 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_PIXShader);
 
-	AddResource(STR_KEY_StandardShader, pShader);
+	AddRes(STR_KEY_StandardShader, pShader);
 }

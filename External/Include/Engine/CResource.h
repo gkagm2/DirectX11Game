@@ -8,14 +8,23 @@ private:
 	tstring m_strKey;			// 고유 키 값
 	tstring m_strRelativePath;  // 상대경로
 
-public:
-	virtual void Load(const tstring& _strFilePath) = 0;
+private:
+	virtual int Load(const tstring& _strFilePath) = 0;
 
 private:
 	void AddRef() { ++m_iRefCount; }
 	void SubRef() { --m_iRefCount; }
 
+private:
+	void SetKey(const tstring& _strKey) { m_strKey = _strKey; }
+	const tstring& GetKey() { return m_strKey; }
+	void SetRelativePath(const tstring& _strRelativePath) {
+		m_strRelativePath = _strRelativePath; }
+	const tstring& GetRelativePath() { return m_strRelativePath; }
+
 public:
 	CResource();
 	virtual ~CResource() override;
+
+	friend class CResourceManager;
 };

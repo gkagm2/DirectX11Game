@@ -16,6 +16,7 @@ public:
 	void SetLocalScale(const Vector3& _vScale) { m_vLocalScale = _vScale; }
 	const Vector3& GetLocalScale() const { return m_vLocalScale; }
 
+	// Radian으로 입력받음
 	void SetLocalRotation(const Vector3& _vRotation) { m_vLocalRotation = _vRotation; }
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
 

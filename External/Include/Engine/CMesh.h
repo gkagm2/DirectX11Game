@@ -18,8 +18,10 @@ public:
 	void* GetVtxSysMem() { return m_pVtxSys; }
 	void* GetIdxSysMem() { return m_pIdxSys; }
 
+private:
+	virtual int Load(const tstring& _strFilePath) { return S_OK; }
+	
 public:
-	virtual void Load(const tstring& _strFilePath) {};
 	virtual void Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage);
 	virtual void UpdateData();
 	virtual void Render() final;

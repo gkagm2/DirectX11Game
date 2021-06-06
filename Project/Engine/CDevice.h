@@ -30,7 +30,7 @@ private:
 	ComPtr<ID3D11DepthStencilView> m_pDSV;	// DSV : Depth Stencil View
 	ComPtr<ID3D11Texture2D> m_pDSTex;		// DSTex : Depth Stencil Texture
 
-	ComPtr<ID3D11SamplerState> m_pSample;
+	ComPtr<ID3D11SamplerState> m_pSample[2];
 	D3D11_VIEWPORT m_tViewPort;
 
 private:
@@ -56,4 +56,5 @@ public:
 	int CreateView();
 	void CreateViewport();
 	void CreateConstBuffer();
+	void CreateSampler();
 };

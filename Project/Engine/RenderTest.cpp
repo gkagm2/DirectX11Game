@@ -17,10 +17,16 @@
 #include "CMeshRenderer.h"
 #include "CGraphicsShader.h"
 #include "CCamera.h"
+#include "CTexture.h"
 
 CScene testScene;
 CGameObject* pObj = nullptr;
 void Render_Test::TestInit() {
+	CTexture* pTexture = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
+
+	UINT iRegisterNum = 0;
+	pTexture->UpdateData(E_ShaderStage::Pixel, iRegisterNum);
+
 	CGameObject* pCameraObj = new CGameObject();
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
@@ -36,8 +42,8 @@ void Render_Test::TestInit() {
 	pObj->GetComponent<CMeshRenderer>()->SetMeshRenderer(pMesh, pShader);
 
 	pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 100.f));
-	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(50.f, 50.f, 50.f));
-	pObj->GetComponent<CTransform>()->SetLocalRotation(Vector3(60.f, 50.f, 50.f));
+	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
+	pObj->GetComponent<CTransform>()->SetLocalRotation(Vector3(0.f, 0.f, 0.f * CMyMath::Deg2Rad()));
 	testScene.AddGameObject(pObj);
 
 	testScene.Awake();
