@@ -56,3 +56,4 @@ using namespace DirectX::SimpleMath;
 #include "Tools.h"
 #include "StringTable.h"
 #include "Function.h"
+#include "Ptr.h"

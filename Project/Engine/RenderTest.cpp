@@ -20,20 +20,16 @@
 #include "CTexture.h"
 
 #include "Ptr.h"
+
 CScene testScene;
 CGameObject* pObj = nullptr;
+
 void Render_Test::TestInit() {
-	//Ptr<CTexture> pTex = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
-	//pTex->UpdateData(E_ShaderStage::Pixel, 0);
-
-	CTexture* pTexture = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
-
-	UINT iRegisterNum = 0;
-	pTexture->UpdateData(E_ShaderStage::Pixel, iRegisterNum);
+	SharedPtr<CTexture> pTex = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.bmp"));
 
 	CGameObject* pCameraObj = new CGameObject();
 	pCameraObj->AddComponent<CTransform>();
-	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->AddComponent<CCamera>();   
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	testScene.AddGameObject(pCameraObj);
 
@@ -44,6 +40,8 @@ void Render_Test::TestInit() {
 	CGraphicsShader* pShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(STR_KEY_StandardShader);
 	CMesh* pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
 	pObj->GetComponent<CMeshRenderer>()->SetMeshRenderer(pMesh, pShader);
+	pObj->GetComponent<CMeshRenderer>()->SetTexture(pTex);
+	
 
 	pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 100.f));
 	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(100.f, 100.f, 1.f));

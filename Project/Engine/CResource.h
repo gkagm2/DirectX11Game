@@ -29,5 +29,5 @@ public:
 	friend class CResourceManager;
 
 	template<typename T>
-	friend class Ptr;
+	friend class SharedPtr;
 };
