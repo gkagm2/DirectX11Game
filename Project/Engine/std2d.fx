@@ -1,19 +1,8 @@
 // Using 5.0 version
+#ifndef _STD2D
+#define _STD2D
 
-// 상수 버퍼 레지스터	
-cbuffer TRANSFORM : register(b0)
-{
-    row_major Matrix g_matWorld; // 행기반 v (L-)
-    row_major Matrix g_matView;
-    row_major Matrix g_matProjection;
-}
-
-// Texture register (t)
-Texture2D g_tex_0 : register(t0);
-
-// Sampler Stage
-SamplerState g_sam_0 : register(s0); // Anisotropic
-SamplerState g_sam_1 : register(s1); // Point
+#include "value.fx"
 
 struct VTX_IN {
 	// semantic : input layout쪽에서 작성해놓은 정적 내부 구조 정보를 설명하는 역할
@@ -33,7 +22,7 @@ struct VTX_OUT {
 ////////////////
 
 // vPos, vColor를 입력받아서 처리해주는 함수
-VTX_OUT VTXShader(VTX_IN _in)
+VTX_OUT VS(VTX_IN _in)
 {
 	VTX_OUT output = (VTX_OUT)0.f; // 초기화
 	
@@ -54,8 +43,16 @@ VTX_OUT VTXShader(VTX_IN _in)
 ///////////////
 // Pixel shader
 ///////////////
-float4 PIXShader(VTX_OUT _in) : SV_Target {
+float4 PS(VTX_OUT _in) : SV_Target {
+    float4 vPow = float4(1.f, 1.f, 1.f, 1.f);
+    if (g_int_0)
+    {
+        vPow = float4(2.f, 1.f, 1.f, 1.f);
+    }
+	
     float2 vOutUV = _in.vUV;
-    float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV);
+    float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV) * vPow;
+    vOutColor.a = 0.2f;
 	return vOutColor;
 }
+#endif

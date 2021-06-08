@@ -17,9 +17,10 @@ private:
 	bool m_bWindowMode;				// 출력 모드 (창모드)
 
 private:
-	CConstBuffer* m_arrCB[(UINT)E_ConstBuffer::end];
+	CConstBuffer* m_arrCB[(UINT)E_ConstBuffer::End];
 	ComPtr<ID3D11SamplerState> m_pSamplerStates[2];
 	ComPtr<ID3D11RasterizerState> m_pRasterizerStates[(UINT)E_RasterizerState::End];
+	ComPtr<ID3D11BlendState> m_pBlendStates[(UINT)E_BlendState::End];
 
 	// D3D11 Version
 	ComPtr<ID3D11Device> m_pDevice;			// 장치 인터페이스(객체 생성, 해제, 메모리 관리)
@@ -43,7 +44,10 @@ public:
 	const Vector2& GetRenderResolution() const { return m_vRenderResolution; }
 	float GetAspectRatio() { return m_vRenderResolution.x == 0.0f ? 0.f : m_vRenderResolution.x / m_vRenderResolution.y; }
 
-	void SetRasterizerState(E_RasterizerState _eRasterizerState);
+	void SetRasterizerState(E_RasterizerState _eRasterizerState) { CONTEXT->RSSetState(m_pRasterizerStates[(UINT)_eRasterizerState].Get()); }
+
+	ComPtr<ID3D11BlendState> GetBlendState(E_BlendState _eBlendState) { return m_pBlendStates[(UINT)_eBlendState]; }
+
 
 public:
 	// _bWindowed : 창모드
@@ -63,4 +67,8 @@ private:
 	void CreateConstBuffer();
 	void CreateSampler();
 	void CreateRasterizerState();
+
+	// OM stage
+	void CreateBlendState();
+	void CreateDepthStencilState();
 };

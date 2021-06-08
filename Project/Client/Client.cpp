@@ -6,7 +6,6 @@
 #include "Client.h"
 
 #include <Engine/CCore.h>
-#include <Engine/Static_Func.h>
 #pragma comment(lib, "Engine/Engine_debug")
 
 #define MAX_LOADSTRING 100

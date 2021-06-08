@@ -7,14 +7,16 @@ CResourceManager::CResourceManager() {
 
 }
 CResourceManager::~CResourceManager() {
-	for (UINT i = 0; i < (UINT)E_ResourceType::END; ++i)
+	for (UINT i = 0; i < (UINT)E_ResourceType::End; ++i)
 		Safe_Delete_UnorderedMap(m_umapResource[i]);
 }
 
 void CResourceManager::Init()
 {
 	CreateDefaultMesh();
+	//CreateDefaultCubeMesh3D();
 	CreateDefaultShader();
+	CreateDefaultMaterial();
 }
 
 void CResourceManager::CreateDefaultMesh()
@@ -117,7 +119,16 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_PIXShader);
 
 	// Rasterizer
-	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
 
 	AddRes(STR_KEY_StandardShader, pShader);
+}
+
+void CResourceManager::CreateDefaultMaterial()
+{
+	// 기본 재질 생성
+	CMaterial* pMtrl = new CMaterial;
+	SharedPtr<CGraphicsShader> pShader = FindRes<CGraphicsShader>(STR_KEY_StandardShader);
+	pMtrl->SetShader(pShader);
+	AddRes<CMaterial>(STR_KEY_StandardMaterial, pMtrl);
 }

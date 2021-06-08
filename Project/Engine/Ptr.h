@@ -1,4 +1,11 @@
 #pragma once
+
+class CMesh;
+class CTexture;
+class CGraphicsShader;
+class CComputeShader;
+class CMaterial;
+
 template<typename T>
 class SharedPtr {
 private:
@@ -17,9 +24,10 @@ public:
 			m_pResource->AddRef();
 	}
 
-	SharedPtr(const SharedPtr<T>& _other) {
-		if (nullptr != _other.m_pResource)
+	SharedPtr(const SharedPtr<T>& _other) : m_pResource(_other.m_pResource) {
+		if (nullptr != _other.m_pResource) {
 			m_pResource->AddRef();
+		}
 	}
 
 	virtual ~SharedPtr() {

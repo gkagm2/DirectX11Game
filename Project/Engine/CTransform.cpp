@@ -42,7 +42,7 @@ void CTransform::LateUpdate()
 void CTransform::UpdateData()
 {
 	// b0 레지스터에 상수버퍼 바인딩
-	static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::transform);
+	static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Transform);
 
 	g_transform.matWorld = m_matWorld;
 

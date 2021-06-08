@@ -90,8 +90,6 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 
 	// Viewport 설정
 	CreateViewport();
-	// SamplerState 생성
-
 
 	// ConstBuffer 생성
 	CreateConstBuffer();
@@ -99,8 +97,12 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 	// Sampler 생성
 	CreateSampler();
 
-	// Rasterizer State 설정
+	// Rasterizer State 생성
 	CreateRasterizerState();
+
+	// Blend, DepthStencil State 생성
+	CreateBlendState();
+	CreateDepthStencilState();
 
 	return S_OK;
 }
@@ -222,8 +224,11 @@ void CDevice::CreateViewport()
 
 void CDevice::CreateConstBuffer()
 {
-	m_arrCB[(UINT)E_ConstBuffer::transform] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::transform]->Create(E_ConstBuffer::transform, sizeof(TTransform));
+	m_arrCB[(UINT)E_ConstBuffer::Transform] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Transform]->Create(E_ConstBuffer::Transform, sizeof(TTransform));
+	
+	m_arrCB[(UINT)E_ConstBuffer::Material_Param] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Material_Param]->Create(E_ConstBuffer::Material_Param, sizeof(TMaterialParam));
 }
 
 void CDevice::CreateSampler()
@@ -249,7 +254,7 @@ void CDevice::CreateSampler()
 	CONTEXT->DSSetSamplers(0, 2, arrSamplerState);
 	CONTEXT->GSSetSamplers(0, 2, arrSamplerState);
 	CONTEXT->PSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->CSSetSamplers(0, 2, arrSamplerState); // compute shader에서는 
+	CONTEXT->CSSetSamplers(0, 2, arrSamplerState);
 }
 
 void CDevice::CreateRasterizerState()
@@ -271,9 +276,32 @@ void CDevice::CreateRasterizerState()
 	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::Wireframe].GetAddressOf());
 }
 
-void CDevice::SetRasterizerState(E_RasterizerState _eRasterizerState)
+void CDevice::CreateBlendState()
 {
-	CONTEXT->RSSetState(m_pRasterizerStates[(UINT)_eRasterizerState].Get());
+	D3D11_BLEND_DESC tDesc = {};
+	tDesc.AlphaToCoverageEnable = false;
+	tDesc.IndependentBlendEnable = false; // false 설정 시 RenderTarget은 [0] 멤버만 설정
+
+	// 0번 인덱스 하나만 설정하면 다 설정됨?
+	tDesc.RenderTarget[0].BlendEnable = true;
+
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // 가산혼합
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA; // 가산혼합
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::AlphaBlend].GetAddressOf());
+
+	CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)E_BlendState::AlphaBlend].Get(), Vector4(0.f,0.f,0.f,0.f), 0xffffffff);
+}
+
+void CDevice::CreateDepthStencilState()
+{
 }
 
 void CDevice::ClearTarget()

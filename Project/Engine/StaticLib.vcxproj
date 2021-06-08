@@ -178,6 +178,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLayer.h" />
+    <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
     <ClInclude Include="CRenderer.h" />
     <ClInclude Include="CScene.h" />
@@ -199,7 +200,6 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Global.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Ptr.h" />
-    <ClInclude Include="RenderTest.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="StringTable.h" />
     <ClInclude Include="Struct.h" />
@@ -216,6 +216,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CLayer.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
     <ClCompile Include="CRenderer.cpp" />
     <ClCompile Include="CScene.cpp" />
@@ -237,7 +238,6 @@ call EngineCopy.bat</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="RenderTest.cpp" />
     <ClCompile Include="StaticLib.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="Tools.cpp" />
@@ -255,6 +255,16 @@ call EngineCopy.bat</Command>
       </ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="value.fx">
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -24,10 +24,11 @@
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 
 // std2.fx functions name
-#define STR_FUNCTION_NAME_VTXShader "VTXShader"
-#define STR_FUNCTION_NAME_PIXShader "PIXShader"
+#define STR_FUNCTION_NAME_VTXShader "VS"
+#define STR_FUNCTION_NAME_PIXShader "PS"
 
 // Resource Key
 #define STR_KEY_RectMash _T("RectMash")
 #define STR_KEY_CubeMash _T("CubeMash")
 #define STR_KEY_StandardShader _T("StandardShader")
+#define STR_KEY_StandardMaterial _T("StandardMaterial")

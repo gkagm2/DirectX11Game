@@ -3,13 +3,14 @@
 #include "CGraphicsShader.h"
 #include "CComputeShader.h"
 #include "CTexture.h"
+#include "CMaterial.h"
 #include "CPathManager.h"
 
 class CResourceManager : public CSingleton<CResourceManager>
 {
 	SINGLETON(CResourceManager)
 private:
-	unordered_map<tstring, CResource*> m_umapResource[(UINT)E_ResourceType::END];
+	unordered_map<tstring, CResource*> m_umapResource[(UINT)E_ResourceType::End];
 
 public:
 	void Init();
@@ -18,18 +19,18 @@ public:
 	void CreateDefaultMesh();
 	void CreateDefaultCubeMesh3D();
 	void CreateDefaultShader();
+	void CreateDefaultMaterial();
 
 public:
 	// TODO : 나중에 쉐이더 코드의 함수이름..etc 을 읽어들일 때 사용 할 것임.
 	template<typename T>
-	T* Load(const tstring& _strKey, const tstring& _strRelativePath);
+	SharedPtr<T> Load(const tstring& _strKey, const tstring& _strRelativePath);
 
 	template<typename T>
 	void AddRes(const tstring& _strKey, T* _pRes);
 
 	template<typename T>
-	T* FindRes(const tstring& _strKey);
-
+	SharedPtr<T> FindRes(const tstring& _strKey);
 };
 
 // 리소스 추가 시 타입 지정
@@ -37,29 +38,32 @@ template<typename T>
 E_ResourceType GetResourceType() {
 	const type_info& info = typeid(T);
 
+	const type_info& mtrl = typeid(CMaterial);
 	const type_info& mesh = typeid(CMesh);
 	const type_info& graphicsShader = typeid(CGraphicsShader);
 	const type_info& computeShader= typeid(CComputeShader);
 	const type_info& texture = typeid(CTexture);
 	
-	E_ResourceType eResourceType = E_ResourceType::END;
+	E_ResourceType eResourceType = E_ResourceType::End;
 
-	if (&info == &mesh)
-		eResourceType = E_ResourceType::MESH;
+	if (&info == &mtrl)
+		eResourceType = E_ResourceType::Material;
+	else if (&info == &mesh)
+		eResourceType = E_ResourceType::Mesh;
 	else if (&info == &graphicsShader || &info == &computeShader)
-		eResourceType = E_ResourceType::SHADER;
+		eResourceType = E_ResourceType::Shader;
 	else if (&info == &texture)
-		eResourceType = E_ResourceType::TEXTURE;
+		eResourceType = E_ResourceType::Texture;
 
 	return eResourceType;
 }
 
 template<typename T>
-inline T* CResourceManager::Load(const tstring& _strKey, const tstring& _strRelativePath)
+inline SharedPtr<T> CResourceManager::Load(const tstring& _strKey, const tstring& _strRelativePath)
 {
 	E_ResourceType eType = GetResourceType<T>();
 
-	T* pResource = FindRes<T>(_strKey);
+	T* pResource = FindRes<T>(_strKey).Get();
 	if (nullptr != pResource) {
 		MessageBox(nullptr, STR_MSG_FailDuplicateResourceKey, STR_MSG_FailedToLoadResource, MB_OK);
 		assert(nullptr);
@@ -89,11 +93,11 @@ inline void CResourceManager::AddRes(const tstring& _strKey, T* _pRes)
 }
 
 template<typename T>
-inline T* CResourceManager::FindRes(const tstring& _strKey)
+inline SharedPtr<T> CResourceManager::FindRes(const tstring& _strKey)
 {
 	E_ResourceType eResourceType = GetResourceType<T>();
 
-	if (eResourceType == E_ResourceType::END) {
+	if (eResourceType == E_ResourceType::End) {
 		assert(nullptr && _T("Resource의 타입을 지정하지 않음"));
 		return nullptr;
 	}

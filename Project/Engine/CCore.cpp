@@ -5,9 +5,7 @@
 #include "CTimeManager.h"
 #include "CKeyManager.h"
 #include "CResourceManager.h"
-
-// Test
-#include "RenderTest.h"
+#include "CSceneManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -36,8 +34,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
 	CResourceManager::GetInstance()->Init();
-
-	Render_Test::TestInit();
+	CSceneManager::GetInstance()->Init();
 
 	return S_OK;
 }
@@ -48,14 +45,14 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 
 	// Update
-	Render_Test::TestUpdate();
+	CSceneManager::GetInstance()->Progress();
 
 	// Render
 	// 1. 타겟 클리어
 	CDevice::GetInstance()->ClearTarget();
 
 	// 2. 물체 렌더링
-	Render_Test::TestRender();
+	CSceneManager::GetInstance()->Render();
 
 	// 3. 백버퍼 교체
 	CDevice::GetInstance()->Present();

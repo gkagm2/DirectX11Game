@@ -2,8 +2,7 @@
 #include "CScene.h"
 #include "CLayer.h"
 
-CScene::CScene() :
-	m_arrLayer{}
+CScene::CScene()
 {
 	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
 		m_arrLayer[i] = new CLayer;

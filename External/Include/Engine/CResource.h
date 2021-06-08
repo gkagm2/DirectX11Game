@@ -1,6 +1,6 @@
 #pragma once
 #include "CObject.h"
-
+#include "Ptr.h"
 class CResource : public CObject
 {
 private:

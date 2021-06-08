@@ -22,8 +22,8 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->IASetInputLayout(m_pLayout.Get());
 
 	//// 장치가 사용 할 VertexShader, PixelShader 세팅
-	CONTEXT->VSSetShader(m_pVS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(m_pPS.Get(), nullptr, 0);
+	CONTEXT->VSSetShader(m_pVS.Get(), 0, 0);
+	CONTEXT->PSSetShader(m_pPS.Get(), 0, 0);
 
 	CDevice::GetInstance()->SetRasterizerState(m_eRSState);
 }

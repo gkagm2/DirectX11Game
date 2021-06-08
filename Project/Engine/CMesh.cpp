@@ -92,7 +92,7 @@ void CMesh::UpdateData()
 void CMesh::Render()
 {
 	// 파이프라인 시작
-	// 버텍스 버프를 사용할 경우
+	// 버텍스 버퍼를 사용할 경우
 	//UINT iVertexCnt = 3;
 	//UINT iStartVertexLocation = 0;
 	// CONTEXT->Draw(iVertexCnt, iStartVertexLocation); 

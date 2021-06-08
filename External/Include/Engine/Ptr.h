@@ -1,8 +1,19 @@
 #pragma once
+
+class CMesh;
+class CTexture;
+class CGraphicsShader;
+class CComputeShader;
+class CMaterial;
+
 template<typename T>
 class SharedPtr {
 private:
 	T* m_pResource;
+
+public:
+	T* Get() { return m_pResource; }
+	T** GetAddress() { return &m_pResource; }
 
 public:
 	SharedPtr() : m_pResource(nullptr) {
@@ -13,9 +24,10 @@ public:
 			m_pResource->AddRef();
 	}
 
-	SharedPtr(const SharedPtr<T>& _other) {
-		if (nullptr != _other.m_pResource)
+	SharedPtr(const SharedPtr<T>& _other) : m_pResource(_other.m_pResource) {
+		if (nullptr != _other.m_pResource) {
 			m_pResource->AddRef();
+		}
 	}
 
 	virtual ~SharedPtr() {
@@ -55,11 +67,13 @@ public:
 		return !((*this) == _pResource);
 	}
 };
-//
-//template<typename T>
-//bool operator(void* t, T*) {
-//	if (t == T)
-//		return true;
-//	else
-//		return false;
-//}
+
+template<typename T>
+bool operator == (void* _pRes, SharedPtr<T> _ptr) {
+	return _pRes == _ptr.Get();
+}
+
+template<typename T>
+bool operator != (void* _pRes, SharedPtr<T> _ptr) {
+	return !(_pRes == _ptr);
+}

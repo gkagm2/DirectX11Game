@@ -2,7 +2,7 @@
 #include "CResource.h"
 #include <DirectXTex\DirectXTex.h>
 
-#ifdef _DEBUG || DEBUG
+#if (defined _DEBUG) || (defined DEBUG)
 #pragma comment(lib, "DirectXTex\\DirectXTex_debug")
 #else
 #pragma comment(lib, "DirectXTex\\DirectXTex")
@@ -20,6 +20,9 @@ private:
 
 public:
 	void UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum);
+
+public:
+	static void Clear(UINT _iRegisterNum);
 
 public:
 	CTexture();

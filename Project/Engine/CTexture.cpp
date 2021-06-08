@@ -12,8 +12,8 @@ CTexture::~CTexture()
 
 int CTexture::Load(const tstring& _strFilePath)
 {
-	TCHAR strBuff[50] = {};
-	_tsplitpath_s(_strFilePath.c_str(), 0, 0, 0, 0, 0, 0, strBuff, 50);
+	TCHAR strBuff[250] = {};
+	_tsplitpath_s(_strFilePath.c_str(), 0, 0, 0, 0, 0, 0, strBuff, 250);
 	tstring strExt = strBuff;
 
 	HRESULT hRet = S_OK;
@@ -60,14 +60,25 @@ void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)
 {
 	if((UINT)E_ShaderStage::Vertex & (UINT)_eShaderStage)
 		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-	else if ((UINT)E_ShaderStage::Hull & (UINT)_eShaderStage)
+	if ((UINT)E_ShaderStage::Hull & (UINT)_eShaderStage)
 		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-	else if ((UINT)E_ShaderStage::Domain & (UINT)_eShaderStage)
+	if ((UINT)E_ShaderStage::Domain & (UINT)_eShaderStage)
 		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-	else if ((UINT)E_ShaderStage::Geometry & (UINT)_eShaderStage)
+	if ((UINT)E_ShaderStage::Geometry & (UINT)_eShaderStage)
 		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-	else if ((UINT)E_ShaderStage::Pixel & (UINT)_eShaderStage)
+	if ((UINT)E_ShaderStage::Pixel & (UINT)_eShaderStage)
 		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
-	else if ((UINT)E_ShaderStage::Compute & (UINT)_eShaderStage)
+	if ((UINT)E_ShaderStage::Compute & (UINT)_eShaderStage)
 		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+}
+
+void CTexture::Clear(UINT _iRegisterNum)
+{
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	CONTEXT->VSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->HSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->DSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
+	CONTEXT->CSSetShaderResources(_iRegisterNum, 1, &pSRV);
 }

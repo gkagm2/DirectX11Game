@@ -24,17 +24,18 @@
 
 
 enum class E_ResourceType {
-	MATRIAL,
-	SHADER,
-	MESH,
-	TEXTURE,
-	SOUND,
-	END,
+	Material,
+	Shader,
+	Mesh,
+	Texture,
+	Sound,
+	End,
 };
 
 enum class E_ConstBuffer {
-	transform,
-	end,
+	Transform,		 // b0
+	Material_Param,	 // b1
+	End,
 };
 
 enum class E_ShaderStage {
@@ -83,4 +84,54 @@ enum class E_RasterizerState {
 	CullNone,  //앞면 뒷면 다 컬링 안한다.
 	Wireframe, 
 	End,
+};
+
+enum class E_BlendState {
+	Defailt,
+	AlphaBlend,
+	One_One,
+	End,
+};
+
+enum class E_ShaderParam {
+	Int_0,
+	Int_1,
+	Int_2,
+	Int_3,
+
+	Float_0,
+	Float_1,
+	Float_2,
+	Float_3,
+
+	Vector2_0,
+	Vector2_1,
+	Vector2_2,
+	Vector2_3,
+
+	Vector4_0,
+	Vector4_1,
+	Vector4_2,
+	Vector4_3,
+
+	Matrix_0,
+	Matrix_1,
+	Matrix_2,
+	Matrix_3,
+
+	Texture_0,
+	Texture_1,
+	Texture_2,
+	Texture_3,
+	Texture_4,
+	Texture_5,
+	Texture_6,
+	Texture_7,
+	TextureArr_0,
+	TextureArr_1,
+	TextureArr_2,
+	TextureCube_0,
+	TextureCube_1,
+	TextureCube_2,
+	Texture_End,
 };
