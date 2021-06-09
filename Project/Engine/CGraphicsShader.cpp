@@ -5,7 +5,8 @@
 
 CGraphicsShader::CGraphicsShader() :
 	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
-	m_eRSState(E_RasterizerState::CullBack)
+	m_eRSState(E_RasterizerState::CullBack),
+	m_eBlendState(E_BlendState::AlphaBlend)
 {
 }
 
@@ -26,6 +27,7 @@ void CGraphicsShader::UpdateData()
 	CONTEXT->PSSetShader(m_pPS.Get(), 0, 0);
 
 	CDevice::GetInstance()->SetRasterizerState(m_eRSState);
+	CDevice::GetInstance()->SetBlendState(m_eBlendState);
 }
 
 void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName)

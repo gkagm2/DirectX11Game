@@ -45,6 +45,12 @@ void CScene::LateUpdate()
 		m_arrLayer[i]->LateUpdate();
 }
 
+void CScene::FinalUpdate()
+{
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+		m_arrLayer[i]->FinalUpdate();
+}
+
 void CScene::Render()
 {
 	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)

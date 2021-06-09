@@ -1,8 +1,7 @@
 #pragma once
-#include "CObject.h"
 #include "Interfaces.h"
+#include "CGameObject.h"
 
-class CGameObject;
 class CComponent : public CObject, ILifeCycleInterface
 {
 private:
@@ -15,11 +14,16 @@ public:
 	virtual void PrevUpdate() override {}
 	virtual void Update() override {}
 	virtual void LateUpdate() override {}
+	virtual void FinalUpdate() override {}
 	virtual void Render() override {}
 
 public:
 	CGameObject* GetGameObject() { return m_pGameObj; }
 	E_ComponentType GetComponentType() { return m_eType; }
+
+public:
+	// Components
+	GET_COMPONENT_FROM_GAMEOBJECT
 
 public:
 	CComponent() = delete;

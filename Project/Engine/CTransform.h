@@ -21,7 +21,7 @@ public:
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
 
 public:
-	virtual void LateUpdate() override;
+	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;
 	
 public:

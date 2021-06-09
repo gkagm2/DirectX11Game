@@ -112,6 +112,9 @@
     <ClInclude Include="CMaterial.h">
       <Filter>Engine\05. Resource\Material</Filter>
     </ClInclude>
+    <ClInclude Include="CScript.h">
+      <Filter>Engine\07. Component\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="CMaterial.cpp">
       <Filter>Engine\05. Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript.cpp">
+      <Filter>Engine\07. Component\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +304,9 @@
     </Filter>
     <Filter Include="Engine\05. Resource\Material">
       <UniqueIdentifier>{21aead7d-ed87-46df-952d-c9813644ea3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Script">
+      <UniqueIdentifier>{ac9e46ef-ba09-427e-9551-76dfbe82a92e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

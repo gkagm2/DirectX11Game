@@ -17,5 +17,8 @@ public:
 	void CreateScene(const tstring& _strSceneName);
 	void LoadScene(const tstring& _strSceneName);
 
+public:
+	CScene* GetCurScene() { return m_pCurScene; }
+
 	friend class CScene;
 };

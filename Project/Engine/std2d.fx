@@ -44,15 +44,8 @@ VTX_OUT VS(VTX_IN _in)
 // Pixel shader
 ///////////////
 float4 PS(VTX_OUT _in) : SV_Target {
-    float4 vPow = float4(1.f, 1.f, 1.f, 1.f);
-    if (g_int_0)
-    {
-        vPow = float4(2.f, 1.f, 1.f, 1.f);
-    }
-	
     float2 vOutUV = _in.vUV;
-    float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV) * vPow;
-    vOutColor.a = 0.2f;
+    float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV);
 	return vOutColor;
 }
 #endif

@@ -49,7 +49,7 @@ void CSceneManager::Init() {
 	CGameObject* pObj = new CGameObject();
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pStdMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StandardMaterial);
+	SharedPtr<CMaterial> pStdMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StandardMaterialAlphaBlend_Coverage);
 	SharedPtr<CTexture> pTex = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.png"));
 	pStdMtrl->m_pTexture = pTex;
 
@@ -79,6 +79,7 @@ void CSceneManager::Progress()
 	m_pCurScene->PrevUpdate();
 	m_pCurScene->Update();
 	m_pCurScene->LateUpdate();
+	m_pCurScene->FinalUpdate();
 }
 
 void CSceneManager::Render()

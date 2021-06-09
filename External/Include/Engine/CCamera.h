@@ -39,7 +39,7 @@ private:
 	Matrix m_matProjection;				// Prjection За·Д
 
 public:
-	virtual void LateUpdate() override;
+	virtual void FinalUpdate() override;
 
 public:
 	void SetProjectionType(E_ProjectionType _eType) { m_eProjectionType = _eType; }

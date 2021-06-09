@@ -15,6 +15,7 @@ public:
     virtual void PrevUpdate() override;
     virtual void Update() override;
     virtual void LateUpdate() override;
+    virtual void FinalUpdate() override;
     virtual void Render() override;
 
 public:

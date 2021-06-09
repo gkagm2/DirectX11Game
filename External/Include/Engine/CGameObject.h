@@ -3,6 +3,10 @@
 #include "Interfaces.h"
 
 class CComponent;
+class CTransform;
+class CMeshRenderer;
+class CCamera;
+
 class CGameObject : public CObject, ILifeCycleInterface
 {
 private:
@@ -14,7 +18,12 @@ public:
 	virtual void PrevUpdate() override;
 	virtual void Update() override;
 	virtual void LateUpdate() override;
+	virtual void FinalUpdate() override;
 	virtual void Render() override;
+
+public:
+	// Components
+	GET_COMPONENT_COMPOTABLE
 
 public:
 	template<typename TYPE>

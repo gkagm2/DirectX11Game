@@ -42,6 +42,12 @@ void CLayer::LateUpdate()
 		m_vecParentObj[i]->LateUpdate();
 }
 
+void CLayer::FinalUpdate()
+{
+	for (UINT i = 0; i < m_vecParentObj.size(); ++i)
+		m_vecParentObj[i]->FinalUpdate();
+}
+
 void CLayer::Render()
 {
 	for (UINT i = 0; i < m_vecParentObj.size(); ++i)

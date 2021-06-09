@@ -21,7 +21,7 @@ CTransform::~CTransform()
 {
 }
 
-void CTransform::LateUpdate()
+void CTransform::FinalUpdate()
 {
 	// 크기 행렬
 	Matrix matScale = XMMatrixScaling(m_vLocalScale.x, m_vLocalScale.y, m_vLocalScale.z);

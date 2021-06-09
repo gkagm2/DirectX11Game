@@ -23,6 +23,26 @@
 #define PI 3.14159265f
 
 
+#pragma region Components Define
+				// ---------- In GameObject class ----------
+#define GET_COMPONENT(name) C##name* name() { return (C##name*)m_arrComponent[(UINT)E_ComponentType::name];} 
+
+#define GET_COMPONENT_COMPOTABLE \
+	GET_COMPONENT(Transform)\
+	GET_COMPONENT(MeshRenderer)\
+	GET_COMPONENT(Camera)
+
+// ---------- In Component class ----------
+#define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
+
+#define GET_COMPONENT_FROM_GAMEOBJECT \
+	GET_OTHER_COMPONENT(Transform)\
+	GET_OTHER_COMPONENT(MeshRenderer)\
+	GET_OTHER_COMPONENT(Camera)  
+#pragma endregion
+
+
+
 enum class E_ResourceType {
 	Material,
 	Shader,
@@ -89,6 +109,7 @@ enum class E_RasterizerState {
 enum class E_BlendState {
 	Defailt,
 	AlphaBlend,
+	AlphaBlend_Coverage,
 	One_One,
 	End,
 };

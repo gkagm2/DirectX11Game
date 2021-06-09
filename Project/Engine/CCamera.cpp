@@ -20,7 +20,7 @@ CCamera::~CCamera()
 {
 }
 
-void CCamera::LateUpdate()
+void CCamera::FinalUpdate()
 {
 	_CalculateViewMatrix();
 	_CalculateProjectionMatrix();

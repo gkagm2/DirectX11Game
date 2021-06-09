@@ -295,9 +295,14 @@ void CDevice::CreateBlendState()
 
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
+	// AlphaBlend
 	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::AlphaBlend].GetAddressOf());
-
 	CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)E_BlendState::AlphaBlend].Get(), Vector4(0.f,0.f,0.f,0.f), 0xffffffff);
+
+	// AlphaBlend Coverage
+	tDesc.AlphaToCoverageEnable = true;
+	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::AlphaBlend_Coverage].GetAddressOf());
+	CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)E_BlendState::AlphaBlend_Coverage].Get(), Vector4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 }
 
 void CDevice::CreateDepthStencilState()

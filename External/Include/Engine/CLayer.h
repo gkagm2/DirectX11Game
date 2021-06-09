@@ -15,6 +15,7 @@ public:
 	virtual void PrevUpdate() final;
 	virtual void Update() final;
 	virtual void LateUpdate() final;
+	virtual void FinalUpdate() final;
 	virtual void Render() final;
 
 public:

@@ -48,6 +48,9 @@ public:
 
 	ComPtr<ID3D11BlendState> GetBlendState(E_BlendState _eBlendState) { return m_pBlendStates[(UINT)_eBlendState]; }
 
+	void SetBlendState(E_BlendState _eBlendState, Vector4 _vBlendFactor = Vector4(0.f, 0.f, 0.f, 0.f), UINT _SampleMask = 0xffffffff) {
+		CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)_eBlendState].Get(), _vBlendFactor, _SampleMask);
+	}
 
 public:
 	// _bWindowed : Ã¢¸ðµå

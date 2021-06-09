@@ -53,6 +53,14 @@ void CGameObject::LateUpdate()
 	}
 }
 
+void CGameObject::FinalUpdate()
+{
+	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+		if (nullptr != m_arrComponent[i])
+			m_arrComponent[i]->FinalUpdate();
+	}
+}
+
 void CGameObject::Render()
 {
 	CMeshRenderer* pMeshRenderer = GetComponent<CMeshRenderer>();
