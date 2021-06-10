@@ -22,8 +22,11 @@
 #include "Ptr.h"
 
 // GameContents
-#include "CPlayer_ShootingScript.h"
-#include "CBullet_ShootingScript.h"
+#include "CGameManagerScript_sh.h"
+
+#include "CPlayerScript_sh.h"
+#include "CBulletScript_sh.h"
+#include "CEnemyScript_sh.h"
 
 CSceneManager::CSceneManager() :
 	m_pCurScene(nullptr)
@@ -41,46 +44,71 @@ void CSceneManager::Init() {
 	// 씬 생성
 	m_pCurScene = new CScene;
 
-	// 카메라 오브젝트 생성
-	CGameObject* pCameraObj = new CGameObject();
-	pCameraObj->AddComponent<CTransform>();
-	pCameraObj->AddComponent<CCamera>();
-	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
-	m_pCurScene->AddGameObject(pCameraObj);
-	/*
-	// 플레이어 오브젝트 생성
-	CGameObject* pPlayer = new CGameObject();
-	pPlayer->AddComponent<CTransform>();
-	pPlayer->AddComponent<CMeshRenderer>();
-	pPlayer->AddComponent<CPlayer_ShootingScript>();
-
-	m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
-	*/
-	// 물체 생성
-	CGameObject* pObj = new CGameObject();
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Player, STR_PATH_Player);
+	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Enemy1, STR_PATH_Enemy1);
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pStdMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StandardMaterialAlphaBlend_Coverage);
-	SharedPtr<CTexture> pTex = CResourceManager::GetInstance()->Load<CTexture>(_T("testTex"), _T("texture\\Player.png"));
-	pStdMtrl->m_pTexture = pTex;
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
 
-	pStdMtrl->SetData(E_ShaderParam::Texture_0, pTex.Get());
-	int a = 1;
-	pStdMtrl->SetData(E_ShaderParam::Int_0, &a);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pEnemyTexture.Get());
 
-	pObj->AddComponent<CTransform>();
-	pObj->AddComponent<CMeshRenderer>();
+	{
+		// 카메라 오브젝트 생성
+		CGameObject* pCameraObj = new CGameObject();
+		pCameraObj->AddComponent<CTransform>();
+		pCameraObj->AddComponent<CCamera>();
+		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 
-	pObj->GetComponent<CMeshRenderer>()->SetMesh(pMesh);
-	pObj->GetComponent<CMeshRenderer>()->SetMaterial(pStdMtrl);
+		m_pCurScene->AddGameObject(pCameraObj);
+	}
+	
+	{
+		// 게임 매니저 오브젝트 생성
+		CGameObject* pGameMgr = new CGameObject();
+		pGameMgr->AddComponent<CGameManagerScript_sh>();
+		m_pCurScene->AddGameObject(pGameMgr);
+	}
 
-	pObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 100.f));
-	pObj->GetComponent<CTransform>()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
-	pObj->GetComponent<CTransform>()->SetLocalRotation(Vector3(0.f, 0.f, 0.f * CMyMath::Deg2Rad()));
+	{
+		// 플레이어 오브젝트 생성
+		CGameObject* pPlayer = new CGameObject();
+		pPlayer->AddComponent<CTransform>();
+		pPlayer->AddComponent<CMeshRenderer>();
+		pPlayer->AddComponent<CPlayerScript_sh>();
+		
 
-	m_pCurScene->AddGameObject(pObj);
+		pMtrl->SetData(E_ShaderParam::Texture_2, pPlayerTexture.Get());
 
+		pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+		pPlayer->MeshRenderer()->SetMesh(pMesh);
+
+		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, -200.f, 0.f));
+
+		Vector2 vTexSize = pPlayerTexture->GetDimension();
+		pPlayer->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
+		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+
+		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
+	}
+
+	{
+		CGameObject* pEnemy = new CGameObject();
+		pEnemy->AddComponent<CTransform>();
+		pEnemy->AddComponent<CMeshRenderer>();
+		pEnemy->AddComponent<CEnemyScript_sh>();
+
+		pEnemy->MeshRenderer()->SetMaterial(pMtrl);
+		pEnemy->MeshRenderer()->SetMesh(pMesh);
+
+		pEnemy->Transform()->SetLocalPosition(Vector3(0., 200.f, 0));
+		Vector2 vTexSize = pEnemyTexture->GetDimension();
+		pEnemy->Transform()->SetLocalScale(Vector3(vTexSize.x, -vTexSize.y, 1.f));
+
+		m_pCurScene->AddGameObject(pEnemy, E_Layer::Enemy);
+
+	}
+	
 	// Scene 초기화
 	m_pCurScene->Awake();
 	m_pCurScene->Start();

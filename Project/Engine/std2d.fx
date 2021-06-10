@@ -47,5 +47,6 @@ float4 PS(VTX_OUT _in) : SV_Target {
     float2 vOutUV = _in.vUV;
     float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV);
 	return vOutColor;
+	
 }
 #endif

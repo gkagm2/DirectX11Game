@@ -25,7 +25,7 @@ void CGameObject::Start()
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->Awake();
+			m_arrComponent[i]->Start();
 	}
 }
 

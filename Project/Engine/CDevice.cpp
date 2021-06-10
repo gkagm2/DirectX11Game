@@ -234,7 +234,7 @@ void CDevice::CreateConstBuffer()
 void CDevice::CreateSampler()
 {
 	D3D11_SAMPLER_DESC tDesc = {};
-	tDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	tDesc.Filter = D3D11_FILTER_ANISOTROPIC; // 이방성 필터링
 	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;

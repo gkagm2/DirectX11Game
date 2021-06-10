@@ -19,7 +19,9 @@ public:
 	virtual void Render() final;
 
 public:
-	void AddGameObject(CGameObject* _pObj) { m_vecParentObj.push_back(_pObj); }
+	void AddGameObject(CGameObject* _pObj) { 
+		m_vecParentObj.push_back(_pObj);
+	}
 	vector<CGameObject*>& GetGameObjects() { return m_vecParentObj; }
 
 public:

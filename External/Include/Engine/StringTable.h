@@ -24,19 +24,27 @@
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 
 // std2.fx functions name
-#define STR_FUNCTION_NAME_VTXShader "VS"
-#define STR_FUNCTION_NAME_PIXShader "PS"
+#define STR_FUNC_NAME_VTXShader "VS"
+#define STR_FUNC_NAME_PIXShader "PS"
 
 // Resource Key
 #define STR_KEY_RectMash _T("RectMash")
 #define STR_KEY_CubeMash _T("CubeMash")
-#define STR_KEY_StandardShaderAlphaBlend_Coverage _T("StandardShaderAlphaBlendCoverage")
-#define STR_KEY_StandardShaderAlphaBlend _T("StandardShaderAlphaBlend")
+#define STR_KEY_StdShaderAlphaBlend_Coverage _T("StandardShaderAlphaBlendCoverage")
+#define STR_KEY_StdShaderAlphaBlend _T("StandardShaderAlphaBlend")
 
-#define STR_KEY_StandardMaterialAlphaBlend_Coverage _T("StandardMaterialAlphaBlendCoverage")
-#define STR_KEY_StandardMaterialAlphaBlend _T("StandardMaterialAlphaBlend")
+#define STR_KEY_StdMtrlAlphaBlend_Coverage _T("StandardMaterialAlphaBlendCoverage")
+#define STR_KEY_StdMtrlAlphaBlend _T("StandardMaterialAlphaBlend")
 
 
 ////////// Shooting Game //////////
 // GameObject name
-#define STR_SHOOTING_OBJ_NAME_ShootingGameManager _T("ShootingGameManager")
+#define STR_OBJ_NAME_GameManager _T("ShootingGameManager")
+#define STR_OBj_NAME_Bullet _T("Bullet")
+
+#define STR_PATH_Player _T("texture\\Player.png")
+#define STR_PATH_Monster _T("texture\\Monster.bmp")
+#define STR_PATH_Enemy1 _T("texture\\Enemy1.png")
+#define STR_PATH_Enemy2 _T("texture\\Enemy2.png")
+#define STR_PATH_Enemy3 _T("texture\\Enemy3.png")
+#define STR_PATH_Enemy4 _T("texture\\Enemy4.png")

@@ -12,6 +12,9 @@ class CGameObject : public CObject, ILifeCycleInterface
 private:
 	CComponent* m_arrComponent[(UINT)E_ComponentType::End];
 
+	tstring m_strName;
+
+
 public:
 	virtual void Awake() override;
 	virtual void Start() override;
@@ -24,6 +27,9 @@ public:
 public:
 	// Components
 	GET_COMPONENT_COMPOTABLE
+
+	const tstring& GetName() { return m_strName; }
+	void SetName(const tstring& _strName) { m_strName = _strName; }
 
 public:
 	template<typename TYPE>

@@ -168,25 +168,26 @@ call EngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
-    <ClInclude Include="CBullet_ShootingScript.h" />
+    <ClInclude Include="CBulletScript_sh.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CComputeShader.h" />
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLayer.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
-    <ClInclude Include="CPlayer_ShootingScript.h" />
+    <ClInclude Include="CPlayerScript_sh.h" />
     <ClInclude Include="CRenderer.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CScript.h" />
-    <ClInclude Include="CShootingGameManagerScript.h" />
+    <ClInclude Include="CGameManagerScript_sh.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
@@ -210,25 +211,26 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CBullet_ShootingScript.cpp" />
+    <ClCompile Include="CBulletScript_sh.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CComputeShader.cpp" />
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CLayer.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
-    <ClCompile Include="CPlayer_ShootingScript.cpp" />
+    <ClCompile Include="CPlayerScript_sh.cpp" />
     <ClCompile Include="CRenderer.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CScript.cpp" />
-    <ClCompile Include="CShootingGameManagerScript.cpp" />
+    <ClCompile Include="CGameManagerScript_sh.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />

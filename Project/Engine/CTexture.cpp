@@ -53,6 +53,12 @@ int CTexture::Load(const tstring& _strFilePath)
 	// 리소스 가져오기
 	m_pSRV->GetResource((ID3D11Resource**)m_pTex2D.GetAddressOf());
 
+	// 텍스쳐 사이즈 가져오기
+	D3D11_TEXTURE2D_DESC desc = {};
+	m_pTex2D->GetDesc(&desc);
+	m_vTextureDimension.x = (float)desc.Width;
+	m_vTextureDimension.y = (float)desc.Height;
+
 	return hRet;
 }
 

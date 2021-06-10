@@ -115,39 +115,39 @@ void CResourceManager::CreateDefaultShader()
 {
 	// 기본 쉐이더 생성 (AlphaBlend Coveratge)
 	CGraphicsShader* pShader = new CGraphicsShader;
-	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_VTXShader);
-	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_PIXShader);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
-	AddRes(STR_KEY_StandardShaderAlphaBlend_Coverage, pShader);
+	AddRes(STR_KEY_StdShaderAlphaBlend_Coverage, pShader);
 
 	///////////////////////////////////////////////
 
 	// 기본 쉐이더 생성 (AlphaBlend)
 	pShader = new CGraphicsShader;
-	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_VTXShader);
-	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNCTION_NAME_PIXShader);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	pShader->SetBlendState(E_BlendState::AlphaBlend);
 
-	AddRes(STR_KEY_StandardShaderAlphaBlend, pShader);
+	AddRes(STR_KEY_StdShaderAlphaBlend, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
 {
 	// 기본 재질 생성 (AlphaBlend Coverage)
 	CMaterial* pMtrl = new CMaterial;
-	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = FindRes<CGraphicsShader>(STR_KEY_StandardShaderAlphaBlend_Coverage);
+	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = FindRes<CGraphicsShader>(STR_KEY_StdShaderAlphaBlend_Coverage);
 	pMtrl->SetShader(pShaderAlphaBlendCV);
-	AddRes<CMaterial>(STR_KEY_StandardMaterialAlphaBlend_Coverage, pMtrl);
+	AddRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage, pMtrl);
 
 	// 기본 재질 생성 (AlphaBlend)
 	pMtrl = new CMaterial;
-	SharedPtr<CGraphicsShader> pShaderAlphaBlend = FindRes<CGraphicsShader>(STR_KEY_StandardShaderAlphaBlend);
+	SharedPtr<CGraphicsShader> pShaderAlphaBlend = FindRes<CGraphicsShader>(STR_KEY_StdShaderAlphaBlend);
 	pMtrl->SetShader(pShaderAlphaBlend);
-	AddRes<CMaterial>(STR_KEY_StandardMaterialAlphaBlend, pMtrl);
+	AddRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend, pMtrl);
 }

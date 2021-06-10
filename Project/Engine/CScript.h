@@ -5,7 +5,7 @@
 #include "CKeyManager.h"
 #include "CResourceManager.h"
 #include "CResource.h"
-#include "CTime"
+#include "CTimeManager.h"
 
 #include "CMeshRenderer.h"
 #include "CTransform.h"

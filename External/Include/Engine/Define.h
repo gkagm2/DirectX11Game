@@ -92,6 +92,10 @@ enum class E_ComponentType {
 
 enum class E_Layer {
 	Default,
+	Manager,
+	Player,
+	Enemy,
+	Bullet,
 	UI,
 	End = 32,
 };

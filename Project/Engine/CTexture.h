@@ -15,11 +15,16 @@ private:
 	ComPtr<ID3D11Texture2D>             m_pTex2D;
 	ComPtr<ID3D11ShaderResourceView>    m_pSRV;
 
+	Vector2 m_vTextureDimension;
+
 private:
 	virtual int Load(const tstring& _strFilePath);
 
 public:
 	void UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum);
+
+public:
+	const Vector2& GetDimension() { return m_vTextureDimension; }
 
 public:
 	static void Clear(UINT _iRegisterNum);

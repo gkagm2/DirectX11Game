@@ -6,7 +6,7 @@
 
 CMaterial::CMaterial() :
 	m_pShader(nullptr),
-	m_pTexture(nullptr),
+	m_tParam{},
 	m_arrTexture{}
 {
 }
@@ -37,9 +37,6 @@ void CMaterial::UpdateData()
 		else
 			CTexture::Clear(i);
 	}
-	UINT iRegisterNum = 0;
-	if (nullptr != m_pTexture)
-		m_pTexture->UpdateData(E_ShaderStage::Pixel, iRegisterNum);
 }
 
 void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
