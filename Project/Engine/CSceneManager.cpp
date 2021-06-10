@@ -21,6 +21,10 @@
 #include "CMaterial.h"
 #include "Ptr.h"
 
+// GameContents
+#include "CPlayer_ShootingScript.h"
+#include "CBullet_ShootingScript.h"
+
 CSceneManager::CSceneManager() :
 	m_pCurScene(nullptr)
 {
@@ -44,7 +48,15 @@ void CSceneManager::Init() {
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	m_pCurScene->AddGameObject(pCameraObj);
+	/*
+	// 플레이어 오브젝트 생성
+	CGameObject* pPlayer = new CGameObject();
+	pPlayer->AddComponent<CTransform>();
+	pPlayer->AddComponent<CMeshRenderer>();
+	pPlayer->AddComponent<CPlayer_ShootingScript>();
 
+	m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
+	*/
 	// 물체 생성
 	CGameObject* pObj = new CGameObject();
 

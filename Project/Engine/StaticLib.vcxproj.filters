@@ -115,6 +115,15 @@
     <ClInclude Include="CScript.h">
       <Filter>Engine\07. Component\Script</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayer_ShootingScript.h">
+      <Filter>ShootingGame\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet_ShootingScript.h">
+      <Filter>ShootingGame\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CShootingGameManagerScript.h">
+      <Filter>ShootingGame\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -209,6 +218,15 @@
     </ClCompile>
     <ClCompile Include="CScript.cpp">
       <Filter>Engine\07. Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer_ShootingScript.cpp">
+      <Filter>ShootingGame\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet_ShootingScript.cpp">
+      <Filter>ShootingGame\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CShootingGameManagerScript.cpp">
+      <Filter>ShootingGame\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +325,15 @@
     </Filter>
     <Filter Include="Engine\07. Component\Script">
       <UniqueIdentifier>{ac9e46ef-ba09-427e-9551-76dfbe82a92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShootingGame">
+      <UniqueIdentifier>{96029765-9825-4b38-b119-2f38648b1dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShootingGame\Objects">
+      <UniqueIdentifier>{da4b63cc-54d8-45bd-9b7a-6a3e09cc13ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShootingGame\Manager">
+      <UniqueIdentifier>{15551fe3-6615-4277-8f15-1645a1082d00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

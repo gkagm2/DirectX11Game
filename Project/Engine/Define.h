@@ -19,6 +19,9 @@
 #define DEVICE CDevice::GetInstance()->GetDevice()
 #define CONTEXT CDevice::GetInstance()->GetDeviceContext()
 
+#define FIND_GameObject_Layer(objName, layer) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer)
+#define FIND_GameObject(objName) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName)
+
 // Math
 #define PI 3.14159265f
 
@@ -89,6 +92,9 @@ enum class E_ComponentType {
 
 enum class E_Layer {
 	Default,
+	Player,
+	Monster,
+	Bullet,
 	UI,
 	End = 32,
 };

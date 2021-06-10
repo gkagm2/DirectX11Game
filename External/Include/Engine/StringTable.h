@@ -35,3 +35,8 @@
 
 #define STR_KEY_StandardMaterialAlphaBlend_Coverage _T("StandardMaterialAlphaBlendCoverage")
 #define STR_KEY_StandardMaterialAlphaBlend _T("StandardMaterialAlphaBlend")
+
+
+////////// Shooting Game //////////
+// GameObject name
+#define STR_SHOOTING_OBJ_NAME_ShootingGameManager _T("ShootingGameManager")

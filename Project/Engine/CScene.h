@@ -21,6 +21,8 @@ public:
 public:
     void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default);
 
+    CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
+
 public:
     CScene();
     virtual ~CScene() override;

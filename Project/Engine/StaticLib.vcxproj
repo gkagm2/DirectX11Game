@@ -168,6 +168,7 @@ call EngineCopy.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
+    <ClInclude Include="CBullet_ShootingScript.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CComputeShader.h" />
@@ -180,10 +181,12 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLayer.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
+    <ClInclude Include="CPlayer_ShootingScript.h" />
     <ClInclude Include="CRenderer.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CScript.h" />
+    <ClInclude Include="CShootingGameManagerScript.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
@@ -207,6 +210,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBullet_ShootingScript.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CComputeShader.cpp" />
@@ -219,10 +223,12 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLayer.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
+    <ClCompile Include="CPlayer_ShootingScript.cpp" />
     <ClCompile Include="CRenderer.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CScript.cpp" />
+    <ClCompile Include="CShootingGameManagerScript.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />

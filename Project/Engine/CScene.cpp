@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CScene.h"
 #include "CLayer.h"
+#include "CGameObject.h"
 
 CScene::CScene()
 {
@@ -60,4 +61,27 @@ void CScene::Render()
 void CScene::AddGameObject(CGameObject* _pObj, E_Layer _eLayer)
 {
 	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj);
+}
+
+CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
+{
+	if (E_Layer::End != _eLayer) {
+		vector<CGameObject*>& vecGameObjects = m_arrLayer[(UINT)_eLayer]->GetGameObjects();
+
+		for (UINT i = 0; i < vecGameObjects.size(); ++i) {
+			if (_strName == vecGameObjects[i]->GetName())
+				return vecGameObjects[i];
+		}
+	}
+	else {
+		for (UINT iLayerNum = 0; iLayerNum < (UINT)E_Layer::End; ++iLayerNum) {
+			vector<CGameObject*>& vecGameObjects = m_arrLayer[iLayerNum]->GetGameObjects();
+
+			for (UINT i = 0; i < vecGameObjects.size(); ++i) {
+				if (_strName == vecGameObjects[i]->GetName())
+					return vecGameObjects[i];
+			}
+		}
+	}
+	return nullptr;
 }

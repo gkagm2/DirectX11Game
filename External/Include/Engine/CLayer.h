@@ -20,6 +20,7 @@ public:
 
 public:
 	void AddGameObject(CGameObject* _pObj) { m_vecParentObj.push_back(_pObj); }
+	vector<CGameObject*>& GetGameObjects() { return m_vecParentObj; }
 
 public:
 	CLayer();
