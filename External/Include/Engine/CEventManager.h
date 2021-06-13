@@ -4,7 +4,7 @@ enum class E_EventType {
 	Create_Object,
 	Destroy_Object,
 	Add_Child,
-	Disconnect_Object,
+	Unlink_Parent,
 	Change_Scene,
 	Change_State, // AI 상태 변환
 };

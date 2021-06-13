@@ -19,8 +19,7 @@ public:
     virtual void Render() override;
 
 public:
-    void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default);
-    void AddGameObject(CGameObject* _pObj, int _iLayerIdx);
+    void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default, bool _bChangeChildLayer = true);
 
     CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
 

@@ -8,6 +8,7 @@ CScene::CScene()
 	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
 		m_arrLayer[i] = new CLayer;
 		m_arrLayer[i]->m_eLayer = (E_Layer)i;
+		m_arrLayer[i]->m_pOwnScene = this;
 	}
 }
 
@@ -58,34 +59,55 @@ void CScene::Render()
 		m_arrLayer[i]->Render();
 }
 
-void CScene::AddGameObject(CGameObject* _pObj, E_Layer _eLayer)
+void CScene::AddGameObject(CGameObject* _pObj, E_Layer _eLayer, bool _bChangeChildLayer)
 {
-	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj);
-}
-
-void CScene::AddGameObject(CGameObject* _pObj, int _iLayerIdx)
-{
-	assert(!(_iLayerIdx < 0 || (int)E_Layer::End <= _iLayerIdx) && _T("추가할 곳의 레이어 범위 초과"));
-	m_arrLayer[_iLayerIdx]->AddGameObject(_pObj);
+	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj, _bChangeChildLayer);
 }
 
 CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 {
 	if (E_Layer::End != _eLayer) {
-		vector<CGameObject*>& vecGameObjects = m_arrLayer[(UINT)_eLayer]->GetGameObjects();
+		// 레이어의 모든 루트 오브젝트들을 가져온다.
+		const vector<CGameObject*>& vecGameObjects = m_arrLayer[(UINT)_eLayer]->GetRootGameObjects();
 
 		for (UINT i = 0; i < vecGameObjects.size(); ++i) {
-			if (_strName == vecGameObjects[i]->GetName())
-				return vecGameObjects[i];
+			// BFS를 이용하여 자식 오브젝트들을 순회하며 이름을 찾는다.
+			list<CGameObject*> que;
+			que.push_back(vecGameObjects[i]);
+			
+			while (!que.empty()) {
+				CGameObject* pObj = que.front();
+				que.pop_front();
+
+				if (_strName == pObj->GetName())
+					return pObj;
+
+				const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
+				for (UINT j = 0; j < vecChildsObj.size(); ++j)
+					que.push_back(vecChildsObj[j]);
+			}
 		}
 	}
 	else {
+		// 모든 레이어를 순회한다.
 		for (UINT iLayerNum = 0; iLayerNum < (UINT)E_Layer::End; ++iLayerNum) {
-			vector<CGameObject*>& vecGameObjects = m_arrLayer[iLayerNum]->GetGameObjects();
+			const vector<CGameObject*>& vecGameObjects = m_arrLayer[iLayerNum]->GetRootGameObjects();
 
 			for (UINT i = 0; i < vecGameObjects.size(); ++i) {
-				if (_strName == vecGameObjects[i]->GetName())
-					return vecGameObjects[i];
+				list<CGameObject*> que;
+				que.push_back(vecGameObjects[i]);
+
+				while (!que.empty()) {
+					CGameObject* pObj = que.front();
+					que.pop_front();
+
+					if (_strName == pObj->GetName())
+						return pObj;
+
+					const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
+					for (UINT j = 0; j < vecChildsObj.size(); ++j)
+						que.push_back(vecChildsObj[j]);
+				}
 			}
 		}
 	}

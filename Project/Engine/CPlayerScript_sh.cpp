@@ -24,7 +24,7 @@ void CPlayerScript_sh::Start()
 
 void CPlayerScript_sh::Update()
 {
-	CGameManagerScript_sh* pGameManager = (CGameManagerScript_sh*) FIND_GameObject_Layer(STR_OBJ_NAME_GameManager, E_Layer::Default);
+	CGameManagerScript_sh* pGameManager = (CGameManagerScript_sh*) FIND_GameObject(STR_OBJ_NAME_GameManager);
 	if (E_GameState_sh::GameOver == pGameManager->GetGameState())
 		return;
 
@@ -55,7 +55,7 @@ void CPlayerScript_sh::Shoot()
 	CBulletScript_sh* pBullet = pBulletObj->GetComponent<CBulletScript_sh>();
 	pBullet->SetDirection(Vector3(0.f, 1.f, 0.f));
 
- 	CreateGameObject(pBulletObj);
+ 	CreateGameObjectEvn(pBulletObj, E_Layer::Bullet);
 }
 
 void CPlayerScript_sh::Move()

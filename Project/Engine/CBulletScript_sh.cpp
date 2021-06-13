@@ -28,7 +28,7 @@ void CBulletScript_sh::Update()
 
 	m_fDeleteCoolTime += DeltaTime;
 	if (m_fDeleteCoolTime > m_fDeleteMaxTime)
-		DestroyGameObject(GetGameObject());
+		DestroyGameObjectEvn(GetGameObject());
 
 	// Move
 	m_vDir.Normalize();

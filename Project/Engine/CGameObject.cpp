@@ -9,7 +9,7 @@
 CGameObject::CGameObject() :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
-	m_eLayer(E_Layer::Default),
+	m_eLayer(E_Layer::End),
 	m_bDead(false)
 {
 }
@@ -110,10 +110,32 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	// 부모와 자식 연결
 	_pChildObj->m_pParentObj = this;
 	m_vecChildObj.push_back(_pChildObj);
+
+	// 소속된 레이어가 없으면 부모 오브젝트의 레이어로 설정.
+	if (E_Layer::End == _pChildObj->GetLayer())
+		_pChildObj->_SetLayer(GetLayer());
 }
 
 void CGameObject::_RegisterLayer()
 {
 	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_eLayer);
 	pLayer->RegisterGameObject(this);
+}
+
+void CGameObject::_UnlinkParentGameObject()
+{
+	if (nullptr == m_pParentObj)
+		return;
+
+	vector<CGameObject*> vecChild = m_pParentObj->_GetChildsObjectRef();
+	auto iter = vecChild.begin();
+
+	for (; iter != vecChild.end(); ++iter) {
+		if (*iter == this) {
+			vecChild.erase(iter);
+			break;
+		}
+	}
+
+	m_pParentObj = nullptr;
 }

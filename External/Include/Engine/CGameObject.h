@@ -41,13 +41,19 @@ public:
 
 
 	CGameObject* GetParentObject() { return m_pParentObj; }
-	vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
+
+
+	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 
 private:
 	void _SetLayer(E_Layer _eLayer) { m_eLayer = _eLayer; }
 	void _SetDead();
 	void _AddChildGameObject(CGameObject* _pChildObj);
 	void _RegisterLayer();
+
+	vector<CGameObject*>& _GetChildsObjectRef() { return m_vecChildObj; }
+
+	void _UnlinkParentGameObject();
 
 public:
 	template<typename TYPE>
