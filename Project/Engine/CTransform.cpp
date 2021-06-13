@@ -3,16 +3,15 @@
 #include "CConstBuffer.h"
 #include "CDevice.h"
 
+#include "CGameObject.h"
+
 // Test
-#include "CKeyManager.h"
-#include "CTimeManager.h"
-
-
 CTransform::CTransform() :
 	CComponent(E_ComponentType::Transform),
 	m_vLocalPosition{},
 	m_vLocalScale{1.f, 1.f, 1.f},
 	m_vLocalRotation{},
+	m_matLocal{},
 	m_matWorld{}
 {
 }
@@ -35,8 +34,14 @@ void CTransform::FinalUpdate()
 
 	// 이동 행렬
 	Matrix matTrans = XMMatrixTranslation(m_vLocalPosition.x, m_vLocalPosition.y, m_vLocalPosition.z);
-
-	m_matWorld = matScale * matRot * matTrans;
+	
+	m_matWorld = m_matLocal = matScale * matRot * matTrans;
+	
+	CGameObject* pParentObj = GetGameObject()->GetParentObject();
+	if (pParentObj) {
+		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix4x4();
+		m_matWorld = m_matLocal * matParentWorld;
+	}
 }
 
 void CTransform::UpdateData()

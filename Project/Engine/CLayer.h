@@ -6,8 +6,9 @@ class CGameObject;
 class CLayer : public CObject , ILifeCycleInterface
 {
 private:
-	vector<CGameObject*> m_vecParentObj;
-	int m_iLayerIdx;
+	vector<CGameObject*> m_vecParentObj; // 최상위 부모들
+	vector<CGameObject*> m_vecObj;		 // 모든 오브젝튼
+	E_Layer m_eLayer;
 
 public:
 	virtual void Awake() final;
@@ -19,10 +20,9 @@ public:
 	virtual void Render() final;
 
 public:
-	void AddGameObject(CGameObject* _pObj) { 
-		m_vecParentObj.push_back(_pObj);
-	}
+	void AddGameObject(CGameObject* _pObj);
 	vector<CGameObject*>& GetGameObjects() { return m_vecParentObj; }
+	void RegisterGameObject(CGameObject* _pObj) { m_vecObj.push_back(_pObj); }
 
 public:
 	CLayer();

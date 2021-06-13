@@ -6,6 +6,7 @@
 #include "CKeyManager.h"
 #include "CResourceManager.h"
 #include "CSceneManager.h"
+#include "CEventManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -56,4 +57,7 @@ void CCore::Progress()
 
 	// 3. 백버퍼 교체
 	CDevice::GetInstance()->Present();
+
+	// Event 수행
+	CEventManager::GetInstance()->Update();
 }

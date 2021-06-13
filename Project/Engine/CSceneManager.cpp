@@ -28,6 +28,35 @@
 #include "CBulletScript_sh.h"
 #include "CEnemyScript_sh.h"
 
+
+CGameObject*  TestCreateObj() {
+	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
+	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
+
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
+
+	CGameObject* pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
+
+	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMesh(pMesh);
+
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, -200.f, 0.f));
+
+	Vector2 vTexSize = pPlayerTexture->GetDimension();
+	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+
+	pCurScene->AddGameObject(pObj);
+	return pObj;
+}
+
+
 CSceneManager::CSceneManager() :
 	m_pCurScene(nullptr)
 {
@@ -43,7 +72,6 @@ void CSceneManager::Init() {
 	// TODO (Jang) : Test code
 	// 씬 생성
 	m_pCurScene = new CScene;
-
 
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Player, STR_PATH_Player);
 	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Enemy1, STR_PATH_Enemy1);
@@ -78,7 +106,7 @@ void CSceneManager::Init() {
 		pPlayer->AddComponent<CPlayerScript_sh>();
 		
 
-		pMtrl->SetData(E_ShaderParam::Texture_2, pPlayerTexture.Get());
+		pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
 		pPlayer->MeshRenderer()->SetMaterial(pMtrl);
 		pPlayer->MeshRenderer()->SetMesh(pMesh);
@@ -90,6 +118,16 @@ void CSceneManager::Init() {
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 
 		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
+
+#pragma region 플레이어를 감싸고 있는 오브젝트
+		CGameObject* pChild = TestCreateObj();
+
+		pChild->Transform()->SetLocalPosition(Vector3(0.f, 1.f, 0.f));
+		pChild->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
+		pChild->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+
+#pragma endregion
+
 	}
 
 	{

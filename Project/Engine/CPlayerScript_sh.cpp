@@ -55,7 +55,7 @@ void CPlayerScript_sh::Shoot()
 	CBulletScript_sh* pBullet = pBulletObj->GetComponent<CBulletScript_sh>();
 	pBullet->SetDirection(Vector3(0.f, 1.f, 0.f));
 
-	CSceneManager::GetInstance()->GetCurScene()->AddGameObject(pBulletObj,E_Layer::Bullet);
+ 	CreateGameObject(pBulletObj);
 }
 
 void CPlayerScript_sh::Move()

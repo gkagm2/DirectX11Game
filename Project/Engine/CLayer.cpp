@@ -3,7 +3,7 @@
 #include "CGameObject.h"
 
 CLayer::CLayer() :
-	m_iLayerIdx(0)
+	m_eLayer(E_Layer::Default)
 {
 }
 
@@ -26,6 +26,7 @@ void CLayer::Start()
 
 void CLayer::PrevUpdate()
 {
+	m_vecObj.clear();
 	for (UINT i = 0; i < m_vecParentObj.size(); ++i)
 		m_vecParentObj[i]->PrevUpdate();
 }
@@ -44,12 +45,26 @@ void CLayer::LateUpdate()
 
 void CLayer::FinalUpdate()
 {
-	for (UINT i = 0; i < m_vecParentObj.size(); ++i)
-		m_vecParentObj[i]->FinalUpdate();
+	auto iter = m_vecParentObj.begin();
+	while (iter != m_vecParentObj.end()) {
+		// 위치정보 업데이트와 전체 벡터 등록 문제가 있을 수 있으니 삭제 예정 오브젝트도 FinalUpdate까지 호출.
+		(*iter)->FinalUpdate();
+
+		if ((*iter)->IsDead())
+			iter = m_vecParentObj.erase(iter);
+		else
+			++iter;
+	}
 }
 
 void CLayer::Render()
 {
-	for (UINT i = 0; i < m_vecParentObj.size(); ++i)
-		m_vecParentObj[i]->Render();
+	for (UINT i = 0; i < m_vecObj.size(); ++i)
+		m_vecObj[i]->Render();
+}
+
+void CLayer::AddGameObject(CGameObject* _pObj)
+{
+	m_vecParentObj.push_back(_pObj);
+	_pObj->m_eLayer = m_eLayer;
 }

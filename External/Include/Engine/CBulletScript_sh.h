@@ -14,6 +14,9 @@ private:
 
 	E_BulletType_sh m_eType;
 
+	float m_fDeleteMaxTime;
+	float m_fDeleteCoolTime;
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;

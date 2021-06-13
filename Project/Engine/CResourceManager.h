@@ -105,9 +105,9 @@ inline SharedPtr<T> CResourceManager::FindRes(const tstring& _strKey)
 	auto iter = m_umapResource[(UINT)eResourceType].find(_strKey);
 	auto endIter = m_umapResource[(UINT)eResourceType].end();
 
-	if (iter == endIter) {
+	if (iter == endIter)
 		return nullptr;
-	}
+
 	T* pResource = dynamic_cast<T*>(iter->second);
 
 	if (nullptr == pResource)

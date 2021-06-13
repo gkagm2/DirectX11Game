@@ -7,7 +7,7 @@ CScene::CScene()
 {
 	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
 		m_arrLayer[i] = new CLayer;
-		m_arrLayer[i]->m_iLayerIdx = i;
+		m_arrLayer[i]->m_eLayer = (E_Layer)i;
 	}
 }
 
@@ -61,6 +61,12 @@ void CScene::Render()
 void CScene::AddGameObject(CGameObject* _pObj, E_Layer _eLayer)
 {
 	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj);
+}
+
+void CScene::AddGameObject(CGameObject* _pObj, int _iLayerIdx)
+{
+	assert(!(_iLayerIdx < 0 || (int)E_Layer::End <= _iLayerIdx) && _T("추가할 곳의 레이어 범위 초과"));
+	m_arrLayer[_iLayerIdx]->AddGameObject(_pObj);
 }
 
 CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)

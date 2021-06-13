@@ -11,9 +11,13 @@ class CGameObject : public CObject, ILifeCycleInterface
 {
 private:
 	CComponent* m_arrComponent[(UINT)E_ComponentType::End];
+	CGameObject* m_pParentObj;
+	vector<CGameObject*> m_vecChildObj;
 
 	tstring m_strName;
 
+	E_Layer m_eLayer;
+	bool m_bDead;
 
 public:
 	virtual void Awake() override;
@@ -28,8 +32,22 @@ public:
 	// Components
 	GET_COMPONENT_COMPOTABLE
 
+public:
 	const tstring& GetName() { return m_strName; }
 	void SetName(const tstring& _strName) { m_strName = _strName; }
+
+	E_Layer GetLayer() { return m_eLayer; }
+	bool IsDead() { return m_bDead; }
+
+
+	CGameObject* GetParentObject() { return m_pParentObj; }
+	vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
+
+private:
+	void _SetLayer(E_Layer _eLayer) { m_eLayer = _eLayer; }
+	void _SetDead();
+	void _AddChildGameObject(CGameObject* _pChildObj);
+	void _RegisterLayer();
 
 public:
 	template<typename TYPE>
@@ -41,6 +59,9 @@ public:
 public:
 	CGameObject();
 	virtual ~CGameObject() override;
+
+	friend class CEventManager;
+	friend class CLayer;
 };
 
 template<typename TYPE>

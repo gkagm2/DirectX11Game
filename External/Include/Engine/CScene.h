@@ -20,8 +20,11 @@ public:
 
 public:
     void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default);
+    void AddGameObject(CGameObject* _pObj, int _iLayerIdx);
 
     CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
+
+    CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
 
 public:
     CScene();

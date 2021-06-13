@@ -2,15 +2,22 @@
 #include "CGameObject.h"
 #include "CComponent.h"
 #include "CMeshRenderer.h"
+#include "CSceneManager.h"
+#include "CScene.h"
+#include "CLayer.h"
 
 CGameObject::CGameObject() :
-	m_arrComponent{}
+	m_arrComponent{},
+	m_pParentObj(nullptr),
+	m_eLayer(E_Layer::Default),
+	m_bDead(false)
 {
 }
 
 CGameObject::~CGameObject()
 {
 	Safe_Delete_Array(m_arrComponent);
+	Safe_Delete_Vector(m_vecChildObj);
 }
 
 void CGameObject::Awake()
@@ -19,6 +26,8 @@ void CGameObject::Awake()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Awake();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Awake();
 }
 
 void CGameObject::Start()
@@ -27,6 +36,8 @@ void CGameObject::Start()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Start();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Start();
 }
 
 void CGameObject::PrevUpdate()
@@ -35,6 +46,8 @@ void CGameObject::PrevUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->PrevUpdate();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->PrevUpdate();
 }
 
 void CGameObject::Update()
@@ -43,6 +56,8 @@ void CGameObject::Update()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Update();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Update();
 }
 
 void CGameObject::LateUpdate()
@@ -51,6 +66,8 @@ void CGameObject::LateUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->LateUpdate();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->LateUpdate();
 }
 
 void CGameObject::FinalUpdate()
@@ -59,11 +76,44 @@ void CGameObject::FinalUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->FinalUpdate();
 	}
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->FinalUpdate();
+	
+	_RegisterLayer(); // 레이어 등록
 }
 
 void CGameObject::Render()
 {
-	CMeshRenderer* pMeshRenderer = GetComponent<CMeshRenderer>();
-	if (nullptr != pMeshRenderer)
-		pMeshRenderer->Render();
+	if (nullptr != MeshRenderer())
+		MeshRenderer()->Render();
+}
+
+void CGameObject::_SetDead()
+{
+	list<CGameObject*> que;
+	que.push_back(this);
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop_front();
+
+		pObj->m_bDead = true;
+
+		for (UINT i = 0; i < pObj->m_vecChildObj.size(); ++i) {
+			que.push_back(pObj->m_vecChildObj[i]);
+		}
+	}
+}
+
+void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
+{
+	// 부모와 자식 연결
+	_pChildObj->m_pParentObj = this;
+	m_vecChildObj.push_back(_pChildObj);
+}
+
+void CGameObject::_RegisterLayer()
+{
+	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_eLayer);
+	pLayer->RegisterGameObject(this);
 }
