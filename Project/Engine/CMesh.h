@@ -29,5 +29,6 @@ public:
 
 public:
 	CMesh();
+
 	virtual ~CMesh() override;
 };

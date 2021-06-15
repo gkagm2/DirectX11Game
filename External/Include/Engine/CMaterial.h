@@ -11,8 +11,10 @@ private:
 	TMaterialParam m_tParam;
 	SharedPtr<CTexture> m_arrTexture[(UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0];
 
-public:
+private:
 	virtual int Load(const tstring& _strFilePath) override;
+
+public:
 	virtual void UpdateData() override;
 
 public:
@@ -20,6 +22,7 @@ public:
 	void SetData(E_ShaderParam _eParam, void* _pData);
 	
 public:
+	virtual CMaterial* Clone() override;
 	CMaterial();
 	virtual ~CMaterial() override;
 };

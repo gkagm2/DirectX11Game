@@ -5,12 +5,15 @@
 #include "CTexture.h"
 #include "CMaterial.h"
 #include "CPathManager.h"
+#include "CCollider2D.h"
+#include "CCollider3D.h"
 
 class CResourceManager : public CSingleton<CResourceManager>
 {
 	SINGLETON(CResourceManager)
 private:
 	unordered_map<tstring, CResource*> m_umapResource[(UINT)E_ResourceType::End];
+	vector<CMaterial*> m_vecCloneMtrl; // 복사된 메터리얼들을 담을 벡터
 
 public:
 	void Init();
@@ -31,6 +34,8 @@ public:
 
 	template<typename T>
 	SharedPtr<T> FindRes(const tstring& _strKey);
+
+	void AddCloneMaterial(SharedPtr<CMaterial> _pMtrl) { m_vecCloneMtrl.push_back(_pMtrl.Get()); }
 };
 
 // 리소스 추가 시 타입 지정
@@ -43,7 +48,7 @@ E_ResourceType GetResourceType() {
 	const type_info& graphicsShader = typeid(CGraphicsShader);
 	const type_info& computeShader= typeid(CComputeShader);
 	const type_info& texture = typeid(CTexture);
-	
+
 	E_ResourceType eResourceType = E_ResourceType::End;
 
 	if (&info == &mtrl)
@@ -63,18 +68,20 @@ inline SharedPtr<T> CResourceManager::Load(const tstring& _strKey, const tstring
 {
 	E_ResourceType eType = GetResourceType<T>();
 
-	T* pResource = FindRes<T>(_strKey).Get();
+	/*T* pResource = FindRes<T>(_strKey).Get();
 	if (nullptr != pResource) {
 		MessageBox(nullptr, STR_MSG_FailDuplicateResourceKey, STR_MSG_FailedToLoadResource, MB_OK);
 		assert(nullptr);
 		return nullptr;
 	}
-
 	pResource = new T;
+	*/
+
+	T* pResource = new T;
 	tstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativePath;
 
 	if (FAILED(((CResource*)pResource)->Load(strFilePath))) {
-		assert(nullptr);
+		assert(nullptr && _T("리소스 로딩 실패"));
 		return nullptr;
 	}
 
@@ -105,13 +112,13 @@ inline SharedPtr<T> CResourceManager::FindRes(const tstring& _strKey)
 	auto iter = m_umapResource[(UINT)eResourceType].find(_strKey);
 	auto endIter = m_umapResource[(UINT)eResourceType].end();
 
+	T* pResource = nullptr;
 	if (iter == endIter)
-		return nullptr;
+		pResource = Load<T>(_strKey, _strKey).Get();
+	else
+		pResource = dynamic_cast<T*>(iter->second);
 
-	T* pResource = dynamic_cast<T*>(iter->second);
-
-	if (nullptr == pResource)
-		assert(nullptr && _T("Resource를 찾지 못함."));
+	assert(pResource && _T("Resource를 찾지 못함."));
 
 	return pResource;
 }

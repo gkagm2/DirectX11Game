@@ -20,7 +20,6 @@ struct VTX_OUT {
 ////////////////
 // Vertex shader
 ////////////////
-
 // vPos, vColor를 입력받아서 처리해주는 함수
 VTX_OUT VS(VTX_IN _in)
 {
@@ -46,7 +45,37 @@ VTX_OUT VS(VTX_IN _in)
 float4 PS(VTX_OUT _in) : SV_Target {
     float2 vOutUV = _in.vUV;
     float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV);
-	return vOutColor;
 	
+    if (g_int_0)
+    {
+        vOutColor.x = 1.0f;
+        vOutColor.yz = 0.0f;
+    }
+	
+	return vOutColor;
 }
+
+////////////////
+// Collider2D vertex shader
+////////////////
+VTX_OUT VS_Collider2D(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f; // 초기화
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+	
+    output.vPosition = vProjPos;
+    return output;
+}
+
+///////////////
+// Collider2D pixel shader
+///////////////
+float4 PS_Collider2D(VTX_OUT _in) : SV_Target
+{
+    return float4(0.2f, 0.9f, 0.2, 1.f);
+}
+
 #endif

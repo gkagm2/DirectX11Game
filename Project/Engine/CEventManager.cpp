@@ -23,12 +23,19 @@ void CEventManager::Update()
 		m_vecDeadObj[i]->_UnlinkParentGameObject();
 		delete m_vecDeadObj[i];
 	}
-		
 	m_vecDeadObj.clear();
+
 	// 이벤트 처리
 	for (UINT i = 0; i < m_vecEvent.size(); ++i)
 		_Excute(m_vecEvent[i]);
 	m_vecEvent.clear();
+
+	// 생성 예정 오브젝트 정리
+	for (UINT i = 0; i < m_vecCreateObj.size(); ++i) {
+			m_vecCreateObj[i]->Awake();
+			m_vecCreateObj[i]->Start();
+	}
+	m_vecCreateObj.clear();
 }
 
 void CEventManager::_Excute(const TEvent& _event)
@@ -39,8 +46,10 @@ void CEventManager::_Excute(const TEvent& _event)
 		// lparam : Object Address
 		// wparam : Layer Index
 		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+		CGameObject* pNewGameObject = (CGameObject*)_event.lparam;
 		int iLayer = (int)_event.wparam;
-		pCurScene->AddGameObject((CGameObject*)_event.lparam, (E_Layer)iLayer);
+		pCurScene->AddGameObject(pNewGameObject, (E_Layer)iLayer);
+		m_vecCreateObj.push_back(pNewGameObject);
 	}
 		break;
 	case E_EventType::Destroy_Object: {

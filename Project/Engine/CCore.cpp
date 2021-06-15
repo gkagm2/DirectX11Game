@@ -7,6 +7,7 @@
 #include "CResourceManager.h"
 #include "CSceneManager.h"
 #include "CEventManager.h"
+#include "CCollisionManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -42,11 +43,11 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 
 void CCore::Progress()
 {
+	// Update
 	CTimeManager::GetInstance()->Update();
 	CKeyManager::GetInstance()->Update();
-
-	// Update
 	CSceneManager::GetInstance()->Progress();
+	CCollisionManager::GetInstance()->Update();
 
 	// Render
 	// 1. Å¸°Ù Å¬¸®¾î

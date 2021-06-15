@@ -5,6 +5,10 @@
 
 CDevice::CDevice() :
 	m_arrCB{},
+	m_pSamplerStates{},
+	m_pRasterizerStates{},
+	m_pBlendStates{},
+	m_pDepthStencilStates{},
 	m_tDefaultRefreshRate{ 60,1 }, // 60 / 
 	m_iBufferCnt{ 1 },
 	m_vRenderResolution{},
@@ -307,12 +311,61 @@ void CDevice::CreateBlendState()
 
 void CDevice::CreateDepthStencilState()
 {
+	// Less (기본)
+	m_pDepthStencilStates[(UINT)E_DepthStencilState::Less] = nullptr;
+
+
+	D3D11_DEPTH_STENCIL_DESC tDesc = {};
+
+	// Less Equal;
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::Less_Equal].GetAddressOf());
+
+	// StencilEnable이 True일 경우 사용
+	/*tDesc.BackFace;
+	tDesc.FrontFace;
+	tDesc.StencilReadMask;
+	tDesc.StencilWriteMask;*/
+	
+
+	// Greater
+	tDesc = {};
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::Greater].GetAddressOf());
+
+	// No Test
+	tDesc = {};
+	tDesc.DepthEnable = false;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+	tDesc.StencilEnable = false;
+	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::No_Test].GetAddressOf());
+
+	// No Write
+	tDesc = {};
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.StencilEnable = false;
+	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::No_Write].GetAddressOf());
+
+	// No Test No Write
+	tDesc = {};
+	tDesc.DepthEnable = false;
+	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+	tDesc.StencilEnable = false;
+	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::No_Test_No_Write].GetAddressOf());
 }
 
 void CDevice::ClearTarget()
 {
-	float fArr[4] = { 0.f, 0.5f, 0.f, 1.f}; // black color
-	m_pContext->ClearRenderTargetView(m_pRTV.Get(), fArr);
+	float fArrColor[4] = { 0.2f, 0.3f, 0.2f, 1.f}; // 색상
+	m_pContext->ClearRenderTargetView(m_pRTV.Get(), fArrColor);
 
 	float fDepth = 1.0f;
 	UINT8 iStencil = 0;

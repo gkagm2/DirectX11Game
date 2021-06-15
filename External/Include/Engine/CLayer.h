@@ -28,8 +28,10 @@ public:
 	vector<CGameObject*>& GetRootGameObjects() { return m_vecRootObj; }
 
 private:
+	// 자식 오브젝트가 레이어를 유지하며 최상위 부모로 등록시 사용
 	void _RegisterInRootGameObject(CGameObject* _ChildObj) { m_vecRootObj.push_back(_ChildObj); }
 
+	// 파라미터로 받은 오브젝트와 오브젝트의 자식 오브젝트들의 레이어를 해제
 	void _ResignGameObject(CGameObject* _pObj);
 
 public:

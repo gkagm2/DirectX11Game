@@ -3,7 +3,7 @@
 #include "CGameManagerScript_sh.h"
 
 CBulletScript_sh::CBulletScript_sh() :
-	m_fSpeed(100.f),
+	m_fSpeed(400.f),
 	m_vDir(Vector3(0.f,-1.f,0.f)),
 	m_eType(E_BulletType_sh::Straight),
 	m_fDeleteMaxTime(4.f),
@@ -17,12 +17,12 @@ CBulletScript_sh::~CBulletScript_sh()
 
 void CBulletScript_sh::Start()
 {
-	GetGameObject()->SetName(STR_OBj_NAME_Bullet);
+ 	GetGameObject()->SetName(STR_OBj_NAME_Bullet);
 }
 
 void CBulletScript_sh::Update()
 {
-	CGameManagerScript_sh* pGameMgr = FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CGameManagerScript_sh>();
+	CGameManagerScript_sh* pGameMgr = (CGameManagerScript_sh*)FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CScript>();
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;
 

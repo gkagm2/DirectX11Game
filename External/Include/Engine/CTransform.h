@@ -13,12 +13,11 @@ private:
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
 	const Vector3& GetLocalPosition() const { return m_vLocalPosition; }
-
-	const Vector3& GetPosition() const { return Vector3(m_matWorld._41, m_matWorld._42, m_matWorld._43); }
+	Vector3 GetPosition();
 	
 	void SetLocalScale(const Vector3& _vScale) { m_vLocalScale = _vScale; }
 	const Vector3& GetLocalScale() const { return m_vLocalScale; }
-	const Vector3& GetScale() const { return Vector3(m_matWorld._11, m_matWorld._22, m_matWorld._33); }
+	Vector3 GetScale();
 
 	// Radian으로 입력받음
 	void SetLocalRotation(const Vector3& _vRotation) { m_vLocalRotation = _vRotation; }

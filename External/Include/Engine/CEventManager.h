@@ -21,7 +21,8 @@ class CEventManager : public CSingleton<CEventManager>
 	SINGLETON(CEventManager)
 public:
 	vector<TEvent> m_vecEvent;
-	vector<CGameObject*> m_vecDeadObj;
+	vector<CGameObject*> m_vecDeadObj; // 삭제 예정 오브젝트 오브젝트
+	vector<CGameObject*> m_vecCreateObj; // 생성 예정 오브젝트
 
 public:
 	void Update();

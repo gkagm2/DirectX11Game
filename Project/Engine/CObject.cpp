@@ -16,8 +16,6 @@ CObject::~CObject()
 
 void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
 {
-    _pTargetObj->Transform()->SetLocalPosition(_pTargetObj->Transform()->GetLocalPosition());
-
     TEvent even = {};
     even.eType = E_EventType::Create_Object;
     even.lparam = (DWORD_PTR)_pTargetObj;

@@ -33,7 +33,9 @@
 #define GET_COMPONENT_COMPOTABLE \
 	GET_COMPONENT(Transform)\
 	GET_COMPONENT(MeshRenderer)\
-	GET_COMPONENT(Camera)
+	GET_COMPONENT(Camera)\
+	GET_COMPONENT(Collider2D)\
+	GET_COMPONENT(Collider3D)
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -41,7 +43,10 @@
 #define GET_COMPONENT_FROM_GAMEOBJECT \
 	GET_OTHER_COMPONENT(Transform)\
 	GET_OTHER_COMPONENT(MeshRenderer)\
-	GET_OTHER_COMPONENT(Camera)  
+	GET_OTHER_COMPONENT(Camera)\
+	GET_OTHER_COMPONENT(Collider2D)\
+	GET_OTHER_COMPONENT(Collider3D)
+
 #pragma endregion
 
 
@@ -74,14 +79,14 @@ enum class E_ShaderStage {
 enum class E_ComponentType {
 	Transform,
 	MeshRenderer,
-	Collider2d,
-	Collider3d,
-	Rigidbody2d,
-	Rigidbody3d,
-	Animator2d,
-	Animator3d,
-	Light2d,
-	Light3d,
+	Collider2D,
+	Collider3D,
+	Rigidbody2D,
+	Rigidbody3D,
+	Animator2D,
+	Animator3D,
+	Light2D,
+	Light3D,
 	Camera,
 	Particle,
 	Listener,
@@ -90,6 +95,11 @@ enum class E_ComponentType {
 	End,
 };
 
+#define MAX_SIZE_LAYER 32
+
+// TODO (Jang) : 환경설정 파일을 따로 만들어볼까
+#define _SHOOTING_GAME
+#if defined(_SHOOTING_GAME)
 enum class E_Layer {
 	Default,
 	Manager,
@@ -97,8 +107,16 @@ enum class E_Layer {
 	Enemy,
 	Bullet,
 	UI,
-	End = 32,
+	End = MAX_SIZE_LAYER,
 };
+#elif defined(_SHOOTING_GAME)
+enum class E_Layer {
+	Default,
+	Manager,
+	UI,
+	End = MAX_SIZE_LAYER,
+};
+#endif
 
 enum class E_ProjectionType {
 	Perspective,
@@ -119,6 +137,16 @@ enum class E_BlendState {
 	AlphaBlend_Coverage,
 	One_One,
 	End,
+};
+
+enum class E_DepthStencilState {
+	Less, // default
+	Less_Equal,
+	Greater,
+	No_Test,
+	No_Write, // 테스트하되 깊이값 저장 X
+	No_Test_No_Write,
+	End
 };
 
 enum class E_ShaderParam {

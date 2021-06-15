@@ -17,11 +17,15 @@ CGameObject::CGameObject() :
 CGameObject::~CGameObject()
 {
 	Safe_Delete_Array(m_arrComponent);
-	Safe_Delete_Vector(m_vecChildObj);
+	if (0 < m_vecChildObj.size()) {
+		Safe_Delete_Vector(m_vecChildObj);
+	}
 }
 
 void CGameObject::Awake()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Awake();
@@ -32,6 +36,8 @@ void CGameObject::Awake()
 
 void CGameObject::Start()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Start();
@@ -42,6 +48,8 @@ void CGameObject::Start()
 
 void CGameObject::PrevUpdate()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->PrevUpdate();
@@ -52,6 +60,8 @@ void CGameObject::PrevUpdate()
 
 void CGameObject::Update()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Update();
@@ -62,6 +72,8 @@ void CGameObject::Update()
 
 void CGameObject::LateUpdate()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->LateUpdate();
@@ -72,6 +84,8 @@ void CGameObject::LateUpdate()
 
 void CGameObject::FinalUpdate()
 {
+	if (IsDead())
+		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->FinalUpdate();

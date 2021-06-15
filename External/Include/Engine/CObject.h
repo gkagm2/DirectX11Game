@@ -12,6 +12,8 @@ public:
 	static void UnlinkParentGameObjectEvn(CGameObject* _pChildObj);
 
 public:
+	// TODO (Jang) : Clone은 순수 가상함수로 만들기
+	virtual CObject* Clone() { return new CObject(*this); }
 	CObject();
 	virtual ~CObject();
 };

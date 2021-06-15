@@ -18,6 +18,8 @@ using std::list;
 using std::unordered_map;
 #include <map>
 using std::map;
+#include <bitset>
+using std::bitset;
 
 #include <string>
 using std::string;

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CGameManagerScript_sh.h"
+#include "CCore.h"
 
 CGameManagerScript_sh::CGameManagerScript_sh() :
 	m_eState(E_GameState_sh::Lobby)
@@ -21,4 +22,11 @@ void CGameManagerScript_sh::Start()
 
 void CGameManagerScript_sh::Update()
 {
+	if (E_GameState_sh::Lobby == m_eState) {
+
+	}
+	else if (E_GameState_sh::Playing == m_eState) {
+	}
+	else if (E_GameState_sh::GameOver == m_eState) {
+	}
 }

@@ -7,19 +7,22 @@ private:
 	float m_fBulletDamage;
 	float m_fMoveSpeed;
 
+	SharedPtr<CMaterial> m_pSharedMtrl;
+	SharedPtr<CMaterial> m_pCloneMtrl;
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;
 
 public:
-	void Shoot();
+	void Shoot(const Vector2& _vTargetPos);
 	void Move();
 
 public:
 	float GetHp() { return m_fHp; }
 	void SetHp(float _iHp) { m_fHp = _iHp; }
 
-	int GetBulletDamage() { return m_fBulletDamage; }
+	float GetBulletDamage() { return m_fBulletDamage; }
 	void SetBulletDamage(float _iDamage) { m_fBulletDamage = _iDamage; }
 
 public:

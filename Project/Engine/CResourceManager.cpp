@@ -7,6 +7,8 @@ CResourceManager::CResourceManager() {
 
 }
 CResourceManager::~CResourceManager() {
+	Safe_Delete_Vector(m_vecCloneMtrl);
+
 	for (UINT i = 0; i < (UINT)E_ResourceType::End; ++i)
 		Safe_Delete_UnorderedMap(m_umapResource[i]);
 }
@@ -120,21 +122,31 @@ void CResourceManager::CreateDefaultShader()
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
-
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 	AddRes(STR_KEY_StdShaderAlphaBlend_Coverage, pShader);
 
-	///////////////////////////////////////////////
 
 	// 기본 쉐이더 생성 (AlphaBlend)
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
+	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	pShader->SetBlendState(E_BlendState::AlphaBlend);
 
 	AddRes(STR_KEY_StdShaderAlphaBlend, pShader);
+
+
+	// Collider2D 쉐이더 생성
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderCollider2D);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	
+	AddRes(STR_KEY_Collider2DShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -150,4 +162,10 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderAlphaBlend = FindRes<CGraphicsShader>(STR_KEY_StdShaderAlphaBlend);
 	pMtrl->SetShader(pShaderAlphaBlend);
 	AddRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend, pMtrl);
+
+	// Collider2D 재질 생성
+	pMtrl = new CMaterial;
+	SharedPtr<CGraphicsShader> pShaderCollider2D = FindRes<CGraphicsShader>(STR_KEY_Collider2DShader);
+	pMtrl->SetShader(pShaderCollider2D);
+	AddRes(STR_KEY_Collider2DMaterial, pMtrl);
 }

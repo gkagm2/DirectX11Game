@@ -3,6 +3,7 @@
 
 enum class E_GameState_sh {
     Lobby,
+    Playing,
     GameOver,
 };
 
@@ -17,7 +18,7 @@ public:
     virtual void Start() override;
     virtual void Update() override;
 
-private:
+public:
     void SetGameState(E_GameState_sh _eState) { m_eState = _eState; }
 
 public:

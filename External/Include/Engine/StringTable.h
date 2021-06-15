@@ -26,6 +26,8 @@
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS"
 #define STR_FUNC_NAME_PIXShader "PS"
+#define STR_FUNC_NAME_VTXShaderCollider2D "VS_Collider2D"
+#define STR_FUNC_NAME_PIXShaderCollider2D "PS_Collider2D"
 
 // Resource Key
 #define STR_KEY_RectMash _T("RectMash")
@@ -35,13 +37,17 @@
 
 #define STR_KEY_StdMtrlAlphaBlend_Coverage _T("StandardMaterialAlphaBlendCoverage")
 #define STR_KEY_StdMtrlAlphaBlend _T("StandardMaterialAlphaBlend")
+#define STR_KEY_Collider2DShader _T("Collider2DShader")
+#define STR_KEY_Collider2DMaterial _T("Collider2DMaterial")
 
 
 ////////// Shooting Game //////////
 // GameObject name
 #define STR_OBJ_NAME_GameManager _T("ShootingGameManager")
 #define STR_OBj_NAME_Bullet _T("Bullet")
+#define STR_OBJ_NAME_Enemy _T("Enemy")
 
+#define STR_PATH_Box _T("texture\\Box.png")
 #define STR_PATH_Player _T("texture\\Player.png")
 #define STR_PATH_Monster _T("texture\\Monster.bmp")
 #define STR_PATH_Enemy1 _T("texture\\Enemy1.png")

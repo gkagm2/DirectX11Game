@@ -4,6 +4,8 @@
 #include "CDevice.h"
 #include "CTexture.h"
 
+#include "CResourceManager.h"
+
 CMaterial::CMaterial() :
 	m_pShader(nullptr),
 	m_tParam{},
@@ -13,6 +15,13 @@ CMaterial::CMaterial() :
 
 CMaterial::~CMaterial()
 {
+}
+
+CMaterial* CMaterial::Clone()
+{
+	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
+	CResourceManager::GetInstance()->AddCloneMaterial(pMtrl);
+	return pMtrl.Get();
 }
 
 int CMaterial::Load(const tstring& _strFilePath)

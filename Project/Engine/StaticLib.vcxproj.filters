@@ -130,6 +130,24 @@
     <ClInclude Include="CEventManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>Engine\07. Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemyRespawnerScript_sh.h">
+      <Filter>ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider2D.h">
+      <Filter>Engine\07. Component\Collider\CCollider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider3D.h">
+      <Filter>Engine\07. Component\Collider\CCollider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider2DRect.h">
+      <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -239,6 +257,24 @@
     </ClCompile>
     <ClCompile Include="CEventManager.cpp">
       <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>Engine\07. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemyRespawnerScript_sh.cpp">
+      <Filter>ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider2D.cpp">
+      <Filter>Engine\07. Component\Collider\CCollider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider3D.cpp">
+      <Filter>Engine\07. Component\Collider\CCollider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider2DRect.cpp">
+      <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +391,24 @@
     </Filter>
     <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Bullet">
       <UniqueIdentifier>{77a67e79-e8c9-40a2-b48d-43709e064b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Collider">
+      <UniqueIdentifier>{60e5f204-a0df-4f1d-af82-f05e2b6cc664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Collider\CCollider2D">
+      <UniqueIdentifier>{6e6139c0-6e16-45d2-a957-6ab7b4116ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Collider\CCollider3D">
+      <UniqueIdentifier>{e2665e39-68ac-42b4-a068-a9fb89c4b2cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner">
+      <UniqueIdentifier>{77b5b3f2-c727-4e45-adce-b3bdbdd838d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DRect">
+      <UniqueIdentifier>{d516d10c-5946-4488-a43a-1b7c5a6f68e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DCircle">
+      <UniqueIdentifier>{a97c5dc8-07c6-447b-9184-2482cc57adda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

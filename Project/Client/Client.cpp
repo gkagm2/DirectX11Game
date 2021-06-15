@@ -4,6 +4,7 @@
 
 #include "framework.h"
 #include "Client.h"
+#include "time.h"
 
 #include <Engine/CCore.h>
 #pragma comment(lib, "Engine/Engine_debug")
@@ -32,15 +33,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     // _CrtSetBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
-    //_CrtSetBreakAlloc(303);
-    //_CrtSetBreakAlloc(300);
-    //_CrtSetBreakAlloc(299);
+    //_CrtSetBreakAlloc(496);
     //_CrtSetBreakAlloc(298);
     //_CrtSetBreakAlloc(55139);
     //_CrtSetBreakAlloc(54983);
     //_CrtSetBreakAlloc(54827);
     //_CrtSetBreakAlloc(10794);
-
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -53,6 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    srand(static_cast<unsigned int>(time(nullptr)));
     // Game Init
     Vector2 vWindowResolution{ 1440, 810 };
     Vector2 vRenderResolution{ 1440, 810 };

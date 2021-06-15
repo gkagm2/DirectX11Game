@@ -12,6 +12,8 @@
 
 #include "CGameObject.h"
 
+#include "CCore.h"
+
 // component
 #include "CTransform.h"
 #include "CMeshRenderer.h"
@@ -19,6 +21,7 @@
 #include "CCamera.h"
 #include "CTexture.h"
 #include "CMaterial.h"
+#include "CCollider2DRect.h"
 #include "Ptr.h"
 
 // GameContents
@@ -27,10 +30,11 @@
 #include "CPlayerScript_sh.h"
 #include "CBulletScript_sh.h"
 #include "CEnemyScript_sh.h"
+#include "CEnemyRespawnerScript_sh.h"
 
 
 CGameObject*  TestCreateObj() {
-	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
 	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
 
@@ -41,18 +45,17 @@ CGameObject*  TestCreateObj() {
 	pObj->AddComponent<CTransform>();
 	pObj->AddComponent<CMeshRenderer>();
 
-	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
 	pObj->MeshRenderer()->SetMaterial(pMtrl);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, -200.f, 0.f));
 
-	Vector2 vTexSize = pPlayerTexture->GetDimension();
+	Vector2 vTexSize = pBoxTexture->GetDimension();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
 	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 
-	pCurScene->AddGameObject(pObj);
 	return pObj;
 }
 
@@ -73,13 +76,14 @@ void CSceneManager::Init() {
 	// 씬 생성
 	m_pCurScene = new CScene;
 
-	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Player, STR_PATH_Player);
-	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->Load<CTexture>(STR_PATH_Enemy1, STR_PATH_Enemy1);
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
+	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
 	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
 
-	pMtrl->SetData(E_ShaderParam::Texture_0, pEnemyTexture.Get());
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
 	{
 		// 카메라 오브젝트 생성
@@ -90,7 +94,6 @@ void CSceneManager::Init() {
 
 		m_pCurScene->AddGameObject(pCameraObj);
 	}
-	
 	{
 		// 게임 매니저 오브젝트 생성
 		CGameObject* pGameMgr = new CGameObject();
@@ -98,55 +101,34 @@ void CSceneManager::Init() {
 		m_pCurScene->AddGameObject(pGameMgr);
 	}
 
+	CGameObject* pPlayer = TestCreateObj();
+	// 플레이어 오브젝트 생성
 	{
-		// 플레이어 오브젝트 생성
-		CGameObject* pPlayer = new CGameObject();
-		pPlayer->AddComponent<CTransform>();
-		pPlayer->AddComponent<CMeshRenderer>();
 		pPlayer->AddComponent<CPlayerScript_sh>();
+		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+
+		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
 		
-
-		pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
-
-		pPlayer->MeshRenderer()->SetMaterial(pMtrl);
-		pPlayer->MeshRenderer()->SetMesh(pMesh);
-
-		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, -200.f, 0.f));
-
-		Vector2 vTexSize = pPlayerTexture->GetDimension();
-		pPlayer->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
+		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-
 		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
+
 #pragma region 플레이어를 감싸고 있는 오브젝트
-		CGameObject* pChild = TestCreateObj();
+		/*CGameObject* pChild = TestCreateObj();
 
 		pChild->Transform()->SetLocalPosition(Vector3(0.f, 1.f, 0.f));
 		pChild->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
 		pChild->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-
+		CObject::AddChildGameObjectEvn(pPlayer, pChild);*/
 #pragma endregion
-
 	}
-
 	{
-		CGameObject* pEnemy = new CGameObject();
-		pEnemy->AddComponent<CTransform>();
-		pEnemy->AddComponent<CMeshRenderer>();
-		pEnemy->AddComponent<CEnemyScript_sh>();
-
-		pEnemy->MeshRenderer()->SetMaterial(pMtrl);
-		pEnemy->MeshRenderer()->SetMesh(pMesh);
-
-		pEnemy->Transform()->SetLocalPosition(Vector3(0., 200.f, 0));
-		Vector2 vTexSize = pEnemyTexture->GetDimension();
-		pEnemy->Transform()->SetLocalScale(Vector3(vTexSize.x, -vTexSize.y, 1.f));
-
-		m_pCurScene->AddGameObject(pEnemy, E_Layer::Enemy);
-
+		CGameObject* pEnemyRespawner = new CGameObject();
+		pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
+		m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
 	}
-	
+
 	// Scene 초기화
 	m_pCurScene->Awake();
 	m_pCurScene->Start();

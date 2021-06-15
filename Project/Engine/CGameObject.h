@@ -6,6 +6,10 @@ class CComponent;
 class CTransform;
 class CMeshRenderer;
 class CCamera;
+class CScript;
+class CCollider2D;
+class CCollider2DRect;
+class CCollider3D;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {
@@ -97,14 +101,14 @@ inline TYPE* CGameObject::AddComponent()
 	m_arrComponent[(UINT)eType] = pComp;
 	pComp->m_pGameObj = this;
 
-	return pComponent;
+ 	return pComponent;
 }
 
 template<typename TYPE>
 inline TYPE* CGameObject::GetComponent()
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		TYPE* pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
+     		TYPE* pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
 		if (nullptr != pComponent) {
 			return pComponent;
 		}

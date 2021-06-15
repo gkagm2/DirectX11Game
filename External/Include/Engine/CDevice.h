@@ -21,6 +21,7 @@ private:
 	ComPtr<ID3D11SamplerState> m_pSamplerStates[2];
 	ComPtr<ID3D11RasterizerState> m_pRasterizerStates[(UINT)E_RasterizerState::End];
 	ComPtr<ID3D11BlendState> m_pBlendStates[(UINT)E_BlendState::End];
+	ComPtr<ID3D11DepthStencilState> m_pDepthStencilStates[(UINT)E_DepthStencilState::End];
 
 	// D3D11 Version
 	ComPtr<ID3D11Device> m_pDevice;			// 장치 인터페이스(객체 생성, 해제, 메모리 관리)
