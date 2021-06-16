@@ -9,6 +9,7 @@
 #include "CKeyManager.h"
 #include "CTimeManager.h"
 #include "CConstBuffer.h"
+#include "CCollisionManager.h"
 
 #include "CGameObject.h"
 
@@ -50,7 +51,7 @@ CGameObject*  TestCreateObj() {
 	pObj->MeshRenderer()->SetMaterial(pMtrl);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
-	pObj->Transform()->SetLocalPosition(Vector3(0.f, -200.f, 0.f));
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	Vector2 vTexSize = pBoxTexture->GetDimension();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
@@ -90,27 +91,31 @@ void CSceneManager::Init() {
 		CGameObject* pCameraObj = new CGameObject();
 		pCameraObj->AddComponent<CTransform>();
 		pCameraObj->AddComponent<CCamera>();
+		pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 
 		m_pCurScene->AddGameObject(pCameraObj);
 	}
-	{
-		// 게임 매니저 오브젝트 생성
-		CGameObject* pGameMgr = new CGameObject();
-		pGameMgr->AddComponent<CGameManagerScript_sh>();
-		m_pCurScene->AddGameObject(pGameMgr);
-	}
+	//{
+	//	// 게임 매니저 오브젝트 생성
+	//	CGameObject* pGameMgr = new CGameObject();
+	//	pGameMgr->AddComponent<CGameManagerScript_sh>();
+	//	m_pCurScene->AddGameObject(pGameMgr);
+	//}
 
 	CGameObject* pPlayer = TestCreateObj();
 	// 플레이어 오브젝트 생성
 	{
 		pPlayer->AddComponent<CPlayerScript_sh>();
 		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+		CGameObject* pOwner = pCollider2D->GetGameObject();
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
 		
 		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+		pPlayer->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+		pPlayer->Collider2D()->SetOffsetPosition(Vector2(50.f, 50.f));
 		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
 
@@ -123,11 +128,14 @@ void CSceneManager::Init() {
 		CObject::AddChildGameObjectEvn(pPlayer, pChild);*/
 #pragma endregion
 	}
-	{
-		CGameObject* pEnemyRespawner = new CGameObject();
-		pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
-		m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
-	}
+	//{
+	//	CGameObject* pEnemyRespawner = new CGameObject();
+	//	pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
+	//	m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
+	//}
+
+	// 레이어 충돌 지정
+	CCollisionManager::GetInstance()->SetOnOffCollision(E_Layer::Player, E_Layer::Enemy, true);
 
 	// Scene 초기화
 	m_pCurScene->Awake();

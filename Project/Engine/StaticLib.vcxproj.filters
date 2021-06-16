@@ -70,9 +70,6 @@
     <ClInclude Include="CConstBuffer.h">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="CObject.h">
-      <Filter>Engine\05. Resource</Filter>
-    </ClInclude>
     <ClInclude Include="CComponent.h">
       <Filter>Engine\07. Component</Filter>
     </ClInclude>
@@ -148,6 +145,9 @@
     <ClInclude Include="CCollider2DRect.h">
       <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
     </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>Engine\08. Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -200,9 +200,6 @@
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="CObject.cpp">
-      <Filter>Engine\05. Resource</Filter>
     </ClCompile>
     <ClCompile Include="CComponent.cpp">
       <Filter>Engine\07. Component</Filter>
@@ -275,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="CCollider2DRect.cpp">
       <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>Engine\08. Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

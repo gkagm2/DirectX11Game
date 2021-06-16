@@ -23,27 +23,40 @@ void CResourceManager::Init()
 
 void CResourceManager::CreateDefaultMesh()
 {
-	// 버퍼 만들기
-	VTX vertices[] = {
-		{	Vector3(-1.f, 1.f, 0.f), 
-			Vector4(0.0f, 0.0f, 1.0f, 1.0f), 
-			Vector2(0.f,0.f) },
-		{	Vector3(1.f, 1.f, 0.f), 
-			Vector4(0.0f, 1.0f, 0.0f, 1.0f), 
-			Vector2(1.f,0.f) },
-		{	Vector3(1.f, -1.f, 0.f), 
-			Vector4(0.0f, 1.0f, 1.0f, 1.0f), 
-			Vector2(1.f,1.f) },
-		{	Vector3(-1.f, -1.f, 0.f), 
-			Vector4(1.0f, 0.0f, 0.0f, 1.0f), 
-			Vector2(0.f,1.f) }
-	};
+	vector<VTX> vecVtx;
+	vector<UINT> vecIdx;
 
+	// RectMesh 생성
+
+	// 버퍼 만들기
+	VTX vertex;
+	vertex.vPos = Vector3(-0.5f, 0.5f, 0.f);
+	vertex.vColor = Vector4(0.0f, 0.0f, 0.50f, 1.0f);
+	vertex.vUV = Vector2(0.f, 0.f);
+	vecVtx.push_back(vertex);
+
+	vertex.vPos = Vector3(0.5f, 0.5f, 0.f);
+	vertex.vColor = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertex.vUV = Vector2(1.f, 0.f);
+	vecVtx.push_back(vertex);
+
+	vertex.vPos = Vector3(0.5f, -0.5f, 0.f);
+	vertex.vColor = Vector4(0.0f, 1.0f, 1.0f, 1.0f);
+	vertex.vUV = Vector2(1.f, 1.f);
+	vecVtx.push_back(vertex);
+
+	vertex.vPos = Vector3(-0.5f, -0.5f, 0.f);
+	vertex.vColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertex.vUV = Vector2(0.f, 1.f);
+	vecVtx.push_back(vertex);
 
 	// create index buffer
-	UINT arrIdx[6] = { 
-		0,1,2,
-		0,2,3 };
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2); 
+	vecIdx.push_back(0); 
+	vecIdx.push_back(2); 
+	vecIdx.push_back(3);
 	/*
 	0-------1
 	|＼     |
@@ -53,9 +66,30 @@ void CResourceManager::CreateDefaultMesh()
 	*/
 
 	CMesh* pMesh = new CMesh();
-	pMesh->Create(vertices, sizeof(VTX) * 4, arrIdx, sizeof(UINT) * 6, D3D11_USAGE_DEFAULT);
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * vecVtx.size(), vecIdx.data(), sizeof(UINT) * vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
+
+
+	// RectLineMesh 생성
+	/*
+	0-------1
+	|		|
+	|		|
+	|		|
+	3-------2
+	*/
+	vecIdx.clear();
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
+	vecIdx.push_back(3);
+	vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * vecVtx.size(), vecIdx.data(), sizeof(UINT) * vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+	AddRes(STR_KEY_RectLineMesh, pMesh);
 }
 
 void CResourceManager::CreateDefaultCubeMesh3D()
@@ -115,6 +149,7 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 void CResourceManager::CreateDefaultShader()
 {
+	// --------------------------
 	// 기본 쉐이더 생성 (AlphaBlend Coveratge)
 	CGraphicsShader* pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
@@ -125,7 +160,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 	AddRes(STR_KEY_StdShaderAlphaBlend_Coverage, pShader);
 
-
+	// -----------------------
 	// 기본 쉐이더 생성 (AlphaBlend)
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
@@ -137,7 +172,7 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_StdShaderAlphaBlend, pShader);
 
-
+	//----------------------
 	// Collider2D 쉐이더 생성
 	pShader = new CGraphicsShader;
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
@@ -145,7 +180,13 @@ void CResourceManager::CreateDefaultShader()
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
-	
+
+	// Topology
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	// OM (Output Merge)
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
 	AddRes(STR_KEY_Collider2DShader, pShader);
 }
 

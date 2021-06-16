@@ -28,9 +28,9 @@ void CPlayerScript_sh::Start()
 
 void CPlayerScript_sh::Update()
 {
-	CGameManagerScript_sh* pGameMgr = (CGameManagerScript_sh*)FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CScript>();
+	/*CGameManagerScript_sh* pGameMgr = (CGameManagerScript_sh*)FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CScript>();
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
-		return;
+		return;*/
 
 	Move();
 

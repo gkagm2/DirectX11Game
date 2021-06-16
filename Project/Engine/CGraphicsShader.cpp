@@ -6,7 +6,8 @@
 CGraphicsShader::CGraphicsShader() :
 	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
 	m_eRSState(E_RasterizerState::CullBack),
-	m_eBlendState(E_BlendState::AlphaBlend)
+	m_eBlendState(E_BlendState::Default),
+	m_eDepthStencilState(E_DepthStencilState::Less)
 {
 }
 
@@ -28,6 +29,7 @@ void CGraphicsShader::UpdateData()
 
 	CDevice::GetInstance()->SetRasterizerState(m_eRSState);
 	CDevice::GetInstance()->SetBlendState(m_eBlendState);
+	CDevice::GetInstance()->SetDepthStencilState(m_eDepthStencilState);
 }
 
 void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName)

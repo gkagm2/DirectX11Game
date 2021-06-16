@@ -132,7 +132,7 @@ enum class E_RasterizerState {
 };
 
 enum class E_BlendState {
-	Defailt,
+	Default,
 	AlphaBlend,
 	AlphaBlend_Coverage,
 	One_One,

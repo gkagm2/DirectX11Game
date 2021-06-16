@@ -6,7 +6,7 @@ class CCollider2D : public CCollider
 protected:
 	Vector2 m_vOffsetPosition;
 	Vector2 m_vOffsetScale;
-	Matrix m_matWorld;
+	Matrix m_matColWorld; // Col : Collider
 
 	SharedPtr<CMesh> m_pMesh;
 	SharedPtr<CMaterial> m_pMaterial;
@@ -17,6 +17,11 @@ public:
 
 private:
 	virtual void UpdateData() override;
+
+public:
+	virtual void OnCollisionEnter(CCollider2D* _pOther) = 0;
+	virtual void OnCollisionStay(CCollider2D* _pOther) = 0;
+	virtual void OnCollisionExit(CCollider2D* _pOther) = 0;
 	
 protected:
 	void SetMesh(const SharedPtr<CMesh>& _pMesh) { m_pMesh = _pMesh; }
@@ -28,6 +33,8 @@ public:
 
 	const Vector2& GetOffsetScale() { return m_vOffsetScale; }
 	void SetOffsetScale(const Vector2& _vScale) { m_vOffsetScale = _vScale; }
+
+	const Matrix& GetWorldMatrix() { return m_matColWorld; }
 
 public:
 	CCollider2D();

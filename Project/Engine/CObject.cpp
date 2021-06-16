@@ -6,7 +6,14 @@
 #include "CScript.h"
 #include "CGameObject.h"
 
-CObject::CObject()
+UINT CObject::g_iNextID = 0;
+CObject::CObject() :
+    m_iID(g_iNextID++)
+{
+}
+
+CObject::CObject(const CObject& _origin) :
+    m_iID(g_iNextID++)
 {
 }
 

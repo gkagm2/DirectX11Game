@@ -20,6 +20,7 @@ private:
 	D3D11_PRIMITIVE_TOPOLOGY		m_eTopology; 
 	E_RasterizerState				m_eRSState; // Rasterizer¿« ªÛ≈¬
 	E_BlendState					m_eBlendState;
+	E_DepthStencilState				m_eDepthStencilState;
 
 public:
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _eTopology) { m_eTopology = _eTopology; }
@@ -28,7 +29,7 @@ public:
 	void SetRasterizerState(E_RasterizerState _eRasterizerState) { m_eRSState = _eRasterizerState; }
 	E_RasterizerState GetRasterizerState() { return m_eRSState; }
 	void SetBlendState(E_BlendState _eBlendState) { m_eBlendState = _eBlendState; }
-
+	void SetDepthStencilState(E_DepthStencilState _eDepthStencilState) { m_eDepthStencilState = _eDepthStencilState; }
 
 public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);

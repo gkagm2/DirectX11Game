@@ -26,7 +26,7 @@ Vector3 CTransform::GetPosition()
 	CGameObject* pGameObj = GetGameObject();
 
 	while (pGameObj->GetParentObject()) {
-		vWorldPosition *= pGameObj->Transform()->GetLocalPosition();
+		vWorldPosition *= pGameObj->GetParentObject()->Transform()->GetLocalPosition();
 		pGameObj = pGameObj->GetParentObject();
 	}
 	return vWorldPosition;
@@ -38,7 +38,7 @@ Vector3 CTransform::GetScale()
 	CGameObject* pGameObj = GetGameObject();
 
 	while (pGameObj->GetParentObject()) {
-		vWorldScale += pGameObj->Transform()->GetLocalScale();
+		vWorldScale *= pGameObj->GetParentObject()->Transform()->GetLocalScale();
 		pGameObj = pGameObj->GetParentObject();
 	}
 	return vWorldScale;
@@ -63,8 +63,8 @@ void CTransform::FinalUpdate()
 	
 	CGameObject* pParentObj = GetGameObject()->GetParentObject();
 	if (pParentObj) {
-		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix4x4();
-		m_matWorld = m_matLocal * matParentWorld;
+		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix();
+		m_matWorld *= matParentWorld;
 	}
 }
 

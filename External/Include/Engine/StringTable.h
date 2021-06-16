@@ -31,6 +31,7 @@
 
 // Resource Key
 #define STR_KEY_RectMash _T("RectMash")
+#define STR_KEY_RectLineMesh _T("RectLineMesh")
 #define STR_KEY_CubeMash _T("CubeMash")
 #define STR_KEY_StdShaderAlphaBlend_Coverage _T("StandardShaderAlphaBlendCoverage")
 #define STR_KEY_StdShaderAlphaBlend _T("StandardShaderAlphaBlend")

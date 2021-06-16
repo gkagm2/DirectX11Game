@@ -23,7 +23,7 @@ public:
 	void SetLocalRotation(const Vector3& _vRotation) { m_vLocalRotation = _vRotation; }
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
 
-	const Matrix& GetWorldMatrix4x4() { return m_matWorld; }
+	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
 
 public:

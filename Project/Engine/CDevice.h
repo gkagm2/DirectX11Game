@@ -53,6 +53,7 @@ public:
 		CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)_eBlendState].Get(), _vBlendFactor, _SampleMask);
 	}
 
+	void SetDepthStencilState(E_DepthStencilState _eState, UINT _iStencilRef = 0) { CONTEXT->OMSetDepthStencilState(m_pDepthStencilStates[(UINT)_eState].Get(), _iStencilRef); }
 public:
 	// _bWindowed : Ã¢¸ðµå
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);

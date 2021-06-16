@@ -6,7 +6,7 @@
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
-	m_eProjectionType(E_ProjectionType::Orthographic),
+	m_eProjectionType(E_ProjectionType::Perspective),
 	m_tFOVAxis{60.f, 67.f},
 	m_fSize{ 1.f },
 	m_tClippingPlanes{ 1.f, 1000.f },
@@ -31,7 +31,7 @@ void CCamera::FinalUpdate()
 
 void CCamera::_CalculateViewMatrix()
 {
-	const Vector3& vPos = GetGameObject()->GetComponent<CTransform>()->GetLocalPosition();
+	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
 	m_matView = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
 }
 

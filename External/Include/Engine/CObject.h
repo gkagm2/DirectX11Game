@@ -3,6 +3,12 @@
 class CGameObject;
 class CObject
 {
+private:
+	static UINT g_iNextID;
+
+private:
+	UINT m_iID;
+
 public:
 	virtual void UpdateData() {}
 
@@ -12,8 +18,12 @@ public:
 	static void UnlinkParentGameObjectEvn(CGameObject* _pChildObj);
 
 public:
+	UINT GetID() { return m_iID; }
+
+public:
 	// TODO (Jang) : Clone은 순수 가상함수로 만들기
 	virtual CObject* Clone() { return new CObject(*this); }
 	CObject();
+	CObject(const CObject& _origin);
 	virtual ~CObject();
 };

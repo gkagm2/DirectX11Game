@@ -28,7 +28,8 @@ VTX_OUT VS(VTX_IN _in)
     float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
     float4 vViewPos = mul(vWorldPos, g_matView);
     float4 vProjPos = mul(vViewPos, g_matProjection);
-	
+    
+	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
     output.vPosition = vProjPos;
 	output.vColor = _in.vColor;
     output.vUV = _in.vUV;
@@ -67,6 +68,7 @@ VTX_OUT VS_Collider2D(VTX_IN _in)
     float4 vProjPos = mul(vViewPos, g_matProjection);
 	
     output.vPosition = vProjPos;
+    output.vUV= _in.vUV;
     return output;
 }
 
@@ -75,6 +77,11 @@ VTX_OUT VS_Collider2D(VTX_IN _in)
 ///////////////
 float4 PS_Collider2D(VTX_OUT _in) : SV_Target
 {
+    //if (0.01f < _in.vUV.x && _in.vUV.x < 0.99f
+    //    && 0.01f < _in.vUV.y && _in.vUV.y < 0.99f)
+    //{
+    //    clip(-1);
+    //}
     return float4(0.2f, 0.9f, 0.2, 1.f);
 }
 
