@@ -15,9 +15,9 @@ struct TTransform {
 };
 
 struct TMaterialData {
-	Vector4 vDiffuse;
-	Vector4 vSpectrum;
-	Vector4 vAmbiant;
+	Vector4 vDiffuse; // ∫–ªÍ±§
+	Vector4 vSpecular;// π›øµ±§
+	Vector4 vAmbiant; // ¡÷∫Ø±§
 };
 
 struct TMaterialParam {
