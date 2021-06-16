@@ -66,7 +66,7 @@ void CResourceManager::CreateDefaultMesh()
 	*/
 
 	CMesh* pMesh = new CMesh();
-	pMesh->Create(vecVtx.data(), sizeof(VTX) * vecVtx.size(), vecIdx.data(), sizeof(UINT) * vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 
@@ -87,7 +87,7 @@ void CResourceManager::CreateDefaultMesh()
 	vecIdx.push_back(0);
 
 	pMesh = new CMesh;
-	pMesh->Create(vecVtx.data(), sizeof(VTX) * vecVtx.size(), vecIdx.data(), sizeof(UINT) * vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_RectLineMesh, pMesh);
 }

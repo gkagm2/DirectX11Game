@@ -148,6 +148,12 @@
     <ClInclude Include="CObject.h">
       <Filter>Engine\08. Objects</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimation2D.h">
+      <Filter>Engine\07. Component\Animator\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>Engine\07. Component\Animator\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -275,6 +281,12 @@
     </ClCompile>
     <ClCompile Include="CObject.cpp">
       <Filter>Engine\08. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation2D.cpp">
+      <Filter>Engine\07. Component\Animator\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>Engine\07. Component\Animator\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +421,12 @@
     </Filter>
     <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DCircle">
       <UniqueIdentifier>{a97c5dc8-07c6-447b-9184-2482cc57adda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Animator\2D">
+      <UniqueIdentifier>{f2f24d61-12d6-4baa-b773-28c5ee94bc83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Animator\3D">
+      <UniqueIdentifier>{d4a14248-40ce-4e7b-bc6b-da5660910f9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

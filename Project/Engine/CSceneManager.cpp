@@ -23,6 +23,7 @@
 #include "CTexture.h"
 #include "CMaterial.h"
 #include "CCollider2DRect.h"
+#include "CAnimation2D.h"
 #include "Ptr.h"
 
 // GameContents

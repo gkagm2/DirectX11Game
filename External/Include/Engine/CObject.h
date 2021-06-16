@@ -8,6 +8,7 @@ private:
 
 private:
 	UINT m_iID;
+	tstring m_strName;
 
 public:
 	virtual void UpdateData() {}
@@ -19,6 +20,8 @@ public:
 
 public:
 	UINT GetID() { return m_iID; }
+	const tstring& GetName() { return m_strName; }
+	void SetName(const tstring& _strName) { m_strName = _strName; }
 
 public:
 	// TODO (Jang) : Clone은 순수 가상함수로 만들기

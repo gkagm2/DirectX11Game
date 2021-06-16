@@ -10,6 +10,8 @@ class CScript;
 class CCollider2D;
 class CCollider2DRect;
 class CCollider3D;
+class CAnimator2D;
+
 
 class CGameObject : public CObject, ILifeCycleInterface
 {
@@ -18,7 +20,7 @@ private:
 	CGameObject* m_pParentObj;
 	vector<CGameObject*> m_vecChildObj;
 
-	tstring m_strName;
+
 
 	E_Layer m_eLayer;
 	bool m_bDead;
@@ -37,16 +39,10 @@ public:
 	GET_COMPONENT_COMPOTABLE
 
 public:
-	const tstring& GetName() { return m_strName; }
-	void SetName(const tstring& _strName) { m_strName = _strName; }
-
 	E_Layer GetLayer() { return m_eLayer; }
 	bool IsDead() { return m_bDead; }
 
-
 	CGameObject* GetParentObject() { return m_pParentObj; }
-
-
 	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 
 private:

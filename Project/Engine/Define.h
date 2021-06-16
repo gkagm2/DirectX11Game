@@ -35,7 +35,8 @@
 	GET_COMPONENT(MeshRenderer)\
 	GET_COMPONENT(Camera)\
 	GET_COMPONENT(Collider2D)\
-	GET_COMPONENT(Collider3D)
+	GET_COMPONENT(Collider3D)\
+	GET_COMPONENT(Animator2D)
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -45,7 +46,8 @@
 	GET_OTHER_COMPONENT(MeshRenderer)\
 	GET_OTHER_COMPONENT(Camera)\
 	GET_OTHER_COMPONENT(Collider2D)\
-	GET_OTHER_COMPONENT(Collider3D)
+	GET_OTHER_COMPONENT(Collider3D)\
+	GET_OTHER_COMPONENT(Animator2D)
 
 #pragma endregion
 
