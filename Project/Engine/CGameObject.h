@@ -8,7 +8,6 @@ class CMeshRenderer;
 class CCamera;
 class CScript;
 class CCollider2D;
-class CCollider2DRect;
 class CCollider3D;
 class CAnimator2D;
 
@@ -19,8 +18,6 @@ private:
 	CComponent* m_arrComponent[(UINT)E_ComponentType::End];
 	CGameObject* m_pParentObj;
 	vector<CGameObject*> m_vecChildObj;
-
-
 
 	E_Layer m_eLayer;
 	bool m_bDead;
@@ -73,19 +70,7 @@ public:
 template<typename TYPE>
 inline TYPE* CGameObject::AddComponent()
 {
-	TYPE* pComponent = nullptr;
-	// 이미 추가되어있으면 그 컴포넌트를 리턴
-	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
-		if (nullptr != pComponent) {
-			// TODO : 이미 컴포넌트가 존재한다고 warning 표시
-			assert(nullptr && _T("컴포넌트가 이미 존재하는데 추가 시도함."));
-			return pComponent;
-		}
-	}
-
-	// 컴포넌트 생성 및 타입 확인
-	pComponent = new TYPE();
+	TYPE* pComponent = new TYPE();
 	CComponent* pComp = dynamic_cast<CComponent*>(pComponent);
 	if (nullptr == pComp) {
 		delete pComponent;
@@ -94,6 +79,14 @@ inline TYPE* CGameObject::AddComponent()
 	}
 
 	E_ComponentType eType = pComp->GetComponentType();
+
+	// 이미 존재하면
+	if (m_arrComponent[(UINT)eType]) {
+		delete pComponent;
+		pComponent = dynamic_cast<TYPE*>(m_arrComponent[(UINT)eType]);
+		return pComponent;
+	}
+
 	m_arrComponent[(UINT)eType] = pComp;
 	pComp->m_pGameObj = this;
 

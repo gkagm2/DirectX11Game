@@ -2,6 +2,7 @@
 
 class CCollider;
 class CCollider2D;
+class CCollider2DRect;
 union COLLIDER_ID
 {
 	struct {
@@ -36,5 +37,10 @@ public:
 		for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
 			m_bitsetCollisionGroup[i].reset();
 	}
+
+public:
 	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);
+
+private:
+	bool _IsCollision(CCollider2DRect* _pLeft, CCollider2DRect* _pRight);
 };

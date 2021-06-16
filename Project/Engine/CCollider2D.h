@@ -19,9 +19,9 @@ private:
 	virtual void UpdateData() override;
 
 public:
-	virtual void OnCollisionEnter(CCollider2D* _pOther) = 0;
-	virtual void OnCollisionStay(CCollider2D* _pOther) = 0;
-	virtual void OnCollisionExit(CCollider2D* _pOther) = 0;
+	virtual void OnCollisionEnter(CCollider2D* _pOther);
+	virtual void OnCollisionStay(CCollider2D* _pOther);
+	virtual void OnCollisionExit(CCollider2D* _pOther);
 	
 protected:
 	void SetMesh(const SharedPtr<CMesh>& _pMesh) { m_pMesh = _pMesh; }

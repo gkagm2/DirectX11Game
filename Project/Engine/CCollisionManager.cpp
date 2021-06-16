@@ -170,6 +170,19 @@ else
 
 bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
-	// TODO
+	{
+		auto pLeft = dynamic_cast<CCollider2DRect*>(_pLeft);
+		auto pRight = dynamic_cast<CCollider2DRect*>(_pRight);
+		if (pLeft && pRight)
+			return _IsCollision(pLeft, pRight);
+	}
+
+	return false;
+}
+
+// OBB Check
+bool CCollisionManager::_IsCollision(CCollider2DRect* _pLeft, CCollider2DRect* _pRight)
+{
+	// TODO : 충돌 체크
 	return false;
 }

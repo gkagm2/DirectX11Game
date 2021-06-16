@@ -11,8 +11,11 @@ protected:
 	CGameObject* m_pOwnerGameObj; // 이 객체를 가지고 있는 오브젝트
 	int m_iCollisionCount;		  // 이 객체가 다른 충돌체와 충돌한 횟수
 	
-	SharedPtr<CMesh> m_pMesh;
-	SharedPtr<CMaterial> m_pMtrl;
+protected:
+	void IncreaseCollisionCnt() { ++m_iCollisionCount; }
+	void DecreaseCollisionCnt() { --m_iCollisionCount; }
+	int GetColCount() { return m_iCollisionCount; }
+
 
 public:
 	CCollider() = delete;

@@ -97,12 +97,12 @@ void CSceneManager::Init() {
 
 		m_pCurScene->AddGameObject(pCameraObj);
 	}
-	//{
-	//	// 게임 매니저 오브젝트 생성
-	//	CGameObject* pGameMgr = new CGameObject();
-	//	pGameMgr->AddComponent<CGameManagerScript_sh>();
-	//	m_pCurScene->AddGameObject(pGameMgr);
-	//}
+	{
+		// 게임 매니저 오브젝트 생성
+		CGameObject* pGameMgr = new CGameObject();
+		pGameMgr->AddComponent<CGameManagerScript_sh>();
+		m_pCurScene->AddGameObject(pGameMgr);
+	}
 
 	CGameObject* pPlayer = TestCreateObj();
 	// 플레이어 오브젝트 생성
@@ -116,7 +116,7 @@ void CSceneManager::Init() {
 		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
-		pPlayer->Collider2D()->SetOffsetPosition(Vector2(50.f, 50.f));
+		pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
 
@@ -129,11 +129,11 @@ void CSceneManager::Init() {
 		CObject::AddChildGameObjectEvn(pPlayer, pChild);*/
 #pragma endregion
 	}
-	//{
-	//	CGameObject* pEnemyRespawner = new CGameObject();
-	//	pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
-	//	m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
-	//}
+	{
+		CGameObject* pEnemyRespawner = new CGameObject();
+		pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
+		m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
+	}
 
 	// 레이어 충돌 지정
 	CCollisionManager::GetInstance()->SetOnOffCollision(E_Layer::Player, E_Layer::Enemy, true);

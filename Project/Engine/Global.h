@@ -14,6 +14,8 @@
 using std::vector;
 #include <list>
 using std::list;
+#include <queue>
+using std::queue;
 #include <unordered_map>
 using std::unordered_map;
 #include <map>
