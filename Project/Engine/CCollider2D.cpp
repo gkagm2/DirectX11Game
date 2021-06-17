@@ -62,18 +62,18 @@ void CCollider2D::UpdateData()
 void CCollider2D::OnCollisionEnter(CCollider2D* _pOther)
 {
 	// 카운트가 0인 상태면
-	//if (m_iCollisionCount == 0) {
-	//	// 메터리얼을 하나 만들어야되겠지
-	//	if (g_queCollisionMtrl.empty()) {
-	//		// 충돌 메터리얼이 없으면 새로 생성해서 que에다가 넣기?
-	//		g_queCollisionMtrl.push(m_pMaterial->Clone());
-	//		m_pMaterial = g_queCollisionMtrl.front();
-	//		g_queCollisionMtrl.pop();
+	if (m_iCollisionCount == 0) {
+		// 메터리얼을 하나 만들어야되겠지
+		if (g_queCollisionMtrl.empty()) {
+			// 충돌 메터리얼이 없으면 새로 생성해서 que에다가 넣기?
+			g_queCollisionMtrl.push(m_pMaterial->Clone());
+		}
+		m_pMaterial = g_queCollisionMtrl.front();
+		g_queCollisionMtrl.pop();
 
-	//		int iTest = 1;
-	//		m_pMaterial->SetData(E_ShaderParam::Int_0, &iTest);
-	//	}
-	//}
+		int iTest = 1;
+		m_pMaterial->SetData(E_ShaderParam::Int_0, &iTest);
+	}
 	IncreaseCollisionCnt();
 }
 
@@ -84,8 +84,8 @@ void CCollider2D::OnCollisionStay(CCollider2D* _pOther)
 void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
 {
 	DecreaseCollisionCnt();
-	/*if (0 == m_iCollisionCount) {
+	if (0 == m_iCollisionCount) {
 		g_queCollisionMtrl.push(m_pMaterial);
 		m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMaterial);
-	}*/
+	}
 }

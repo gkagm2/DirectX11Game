@@ -183,6 +183,75 @@ bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 // OBB Check
 bool CCollisionManager::_IsCollision(CCollider2DRect* _pLeft, CCollider2DRect* _pRight)
 {
-	// TODO : 충돌 체크
-	return false;
+	// 로컬 좌표
+	/*
+	0-----1
+	|     |
+	|     |
+	3-----2
+	*/
+	static Vector3 arrLocal[4] = {
+		Vector3(-0.5f, 0.5f, 0.f),
+		Vector3( 0.5f, 0.5f, 0.f),
+		Vector3( 0.5f,-0.5f, 0.f),
+		Vector3(-0.5f,-0.5f, 0.f)
+	};
+
+#pragma region Tip
+	// XMVector3TransformCoord
+// 주어진 행렬로 3D 벡터를 변환하여 결과를 다시 w = 1로 투영합니다.
+//입력 벡터의 w 구성 요소를 무시하고 대신 1.0 값을 사용합니다.반환 된 벡터의 w 구성 요소는 항상 1.0입니다.
+
+// 쉐이더 코드로 치면 mul(float4(arrLoca[0], 0.f), _pLeft->GetWorldMat()); 임.
+// 
+// XMVector3TransformNormal(arrLocal[2], _pLeft->GetWorldMatrix());을 쓰게 되면 4번째 요소를 0으로 설정해준다.  
+#pragma endregion
+	// 세 개의 위치값을 충돌체 위치로 보내기
+	Vector3 v0 = XMVector3TransformCoord(arrLocal[0], _pLeft->GetWorldMatrix()); // 이동 좌표에 영향을 주도록 4번째 요소값을 1로 확장
+	v0.z = 0.f;
+	Vector3 v1 = XMVector3TransformCoord(arrLocal[1], _pLeft->GetWorldMatrix());
+	v1.z = 0.f;
+	Vector3 v3 = XMVector3TransformCoord(arrLocal[3], _pLeft->GetWorldMatrix());
+	v3.z = 0.f;
+	
+	// 투영축 계산
+	Vector3 vToLeft1 = v1 - v0;
+	Vector3 vToDown1 = v3 - v0;
+
+	// 다른 사각형의 투영 축 구하기
+	v0 = XMVector3TransformCoord(arrLocal[0], _pRight->GetWorldMatrix());
+	v0.z = 0.f;
+	v1 = XMVector3TransformCoord(arrLocal[1], _pRight->GetWorldMatrix());
+	v1.z = 0.f;
+	v3 = XMVector3TransformCoord(arrLocal[3], _pRight->GetWorldMatrix());
+	v3.z = 0.f;
+
+	// 투영축 계산
+	Vector3 vToLeft2 = v1 - v0;
+	Vector3 vToDown2 = v3 - v0;
+
+	// 각 투영축을 모두 검사하기 위해 배열에 넣어줌
+	Vector3 arrProjAxis[4] = { vToLeft1, vToDown1, vToLeft2, vToDown2 };
+
+	Vector3 vCenterPosLeftCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pLeft->GetWorldMatrix());
+	Vector3 vCenterPosRightCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pRight->GetWorldMatrix());
+
+	Vector3 vCenter = vCenterPosRightCollider - vCenterPosLeftCollider;
+
+	// 모든 축으로 투영되어 분리축이 나오는지 검사
+	for (int i = 0; i < 4; ++i) {
+		Vector3 vAxisDir = arrProjAxis[i];
+		vAxisDir.Normalize(); // 단위 벡터로 만듬
+
+		float fProjTwoBoxesDis = 0.f;
+		for (int j = 0; j < 4; ++j)
+			fProjTwoBoxesDis += abs(vAxisDir.Dot(arrProjAxis[j]));
+
+		float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
+
+		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f)
+			return false;
+	}
+
+	return true;
 }

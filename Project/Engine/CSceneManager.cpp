@@ -113,9 +113,9 @@ void CSceneManager::Init() {
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
 		
-		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+		pPlayer->Transform()->SetLocalPosition(Vector3(80.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-		pPlayer->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+		pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 		pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 		m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
@@ -130,9 +130,22 @@ void CSceneManager::Init() {
 #pragma endregion
 	}
 	{
-		CGameObject* pEnemyRespawner = new CGameObject();
+		CGameObject* pEnemy = TestCreateObj();
+		CCollider2DRect* pCollider2D = pEnemy->AddComponent<CCollider2DRect>();
+		CGameObject* pOwner = pCollider2D->GetGameObject();
+
+		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
+
+		pEnemy->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+		pEnemy->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+		pEnemy->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+		pEnemy->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
+		m_pCurScene->AddGameObject(pEnemy, E_Layer::Enemy);
+	}
+	{
+		/*CGameObject* pEnemyRespawner = new CGameObject();
 		pEnemyRespawner->AddComponent<CEnemyRespawnerScript_sh>();
-		m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);
+		m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);*/
 	}
 
 	// 레이어 충돌 지정

@@ -147,7 +147,7 @@ enum class E_DepthStencilState {
 	Greater,
 	No_Test,
 	No_Write, // 테스트하되 깊이값 저장 X
-	No_Test_No_Write,
+	No_Test_No_Write, // 깊이 판정 검사 X 기록 X
 	End
 };
 
