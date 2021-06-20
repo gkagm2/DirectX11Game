@@ -128,7 +128,7 @@ void CSceneManager::Init() {
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
 		
-		pPlayer->Transform()->SetLocalPosition(Vector3(80.f, 0.f, 0.f));
+		pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 		pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
