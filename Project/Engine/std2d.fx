@@ -21,7 +21,7 @@ struct VTX_OUT {
 // Vertex shader
 ////////////////
 // vPos, vColor를 입력받아서 처리해주는 함수
-VTX_OUT VS(VTX_IN _in)
+VTX_OUT VS_Std2D(VTX_IN _in)
 {
 	VTX_OUT output = (VTX_OUT)0.f; // 초기화
 	
@@ -43,17 +43,29 @@ VTX_OUT VS(VTX_IN _in)
 ///////////////
 // Pixel shader
 ///////////////
-float4 PS(VTX_OUT _in) : SV_Target {
-    float2 vOutUV = _in.vUV;
-    float4 vOutColor = g_tex_0.Sample(g_sam_0, vOutUV);
-	
-    if (g_int_0)
+float4 PS_Std2D(VTX_OUT _in) : SV_Target {
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
+    
+    // 애니메이션 타입인 경우
+    if (bIsAnimating2D)
     {
-        vOutColor.x = 1.0f;
-        vOutColor.yz = 0.0f;
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
+                
+        if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
+            && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
+        {
+            return g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+        }
+        else
+        {
+            clip(-1);
+        }
     }
-	
-	return vOutColor;
+    else if(bTex_0)
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+    return vOutColor;
 }
 
 ////////////////

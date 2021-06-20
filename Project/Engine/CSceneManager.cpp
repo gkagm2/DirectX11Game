@@ -23,7 +23,7 @@
 #include "CTexture.h"
 #include "CMaterial.h"
 #include "CCollider2DRect.h"
-#include "CAnimation2D.h"
+#include "CAnimator2D.h"
 #include "Ptr.h"
 
 // GameContents
@@ -81,6 +81,7 @@ void CSceneManager::Init() {
 	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
 	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
+	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Anim);
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
 	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
@@ -108,6 +109,20 @@ void CSceneManager::Init() {
 	// 플레이어 오브젝트 생성
 	{
 		pPlayer->AddComponent<CPlayerScript_sh>();
+		pPlayer->AddComponent<CAnimator2D>();
+		TAnimation2DDesc tAnimDesc;
+		tAnimDesc.fDuration = 0.1f;
+		tAnimDesc.iFrameCount = 10;
+		tAnimDesc.pAtlas = pAnimTexture;
+		tAnimDesc.strName = _T("Player_Walk");
+		tAnimDesc.vBaseSize = Vector2{ 150.f,150.f };
+		tAnimDesc.vFrameSize = Vector2{ 60.f,65.f };
+		tAnimDesc.vLeftTop = Vector2(0.f, 4 * 65.f);
+
+		pPlayer->Animator2D()->CreateAnimation(tAnimDesc);
+
+		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
+
 		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
 		CGameObject* pOwner = pCollider2D->GetGameObject();
 

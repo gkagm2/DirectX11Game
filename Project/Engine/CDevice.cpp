@@ -233,6 +233,9 @@ void CDevice::CreateConstBuffer()
 	
 	m_arrCB[(UINT)E_ConstBuffer::Material_Param] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::Material_Param]->Create(E_ConstBuffer::Material_Param, sizeof(TMaterialParam));
+
+	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data]->Create(E_ConstBuffer::Animation2D_Data, sizeof(TAnimation2DData));
 }
 
 void CDevice::CreateSampler()

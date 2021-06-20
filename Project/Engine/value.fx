@@ -38,7 +38,31 @@ cbuffer MATERIAL_PARAM : register(b1)
     row_major matrix g_mat_1;
     row_major matrix g_mat_2;
     row_major matrix g_mat_3;
+    
+    int bTex_0;
+    int bTex_1;
+    int bTex_2;
+    int bTex_3;
+    int bTex_4;
+    int bTex_5;
+    int bTex_6;
+    int bTex_7;
+    int bTexArr_0;
+    int bTexArr_1;
+    int bTexCube_0;
+    int bTexCube_1;
+    
 }
+
+cbuffer ANIMATION2D_DATA : register(b2)
+{
+    float2 vLeftTopUV;
+    float2 vFrameSizeUV;
+    float2 vOffsetSizeUV;
+    float2 vBaseSizeUV;
+    int bIsAnimating2D;
+    int3 padding;
+};
 
 // Texture register (t)
 Texture2D g_tex_0 : register(t0);
@@ -56,8 +80,9 @@ Texture2DArray g_texarr_1 : register(t9);
 TextureCube g_texcube_0 : register(t10);
 TextureCube g_texcube_1 : register(t11);
 
+Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
+
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic
 SamplerState g_sam_1 : register(s1); // Point
-
 #endif

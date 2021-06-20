@@ -65,6 +65,7 @@ enum class E_ResourceType {
 enum class E_ConstBuffer {
 	Transform,		 // b0
 	Material_Param,	 // b1
+	Animation2D_Data,// b2
 	End,
 };
 
@@ -187,9 +188,7 @@ enum class E_ShaderParam {
 	Texture_7,
 	TextureArr_0,
 	TextureArr_1,
-	TextureArr_2,
 	TextureCube_0,
 	TextureCube_1,
-	TextureCube_2,
 	Texture_End,
 };

@@ -33,19 +33,22 @@ void CMaterial::UpdateData()
 {
 	m_pShader->UpdateData();
 
-	// 상수 데이터 업데이트
+	// 텍스쳐
+	for (UINT i = 0; i < (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0; ++i) {
+		if (nullptr != m_arrTexture[i]) {
+			m_arrTexture[i]->UpdateData(E_ShaderStage::All, i);
+			m_tParam.bTexArr[i] = true;
+		}
+		else {
+			CTexture::Clear(i);
+			m_tParam.bTexArr[i] = false;
+		}
+	}
 
+	// 상수 데이터 업데이트
 	static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Material_Param);
 	pCB->SetData(&m_tParam);
 	pCB->UpdateData();
-
-	// 텍스쳐
-	for (UINT i = 0; i < (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0; ++i) {
-		if (nullptr != m_arrTexture[i])
-			m_arrTexture[i]->UpdateData(E_ShaderStage::All, i);
-		else
-			CTexture::Clear(i);
-	}
 }
 
 void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
@@ -96,10 +99,8 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 	case E_ShaderParam::Texture_7:
 	case E_ShaderParam::TextureArr_0:
 	case E_ShaderParam::TextureArr_1:
-	case E_ShaderParam::TextureArr_2:
 	case E_ShaderParam::TextureCube_0:
 	case E_ShaderParam::TextureCube_1:
-	case E_ShaderParam::TextureCube_2:
 		m_arrTexture[(UINT)_eParam - (UINT)E_ShaderParam::Texture_0] = (CTexture*)_pData;
 
 		break;

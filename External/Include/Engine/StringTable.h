@@ -24,8 +24,8 @@
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 
 // std2.fx functions name
-#define STR_FUNC_NAME_VTXShader "VS"
-#define STR_FUNC_NAME_PIXShader "PS"
+#define STR_FUNC_NAME_VTXShader "VS_Std2D"
+#define STR_FUNC_NAME_PIXShader "PS_Std2D"
 #define STR_FUNC_NAME_VTXShaderCollider2D "VS_Collider2D"
 #define STR_FUNC_NAME_PIXShaderCollider2D "PS_Collider2D"
 
@@ -55,3 +55,4 @@
 #define STR_PATH_Enemy2 _T("texture\\Enemy2.png")
 #define STR_PATH_Enemy3 _T("texture\\Enemy3.png")
 #define STR_PATH_Enemy4 _T("texture\\Enemy4.png")
+#define STR_PATH_Anim _T("texture\\link_0.png")
