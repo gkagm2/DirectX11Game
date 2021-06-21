@@ -24,6 +24,7 @@
 #include "CMaterial.h"
 #include "CCollider2DRect.h"
 #include "CAnimator2D.h"
+#include "CAnimation2D.h"
 #include "Ptr.h"
 
 // GameContents
@@ -110,6 +111,7 @@ void CSceneManager::Init() {
 	{
 		pPlayer->AddComponent<CPlayerScript_sh>();
 		pPlayer->AddComponent<CAnimator2D>();
+		/*
 		TAnimation2DDesc tAnimDesc;
 		tAnimDesc.fDuration = 0.1f;
 		tAnimDesc.iFrameCount = 10;
@@ -120,8 +122,15 @@ void CSceneManager::Init() {
 		tAnimDesc.vLeftTop = Vector2(0.f, 4 * 65.f);
 
 		pPlayer->Animator2D()->CreateAnimation(tAnimDesc);
-
+		
 		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
+		CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
+		pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+		*/
+		pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
+		pPlayer->Animator2D()->Play(_T("Player_Walk"));
+
+		
 
 		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
 		CGameObject* pOwner = pCollider2D->GetGameObject();

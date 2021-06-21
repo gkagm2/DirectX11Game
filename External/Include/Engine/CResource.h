@@ -15,7 +15,7 @@ private:
 	void AddRef() { ++m_iRefCount; }
 	void SubRef() { --m_iRefCount; }
 
-private:
+public:
 	void SetKey(const tstring& _strKey) { m_strKey = _strKey; }
 	const tstring& GetKey() { return m_strKey; }
 	void SetRelativePath(const tstring& _strRelativePath) {

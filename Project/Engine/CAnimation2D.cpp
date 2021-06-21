@@ -2,6 +2,8 @@
 #include "CConstBuffer.h"
 #include "CDevice.h"
 #include "CTimeManager.h"
+#include "CPathManager.h"
+#include "CResourceManager.h"
 #include "CAnimation2D.h"
 #include "CTexture.h"
 #include "Ptr.h"
@@ -77,8 +79,109 @@ void CAnimation2D::Create(TAnimation2DDesc& _tAnimation2DDesc)
 
 void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _strFileName)
 {
+	tstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativeFilePath + _strFileName;
+
+	FILE* pFile = nullptr;
+	_tfopen_s(&pFile, strFilePath.c_str(), _T("w"));
+	assert(pFile);
+
+	// fwpritnf
+	_ftprintf(pFile, _T("Animation_Name\n"));
+	_ftprintf(pFile, GetName().c_str());
+	_ftprintf(pFile, _T("\n"));
+	_ftprintf(pFile, _T("Frame_Count\n"));
+	_ftprintf(pFile, _T("%d\n"), (int)m_vecAnimFrame.size());
+
+	for (int i = 0; i < m_vecAnimFrame.size(); ++i) {
+		_ftprintf(pFile, _T("Left_Top\n"));
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vLeftTop.x, m_vecAnimFrame[i].vLeftTop.y);
+
+		_ftprintf(pFile, _T("Frame_Size\n"));
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vFrameSize.x, m_vecAnimFrame[i].vFrameSize.y);
+
+		_ftprintf(pFile, _T("Offset\n"));
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vOffsetPos.x, m_vecAnimFrame[i].vOffsetPos.y);
+
+		_ftprintf(pFile, _T("Base_Size\n"));
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vBaseSize.x, m_vecAnimFrame[i].vBaseSize.y);
+
+		_ftprintf(pFile, _T("Duration\n"));
+		_ftprintf(pFile, _T("%f\n"), m_vecAnimFrame[i].fDuration);
+		_ftprintf(pFile, _T("\n"));
+	}
+	 
+	// 참조하고 있는 텍스쳐 정보
+	_ftprintf(pFile, _T("Textrue_Name\n"));
+	_ftprintf(pFile, m_pTexture->GetKey().c_str());
+	_ftprintf(pFile, _T("\n"));
+
+	_ftprintf(pFile, _T("Texture_Path\n"));
+	_ftprintf(pFile, m_pTexture->GetRelativePath().c_str());
+	_ftprintf(pFile, _T("\n"));
+
+	fclose(pFile);
 }
 
 void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 {
+	tstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativeFilePath;
+
+	int const iBufferSize = 1024;
+	TCHAR szBuffer[iBufferSize] = {};
+
+	FILE* pFile = nullptr;
+	_tfopen_s(&pFile, strFilePath.c_str(), _T("r"));
+	assert(pFile);
+
+	// fwscanf_s
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+
+	// Animation Name
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	SetName(szBuffer);
+
+	//Frame Count
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	int iFrameCount = 0;
+	_ftscanf_s(pFile, _T("%d"), &iFrameCount);
+
+	TAnimationFrame tAnimFrame = {};
+	for (int i = 0; i < iFrameCount; ++i) {
+		// Left Top
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vLeftTop.x, &tAnimFrame.vLeftTop.y);
+
+		// Frame Size
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vFrameSize.x, &tAnimFrame.vFrameSize.y);
+
+		// Offset
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vOffsetPos.x, &tAnimFrame.vOffsetPos.y);
+
+		// Base Sizes
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vBaseSize.x, &tAnimFrame.vBaseSize.y);
+
+		// Durations
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%f"), &tAnimFrame.fDuration);
+		m_vecAnimFrame.push_back(tAnimFrame);
+	}
+
+	// 참조하고 있는 텍스쳐 정보
+
+	// 텍스쳐 이름
+	_ftscanf_s(pFile, _T("%s"), szBuffer,iBufferSize);
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	m_pTexture = CResourceManager::GetInstance()->FindRes<CTexture>(szBuffer);
+	wstring strKey = szBuffer;
+
+	// 텍스쳐 경로
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	if (nullptr == m_pTexture)
+		m_pTexture = CResourceManager::GetInstance()->Load<CTexture>(strKey, szBuffer);
+
+	fclose(pFile);
 }

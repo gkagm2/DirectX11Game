@@ -40,4 +40,6 @@ public:
 public:
 	CAnimation2D();
 	virtual ~CAnimation2D() override;
+
+	friend class CAnimator2D;
 };
