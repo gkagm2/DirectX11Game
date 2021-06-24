@@ -45,7 +45,7 @@ struct TAnimation2DData {
 struct TLightColor {
 	Vector4 vDiffuse;	// ³­¹Ý»ç±¤
 	Vector4 vSpecular;	// ¹Ý»ç±¤
-	Vector4 vEmbiend;	// È¯°æ±¤
+	Vector4 vEmbient;	// È¯°æ±¤
 };
 
 struct TLightInfo {

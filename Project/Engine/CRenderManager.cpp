@@ -19,6 +19,8 @@ void CRenderManager::Init()
 
 void CRenderManager::Render()
 {
+	_RenderInit();
+
 	// Render
 	// 1. Å¸°Ù Å¬¸®¾î
 	CDevice::GetInstance()->ClearTarget();

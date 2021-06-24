@@ -112,6 +112,14 @@ void CPlayerScript_sh::Move()
 		vDir.x += 1.f;
 	}
 
+	if (InputKeyHold(E_Key::W)) {
+		vDir.y += 1.f;
+	}
+
+	if (InputKeyHold(E_Key::S)) {
+		vDir.y -= 1.f;
+	}
+
 	
 	float z = Transform()->GetLocalRotation().z;
 	if (InputKeyHold(E_Key::Ctrl))

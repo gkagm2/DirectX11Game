@@ -133,15 +133,15 @@ void CSceneManager::Init() {
 		pLight2DObj->AddComponent<CLight2D>();
 
 		pLight2DObj->Transform()->SetLocalPosition(Vector3(-300.f, 0.f, 0.f));
-		pLight2DObj->Light2D()->SetDiffColor(Vector3(0.f, 1.f, 1.f));
-		pLight2DObj->Light2D()->SetRange(200.f);
+		pLight2DObj->Light2D()->SetDiffColor(Vector3(0.9f, 0.2f, 0.2f));
+		pLight2DObj->Light2D()->SetRange(400.f);
 		pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
 
 		m_pCurScene->AddGameObject(pLight2DObj, E_Layer::Default);
 
 		CGameObject* pLight2 = pLight2DObj->Clone();
 		pLight2->Transform()->SetLocalPosition(Vector3(300.f, 0.f, 0.f));
-		pLight2->Light2D()->SetDiffColor(Vector3(1.f, 0.f, 1.f));
+		pLight2->Light2D()->SetDiffColor(Vector3(0.2f, 0.9f, 0.2f));
 
 		m_pCurScene->AddGameObject(pLight2);
 	}
@@ -151,6 +151,10 @@ void CSceneManager::Init() {
 	{
 		pPlayer->AddComponent<CPlayerScript_sh>();
 		pPlayer->AddComponent<CAnimator2D>();
+
+		SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
+
+		pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
 		
 		TAnimation2DDesc tAnimDesc;
 		tAnimDesc.fDuration = 0.1f;
@@ -166,7 +170,7 @@ void CSceneManager::Init() {
 		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
 		CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
 		
-		pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+		//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
 		
 		/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 		pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
@@ -196,6 +200,11 @@ void CSceneManager::Init() {
 		CGameObject* pEnemy = TestCreateObj();
 		CCollider2DRect* pCollider2D = pEnemy->AddComponent<CCollider2DRect>();
 		CGameObject* pOwner = pCollider2D->GetGameObject();
+
+		SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
+
+		pEnemy->MeshRenderer()->SetMaterial(pLightMtrl);
+
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
 
