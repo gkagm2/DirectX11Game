@@ -26,6 +26,7 @@ public:
 	void SetBulletDamage(float _iDamage) { m_fBulletDamage = _iDamage; }
 
 public:
+	CLONE(CPlayerScript_sh);
 	CPlayerScript_sh();
 	virtual ~CPlayerScript_sh() override;
 };

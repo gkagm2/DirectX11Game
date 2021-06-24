@@ -40,6 +40,7 @@ public:
 	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
 
 public:
+	CLONE(CAnimation2D);
 	CAnimation2D();
 	virtual ~CAnimation2D() override;
 

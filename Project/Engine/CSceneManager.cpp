@@ -43,7 +43,7 @@ CGameObject*  TestCreateObj() {
 	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 
 	CGameObject* pObj = new CGameObject();
 	pObj->AddComponent<CTransform>();
@@ -86,7 +86,7 @@ void CSceneManager::Init() {
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Anim);
 
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
@@ -106,7 +106,7 @@ void CSceneManager::Init() {
 		pGameMgr->AddComponent<CGameManagerScript_sh>();
 		m_pCurScene->AddGameObject(pGameMgr);
 	}
-	/*{
+	{
 		CGameObject* pLight2DObj = new CGameObject;
 		pLight2DObj->AddComponent<CTransform>();
 		pLight2DObj->AddComponent<CMeshRenderer>();
@@ -118,7 +118,7 @@ void CSceneManager::Init() {
 		pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
 
 		m_pCurScene->AddGameObject(pLight2DObj, E_Layer::Default);
-	}*/
+	}
 
 	CGameObject* pPlayer = TestCreateObj();
 	// 플레이어 오브젝트 생성
@@ -139,11 +139,6 @@ void CSceneManager::Init() {
 		
 		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
 		CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
-
-		auto& vecAnim = pAnim2D->GetAnimationFrame();
-		for (int i = 0; i < vecAnim.size(); ++i) {
-			vecAnim[i].vOffsetPos = Vector2(0.12f, 0.f);
-		}
 		
 		pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
 		

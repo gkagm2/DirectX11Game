@@ -56,17 +56,33 @@ private:
 public:
 	template<typename TYPE>
 	TYPE* AddComponent();
+
+	template<typename TYPE>
+	TYPE* AddComponent(CComponent* _pComponent);
 	
 	template<typename TYPE>		
 	TYPE* GetComponent();
 
 public:
+	CLONE(CGameObject);
 	CGameObject();
+	CGameObject(const CGameObject& _origin);
 	virtual ~CGameObject() override;
 
 	friend class CEventManager;
 	friend class CLayer;
 };
+
+template<typename TYPE>
+inline TYPE* CGameObject::AddComponent(CComponent* _pComponent) {
+	if (m_arrComponent[(UINT)_pComponent->GetComponentType()])
+		return (TYPE*)m_arrComponent[(UINT)_pComponent->GetComponentType()];
+
+	m_arrComponent[(UINT)_pComponent->GetComponentType()] = _pComponent;
+	_pComponent->m_pGameObj = this;
+
+	return (TYPE*)_pComponent;
+}
 
 template<typename TYPE>
 inline TYPE* CGameObject::AddComponent()

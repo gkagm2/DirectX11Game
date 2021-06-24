@@ -56,12 +56,16 @@ private:
 public:
 	template<typename TYPE>
 	TYPE* AddComponent();
+
+	CComponent* AddComponent(CComponent* _pComponent);
 	
 	template<typename TYPE>		
 	TYPE* GetComponent();
 
 public:
+	CLONE(CGameObject);
 	CGameObject();
+	CGameObject(const CGameObject& _origin);
 	virtual ~CGameObject() override;
 
 	friend class CEventManager;

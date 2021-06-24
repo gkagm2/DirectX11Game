@@ -78,7 +78,7 @@ void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 	pBulletObj->Transform()->SetLocalScale(vPlayerScale * 0.3f);
 
 	pBulletObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash));
-	pBulletObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage));
+	pBulletObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
 
 	CBulletScript_sh* pBullet = pBulletObj->GetComponent<CBulletScript_sh>();
 

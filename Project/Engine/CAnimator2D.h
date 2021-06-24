@@ -65,6 +65,8 @@ public:
 	CAnimation2D* GetCurAnimation() { return m_pCurAnimation; }
 
 public:
+	CLONE(CAnimator2D);
 	CAnimator2D();
+	CAnimator2D(const CAnimator2D& _origin);
 	virtual ~CAnimator2D() override;
 };

@@ -51,6 +51,7 @@ struct TLightColor {
 struct TLightInfo {
 	TLightColor tColor;
 
+	Vector4 vLightPos;
 	E_LightType eLightType;
 	float fRange;
 	float fAngle;

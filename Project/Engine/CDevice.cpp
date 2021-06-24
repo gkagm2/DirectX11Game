@@ -347,7 +347,8 @@ void CDevice::CreateDepthStencilState()
 
 	// No Test
 	tDesc = {};
-	tDesc.DepthEnable = false;
+	tDesc.DepthEnable = true;
+	tDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
 	tDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 	tDesc.StencilEnable = false;
 	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::No_Test].GetAddressOf());

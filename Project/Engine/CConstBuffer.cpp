@@ -23,8 +23,10 @@ void CConstBuffer::Create(E_ConstBuffer _eType, UINT _iBufferSize)
 	DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pCB.GetAddressOf());
 }
 
+
 void CConstBuffer::SetData(void* _pSysMem, UINT _iSize) const
 {
+	// iSize에 인자값을 넣지 않으면 Desc구조체의 ByteWidth을 이용함
 	if (_iSize == 0) // Default 
 		_iSize = m_tDesc.ByteWidth;
 

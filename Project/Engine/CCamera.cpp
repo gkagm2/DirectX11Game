@@ -4,6 +4,9 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CRenderManager.h"
+#include "CSceneManager.h"
+#include "CScene.h"
+#include "CLayer.h"
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
@@ -13,7 +16,8 @@ CCamera::CCamera() :
 	m_tClippingPlanes{ 1.f, 1000.f },
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
-	m_matProjection{}
+	m_matProjection{},
+	m_iLayerCheck(0)
 {
 }
 
@@ -29,6 +33,20 @@ void CCamera::FinalUpdate()
 	g_transform.matView = m_matView;
 	g_transform.matProjection = m_matProjection;
 	CRenderManager::GetInstance()->RegisterCamera(this);
+}
+
+void CCamera::Render()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+		CLayer* pLayer = pCurScene->GetLayer(i);
+		const vector<CGameObject*>& vecAllObjs = pLayer->GetGameObjects();
+		for (UINT j = 0; j < vecAllObjs.size(); ++j)
+			vecAllObjs[j]->Render();
+	}
 }
 
 void CCamera::_CalculateViewMatrix()

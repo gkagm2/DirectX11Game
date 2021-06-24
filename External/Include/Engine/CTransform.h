@@ -13,7 +13,7 @@ private:
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
 	const Vector3& GetLocalPosition() const { return m_vLocalPosition; }
-	Vector3 GetPosition();
+	Vector3 GetPosition() { return m_matWorld.Translation(); }
 	
 	void SetLocalScale(const Vector3& _vScale) { m_vLocalScale = _vScale; }
 	const Vector3& GetLocalScale() const { return m_vLocalScale; }

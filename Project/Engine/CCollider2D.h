@@ -37,6 +37,7 @@ public:
 	const Matrix& GetWorldMatrix() { return m_matColWorld; }
 
 public:
+	CLONE(CCollider2D);
 	CCollider2D();
 	virtual ~CCollider2D() override;
 };

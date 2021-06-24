@@ -16,6 +16,21 @@ CGameObject::CGameObject() :
 {
 }
 
+CGameObject::CGameObject(const CGameObject& _origin) :
+	m_arrComponent{},
+	m_pParentObj(nullptr),
+	m_eLayer(E_Layer::End),
+	m_bDead(false)
+{
+	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+		if (nullptr != _origin.m_arrComponent[i])
+			AddComponent((CComponent*)_origin.m_arrComponent[i]->Clone());
+	}
+
+	for (UINT i = 0; i < _origin.m_vecChildObj.size(); ++i)
+		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone());
+}
+
 CGameObject::~CGameObject()
 {
 	Safe_Delete_Array(m_arrComponent);
@@ -160,4 +175,15 @@ void CGameObject::_UnlinkParentGameObject()
 	}
 
 	m_pParentObj = nullptr;
+}
+
+CComponent* CGameObject::AddComponent(CComponent* _pComponent)
+{
+	if (m_arrComponent[(UINT)_pComponent->GetComponentType()])
+		return m_arrComponent[(UINT)_pComponent->GetComponentType()];
+
+	m_arrComponent[(UINT)_pComponent->GetComponentType()] = _pComponent;
+	_pComponent->m_pGameObj = this;
+
+	return _pComponent;
 }

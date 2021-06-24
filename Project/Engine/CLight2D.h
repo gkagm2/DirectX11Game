@@ -19,8 +19,11 @@ public:
 	void SetAngle(float _fDegree) { m_tInfo.fAngle = _fDegree * CMyMath::Deg2Rad(); }
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }
 	void SetRange(float _fRange);
+	const TLightInfo& GetLightInfo() { return m_tInfo; }
 
 public:
+	CLONE(CLight2D);
+
 	CLight2D();
 	virtual ~CLight2D() override;
 };

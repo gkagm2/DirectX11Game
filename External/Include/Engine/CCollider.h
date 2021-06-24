@@ -17,7 +17,9 @@ protected:
 
 
 public:
+	CLONE(CCollider);
 	CCollider() = delete;
 	CCollider(E_ComponentType _eComponentType);
+	CCollider(const CCollider& _origin);
 	virtual ~CCollider() override;
 };

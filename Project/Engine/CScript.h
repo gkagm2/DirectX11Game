@@ -18,6 +18,7 @@ public:
 	virtual void FinalUpdate() final {}
 
 public:
+	virtual CScript* Clone() = 0;
 	CScript();
 	virtual ~CScript() override;
 };

@@ -25,6 +25,7 @@ public:
     E_GameState_sh GetGameState() { return m_eState; }
 
 public:
+    CLONE(CGameManagerScript_sh);
     CGameManagerScript_sh();
     virtual ~CGameManagerScript_sh() override;
 };

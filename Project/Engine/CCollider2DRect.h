@@ -7,6 +7,7 @@ public:
 	virtual void OnCollisionStay(CCollider2D* _pOther) override;
 	virtual void OnCollisionExit(CCollider2D* _pOther) override;
 public:
+	CLONE(CCollider2DRect);
 	CCollider2DRect();
 	virtual ~CCollider2DRect() override;
 };

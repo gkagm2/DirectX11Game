@@ -64,6 +64,73 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target {
     return vOutColor;
 }
 
+/////////////////////////////////
+struct VTX_OUT_LIGHT
+{
+    float4 vPosition : SV_Position;
+    float3 vWorldPos : POSITION;
+    float2 vUV : TEXCOORD;
+};
+
+////////////////
+// Light2D Vertex shader
+////////////////
+// vPos, vColor를 입력받아서 처리해주는 함수
+VTX_OUT_LIGHT VS_Std2D_Light2D(VTX_IN _in)
+{
+    VTX_OUT_LIGHT output = (VTX_OUT_LIGHT) 0.f; // 초기화
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+    
+	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
+    output.vPosition = vProjPos;
+    output.vWorldPos = vWorldPos.xyz;
+    output.vUV = _in.vUV;
+    return output;
+}
+
+///////////////
+// Light2D Pixel shader
+///////////////
+float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
+    
+    // 애니메이션 타입인 경우
+    if (bIsAnimating2D)
+    {
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
+                
+        if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
+            && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
+            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+        else
+            clip(-1);
+    }
+    else if (bTex_0)
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+    // 광원처리
+    TLightColor finalColor = (TLightColor) 0.f;
+    for (int i = 0; i < g_iLight2DCount.x; ++i)
+    {
+        float fLength = abs(length(g_arrLight2D[i].vLightPos.xy - _in.vWorldPos.xy));
+        // saturate: 0~1사이의 값으로 만듬
+        //float fRatio = saturate(1.f - (fLength / g_arrLight2D[i].fRange));
+        float fRatio = cos(saturate(fLength / g_arrLight2D[i].fRange) * (3.1415926535f * 0.5f));
+        
+        // 분산광 설정
+        finalColor.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
+    }
+    vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+    return vOutColor;
+}
+///////////////////////
+
+
 ////////////////
 // Collider2D vertex shader
 ////////////////

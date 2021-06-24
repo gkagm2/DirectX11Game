@@ -212,7 +212,7 @@ void CResourceManager::CreateDefaultShader()
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
-	AddRes(STR_KEY_StdShaderAlphaBlend_Coverage, pShader);
+	AddRes(STR_KEY_StdAlphaBlend_CoverageShader, pShader);
 
 	// -----------------------
 	// 기본 쉐이더 생성 (AlphaBlend)
@@ -222,9 +222,23 @@ void CResourceManager::CreateDefaultShader()
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// OM
 	pShader->SetBlendState(E_BlendState::AlphaBlend);
 
-	AddRes(STR_KEY_StdShaderAlphaBlend, pShader);
+	AddRes(STR_KEY_StdAlphaBlendShader, pShader);
+
+	//----------------------
+	// Light2D 쉐이더 생성
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLight2D);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLight2D);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// OM
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	
+	AddRes(STR_KEY_StdLight2DShader, pShader);
 
 	//----------------------
 	// Collider2D 쉐이더 생성
@@ -248,19 +262,25 @@ void CResourceManager::CreateDefaultMaterial()
 {
 	// 기본 재질 생성 (AlphaBlend Coverage)
 	CMaterial* pMtrl = new CMaterial;
-	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = FindRes<CGraphicsShader>(STR_KEY_StdShaderAlphaBlend_Coverage);
+	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = FindRes<CGraphicsShader>(STR_KEY_StdAlphaBlend_CoverageShader);
 	pMtrl->SetShader(pShaderAlphaBlendCV);
-	AddRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend_Coverage, pMtrl);
+	AddRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl, pMtrl);
 
 	// 기본 재질 생성 (AlphaBlend)
 	pMtrl = new CMaterial;
-	SharedPtr<CGraphicsShader> pShaderAlphaBlend = FindRes<CGraphicsShader>(STR_KEY_StdShaderAlphaBlend);
+	SharedPtr<CGraphicsShader> pShaderAlphaBlend = FindRes<CGraphicsShader>(STR_KEY_StdAlphaBlendShader);
 	pMtrl->SetShader(pShaderAlphaBlend);
-	AddRes<CMaterial>(STR_KEY_StdMtrlAlphaBlend, pMtrl);
+	AddRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl, pMtrl);
+
+	// Light2D 재질 설정
+	pMtrl = new CMaterial;
+	SharedPtr<CGraphicsShader> pShaderLight2D = FindRes<CGraphicsShader>(STR_KEY_StdLight2DShader);
+	pMtrl->SetShader(pShaderLight2D);
+	AddRes<CMaterial>(STR_KEY_StdLight2DMtrl, pMtrl);
 
 	// Collider2D 재질 생성
 	pMtrl = new CMaterial;
 	SharedPtr<CGraphicsShader> pShaderCollider2D = FindRes<CGraphicsShader>(STR_KEY_Collider2DShader);
 	pMtrl->SetShader(pShaderCollider2D);
-	AddRes(STR_KEY_Collider2DMaterial, pMtrl);
+	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
 }

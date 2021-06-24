@@ -20,18 +20,6 @@ CTransform::~CTransform()
 {
 }
 
-Vector3 CTransform::GetPosition()
-{
-	Vector3 vWorldPosition = m_vLocalPosition;
-	CGameObject* pGameObj = GetGameObject();
-
-	while (pGameObj->GetParentObject()) {
-		vWorldPosition *= pGameObj->GetParentObject()->Transform()->GetLocalPosition();
-		pGameObj = pGameObj->GetParentObject();
-	}
-	return vWorldPosition;
-}
-
 Vector3 CTransform::GetScale()
 {
 	Vector3 vWorldScale = m_vLocalScale;

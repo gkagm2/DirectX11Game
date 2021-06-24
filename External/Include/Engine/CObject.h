@@ -25,7 +25,7 @@ public:
 
 public:
 	// TODO (Jang) : Clone은 순수 가상함수로 만들기
-	virtual CObject* Clone() { return new CObject(*this); }
+	virtual CObject* Clone() = 0;
 	CObject();
 	CObject(const CObject& _origin);
 	virtual ~CObject();

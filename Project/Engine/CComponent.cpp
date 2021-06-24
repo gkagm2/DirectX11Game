@@ -7,6 +7,13 @@ CComponent::CComponent(E_ComponentType _eType) :
 {
 }
 
+CComponent::CComponent(const CComponent& _origin) :
+	CObject(_origin),
+	m_pGameObj(nullptr),
+	m_eType(_origin.m_eType)
+{
+}
+
 CComponent::~CComponent()
 {
 }

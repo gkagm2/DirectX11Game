@@ -21,6 +21,7 @@ public:
 	void ColorChange();
 
 public:
+	CLONE(CEnemyScript_sh);
 	CEnemyScript_sh();
 	virtual~CEnemyScript_sh() override;
 };

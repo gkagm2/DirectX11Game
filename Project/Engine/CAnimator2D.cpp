@@ -11,6 +11,21 @@ CAnimator2D::CAnimator2D() :
 {
 }
 
+CAnimator2D::CAnimator2D(const CAnimator2D& _origin) :
+	CComponent(_origin),
+	m_pCurAnimation(nullptr),
+	m_eAnimationState(_origin.m_eAnimationState)
+{
+	for (auto& pair : _origin.m_unmapAnim)
+		m_unmapAnim.insert(std::make_pair(pair.first, pair.second->Clone()));
+
+	if (_origin.m_pCurAnimation) {
+		tstring strCurAnimName = _origin.m_pCurAnimation->GetName();
+		m_pCurAnimation = m_unmapAnim.find(strCurAnimName)->second;
+	}
+
+}
+
 CAnimator2D::~CAnimator2D()
 {
 	Safe_Delete_UnorderedMap(m_unmapAnim);

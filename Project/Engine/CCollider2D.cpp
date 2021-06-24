@@ -52,6 +52,7 @@ void CCollider2D::FinalUpdate()
 	Matrix matScale = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, 1.f);
 
 	m_matColWorld = matScale * matTrans * Transform()->GetWorldMatrix();
+	m_matColWorld._43 = 0.f; // 2DÀÌ¹Ç·Î 0
 }
 
 void CCollider2D::UpdateData()
@@ -89,6 +90,6 @@ void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
 	DecreaseCollisionCnt();
 	if (0 == m_iCollisionCount) {
 		g_queCollisionMtrl.push(m_pMaterial.Get());
-		m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMaterial);
+		m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMtrl);
 	}
 }

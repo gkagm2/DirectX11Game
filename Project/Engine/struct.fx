@@ -3,15 +3,16 @@
 
 struct TLightColor
 {
-    float4 vDiff;
-    float4 vSpec;
-    float4 vAmb;
+    float4 vDiffuse;
+    float4 vSpeculer;
+    float4 vAmbient;
 };
 
 struct TLightInfo
 {
     TLightColor color;
     
+    float4  vLightPos;
     int     iLightType;
     float   fRange;
     float   fAngle;
