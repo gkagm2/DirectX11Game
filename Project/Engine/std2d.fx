@@ -113,8 +113,46 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
     else if (bTex_0)
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     
-    // 광원처리
+    // Spot Light
     TLightColor finalColor = (TLightColor) 0.f;
+    float eyeAngle = g_arrLight2D[0].fAngle; // 시야각
+    float3 vForwardDir = normalize(g_arrLight2D[0].vLightDir.xyz); // light 방향
+    float vLightPos = g_arrLight2D[0].vLightPos.xyz;
+    
+    float3 vDirToTarget = normalize(_in.vWorldPos);
+    
+    float fRadian = dot(vForwardDir, vDirToTarget);
+    float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree
+    
+    
+    if (fAngle < eyeAngle * 0.5f)
+    {
+        TLightColor finalColor = (TLightColor) 0.f;
+        for (int i = 0; i < g_iLight2DCount.x; ++i)
+        {
+            float fLength = abs(length(g_arrLight2D[i].vLightPos.xy - _in.vWorldPos.xy));
+        // saturate: 0~1사이의 값으로 만듬
+        //float fRatio = saturate(1.f - (fLength / g_arrLight2D[i].fRange));
+            float fRatio = cos(saturate(fLength / g_arrLight2D[i].fRange) * (3.1415926535f * 0.5f));
+        
+        // 분산광 설정
+            finalColor.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
+        }
+        vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+        vOutColor.xyz = vOutColor.xyz * g_arrLight2D[0].color.vDiffuse.xyz;
+        return vOutColor;
+    }
+    else
+    {
+        TLightColor finalColor = (TLightColor) 0.f;
+        vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+        return float4(0.f, 0.f, 0.f, 1.f);
+    }
+    
+    
+    //Point Light
+    // 광원처리
+    /*TLightColor finalColor0 = (TLightColor) 0.f;
     for (int i = 0; i < g_iLight2DCount.x; ++i)
     {
         float fLength = abs(length(g_arrLight2D[i].vLightPos.xy - _in.vWorldPos.xy));
@@ -123,10 +161,11 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
         float fRatio = cos(saturate(fLength / g_arrLight2D[i].fRange) * (3.1415926535f * 0.5f));
         
         // 분산광 설정
-        finalColor.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
+        finalColor0.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
     }
-    vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
-    return vOutColor;
+    vOutColor.xyz = vOutColor.xyz * finalColor0.vDiffuse.xyz;
+    return vOutColor;*/
+    
 }
 ///////////////////////
 

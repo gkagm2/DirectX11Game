@@ -7,6 +7,8 @@ private:
 	float m_fMoveSpeed;
 	float m_fBulletSpeed;
 
+	float fAngle;
+
 	SharedPtr<CMaterial> m_pSharedMtrl;
 	SharedPtr<CMaterial> m_pCloneMtrl;
 	int m_iColorFlag = 0;

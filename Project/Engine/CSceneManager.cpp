@@ -36,6 +36,8 @@
 #include "CEnemyScript_sh.h"
 #include "CEnemyRespawnerScript_sh.h"
 
+#include "CTestLight2DScript.h"
+
 
 CGameObject*  TestCreateObj() {
 	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
@@ -131,19 +133,22 @@ void CSceneManager::Init() {
 		pLight2DObj->AddComponent<CTransform>();
 		pLight2DObj->AddComponent<CMeshRenderer>();
 		pLight2DObj->AddComponent<CLight2D>();
-
-		pLight2DObj->Transform()->SetLocalPosition(Vector3(-300.f, 0.f, 0.f));
-		pLight2DObj->Light2D()->SetDiffColor(Vector3(0.9f, 0.2f, 0.2f));
-		pLight2DObj->Light2D()->SetRange(400.f);
+		pLight2DObj->AddComponent<CTestLight2DScript>();
+		//pLight2DObj->Light2D()->SetLightType(E_LightType::Spot);
 		pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
+		pLight2DObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+		pLight2DObj->Light2D()->SetDiffColor(Vector3(1.0f, 1.0f, 1.0f));
+		pLight2DObj->Light2D()->SetRange(400.f);
+		pLight2DObj->Light2D()->SetAngle(60.f);
+		pLight2DObj->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 
 		m_pCurScene->AddGameObject(pLight2DObj, E_Layer::Default);
 
-		CGameObject* pLight2 = pLight2DObj->Clone();
+		/*CGameObject* pLight2 = pLight2DObj->Clone();
 		pLight2->Transform()->SetLocalPosition(Vector3(300.f, 0.f, 0.f));
 		pLight2->Light2D()->SetDiffColor(Vector3(0.2f, 0.9f, 0.2f));
 
-		m_pCurScene->AddGameObject(pLight2);
+		m_pCurScene->AddGameObject(pLight2);*/
 	}
 
 	CGameObject* pPlayer = TestCreateObj();
@@ -207,10 +212,10 @@ void CSceneManager::Init() {
 
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
-
+		//pEnemy->AddComponent<CEnemyScript_sh>();
 		pEnemy->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 		pEnemy->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-		pEnemy->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+		pEnemy->Transform()->SetLocalScale(Vector3(2000.f, 2000.f, 1.f));
 		pEnemy->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 		m_pCurScene->AddGameObject(pEnemy, E_Layer::Enemy);
 	}

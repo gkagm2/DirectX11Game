@@ -129,9 +129,9 @@ void CPlayerScript_sh::Move()
 	vPosition = vPosition + vDir * m_fMoveSpeed * DeltaTime;
 	float fMiddleX = 0.f;
 	float fRange = (float)(CCore::GetInstance()->GetWindowResolution().x * 0.5f - Transform()->GetLocalScale().x);
-	if (vPosition.x > fRange + fMiddleX)
+	/*if (vPosition.x > fRange + fMiddleX)
 		vPosition.x = fRange + fMiddleX;
 	if (vPosition.x < -fRange + fMiddleX)
-		vPosition.x = -fRange + fMiddleX;
+		vPosition.x = -fRange + fMiddleX;*/
 	Transform()->SetLocalPosition(vPosition);
 }

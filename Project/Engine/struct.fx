@@ -13,6 +13,7 @@ struct TLightInfo
     TLightColor color;
     
     float4  vLightPos;
+    float4  vLightDir;
     int     iLightType;
     float   fRange;
     float   fAngle;

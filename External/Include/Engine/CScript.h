@@ -10,6 +10,7 @@
 #include "CMeshRenderer.h"
 #include "CTransform.h"
 #include "CCamera.h"
+#include "CLight2D.h"
 #include "CGameObject.h"
 
 class CScript : public CComponent

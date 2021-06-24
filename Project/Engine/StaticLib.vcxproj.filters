@@ -166,6 +166,7 @@
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="CTestLight2DScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -312,6 +313,7 @@
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="CTestLight2DScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -460,6 +462,9 @@
     </Filter>
     <Filter Include="Engine\03. Device\CStructuredBuffer">
       <UniqueIdentifier>{733af71f-fc05-473f-8467-49c827f2acdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Light">
+      <UniqueIdentifier>{36b9ad42-1531-454e-ad4a-fe4e7afac396}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

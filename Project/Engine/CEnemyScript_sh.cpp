@@ -2,6 +2,7 @@
 #include "CGameManagerScript_sh.h"
 #include "CEnemyScript_sh.h"
 #include "CCore.h"
+#include "CLight2D.h"
 
 CEnemyScript_sh::CEnemyScript_sh() :
 	m_fHp(10.f),
@@ -42,6 +43,7 @@ void CEnemyScript_sh::Update()
 		DestroyGameObjectEvn(GetGameObject());
 		return;
 	}
+
 
 	Move();
 }
