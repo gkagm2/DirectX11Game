@@ -10,6 +10,8 @@ private:
 	SharedPtr<CMaterial> m_pSharedMtrl;
 	SharedPtr<CMaterial> m_pCloneMtrl;
 
+	SharedPtr<CPrefab> m_pMissilePrefab;
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;

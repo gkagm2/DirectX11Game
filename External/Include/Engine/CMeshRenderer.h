@@ -21,6 +21,7 @@ public:
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
 
 public:
+	CLONE(CMeshRenderer);
 	CMeshRenderer();
 	virtual ~CMeshRenderer() override;
 };

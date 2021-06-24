@@ -26,7 +26,9 @@ public:
 	GET_COMPONENT_FROM_GAMEOBJECT
 
 public:
+	virtual CComponent* Clone() = 0;
 	CComponent() = delete;
+	CComponent(const CComponent& _origin);
 	CComponent(E_ComponentType _eType);
 	virtual ~CComponent() override;
 

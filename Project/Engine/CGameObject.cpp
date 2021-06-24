@@ -8,6 +8,9 @@
 #include "CCollider2D.h"
 #include "CLight2D.h"
 
+#include "CResourceManager.h"
+#include "CPrefab.h"
+
 CGameObject::CGameObject() :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
@@ -123,6 +126,17 @@ void CGameObject::Render()
 
 	if (Collider2D())		// 충돌체 렌더링
 		Collider2D()->Render();
+}
+
+void CGameObject::RegisterAsPrefab(const tstring& _strName)
+{
+	tstring strName = _strName;
+	if (strName.empty()) // 비어있으면 오브젝트 이름을 프리펩 이름으로 설정
+		strName = GetName();
+
+	SharedPtr<CPrefab> pPrefab = new CPrefab(this->Clone());
+	CResourceManager::GetInstance()->AddRes<CPrefab>(strName, pPrefab.Get());
+
 }
 
 void CGameObject::_SetDead()

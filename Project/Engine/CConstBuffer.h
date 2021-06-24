@@ -13,6 +13,8 @@ public:
 	void SetData(void* _pSysMem, UINT _iSize = 0) const; // system memory -> buffer gpu
 	void UpdateData(E_ShaderStage _eStage = E_ShaderStage::All) const ; // gpu data -> gpu register binding
 
+private:
+	CLONE_DISABLE(CConstBuffer);
 public:
 	CConstBuffer();
 	virtual ~CConstBuffer() override;

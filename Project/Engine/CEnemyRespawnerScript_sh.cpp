@@ -40,9 +40,9 @@ void CEnemyRespawnerScript_sh::Update()
 
 void CEnemyRespawnerScript_sh::CreateEnemy()
 {
-	SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
+	SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMash);
 	CGameObject* pEnemy = new CGameObject();
 	pEnemy->AddComponent<CTransform>();
 	pEnemy->AddComponent<CMeshRenderer>();

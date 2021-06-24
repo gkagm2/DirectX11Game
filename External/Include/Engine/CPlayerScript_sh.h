@@ -10,6 +10,8 @@ private:
 	SharedPtr<CMaterial> m_pSharedMtrl;
 	SharedPtr<CMaterial> m_pCloneMtrl;
 
+	SharedPtr<CPrefab> m_pMissilePrefab;
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;
@@ -26,6 +28,7 @@ public:
 	void SetBulletDamage(float _iDamage) { m_fBulletDamage = _iDamage; }
 
 public:
+	CLONE(CPlayerScript_sh);
 	CPlayerScript_sh();
 	virtual ~CPlayerScript_sh() override;
 };

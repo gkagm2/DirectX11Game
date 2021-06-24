@@ -17,6 +17,7 @@ public:
 	void CreateEnemy();
 
 public:
+	CLONE(CEnemyRespawnerScript_sh);
 	CEnemyRespawnerScript_sh();
 	virtual ~CEnemyRespawnerScript_sh() override;
 };

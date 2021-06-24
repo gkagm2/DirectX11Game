@@ -37,6 +37,9 @@ public:
 	GET_COMPONENT_COMPOTABLE
 
 public:
+	void RegisterAsPrefab(const tstring& _strName = _T(""));
+
+public:
 	E_Layer GetLayer() { return m_eLayer; }
 	bool IsDead() { return m_bDead; }
 
@@ -58,8 +61,8 @@ public:
 	TYPE* AddComponent();
 
 	CComponent* AddComponent(CComponent* _pComponent);
-	
-	template<typename TYPE>		
+
+	template<typename TYPE>
 	TYPE* GetComponent();
 
 public:

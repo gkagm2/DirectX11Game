@@ -38,12 +38,13 @@
 
 
 CGameObject*  TestCreateObj() {
-	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
-	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
-	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
+	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Enemy1);
 
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMash);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
 
 	CGameObject* pObj = new CGameObject();
 	pObj->AddComponent<CTransform>();
@@ -76,17 +77,36 @@ CSceneManager::~CSceneManager()
 }
 
 void CSceneManager::Init() {
+
+	// Prefab µî·Ï
+	CGameObject* pBulletPrefab = new CGameObject;
+	pBulletPrefab->SetName(_T("Bullet"));
+	pBulletPrefab->AddComponent<CTransform>();
+	pBulletPrefab->AddComponent<CMeshRenderer>();
+	pBulletPrefab->AddComponent<CBulletScript_sh>();
+
+	pBulletPrefab->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+
+	pBulletPrefab->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMash));
+	pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	CBulletScript_sh* pBullet = pBulletPrefab->GetComponent<CBulletScript_sh>();
+	pBullet->SetDirection(Vector3(0.f,1.f, 0.f));
+	pBullet->SetBulletSpeed(800.f);
+
+	pBulletPrefab->RegisterAsPrefab();
+	delete pBulletPrefab;
+
 	// TODO (Jang) : Test code
 	// ¾À »ý¼º
 	m_pCurScene = new CScene;
 
-	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Box);
-	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Player);
-	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Enemy1);
-	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->FindRes<CTexture>(STR_PATH_Anim);
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
+	SharedPtr<CTexture> pEnemyTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Enemy1);
+	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
 
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMash);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
@@ -112,12 +132,18 @@ void CSceneManager::Init() {
 		pLight2DObj->AddComponent<CMeshRenderer>();
 		pLight2DObj->AddComponent<CLight2D>();
 
-		pLight2DObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+		pLight2DObj->Transform()->SetLocalPosition(Vector3(-300.f, 0.f, 0.f));
 		pLight2DObj->Light2D()->SetDiffColor(Vector3(0.f, 1.f, 1.f));
-		pLight2DObj->Light2D()->SetRange(400.f);
+		pLight2DObj->Light2D()->SetRange(200.f);
 		pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
 
 		m_pCurScene->AddGameObject(pLight2DObj, E_Layer::Default);
+
+		CGameObject* pLight2 = pLight2DObj->Clone();
+		pLight2->Transform()->SetLocalPosition(Vector3(300.f, 0.f, 0.f));
+		pLight2->Light2D()->SetDiffColor(Vector3(1.f, 0.f, 1.f));
+
+		m_pCurScene->AddGameObject(pLight2);
 	}
 
 	CGameObject* pPlayer = TestCreateObj();
@@ -144,8 +170,6 @@ void CSceneManager::Init() {
 		
 		/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 		pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
-
-		
 
 		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
 		CGameObject* pOwner = pCollider2D->GetGameObject();

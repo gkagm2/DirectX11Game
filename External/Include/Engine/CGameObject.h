@@ -37,6 +37,9 @@ public:
 	GET_COMPONENT_COMPOTABLE
 
 public:
+	void RegisterAsPrefab(const tstring& _strName = _T(""));
+
+public:
 	E_Layer GetLayer() { return m_eLayer; }
 	bool IsDead() { return m_bDead; }
 
@@ -57,10 +60,9 @@ public:
 	template<typename TYPE>
 	TYPE* AddComponent();
 
+	CComponent* AddComponent(CComponent* _pComponent);
+
 	template<typename TYPE>
-	TYPE* AddComponent(CComponent* _pComponent);
-	
-	template<typename TYPE>		
 	TYPE* GetComponent();
 
 public:
@@ -72,17 +74,6 @@ public:
 	friend class CEventManager;
 	friend class CLayer;
 };
-
-template<typename TYPE>
-inline TYPE* CGameObject::AddComponent(CComponent* _pComponent) {
-	if (m_arrComponent[(UINT)_pComponent->GetComponentType()])
-		return (TYPE*)m_arrComponent[(UINT)_pComponent->GetComponentType()];
-
-	m_arrComponent[(UINT)_pComponent->GetComponentType()] = _pComponent;
-	_pComponent->m_pGameObj = this;
-
-	return (TYPE*)_pComponent;
-}
 
 template<typename TYPE>
 inline TYPE* CGameObject::AddComponent()

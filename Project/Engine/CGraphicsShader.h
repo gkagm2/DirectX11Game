@@ -44,6 +44,9 @@ private:
 public:
 	virtual void UpdateData() override;
 
+private:
+	CLONE_DISABLE(CGraphicsShader);
+
 public:
 	CGraphicsShader();
 	virtual ~CGraphicsShader() override;

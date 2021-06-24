@@ -27,8 +27,10 @@ public:
 
 	void Reset();
 
+private:
+	CLONE_DISABLE(CMesh);
+
 public:
 	CMesh();
-
 	virtual ~CMesh() override;
 };

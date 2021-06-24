@@ -28,6 +28,8 @@
 #define STR_FUNC_NAME_PIXShader "PS_Std2D"
 #define STR_FUNC_NAME_VTXShaderCollider2D "VS_Collider2D"
 #define STR_FUNC_NAME_PIXShaderCollider2D "PS_Collider2D"
+#define STR_FUNC_NAME_VTXShaderLight2D "VS_Std2D_Light2D"
+#define STR_FUNC_NAME_PIXShaderLight2D "PS_Std2D_Light2D"
 
 // Resource Key
 #define STR_KEY_RectMash _T("RectMash")
@@ -35,13 +37,15 @@
 #define STR_KEY_CubeMesh _T("CubeMesh")
 #define STR_KEY_CircleMesh _T("CircleMesh")
 #define STR_KEY_CircleLineMesh _T("CircleLineMesh")
-#define STR_KEY_StdShaderAlphaBlend_Coverage _T("StandardShaderAlphaBlendCoverage")
-#define STR_KEY_StdShaderAlphaBlend _T("StandardShaderAlphaBlend")
+#define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
+#define STR_KEY_StdAlphaBlendShader _T("StandardShaderAlphaBlend")
 
-#define STR_KEY_StdMtrlAlphaBlend_Coverage _T("StandardMaterialAlphaBlendCoverage")
-#define STR_KEY_StdMtrlAlphaBlend _T("StandardMaterialAlphaBlend")
+#define STR_KEY_StdAlphaBlend_CoverageMtrl _T("StandardMaterialAlphaBlendCoverage")
+#define STR_KEY_StdAlphaBlendMtrl _T("StandardMaterialAlphaBlend")
+#define STR_KEY_StdLight2DShader _T("StandardShaderLight2D")
+#define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
-#define STR_KEY_Collider2DMaterial _T("Collider2DMaterial")
+#define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
 
 
 ////////// Shooting Game //////////

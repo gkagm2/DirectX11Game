@@ -174,14 +174,14 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 	// 텍스쳐 이름
 	_ftscanf_s(pFile, _T("%s"), szBuffer,iBufferSize);
 	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-	m_pTexture = CResourceManager::GetInstance()->FindRes<CTexture>(szBuffer);
+	m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(szBuffer);
 	wstring strKey = szBuffer;
 
 	// 텍스쳐 경로
 	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 	if (nullptr == m_pTexture)
-		m_pTexture = CResourceManager::GetInstance()->Load<CTexture>(strKey, szBuffer);
+		m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
 
 	fclose(pFile);
 }

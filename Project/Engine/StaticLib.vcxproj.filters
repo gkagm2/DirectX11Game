@@ -160,6 +160,12 @@
     <ClInclude Include="CRenderManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CPrefab.h">
+      <Filter>Engine\05. Resource\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="CStructuredBuffer.h">
+      <Filter>Engine\03. Device\CStructuredBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -299,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="CRenderManager.cpp">
       <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPrefab.cpp">
+      <Filter>Engine\05. Resource\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="CStructuredBuffer.cpp">
+      <Filter>Engine\03. Device\CStructuredBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +454,12 @@
     </Filter>
     <Filter Include="Engine\07. Component\Light2D">
       <UniqueIdentifier>{12668154-9126-408e-8ef0-55050b002448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Resource\Prefab">
+      <UniqueIdentifier>{76b1c44e-d3a7-4ed4-8fc7-c50d6b3c4406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Device\CStructuredBuffer">
+      <UniqueIdentifier>{733af71f-fc05-473f-8467-49c827f2acdd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -24,6 +24,7 @@ void CPlayerScript_sh::Start()
 
 	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
 	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial();
+	m_pMissilePrefab = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("Bullet"), _T("prefab\\missileprefab.pref"));
 }
 
 void CPlayerScript_sh::Update()
@@ -64,32 +65,37 @@ void CPlayerScript_sh::Update()
 
 void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 {
-	CGameObject* pBulletObj = new CGameObject;
-	pBulletObj->AddComponent<CTransform>();
-	pBulletObj->AddComponent<CMeshRenderer>();
-	pBulletObj->AddComponent<CBulletScript_sh>();
-
 	Vector3 vPlayerPos = Transform()->GetLocalPosition();
 	Vector3 vPlayerScale = Transform()->GetLocalScale();
 	Vector3 vMuzzlePos = vPlayerPos;
-	//vMuzzlePos.y += vPlayerScale.y * 0.5f;
 
-	pBulletObj->Transform()->SetLocalPosition(vMuzzlePos);
-	pBulletObj->Transform()->SetLocalScale(vPlayerScale * 0.3f);
+ 	InstantiateEvn(m_pMissilePrefab, vPlayerPos, E_Layer::Bullet);
+	//CGameObject* pBulletObj = new CGameObject;
+	//pBulletObj->AddComponent<CTransform>();
+	//pBulletObj->AddComponent<CMeshRenderer>();
+	//pBulletObj->AddComponent<CBulletScript_sh>();
 
-	pBulletObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash));
-	pBulletObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	//Vector3 vPlayerPos = Transform()->GetLocalPosition();
+	//Vector3 vPlayerScale = Transform()->GetLocalScale();
+	//Vector3 vMuzzlePos = vPlayerPos;
+	////vMuzzlePos.y += vPlayerScale.y * 0.5f;
 
-	CBulletScript_sh* pBullet = pBulletObj->GetComponent<CBulletScript_sh>();
+	//pBulletObj->Transform()->SetLocalPosition(vMuzzlePos);
+	//pBulletObj->Transform()->SetLocalScale(vPlayerScale * 0.3f);
 
-	/*Vector3 vDirPos = _vTargetPos - vPlayerPos;
-	vDirPos.Normalize();*/
-	Vector3 vDirPos = Vector3(0.f, 1.f, 0.f);
+	//pBulletObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMash));
+	//pBulletObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
 
-	pBullet->SetDirection(vDirPos);
-	pBullet->SetBulletSpeed(800.f);
+	//CBulletScript_sh* pBullet = pBulletObj->GetComponent<CBulletScript_sh>();
 
- 	CreateGameObjectEvn(pBulletObj, E_Layer::Bullet);
+	///*Vector3 vDirPos = _vTargetPos - vPlayerPos;
+	//vDirPos.Normalize();*/
+	//Vector3 vDirPos = Vector3(0.f, 1.f, 0.f);
+
+	//pBullet->SetDirection(vDirPos);
+	//pBullet->SetBulletSpeed(800.f);
+
+	//CreateGameObjectEvn(pBulletObj, E_Layer::Bullet);
 }
 
 void CPlayerScript_sh::Move()

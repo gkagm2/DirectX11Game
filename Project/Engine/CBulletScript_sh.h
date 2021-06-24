@@ -27,7 +27,7 @@ public:
 	void SetBulletSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 
 public:
-	CLONE(E_BulletType_sh);
+	CLONE(CBulletScript_sh);
 	CBulletScript_sh();
 	virtual ~CBulletScript_sh() override;
 };

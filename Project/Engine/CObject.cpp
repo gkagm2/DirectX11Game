@@ -5,6 +5,8 @@
 
 #include "CScript.h"
 #include "CGameObject.h"
+#include "Ptr.h"
+#include "CPrefab.h"
 
 UINT CObject::g_iNextID = 0;
 CObject::CObject() :
@@ -31,6 +33,12 @@ void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
     CEventManager::GetInstance()->AddEvent(even);
 }
 
+void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWorldPos, E_Layer _eLayer)
+{
+    _pTargetObj->Transform()->SetLocalPosition(_vWorldPos);
+    CreateGameObjectEvn(_pTargetObj, _eLayer);
+}
+
 void CObject::DestroyGameObjectEvn(CGameObject* _pTargetObj)
 {
     TEvent even = {};
@@ -54,4 +62,9 @@ void CObject::UnlinkParentGameObjectEvn(CGameObject* _pChildObj)
     even.eType = E_EventType::Unlink_Parent;
     even.lparam = (DWORD_PTR)_pChildObj;
     CEventManager::GetInstance()->AddEvent(even);
+}
+
+void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer)
+{
+    CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _eLayer);
 }

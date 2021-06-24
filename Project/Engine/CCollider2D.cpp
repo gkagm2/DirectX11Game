@@ -90,6 +90,6 @@ void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
 	DecreaseCollisionCnt();
 	if (0 == m_iCollisionCount) {
 		g_queCollisionMtrl.push(m_pMaterial.Get());
-		m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMtrl);
+		m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
 	}
 }

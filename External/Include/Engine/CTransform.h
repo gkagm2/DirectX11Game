@@ -31,6 +31,7 @@ public:
 	virtual void UpdateData() override;
 	
 public:
+	CLONE(CTransform);
 	CTransform();
 	virtual ~CTransform() override;
 };

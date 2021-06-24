@@ -12,7 +12,8 @@
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
 
 #define CLONE(type) type* Clone() { return new type(*this); }
-#define CLONE_DISABLE(type) type* Clone() { assert(nullptr); return nullptr; }
+#define CLONE_DISABLE(type) type* Clone() { assert(nullptr); return nullptr; } \
+	type(const type& _origin) = delete;
 
 #define MousePosition CKeyManager::GetInstance()->GetMousePosition()
 
@@ -54,8 +55,9 @@
 #pragma endregion
 
 
-
+// 삭제 우선순위로 설정
 enum class E_ResourceType {
+	Prefab,
 	Material,
 	Shader,
 	Mesh,

@@ -28,6 +28,9 @@ public:
 public:
 	static void Clear(UINT _iRegisterNum);
 
+private:
+	CLONE_DISABLE(CTexture);
+
 public:
 	CTexture();
 	virtual ~CTexture() override;

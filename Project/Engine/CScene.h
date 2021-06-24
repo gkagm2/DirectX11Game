@@ -26,6 +26,8 @@ public:
     CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
     CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
 
+private:
+    CLONE_DISABLE(CScene);
 public:
     CScene();
     virtual ~CScene() override;
