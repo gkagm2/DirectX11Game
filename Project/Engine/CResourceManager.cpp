@@ -16,6 +16,7 @@ CResourceManager::~CResourceManager() {
 void CResourceManager::Init()
 {
 	CreateDefaultMesh();
+	CreateDefaultCircle2DMesh();
 	//CreateDefaultCubeMesh3D();
 	CreateDefaultShader();
 	CreateDefaultMaterial();
@@ -92,6 +93,59 @@ void CResourceManager::CreateDefaultMesh()
 	AddRes(STR_KEY_RectLineMesh, pMesh);
 }
 
+void CResourceManager::CreateDefaultCircle2DMesh()
+{
+	vector<VTX> vecVtx;
+	vector<UINT> vecIdx;
+
+	// Circle Mesh, Circle Line Mesh 만들기
+
+	// 원점 설정
+	VTX vtx = {};
+
+	vtx.vPos = Vector3(0.f, 0.f, 0.f);
+	vtx.vUV = Vector2(0.5f, 0.5f);
+	Vector4 vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vtx.vColor = vColor;
+	vecVtx.push_back(vtx);
+	
+	float fRadius = 0.5f;
+	int iSidesCnt = 40; // 변의 개수
+	float fRadian = XM_2PI / (float)iSidesCnt;
+
+	// 테두리의 정점 설정
+	for (int i = 0; i < iSidesCnt + 1; ++i) {
+		vtx.vPos.x = cosf(fRadian * (float)i) * fRadius;
+		vtx.vPos.y = sinf(fRadian * (float)i) * fRadius;
+		vtx.vColor = vColor;
+		vtx.vUV;
+		
+		vecVtx.push_back(vtx);
+	}
+
+	// 인덱스 설정
+
+	// Circle Mesh
+	for (int i = 0; i < iSidesCnt; ++i) {
+		vecIdx.push_back(0);
+		vecIdx.push_back(i + 2);
+		vecIdx.push_back(i + 1);
+	}
+
+	CMesh* pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	AddRes(STR_KEY_CircleMesh, pMesh);
+
+	// Circle Line Mesh 
+	vecIdx.clear();
+	for (int i = 0; i < iSidesCnt + 1; ++i)
+		vecIdx.push_back(i + 1);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	AddRes(STR_KEY_CircleLineMesh, pMesh);
+}
+
 void CResourceManager::CreateDefaultCubeMesh3D()
 {
 	// TODO (Jang): 20210606 UV 좌표 값 넣기
@@ -144,7 +198,7 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 	CMesh* pMesh = new CMesh();
 	pMesh->Create(vertices, sizeof(VTX) * 8, arrIdx, sizeof(UINT) * 36, D3D11_USAGE_DEFAULT);
 
-	AddRes(STR_KEY_CubeMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
+	AddRes(STR_KEY_CubeMesh, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 }
 
 void CResourceManager::CreateDefaultShader()

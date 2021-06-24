@@ -36,7 +36,8 @@
 	GET_COMPONENT(Camera)\
 	GET_COMPONENT(Collider2D)\
 	GET_COMPONENT(Collider3D)\
-	GET_COMPONENT(Animator2D)
+	GET_COMPONENT(Animator2D)\
+	GET_COMPONENT(Light2D)
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -47,7 +48,8 @@
 	GET_OTHER_COMPONENT(Camera)\
 	GET_OTHER_COMPONENT(Collider2D)\
 	GET_OTHER_COMPONENT(Collider3D)\
-	GET_OTHER_COMPONENT(Animator2D)
+	GET_OTHER_COMPONENT(Animator2D)\
+	GET_OTHER_COMPONENT(Light2D)
 
 #pragma endregion
 
@@ -66,6 +68,7 @@ enum class E_ConstBuffer {
 	Transform,		 // b0
 	Material_Param,	 // b1
 	Animation2D_Data,// b2
+	Light2D,		 // b3
 	End,
 };
 
@@ -191,4 +194,10 @@ enum class E_ShaderParam {
 	TextureCube_0,
 	TextureCube_1,
 	Texture_End,
+};
+
+enum class E_LightType {
+	Direction,
+	Point,
+	Spot
 };

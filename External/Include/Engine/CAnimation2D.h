@@ -37,6 +37,8 @@ public:
 	void Save(const tstring& _strRelativeFilePath, const wstring& _strFileName);
 	void Load(const tstring& _strRelativeFilePath);
 
+	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
+
 public:
 	CAnimation2D();
 	virtual ~CAnimation2D() override;

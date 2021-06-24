@@ -9,24 +9,12 @@
 CMaterial::CMaterial() :
 	m_pShader(nullptr),
 	m_tParam{},
-	m_arrTexture{}
+m_arrTexture{}
 {
 }
 
 CMaterial::~CMaterial()
 {
-}
-
-CMaterial* CMaterial::Clone()
-{
-	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
-	CResourceManager::GetInstance()->AddCloneMaterial(pMtrl);
-	return pMtrl.Get();
-}
-
-int CMaterial::Load(const tstring& _strFilePath)
-{
-	return 0;
 }
 
 void CMaterial::UpdateData()
@@ -105,4 +93,22 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 
 		break;
 	}
+}
+
+int CMaterial::Load(const tstring& _strFilePath)
+{
+	return 0;
+}
+
+void CMaterial::Clear()
+{
+	for (UINT i = 0; i < (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0; ++i)
+		CTexture::Clear(i);
+}
+
+CMaterial* CMaterial::Clone()
+{
+	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
+	CResourceManager::GetInstance()->AddCloneMaterial(pMtrl);
+	return pMtrl.Get();
 }

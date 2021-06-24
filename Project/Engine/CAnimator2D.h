@@ -62,6 +62,7 @@ public:
 public:
 	void SetAnimationState(E_AnimationState _eState) { m_eAnimationState = _eState; }
 	E_AnimationState GetAnimationState() { return m_eAnimationState; }
+	CAnimation2D* GetCurAnimation() { return m_pCurAnimation; }
 
 public:
 	CAnimator2D();

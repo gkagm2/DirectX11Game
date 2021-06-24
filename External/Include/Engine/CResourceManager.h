@@ -20,6 +20,7 @@ public:
 
 public:
 	void CreateDefaultMesh();
+	void CreateDefaultCircle2DMesh();
 	void CreateDefaultCubeMesh3D();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();

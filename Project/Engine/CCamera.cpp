@@ -3,6 +3,7 @@
 #include "CDevice.h"
 #include "CGameObject.h"
 #include "CTransform.h"
+#include "CRenderManager.h"
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
@@ -27,6 +28,7 @@ void CCamera::FinalUpdate()
 
 	g_transform.matView = m_matView;
 	g_transform.matProjection = m_matProjection;
+	CRenderManager::GetInstance()->RegisterCamera(this);
 }
 
 void CCamera::_CalculateViewMatrix()

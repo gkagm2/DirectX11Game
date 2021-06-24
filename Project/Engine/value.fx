@@ -1,5 +1,7 @@
 #ifndef _VALUE
 #define _VALUE
+
+#include "struct.fx"
 // 상수 버퍼 레지스터	
 cbuffer TRANSFORM : register(b0)
 {
@@ -63,6 +65,12 @@ cbuffer ANIMATION2D_DATA : register(b2)
     int bIsAnimating2D;
     int3 padding;
 };
+
+cbuffer LIGHT2D : register(b3)
+{
+    TLightInfo g_arrLight2D[100];
+    int4 g_iLight2DCount;
+}
 
 // Texture register (t)
 Texture2D g_tex_0 : register(t0);

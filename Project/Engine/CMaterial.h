@@ -20,6 +20,8 @@ public:
 public:
 	void SetShader(SharedPtr<CGraphicsShader>& _pShader) { m_pShader = _pShader; }
 	void SetData(E_ShaderParam _eParam, void* _pData);
+
+	static void Clear();
 	
 public:
 	virtual CMaterial* Clone() override;

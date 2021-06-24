@@ -5,6 +5,8 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CLayer.h"
+#include "CCollider2D.h"
+#include "CLight2D.h"
 
 CGameObject::CGameObject() :
 	m_arrComponent{},
@@ -98,8 +100,14 @@ void CGameObject::FinalUpdate()
 
 void CGameObject::Render()
 {
-	if (nullptr != MeshRenderer())
+	if (MeshRenderer())		// ¸Þ½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
+
+	if (Light2D())			// ±¤¿ø ·»´õ¸µ
+		Light2D()->Render();
+
+	if (Collider2D())		// Ãæµ¹Ã¼ ·»´õ¸µ
+		Collider2D()->Render();
 }
 
 void CGameObject::_SetDead()

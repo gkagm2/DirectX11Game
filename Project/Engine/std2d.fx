@@ -54,7 +54,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target {
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
             && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            return g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
         else
             clip(-1);
     }

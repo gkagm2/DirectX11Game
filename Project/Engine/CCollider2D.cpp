@@ -5,7 +5,7 @@
 #include "CDevice.h"
 #include "CTransform.h"
 
-queue<SharedPtr<CMaterial>> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
+queue<CMaterial*> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
 
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
@@ -37,6 +37,9 @@ void CCollider2D::Render()
 
 	// 렌더링
 	m_pMesh->Render();
+
+	// 메터리얼 클리어
+	m_pMaterial->Clear();
 }
 
 void CCollider2D::FinalUpdate()
@@ -85,7 +88,7 @@ void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
 {
 	DecreaseCollisionCnt();
 	if (0 == m_iCollisionCount) {
-		g_queCollisionMtrl.push(m_pMaterial);
+		g_queCollisionMtrl.push(m_pMaterial.Get());
 		m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMaterial);
 	}
 }

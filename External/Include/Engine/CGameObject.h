@@ -10,6 +10,7 @@ class CScript;
 class CCollider2D;
 class CCollider3D;
 class CAnimator2D;
+class CLight2D;
 
 
 class CGameObject : public CObject, ILifeCycleInterface

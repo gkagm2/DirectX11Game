@@ -41,3 +41,18 @@ struct TAnimation2DData {
 	int bIsAnimating2D;
 	int padding[3];
 };
+
+struct TLightColor {
+	Vector4 vDiffuse;	// ³­¹Ý»ç±¤
+	Vector4 vSpecular;	// ¹Ý»ç±¤
+	Vector4 vEmbiend;	// È¯°æ±¤
+};
+
+struct TLightInfo {
+	TLightColor tColor;
+
+	E_LightType eLightType;
+	float fRange;
+	float fAngle;
+	int iPad;
+};

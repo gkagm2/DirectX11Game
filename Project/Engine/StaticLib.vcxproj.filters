@@ -154,6 +154,12 @@
     <ClInclude Include="CAnimator2D.h">
       <Filter>Engine\07. Component\Animator\2D</Filter>
     </ClInclude>
+    <ClInclude Include="CLight2D.h">
+      <Filter>Engine\07. Component\Light2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -287,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="CAnimator2D.cpp">
       <Filter>Engine\07. Component\Animator\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight2D.cpp">
+      <Filter>Engine\07. Component\Light2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,6 +440,9 @@
     <Filter Include="Engine\07. Component\Animator\3D">
       <UniqueIdentifier>{d4a14248-40ce-4e7b-bc6b-da5660910f9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component\Light2D">
+      <UniqueIdentifier>{12668154-9126-408e-8ef0-55050b002448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
@@ -439,6 +454,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="value.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="struct.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

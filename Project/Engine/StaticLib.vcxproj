@@ -189,10 +189,12 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLayer.h" />
+    <ClInclude Include="CLight2D.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
     <ClInclude Include="CRenderer.h" />
+    <ClInclude Include="CRenderManager.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CScript.h" />
@@ -241,10 +243,12 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CLayer.cpp" />
+    <ClCompile Include="CLight2D.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
     <ClCompile Include="CRenderer.cpp" />
+    <ClCompile Include="CRenderManager.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CScript.cpp" />
@@ -275,6 +279,16 @@ call EngineCopy.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="struct.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>

@@ -236,6 +236,9 @@ void CDevice::CreateConstBuffer()
 
 	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data]->Create(E_ConstBuffer::Animation2D_Data, sizeof(TAnimation2DData));
+
+	m_arrCB[(UINT)E_ConstBuffer::Light2D] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Light2D]->Create(E_ConstBuffer::Light2D, sizeof(TLightInfo) * 100 + 16);
 }
 
 void CDevice::CreateSampler()

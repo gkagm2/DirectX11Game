@@ -8,6 +8,7 @@
 #include "CSceneManager.h"
 #include "CEventManager.h"
 #include "CCollisionManager.h"
+#include "CRenderManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -37,6 +38,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CKeyManager::GetInstance()->Init();
 	CResourceManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
+	CRenderManager::GetInstance()->Init();
 
 	return S_OK;
 }
@@ -49,15 +51,7 @@ void CCore::Progress()
 	CSceneManager::GetInstance()->Progress();
 	CCollisionManager::GetInstance()->Update();
 
-	// Render
-	// 1. 타겟 클리어
-	CDevice::GetInstance()->ClearTarget();
-
-	// 2. 물체 렌더링
-	CSceneManager::GetInstance()->Render();
-
-	// 3. 백버퍼 교체
-	CDevice::GetInstance()->Present();
+	CRenderManager::GetInstance()->Render();
 
 	// Event 수행
 	CEventManager::GetInstance()->Update();

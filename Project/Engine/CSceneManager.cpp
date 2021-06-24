@@ -26,6 +26,7 @@
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
 #include "Ptr.h"
+#include "CLight2D.h"
 
 // GameContents
 #include "CGameManagerScript_sh.h"
@@ -105,13 +106,26 @@ void CSceneManager::Init() {
 		pGameMgr->AddComponent<CGameManagerScript_sh>();
 		m_pCurScene->AddGameObject(pGameMgr);
 	}
+	/*{
+		CGameObject* pLight2DObj = new CGameObject;
+		pLight2DObj->AddComponent<CTransform>();
+		pLight2DObj->AddComponent<CMeshRenderer>();
+		pLight2DObj->AddComponent<CLight2D>();
+
+		pLight2DObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+		pLight2DObj->Light2D()->SetDiffColor(Vector3(0.f, 1.f, 1.f));
+		pLight2DObj->Light2D()->SetRange(400.f);
+		pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
+
+		m_pCurScene->AddGameObject(pLight2DObj, E_Layer::Default);
+	}*/
 
 	CGameObject* pPlayer = TestCreateObj();
 	// 플레이어 오브젝트 생성
 	{
 		pPlayer->AddComponent<CPlayerScript_sh>();
 		pPlayer->AddComponent<CAnimator2D>();
-		/*
+		
 		TAnimation2DDesc tAnimDesc;
 		tAnimDesc.fDuration = 0.1f;
 		tAnimDesc.iFrameCount = 10;
@@ -125,10 +139,16 @@ void CSceneManager::Init() {
 		
 		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
 		CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
+
+		auto& vecAnim = pAnim2D->GetAnimationFrame();
+		for (int i = 0; i < vecAnim.size(); ++i) {
+			vecAnim[i].vOffsetPos = Vector2(0.12f, 0.f);
+		}
+		
 		pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
-		*/
-		pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
-		pPlayer->Animator2D()->Play(_T("Player_Walk"));
+		
+		/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
+		pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
 		
 
