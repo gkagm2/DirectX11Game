@@ -8,6 +8,10 @@
 #include "CScene.h"
 #include "CLayer.h"
 
+// Test
+#include "CKeyManager.h"
+#include "CTimeManager.h"
+
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
 	m_eProjectionType(E_ProjectionType::Perspective),
@@ -47,6 +51,24 @@ void CCamera::Render()
 		for (UINT j = 0; j < vecAllObjs.size(); ++j)
 			vecAllObjs[j]->Render();
 	}
+}
+
+void CCamera::Update()
+{
+	Vector3 vPos = Transform()->GetLocalPosition();
+	if (InputKeyHold(E_Key::UP)) {
+		vPos.y += DeltaTime * 150.f;
+	}
+	if (InputKeyHold(E_Key::DOWN)) {
+		vPos.y -= DeltaTime * 150.f;
+	}
+	if (InputKeyHold(E_Key::LEFT)) {
+		vPos.x -= DeltaTime * 150.f;
+	}
+	if (InputKeyHold(E_Key::RIGHT)) {
+		vPos.x += DeltaTime * 150.f;
+	}
+	Transform()->SetLocalPosition(vPos);
 }
 
 void CCamera::_CalculateViewMatrix()
