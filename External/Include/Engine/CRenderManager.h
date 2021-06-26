@@ -3,6 +3,7 @@
 #include "CCamera.h"
 #include "CLight2D.h"
 
+class CStructuredBuffer;
 class CRenderManager : public CSingleton<CRenderManager>
 {
 	SINGLETON(CRenderManager)
@@ -10,6 +11,7 @@ private:
 	vector<CCamera*> m_vecCam;
 	vector<CLight2D*> m_vecLight2D;
 
+	CStructuredBuffer* m_pLight2DBuffer;
 public:
 	void Init();
 	void Render();

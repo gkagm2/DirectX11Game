@@ -51,6 +51,10 @@ void CTimeManager::Update()
 	if (m_fDeltaTime > 0.166666f)
 		m_fDeltaTime = 0.166666f;
 #endif
+
+	// 전역상수 세팅
+	g_globalConst.fDeltaTime = m_fDeltaTime;
+	g_globalConst.fAccTime += m_fDeltaTime;
 }
 
 void CTimeManager::Render(HDC _hdc)

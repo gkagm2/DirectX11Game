@@ -14,6 +14,9 @@ struct TTransform {
 	Matrix matWorld;
 	Matrix matView;
 	Matrix matProjection;
+
+	Matrix matWorldView;	 // World * View Matrix
+	Matrix matWorldViewProj; // World * View * Projection Matrix
 };
 
 struct TMaterialData {
@@ -57,4 +60,13 @@ struct TLightInfo {
 	float fRange;
 	float fAngle;
 	int iPad;
+};
+
+struct TGlobalConst {
+	Vector2 vResolution;
+	float fDeltaTime;
+	float fAccTime;		// 델터 타임의 누적시간
+	int iLight2DCount;
+	int iLight3DCount;
+	int iPadding[2];
 };

@@ -25,9 +25,7 @@ VTX_OUT VS_Std2D(VTX_IN _in)
 {
 	VTX_OUT output = (VTX_OUT)0.f; // 초기화
 	
-    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
-    float4 vViewPos = mul(vWorldPos, g_matView);
-    float4 vProjPos = mul(vViewPos, g_matProjection);
+    float4 vProjPos = mul(float4(_in.vPosition, 1.0f), g_matWorldViewProj);
     
 	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
     output.vPosition = vProjPos;
@@ -122,37 +120,37 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
     TLightColor finalColor = (TLightColor) 0.f;
     for (int i = 0; i < g_iLight2DCount.x; ++i)
     {
-        if (g_arrLight2D[i].iLightType == pointType)
+        if (g_Light2DBuffer[i].iLightType == pointType)
         {
             //Point Light
             // 광원처리
     
-            float fLength = abs(length(g_arrLight2D[i].vLightPos.xy - _in.vWorldPos.xy));
+            float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
             // saturate: 0~1사이의 값으로 만듬
-            //float fRatio = saturate(1.f - (fLength / g_arrLight2D[i].fRange));
-            float fRatio = cos(saturate(fLength / g_arrLight2D[i].fRange) * (3.1415926535f * 0.5f));
+            //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+            float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
         
             // 분산광 설정
-            finalColor.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
+            finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
         }
-        else if (g_arrLight2D[i].iLightType == spotType)
+        else if (g_Light2DBuffer[i].iLightType == spotType)
         {
             // Spot Light
-            float3 vForwardDir = normalize(g_arrLight2D[0].vLightDir.xyz); // light 방향
-            float3 vDirToTarget = normalize(g_arrLight2D[0].vLightPos.xyz - _in.vWorldPos.xyz);
+            float3 vForwardDir = normalize(g_Light2DBuffer[0].vLightDir.xyz); // light 방향
+            float3 vDirToTarget = normalize(g_Light2DBuffer[0].vLightPos.xyz - _in.vWorldPos.xyz);
     
             float fRadian = dot(vForwardDir, vDirToTarget);
             float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree
     
-            if (fAngle < g_arrLight2D[0].fAngle * 0.5f)
+            if (fAngle < g_Light2DBuffer[0].fAngle * 0.5f)
             {
-                float fLength = abs(length(g_arrLight2D[i].vLightPos.xy - _in.vWorldPos.xy));
+                float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
                 // saturate: 0~1사이의 값으로 만듬
-                //float fRatio = saturate(1.f - (fLength / g_arrLight2D[i].fRange));
-                float fRatio = cos(saturate(fLength / g_arrLight2D[i].fRange) * (3.1415926535f * 0.5f));
+                //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+                float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
         
                 // 분산광 설정
-                finalColor.vDiffuse += g_arrLight2D[i].color.vDiffuse * fRatio;
+                finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
             }
             else
             {

@@ -35,6 +35,8 @@ int CDevice::Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWi
 	m_vRenderResolution = _vRenderResolution;
 	m_bWindowMode = _bWindowMode;
 
+	g_globalConst.vResolution = m_vRenderResolution;
+
 	// DX라이브러리 내부에서 문제가 있을 경우를 알림받기위해 설정해준다.
 	// 릴리즈에서는 플래그를 넣어주면 안된다.
 	UINT iFlag = 0;
@@ -237,8 +239,8 @@ void CDevice::CreateConstBuffer()
 	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data]->Create(E_ConstBuffer::Animation2D_Data, sizeof(TAnimation2DData));
 
-	m_arrCB[(UINT)E_ConstBuffer::Light2D] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::Light2D]->Create(E_ConstBuffer::Light2D, sizeof(TLightInfo) * 100 + 16);
+	m_arrCB[(UINT)E_ConstBuffer::Global] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Global]->Create(E_ConstBuffer::Global, sizeof(TGlobalConst));
 }
 
 void CDevice::CreateSampler()

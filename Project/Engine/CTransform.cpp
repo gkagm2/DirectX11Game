@@ -62,6 +62,8 @@ void CTransform::UpdateData()
 	static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Transform);
 
 	g_transform.matWorld = m_matWorld;
+	g_transform.matWorldView = g_transform.matWorld * g_transform.matView;
+	g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
 
 	pCB->SetData(&g_transform);
 	pCB->UpdateData(E_ShaderStage::Vertex);

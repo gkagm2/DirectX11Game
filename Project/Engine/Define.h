@@ -55,6 +55,10 @@
 #pragma endregion
 
 
+// GPU RegisterNumber
+#define REGISTER_NUM_Light2DBuffer 51
+
+
 // 삭제 우선순위로 설정
 enum class E_ResourceType {
 	Prefab,
@@ -70,7 +74,7 @@ enum class E_ConstBuffer {
 	Transform,		 // b0
 	Material_Param,	 // b1
 	Animation2D_Data,// b2
-	Light2D,		 // b3
+	Global,			 // b3
 	End,
 };
 

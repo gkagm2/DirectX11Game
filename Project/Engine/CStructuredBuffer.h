@@ -12,8 +12,13 @@ private:
 
 public:
 	void Create(UINT _iElementSize, UINT _iElementCount);
-	void SetData(void* _pSysMem, UINT _iSize = 0) const; // system memory -> buffer gpu
-	void UpdateData(E_ShaderStage _eStage = E_ShaderStage::All) const; // gpu data -> gpu register binding
+	void SetData(void* _pSysMem, UINT _iElementCount) const; // system memory -> buffer gpu
+	void UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage = E_ShaderStage::All) const; // gpu data -> gpu register binding
+
+	UINT GetElementCount() { return m_iElementCount; }
+	UINT GetElementSize() { return m_iElementSize; }
+
+	void Release();
 
 private:
 	CLONE_DISABLE(CStructuredBuffer);

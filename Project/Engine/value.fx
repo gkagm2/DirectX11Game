@@ -8,6 +8,9 @@ cbuffer TRANSFORM : register(b0)
     row_major Matrix g_matWorld; // 행기반 v (L-)
     row_major Matrix g_matView;
     row_major Matrix g_matProjection;
+    
+    row_major Matrix g_matWorldView;     // world * view matrix
+    row_major Matrix g_matWorldViewProj; // world * view * projection matrix
 }
 
 cbuffer MATERIAL_PARAM : register(b1)
@@ -58,18 +61,22 @@ cbuffer MATERIAL_PARAM : register(b1)
 
 cbuffer ANIMATION2D_DATA : register(b2)
 {
-    float2 vLeftTopUV;
-    float2 vFrameSizeUV;
-    float2 vOffsetSizeUV;
-    float2 vBaseSizeUV;
-    int bIsAnimating2D;
-    int3 padding;
+    float2  vLeftTopUV;
+    float2  vFrameSizeUV;
+    float2  vOffsetSizeUV;
+    float2  vBaseSizeUV;
+    int     bIsAnimating2D;
+    int3    anim2Dpadding;
 };
 
-cbuffer LIGHT2D : register(b3)
+cbuffer GLOBAL_CONST : register(b3)
 {
-    TLightInfo g_arrLight2D[100];
-    int4 g_iLight2DCount;
+    float2  g_vResolution;
+    float   g_fDeltaTime;
+    float   g_fAccTime;
+    int     g_iLight2DCount; // 2D 광원 개수
+    int     g_iLight3DCount; // 3D 광원 개수
+    int2    light2DPadding;
 }
 
 // Texture register (t)
@@ -89,6 +96,8 @@ TextureCube g_texcube_0 : register(t10);
 TextureCube g_texcube_1 : register(t11);
 
 Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
+
+StructuredBuffer<TLightInfo> g_Light2DBuffer : register(t51);
 
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic
