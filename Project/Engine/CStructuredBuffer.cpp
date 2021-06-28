@@ -41,7 +41,7 @@ void CStructuredBuffer::Create(UINT _iElementSize, UINT _iElementCount)
 
 void CStructuredBuffer::SetData(void* _pSysMem, UINT _iElementCount) const
 {
-	int iSize = m_iElementSize * m_iElementCount;
+	int iSize = m_iElementSize * _iElementCount;
 
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 
@@ -69,9 +69,7 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage) co
 void CStructuredBuffer::Release()
 {
 	if (m_pSB)
-		m_pSB->Release();
-	m_pSB = nullptr;
+		m_pSB->Release(); // ComPtr은 Release 후 nullptr을 가리키게 하지 맙세
 	if (m_pSRV)
 		m_pSRV->Release();
-	m_pSRV = nullptr;
 }

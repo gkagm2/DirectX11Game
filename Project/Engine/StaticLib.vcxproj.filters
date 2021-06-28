@@ -166,7 +166,12 @@
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="CTestLight2DScript.h" />
+    <ClInclude Include="CTestLight2DScript.h">
+      <Filter>ShootingGame %28sh-Shooting%29\Objects\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Engine\07. Component\TileMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -313,7 +318,12 @@
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="CTestLight2DScript.cpp" />
+    <ClCompile Include="CTestLight2DScript.cpp">
+      <Filter>ShootingGame %28sh-Shooting%29\Objects\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Engine\07. Component\TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -465,6 +475,9 @@
     </Filter>
     <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Light">
       <UniqueIdentifier>{36b9ad42-1531-454e-ad4a-fe4e7afac396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\TileMap">
+      <UniqueIdentifier>{4790db69-4e20-40ff-8c1b-03fce1a57a50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

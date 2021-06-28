@@ -11,7 +11,7 @@ class CCollider2D;
 class CCollider3D;
 class CAnimator2D;
 class CLight2D;
-
+class CTileMap;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {

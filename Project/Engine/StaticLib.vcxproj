@@ -45,6 +45,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -52,6 +53,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -203,6 +205,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CStructuredBuffer.h" />
     <ClInclude Include="CTestLight2DScript.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CTileMap.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CObject.h" />
@@ -260,6 +263,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CStructuredBuffer.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CObject.cpp" />

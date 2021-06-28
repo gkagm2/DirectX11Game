@@ -98,6 +98,7 @@ TextureCube g_texcube_1 : register(t11);
 Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
 
 StructuredBuffer<TLightInfo> g_Light2DBuffer : register(t51);
+StructuredBuffer<TTileInfo> g_TileBuffer : register(t52);
 
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic

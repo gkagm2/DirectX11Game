@@ -20,4 +20,17 @@ struct TLightInfo
     int     iPad;
 };
 
+struct TTileInfo
+{
+    float2 vLeftTop;
+    float2 vRightBottom;
+    float2 vTileSize;
+    float2 vLeftTopUV; // Å¸ÀÏÀÇ ÁÂ»ó´Ü ÁÂÇ¥ UV
+    float2 vRightBottomUV; // Å¸ÀÏÀÇ ¿ìÇÏ´ÜÁÂÇ¥ UV
+    float2 vTileSizeUV;
+    
+    //float2 vLeftTopUV; // Å¸ÀÏÀÇ ÁÂ»ó´Ü ÁÂÇ¥ UV
+    //float2 vRightBottomUV; // Å¸ÀÏÀÇ ÁÂÇÏ´Ü ÁÂÇ¥ UV
+};
+
 #endif

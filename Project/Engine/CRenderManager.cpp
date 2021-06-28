@@ -8,7 +8,6 @@
 CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr)
 {
-
 }
 
 CRenderManager::~CRenderManager()
@@ -25,11 +24,15 @@ void CRenderManager::Init()
 
 void CRenderManager::Render()
 {
-	_RenderInit();
-
+	_RenderInit_Light2D();
 	// Render
 	// 1. 타겟 클리어
 	CDevice::GetInstance()->ClearTarget();
+
+	// TODO : Scene에서도 Render함수를 실행하고 RenderManager에서도 Render를 실행한다. (2번 호출) 이걸 줄여야됨
+	// 타일맵 렌더링
+	for (UINT i = 0; i < m_vecTileMap.size(); ++i)
+		m_vecTileMap[i]->Render();
 
 	// 2. 카메라 기준으로 렌더링
 	for (UINT i = 0; i < m_vecCam.size(); ++i)
@@ -40,9 +43,10 @@ void CRenderManager::Render()
 
 	m_vecCam.clear();
 	m_vecLight2D.clear();
+	m_vecTileMap.clear();
 }
 
-void CRenderManager::_RenderInit()
+void CRenderManager::_RenderInit_Light2D()
 {
 	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
 
@@ -52,7 +56,7 @@ void CRenderManager::_RenderInit()
 	pLight2DBuffer->UpdateData();
 
 
-	UINT iLightSize = m_vecLight2D.size();
+	UINT iLightSize = (UINT)m_vecLight2D.size();
 	UINT iElementCnt = m_pLight2DBuffer->GetElementCount();
 
 	// 광원 개수가 광원의 정보를 담을 구조화 버퍼 개수보다 크면 사이즈를 늘려줌

@@ -38,7 +38,8 @@
 	GET_COMPONENT(Collider2D)\
 	GET_COMPONENT(Collider3D)\
 	GET_COMPONENT(Animator2D)\
-	GET_COMPONENT(Light2D)
+	GET_COMPONENT(Light2D)\
+	GET_COMPONENT(TileMap)
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -50,13 +51,15 @@
 	GET_OTHER_COMPONENT(Collider2D)\
 	GET_OTHER_COMPONENT(Collider3D)\
 	GET_OTHER_COMPONENT(Animator2D)\
-	GET_OTHER_COMPONENT(Light2D)
+	GET_OTHER_COMPONENT(Light2D)\
+	GET_OTHER_COMPONENT(TileMap)
 
 #pragma endregion
 
 
 // GPU RegisterNumber
 #define REGISTER_NUM_Light2DBuffer 51
+#define REGISTER_NUM_TileMapBuffer 52
 
 
 // 삭제 우선순위로 설정
@@ -101,6 +104,7 @@ enum class E_ComponentType {
 	Light3D,
 	Camera,
 	Particle,
+	TileMap,
 	Listener,
 	Audio,
 	Script,

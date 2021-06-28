@@ -7,6 +7,7 @@
 #include "CLayer.h"
 #include "CCollider2D.h"
 #include "CLight2D.h"
+#include "CTileMap.h"
 
 #include "CResourceManager.h"
 #include "CPrefab.h"
@@ -120,6 +121,9 @@ void CGameObject::Render()
 {
 	if (MeshRenderer())		// ¸Ş½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
+
+	if (TileMap())
+		TileMap()->Render();
 
 	if (Light2D())			// ±¤¿ø ·»´õ¸µ
 		Light2D()->Render();

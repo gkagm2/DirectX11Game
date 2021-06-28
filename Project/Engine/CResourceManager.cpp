@@ -69,7 +69,7 @@ void CResourceManager::CreateDefaultMesh()
 	CMesh* pMesh = new CMesh();
 	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
-	AddRes(STR_KEY_RectMash, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
+	AddRes(STR_KEY_RectMesh, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 
 
 	// RectLineMesh 积己
@@ -256,6 +256,17 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 
 	AddRes(STR_KEY_Collider2DShader, pShader);
+
+	//-----------------------
+	// 鸥老甘 溅捞歹 积己
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderTileMap);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderTileMap);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	
+	AddRes(STR_KEY_TileMapShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -283,4 +294,10 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
 	pMtrl->SetShader(pShaderCollider2D);
 	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
+
+	// 鸥老甘 犁龙 积己
+	pMtrl = new CMaterial;
+	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
+	pMtrl->SetShader(pShaderTileMap);
+	AddRes(STR_KEY_TileMapMtrl, pMtrl);
 }

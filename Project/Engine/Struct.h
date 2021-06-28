@@ -70,3 +70,12 @@ struct TGlobalConst {
 	int iLight3DCount;
 	int iPadding[2];
 };
+
+struct TTileInfo {
+	Vector2 vLeftTop;
+	Vector2 vRightBottom;
+	Vector2 vTileSize;
+	Vector2 vLeftTopUV;	// 타일의 좌상단 좌표 UV
+	Vector2 vRightBottomUV; // 타일의 우하단좌표 UV
+	Vector2 vTileSizeUV;
+};
