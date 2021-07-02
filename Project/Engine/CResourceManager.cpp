@@ -19,6 +19,7 @@ void CResourceManager::Init()
 	CreateDefaultCircle2DMesh();
 	//CreateDefaultCubeMesh3D();
 	CreateDefaultShader();
+	CreateComputeShader();
 	CreateDefaultMaterial();
 }
 
@@ -300,4 +301,25 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
 	pMtrl->SetShader(pShaderTileMap);
 	AddRes(STR_KEY_TileMapMtrl, pMtrl);
+}
+
+
+#include "CTestShader.h"
+void CResourceManager::CreateComputeShader()
+{
+	// TODO (Jang) : Test용 컴퓨트 쉐이더를 생성하고있음. 나중에 고치기
+	CComputeShader* pShader = new CTestShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_TestComputeShader, "CS_Test");
+	AddRes(STR_KEY_TestComputeShader, pShader);
+}
+
+SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
+{
+	assert(nullptr == FindRes<CTexture>(_strKey));
+
+	CTexture* pTexture = new CTexture;
+	pTexture->Create(_iWidth, _iHeight, _eFormat, _iBindFlag);
+	AddRes<CTexture>(_strKey, pTexture);
+
+	return pTexture;
 }

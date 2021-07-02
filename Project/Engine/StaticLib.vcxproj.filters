@@ -172,6 +172,9 @@
     <ClInclude Include="CTileMap.h">
       <Filter>Engine\07. Component\TileMap</Filter>
     </ClInclude>
+    <ClInclude Include="CTestShader.h">
+      <Filter>Shader Script\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -323,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>Engine\07. Component\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestShader.cpp">
+      <Filter>Shader Script\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -479,6 +485,9 @@
     <Filter Include="Engine\07. Component\TileMap">
       <UniqueIdentifier>{4790db69-4e20-40ff-8c1b-03fce1a57a50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Script\ComputeShader">
+      <UniqueIdentifier>{cf68d110-f4d7-4c8b-b7e2-b81c674e2c8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
@@ -493,6 +502,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="struct.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="testShader.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

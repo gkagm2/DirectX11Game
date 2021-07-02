@@ -26,6 +26,9 @@ public:
 	void CreateDefaultCubeMesh3D();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
+	void CreateComputeShader();
+
+	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
 
 public:
 	// TODO : 나중에 쉐이더 코드의 함수이름..etc 을 읽어들일 때 사용 할 것임.
@@ -67,8 +70,10 @@ E_ResourceType GetResourceType() {
 		eResourceType = E_ResourceType::Material;
 	else if (&info == &mesh)
 		eResourceType = E_ResourceType::Mesh;
-	else if (&info == &graphicsShader || &info == &computeShader)
-		eResourceType = E_ResourceType::Shader;
+	else if (&info == &graphicsShader)
+		eResourceType = E_ResourceType::GraphicsShader;
+	else if (&info == &computeShader)
+		eResourceType = E_ResourceType::ComputeShader;
 	else if (&info == &texture)
 		eResourceType = E_ResourceType::Texture;
 

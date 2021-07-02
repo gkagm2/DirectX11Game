@@ -15,10 +15,13 @@
 
 #include "CCore.h"
 
+#include "CTestShader.h"
+
 // component
 #include "CTransform.h"
 #include "CMeshRenderer.h"
 #include "CGraphicsShader.h"
+#include "CComputeShader.h"
 #include "CCamera.h"
 #include "CTexture.h"
 #include "CMaterial.h"
@@ -193,6 +196,24 @@ void CSceneManager::Init() {
 	//	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 	//	m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
+	{
+		// ComputeShader Test
+		SharedPtr<CTexture> pTestTexture = CResourceManager::GetInstance()->CreateTexture(_T("Test"), 500, 500,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE);
+
+		SharedPtr<CTestShader> pCS = (CTestShader*)(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_TestComputeShader).Get());
+		pCS->SetClearColor(Vector4(1.f, 0.f, 1.f, 1.f));
+		pCS->SetTexture(pTestTexture);
+		pCS->Excute();
+
+		CGameObject* pObj = TestCreateObj();
+		pObj->MeshRenderer()->SetMesh(pMesh);
+		pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+		pObj->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
+		m_pCurScene->AddGameObject(pObj);
+	}
+
 
 #pragma region 플레이어를 감싸고 있는 오브젝트
 		/*CGameObject* pChild = TestCreateObj();
@@ -227,7 +248,10 @@ void CSceneManager::Init() {
 	//	m_pCurScene->AddGameObject(pEnemyRespawner, E_Layer::Default, false);*/
 	//}
 
-	{
+
+
+
+	/*{
 		CGameObject* pTileMap = new CGameObject();
 		pTileMap->SetName(_T("TileMap"));
 		pTileMap->AddComponent<CTransform>();
@@ -250,7 +274,7 @@ void CSceneManager::Init() {
 		pTileMap->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
 		pTileMap->TileMap()->CreateTile(7, 7);
 		m_pCurScene->AddGameObject(pTileMap);
-	}
+	}*/
 
 	// 레이어 충돌 지정
 	CCollisionManager::GetInstance()->SetOnOffCollision(E_Layer::Player, E_Layer::Enemy, true);

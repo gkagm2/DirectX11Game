@@ -39,6 +39,8 @@ void CMaterial::UpdateData()
 	pCB->UpdateData();
 }
 
+// Example :
+// SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
 void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 {
 	switch (_eParam) {

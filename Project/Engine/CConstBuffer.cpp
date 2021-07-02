@@ -51,3 +51,20 @@ void CConstBuffer::UpdateData(E_ShaderStage _eStage) const
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Compute)
 		CONTEXT->CSSetConstantBuffers((UINT)m_eType, 1, m_pCB.GetAddressOf());
 }
+
+void CConstBuffer::Clear(E_ShaderStage _eStage) const
+{
+	ID3D11Buffer* pBuffer = nullptr;
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Vertex)
+		CONTEXT->VSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Hull)
+		CONTEXT->HSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Domain)
+		CONTEXT->DSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Geometry)
+		CONTEXT->GSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Pixel)
+		CONTEXT->PSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+	if ((UINT)_eStage & (UINT)E_ShaderStage::Compute)
+		CONTEXT->CSSetConstantBuffers((UINT)m_eType, 1, &pBuffer);
+}

@@ -66,7 +66,8 @@
 enum class E_ResourceType {
 	Prefab,
 	Material,
-	Shader,
+	GraphicsShader,
+	ComputeShader,
 	Mesh,
 	Texture,
 	Sound,

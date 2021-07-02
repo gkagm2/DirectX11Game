@@ -17,11 +17,15 @@
   // Ascii code character set
 #define STR_MSG_FailedToCreateVertexShader "버텍스 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreatePixelShader "픽셀 쉐이더 생성 실패"
+#define STR_MSG_FailedToCreateComputeShader "컴퓨트 쉐이더 생성 실패"
 
 
-// Path
+/////////////// Path ///////////////
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+
+// Path Test
+#define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
 
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"
@@ -48,12 +52,19 @@
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
 
+ /////// / // Test ///// / / /
+#define STR_KEY_TestComputeShader _T("TestComputeShader")
+
+
 // Material
 #define STR_KEY_StdAlphaBlend_CoverageMtrl _T("StandardMaterialAlphaBlendCoverage")
 #define STR_KEY_StdAlphaBlendMtrl _T("StandardMaterialAlphaBlend")
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
 #define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
+
+// Resource View Key
+#define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
 
 ////////// Shooting Game //////////
 // GameObject name

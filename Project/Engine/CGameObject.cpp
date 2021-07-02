@@ -122,7 +122,7 @@ void CGameObject::Render()
 	if (MeshRenderer())		// ¸Þ½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
 
-	if (TileMap())
+	if (TileMap())			// Å¸ÀÏ¸Ê ·»´õ¸µ
 		TileMap()->Render();
 
 	if (Light2D())			// ±¤¿ø ·»´õ¸µ

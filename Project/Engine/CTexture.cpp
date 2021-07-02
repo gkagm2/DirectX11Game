@@ -60,6 +60,58 @@ int CTexture::Load(const tstring& _strFilePath)
 	return hRet;
 }
 
+int CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
+{
+	m_tDesc.Width = _iWidth;
+	m_tDesc.Height = _iHeight;
+	m_tDesc.MipLevels = 1; // 원본 하나만 지정
+	m_tDesc.ArraySize = 1;
+	m_tDesc.Format = _eFormat; // 픽셀포멧
+
+	m_tDesc.SampleDesc.Count = 1;
+	m_tDesc.SampleDesc.Quality = 0;
+
+	m_tDesc.BindFlags = _iBindFlag;
+	m_tDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	HRESULT hr = 0;
+	hr =DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
+	if(FAILED(hr)) assert(nullptr);
+
+	// 2. 생성한 DepthStencil Texture로 DepthStencilView를 생성한다.
+	if (D3D11_BIND_DEPTH_STENCIL & m_tDesc.BindFlags) {
+		//D3D11_DEPTH_STENCIL_VIEW_DESC tDSVDesc = {};
+		hr = DEVICE->CreateDepthStencilView(m_pTex2D.Get(), 0, m_pDSV.GetAddressOf());
+		if (FAILED(hr)) assert(nullptr);
+	}
+	else {
+		if (D3D11_BIND_RENDER_TARGET & m_tDesc.BindFlags) {
+			//D3D11_RENDER_TARGET_VIEW_DESC tRTVDesc = {};
+			hr = DEVICE->CreateRenderTargetView(m_pTex2D.Get(), 0, m_pRTV.GetAddressOf());
+			if (FAILED(hr)) assert(nullptr);
+		}
+
+		if (D3D11_BIND_SHADER_RESOURCE & m_tDesc.BindFlags) {
+			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+			tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			tSRVDesc.Texture2D.MipLevels = 1;
+			tSRVDesc.Texture2D.MostDetailedMip = 0;
+			hr = DEVICE->CreateShaderResourceView(m_pTex2D.Get(), &tSRVDesc, m_pSRV.GetAddressOf());
+			if (FAILED(hr)) assert(nullptr);
+		}
+
+		if (D3D11_BIND_UNORDERED_ACCESS & m_tDesc.BindFlags) {
+			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+
+			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+			if (FAILED(hr)) assert(nullptr);
+		}
+	}
+
+	return S_OK;
+}
+
 void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)
 {
 	if((UINT)E_ShaderStage::Vertex & (UINT)_eShaderStage)
@@ -76,6 +128,13 @@ void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)
 		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
 }
 
+void CTexture::UpdateRWData(UINT _iUAVRegisterNum)
+{
+	assert(m_pUAV);
+	UINT iUAVIntialCounts = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iUAVRegisterNum, 1, m_pUAV.GetAddressOf(), &iUAVIntialCounts);
+}
+
 void CTexture::Clear(UINT _iRegisterNum)
 {
 	ID3D11ShaderResourceView* pSRV = nullptr;
@@ -85,4 +144,11 @@ void CTexture::Clear(UINT _iRegisterNum)
 	CONTEXT->GSSetShaderResources(_iRegisterNum, 1, &pSRV);
 	CONTEXT->PSSetShaderResources(_iRegisterNum, 1, &pSRV);
 	CONTEXT->CSSetShaderResources(_iRegisterNum, 1, &pSRV);
+}
+
+void CTexture::ClearRW(UINT _iUAVRegisterNum)
+{
+	ID3D11UnorderedAccessView* pUAV = nullptr;
+	UINT iUAVInitialCounts = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_iUAVRegisterNum, 1, &pUAV, &iUAVInitialCounts);
 }

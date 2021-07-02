@@ -2,6 +2,7 @@
 #include "CDevice.h"
 #include "CCore.h"
 #include "CConstBuffer.h"
+#include "CResourceManager.h"
 
 CDevice::CDevice() :
 	m_arrCB{},
@@ -19,7 +20,6 @@ CDevice::CDevice() :
 	m_pSwapChain(nullptr),
 	m_pRTTex(nullptr),
 	m_pRTV(nullptr),
-	m_pDSV(nullptr),
 	m_pDSTex(nullptr),
 	m_tViewPort{}
 {
@@ -190,28 +190,12 @@ int CDevice::CreateView()
 	// DepthStencilView 만들기
 	//////////////////////////
 	// DepthStencil용 Texture2D 만들기
-	D3D11_TEXTURE2D_DESC tTexDesc = {};
-	tTexDesc.Width = (UINT)m_vRenderResolution.x;
-	tTexDesc.Height = (UINT)m_vRenderResolution.y;
-	tTexDesc.MipLevels = 1; // 원본 하나만 지정
-	tTexDesc.ArraySize = 1;
-	tTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 픽셀포멧
+	m_pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_DSVTexture, (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
 
-	tTexDesc.SampleDesc.Count = 1;
-	tTexDesc.SampleDesc.Quality = 0;
-
-	tTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	tTexDesc.Usage = D3D11_USAGE_DEFAULT;
-	//tTexDesc.CPUAccessFlags;
-	//tTexDesc.MiscFlags;
-
-	m_pDevice->CreateTexture2D(&tTexDesc, nullptr, m_pDSTex.GetAddressOf()); // 2param : 초기 색상 넣기
-
-	// 2. 생성한 DepthStencil Texture로 DepthStencilView를 생성한다.
-	m_pDevice->CreateDepthStencilView(m_pDSTex.Get(), 0, m_pDSV.GetAddressOf());
-
+	//////////////////////////
 	// 출력 타겟 및 깊이버퍼 설정
-	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSV.Get()); // OM : output manager
+	//////////////////////////
+	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
 
 	return S_OK;
 }
@@ -378,7 +362,7 @@ void CDevice::ClearTarget()
 
 	float fDepth = 1.0f;
 	UINT8 iStencil = 0;
-	m_pContext->ClearDepthStencilView(m_pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, fDepth, iStencil);
+	m_pContext->ClearDepthStencilView(m_pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, fDepth, iStencil);
 }
 
 void CDevice::Present()

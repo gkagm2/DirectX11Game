@@ -69,7 +69,7 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage) co
 void CStructuredBuffer::Release()
 {
 	if (m_pSB)
-		m_pSB->Release(); // ComPtr은 Release 후 nullptr을 가리키게 하지 맙세
+		m_pSB = nullptr; // ComPtr이므로 nullptr로
 	if (m_pSRV)
-		m_pSRV->Release();
+		m_pSRV = nullptr;
 }

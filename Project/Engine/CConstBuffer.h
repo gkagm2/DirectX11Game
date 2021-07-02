@@ -11,8 +11,9 @@ public:
 	// buffer size, 몇번 레지스터?
 	void Create(E_ConstBuffer _eType, UINT _iBufferSize);
 	void SetData(void* _pSysMem, UINT _iSize = 0) const; // system memory -> buffer gpu
-	void UpdateData(E_ShaderStage _eStage = E_ShaderStage::All) const ; // gpu data -> gpu register binding
+	void UpdateData(E_ShaderStage _eStage = E_ShaderStage::All) const; // gpu data -> gpu register binding
 
+	void Clear(E_ShaderStage _eStage = E_ShaderStage::All) const;
 private:
 	CLONE_DISABLE(CConstBuffer);
 public:
