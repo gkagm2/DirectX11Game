@@ -60,7 +60,8 @@ int CTexture::Load(const tstring& _strFilePath)
 	return hRet;
 }
 
-int CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
+
+void CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
 {
 	m_tDesc.Width = _iWidth;
 	m_tDesc.Height = _iHeight;
@@ -74,9 +75,23 @@ int CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iB
 	m_tDesc.BindFlags = _iBindFlag;
 	m_tDesc.Usage = D3D11_USAGE_DEFAULT;
 
+
+	HRESULT hr = DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
+	if (FAILED(hr)) assert(nullptr);
+
+	_CreateTexture2D_InnerFunc();
+}
+
+void CTexture::Create(ComPtr<ID3D11Texture2D> _pTexture2D)
+{
+	m_pTex2D = _pTexture2D;
+	m_pTex2D->GetDesc(&m_tDesc); // 생성된 텍스쳐2D의 정보를 받아옴.
+	_CreateTexture2D_InnerFunc();
+}
+
+void CTexture::_CreateTexture2D_InnerFunc()
+{
 	HRESULT hr = 0;
-	hr =DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
-	if(FAILED(hr)) assert(nullptr);
 
 	// 2. 생성한 DepthStencil Texture로 DepthStencilView를 생성한다.
 	if (D3D11_BIND_DEPTH_STENCIL & m_tDesc.BindFlags) {
@@ -108,8 +123,6 @@ int CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iB
 			if (FAILED(hr)) assert(nullptr);
 		}
 	}
-
-	return S_OK;
 }
 
 void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)

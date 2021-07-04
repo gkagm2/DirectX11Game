@@ -29,9 +29,7 @@ private:
 	ComPtr<ID3D11DeviceContext> m_pContext; // 장치 인터페이스(렌더링, 상태 바꾸기) 현재 상태의 컨텍스트
 
 	ComPtr<IDXGISwapChain> m_pSwapChain;
-	ComPtr<ID3D11Texture2D> m_pRTTex;		// RTTex : Render Target Texture (Back buffer)
-	ComPtr<ID3D11RenderTargetView> m_pRTV;	// RTV : Render Target View
-
+	SharedPtr<CTexture> m_pRTTex; // RTTex : Render Target Texture
 	SharedPtr<CTexture> m_pDSTex;		// DSTex : Depth Stencil Texture
 	
 	D3D11_VIEWPORT m_tViewPort;

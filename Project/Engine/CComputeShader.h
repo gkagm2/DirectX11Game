@@ -1,6 +1,7 @@
 #pragma once
 #include "CShader.h"
 
+class CStructuredBuffer;
 class CConstBuffer;
 class CComputeShader : public CShader
 {

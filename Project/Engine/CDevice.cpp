@@ -15,12 +15,6 @@ CDevice::CDevice() :
 	m_vRenderResolution{},
 	m_hWnd(nullptr),
 	m_bWindowMode(false),
-	m_pDevice(nullptr),
-	m_pContext(nullptr),
-	m_pSwapChain(nullptr),
-	m_pRTTex(nullptr),
-	m_pRTV(nullptr),
-	m_pDSTex(nullptr),
 	m_tViewPort{}
 {
 }
@@ -182,9 +176,11 @@ int CDevice::CreateView()
 	// RenderTargetView 만들기
 	/////////////////////////
 	// 1. SwapChain으로부터 출력 버퍼 열기
-	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_pRTTex.GetAddressOf());
-	// 2. 출력 버퍼로 RenderTargetView Create
-	m_pDevice->CreateRenderTargetView(m_pRTTex.Get(), 0, m_pRTV.GetAddressOf());
+	ComPtr<ID3D11Texture2D> pTex = nullptr;
+	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)pTex.GetAddressOf());
+
+	// 2. 해당 버퍼를 CTexture로 전환해서 ResourceManager에 등록
+	m_pRTTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_RTTexture, pTex);
 
 	//////////////////////////
 	// DepthStencilView 만들기
@@ -195,7 +191,7 @@ int CDevice::CreateView()
 	//////////////////////////
 	// 출력 타겟 및 깊이버퍼 설정
 	//////////////////////////
-	m_pContext->OMSetRenderTargets(1, m_pRTV.GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
+	m_pContext->OMSetRenderTargets(1, m_pRTTex->GetRTV().GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
 
 	return S_OK;
 }
@@ -358,7 +354,7 @@ void CDevice::CreateDepthStencilState()
 void CDevice::ClearTarget()
 {
 	float fArrColor[4] = { 0.2f, 0.3f, 0.2f, 1.f}; // 색상
-	m_pContext->ClearRenderTargetView(m_pRTV.Get(), fArrColor);
+	m_pContext->ClearRenderTargetView(m_pRTTex->GetRTV().Get(), fArrColor);
 
 	float fDepth = 1.0f;
 	UINT8 iStencil = 0;

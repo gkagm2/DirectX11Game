@@ -31,6 +31,7 @@
 #include "Ptr.h"
 #include "CLight2D.h"
 #include "CTileMap.h"
+#include "CParticleSystem.h"
 
 // GameContents
 #include "CGameManagerScript_sh.h"
@@ -275,6 +276,19 @@ void CSceneManager::Init() {
 		pTileMap->TileMap()->CreateTile(7, 7);
 		m_pCurScene->AddGameObject(pTileMap);
 	}*/
+
+
+	// Particle System Example
+	{
+		CGameObject* pParticleObj = new CGameObject();
+		pParticleObj->SetName(_T("particle object"));
+		pParticleObj->AddComponent<CTransform>();
+		pParticleObj->AddComponent<CParticleSystem>();
+
+		pParticleObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f,0.f));
+		pParticleObj->Transform()->SetLocalScale(Vector3(25.f, 25.f, 1.f));
+		m_pCurScene->AddGameObject(pParticleObj);
+	}
 
 	// 레이어 충돌 지정
 	CCollisionManager::GetInstance()->SetOnOffCollision(E_Layer::Player, E_Layer::Enemy, true);

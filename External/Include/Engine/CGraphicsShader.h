@@ -34,14 +34,14 @@ public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);
 	//void CreateHullShader(const tstring& _strRelativePath, const string& _strFuncName);
 	//void CreateDomainShader(const tstring& _strRelativePath, const string& _strFuncName);
-	//void CreateGeometryShader(const tstring& _strRelativePath, const string& _strFuncName);
+	void CreateGeometryShader(const tstring& _strRelativePath, const string& _strFuncName);
 	void CreatePixelShader(const tstring& _strRelativePath, const string& _strFuncName);
 
-private:
-	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
-
 public:
+	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
 	virtual void UpdateData() override;
+
+	static void Clear();
 
 private:
 	CLONE_DISABLE(CGraphicsShader);

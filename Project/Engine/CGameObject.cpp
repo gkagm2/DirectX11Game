@@ -8,6 +8,7 @@
 #include "CCollider2D.h"
 #include "CLight2D.h"
 #include "CTileMap.h"
+#include "CParticleSystem.h"
 
 #include "CResourceManager.h"
 #include "CPrefab.h"
@@ -125,6 +126,9 @@ void CGameObject::Render()
 	if (TileMap())			// 타일맵 렌더링
 		TileMap()->Render();
 
+	if (ParticleSystem())	// 파티클 시스템 렌더링
+		ParticleSystem()->Render();
+
 	if (Light2D())			// 광원 렌더링
 		Light2D()->Render();
 
@@ -195,10 +199,38 @@ void CGameObject::_UnlinkParentGameObject()
 	m_pParentObj = nullptr;
 }
 
+bool CGameObject::_IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType)
+{
+	bool bIsOnlyOneRenderComponent = false;
+	for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+		if (_eComponentType == (E_ComponentType)i) {
+			bIsOnlyOneRenderComponent = true;
+			break;
+		}
+	}
+
+	return bIsOnlyOneRenderComponent;
+}
+
 CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 {
 	if (m_arrComponent[(UINT)_pComponent->GetComponentType()])
 		return m_arrComponent[(UINT)_pComponent->GetComponentType()];
+
+	// 오직 하나만 렌더링할 수 있는 종류의 컴포넌트인지 체크
+	bool bIsOnlyOneRenderComponent = _IsOnlyOnePossibleRenderComponent(_pComponent->GetComponentType());
+	if (bIsOnlyOneRenderComponent) {
+		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+			if (_pComponent->GetComponentType() == (E_ComponentType)i)
+				continue;
+			if (_IsExistComponent((E_ComponentType)i)) {
+				assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
+				if (_pComponent)
+					delete _pComponent;
+				return nullptr;
+			}
+		}
+	}
 
 	m_arrComponent[(UINT)_pComponent->GetComponentType()] = _pComponent;
 	_pComponent->m_pGameObj = this;

@@ -196,6 +196,8 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLight2D.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
+    <ClInclude Include="CParticleSystem.h" />
+    <ClInclude Include="CParticleUpdateShader.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
     <ClInclude Include="CPrefab.h" />
     <ClInclude Include="CRenderer.h" />
@@ -255,6 +257,8 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLight2D.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
+    <ClCompile Include="CParticleSystem.cpp" />
+    <ClCompile Include="CParticleUpdateShader.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
     <ClCompile Include="CPrefab.cpp" />
     <ClCompile Include="CRenderer.cpp" />
@@ -292,6 +296,26 @@ call EngineCopy.bat</Command>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="particle.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="particle_update.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="std2d.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

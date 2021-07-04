@@ -103,6 +103,11 @@ void CMesh::Render()
 	CONTEXT->DrawIndexed(m_iIdxCount, iStartIndexLocation, iBaseVertexLocation);
 }
 
+void CMesh::Render_Particle(UINT _iCount)
+{
+	CONTEXT->DrawIndexedInstanced(m_iIdxCount, _iCount, 0, 0, 0);
+}
+
 void CMesh::Reset()
 {
 	D3D11_MAPPED_SUBRESOURCE tSub = {};

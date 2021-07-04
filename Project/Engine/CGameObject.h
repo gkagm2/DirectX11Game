@@ -12,6 +12,7 @@ class CCollider3D;
 class CAnimator2D;
 class CLight2D;
 class CTileMap;
+class CParticleSystem;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {
@@ -56,6 +57,10 @@ private:
 
 	void _UnlinkParentGameObject();
 
+
+	//오직 하나만 렌더링 가능한 컴포넌트인지 체크
+	bool _IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType);
+	bool _IsExistComponent(E_ComponentType _eComponentType) { return m_arrComponent[(UINT)_eComponentType] ? true : false; }
 public:
 	template<typename TYPE>
 	TYPE* AddComponent();
@@ -64,6 +69,8 @@ public:
 
 	template<typename TYPE>
 	TYPE* GetComponent();
+
+	
 
 public:
 	CLONE(CGameObject);
@@ -89,11 +96,27 @@ inline TYPE* CGameObject::AddComponent()
 	E_ComponentType eType = pComp->GetComponentType();
 
 	// 이미 존재하면
-	if (m_arrComponent[(UINT)eType]) {
+	if (_IsExistComponent(eType)) {
 		delete pComponent;
 		pComponent = dynamic_cast<TYPE*>(m_arrComponent[(UINT)eType]);
 		return pComponent;
 	}
+
+	// 오직 하나만 렌더링할 수 있는 종류의 컴포넌트인지 체크
+	bool bIsOnlyOneRenderComponent = _IsOnlyOnePossibleRenderComponent(eType);
+	if (bIsOnlyOneRenderComponent) {
+		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+			if (eType == (E_ComponentType)i)
+				continue;
+			if (_IsExistComponent((E_ComponentType)i)) {
+				assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
+				if (pComponent)
+					delete pComponent;
+				return nullptr;
+			}
+		}
+	}
+
 
 	m_arrComponent[(UINT)eType] = pComp;
 	pComp->m_pGameObj = this;

@@ -18,14 +18,19 @@
 #define STR_MSG_FailedToCreateVertexShader "버텍스 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreatePixelShader "픽셀 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreateComputeShader "컴퓨트 쉐이더 생성 실패"
+#define STR_MSG_FailedToCreateGeometryShader "지오메트리 쉐이더 생성 실패"
 
 
 /////////////// Path ///////////////
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+#define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
+#define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 
 // Path Test
 #define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
+
+
 
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"
@@ -37,9 +42,18 @@
 #define STR_FUNC_NAME_VTXShaderTileMap "VS_TileMap"
 #define STR_FUNC_NAME_PIXShaderTileMap "PS_TileMap"
 
+// particle.fx functions name
+#define STR_FUNC_NAME_VTX_Particle "VS_Particle"
+#define STR_FUNC_NAME_GEO_Particle "GS_Particle"
+#define STR_FUNC_NAME_PIX_Particle "PS_Particle"
+
+// particle_update.fx functions name
+#define STR_FUNC_NAME_ParticleUpdate "CS_ParticleUpdate"
+
 ////////// Resource Key ///////////////
 // Mesh
-#define STR_KEY_RectMesh _T("RectMash")
+#define STR_KEY_PointMesh _T("PointMesh")
+#define STR_KEY_RectMesh _T("RectMesh")
 #define STR_KEY_RectLineMesh _T("RectLineMesh")
 #define STR_KEY_CubeMesh _T("CubeMesh")
 #define STR_KEY_CircleMesh _T("CircleMesh")
@@ -51,6 +65,10 @@
 #define STR_KEY_StdLight2DShader _T("StandardShaderLight2D")
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
+#define STR_KEY_ParticleShader _T("ParticleShader")
+
+// compute shader
+#define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
 
  /////// / // Test ///// / / /
 #define STR_KEY_TestComputeShader _T("TestComputeShader")
@@ -62,9 +80,11 @@
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
 #define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
+#define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
+#define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
 
 ////////// Shooting Game //////////
 // GameObject name

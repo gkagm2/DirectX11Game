@@ -33,4 +33,15 @@ struct TTileInfo
     //float2 vRightBottomUV; // 타일의 좌하단 좌표 UV
 };
 
+struct TParticle
+{
+    float3 vWorldPos;
+    float3 vWorldDir;
+    
+    float fCurTime;
+    float fMaxTime;
+    int iAlive;
+    int3 iPadding;
+};
+
 #endif

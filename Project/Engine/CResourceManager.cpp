@@ -28,6 +28,7 @@ void CResourceManager::CreateDefaultMesh()
 	vector<VTX> vecVtx;
 	vector<UINT> vecIdx;
 
+	////////////////
 	// RectMesh 생성
 
 	// 버퍼 만들기
@@ -72,7 +73,7 @@ void CResourceManager::CreateDefaultMesh()
 
 	AddRes(STR_KEY_RectMesh, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 
-
+	///////////////////
 	// RectLineMesh 생성
 	/*
 	0-------1
@@ -92,6 +93,24 @@ void CResourceManager::CreateDefaultMesh()
 	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_RectLineMesh, pMesh);
+
+	///////////////////
+	// Point Mesh 생성
+	vertex = {};
+	vecVtx.clear();
+	vecIdx.clear();
+
+	vertex.vPos = Vector3(0.f, 0.f, 0.f);
+	vertex.vColor = Vector4(0.f, 0.f, 0.f, 1.f);
+	vertex.vUV = Vector2(0.f, 0.f);
+
+	vecVtx.push_back(vertex);
+	vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+	AddRes(STR_KEY_PointMesh, pMesh);
 }
 
 void CResourceManager::CreateDefaultCircle2DMesh()
@@ -268,6 +287,27 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	
 	AddRes(STR_KEY_TileMapShader, pShader);
+
+	//-------------------------
+	// 파티클 렌더 쉐이더 생성
+	pShader = new CGraphicsShader;
+	pShader->CreateVertexShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_VTX_Particle);
+	pShader->CreateGeometryShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_GEO_Particle);
+	pShader->CreatePixelShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_PIX_Particle);
+
+	// Topology
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Blend
+	pShader->SetBlendState(E_BlendState::AlphaBlend);
+
+	// Depth Stencil
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Write);
+
+	AddRes(STR_KEY_ParticleShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -301,16 +341,30 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
 	pMtrl->SetShader(pShaderTileMap);
 	AddRes(STR_KEY_TileMapMtrl, pMtrl);
+
+	// 파티클 재질 생성
+	pMtrl = new CMaterial;
+	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
+	pMtrl->SetShader(pShaderParticle);
+	AddRes(STR_KEY_ParticleMtrl, pMtrl);
+
 }
 
 
 #include "CTestShader.h"
+#include "CParticleUpdateShader.h"
 void CResourceManager::CreateComputeShader()
 {
 	// TODO (Jang) : Test용 컴퓨트 쉐이더를 생성하고있음. 나중에 고치기
 	CComputeShader* pShader = new CTestShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_TestComputeShader, "CS_Test");
 	AddRes(STR_KEY_TestComputeShader, pShader);
+
+	/////////////////////////
+	// Particle Update Shader
+	pShader = new CParticleUpdateShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_ParticleUpdateShader, STR_FUNC_NAME_ParticleUpdate);
+	AddRes(STR_KEY_ParticleUpdateShader, pShader);
 }
 
 SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
@@ -319,6 +373,17 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT
 
 	CTexture* pTexture = new CTexture;
 	pTexture->Create(_iWidth, _iHeight, _eFormat, _iBindFlag);
+	AddRes<CTexture>(_strKey, pTexture);
+
+	return pTexture;
+}
+
+SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComPtr<ID3D11Texture2D> _pTexture2D)
+{
+	assert(nullptr == FindRes<CTexture>(_strKey));
+
+	CTexture* pTexture = new CTexture;
+	pTexture->Create(_pTexture2D);
 	AddRes<CTexture>(_strKey, pTexture);
 
 	return pTexture;

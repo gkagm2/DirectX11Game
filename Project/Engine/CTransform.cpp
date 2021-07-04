@@ -66,5 +66,5 @@ void CTransform::UpdateData()
 	g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
 
 	pCB->SetData(&g_transform);
-	pCB->UpdateData(E_ShaderStage::Vertex);
+	pCB->UpdateData(E_ShaderStage::NonePixel);
 }

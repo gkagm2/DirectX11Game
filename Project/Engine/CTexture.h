@@ -26,8 +26,10 @@ private:
 
 private:
 	virtual int Load(const tstring& _strFilePath);
-	virtual int Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
 
+	void Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
+	void Create(ComPtr<ID3D11Texture2D> _pTexture2D);
+	void _CreateTexture2D_InnerFunc(); // Create함수 내부에서 사용.
 
 public:
 	void UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum);

@@ -9,7 +9,49 @@ struct VTX { // Vertex
 	Vector2 vUV;
 };
 
-// 상수버퍼 용도
+/////////////////////////////
+// Strctured Buffer Usage
+
+struct TTileInfo {
+	Vector2 vLeftTop;
+	Vector2 vRightBottom;
+	Vector2 vTileSize;
+	Vector2 vLeftTopUV;	// 타일의 좌상단 좌표 UV
+	Vector2 vRightBottomUV; // 타일의 우하단좌표 UV
+	Vector2 vTileSizeUV;
+};
+
+struct TLightColor {
+	Vector4 vDiffuse;	// 난반사광
+	Vector4 vSpecular;	// 반사광
+	Vector4 vEmbient;	// 환경광
+};
+
+struct TLightInfo {
+	TLightColor tColor;
+
+	Vector4 vLightPos;
+	Vector4 vLightDir;
+	E_LightType eLightType;
+	float fRange;
+	float fAngle;
+	int iPad;
+};
+
+struct TParticle {
+	Vector3 vWorldPos;
+	Vector3 vWorldDir;
+
+	float fCurTime;
+	float fMaxTime;
+	int iAlive;
+	int iPadding[3];
+};
+
+
+//////////////////////////////
+// Const Buffer Usage
+
 struct TTransform {
 	Matrix matWorld;
 	Matrix matView;
@@ -45,23 +87,6 @@ struct TAnimation2DData {
 	int padding[3];
 };
 
-struct TLightColor {
-	Vector4 vDiffuse;	// 난반사광
-	Vector4 vSpecular;	// 반사광
-	Vector4 vEmbient;	// 환경광
-};
-
-struct TLightInfo {
-	TLightColor tColor;
-
-	Vector4 vLightPos;
-	Vector4 vLightDir;
-	E_LightType eLightType;
-	float fRange;
-	float fAngle;
-	int iPad;
-};
-
 struct TGlobalConst {
 	Vector2 vResolution;
 	float fDeltaTime;
@@ -69,13 +94,4 @@ struct TGlobalConst {
 	int iLight2DCount;
 	int iLight3DCount;
 	int iPadding[2];
-};
-
-struct TTileInfo {
-	Vector2 vLeftTop;
-	Vector2 vRightBottom;
-	Vector2 vTileSize;
-	Vector2 vLeftTopUV;	// 타일의 좌상단 좌표 UV
-	Vector2 vRightBottomUV; // 타일의 우하단좌표 UV
-	Vector2 vTileSizeUV;
 };

@@ -104,6 +104,7 @@ int CMaterial::Load(const tstring& _strFilePath)
 
 void CMaterial::Clear()
 {
+	CGraphicsShader::Clear();
 	for (UINT i = 0; i < (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0; ++i)
 		CTexture::Clear(i);
 }

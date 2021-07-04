@@ -39,7 +39,8 @@
 	GET_COMPONENT(Collider3D)\
 	GET_COMPONENT(Animator2D)\
 	GET_COMPONENT(Light2D)\
-	GET_COMPONENT(TileMap)
+	GET_COMPONENT(TileMap)\
+	GET_COMPONENT(ParticleSystem)
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -52,7 +53,8 @@
 	GET_OTHER_COMPONENT(Collider3D)\
 	GET_OTHER_COMPONENT(Animator2D)\
 	GET_OTHER_COMPONENT(Light2D)\
-	GET_OTHER_COMPONENT(TileMap)
+	GET_OTHER_COMPONENT(TileMap)\
+	GET_OTHER_COMPONENT(ParticleSystem)
 
 #pragma endregion
 
@@ -60,6 +62,8 @@
 // GPU RegisterNumber
 #define REGISTER_NUM_Light2DBuffer 51
 #define REGISTER_NUM_TileMapBuffer 52
+
+#define REGISTER_NUM_Particle 12
 
 
 // 삭제 우선순위로 설정
@@ -88,13 +92,18 @@ enum class E_ShaderStage {
 	Domain		= 0x04, // 4
 	Geometry	= 0x08, // 8
 	Pixel		= 0x10, // 16
+
 	Compute		= 0x20, // 32
+
+	NonePixel	= Vertex | Hull | Domain | Geometry,
+	VertexPixel = Vertex | Pixel,
+	Graphics	= Vertex | Hull | Domain | Geometry | Pixel,
 	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
+
 enum class E_ComponentType {
 	Transform,
-	MeshRenderer,
 	Collider2D,
 	Collider3D,
 	Rigidbody2D,
@@ -104,13 +113,21 @@ enum class E_ComponentType {
 	Light2D,
 	Light3D,
 	Camera,
-	Particle,
+
+#pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
+	MeshRenderer,
+	ParticleSystem,
 	TileMap,
+#pragma endregion
+
+
 	Listener,
 	Audio,
 	Script,
 	End,
 };
+#define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
+#define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
 
 #define MAX_SIZE_LAYER 32
 

@@ -175,6 +175,12 @@
     <ClInclude Include="CTestShader.h">
       <Filter>Shader Script\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>Engine\07. Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleUpdateShader.h">
+      <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -329,6 +335,12 @@
     </ClCompile>
     <ClCompile Include="CTestShader.cpp">
       <Filter>Shader Script\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>Engine\07. Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleUpdateShader.cpp">
+      <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +500,9 @@
     <Filter Include="Shader Script\ComputeShader">
       <UniqueIdentifier>{cf68d110-f4d7-4c8b-b7e2-b81c674e2c8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Script\ComputeShader\ParticleUpdate">
+      <UniqueIdentifier>{cfd499c0-7a5c-479c-a1f1-a416c7239915}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
@@ -505,6 +520,12 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="testShader.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="particle_update.fx">
+      <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>
