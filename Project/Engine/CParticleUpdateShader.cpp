@@ -40,6 +40,9 @@ void CParticleUpdateShader::UpdateData()
 	m_tInfo.fArr[0] = m_fStartSpeed;
 	m_tInfo.fArr[1] = m_fEndSpeed;
 
+	m_tInfo.v4Arr[0] = m_vObjectPos;
+	m_tInfo.v4Arr[1] = m_vRadius; // Vector3->Vector4
+
 	g_pMtrlBuffer->SetData(&m_tInfo);
 	g_pMtrlBuffer->UpdateData(E_ShaderStage::Compute);
 }

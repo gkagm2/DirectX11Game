@@ -24,10 +24,11 @@ public:
 	void CreateDefaultMesh();
 	void CreateDefaultCircle2DMesh();
 	void CreateDefaultCubeMesh3D();
+	void CreateDefaultTexture();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
 	void CreateComputeShader();
-
+	
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, ComPtr<ID3D11Texture2D> _pTexture2D);
 

@@ -2,14 +2,17 @@
 #define _PARTICLE_UPDATE
 #include "value.fx"
 #include "struct.fx"
+#include "function.fx"
 
 // ----------------------
 // Particle Update Shader
-#define iParticleMaxCount g_int_0
-#define iSpawnCount g_int_1 // 이번 프레임에 생성할 파티클 개수
-#define fStartSpeed g_float_0
-#define fEndSpeed g_float_1
+#define iParticleMaxCount   g_int_0
+#define iSpawnCount         g_int_1 // 이번 프레임에 생성할 파티클 개수
+#define fStartSpeed         g_float_0
+#define fEndSpeed           g_float_1
 
+#define vObjectPos  g_vec4_0
+#define vRadius     g_vec4_1
 // ----------------------
 
 RWStructuredBuffer<TParticle> g_particle : register(u0);
@@ -23,7 +26,6 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
     if (iParticleMaxCount <= id)
         return;
     
-
     // 죽었으면
     if (!g_particle[id].iAlive)
     {
@@ -32,6 +34,18 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
         {
             g_particle[id].iAlive = 1;
         }
+        
+        // 위치와 방향을 랜덤으로 세팅
+        g_particle[id].iAlive = 1;
+        float fKey = (float) id / (float) iParticleMaxCount;
+        float3 vRand = (float) 0.f;
+        vRand.x = Rand(fKey);
+        vRand.y = Rand(vRand.x);
+        vRand.r = Rand(vRand.r);
+    
+        vRand = vRand * 2.f - 1.f;
+    
+        g_particle[id].vWorldPos = vObjectPos.xyz + (vRadius.xyz * vRand);
     }
     else // 살았으면
     {
@@ -49,7 +63,5 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
     
         g_particle[id].vWorldPos += g_particle[id].vWorldDir * fCurSpeed * g_fDeltaTime;
     }
-    
-    
 }
 #endif

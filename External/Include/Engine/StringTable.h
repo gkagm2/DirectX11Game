@@ -27,6 +27,10 @@
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 
+// Resource의 key이자 path임
+#define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
+#define STR_FILE_PATH_NoiseTexture2 _T("texture\\noise\\noise_02.png")
+
 // Path Test
 #define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
 

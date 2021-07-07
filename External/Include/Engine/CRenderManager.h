@@ -13,7 +13,7 @@ private:
 	vector<CLight2D*> m_vecLight2D;
 	vector<CTileMap*> m_vecTileMap;
 
-	CStructuredBuffer* m_pLight2DBuffer;
+	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
 public:
 	void Init();
 	void Render();

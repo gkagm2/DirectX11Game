@@ -12,12 +12,10 @@ CRenderManager::CRenderManager() :
 
 CRenderManager::~CRenderManager()
 {
-	if (m_pLight2DBuffer)
-		delete m_pLight2DBuffer;
 }
 void CRenderManager::Init()
 {
-	m_pLight2DBuffer = new CStructuredBuffer;
+	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
 	const UINT iDefaultElementCnt = 5;
 	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt);
 }
@@ -29,7 +27,6 @@ void CRenderManager::Render()
 	// 1. 타겟 클리어
 	CDevice::GetInstance()->ClearTarget();
 
-	// TODO : Scene에서도 Render함수를 실행하고 RenderManager에서도 Render를 실행한다. (2번 호출) 이걸 줄여야됨
 	// 타일맵 렌더링
 	for (UINT i = 0; i < m_vecTileMap.size(); ++i)
 		m_vecTileMap[i]->Render();

@@ -15,7 +15,8 @@ CParticleSystem::CParticleSystem() :
 	m_fEndSpeed(50.f),
 	m_iSpawnCntPerSec(10),
 	m_iMaxParticleCount(100),
-	m_fAccTime(0.f)
+	m_fAccTime(0.f),
+	m_vRadius(300.f, 300.f, 0.f)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_PointMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_ParticleMtrl);
@@ -71,6 +72,8 @@ void CParticleSystem::FinalUpdate()
 	m_pUpdateShader->SetSpawnCount(iSpawnCount);
 	m_pUpdateShader->SetStartSpeed(m_fStartSpeed);
 	m_pUpdateShader->SetEndSpeed(m_fEndSpeed);
+	m_pUpdateShader->SetRadius(m_vRadius);
+	m_pUpdateShader->SetWorldPos(Transform()->GetPosition());
 	m_pUpdateShader->Excute();
 }
 

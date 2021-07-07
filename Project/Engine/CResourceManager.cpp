@@ -19,6 +19,7 @@ void CResourceManager::Init()
 	CreateDefaultCircle2DMesh();
 	//CreateDefaultCubeMesh3D();
 	CreateDefaultShader();
+	CreateDefaultTexture();
 	CreateComputeShader();
 	CreateDefaultMaterial();
 }
@@ -365,6 +366,13 @@ void CResourceManager::CreateComputeShader()
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_ParticleUpdateShader, STR_FUNC_NAME_ParticleUpdate);
 	AddRes(STR_KEY_ParticleUpdateShader, pShader);
+}
+
+void CResourceManager::CreateDefaultTexture()
+{
+	SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
+	CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture2);
+	g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
 }
 
 SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)

@@ -38,7 +38,7 @@ VS_OUT VS_Particle(VS_IN _in)
     output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
 
     output.vUV = _in.vUV;
-    output.iInstID = _in.iInstID; // TODO (Jang) : 생략이 가능하다? 왜?
+    output.iInstID = _in.iInstID;
     
     return output;
 }
@@ -79,6 +79,11 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     output[2].vUV = float2(1.f, 1.f);
     output[3].vUV = float2(0.f, 1.f);
     
+    output[0].iInstID = _in[0].iInstID;
+    output[1].iInstID = _in[0].iInstID;
+    output[2].iInstID = _in[0].iInstID;
+    output[3].iInstID = _in[0].iInstID;
+    
     _outputStream.Append(output[0]);
     _outputStream.Append(output[1]);
     _outputStream.Append(output[2]);
@@ -93,7 +98,6 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
 float4 PS_Particle(GS_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
-    
     float fRatio = g_particle[_in.iInstID].fCurTime / g_particle[_in.iInstID].fMaxTime;
     float3 vCurColor = vStartColor + (vEndColor - vStartColor) * fRatio;
     vOutColor = float4(vCurColor, 1.f);

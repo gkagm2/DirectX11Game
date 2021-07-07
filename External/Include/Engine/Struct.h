@@ -89,9 +89,9 @@ struct TAnimation2DData {
 
 struct TGlobalConst {
 	Vector2 vResolution;
+	Vector2 vNoiseResolution; // Noise Texture 해상도
 	float fDeltaTime;
 	float fAccTime;		// 델터 타임의 누적시간
 	int iLight2DCount;
 	int iLight3DCount;
-	int iPadding[2];
 };

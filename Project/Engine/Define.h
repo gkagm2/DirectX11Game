@@ -62,6 +62,7 @@
 // GPU RegisterNumber
 #define REGISTER_NUM_Light2DBuffer 51
 #define REGISTER_NUM_TileMapBuffer 52
+#define REGISTER_NUM_NoiseTexture  53
 
 #define REGISTER_NUM_Particle 12
 

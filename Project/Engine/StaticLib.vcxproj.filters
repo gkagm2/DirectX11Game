@@ -528,5 +528,8 @@
     <FxCompile Include="particle.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="function.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

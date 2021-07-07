@@ -71,12 +71,12 @@ cbuffer ANIMATION2D_DATA : register(b2)
 
 cbuffer GLOBAL_CONST : register(b3)
 {
-    float2  g_vResolution;
+    float2  g_vResolution;      // 위도우 화면 해상도
+    float2  g_vNoiseResolution; // Noise Textrue 해상도
     float   g_fDeltaTime;
-    float   g_fAccTime;
+    float   g_fAccTime;         // 누적시간
     int     g_iLight2DCount; // 2D 광원 개수
     int     g_iLight3DCount; // 3D 광원 개수
-    int2    light2DPadding;
 }
 
 // Texture register (t)
@@ -99,6 +99,7 @@ Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
 
 StructuredBuffer<TLightInfo> g_Light2DBuffer : register(t51);
 StructuredBuffer<TTileInfo> g_TileBuffer : register(t52);
+Texture2D g_TexNoise : register(t53);
 
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic
