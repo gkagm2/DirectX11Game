@@ -19,14 +19,21 @@ private:
 	Vector4 m_vStartScale;		// 파티클 시작 크기
 	Vector4 m_vEndScale;		// 파티클 최종 크기
 
-	float m_fStartSpeed;		// 파티클 시작 속도
+	float m_fStartSpeed;		// 파티클 시작 속도>>
 	float m_fEndSpeed;			// 파티클 최종 속도
+
+	UINT m_iSpawnCntPerSec;		// 초당 파티클 생성 개수
+	UINT m_iMaxParticleCount;	// 파티클 최대 개수
+	float m_fAccTime;			// 누적시간
 
 public:
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
 	virtual void Render() override;
+
+private:
+	UINT _CalculateSpawnCount(); // 파티클 생성가능한 갯수 구하기
 
 public:
 	CLONE(CParticleSystem);

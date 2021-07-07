@@ -23,6 +23,10 @@ using std::map;
 #include <bitset>
 using std::bitset;
 
+#include <memory>
+using std::unique_ptr;
+using std::make_unique;
+
 #include <string>
 using std::string;
 using std::wstring;

@@ -19,7 +19,7 @@ void CRenderManager::Init()
 {
 	m_pLight2DBuffer = new CStructuredBuffer;
 	const UINT iDefaultElementCnt = 5;
-	m_pLight2DBuffer->Create(sizeof(TLightInfo), iDefaultElementCnt);
+	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt);
 }
 
 void CRenderManager::Render()
@@ -62,7 +62,7 @@ void CRenderManager::_RenderInit_Light2D()
 	// 광원 개수가 광원의 정보를 담을 구조화 버퍼 개수보다 크면 사이즈를 늘려줌
 	if (m_pLight2DBuffer->GetElementCount() < iLightSize) {
 		m_pLight2DBuffer->Release();
-		m_pLight2DBuffer->Create(sizeof(TLightInfo), iElementCnt);
+		m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iElementCnt);
 	}
 
 	vector<TLightInfo> vecLightInfo;

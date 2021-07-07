@@ -20,7 +20,7 @@ CTileMap::CTileMap() :
 
 	m_pTileMapBuffer = new CStructuredBuffer;
 	const UINT iDefaultTileMapElementCnt = 10 * 10;
-	m_pTileMapBuffer->Create(sizeof(TTileInfo), iDefaultTileMapElementCnt);
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
 }
 
 CTileMap::~CTileMap()
@@ -89,7 +89,7 @@ void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture, const Vector2& _
 	}
 
 	m_pTileMapBuffer->Release();
-	m_pTileMapBuffer->Create(sizeof(TTileInfo), (UINT)m_vecTiles.size());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTiles.size());
 }
 
 void CTileMap::CreateTile(int _iCol, int _iRow)

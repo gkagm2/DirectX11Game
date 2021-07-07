@@ -4,12 +4,18 @@
 #include "CTransform.h"
 #include "CStructuredBuffer.h"
 #include "CMaterial.h"
+
+#include "CTimeManager.h"
+
 const int g_testParticleCnt = 30;
 CParticleSystem::CParticleSystem() :
 	CComponent(E_ComponentType::ParticleSystem),
 	m_pParticleBuffer(nullptr),
 	m_fStartSpeed(500.f),
-	m_fEndSpeed(50.f)
+	m_fEndSpeed(50.f),
+	m_iSpawnCntPerSec(10),
+	m_iMaxParticleCount(100),
+	m_fAccTime(0.f)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_PointMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_ParticleMtrl);
@@ -51,7 +57,7 @@ void CParticleSystem::Start()
 	}
 
 	m_pParticleBuffer = new CStructuredBuffer;
-	m_pParticleBuffer->CreateRW(sizeof(TParticle), g_testParticleCnt, arrParticle);
+	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), g_testParticleCnt, arrParticle);
 }
 
 void CParticleSystem::Update()
@@ -61,6 +67,8 @@ void CParticleSystem::Update()
 void CParticleSystem::FinalUpdate()
 {
 	m_pUpdateShader->SetParticleBuffer(m_pParticleBuffer);
+	UINT iSpawnCount = _CalculateSpawnCount();
+	m_pUpdateShader->SetSpawnCount(iSpawnCount);
 	m_pUpdateShader->SetStartSpeed(m_fStartSpeed);
 	m_pUpdateShader->SetEndSpeed(m_fEndSpeed);
 	m_pUpdateShader->Excute();
@@ -82,4 +90,25 @@ void CParticleSystem::Render()
 
 	m_pMaterial->Clear();
 	m_pParticleBuffer->Clear(E_ShaderStage::All);
+}
+
+UINT CParticleSystem::_CalculateSpawnCount()
+{
+	UINT iSpawnCount = 0;
+	float OneParticleCreateTime = 1.f / (float)m_iSpawnCntPerSec; // 한개 생성하는데 걸리는 시간
+
+	m_fAccTime += DeltaTime;
+
+	// 누적시간이 넘어섰으면
+	if (OneParticleCreateTime < m_fAccTime) {
+		float fCreateValue = m_fAccTime / OneParticleCreateTime; // 생성해야될 개수
+
+		// 이번 프레임에 생성할 파티클 개수
+		iSpawnCount = (UINT)floorf(fCreateValue); // 정수 부분만 가져온다. (내림floorf 사용)
+
+		// 남은 누적시간
+		m_fAccTime = fmodf(m_fAccTime, OneParticleCreateTime); // 나머지(소수) 부분만 가져오기. (fmodf 사용)
+	}
+
+	return iSpawnCount;
 }

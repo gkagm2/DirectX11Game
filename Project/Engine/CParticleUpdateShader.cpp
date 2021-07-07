@@ -6,9 +6,13 @@
 CParticleUpdateShader::CParticleUpdateShader() :
 	CComputeShader(1024, 1, 1),
 	m_pParticleBuffer(nullptr),
+	m_pSharedBuffer(nullptr),
 	m_fStartSpeed(0.f),
-	m_fEndSpeed(0.f)
+	m_fEndSpeed(0.f),
+	m_iSpawnCount(0)
 {
+	m_pSharedBuffer = make_unique<CStructuredBuffer>();
+	m_pSharedBuffer->Create(E_StructuredBufferType::Dual, sizeof(TSharedParticleData), 1);
 }
 
 CParticleUpdateShader::~CParticleUpdateShader()
@@ -17,10 +21,22 @@ CParticleUpdateShader::~CParticleUpdateShader()
 
 void CParticleUpdateShader::UpdateData()
 {
+	// 공유 파티클 정보 바인딩
+	TSharedParticleData tSharedData = {};
+	tSharedData.m_iSpawnCount = m_iSpawnCount;
+	//tSharedData.m_iCurActivedCount = 
+
+	UINT iElementCnt = 1, iSharedBuffRegisterNum = 1;
+	m_pSharedBuffer->SetData(&tSharedData, iElementCnt);
+	m_pSharedBuffer->UpdateDataRW(iSharedBuffRegisterNum);
+
+
+	// 파티클 정보 바인딩
 	UINT iRegisterNum = 0;
 	m_pParticleBuffer->UpdateDataRW(iRegisterNum);
 
-	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount();
+	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount(); // 파티클의 최대 개수
+	m_tInfo.iArr[1] = m_iSpawnCount;
 	m_tInfo.fArr[0] = m_fStartSpeed;
 	m_tInfo.fArr[1] = m_fEndSpeed;
 
@@ -31,6 +47,7 @@ void CParticleUpdateShader::UpdateData()
 void CParticleUpdateShader::Clear()
 {
 	m_pParticleBuffer->ClearRW();
+	m_pSharedBuffer->ClearRW();
 	g_pMtrlBuffer->Clear(E_ShaderStage::Compute);
 }
 

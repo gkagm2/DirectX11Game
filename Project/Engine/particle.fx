@@ -20,7 +20,6 @@ struct VS_IN
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
-    
     uint iInstID : SV_InstanceID; // 인스턴싱 ID
 };
 
@@ -28,8 +27,7 @@ struct VS_OUT
 {
     float3 vViewPos : POSITION;
     float2 vUV : TEXCOORD;
-    
-    float fInstID : FOG; // output에는 uint형이 없음. float로 선언
+    uint iInstID : SV_InstanceID; // 인스턴싱 ID
 };
 
 VS_OUT VS_Particle(VS_IN _in)
@@ -40,7 +38,7 @@ VS_OUT VS_Particle(VS_IN _in)
     output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
 
     output.vUV = _in.vUV;
-    output.fInstID = (float) _in.iInstID;
+    output.iInstID = _in.iInstID; // TODO (Jang) : 생략이 가능하다? 왜?
     
     return output;
 }
@@ -49,7 +47,6 @@ struct GS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
-    
     uint iInstID : SV_InstanceID;
 };
 
@@ -61,7 +58,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
         (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f
     };
     
-    uint id = (uint) _in[0].fInstID;
+    uint id = (uint) _in[0].iInstID;
     if (0 == g_particle[id].iAlive)
         return;
     
@@ -82,11 +79,6 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     output[2].vUV = float2(1.f, 1.f);
     output[3].vUV = float2(0.f, 1.f);
     
-    output[0].iInstID = id;
-    output[1].iInstID = id;
-    output[2].iInstID = id;
-    output[3].iInstID = id;
-
     _outputStream.Append(output[0]);
     _outputStream.Append(output[1]);
     _outputStream.Append(output[2]);

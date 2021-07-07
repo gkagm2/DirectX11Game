@@ -44,4 +44,10 @@ struct TParticle
     int3 iPadding;
 };
 
+struct TSharedParticleData
+{
+    uint m_iSpawnCount;      // 생성할 파티클의 최대 개수
+    uint m_iCurActivedCount; // 현재 활성화되어있는 파티클의 개수
+    uint m_iPad[2];
+};
 #endif
