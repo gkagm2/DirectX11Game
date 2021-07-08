@@ -267,8 +267,9 @@ tstring WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
 	oss << "	WP: 0x" << std::hex << std::setfill('0') << std::setw(8) << wp << "\n";
 
 #ifdef UNICODE
+	string str = oss.str();
 	wstring wstrMsg;
-	wstrMsg.assign(oss.str().begin(), oss.str().end());
+	wstrMsg.assign(str.begin(), str.end());
 	return wstrMsg;
 #else
 	return oss.str();
