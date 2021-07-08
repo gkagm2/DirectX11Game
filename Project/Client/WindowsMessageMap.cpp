@@ -248,7 +248,7 @@ WindowsMessageMap::~WindowsMessageMap()
 {
 }
 
-string WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
+tstring WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
 {
 	constexpr int firstColWidth = 25;
 	const auto iter = m_umap.find(message);
@@ -266,5 +266,11 @@ string WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
 	oss << "	LP: 0x" << std::hex << std::setfill('0') << std::setw(8) << lp;
 	oss << "	WP: 0x" << std::hex << std::setfill('0') << std::setw(8) << wp << "\n";
 
+#ifdef UNICODE
+	wstring wstrMsg;
+	wstrMsg.assign(oss.str().begin(), oss.str().end());
+	return wstrMsg;
+#else
 	return oss.str();
+#endif
 }

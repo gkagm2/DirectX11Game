@@ -156,15 +156,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 #ifdef _DEBUG
     static WindowsMessageMap mm;
-    string strMsg = mm(message, lParam, wParam).c_str();
-
-#ifdef UNICODE
-    wstring wstrMsg;
-    wstrMsg.assign(strMsg.begin(), strMsg.end());
-    OutputDebugString(wstrMsg.c_str());
-#else
-    OutputDebugString(strMsg.c_str());
-#endif
+    OutputDebugString(mm(message, lParam, wParam).c_str());
 #endif
 
     switch (message)

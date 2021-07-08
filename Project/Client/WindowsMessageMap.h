@@ -7,5 +7,5 @@ public:
 	WindowsMessageMap();
 	virtual ~WindowsMessageMap();
 
-	string operator() (DWORD message, LPARAM lp, WPARAM wp) const;
+	tstring operator() (DWORD message, LPARAM lp, WPARAM wp) const;
 };
