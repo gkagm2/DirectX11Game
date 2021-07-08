@@ -5,7 +5,10 @@
 #include "framework.h"
 #include "Client.h"
 #include "time.h"
+
+#ifdef _DEBUG
 #include "WindowsMessageMap.h"
+#endif
 
 #include <Engine/CCore.h>
 #pragma comment(lib, "Engine/Engine_debug")
@@ -151,8 +154,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef _DEBUG
     static WindowsMessageMap mm;
-
     string strMsg = mm(message, lParam, wParam).c_str();
 
 #ifdef UNICODE
@@ -162,8 +165,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 #else
     OutputDebugString(strMsg.c_str());
 #endif
-
-    
+#endif
 
     switch (message)
     {
