@@ -9,6 +9,8 @@ CParticleUpdateShader::CParticleUpdateShader() :
 	m_pSharedBuffer(nullptr),
 	m_fStartSpeed(0.f),
 	m_fEndSpeed(0.f),
+	m_fMinLifeTime(1.f),
+	m_fMaxLifeTime(4.f),
 	m_iSpawnCount(0)
 {
 	m_pSharedBuffer = make_unique<CStructuredBuffer>();
@@ -36,9 +38,11 @@ void CParticleUpdateShader::UpdateData()
 	m_pParticleBuffer->UpdateDataRW(iRegisterNum);
 
 	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount(); // 파티클의 최대 개수
-	m_tInfo.iArr[1] = m_iSpawnCount;
+
 	m_tInfo.fArr[0] = m_fStartSpeed;
 	m_tInfo.fArr[1] = m_fEndSpeed;
+	m_tInfo.fArr[2] = m_fMinLifeTime;
+	m_tInfo.fArr[3] = m_fMaxLifeTime;
 
 	m_tInfo.v4Arr[0] = m_vObjectPos;
 	m_tInfo.v4Arr[1] = m_vRadius; // Vector3->Vector4

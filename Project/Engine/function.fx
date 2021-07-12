@@ -20,17 +20,15 @@ float gaussian5x5Sample(in int2 _uv, in Texture2D _tex)
         {
             int2 idx = _uv + int2(i - 2, j - 2);
             fOut += _tex[idx] * gaussian5x5[i * 5 + j];
-            
-
         }
     }
-    
     return fOut.x;
 }
 
 // 0 ~ 1 사이 랜덤
 float Rand(in float _fKey)
 {
+    // 랜덤 생성 위치, 방향    
     float2 vUV = float2(_fKey + g_fAccTime, g_fAccTime);
     vUV.y += sin(vUV.x * 2 * 3.141592);
     

@@ -20,14 +20,14 @@ struct VS_IN
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
-    uint iInstID : SV_InstanceID; // ¿ŒΩ∫≈œΩÃ ID
+    uint iInstID : SV_InstanceID; // ¿ŒΩ∫≈œΩÃ ID 
 };
 
 struct VS_OUT
 {
     float3 vViewPos : POSITION;
     float2 vUV : TEXCOORD;
-    uint iInstID : SV_InstanceID; // ¿ŒΩ∫≈œΩÃ ID
+    float fInstID : FOG; // ¿ŒΩ∫≈œΩÃ ID
 };
 
 VS_OUT VS_Particle(VS_IN _in)
@@ -38,7 +38,7 @@ VS_OUT VS_Particle(VS_IN _in)
     output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
 
     output.vUV = _in.vUV;
-    output.iInstID = _in.iInstID;
+    output.fInstID = _in.iInstID;
     
     return output;
 }
@@ -47,7 +47,7 @@ struct GS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
-    uint iInstID : SV_InstanceID;
+    float fInstID : FOG;
 };
 
 [maxvertexcount(6)]
@@ -57,12 +57,10 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     {
         (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f
     };
-    
-    uint id = (uint) _in[0].iInstID;
-    if (0 == g_particle[id].iAlive)
+    if (0 == g_particle[_in[0].fInstID].iAlive)
         return;
     
-    float fRatio = g_particle[id].fCurTime / g_particle[id].fMaxTime;
+    float fRatio = g_particle[_in[0].fInstID].fCurTime / g_particle[_in[0].fInstID].fMaxTime;
     float3 fCurScale = (vStartScale + (vEndScale - vStartScale) * fRatio) * 0.5f;
     
     // 0  1
@@ -79,14 +77,15 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     output[2].vUV = float2(1.f, 1.f);
     output[3].vUV = float2(0.f, 1.f);
     
-    output[0].iInstID = _in[0].iInstID;
-    output[1].iInstID = _in[0].iInstID;
-    output[2].iInstID = _in[0].iInstID;
-    output[3].iInstID = _in[0].iInstID;
+    output[0].fInstID = _in[0].fInstID;
+    output[1].fInstID = _in[0].fInstID;
+    output[2].fInstID = _in[0].fInstID;
+    output[3].fInstID = _in[0].fInstID;
     
     _outputStream.Append(output[0]);
     _outputStream.Append(output[1]);
     _outputStream.Append(output[2]);
+    _outputStream.RestartStrip();
     
     _outputStream.Append(output[0]);
     _outputStream.Append(output[2]);
@@ -98,7 +97,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
 float4 PS_Particle(GS_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
-    float fRatio = g_particle[_in.iInstID].fCurTime / g_particle[_in.iInstID].fMaxTime;
+    float fRatio = g_particle[(int) _in.fInstID].fCurTime / g_particle[(int) _in.fInstID].fMaxTime;
     float3 vCurColor = vStartColor + (vEndColor - vStartColor) * fRatio;
     vOutColor = float4(vCurColor, 1.f);
     return vOutColor;

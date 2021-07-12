@@ -19,6 +19,8 @@ private:
 
 	float m_fStartSpeed;
 	float m_fEndSpeed;
+	float m_fMinLifeTime;
+	float m_fMaxLifeTime;
 	UINT  m_iSpawnCount; // 이번 프레임에 파티클을 생성 할 개수
 
 public:
@@ -30,6 +32,8 @@ public:
 	void SetParticleBuffer(CStructuredBuffer* _pBuffer) { m_pParticleBuffer = _pBuffer; }
 	void SetStartSpeed(float _fSpeed) { m_fStartSpeed = _fSpeed; }
 	void SetEndSpeed(float _fSpeed) { m_fEndSpeed = _fSpeed; }
+	void SetMinLifeTime(float _fMinLifeTime) { m_fMinLifeTime = _fMinLifeTime; }
+	void SetMaxLifeTime(float _fMaxLifeTime) { m_fMaxLifeTime = _fMaxLifeTime; }
 	void SetSpawnCount(UINT _iSpawnCount) { m_iSpawnCount = _iSpawnCount; }
 	void SetRadius(const Vector3& _vRadius) { m_vRadius = _vRadius; }
 	void SetWorldPos(const Vector3& _vPos) { m_vObjectPos = _vPos; }

@@ -197,23 +197,23 @@ void CSceneManager::Init() {
 	//	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 	//	m_pCurScene->AddGameObject(pPlayer, E_Layer::Player);
 
-	{
-		// ComputeShader Test
-		SharedPtr<CTexture> pTestTexture = CResourceManager::GetInstance()->CreateTexture(_T("Test"), 500, 500,
-			DXGI_FORMAT_R8G8B8A8_UNORM,
-			D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE);
+	//{
+	//	// ComputeShader Test
+	//	SharedPtr<CTexture> pTestTexture = CResourceManager::GetInstance()->CreateTexture(_T("Test"), 500, 500,
+	//		DXGI_FORMAT_R8G8B8A8_UNORM,
+	//		D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE);
 
-		SharedPtr<CTestShader> pCS = (CTestShader*)(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_TestComputeShader).Get());
-		pCS->SetClearColor(Vector4(1.f, 0.f, 1.f, 1.f));
-		pCS->SetTexture(pTestTexture);
-		pCS->Excute();
+	//	SharedPtr<CTestShader> pCS = (CTestShader*)(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_TestComputeShader).Get());
+	//	pCS->SetClearColor(Vector4(1.f, 0.f, 1.f, 1.f));
+	//	pCS->SetTexture(pTestTexture);
+	//	pCS->Excute();
 
-		CGameObject* pObj = TestCreateObj();
-		pObj->MeshRenderer()->SetMesh(pMesh);
-		pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
-		pObj->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
-		m_pCurScene->AddGameObject(pObj);
-	}
+	//	CGameObject* pObj = TestCreateObj();
+	//	pObj->MeshRenderer()->SetMesh(pMesh);
+	//	pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	//	pObj->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
+	//	m_pCurScene->AddGameObject(pObj);
+	//}
 
 
 #pragma region 플레이어를 감싸고 있는 오브젝트
@@ -288,7 +288,7 @@ void CSceneManager::Init() {
 		pParticleObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f,0.f));
 		pParticleObj->Transform()->SetLocalScale(Vector3(25.f, 25.f, 1.f));
 		m_pCurScene->AddGameObject(pParticleObj);
-	}
+	}	
 
 	// 레이어 충돌 지정
 	CCollisionManager::GetInstance()->SetOnOffCollision(E_Layer::Player, E_Layer::Enemy, true);
