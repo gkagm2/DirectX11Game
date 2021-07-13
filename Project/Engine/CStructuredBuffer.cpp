@@ -17,6 +17,7 @@ CStructuredBuffer::~CStructuredBuffer()
 
 void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pSysData)
 {
+	Release();
 	m_iElementSize = _iElementSize;
 	m_iElementCount = _iElementCount;
 	m_eType = _eType;
@@ -75,6 +76,7 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 		tUAVDesc.Buffer.NumElements = _iElementCount;
 		DEVICE->CreateUnorderedAccessView(m_pSB_RW.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+		assert(m_pUAV.Get());
 	}
 	else if (E_StructuredBufferType::Dual == _eType) {
 		// (m_pSB_R, m_pSB_RW 둘다 할당)
@@ -117,6 +119,7 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 		tUAVDesc.Buffer.NumElements = _iElementCount;
 		DEVICE->CreateUnorderedAccessView(m_pSB_RW.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+		assert(m_pUAV.Get());
 	}
 }
 
@@ -134,7 +137,7 @@ void CStructuredBuffer::SetData(void* _pSysMem, UINT _iElementCount) const
 
 	// Dual일 경우 m_pSB_R에서 m_pSB->RW로 버퍼 복사
 	if (E_StructuredBufferType::Dual == m_eType)
-		CONTEXT->CopyResource(m_pSB_R.Get(), m_pSB_RW.Get());
+		CONTEXT->CopyResource(m_pSB_RW.Get(), m_pSB_R.Get());
 }
 
 void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)

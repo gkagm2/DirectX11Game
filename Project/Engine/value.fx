@@ -104,4 +104,6 @@ Texture2D g_TexNoise : register(t53);
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic
 SamplerState g_sam_1 : register(s1); // Point
+#define Sample_Anisotropic g_sam_0
+#define Sample_Point g_sam_1
 #endif

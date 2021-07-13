@@ -12,6 +12,9 @@
 
 #define vStartScale g_vec4_2.xyz
 #define vEndScale   g_vec4_3.xyz
+
+#define particleTex g_tex_0
+
 // --------------------
 
 StructuredBuffer<TParticle> g_particle : register(t12);
@@ -47,7 +50,7 @@ struct GS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
-    float fInstID : FOG;
+    float fInst : FOG;
 };
 
 [maxvertexcount(6)]
@@ -57,10 +60,10 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     {
         (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f
     };
-    if (0 == g_particle[_in[0].fInstID].iAlive)
+    if (0 == g_particle[(int) _in[0].fInstID].iAlive)
         return;
     
-    float fRatio = g_particle[_in[0].fInstID].fCurTime / g_particle[_in[0].fInstID].fMaxTime;
+    float fRatio = g_particle[(int)_in[0].fInstID].fCurTime / g_particle[(int)_in[0].fInstID].fMaxTime;
     float3 fCurScale = (vStartScale + (vEndScale - vStartScale) * fRatio) * 0.5f;
     
     // 0  1
@@ -77,10 +80,10 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
     output[2].vUV = float2(1.f, 1.f);
     output[3].vUV = float2(0.f, 1.f);
     
-    output[0].fInstID = _in[0].fInstID;
-    output[1].fInstID = _in[0].fInstID;
-    output[2].fInstID = _in[0].fInstID;
-    output[3].fInstID = _in[0].fInstID;
+    output[0].fInst = _in[0].fInstID;
+    output[1].fInst = _in[0].fInstID;
+    output[2].fInst = _in[0].fInstID;
+    output[3].fInst = _in[0].fInstID;
     
     _outputStream.Append(output[0]);
     _outputStream.Append(output[1]);
@@ -97,9 +100,11 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream
 float4 PS_Particle(GS_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
-    float fRatio = g_particle[(int) _in.fInstID].fCurTime / g_particle[(int) _in.fInstID].fMaxTime;
+    float fRatio = g_particle[(int) _in.fInst].fCurTime / g_particle[(int) _in.fInst].fMaxTime;
     float3 vCurColor = vStartColor + (vEndColor - vStartColor) * fRatio;
-    vOutColor = float4(vCurColor, 1.f);
+    
+    vOutColor = particleTex.Sample(Sample_Anisotropic, _in.vUV);
+    vOutColor.rgb *= vCurColor;
     return vOutColor;
 }
 

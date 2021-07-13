@@ -13,8 +13,8 @@
 #define fMinLifeTime        g_float_2
 #define fMaxLifeTime        g_float_3
 
-#define vObjectPos  g_vec4_0
-#define vRadius     g_vec4_1
+#define vObjectPos          g_vec4_0
+#define vRadius             g_vec4_1
 // ----------------------
 
 RWStructuredBuffer<TParticle> g_particle : register(u0);
@@ -36,6 +36,7 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
         while (0 < iOriginValue)
         {
             int iInputValue = iOriginValue - 1;
+           
             //InterlockedExchange(g_Shared[0].m_iSpawnCount, iInputValue, iExchanged);                        
             InterlockedCompareExchange(g_sharedParticle[0].m_iSpawnCount, iOriginValue, iInputValue, iExchanged);
             
@@ -46,13 +47,16 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
                 g_particle[_iThreadID.x].iAlive = 1;
                 break;
             }
+            
             iOriginValue = iInputValue;
         }
-        
+             
+        // 당첨된 파티클은 랜덤위치 셋팅
         if (1 == g_particle[_iThreadID.x].iAlive)
         {
-            // 위치와 방향을 랜덤으로 세팅
+        // 랜덤 포지션 및 방향 세팅            
             float fKey = (float) _iThreadID.x / (float) iParticleMaxCount;
+    
             float4 vRand = (float) 0.f;
             vRand.x = Rand(fKey);
             vRand.y = Rand(vRand.x);
@@ -60,16 +64,13 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
             vRand.w = Rand(vRand.z);
     
             vRand = vRand * 2.f - 1.f;
-            
-            float3 worldPos = (float3) (_iThreadID.x, 0, 0);
-            g_particle[_iThreadID.x].vWorldPos = worldPos * 10.f;
-            //g_particle[_iThreadID.x].vWorldPos = vObjectPos.xyz + (vRadius.xyz * vRand.xyz);
+                        
+            g_particle[_iThreadID.x].vWorldPos = vObjectPos.xyz + (vRadius.xyz * vRand.xyz);
             g_particle[_iThreadID.x].vWorldDir = normalize(vRand.xyz);
             g_particle[_iThreadID.x].fCurTime = 0.f;
-            g_particle[_iThreadID.x].fMaxTime = 5.f;
-            //g_particle[_iThreadID.x].fMaxTime = fMinLifeTime + (fMaxLifeTime - fMinLifeTime) * vRand.w;
+            g_particle[_iThreadID.x].fMaxTime = fMinLifeTime + (fMaxLifeTime - fMinLifeTime) * vRand.w;
         }
-}
+    }
     else // 살았으면
     {
         g_particle[_iThreadID.x].fCurTime += g_fDeltaTime;

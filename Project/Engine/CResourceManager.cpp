@@ -372,6 +372,9 @@ void CResourceManager::CreateDefaultTexture()
 {
 	SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
 	CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture2);
+
+	pTexture->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
+
 	g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
 }
 

@@ -38,7 +38,6 @@ void CComputeShader::CreateComputeShader(const tstring& _strRelativePath, const 
 void CComputeShader::Dispatch(UINT _x, UINT _y, UINT _z)
 {
 	UpdateData();
-	
 	CONTEXT->CSSetShader(m_pCS.Get(), 0, 0);
 	CONTEXT->Dispatch(_x, _y, _z); // CS ½ÇÇà
 

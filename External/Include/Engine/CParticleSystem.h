@@ -2,6 +2,7 @@
 #include "CComponent.h"
 #include "CMesh.h"
 #include "CMaterial.h"
+#include "CTexture.h"
 #include "CParticleUpdateShader.h"
 
 class CStructuredBuffer;
@@ -10,6 +11,9 @@ class CParticleSystem : public CComponent
 private:
 	SharedPtr<CMesh> m_pMesh;
 	SharedPtr<CMaterial> m_pMaterial;
+
+	vector<SharedPtr<CTexture>> m_vecParticleTex;
+	UINT m_iTexIdx;
 	
 	unique_ptr<CStructuredBuffer> m_pParticleBuffer; // 파티클 정보가 저장되어있는 버퍼(GPU)
 	SharedPtr<CParticleUpdateShader> m_pUpdateShader; // 파티클 Update용 Compute Shader

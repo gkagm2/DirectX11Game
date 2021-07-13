@@ -285,9 +285,13 @@ void CSceneManager::Init() {
 		pParticleObj->AddComponent<CTransform>();
 		pParticleObj->AddComponent<CParticleSystem>();
 
-		pParticleObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f,0.f));
+		pParticleObj->Transform()->SetLocalPosition(Vector3(100.f, 0.f,100.f));
 		pParticleObj->Transform()->SetLocalScale(Vector3(25.f, 25.f, 1.f));
 		m_pCurScene->AddGameObject(pParticleObj);
+
+		/*pParticleObj = pParticleObj->Clone();
+		pParticleObj->Transform()->SetLocalPosition(Vector3(-100.f, 0.f, 100.f));
+		m_pCurScene->AddGameObject(pParticleObj);*/
 	}	
 
 	// 레이어 충돌 지정

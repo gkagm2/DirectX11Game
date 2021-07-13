@@ -65,7 +65,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
-
+    
     // Main message loop:
     while (true)
     {
@@ -154,10 +154,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    /* Windows Message Log
 #ifdef _DEBUG
     static WindowsMessageMap mm;
     OutputDebugString(mm(message, lParam, wParam).c_str());
 #endif
+    */
 
     switch (message)
     {

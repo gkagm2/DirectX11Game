@@ -88,7 +88,6 @@ void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture, const Vector2& _
 		}
 	}
 
-	m_pTileMapBuffer->Release();
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTiles.size());
 }
 

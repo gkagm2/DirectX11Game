@@ -28,7 +28,6 @@ void CMaterial::UpdateData()
 			m_tParam.bTexArr[i] = true;
 		}
 		else {
-			CTexture::Clear(i);
 			m_tParam.bTexArr[i] = false;
 		}
 	}

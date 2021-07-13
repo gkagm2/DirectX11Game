@@ -23,6 +23,10 @@ CParticleUpdateShader::~CParticleUpdateShader()
 
 void CParticleUpdateShader::UpdateData()
 {
+	// 파티클 정보 바인딩
+	UINT iRegisterNum = 0;
+	m_pParticleBuffer->UpdateDataRW(iRegisterNum);
+
 	// 공유 파티클 정보 바인딩
 	TSharedParticleData tSharedData = {};
 	tSharedData.m_iSpawnCount = m_iSpawnCount;
@@ -32,10 +36,6 @@ void CParticleUpdateShader::UpdateData()
 	m_pSharedBuffer->SetData(&tSharedData, iElementCnt);
 	m_pSharedBuffer->UpdateDataRW(iSharedBuffRegisterNum);
 
-
-	// 파티클 정보 바인딩
-	UINT iRegisterNum = 0;
-	m_pParticleBuffer->UpdateDataRW(iRegisterNum);
 
 	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount(); // 파티클의 최대 개수
 

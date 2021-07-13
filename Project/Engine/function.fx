@@ -18,8 +18,7 @@ float gaussian5x5Sample(in int2 _uv, in Texture2D _tex)
     {
         for (int j = 0; j < 5; ++j)
         {
-            int2 idx = _uv + int2(i - 2, j - 2);
-            fOut += _tex[idx] * gaussian5x5[i * 5 + j];
+            fOut += _tex[_uv + int2(i - 2, j - 2)] * gaussian5x5[i * 5 + j];
         }
     }
     return fOut.x;
@@ -44,5 +43,6 @@ float Rand(in float _fKey)
     
     return gaussian5x5Sample(vUV, g_TexNoise);
 }
+
 
 #endif
