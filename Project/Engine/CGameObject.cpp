@@ -9,9 +9,11 @@
 #include "CLight2D.h"
 #include "CTileMap.h"
 #include "CParticleSystem.h"
+#include "CScript.h"
 
 #include "CResourceManager.h"
 #include "CPrefab.h"
+
 
 CGameObject::CGameObject() :
 	m_arrComponent{},
@@ -32,6 +34,9 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 			AddComponent((CComponent*)_origin.m_arrComponent[i]->Clone());
 	}
 
+	for (UINT i = 0; i < _origin.m_vecScript.size(); ++i)
+		AddComponent(_origin.m_vecScript[i]->Clone());
+
 	for (UINT i = 0; i < _origin.m_vecChildObj.size(); ++i)
 		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone());
 }
@@ -39,9 +44,8 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 CGameObject::~CGameObject()
 {
 	Safe_Delete_Array(m_arrComponent);
-	if (0 < m_vecChildObj.size()) {
-		Safe_Delete_Vector(m_vecChildObj);
-	}
+	Safe_Delete_Vector(m_vecChildObj);
+	Safe_Delete_Vector(m_vecScript);
 }
 
 void CGameObject::Awake()
@@ -52,6 +56,10 @@ void CGameObject::Awake()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Awake();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->Awake();
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Awake();
 }
@@ -64,6 +72,9 @@ void CGameObject::Start()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Start();
 	}
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->Start();
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Start();
 }
@@ -76,6 +87,10 @@ void CGameObject::PrevUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->PrevUpdate();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->PrevUpdate();
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->PrevUpdate();
 }
@@ -88,6 +103,10 @@ void CGameObject::Update()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->Update();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->Update();
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Update();
 }
@@ -100,6 +119,10 @@ void CGameObject::LateUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->LateUpdate();
 	}
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->LateUpdate();
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->LateUpdate();
 }
@@ -112,6 +135,7 @@ void CGameObject::FinalUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->FinalUpdate();
 	}
+	
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->FinalUpdate();
 	
@@ -144,7 +168,6 @@ void CGameObject::RegisterAsPrefab(const tstring& _strName)
 
 	SharedPtr<CPrefab> pPrefab = new CPrefab(this->Clone());
 	CResourceManager::GetInstance()->AddRes<CPrefab>(strName, pPrefab.Get());
-
 }
 
 void CGameObject::_SetDead()
@@ -214,6 +237,12 @@ bool CGameObject::_IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentT
 
 CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 {
+	if (E_ComponentType::Script == _pComponent->GetComponentType()) {
+		m_vecScript.push_back((CScript*)_pComponent);
+		_pComponent->m_pGameObj = this;
+		return _pComponent;
+	}
+
 	if (m_arrComponent[(UINT)_pComponent->GetComponentType()])
 		return m_arrComponent[(UINT)_pComponent->GetComponentType()];
 

@@ -5,13 +5,20 @@
 #include "framework.h"
 #include "Client.h"
 #include "time.h"
+#include "CTestScene.h"
 
 #ifdef _DEBUG
 #include "WindowsMessageMap.h"
 #endif
 
 #include <Engine/CCore.h>
+#ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_debug")
+#pragma comment(lib, "Script/Script_debug")
+#else
+#pragma comment(lib, "Engine/Engine")
+#pragma comment(lib, "Script/Script")
+#endif
 
 #define MAX_LOADSTRING 100
 
@@ -66,6 +73,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
     
+    // TestScene »ý¼º
+    CTestScene::CreateTestScene();
+
     // Main message loop:
     while (true)
     {

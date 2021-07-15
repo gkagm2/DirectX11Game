@@ -2,7 +2,8 @@
 #include "CScript.h"
 
 CScript::CScript() :
-	CComponent(E_ComponentType::Script)
+	CComponent(E_ComponentType::Script),
+	m_iScriptType(0)
 {
 }
 

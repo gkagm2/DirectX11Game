@@ -19,6 +19,7 @@ public:
 
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
+	void ChangeScene(CScene* _pNextScene);
 
 	friend class CScene;
 };

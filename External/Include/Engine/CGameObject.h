@@ -20,6 +20,7 @@ private:
 	CComponent* m_arrComponent[(UINT)E_ComponentType::End];
 	CGameObject* m_pParentObj;
 	vector<CGameObject*> m_vecChildObj;
+	vector<CScript*> m_vecScript;
 
 	E_Layer m_eLayer;
 	bool m_bDead;
@@ -95,6 +96,12 @@ inline TYPE* CGameObject::AddComponent()
 
 	E_ComponentType eType = pComp->GetComponentType();
 
+	if (E_ComponentType::Script == pComp->GetComponentType()) {
+		m_vecScript.push_back((CScript*)pComp);
+		pComp->m_pGameObj = this;
+		return pComponent;
+	}
+
 	// 이미 존재하면
 	if (_IsExistComponent(eType)) {
 		delete pComponent;
@@ -133,5 +140,12 @@ inline TYPE* CGameObject::GetComponent()
 			return pComponent;
 		}
 	}
+
+	// Script Type일 경우
+	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
+		if (typeid(TYPE) == typeid(*m_vecScript[i]))
+			return (TYPE*)m_vecScript[i];
+	}
+
 	return nullptr;
 }

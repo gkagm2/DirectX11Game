@@ -112,18 +112,6 @@
     <ClInclude Include="CScript.h">
       <Filter>Engine\07. Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CGameManagerScript_sh.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CEnemyScript_sh.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerScript_sh.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="CBulletScript_sh.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="CEventManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
@@ -132,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="CCollider.h">
       <Filter>Engine\07. Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="CEnemyRespawnerScript_sh.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner</Filter>
     </ClInclude>
     <ClInclude Include="CCollider2D.h">
       <Filter>Engine\07. Component\Collider\CCollider2D</Filter>
@@ -165,9 +150,6 @@
     </ClInclude>
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="CTestLight2DScript.h">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Light</Filter>
     </ClInclude>
     <ClInclude Include="CTileMap.h">
       <Filter>Engine\07. Component\TileMap</Filter>
@@ -273,18 +255,6 @@
     <ClCompile Include="CScript.cpp">
       <Filter>Engine\07. Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CGameManagerScript_sh.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CEnemyScript_sh.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerScript_sh.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="CBulletScript_sh.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="CEventManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
@@ -293,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
       <Filter>Engine\07. Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="CEnemyRespawnerScript_sh.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner</Filter>
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
       <Filter>Engine\07. Component\Collider\CCollider2D</Filter>
@@ -326,9 +293,6 @@
     </ClCompile>
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>Engine\03. Device\CStructuredBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="CTestLight2DScript.cpp">
-      <Filter>ShootingGame %28sh-Shooting%29\Objects\Light</Filter>
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>Engine\07. Component\TileMap</Filter>
@@ -440,24 +404,6 @@
     <Filter Include="Engine\07. Component\Script">
       <UniqueIdentifier>{ac9e46ef-ba09-427e-9551-76dfbe82a92e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29">
-      <UniqueIdentifier>{96029765-9825-4b38-b119-2f38648b1dde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects">
-      <UniqueIdentifier>{da4b63cc-54d8-45bd-9b7a-6a3e09cc13ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Manager">
-      <UniqueIdentifier>{15551fe3-6615-4277-8f15-1645a1082d00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Enemy">
-      <UniqueIdentifier>{15e32cfd-fa67-41ad-8128-d7e9bc503c31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Player">
-      <UniqueIdentifier>{a2d0742c-b66d-4447-8169-ffc18a48f66d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Bullet">
-      <UniqueIdentifier>{77a67e79-e8c9-40a2-b48d-43709e064b66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\07. Component\Collider">
       <UniqueIdentifier>{60e5f204-a0df-4f1d-af82-f05e2b6cc664}</UniqueIdentifier>
     </Filter>
@@ -466,9 +412,6 @@
     </Filter>
     <Filter Include="Engine\07. Component\Collider\CCollider3D">
       <UniqueIdentifier>{e2665e39-68ac-42b4-a068-a9fb89c4b2cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\EnemyRespawner">
-      <UniqueIdentifier>{77b5b3f2-c727-4e45-adce-b3bdbdd838d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DRect">
       <UniqueIdentifier>{d516d10c-5946-4488-a43a-1b7c5a6f68e5}</UniqueIdentifier>
@@ -490,9 +433,6 @@
     </Filter>
     <Filter Include="Engine\03. Device\CStructuredBuffer">
       <UniqueIdentifier>{733af71f-fc05-473f-8467-49c827f2acdd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ShootingGame %28sh-Shooting%29\Objects\Light">
-      <UniqueIdentifier>{36b9ad42-1531-454e-ad4a-fe4e7afac396}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\TileMap">
       <UniqueIdentifier>{4790db69-4e20-40ff-8c1b-03fce1a57a50}</UniqueIdentifier>

@@ -15,6 +15,8 @@
 
 class CScript : public CComponent
 {
+private:
+	UINT m_iScriptType;
 public:
 	virtual void FinalUpdate() final {}
 

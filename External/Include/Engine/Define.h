@@ -104,6 +104,7 @@ enum class E_ShaderStage {
 
 enum class E_ComponentType {
 	Transform,
+	BoundingBox,
 	Collider2D,
 	Collider3D,
 	Rigidbody2D,
@@ -120,11 +121,11 @@ enum class E_ComponentType {
 	TileMap,
 #pragma endregion
 
-
 	Listener,
 	Audio,
-	Script,
 	End,
+
+	Script,
 };
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap

@@ -1,52 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="WindowsMessageMap">
+    <Filter Include="Default">
+      <UniqueIdentifier>{8acd106d-f303-4ffb-baff-b12483cbafd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{92c7f701-5b47-4a9b-b01d-e207adbd215a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\WindowsMessageMap">
       <UniqueIdentifier>{453eb0cf-f452-41f0-aa05-ceb07675b4b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Manager">
+      <UniqueIdentifier>{b511e684-3d8a-4a91-8611-3778f89b2b9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="WindowsMessageMap.h">
+      <Filter>Client\WindowsMessageMap</Filter>
+    </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Header Files</Filter>
+      <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+      <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsMessageMap.h">
-      <Filter>WindowsMessageMap</Filter>
+    <ClInclude Include="Resource.h">
+      <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CTestScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="WindowsMessageMap.cpp">
+      <Filter>Client\WindowsMessageMap</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="WindowsMessageMap.cpp">
-      <Filter>WindowsMessageMap</Filter>
+    <ClCompile Include="Client.cpp">
+      <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="CTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
