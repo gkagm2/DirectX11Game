@@ -19,3 +19,5 @@
 #else
 #pragma comment(lib, "Engine/Engine")
 #endif
+
+#include "CScriptMgr.h"

@@ -1,1 +1,6 @@
-CScriptManager
+CBulletScript_sh
+CEnemyRespawnerScript_sh
+CEnemyScript_sh
+CGameManagerScript_sh
+CPlayerScript_sh
+CTestLight2DScript

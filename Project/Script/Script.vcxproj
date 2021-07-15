@@ -139,7 +139,9 @@
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call ScriptCopy.bat</Command>
+call ScriptCopy.bat
+cd $(SolutionDir)OutputFile\bin_debug\
+call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,7 +164,9 @@ call ScriptCopy.bat</Command>
     </Link>
     <PreBuildEvent>
       <Command>cd $(SolutionDir)
-call ScriptCopy.bat</Command>
+call ScriptCopy.bat
+cd $(SolutionDir)OutputFile\bin_debug\
+call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -171,6 +175,7 @@ call ScriptCopy.bat</Command>
     <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameManagerScript_sh.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
+    <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CTestLight2DScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -181,6 +186,7 @@ call ScriptCopy.bat</Command>
     <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameManagerScript_sh.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
+    <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

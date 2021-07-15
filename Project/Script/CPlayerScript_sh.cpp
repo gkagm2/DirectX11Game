@@ -8,6 +8,7 @@
 #include <Engine\CCore.h>
 
 CPlayerScript_sh::CPlayerScript_sh() :
+	CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH),
 	m_fHp(10.f),
 	m_fBulletDamage(4.f),
 	m_fMoveSpeed(600.f)

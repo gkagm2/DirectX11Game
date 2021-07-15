@@ -2,6 +2,7 @@
 #include "CTestLight2DScript.h"
 
 CTestLight2DScript::CTestLight2DScript() :
+	CScript((UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT),
 	m_fAngle(0.f)
 {
 }

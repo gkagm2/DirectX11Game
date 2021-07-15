@@ -3,6 +3,7 @@
 #include "CGameManagerScript_sh.h"
 
 CBulletScript_sh::CBulletScript_sh() :
+	CScript((UINT)SCRIPT_TYPE::BULLETSCRIPT_SH),
 	m_fSpeed(400.f),
 	m_vDir(Vector3(0.f,-1.f,0.f)),
 	m_eType(E_BulletType_sh::Straight),

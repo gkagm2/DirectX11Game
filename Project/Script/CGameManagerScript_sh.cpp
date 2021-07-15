@@ -3,6 +3,7 @@
 #include <Engine\CCore.h>
 
 CGameManagerScript_sh::CGameManagerScript_sh() :
+	CScript((UINT)SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH),
 	m_eState(E_GameState_sh::Lobby)
 {
 }

@@ -7,6 +7,9 @@
     <Filter Include="Default">
       <UniqueIdentifier>{220db417-dec2-4b0d-bd27-4b19be930f4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptManager">
+      <UniqueIdentifier>{88a62faf-3187-4273-a5d4-c3d62f210f56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -33,6 +36,9 @@
     <ClInclude Include="pch.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>ScriptManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -58,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="Script.cpp">
       <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>ScriptManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

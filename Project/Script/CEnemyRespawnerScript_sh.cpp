@@ -6,6 +6,7 @@
 #include <Engine\CCollider2DRect.h>
 
 CEnemyRespawnerScript_sh::CEnemyRespawnerScript_sh() :
+	CScript((UINT)SCRIPT_TYPE::ENEMYRESPAWNERSCRIPT_SH),
 	m_vRespawnPos{},
 	m_fRespawnCoolTime(0.f),
 	m_fRespawnMaxCoolTime(2.f)

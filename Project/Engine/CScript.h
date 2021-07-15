@@ -20,8 +20,10 @@ private:
 public:
 	virtual void FinalUpdate() final {}
 
+	UINT GetScriptType() { return m_iScriptType; }
+
 public:
 	virtual CScript* Clone() = 0;
-	CScript();
+	CScript(UINT _iType);
 	virtual ~CScript() override;
 };

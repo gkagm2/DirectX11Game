@@ -5,6 +5,7 @@
 #include <Engine\CLight2D.h>
 
 CEnemyScript_sh::CEnemyScript_sh() :
+	CScript((UINT)SCRIPT_TYPE::ENEMYSCRIPT_SH),
 	m_fHp(10.f),
 	m_fMoveSpeed(30.f),
 	m_fBulletSpeed(100.f),
