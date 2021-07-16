@@ -26,6 +26,10 @@ public:
 	GET_COMPONENT_FROM_GAMEOBJECT
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	virtual CComponent* Clone() = 0;
 	CComponent() = delete;
 	CComponent(const CComponent& _origin);

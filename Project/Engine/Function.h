@@ -29,3 +29,16 @@ void Safe_Delete_Vector(vector<T>& _vec) {
 	}
 	_vec.clear();
 }
+
+void SaveStringToFile(const tstring& _str, FILE* _pFile);
+void LoadStringFromFile(tstring& _str, FILE* _pFile);
+
+template<typename T>
+size_t FWrite(T& _data, FILE* _pFile) {
+	return fwrite(&_data, sizeof(T), 1, _pFile);
+}
+
+template<typename T>
+size_t FRead(T& _data, FILE* _pFile) {
+	return fread(&_data, sizeof(T), 1, _pFile);
+}

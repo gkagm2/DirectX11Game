@@ -17,3 +17,14 @@ CComponent::CComponent(const CComponent& _origin) :
 CComponent::~CComponent()
 {
 }
+
+// TODO (Jang) : Component
+bool CComponent::SaveToScene(FILE* _pFile)
+{
+	return CObject::SaveToScene(_pFile);
+}
+
+bool CComponent::LoadFromScene(FILE* _pFile)
+{
+	return CObject::LoadFromScene(_pFile);
+}

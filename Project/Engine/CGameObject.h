@@ -62,6 +62,9 @@ private:
 	//오직 하나만 렌더링 가능한 컴포넌트인지 체크
 	bool _IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType);
 	bool _IsExistComponent(E_ComponentType _eComponentType) { return m_arrComponent[(UINT)_eComponentType] ? true : false; }
+
+	CComponent* _CreateComponent(E_ComponentType _eType);
+	
 public:
 	template<typename TYPE>
 	TYPE* AddComponent();
@@ -71,7 +74,9 @@ public:
 	template<typename TYPE>
 	TYPE* GetComponent();
 
-	
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	bool LoadFromScene(FILE* _pFile, int _iDepth); // Depth가 0이 최상위 오브젝트
 
 public:
 	CLONE(CGameObject);

@@ -11,3 +11,13 @@ class ILifeCycleInterface
 	virtual void FinalUpdate() = 0;
 	virtual void Render() = 0;
 };
+
+class ISaveLoadFileInterface {
+	virtual bool SaveToFile(FILE* _pFile) = 0;
+	virtual bool LoadFromFile(FILE* _pFile) = 0;
+};
+
+class ISaveLoadSceneInterface {
+	virtual bool SaveToScene(FILE* _pFile) = 0;
+	virtual bool LoadFromScene(FILE* _pFile) = 0;
+};

@@ -119,3 +119,35 @@ void CLayer::_ResignGameObject(CGameObject* _pObj)
 			que.push_back(pObj->m_vecChildObj[i]);
 	}
 }
+
+bool CLayer::SaveToScene(FILE* _pFile)
+{
+	CObject::SaveToScene(_pFile);
+
+	// 최상위 부모 오브젝트 저장
+	UINT iRootObjCount = (UINT)m_vecRootObj.size();
+	FWrite(iRootObjCount, _pFile);
+
+	for (UINT i = 0; i < m_vecRootObj.size(); ++i)
+		m_vecRootObj[i]->SaveToScene(_pFile);
+
+	return true;
+}
+
+bool CLayer::LoadFromScene(FILE* _pFile)
+{
+	CObject::LoadFromScene(_pFile);
+
+	// 최상위 부모 오브젝트 읽기
+	UINT iRootObjCount = 0;
+	FRead(iRootObjCount, _pFile);
+
+	CGameObject* pObj = nullptr;
+	for (UINT i = 0; i < iRootObjCount; ++i) {
+		pObj = new CGameObject;
+		pObj->LoadFromScene(_pFile, 0);
+		AddGameObject(pObj, false);
+	}
+
+	return true;
+}

@@ -34,6 +34,10 @@ private:
 	// 파라미터로 받은 오브젝트와 오브젝트의 자식 오브젝트들의 레이어를 해제
 	void _ResignGameObject(CGameObject* _pObj);
 
+public:
+	virtual bool SaveToScene(FILE* _pFile);
+	virtual bool LoadFromScene(FILE* _pFile);
+
 private:
 	CLONE_DISABLE(CLayer);
 

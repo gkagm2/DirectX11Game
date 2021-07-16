@@ -3,7 +3,7 @@ class CGameObject;
 class CPrefab;
 template<typename T> class SharedPtr;
 
-class CObject
+class CObject //: public ISaveLoadSceneInterface
 {
 private:
 	static UINT g_iNextID;
@@ -28,7 +28,10 @@ public:
 	void SetName(const tstring& _strName) { m_strName = _strName; }
 
 public:
-	// TODO (Jang) : Clone은 순수 가상함수로 만들기
+	virtual bool SaveToScene(FILE* _pFile);
+	virtual bool LoadFromScene(FILE* _pFile);
+
+public:
 	virtual CObject* Clone() = 0;
 	CObject();
 	CObject(const CObject& _origin);

@@ -1,19 +1,27 @@
 #include "pch.h"
 #include "CGameObject.h"
 #include "CComponent.h"
-#include "CMeshRenderer.h"
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CLayer.h"
+
+
+// Component
+#include "CTransform.h"
+#include "CMeshRenderer.h"
+#include "CCamera.h"
 #include "CCollider2D.h"
+#include "CCollider3D.h"
+#include "CAnimator2D.h"
 #include "CLight2D.h"
 #include "CTileMap.h"
 #include "CParticleSystem.h"
+
 #include "CScript.h"
+
 
 #include "CResourceManager.h"
 #include "CPrefab.h"
-
 
 CGameObject::CGameObject() :
 	m_arrComponent{},
@@ -265,4 +273,130 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 	_pComponent->m_pGameObj = this;
 
 	return _pComponent;
+}
+
+bool CGameObject::SaveToScene(FILE* _pFile)
+{
+	if (E_Layer::End == m_eLayer) {
+		assert(!(E_Layer::End == m_eLayer));
+		return false;
+	}
+	CObject::SaveToScene(_pFile);
+
+	// 자식 오브젝트일 경우
+	if (GetParentObject()) {
+		UINT iLayer = (UINT)m_eLayer;
+		FWrite(iLayer, _pFile);
+	}
+	
+	// 컴포넌트
+	UINT iComIdx = 0;
+	for (; iComIdx < (UINT)E_ComponentType::End; ++iComIdx) {
+		if (nullptr == m_arrComponent[iComIdx])
+			continue;
+
+		FWrite(iComIdx, _pFile);
+		m_arrComponent[iComIdx]->SaveToScene(_pFile);
+	}
+	FWrite(iComIdx, _pFile); // 마감
+	
+	// 스크립트 정보
+	UINT iScriptCount = (UINT)m_vecScript.size();
+	FWrite(iScriptCount, _pFile);
+
+	for (UINT i = 0; i < m_vecScript.size(); ++i)
+		m_vecScript[i]->SaveToScene(_pFile);
+
+	// 자식 오브젝트
+	UINT iChildCount = (UINT)m_vecChildObj.size();
+	FWrite(iChildCount, _pFile);
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->SaveToScene(_pFile);
+
+	return true;
+}
+
+bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
+{
+	CObject::LoadFromScene(_pFile);
+
+	// 자식 오브젝트인 경우 Layer 소속 읽기
+	if (0 != _iDepth) {
+		UINT iLayer = (UINT)E_Layer::End;
+		FRead(iLayer, _pFile);
+		m_eLayer = (E_Layer)iLayer;
+	}
+
+	// 컴포넌트 정보
+	UINT iComIdx = -1;
+	while (true) {
+		FRead(iComIdx, _pFile);
+		if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
+			break;
+		CComponent* pComponent = _CreateComponent((E_ComponentType)iComIdx);
+
+		pComponent->LoadFromScene(_pFile);
+		AddComponent(pComponent);
+	}
+
+
+	// TOOD (Jang) : 어떻게 가져와야될까..
+	// 스크립트 정보
+	UINT iScriptCount = (UINT)m_vecScript.size();
+	FRead(iScriptCount, _pFile);
+	m_vecScript.clear();
+	m_vecScript.resize(iScriptCount);
+	for (UINT i = 0; i < iScriptCount; ++i) {
+		m_vecScript[i]->LoadFromScene(_pFile);
+		// ... 스크립트 추가.
+	}
+
+	// 자식 정보
+	++_iDepth;
+
+	UINT iChildCount = 0;
+	FRead(iChildCount, _pFile);
+	for (UINT i = 0; i < iChildCount; ++i) {
+		CGameObject* pChildObj = new CGameObject;
+		pChildObj->LoadFromScene(_pFile, _iDepth);
+		_AddChildGameObject(pChildObj);
+	}
+
+	return true;
+}
+
+CComponent* CGameObject::_CreateComponent(E_ComponentType _eType)
+{
+	CComponent* pComponent = nullptr;
+	switch ((E_ComponentType)_eType) {
+	case E_ComponentType::Transform:
+		pComponent = new CTransform;
+		break;
+	case E_ComponentType::MeshRenderer:
+		pComponent = new CMeshRenderer;
+		break;
+	case E_ComponentType::Camera:
+		pComponent = new CCamera;
+		break;
+	case E_ComponentType::Collider2D:
+		pComponent = new CCollider2D;
+		break;
+	case E_ComponentType::Collider3D:
+		pComponent = new CCollider3D;
+		break;
+	case E_ComponentType::Animator2D:
+		pComponent = new CAnimator2D;
+		break;
+	case E_ComponentType::Light2D:
+		pComponent = new CLight2D;
+		break;
+	case E_ComponentType::TileMap:
+		pComponent = new CTileMap;
+		break;
+	case E_ComponentType::ParticleSystem:
+		pComponent = new CParticleSystem;
+		break;
+	}
+	return pComponent;
 }

@@ -42,6 +42,8 @@
 	GET_COMPONENT(TileMap)\
 	GET_COMPONENT(ParticleSystem)
 
+// TIP : 추가 할 경우 CGasmeObject.cpp에 헤더파일과 Load함수에도 추가해줘야 함.
+
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
 
@@ -57,7 +59,6 @@
 	GET_OTHER_COMPONENT(ParticleSystem)
 
 #pragma endregion
-
 
 // GPU RegisterNumber
 #define REGISTER_NUM_Light2DBuffer 51
@@ -101,7 +102,6 @@ enum class E_ShaderStage {
 	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
-
 enum class E_ComponentType {
 	Transform,
 	BoundingBox,
@@ -127,8 +127,10 @@ enum class E_ComponentType {
 
 	Script,
 };
+
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
+
 
 #define MAX_SIZE_LAYER 32
 

@@ -113,3 +113,24 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 	}
 	return nullptr;
 }
+
+bool CScene::SaveToScene(FILE* _pFile)
+{
+	CObject::SaveToScene(_pFile);
+
+	// Layer Á¤º¸
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+		m_arrLayer[i]->SaveToScene(_pFile);
+
+	return true;
+}
+
+bool CScene::LoadFromScene(FILE* _pFile)
+{
+	CObject::LoadFromScene(_pFile);
+
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+		m_arrLayer[i]->LoadFromScene(_pFile);
+
+	return true;
+}

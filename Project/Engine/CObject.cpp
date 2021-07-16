@@ -9,6 +9,7 @@
 #include "CPrefab.h"
 
 UINT CObject::g_iNextID = 0;
+
 CObject::CObject() :
     m_iID(g_iNextID++)
 {
@@ -67,4 +68,15 @@ void CObject::UnlinkParentGameObjectEvn(CGameObject* _pChildObj)
 void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer)
 {
     CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _eLayer);
+}
+
+bool CObject::SaveToScene(FILE* _pFile)
+{
+    SaveStringToFile(m_strName, _pFile);
+    return true;
+}
+bool CObject::LoadFromScene(FILE* _pFile)
+{
+    LoadStringFromFile(m_strName, _pFile);
+    return true;
 }

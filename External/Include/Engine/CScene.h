@@ -26,6 +26,10 @@ public:
     CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
     CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
 
+public:
+    virtual bool SaveToScene(FILE* _pFile) override;
+    virtual bool LoadFromScene(FILE* _pFile) override;
+
 private:
     CLONE_DISABLE(CScene);
 public:
