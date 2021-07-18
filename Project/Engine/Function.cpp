@@ -3,16 +3,16 @@
 
 void SaveStringToFile(const tstring& _str, FILE* _pFile)
 {
-	UINT iLen = (UINT)_str.length();
-	fwrite(&iLen, sizeof(UINT), iLen, _pFile);
-	fwrite(_str.data(), sizeof(TCHAR), iLen, _pFile);
+	int iLen = (int)_str.length();
+	fwrite(&iLen, sizeof(int), 1, _pFile);
+	fwrite(_str.data(), sizeof(TCHAR), (size_t)iLen, _pFile);
 }
 
 void LoadStringFromFile(tstring& _str, FILE* _pFile)
 {
 	TCHAR szBuffer[1024] = {};
-	UINT iLen = 0;
-	fread(&iLen, sizeof(UINT), 1, _pFile);
-	fread(szBuffer, sizeof(TCHAR), iLen, _pFile);
+	int iLen = 0;
+	fread(&iLen, sizeof(int), 1, _pFile);
+	fread(szBuffer, sizeof(TCHAR), (size_t)iLen, _pFile);
 	_str = szBuffer;
 }
