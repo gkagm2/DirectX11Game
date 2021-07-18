@@ -38,3 +38,21 @@ void CLight2D::SetRange(float _fRange)
 	m_tInfo.fRange = _fRange;
 	Transform()->SetLocalScale(Vector3(_fRange * 2.f, _fRange * 2.f, 1.f));
 }
+
+bool CLight2D::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_tInfo, _pFile);
+
+	SaveResourceToFile(m_pMesh, _pFile);
+	SaveResourceToFile(m_pMtrl, _pFile);
+	return true;
+}
+
+bool CLight2D::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_tInfo, _pFile);
+
+	LoadResourceFromFile(m_pMesh, _pFile);
+	LoadResourceFromFile(m_pMtrl, _pFile);
+	return true;
+}

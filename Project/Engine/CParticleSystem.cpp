@@ -156,3 +156,61 @@ UINT CParticleSystem::_CalculateSpawnCount()
 
 	return iSpawnCount;
 }
+
+bool CParticleSystem::SaveToScene(FILE* _pFile)
+{
+	UINT iTexCount = (UINT)m_vecParticleTex.size();
+	FWrite(iTexCount, _pFile);
+
+	for (UINT i = 0; i < iTexCount; ++i)
+		SaveResourceToFile(m_vecParticleTex[i], _pFile);
+
+	FWrite(m_iTexIdx, _pFile);
+
+	FWrite(m_vStartColor, _pFile);
+	FWrite(m_vEndColor, _pFile);
+	FWrite(m_vStartScale, _pFile);
+	FWrite(m_vEndScale, _pFile);
+	FWrite(m_fStartSpeed, _pFile);
+	FWrite(m_fEndSpeed, _pFile);
+	FWrite(m_fMinLifeTime, _pFile);
+	FWrite(m_fMaxLifeTime, _pFile);
+	FWrite(m_iSpawnCntPerSec, _pFile);
+	FWrite(m_iMaxParticleCount, _pFile);
+	FWrite(m_vRadius, _pFile);
+
+	return true;
+}
+
+bool CParticleSystem::LoadFromScene(FILE* _pFile)
+{
+	UINT iTexCount = 0;
+	FRead(iTexCount, _pFile);
+
+	m_vecParticleTex.clear();
+	for (UINT i = 0; i < iTexCount; ++i) {
+		SharedPtr<CTexture> pTexture = nullptr;
+		LoadResourceFromFile(pTexture, _pFile);
+		m_vecParticleTex.push_back(pTexture);
+	}
+
+	FRead(m_iTexIdx, _pFile);
+
+	FRead(m_vStartColor, _pFile);
+	FRead(m_vEndColor, _pFile);
+	FRead(m_vStartScale, _pFile);
+	FRead(m_vEndScale, _pFile);
+	FRead(m_fStartSpeed, _pFile);
+	FRead(m_fEndSpeed, _pFile);
+	FRead(m_fMinLifeTime, _pFile);
+	FRead(m_fMaxLifeTime, _pFile);
+	FRead(m_iSpawnCntPerSec, _pFile);
+	FRead(m_iMaxParticleCount, _pFile);
+	FRead(m_vRadius, _pFile);
+
+	if (m_iMaxParticleCount != m_pParticleBuffer->GetElementCount()) {
+		m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, nullptr);
+	}
+
+	return true;
+}

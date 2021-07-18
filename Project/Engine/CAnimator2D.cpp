@@ -78,6 +78,7 @@ void CAnimator2D::CreateAnimation(TAnimation2DDesc& _tAnimation2DDesc)
 	pAnim = new CAnimation2D;
 	pAnim->SetName(_tAnimation2DDesc.strName);
 	pAnim->Create(_tAnimation2DDesc);
+	pAnim->_SetAnimator(this);
 
 	m_unmapAnim.insert(std::make_pair(_tAnimation2DDesc.strName, pAnim));
 }
@@ -88,4 +89,56 @@ void CAnimator2D::Clear()
 	TAnimation2DData tData = {};
 	pBuffer->SetData(&tData);
 	pBuffer->UpdateData();
+}
+
+bool CAnimator2D::SaveToScene(FILE* _pFile)
+{
+	// Animation 개수
+	UINT iAnimCount = (UINT)m_unmapAnim.size();
+	FWrite(iAnimCount, _pFile);
+
+	// 모든 Animation 정보
+	auto iter = m_unmapAnim.begin();
+	for (; iter != m_unmapAnim.end(); ++iter)
+		iter->second->SaveToScene(_pFile);
+
+	UINT iCurAnim = 0;
+
+	if(nullptr == m_pCurAnimation)
+		FWrite(iCurAnim, _pFile);
+	else {
+		iCurAnim = 1;
+		FWrite(iCurAnim, _pFile);
+		SaveStringToFile(m_pCurAnimation->GetName(), _pFile);
+	}
+
+	FWrite(m_eAnimationState, _pFile);
+
+	return true;
+}
+
+bool CAnimator2D::LoadFromScene(FILE* _pFile)
+{
+	UINT iAnimCount = 0;
+	FRead(iAnimCount, _pFile);
+
+	// 모든 Animation 정보
+	m_unmapAnim.clear();
+	for (UINT i = 0; i < iAnimCount; ++i) {
+		CAnimation2D* pAnim2D = new CAnimation2D;
+		pAnim2D->LoadFromScene(_pFile);
+		pAnim2D->_SetAnimator(this);
+		m_unmapAnim.insert(std::make_pair(pAnim2D->GetName(), pAnim2D));
+	}
+
+	// 재생중인 Animation 존재 시
+	UINT iCurAnim = 0;
+	FRead(iCurAnim, _pFile);
+	if (iCurAnim) {
+		tstring strAnimName;
+		LoadStringFromFile(strAnimName, _pFile);
+		m_pCurAnimation = FindAnimation(strAnimName);
+	}
+
+	return true;
 }

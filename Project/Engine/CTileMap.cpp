@@ -13,13 +13,15 @@ CTileMap::CTileMap() :
 	m_iTileCol(4),
 	m_iTileRow(4),
 	m_vTexTileSize{},
-	m_vTexSize{}
+	m_vTexSize{},
+	m_iDefaultElementCountCol(10),
+	m_iDefaultElementCountRow(10)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_TileMapMtrl);
 
 	m_pTileMapBuffer = new CStructuredBuffer;
-	const UINT iDefaultTileMapElementCnt = 10 * 10;
+	const UINT iDefaultTileMapElementCnt = m_iDefaultElementCountCol * m_iDefaultElementCountRow;
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
 }
 
@@ -70,6 +72,7 @@ void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture, const Vector2& _
 
 	m_pMaterial->SetData(E_ShaderParam::Texture_0, _pAtlasTexture.Get());
 
+	m_pAtlasTexture = _pAtlasTexture;
 	m_vTexSize = _pAtlasTexture.Get()->GetDimension();
 	m_iAtlasTileCol = (int)(m_vTexSize.x / _iTexTileSize.x);
 	m_iAtlasTileRow = (int)(m_vTexSize.y / _iTexTileSize.y);
@@ -95,4 +98,34 @@ void CTileMap::CreateTile(int _iCol, int _iRow)
 {
 	m_iTileCol = _iCol;
 	m_iTileRow = _iRow;
+}
+
+bool CTileMap::SaveToScene(FILE* _pFile)
+{
+	SaveResourceToFile(m_pMesh, _pFile);
+	//SaveResourceToFile(m_pMaterial, _pFile);
+
+	SaveResourceToFile(m_pAtlasTexture, _pFile);
+	FWrite(m_vTexTileSize, _pFile);
+
+	FWrite(m_iTileCol, _pFile);
+	FWrite(m_iTileRow, _pFile);
+
+	return true;
+}
+
+bool CTileMap::LoadFromScene(FILE* _pFile)
+{
+	LoadResourceFromFile(m_pMesh, _pFile);
+	//LoadResourceFromFile(m_pMaterial, _pFile);
+
+	LoadResourceFromFile(m_pAtlasTexture, _pFile);
+	FRead(m_vTexTileSize, _pFile);
+
+	SetTileAtlas(m_pAtlasTexture, m_vTexTileSize);
+
+	FRead(m_iTileCol, _pFile);
+	FRead(m_iTileRow, _pFile);
+
+	return true;
 }

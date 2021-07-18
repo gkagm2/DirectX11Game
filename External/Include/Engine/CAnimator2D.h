@@ -65,6 +65,10 @@ public:
 	CAnimation2D* GetCurAnimation() { return m_pCurAnimation; }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CAnimator2D);
 	CAnimator2D();
 	CAnimator2D(const CAnimator2D& _origin);

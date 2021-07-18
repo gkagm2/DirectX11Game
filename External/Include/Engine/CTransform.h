@@ -29,6 +29,10 @@ public:
 public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;
+
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 	
 public:
 	CLONE(CTransform);

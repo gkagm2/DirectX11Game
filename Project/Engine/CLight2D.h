@@ -24,6 +24,10 @@ public:
 	void SetLightDir(const Vector3& _vLightDir) { m_tInfo.vLightDir = Vector4(_vLightDir, 0.f); }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CLight2D);
 
 	CLight2D();

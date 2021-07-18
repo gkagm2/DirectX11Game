@@ -83,3 +83,27 @@ void CCamera::_CalculateProjectionMatrix()
 
 	m_matProjection = XMMatrixOrthographicLH(vRenderResolution.x * m_fSize, vRenderResolution.y * m_fSize, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
 }
+
+bool CCamera::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_eProjectionType, _pFile);
+	FWrite(m_tFOVAxis, _pFile);
+	FWrite(m_fSize, _pFile);
+	FWrite(m_tClippingPlanes, _pFile);
+	FWrite(m_tViewportRect, _pFile);
+	FWrite(m_iLayerCheck, _pFile);
+	
+	return true;
+}
+
+bool CCamera::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_eProjectionType, _pFile);
+	FRead(m_tFOVAxis, _pFile);
+	FRead(m_fSize, _pFile);
+	FRead(m_tClippingPlanes, _pFile);
+	FRead(m_tViewportRect, _pFile);
+	FRead(m_iLayerCheck, _pFile);
+
+	return true;
+}

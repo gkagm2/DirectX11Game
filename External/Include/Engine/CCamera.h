@@ -66,6 +66,10 @@ private:
 	void _CalculateProjectionMatrix();
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CCamera);
 	CCamera();
 	virtual ~CCamera() override;

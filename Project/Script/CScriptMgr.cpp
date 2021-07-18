@@ -6,6 +6,7 @@
 #include "CEnemyScript_sh.h"
 #include "CGameManagerScript_sh.h"
 #include "CPlayerScript_sh.h"
+#include "CRotateZScript.h"
 #include "CTestLight2DScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -15,6 +16,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CPlayerScript_sh");
+	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CTestLight2DScript");
 }
 
@@ -30,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CPlayerScript_sh" == _strScriptName)
 		return new CPlayerScript_sh;
+	if (L"CRotateZScript" == _strScriptName)
+		return new CRotateZScript;
 	if (L"CTestLight2DScript" == _strScriptName)
 		return new CTestLight2DScript;
 	return nullptr;
@@ -53,6 +57,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH:
 		return new CPlayerScript_sh;
+		break;
+	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
+		return new CRotateZScript;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return new CTestLight2DScript;
@@ -83,6 +90,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT_SH:
 		return L"CPlayerScript_sh";
+		break;
+
+	case SCRIPT_TYPE::ROTATEZSCRIPT:
+		return L"CRotateZScript";
 		break;
 
 	case SCRIPT_TYPE::TESTLIGHT2DSCRIPT:

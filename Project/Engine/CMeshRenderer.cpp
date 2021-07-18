@@ -47,3 +47,17 @@ SharedPtr<CMaterial> CMeshRenderer::GetCloneMaterial()
 	m_pMtrl = m_pMtrl->Clone();
 	return m_pMtrl;
 }
+
+bool CMeshRenderer::SaveToScene(FILE* _pFile)
+{
+	SaveResourceToFile(m_pMesh, _pFile);
+	SaveResourceToFile(m_pMtrl, _pFile);
+	return true;
+}
+
+bool CMeshRenderer::LoadFromScene(FILE* _pFile)
+{					
+	LoadResourceFromFile(m_pMesh, _pFile);
+	LoadResourceFromFile(m_pMtrl, _pFile);
+	return true;
+}

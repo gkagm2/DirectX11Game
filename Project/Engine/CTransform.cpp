@@ -68,3 +68,21 @@ void CTransform::UpdateData()
 	pCB->SetData(&g_transform);
 	pCB->UpdateData(E_ShaderStage::NonePixel);
 }
+
+bool CTransform::SaveToScene(FILE* _pFile)
+{
+	CComponent::SaveToScene(_pFile);
+	FWrite(m_vLocalPosition, _pFile);
+	FWrite(m_vLocalRotation, _pFile);
+	FWrite(m_vLocalScale, _pFile);
+	return true;
+}
+
+bool CTransform::LoadFromScene(FILE* _pFile)
+{
+	CComponent::LoadFromScene(_pFile);
+	FRead(m_vLocalPosition, _pFile);
+	FRead(m_vLocalRotation, _pFile);
+	FRead(m_vLocalScale, _pFile);
+	return true;
+}

@@ -39,6 +39,7 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptManager</Filter>
     </ClInclude>
+    <ClInclude Include="CRotateZScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -68,5 +69,6 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptManager</Filter>
     </ClCompile>
+    <ClCompile Include="CRotateZScript.cpp" />
   </ItemGroup>
 </Project>

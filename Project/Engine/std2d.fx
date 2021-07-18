@@ -188,6 +188,7 @@ VTX_OUT VS_Collider2D(VTX_IN _in)
     return output;
 }
 
+#define iConnectColor g_int_0 // 0 or 1 
 ///////////////
 // Collider2D pixel shader
 ///////////////
@@ -198,7 +199,7 @@ float4 PS_Collider2D(VTX_OUT _in) : SV_Target
     //{
     //    clip(-1);
     //}
-    if(g_int_0)
+    if (iConnectColor)
         return float4(0.9f, 0.2f, 0.2f, 1.f); // red color
     
     return float4(0.2f, 0.9f, 0.2, 1.f); // green color

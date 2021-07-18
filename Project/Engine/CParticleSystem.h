@@ -23,11 +23,11 @@ private:
 	Vector4 m_vStartScale;		 // 파티클 시작 크기
 	Vector4 m_vEndScale;		 // 파티클 최종 크기
 								 
-	float m_fStartSpeed;		 // 파티클 시작 속도>>
-	float m_fEndSpeed;			 // 파티클 최종 속도
+	float	m_fStartSpeed;		 // 파티클 시작 속도>>
+	float	m_fEndSpeed;			 // 파티클 최종 속도
 
-	float m_fMinLifeTime;		 // 파티클 최소 Life
-	float m_fMaxLifeTime;		 // 파티클 최대 Life
+	float	m_fMinLifeTime;		 // 파티클 최소 Life
+	float	m_fMaxLifeTime;		 // 파티클 최대 Life
 								 
 	UINT	m_iSpawnCntPerSec;	 // 초당 파티클 생성 개수
 	UINT	m_iMaxParticleCount; // 파티클 최대 개수
@@ -42,6 +42,10 @@ public:
 
 private:
 	UINT _CalculateSpawnCount(); // 파티클 생성가능한 갯수 구하기
+
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	CLONE(CParticleSystem);

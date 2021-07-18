@@ -3,4 +3,5 @@ CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh
 CPlayerScript_sh
+CRotateZScript
 CTestLight2DScript

@@ -21,6 +21,10 @@ public:
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CMeshRenderer);
 	CMeshRenderer();
 	virtual ~CMeshRenderer() override;

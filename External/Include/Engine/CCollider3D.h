@@ -11,6 +11,10 @@ private:
 	virtual void UpdateData() override;
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CCollider3D();
 	virtual ~CCollider3D() override;
 };

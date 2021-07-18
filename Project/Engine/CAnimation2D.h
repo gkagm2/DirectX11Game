@@ -11,15 +11,20 @@ struct TAnimationFrame { // Animation Frame
 	float fDuration;	// Frame의 유지 시간
 };
 
+class CAnimator2D;
 class CAnimation2D : public CObject
 {
 private:
-	SharedPtr<CTexture> m_pTexture;
+	CAnimator2D*			m_pAnimator;
+	SharedPtr<CTexture>		m_pTexture;
 	vector<TAnimationFrame> m_vecAnimFrame;
 
-	int m_iCurFrameIdx;		// 현재 애니메이션 인덱스
-	float m_fAccTime;		// 누적 시간(Accumulation Time)
-	bool m_bFinish;			// 애니메이션이 끝났는지 여부
+	int		m_iCurFrameIdx;		// 현재 애니메이션 인덱스
+	float	m_fAccTime;		// 누적 시간(Accumulation Time)
+	bool	m_bFinish;			// 애니메이션이 끝났는지 여부
+
+private:
+	void _SetAnimator(CAnimator2D* _pAnimator2D) { m_pAnimator = _pAnimator2D; }
 
 public:
 	void LateUpdate();
@@ -38,6 +43,10 @@ public:
 	void Load(const tstring& _strRelativeFilePath);
 
 	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
+	
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	CLONE(CAnimation2D);

@@ -1,4 +1,6 @@
 #pragma once
+#include "Global.h"
+#include "CMaterial.h"
 
 template<typename T1, typename T2>
 void Safe_Delete_UnorderedMap(unordered_map<T1, T2>& _umap) {
@@ -34,11 +36,43 @@ void SaveStringToFile(const tstring& _str, FILE* _pFile);
 void LoadStringFromFile(tstring& _str, FILE* _pFile);
 
 template<typename T>
-size_t FWrite(T& _data, FILE* _pFile) {
-	return fwrite(&_data, sizeof(T), 1, _pFile);
+size_t FWrite(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
+	return fwrite(&_data, sizeof(T), _iElementCount, _pFile);
 }
 
 template<typename T>
-size_t FRead(T& _data, FILE* _pFile) {
-	return fread(&_data, sizeof(T), 1, _pFile);
+size_t FRead(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
+	return fread(&_data, sizeof(T), _iElementCount, _pFile);
+}
+
+class CResource;
+template<typename T>
+void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {
+	UINT iCheck = 0;
+
+	if (nullptr != _pRes)
+		iCheck = 1;
+
+	FWrite(iCheck, _pFile);
+
+	if (nullptr != _pRes) {
+		SaveStringToFile(_pRes->GetKey(), _pFile);
+		SaveStringToFile(_pRes->GetRelativePath(), _pFile);
+	}
+}
+
+template<typename T>
+void LoadResourceFromFile(SharedPtr<T> _pRes, FILE* _pFile) {
+	UINT iCheck = 0;
+
+	FRead(iCheck, _pFile);
+	if (iCheck) {
+		tstring strKey, strRelativePath;
+		LoadStringFromFile(strKey, _pFile);
+		LoadStringFromFile(strRelativePath, _pFile);
+
+		_pRes = CResourceManager::GetInstance()->LoadRes<T>(strKey, strRelativePath);
+	}
+	else
+		_pRes = nullptr;
 }

@@ -37,6 +37,10 @@ public:
 	const Matrix& GetWorldMatrix() { return m_matColWorld; }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CCollider2D);
 	CCollider2D();
 	virtual ~CCollider2D() override;

@@ -126,7 +126,8 @@ bool CLayer::SaveToScene(FILE* _pFile)
 
 	// 최상위 부모 오브젝트 저장
 	UINT iRootObjCount = (UINT)m_vecRootObj.size();
-	FWrite(iRootObjCount, _pFile);
+	fwrite(&iRootObjCount, sizeof(UINT), 1, _pFile);
+	//FWrite(iRootObjCount, _pFile);
 
 	for (UINT i = 0; i < m_vecRootObj.size(); ++i)
 		m_vecRootObj[i]->SaveToScene(_pFile);
@@ -140,7 +141,8 @@ bool CLayer::LoadFromScene(FILE* _pFile)
 
 	// 최상위 부모 오브젝트 읽기
 	UINT iRootObjCount = 0;
-	FRead(iRootObjCount, _pFile);
+	//FRead(iRootObjCount, _pFile);
+	fread(&iRootObjCount, sizeof(UINT), 1, _pFile);
 
 	CGameObject* pObj = nullptr;
 	for (UINT i = 0; i < iRootObjCount; ++i) {

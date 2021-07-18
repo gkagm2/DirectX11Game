@@ -75,8 +75,8 @@ void CCollider2D::OnCollisionEnter(CCollider2D* _pOther)
 		m_pMaterial = g_queCollisionMtrl.front();
 		g_queCollisionMtrl.pop();
 
-		int iTest = 1;
-		m_pMaterial->SetData(E_ShaderParam::Int_0, &iTest);
+		int iConnectColor = 1;// 1 or 0
+		m_pMaterial->SetData(E_ShaderParam::Int_0, &iConnectColor);
 	}
 	IncreaseCollisionCnt();
 }
@@ -92,4 +92,25 @@ void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
 		g_queCollisionMtrl.push(m_pMaterial.Get());
 		m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
 	}
+}
+
+bool CCollider2D::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_vOffsetPosition, _pFile);
+	FWrite(m_vOffsetScale, _pFile);
+
+	SaveResourceToFile(m_pMesh, _pFile);
+	SaveResourceToFile(m_pMaterial, _pFile);
+
+	return true;
+}
+
+bool CCollider2D::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_vOffsetPosition, _pFile);
+	FRead(m_vOffsetScale, _pFile);
+
+	LoadResourceFromFile(m_pMesh, _pFile);
+	LoadResourceFromFile(m_pMaterial, _pFile);
+	return true;
 }

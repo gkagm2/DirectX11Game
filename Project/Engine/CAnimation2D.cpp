@@ -9,6 +9,7 @@
 #include "Ptr.h"
 
 CAnimation2D::CAnimation2D() :
+	m_pAnimator(nullptr),
 	m_pTexture(nullptr),
 	m_iCurFrameIdx(0),
 	m_fAccTime(0.f),
@@ -184,4 +185,35 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 		m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
 
 	fclose(pFile);
+}
+
+bool CAnimation2D::SaveToScene(FILE* _pFile)
+{
+	SaveResourceToFile(m_pTexture, _pFile);
+
+	UINT iFrameCount = (UINT)m_vecAnimFrame.size();
+	for (UINT i = 0; i < iFrameCount; ++i)
+		FWrite(m_vecAnimFrame[i], _pFile);
+
+	FWrite(m_iCurFrameIdx, _pFile);
+
+	return true;
+}
+
+bool CAnimation2D::LoadFromScene(FILE* _pFile)
+{
+	LoadResourceFromFile(m_pTexture, _pFile);
+
+	UINT iFrameCount = 0;
+	FRead(iFrameCount, _pFile);
+	m_vecAnimFrame.clear();
+	for (UINT i = 0; i < iFrameCount; ++i) {
+		TAnimationFrame tAnimFrame = {};
+		FRead(tAnimFrame, _pFile);
+		m_vecAnimFrame.push_back(tAnimFrame);
+	}
+
+	FRead(m_iCurFrameIdx, _pFile);
+
+	return true;
 }
