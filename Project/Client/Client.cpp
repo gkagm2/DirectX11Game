@@ -6,6 +6,7 @@
 #include "Client.h"
 #include "time.h"
 #include "CTestScene.h"
+#include "CSceneSaveLoad.h"
 
 #ifdef _DEBUG
 #include "WindowsMessageMap.h"
@@ -74,6 +75,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
     
     // TestScene »ý¼º
+    CSceneSaveLoad::Init();
     CTestScene::CreateTestScene();
 
     // Main message loop:

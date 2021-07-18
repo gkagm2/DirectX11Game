@@ -14,17 +14,23 @@ protected:
 	static void TileMapTest();					// Done
 	static void ParticleSystemTest();			// Done
 	static void PrefabRegisterTest();			// Done
+	static void FileSaveLoadTest();				// Done
+	static void SceneSaveLoadTest();			// Done
+
+	static void SceneSaveLoadPrefabTest();// TODO (Jang) : 프리펩 RelativePath가 없음.
+
+	static void PlayerSaveLoad();
 
 	static void ChildObjectTest();				
 	static void AnimationSaveLoad();
-	static void PlayerSaveLoad();
+	
 	static void TextureTest();
 	
 	
 	
 	// TODO (Jang) : string 데이터를 읽게되면 제대로 안읽어짐. Scene Save, Load가 안됨. 
-	static void SceneSaveLoadTest();
-	static void FileSaveLoadTest();
+	
+	
 
 
 private:

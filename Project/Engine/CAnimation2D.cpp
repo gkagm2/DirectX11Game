@@ -189,9 +189,11 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 
 bool CAnimation2D::SaveToScene(FILE* _pFile)
 {
+	CObject::SaveToScene(_pFile);
 	SaveResourceToFile(m_pTexture, _pFile);
 
 	UINT iFrameCount = (UINT)m_vecAnimFrame.size();
+	FWrite(iFrameCount, _pFile);
 	for (UINT i = 0; i < iFrameCount; ++i)
 		FWrite(m_vecAnimFrame[i], _pFile);
 
@@ -202,6 +204,7 @@ bool CAnimation2D::SaveToScene(FILE* _pFile)
 
 bool CAnimation2D::LoadFromScene(FILE* _pFile)
 {
+	CObject::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pTexture, _pFile);
 
 	UINT iFrameCount = 0;

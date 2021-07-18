@@ -34,6 +34,7 @@
 #include "Engine\CLight2D.h"
 #include "Engine\CTileMap.h"
 #include "Engine\CParticleSystem.h"
+#include "Engine\CPrefab.h"
 
 // GameContents
 #include "Script\CGameManagerScript_sh.h"
@@ -87,7 +88,7 @@ CTestScene::~CTestScene()
 
 void CTestScene::CreateTestScene()
 {
-	PrefabRegisterTest();
+	SceneSaveLoadPrefabTest();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -366,7 +367,7 @@ void CTestScene::SceneSaveLoadTest()
 {
 	// Load test
 	// Scene Save Load Test
-	bool isSave = false; // <- true나 false를 이용해서 save, load하기
+	bool isSave = true; // <- true나 false를 이용해서 save, load하기
 
 	CScene* pNewScene = nullptr;
 	tstring strRelPath = _T("scene\\test.scene");
@@ -429,14 +430,121 @@ void CTestScene::SceneSaveLoadTest()
 		}
 	}
 
-	if (isSave) {
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+
+	if (isSave)
 		CSceneSaveLoad::SaveScene(pNewScene, strRelPath);
+
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::SceneSaveLoadPrefabTest()
+{
+	// Load test
+	// Scene Save Load Test
+	bool isSave = false; // <- true나 false를 이용해서 save, load하기
+
+	CScene* pNewScene = nullptr;
+	tstring strRelPath = _T("scene\\test.scene");
+	if (isSave) {
+		// Save scene
+		pNewScene = new CScene;
+	}
+	else {
+		// Load scene
+		pNewScene = CSceneSaveLoad::LoadScene(strRelPath);
 	}
 
+	if (isSave) {
+		// Prefab 등록
+		CGameObject* pBulletPrefab = new CGameObject;
+		pBulletPrefab->SetName(_T("Bullet"));
+		pBulletPrefab->AddComponent<CTransform>();
+		pBulletPrefab->AddComponent<CMeshRenderer>();
+		pBulletPrefab->AddComponent<CBulletScript_sh>();
+
+		pBulletPrefab->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
+
+		pBulletPrefab->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh));
+		pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+		CBulletScript_sh* pBullet = pBulletPrefab->GetComponent<CBulletScript_sh>();
+		pBullet->SetDirection(Vector3(0.f, 1.f, 0.f));
+		pBullet->SetBulletSpeed(800.f);
+		CMaterial* pMaterial = pBulletPrefab->MeshRenderer()->GetSharedMaterial()->Clone();
+		pBulletPrefab->MeshRenderer()->SetMaterial(pMaterial);
+
+		SharedPtr<CTexture> pBulletTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+		pBulletPrefab->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
+
+		pBulletPrefab->RegisterAsPrefab();
+		delete pBulletPrefab;
+
+		SharedPtr<CPrefab> pRes = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("Bullet"));
+		pRes->Save(_T("prefab\\bullet.pref"));
+	}
+	else {
+		CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("Bullet"), _T("prefab\\bullet.pref"));
+	}
+
+	if (isSave) {
+		// 카메라 오브젝트 생성
+		CGameObject* pCameraObj = new CGameObject();
+		pCameraObj->AddComponent<CTransform>();
+		pCameraObj->AddComponent<CCamera>();
+		pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+		pNewScene->AddGameObject(pCameraObj);
+
+		CGameObject* pPlayer = TestCreateObj();
+		// 플레이어 오브젝트 생성
+		{
+			pPlayer->AddComponent<CPlayerScript_sh>();
+			pPlayer->AddComponent<CAnimator2D>();
+
+			SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
+			SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
+
+			pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
+
+			TAnimation2DDesc tAnimDesc;
+			tAnimDesc.fDuration = 0.1f;
+			tAnimDesc.iFrameCount = 10;
+			tAnimDesc.pAtlas = pAnimTexture;
+			tAnimDesc.strName = _T("Player_Walk");
+			tAnimDesc.vBaseSize = Vector2{ 150.f,150.f };
+			tAnimDesc.vFrameSize = Vector2{ 60.f,65.f };
+			tAnimDesc.vLeftTop = Vector2(0.f, 4 * 65.f);
+
+			pPlayer->Animator2D()->CreateAnimation(tAnimDesc);
+
+			pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
+			CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
+			//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+
+			/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
+			pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
+			Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
+			pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+			pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+			pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
+
+			// Collider2D
+			pPlayer->AddComponent<CCollider2DRect>();
+			pPlayer->Collider2D()->SetOffsetScale(Vector2(60.f, 60.f));
+
+			pNewScene->AddGameObject(pPlayer);
+		}
+	}
 
 	// Scene 초기화
 	pNewScene->Awake();
 	pNewScene->Start();
+
+	if (isSave)
+		CSceneSaveLoad::SaveScene(pNewScene, strRelPath);
+
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

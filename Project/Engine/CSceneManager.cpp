@@ -34,7 +34,9 @@
 #include "CParticleSystem.h"
 
 CSceneManager::CSceneManager() :
-	m_pCurScene(nullptr)
+	m_pCurScene(nullptr),
+	m_pLoadScript{},
+	m_pSaveScript{}
 {
 }
 
@@ -45,7 +47,6 @@ CSceneManager::~CSceneManager()
 }
 
 void CSceneManager::Init() {
-
 }
 
 void CSceneManager::Progress()

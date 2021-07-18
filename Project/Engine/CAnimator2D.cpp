@@ -140,5 +140,7 @@ bool CAnimator2D::LoadFromScene(FILE* _pFile)
 		m_pCurAnimation = FindAnimation(strAnimName);
 	}
 
+	FRead(m_eAnimationState, _pFile);
+
 	return true;
 }

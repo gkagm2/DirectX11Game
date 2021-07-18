@@ -23,6 +23,10 @@ public:
 	UINT GetScriptType() { return m_iScriptType; }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override { return true; }
+	virtual bool LoadFromScene(FILE* _pFile) override { return true; }
+
+public:
 	virtual CScript* Clone() = 0;
 	CScript(UINT _iType);
 	virtual ~CScript() override;

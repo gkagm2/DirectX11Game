@@ -3,6 +3,17 @@
 
 #include <Engine\CPathManager.h>
 #include <Engine\CScene.h>
+#include <Engine\CSceneManager.h>
+
+#include <Engine\CScript.h>
+#include <Script\CScriptMgr.h>
+
+void CSceneSaveLoad::Init()
+{
+	CSceneManager::GetInstance()->m_pSaveScript = &CSceneSaveLoad::SaveScript;
+
+	CSceneManager::GetInstance()->m_pLoadScript = &CSceneSaveLoad::LoadScript;
+}
 
 bool CSceneSaveLoad::SaveScene(CScene* _pScene, const tstring& _strRelativePath)
 {
@@ -49,6 +60,24 @@ CScene* CSceneSaveLoad::LoadScene(const tstring& _strRelativePath)
 	}
 
 	return pScene;
+}
+
+bool CSceneSaveLoad::SaveScript(CScript* _pScript, FILE* _pFile)
+{
+	tstring strScriptName = CScriptMgr::GetScriptName(_pScript);
+	SaveStringToFile(strScriptName, _pFile);
+	_pScript->SaveToScene(_pFile);
+	return true;
+}
+
+CScript* CSceneSaveLoad::LoadScript(FILE* _pFile)
+{
+	tstring strScriptName;
+	LoadStringFromFile(strScriptName, _pFile);
+
+	CScript* pScript = CScriptMgr::GetScript(strScriptName);
+	pScript->LoadFromScene(_pFile);
+	return pScript;
 }
 
 bool CSceneSaveLoad::TestSave()

@@ -8,6 +8,7 @@ private:
 
 public:
 	CGameObject* Instantiate();
+	virtual bool Save(const tstring& _strRelativePath);
 	virtual int Load(const tstring& _strFilePath);
 
 private:

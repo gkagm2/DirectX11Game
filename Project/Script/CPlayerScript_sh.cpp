@@ -25,7 +25,7 @@ void CPlayerScript_sh::Start()
 
 	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
 	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial();
-	m_pMissilePrefab = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("Bullet"), _T("prefab\\missileprefab.pref"));
+	m_pMissilePrefab = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("Bullet"), _T("prefab\\bullet.pref"));
 }
 
 void CPlayerScript_sh::Update()
@@ -135,4 +135,16 @@ void CPlayerScript_sh::Move()
 	if (vPosition.x < -fRange + fMiddleX)
 		vPosition.x = -fRange + fMiddleX;*/
 	Transform()->SetLocalPosition(vPosition);
+}
+
+bool CPlayerScript_sh::SaveToScene(FILE* _pFile)
+{
+	SaveResourceToFile(m_pMissilePrefab, _pFile);
+	return true;
+}
+
+bool CPlayerScript_sh::LoadFromScene(FILE* _pFile)
+{
+	LoadResourceFromFile(m_pMissilePrefab, _pFile);
+	return true;
 }

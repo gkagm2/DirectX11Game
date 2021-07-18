@@ -8,6 +8,8 @@ private:
 	tstring m_strKey;			// 고유 키 값
 	tstring m_strRelativePath;  // 상대경로
 
+public:
+	virtual bool Save(const tstring& _strRelativePath) { return true; }
 private:
 	virtual int Load(const tstring& _strFilePath) = 0;
 

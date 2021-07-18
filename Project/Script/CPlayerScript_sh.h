@@ -28,6 +28,10 @@ public:
 	void SetBulletDamage(float _iDamage) { m_fBulletDamage = _iDamage; }
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CPlayerScript_sh);
 	CPlayerScript_sh();
 	virtual ~CPlayerScript_sh() override;

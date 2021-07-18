@@ -277,17 +277,11 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 
 bool CGameObject::SaveToScene(FILE* _pFile)
 {
-	if (E_Layer::End == m_eLayer) {
-		assert(!(E_Layer::End == m_eLayer));
-		return false;
-	}
 	CObject::SaveToScene(_pFile);
 
 	// 자식 오브젝트일 경우
-	if (GetParentObject()) {
-		UINT iLayer = (UINT)m_eLayer;
-		FWrite(iLayer, _pFile);
-	}
+	if (GetParentObject())
+		FWrite(m_eLayer, _pFile);
 	
 	// 컴포넌트
 	UINT iComIdx = 0;
@@ -304,9 +298,11 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 	UINT iScriptCount = (UINT)m_vecScript.size();
 	FWrite(iScriptCount, _pFile);
 
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->SaveToScene(_pFile);
-
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		// SceneManager에 등록된 함수를 사용해서 Script를 저장
+		CSceneManager::GetInstance()->m_pSaveScript(m_vecScript[i], _pFile);
+	}
+		
 	// 자식 오브젝트
 	UINT iChildCount = (UINT)m_vecChildObj.size();
 	FWrite(iChildCount, _pFile);
@@ -322,14 +318,11 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	CObject::LoadFromScene(_pFile);
 
 	// 자식 오브젝트인 경우 Layer 소속 읽기
-	if (0 != _iDepth) {
-		UINT iLayer = (UINT)E_Layer::End;
-		FRead(iLayer, _pFile);
-		m_eLayer = (E_Layer)iLayer;
-	}
+	if (0 != _iDepth)
+		FRead(m_eLayer, _pFile);
 
 	// 컴포넌트 정보
-	UINT iComIdx = -1;
+	UINT iComIdx = (UINT)E_ComponentType::End;
 	while (true) {
 		FRead(iComIdx, _pFile);
 		if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
@@ -340,18 +333,16 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		AddComponent(pComponent);
 	}
 
-
-	// TOOD (Jang) : 어떻게 가져와야될까..
 	// 스크립트 정보
 	UINT iScriptCount = (UINT)m_vecScript.size();
 	FRead(iScriptCount, _pFile);
 	m_vecScript.clear();
 	m_vecScript.resize(iScriptCount);
 	for (UINT i = 0; i < iScriptCount; ++i) {
-		m_vecScript[i]->LoadFromScene(_pFile);
-		// ... 스크립트 추가.
+		CScript* pScript = CSceneManager::GetInstance()->m_pLoadScript(_pFile);
+		AddComponent(pScript);
 	}
-
+		
 	// 자식 정보
 	++_iDepth;
 
