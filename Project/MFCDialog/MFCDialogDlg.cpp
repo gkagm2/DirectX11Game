@@ -31,6 +31,7 @@ public:
 // 구현입니다.
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -43,6 +44,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	
 END_MESSAGE_MAP()
 
 
@@ -51,22 +53,28 @@ END_MESSAGE_MAP()
 
 
 CMFCDialogDlg::CMFCDialogDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_MFCDIALOG_DIALOG, pParent)
+	: CDialogEx(IDD_MFCDIALOG_DIALOG, pParent),
+	m_iStackNum(0),
+	m_iOper(0)
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
 
 void CMFCDialogDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT1, m_Edit);
 }
 
 BEGIN_MESSAGE_MAP(CMFCDialogDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_BTN_0, IDC_BTN_9, &CMFCDialogDlg::OnNumBnClickedBtn)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_BUTTON_PLUS, IDC_BUTTON_DIV, &CMFCDialogDlg::OnOperateBnClickedButton)
+	ON_BN_CLICKED(IDC_BUTTON_RESULT, &CMFCDialogDlg::OnBnClickedButtonResult)
+	ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CMFCDialogDlg::OnBnClickedButtonClear)
 END_MESSAGE_MAP()
-
 
 // CMFCDialogDlg 메시지 처리기
 
@@ -100,6 +108,7 @@ BOOL CMFCDialogDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	SetWindowText(_T("계 산 기"));
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -153,3 +162,68 @@ HCURSOR CMFCDialogDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+// 버튼을 누를 경우
+void CMFCDialogDlg::OnNumBnClickedBtn(UINT _iNum)
+{
+	int iNum = (int)_iNum % 1000;
+
+	// int to string
+	CString strNum;
+	strNum.Format(_T("%d"), iNum);
+	m_strNumber += strNum;
+	m_Edit.SetWindowTextW(m_strNumber);
+}
+
+
+// 연산버튼을 누를 경우
+void CMFCDialogDlg::OnOperateBnClickedButton(UINT _iOper)
+{
+	if (m_iStackNum == 0) {
+		m_iStackNum = _ttoi(m_strNumber);
+		m_strNumber = _T("");
+	}
+	m_iOper = _iOper;
+
+	if (_T("") != m_strNumber) {
+		m_iStackNum = Calculate(m_iStackNum, _ttoi(m_strNumber), m_iOper);
+		m_strNumber = _T("");
+	}
+}
+
+
+void CMFCDialogDlg::OnBnClickedButtonResult()
+{
+	m_iStackNum = Calculate(m_iStackNum, _ttoi(m_strNumber), m_iOper);
+	m_strNumber.Format(_T("%d"), m_iStackNum);
+	m_Edit.SetWindowTextW(m_strNumber);
+	m_strNumber = _T("");
+}
+
+void CMFCDialogDlg::OnBnClickedButtonClear()
+{
+	m_iStackNum = 0;
+	m_strNumber = _T("");
+	m_iOper = 0;
+	m_Edit.SetWindowTextW(_T(""));
+}
+
+int CMFCDialogDlg::Calculate(int _iFirst, int _iSecond, UINT _iOper)
+{
+	int iResult = 0;
+	switch (_iOper) {
+	case IDC_BUTTON_PLUS:
+		iResult = _iFirst + _iSecond;
+		break;
+	case IDC_BUTTON_MINUS:
+		iResult = _iFirst - _iSecond;
+		break;
+	case IDC_BUTTON_MUL:
+		iResult = _iFirst * _iSecond;
+		break;
+	case IDC_BUTTON_DIV:
+		iResult = _iFirst / _iSecond;
+		break;
+	}
+	return iResult;
+}

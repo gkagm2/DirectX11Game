@@ -207,6 +207,9 @@
     <None Include="res\MFCDialog.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\icon2.ico" />
+    <Image Include="res\jang.ico" />
     <Image Include="res\MFCDialog.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
