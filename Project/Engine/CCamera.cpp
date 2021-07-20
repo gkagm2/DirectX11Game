@@ -57,16 +57,16 @@ void CCamera::Update()
 {
 	Vector3 vPos = Transform()->GetLocalPosition();
 	if (InputKeyHold(E_Key::UP)) {
-		vPos.y += DeltaTime * 150.f;
+		vPos.y += DT * 150.f;
 	}
 	if (InputKeyHold(E_Key::DOWN)) {
-		vPos.y -= DeltaTime * 150.f;
+		vPos.y -= DT * 150.f;
 	}
 	if (InputKeyHold(E_Key::LEFT)) {
-		vPos.x -= DeltaTime * 150.f;
+		vPos.x -= DT * 150.f;
 	}
 	if (InputKeyHold(E_Key::RIGHT)) {
-		vPos.x += DeltaTime * 150.f;
+		vPos.x += DT * 150.f;
 	}
 	Transform()->SetLocalPosition(vPos);
 }

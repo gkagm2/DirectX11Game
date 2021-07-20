@@ -14,6 +14,6 @@ CRotateZScript::~CRotateZScript()
 void CRotateZScript::Update()
 {
 	Vector3 vCurRotate = Transform()->GetLocalRotation();
-	vCurRotate.z += DeltaTime * m_fSpeed;
+	vCurRotate.z += DT * m_fSpeed;
 	Transform()->SetLocalRotation(vCurRotate);
 }

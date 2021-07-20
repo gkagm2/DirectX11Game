@@ -17,7 +17,7 @@ void CTestLight2DScript::Start()
 
 void CTestLight2DScript::Update()
 {
-	m_fAngle += DeltaTime * 3.f;
+	m_fAngle += DT * 3.f;
 	CLight2D* pLight2D = Light2D();
 	Light2D()->SetLightDir(Vector3(cosf(m_fAngle), sinf(m_fAngle), 0.f));
 }

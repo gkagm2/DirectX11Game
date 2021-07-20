@@ -26,7 +26,7 @@ void CAnimation2D::LateUpdate()
 	if (m_bFinish)
 		return;
 
-	m_fAccTime += DeltaTime;
+	m_fAccTime += DT;
 	while (m_fAccTime > m_vecAnimFrame[m_iCurFrameIdx].fDuration) {
 		// 누적시간이 현재 프레임 유지시간을 초과한 양을 구함
 		m_fAccTime = m_fAccTime - m_vecAnimFrame[m_iCurFrameIdx].fDuration;

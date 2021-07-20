@@ -32,7 +32,7 @@ void CEnemyRespawnerScript_sh::Update()
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;
 
-	m_fRespawnCoolTime += DeltaTime;
+	m_fRespawnCoolTime += DT;
 	if (m_fRespawnCoolTime > m_fRespawnMaxCoolTime) {
 		CreateEnemy();
 		m_fRespawnCoolTime = 0.f;

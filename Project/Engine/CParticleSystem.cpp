@@ -141,7 +141,7 @@ UINT CParticleSystem::_CalculateSpawnCount()
 	UINT iSpawnCount = 0;
 	float OneParticleCreateTime = 1.f / (float)m_iSpawnCntPerSec; // 한개 생성하는데 걸리는 시간
 
-	m_fAccTime += DeltaTime;
+	m_fAccTime += DT;
 
 	// 누적시간이 넘어섰으면
 	if (OneParticleCreateTime < m_fAccTime) {

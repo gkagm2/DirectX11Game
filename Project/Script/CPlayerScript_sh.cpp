@@ -124,10 +124,10 @@ void CPlayerScript_sh::Move()
 	
 	float z = Transform()->GetLocalRotation().z;
 	if (InputKeyHold(E_Key::Ctrl))
-		Transform()->SetLocalRotation(Vector3(0.f, 0.f,  z + 15 * DeltaTime));
+		Transform()->SetLocalRotation(Vector3(0.f, 0.f,  z + 15 * DT));
 
 	vDir.Normalize();
-	vPosition = vPosition + vDir * m_fMoveSpeed * DeltaTime;
+	vPosition = vPosition + vDir * m_fMoveSpeed * DT;
 	float fMiddleX = 0.f;
 	float fRange = (float)(CCore::GetInstance()->GetWindowResolution().x * 0.5f - Transform()->GetLocalScale().x);
 	/*if (vPosition.x > fRange + fMiddleX)

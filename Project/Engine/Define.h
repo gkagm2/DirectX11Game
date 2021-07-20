@@ -5,8 +5,8 @@
 						virtual ~type();\
 						friend class CSingleton<type>;
 
-#define DeltaTime CTimeManager::GetInstance()->GetDeltaTime()
-
+// 20210720 ImGui에 DeltaTime이 존해함. DeltaTime -> DT로 변환
+#define DT CTimeManager::GetInstance()->GetDeltaTime()
 #define InputKeyHold(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::HOLD)
 #define InputKeyPress(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::PRESS)
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)

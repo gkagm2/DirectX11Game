@@ -52,7 +52,7 @@ void CEnemyScript_sh::Update()
 void CEnemyScript_sh::Move()
 {
 	Vector3 vMovePos = Transform()->GetLocalPosition();
-	vMovePos.y -= m_fMoveSpeed * DeltaTime;
+	vMovePos.y -= m_fMoveSpeed * DT;
 	Transform()->SetLocalPosition(vMovePos);
 }
 

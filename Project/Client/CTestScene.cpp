@@ -88,7 +88,7 @@ CTestScene::~CTestScene()
 
 void CTestScene::CreateTestScene()
 {
-	SceneSaveLoadPrefabTest();
+	Camera();
 	return;
 	// TODO (Jang) : Test code
 	// ¾À »ý¼º

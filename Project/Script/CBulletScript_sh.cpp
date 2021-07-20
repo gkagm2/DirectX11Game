@@ -27,12 +27,12 @@ void CBulletScript_sh::Update()
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;*/
 
-	m_fDeleteCoolTime += DeltaTime;
+	m_fDeleteCoolTime += DT;
 	if (m_fDeleteCoolTime > m_fDeleteMaxTime)
 		DestroyGameObjectEvn(GetGameObject());
 
 	// Move
 	m_vDir.Normalize();
 	Vector3 vPos = Transform()->GetLocalPosition();
-	Transform()->SetLocalPosition(vPos + m_vDir * m_fSpeed * DeltaTime);
+	Transform()->SetLocalPosition(vPos + m_vDir * m_fSpeed * DT);
 }

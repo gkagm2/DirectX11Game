@@ -8,6 +8,10 @@
 #include "CTestScene.h"
 #include "CSceneSaveLoad.h"
 
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx11.h"
+#include "CImGuiManager.h"
+
 #ifdef _DEBUG
 #include "WindowsMessageMap.h"
 #endif
@@ -76,6 +80,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     // TestScene »ý¼º
     CSceneSaveLoad::Init();
+    CImGuiManager::GetInstance()->Init();
     CTestScene::CreateTestScene();
 
     // Main message loop:
@@ -94,6 +99,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             CCore::GetInstance()->Progress();
         }
     }
+
+    // Cleanup
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+    DestroyWindow(g_hWnd);
 
     return (int) msg.wParam;
 }
@@ -164,8 +175,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - post a quit message and return
 //
 //
+
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
+
     /* Windows Message Log
 #ifdef _DEBUG
     static WindowsMessageMap mm;
@@ -203,8 +221,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
-    default:
+    case WM_DPICHANGED:
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
+        {
+            //const int dpi = HIWORD(wParam);
+            //printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
+            const RECT* suggested_rect = (RECT*)lParam;
+            ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
+        }
         return DefWindowProc(hWnd, message, wParam, lParam);
+    default:
+        break;
     }
     return 0;
 }
