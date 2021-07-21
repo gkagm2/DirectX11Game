@@ -50,10 +50,13 @@
     <ClInclude Include="CSceneSaveLoad.h">
       <Filter>Client\Manager\SaveLoad</Filter>
     </ClInclude>
-    <ClInclude Include="imconfig.h">
+    <ClInclude Include="CImGuiManager.h">
+      <Filter>Client\Manager\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="imgui.h">
+    <ClInclude Include="imgui_impl_win32.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="imgui_internal.h">
@@ -68,14 +71,11 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="imgui_impl_dx11.h">
+    <ClInclude Include="imconfig.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="imgui_impl_win32.h">
+    <ClInclude Include="imgui.h">
       <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="CImGuiManager.h">
-      <Filter>Client\Manager\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,19 +92,13 @@
     <ClCompile Include="CSceneSaveLoad.cpp">
       <Filter>Client\Manager\SaveLoad</Filter>
     </ClCompile>
-    <ClCompile Include="imgui.cpp">
-      <Filter>ImGUI</Filter>
+    <ClCompile Include="CImGuiManager.cpp">
+      <Filter>Client\Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_tables.cpp">
-      <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_dx11.cpp">
@@ -113,8 +107,14 @@
     <ClCompile Include="imgui_impl_win32.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="CImGuiManager.cpp">
-      <Filter>Client\Manager\ImGui</Filter>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>ImGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

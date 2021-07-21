@@ -1,4 +1,4 @@
-// Client.cpp : Defines the entry point for the application.
+// Client.cpp : Defines the entry point fo r the application.
 //
 #include "pch.h"
 
@@ -8,15 +8,17 @@
 #include "CTestScene.h"
 #include "CSceneSaveLoad.h"
 
-#include "imgui_impl_win32.h"
-#include "imgui_impl_dx11.h"
-#include "CImGuiManager.h"
+//#include "imgui_impl_win32.h"
+//#include "imgui_impl_dx11.h"
+//#include "CImGuiManager.h"
 
 #ifdef _DEBUG
 #include "WindowsMessageMap.h"
 #endif
 
-#include <Engine/CCore.h>
+#include <Engine\CCore.h>
+#include <Engine\CDevice.h>
+
 #ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_debug")
 #pragma comment(lib, "Script/Script_debug")
@@ -80,7 +82,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     // TestScene 생성
     CSceneSaveLoad::Init();
-    CImGuiManager::GetInstance()->Init();
+    //CImGuiManager::GetInstance()->Init();
     CTestScene::CreateTestScene();
 
     // Main message loop:
@@ -96,15 +98,32 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
         else {
+            // Game Run
             CCore::GetInstance()->Progress();
+
+            //// Start the Dear ImGui frame
+            //ImGui_ImplDX11_NewFrame();
+            //ImGui_ImplWin32_NewFrame();
+            //ImGui::NewFrame();
+
+            //// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+            //bool show_demo_window = true;
+            //if (show_demo_window)
+            //    ImGui::ShowDemoWindow(&show_demo_window);
+
+            //// ImGUI Run
+            //CImGuiManager::GetInstance()->Progress();
+
+            // 백버퍼 교체
+            CDevice::GetInstance()->Present();
         }
     }
 
-    // Cleanup
-    ImGui_ImplDX11_Shutdown();
-    ImGui_ImplWin32_Shutdown();
-    ImGui::DestroyContext();
-    DestroyWindow(g_hWnd);
+    //// Cleanup
+    //ImGui_ImplDX11_Shutdown();
+    //ImGui_ImplWin32_Shutdown();
+    //ImGui::DestroyContext();
+    //DestroyWindow(g_hWnd);
 
     return (int) msg.wParam;
 }
@@ -177,12 +196,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 
 // Forward declare message handler from imgui_impl_win32.cpp
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+//extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-        return true;
+    /*if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;*/
 
     /* Windows Message Log
 #ifdef _DEBUG
@@ -221,17 +240,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
-    case WM_DPICHANGED:
-        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
-        {
-            //const int dpi = HIWORD(wParam);
-            //printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
-            const RECT* suggested_rect = (RECT*)lParam;
-            ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
-        }
-        return DefWindowProc(hWnd, message, wParam, lParam);
+    //case WM_DPICHANGED:
+        //if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
+        //{
+        //    //const int dpi = HIWORD(wParam);
+        //    //printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
+        //    const RECT* suggested_rect = (RECT*)lParam;
+        //    ::SetWindowPos(hWnd, NULL, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
+        //}
+        //return DefWindowProc(hWnd, message, wParam, lParam);
     default:
-        break;
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
 }

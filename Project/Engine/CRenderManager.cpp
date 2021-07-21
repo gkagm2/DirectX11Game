@@ -35,9 +35,6 @@ void CRenderManager::Render()
 	for (UINT i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->Render();
 
-	// 3. 백버퍼 교체
-	CDevice::GetInstance()->Present();
-
 	m_vecCam.clear();
 	m_vecLight2D.clear();
 	m_vecTileMap.clear();

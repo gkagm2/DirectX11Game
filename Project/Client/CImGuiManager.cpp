@@ -50,3 +50,20 @@ void CImGuiManager::Init()
     ImGui_ImplWin32_Init(CCore::GetInstance()->GetWndHandle());
     ImGui_ImplDX11_Init(DEVICE.Get(), CONTEXT.Get());
 }
+
+void CImGuiManager::Progress()
+{
+
+}
+
+void CImGuiManager::Update()
+{
+}
+
+void CImGuiManager::Render()
+{
+}
+
+void CImGuiManager::CreateGUI()
+{
+}

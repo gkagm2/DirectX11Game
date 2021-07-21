@@ -88,7 +88,7 @@ CTestScene::~CTestScene()
 
 void CTestScene::CreateTestScene()
 {
-	Camera();
+	MouseMovementTest();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -437,6 +437,29 @@ void CTestScene::SceneSaveLoadTest()
 	if (isSave)
 		CSceneSaveLoad::SaveScene(pNewScene, strRelPath);
 
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::MouseMovementTest()
+{
+	// 씬 생성
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pNewScene->AddGameObject(pCameraObj);
+
+	// f
+
+
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
