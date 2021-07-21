@@ -7,8 +7,6 @@ enum class E_Key {
 	UP,
 	DOWN,
 	SPACE,
-	WheelUp,
-	WheelDown,
 	Q,
 	W,
 	E,

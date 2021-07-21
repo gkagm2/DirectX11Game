@@ -453,9 +453,6 @@ void CTestScene::MouseMovementTest()
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 	pNewScene->AddGameObject(pCameraObj);
 
-	// f
-
-
 
 	// Scene ÃÊ±âÈ­
 	pNewScene->Awake();

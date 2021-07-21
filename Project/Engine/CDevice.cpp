@@ -353,6 +353,12 @@ void CDevice::CreateDepthStencilState()
 
 void CDevice::ClearTarget()
 {
+	// ImGui에 의해 추가된 윈도우 쪽으로 렌더타겟이 바뀌게 되므로 출력 타겟을 다시 설정
+	// 출력 타겟 및 깊이버퍼 설정
+	//////////////////////////
+	m_pContext->OMSetRenderTargets(1, m_pRTTex->GetRTV().GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
+
+
 	float fArrColor[4] = { 0.2f, 0.3f, 0.2f, 1.f}; // 색상
 	m_pContext->ClearRenderTargetView(m_pRTTex->GetRTV().Get(), fArrColor);
 

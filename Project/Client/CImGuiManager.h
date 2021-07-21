@@ -1,11 +1,12 @@
 #pragma once
+class GUI;
 class CImGuiManager : public CSingleton<CImGuiManager>
 {
 	SINGLETON(CImGuiManager)
 
 private:
-	//map<tstring, CimGui*> m_mapGUI;
-
+	 map<string, GUI*> m_mapGUI;
+	bool m_bDemoGUIOpen;
 
 public:
 	void Init();
@@ -15,4 +16,8 @@ private:
 	void Update();
 	void Render();
 	void CreateGUI();
+
+private:
+	void ImGuiTestCode();
+	void PrintTextTest();
 };

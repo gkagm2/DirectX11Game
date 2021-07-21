@@ -3,17 +3,25 @@
 
 #include <Engine\CCore.h>
 #include <Engine\CDevice.h>
+#include <Engine\CKeyManager.h>
 
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-CImGuiManager::CImGuiManager()
+#include "GUI.h"
+
+// Test code
+#include "TransformGUI.h"
+
+CImGuiManager::CImGuiManager() :
+    m_bDemoGUIOpen(false)
 {
 }
 
 CImGuiManager::~CImGuiManager()
 {
+    Safe_Delete_Map(m_mapGUI);
 }
 
 void CImGuiManager::Init()
@@ -34,6 +42,11 @@ void CImGuiManager::Init()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: Experimental. THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
+#pragma region 한글 폰트를 이용하여 인게임에서 입력하기 위한 방법.
+            // io.Fonts->AddFontFromFileTTF(/*폰트 경로*/, /*폰트 크기*/, nullptr, io.Fonts->GetGlyphRangesKorean());  
+#pragma endregion
+
+
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
@@ -49,21 +62,71 @@ void CImGuiManager::Init()
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(CCore::GetInstance()->GetWndHandle());
     ImGui_ImplDX11_Init(DEVICE.Get(), CONTEXT.Get());
+
+    CreateGUI();
 }
 
 void CImGuiManager::Progress()
 {
-
+    Update();
+    Render();
 }
 
 void CImGuiManager::Update()
 {
+    if (InputKeyPress(E_Key::F1))
+        m_bDemoGUIOpen = !m_bDemoGUIOpen;
+
+    // Start the Dear ImGui frame
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+
+    ImGuiTestCode();
+
+    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+    if (m_bDemoGUIOpen)
+        ImGui::ShowDemoWindow(&m_bDemoGUIOpen);
+
+    // GUI Update
+    for (const auto& pair : m_mapGUI)
+        pair.second->Update();
 }
 
 void CImGuiManager::Render()
 {
+    // Rendering
+
+    // 엔진 내부 버퍼에 그려지는 윈도우즈 UI들 
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+    // UI가 윈도우 영역 밖으로 나갈 시 별도로 추가된 윈도우즈 창을 업데이트하고 렌더링한다.
+    // Update and Render additional Platform Windows
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+    }
 }
 
 void CImGuiManager::CreateGUI()
 {
+    GUI* pGUI = new TransformGUI;
+    pGUI->SetName("Test Window");
+    m_mapGUI.insert(std::make_pair(pGUI->GetName(), pGUI));
+}
+
+void CImGuiManager::ImGuiTestCode()
+{
+    PrintTextTest();
+}
+
+void CImGuiManager::PrintTextTest()
+{
+    ImGui::Begin("Another Windows");
+    ImGui::Text("THis");
+    ImGui::End();
 }

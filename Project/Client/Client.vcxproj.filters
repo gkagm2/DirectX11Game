@@ -26,6 +26,15 @@
     <Filter Include="Client\Manager\ImGui">
       <UniqueIdentifier>{f56bb79a-3037-4b9c-905f-13fd45bf757b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{ac6b3301-df2f-4b9f-bfdb-9534c36e72da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\ComponentGUI">
+      <UniqueIdentifier>{1c92634c-f58e-4539-9847-146aa9c7e950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\ComponentGUI\TransformGUI">
+      <UniqueIdentifier>{1e712e9c-0f9d-43c8-a4a5-22ea74d56293}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -77,6 +86,15 @@
     <ClInclude Include="imgui.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentGUI.h">
+      <Filter>GUI\ComponentGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformGUI.h">
+      <Filter>GUI\ComponentGUI\TransformGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -115,6 +133,15 @@
     </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentGUI.cpp">
+      <Filter>GUI\ComponentGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformGUI.cpp">
+      <Filter>GUI\ComponentGUI\TransformGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

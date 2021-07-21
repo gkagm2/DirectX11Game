@@ -101,29 +101,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             // Game Run
             CCore::GetInstance()->Progress();
 
-            // Start the Dear ImGui frame
-            ImGui_ImplDX11_NewFrame();
-            ImGui_ImplWin32_NewFrame();
-            ImGui::NewFrame();
-
-            // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-            bool show_demo_window = true;
-            if (show_demo_window)
-                ImGui::ShowDemoWindow(&show_demo_window);
-
-            // Rendering
-            ImGui::Render();
-            ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-            ImGuiIO& io = ImGui::GetIO();
-            // Update and Render additional Platform Windows
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-
-            {
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-            }
-
             // ImGUI Run
             CImGuiManager::GetInstance()->Progress();
 

@@ -13,6 +13,17 @@ void Safe_Delete_UnorderedMap(unordered_map<T1, T2>& _umap) {
 	_umap.clear();
 }
 
+template<typename T1, typename T2>
+void Safe_Delete_Map(map<T1, T2>& _map) {
+	auto iter = _map.begin();
+	for (; iter != _map.end(); ++iter) {
+		if (nullptr != iter->second) {
+			delete iter->second;
+		}
+	}
+	_map.clear();
+}
+
 template<typename T, UINT iSize>
 void Safe_Delete_Array(T* (&_arr)[iSize]) {
 	for (UINT i = 0; i < iSize; ++i) {
