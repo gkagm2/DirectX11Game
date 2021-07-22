@@ -76,3 +76,8 @@ void CSceneManager::ChangeScene(CScene* _pNextScene)
 		delete m_pCurScene;
 	m_pCurScene = _pNextScene;
 }
+
+CGameObject* CSceneManager::FindGameObject(const tstring& _strName, E_Layer _eLayer)
+{
+	return GetCurScene()->FindGameObject(_strName, _eLayer);
+}

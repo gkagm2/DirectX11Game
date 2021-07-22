@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "TransformGUI.h"
 
-TransformGUI::TransformGUI()
+#include <Engine\CTransform.h>
+
+TransformGUI::TransformGUI() :
+	ComponentGUI(E_ComponentType::Transform)
 {
-	SetName("Transform"); 
 }
 
 TransformGUI::~TransformGUI()
@@ -12,14 +14,17 @@ TransformGUI::~TransformGUI()
 
 void TransformGUI::Update()
 {
-	ComponentGUI::Update();
-	if (nullptr == GetTargetGameObject())
+	if (false == Start())
 		return;
 
-	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
+	CTransform* pTransform = GetTargetObject()->Transform();
 
-	static float vec4[4] = { 0.1f, 0.2f, 0.3f, 0.4f };
-	ImGui::InputFloat3(u8"Postion", vec4);
+	Vector3 vTrans = pTransform->GetLocalPosition();
+	Vector3 vScale = pTransform->GetLocalScale();
+	Vector3 vRotation = pTransform->GetLocalRotation();
+	vRotation = vRotation * CMyMath::Deg2Rad();
+	pTransform->SetLocalRotation(vRotation);
 
-	ImGui::End();
+
+	End();
 }

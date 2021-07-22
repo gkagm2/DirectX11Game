@@ -82,8 +82,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     // TestScene »ý¼º
     CSceneSaveLoad::Init();
-    CImGuiManager::GetInstance()->Init();
     CTestScene::CreateTestScene();
+    CImGuiManager::GetInstance()->Init();
 
     // Main message loop:
     while (true)

@@ -2,6 +2,7 @@
 
 class CScene;
 class CScript;
+class CGameObject;
 
 typedef CScript* (*pLoadScript)(FILE*);
 typedef bool(*pSaveScript)(CScript*, FILE*);
@@ -30,6 +31,8 @@ public:
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
 	void ChangeScene(CScene* _pNextScene);
+
+	CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
 
 	friend class CScene;
 };

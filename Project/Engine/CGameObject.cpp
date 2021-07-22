@@ -275,6 +275,11 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 	return _pComponent;
 }
 
+CComponent* CGameObject::GetComponent(E_ComponentType _eType)
+{
+	return m_arrComponent[(UINT)_eType];
+}
+
 bool CGameObject::SaveToScene(FILE* _pFile)
 {
 	CObject::SaveToScene(_pFile);

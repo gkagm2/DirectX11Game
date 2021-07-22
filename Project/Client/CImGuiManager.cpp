@@ -4,6 +4,8 @@
 #include <Engine\CCore.h>
 #include <Engine\CDevice.h>
 #include <Engine\CKeyManager.h>
+#include <Engine\CSceneManager.h>
+#include <Engine\CGameObject.h>
 
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
@@ -11,11 +13,11 @@
 
 #include "GUI.h"
 
-// Test code
-#include "TransformGUI.h"
+
 
 CImGuiManager::CImGuiManager() :
-    m_bDemoGUIOpen(false)
+    m_bDemoGUIOpen(false),
+    m_iTestCodeType(1)
 {
 }
 
@@ -63,6 +65,7 @@ void CImGuiManager::Init()
     ImGui_ImplWin32_Init(CCore::GetInstance()->GetWndHandle());
     ImGui_ImplDX11_Init(DEVICE.Get(), CONTEXT.Get());
 
+    ImGuiInitTestCode();
     CreateGUI();
 }
 
@@ -83,7 +86,7 @@ void CImGuiManager::Update()
     ImGui::NewFrame();
 
 
-    ImGuiTestCode();
+    ImGuiUpdateTestCode();
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
     if (m_bDemoGUIOpen)
@@ -114,19 +117,60 @@ void CImGuiManager::Render()
 
 void CImGuiManager::CreateGUI()
 {
-    GUI* pGUI = new TransformGUI;
-    pGUI->SetName("Test Window");
-    m_mapGUI.insert(std::make_pair(pGUI->GetName(), pGUI));
+    
 }
 
-void CImGuiManager::ImGuiTestCode()
+// Test code
+#include "TransformGUI.h"
+#include "MeshRendererGUI.h"
+void CImGuiManager::ImGuiInitTestCode()
 {
-    PrintTextTest();
+    if (0 == m_iTestCodeType) {
+        // Text Print test
+    }
+    else if (1 == m_iTestCodeType) {
+        Init_ShowGameObjectComponent();
+    }
 }
 
-void CImGuiManager::PrintTextTest()
+void CImGuiManager::ImGuiUpdateTestCode()
+{
+    if (0 == m_iTestCodeType) {
+        // Text Print test
+        Update_PrintTextTest();
+    }
+    else if (1 == m_iTestCodeType) {
+        Update_ShowGameObjectComponent();
+    }
+}
+
+void CImGuiManager::Update_PrintTextTest()
 {
     ImGui::Begin("Another Windows");
-    ImGui::Text("THis");
+    ImGui::Text("This");
     ImGui::End();
+}
+
+void CImGuiManager::Init_ShowGameObjectComponent()
+{
+    CGameObject* pGameObject = CSceneManager::GetInstance()->FindGameObject(_T("Player"));
+    assert(pGameObject); // TestScene에서 Player란 이름을 가진 오브젝트를 하나 만들자
+
+    // Transform GUI
+    TransformGUI* pTransformGUI = new TransformGUI;
+    pTransformGUI->SetName("Test Window");
+    m_mapGUI.insert(std::make_pair(pTransformGUI->GetName(), pTransformGUI));
+    pTransformGUI->SetTargetGameObject(pGameObject);
+    
+
+    // MeshRenderer GUI
+    MeshRendererGUI* pMeshRendererGUI = new MeshRendererGUI;
+    pMeshRendererGUI->SetName("Mehs");
+    m_mapGUI.insert(std::make_pair(pMeshRendererGUI->GetName(), pMeshRendererGUI));
+    pMeshRendererGUI->SetTargetGameObject (pGameObject);
+}
+
+void CImGuiManager::Update_ShowGameObjectComponent()
+{
+
 }

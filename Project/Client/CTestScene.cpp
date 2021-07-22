@@ -88,7 +88,7 @@ CTestScene::~CTestScene()
 
 void CTestScene::CreateTestScene()
 {
-	MouseMovementTest();
+	ImGuiTest();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -452,6 +452,53 @@ void CTestScene::MouseMovementTest()
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 	pNewScene->AddGameObject(pCameraObj);
+
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::ImGuiTest()
+{
+	// 씬 생성
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pNewScene->AddGameObject(pCameraObj);
+
+
+	// 플레이어란 이름을 가진 오브젝트 생성
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	CGameObject* pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
+
+	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMesh(pMesh);
+
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+
+	// Texture 사이즈로 크기로 설정
+	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
+
+	// 임의로 크기 설정
+	pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	pObj->SetName(_T("Player"));
+	pNewScene->AddGameObject(pObj);
 
 
 	// Scene 초기화

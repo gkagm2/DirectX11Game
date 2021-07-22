@@ -87,3 +87,14 @@ void LoadResourceFromFile(SharedPtr<T> _pRes, FILE* _pFile) {
 	else
 		_pRes = nullptr;
 }
+
+// 멀티바이트 -> 유니코드
+inline void StringToWString(const string& _in, wstring& _out) {
+	_out.assign(_in.begin(), _in.end());
+}
+
+// 유니코드 -> 멀티바이트
+inline void WStringToString(const wstring& _in, string& _out) {
+	_out.assign(_in.begin(), _in.end());
+}
+

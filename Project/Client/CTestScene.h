@@ -17,6 +17,7 @@ protected:
 	static void FileSaveLoadTest();				// Done
 	static void SceneSaveLoadTest();			// Done
 	static void MouseMovementTest();
+	static void ImGuiTest();
 
 	static void SceneSaveLoadPrefabTest();// TODO (Jang) : 프리펩 RelativePath가 없음.
 

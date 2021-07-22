@@ -18,6 +18,16 @@ private:
 	void CreateGUI();
 
 private:
-	void ImGuiTestCode();
-	void PrintTextTest();
+	// Test Codes
+	int m_iTestCodeType;
+	void ImGuiInitTestCode();
+	void ImGuiUpdateTestCode();
+
+
+	void Update_PrintTextTest();
+
+	// testCode 1. Show GameObject Component's GUI
+	void Init_ShowGameObjectComponent();
+	void Update_ShowGameObjectComponent();
+
 };

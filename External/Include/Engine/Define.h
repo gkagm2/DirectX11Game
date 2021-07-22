@@ -60,6 +60,11 @@
 
 #pragma endregion
 
+
+
+
+
+
 // GPU RegisterNumber
 #define REGISTER_NUM_Light2DBuffer 51
 #define REGISTER_NUM_TileMapBuffer 52
@@ -88,17 +93,17 @@ enum class E_ConstBuffer {
 };
 
 enum class E_ShaderStage {
-	Vertex		= 0x01, // 1
-	Hull		= 0x02, // 2
-	Domain		= 0x04, // 4
-	Geometry	= 0x08, // 8
-	Pixel		= 0x10, // 16
+	Vertex = 0x01, // 1
+	Hull = 0x02, // 2
+	Domain = 0x04, // 4
+	Geometry = 0x08, // 8
+	Pixel = 0x10, // 16
 
-	Compute		= 0x20, // 32
+	Compute = 0x20, // 32
 
-	NonePixel	= Vertex | Hull | Domain | Geometry,
+	NonePixel = Vertex | Hull | Domain | Geometry,
 	VertexPixel = Vertex | Pixel,
-	Graphics	= Vertex | Hull | Domain | Geometry | Pixel,
+	Graphics = Vertex | Hull | Domain | Geometry | Pixel,
 	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
@@ -127,6 +132,7 @@ enum class E_ComponentType {
 
 	Script,
 };
+// Function.cpp에 ComponentTypeToStr 함수에도 추가해주기
 
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
@@ -164,7 +170,7 @@ enum class E_RasterizerState {
 	CullBack,
 	CullFront,
 	CullNone,  //앞면 뒷면 다 컬링 안한다.
-	Wireframe, 
+	Wireframe,
 	End,
 };
 

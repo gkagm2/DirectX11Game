@@ -35,6 +35,9 @@
     <Filter Include="GUI\ComponentGUI\TransformGUI">
       <UniqueIdentifier>{1e712e9c-0f9d-43c8-a4a5-22ea74d56293}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\ComponentGUI\MeshRendererGUI">
+      <UniqueIdentifier>{83118172-75a5-4411-be87-933f27c5f73f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="TransformGUI.h">
       <Filter>GUI\ComponentGUI\TransformGUI</Filter>
     </ClInclude>
+    <ClInclude Include="MeshRendererGUI.h">
+      <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="TransformGUI.cpp">
       <Filter>GUI\ComponentGUI\TransformGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRendererGUI.cpp">
+      <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

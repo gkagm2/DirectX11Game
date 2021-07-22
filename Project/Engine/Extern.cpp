@@ -36,3 +36,59 @@ D3D11_INPUT_ELEMENT_DESC g_arrLayoutDesc[LAYOUT_DESCRIPTION_COUNT] = {
 TTransform g_transform = {};
 TGlobalConst g_globalConst = {};
 
+
+tstring ComponentTypeToStr(E_ComponentType _eType)
+{
+	tstring strComponentType = _T("ComponentDefaultType");
+	switch (_eType) {
+	case E_ComponentType::Transform:
+		strComponentType = _T("Transform");
+		break;
+	case E_ComponentType::BoundingBox:
+		strComponentType = _T("Transform");
+		break;
+	case E_ComponentType::Collider2D:
+		strComponentType = _T("Collider2D");
+		break;
+	case E_ComponentType::Collider3D:
+		strComponentType = _T("Collider3D");
+		break;
+	case E_ComponentType::Rigidbody2D:
+		strComponentType = _T("Rigidbody2D");
+		break;
+	case E_ComponentType::Rigidbody3D:
+		strComponentType = _T("Rigidbody3D");
+		break;
+	case E_ComponentType::Animator2D:
+		strComponentType = _T("Animator2D");
+		break;
+	case E_ComponentType::Animator3D:
+		strComponentType = _T("Animator3D");
+		break;
+	case E_ComponentType::Light2D:
+		strComponentType = _T("Light2D");
+		break;
+	case E_ComponentType::Light3D:
+		strComponentType = _T("Light3D");
+		break;
+	case E_ComponentType::Camera:
+		strComponentType = _T("Camera");
+		break;
+	case E_ComponentType::MeshRenderer:
+		strComponentType = _T("MeshRenderer");
+		break;
+	case E_ComponentType::ParticleSystem:
+		strComponentType = _T("ParticleSystem");
+		break;
+	case E_ComponentType::TileMap:
+		strComponentType = _T("TileMap");
+		break;
+	case E_ComponentType::Listener:
+		strComponentType = _T("Listener");
+		break;
+	case E_ComponentType::Audio:
+		strComponentType = _T("Audio");
+		break;
+	}
+	return strComponentType;
+}

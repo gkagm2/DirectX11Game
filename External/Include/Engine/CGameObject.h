@@ -73,6 +73,7 @@ public:
 
 	template<typename TYPE>
 	TYPE* GetComponent();
+	CComponent* GetComponent(E_ComponentType _eType);
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
