@@ -16,7 +16,7 @@ public:
 	const string& GetName() { return m_strName; }
 
 public:
-	void SetActive(bool _bIsActive) { m_bActive = _bIsActive; }
+	virtual void SetActive(bool _bIsActive) { m_bActive = _bIsActive; }
 	bool IsActive() { return m_bActive; }
 	static void GetResourceName(CResource* _pResource, string& _pOut);
 	static void GetResourceName(CResource* _pResource, char* _pOut, int _size);

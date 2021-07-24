@@ -1,0 +1,108 @@
+#include "pch.h"
+#include "ListViewGUI.h"
+
+ListViewGUI::ListViewGUI() :
+    m_bPopUp(false)
+{
+    SetName("ListView");
+    SetActive(false);
+}
+
+ListViewGUI::~ListViewGUI()
+{
+}
+
+void ListViewGUI::Update()
+{
+	// 컴포넌트 리스트 뷰 생성
+
+    // 팝업 플래그가 on이면
+    if (m_bPopUp) {
+        // 팝업창을 연다
+        ImGui::OpenPopup(m_strTitle.c_str());
+        m_bPopUp = false;
+    }
+   /* if (false == ImGui::IsPopupOpen(m_strTitle.c_str()))
+        ImGui::OpenPopup(m_strTitle.c_str());*/
+
+    if ("" == m_strTitle.c_str())
+        return;
+
+    // 모달 팝업창을 만든다.
+    if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen, ImGuiWindowFlags_None)) {
+        ImGui::SetNextWindowSize(ImVec2(300.f, 500.f));
+
+
+        static int item_current_idx = 0; // 선택한 데이터의 인덱스
+        // 리스트를 표시
+        if (ImGui::BeginListBox("##ListBox")) {
+            
+
+            // 리스트에 적을 글자들을 순회하여 표시
+            for (UINT i = 0; i < m_vecListAdr.size(); ++i) {
+
+                const bool is_selected = (item_current_idx == i);
+                if (ImGui::Selectable(m_vecListAdr[i], is_selected))
+                    item_current_idx = i;
+
+                // 콤보를 열 때 초기 포커스 설정(스크롤링 + 키보드 탐색 포커스)
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+
+                // 아이템을 더블클릭 했을 경우
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+                {
+                    ImGui::CloseCurrentPopup();
+                    _Clear();
+                }
+            }
+
+            ImGui::EndListBox();
+        }
+        ImGui::EndPopup();
+     }
+    else {
+        _Clear();
+    }
+}
+
+void ListViewGUI::SetList(const vector<tstring>& _vecNames, const tstring& _strTitle)
+{
+    // Set Title
+#ifdef UNICODE
+    WStringToString(_strTitle, m_strTitle);
+#elif
+    m_tTitle = _strTitle;
+#endif
+
+    // 리스트의 문자열 세팅
+    m_vecListName.empty();
+#ifdef UNICODE
+    string strName;
+    for (UINT i = 0; i < _vecNames.size(); ++i) {
+        WStringToString(_vecNames[i], strName);
+        m_vecListName.push_back(strName);
+    }
+#elif
+    m_vecListName = _vecNames;
+#endif
+
+    // 보여줄 문자열 세팅
+    m_vecListAdr.empty();
+    for (const auto& name : m_vecListName)
+        m_vecListAdr.push_back(name.c_str());
+}
+
+void ListViewGUI::SetActive(bool _bIsActive)
+{
+    GUI::SetActive(_bIsActive);
+    _SetActivePopup(_bIsActive);
+    m_bGUIOpen = true;
+}
+
+void ListViewGUI::_Clear()
+{
+    m_vecListName.clear();
+    m_vecListAdr.clear();
+    SetActive(false);
+}

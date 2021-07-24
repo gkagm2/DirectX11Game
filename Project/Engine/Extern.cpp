@@ -89,6 +89,41 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Audio:
 		strComponentType = _T("Audio");
 		break;
+	default:
+		assert(nullptr && _T("컴포넌트 타입을 String으로 바꿀 수 없음"));
+		break;
 	}
 	return strComponentType;
+}
+
+tstring ResourceTypeToStr(E_ResourceType _eType)
+{
+	tstring strResourceType = _T("ResourceDefaultType");
+	switch (_eType) {
+	case E_ResourceType::Prefab:
+		strResourceType = _T("Prefab");
+		break;
+	case E_ResourceType::Material:
+		strResourceType = _T("Material");
+		break;
+	case E_ResourceType::GraphicsShader:
+		strResourceType = _T("GraphicsShader");
+		break;
+	case E_ResourceType::ComputeShader:
+		strResourceType = _T("ComputeShader");
+		break;
+	case E_ResourceType::Mesh:
+		strResourceType = _T("Mesh");
+		break;
+	case E_ResourceType::Texture:
+		strResourceType = _T("Texture");
+		break;
+	case E_ResourceType::Sound:
+		strResourceType = _T("Sound");
+		break;
+	default:
+		assert(nullptr && _T("리소스 타입을 String으로 바꿀 수 없음"));
+		break;
+	}
+	return strResourceType;
 }

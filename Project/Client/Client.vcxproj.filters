@@ -38,6 +38,9 @@
     <Filter Include="GUI\ComponentGUI\MeshRendererGUI">
       <UniqueIdentifier>{83118172-75a5-4411-be87-933f27c5f73f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\ComponentGUI\ListViewGUI">
+      <UniqueIdentifier>{1d30f82e-3aaf-413b-9970-17b377b59996}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -101,6 +104,9 @@
     <ClInclude Include="MeshRendererGUI.h">
       <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ListViewGUI.h">
+      <Filter>GUI\ComponentGUI\ListViewGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -151,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="MeshRendererGUI.cpp">
       <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ListViewGUI.cpp">
+      <Filter>GUI\ComponentGUI\ListViewGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

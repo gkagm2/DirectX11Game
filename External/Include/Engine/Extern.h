@@ -7,3 +7,4 @@ extern TTransform g_transform;
 extern TGlobalConst g_globalConst;
 
 extern tstring ComponentTypeToStr(E_ComponentType _eType);
+extern tstring ResourceTypeToStr(E_ResourceType _eType);

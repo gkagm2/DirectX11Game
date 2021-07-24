@@ -12,6 +12,7 @@
 #include "imgui_impl_win32.h"
 
 #include "GUI.h"
+#include "ListViewGUI.h"
 
 
 
@@ -93,8 +94,10 @@ void CImGuiManager::Update()
         ImGui::ShowDemoWindow(&m_bDemoGUIOpen);
 
     // GUI Update
-    for (const auto& pair : m_mapGUI)
-        pair.second->Update();
+    for (const auto& pair : m_mapGUI) {
+        if(pair.second->IsActive())
+            pair.second->Update();
+    }
 }
 
 void CImGuiManager::Render()
@@ -120,6 +123,15 @@ void CImGuiManager::CreateGUI()
     
 }
 
+GUI* CImGuiManager::FindGUI(const string& _strKey)
+{
+    map<string, GUI*>::iterator iter = m_mapGUI.find(_strKey);
+    if (iter == m_mapGUI.end())
+        return nullptr;
+
+    return iter->second;
+}
+
 // Test code
 #include "TransformGUI.h"
 #include "MeshRendererGUI.h"
@@ -131,6 +143,9 @@ void CImGuiManager::ImGuiInitTestCode()
     else if (1 == m_iTestCodeType) {
         Init_ShowGameObjectComponent();
     }
+    else if (2 == m_iTestCodeType) {
+        Init_ListViewGUI();
+    }
 }
 
 void CImGuiManager::ImGuiUpdateTestCode()
@@ -141,6 +156,8 @@ void CImGuiManager::ImGuiUpdateTestCode()
     }
     else if (1 == m_iTestCodeType) {
         Update_ShowGameObjectComponent();
+    }
+    else if (2 == m_iTestCodeType) {
     }
 }
 
@@ -158,19 +175,27 @@ void CImGuiManager::Init_ShowGameObjectComponent()
 
     // Transform GUI
     TransformGUI* pTransformGUI = new TransformGUI;
-    pTransformGUI->SetName("Test Window");
     m_mapGUI.insert(std::make_pair(pTransformGUI->GetName(), pTransformGUI));
     pTransformGUI->SetTargetGameObject(pGameObject);
     
 
     // MeshRenderer GUI
     MeshRendererGUI* pMeshRendererGUI = new MeshRendererGUI;
-    pMeshRendererGUI->SetName("Mehs");
     m_mapGUI.insert(std::make_pair(pMeshRendererGUI->GetName(), pMeshRendererGUI));
     pMeshRendererGUI->SetTargetGameObject (pGameObject);
+
+    // ListView GUI
+    ListViewGUI* pListView = new ListViewGUI;
+    m_mapGUI.insert(std::make_pair(pListView->GetName(), pListView));
 }
 
 void CImGuiManager::Update_ShowGameObjectComponent()
 {
+}
 
+void CImGuiManager::Init_ListViewGUI()
+{
+    ListViewGUI* pListView = new ListViewGUI;
+    pListView->SetName("ListView");
+    m_mapGUI.insert(std::make_pair(pListView->GetName(), pListView));
 }

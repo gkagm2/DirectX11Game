@@ -83,6 +83,8 @@ enum class E_ResourceType {
 	Sound,
 	End,
 };
+// Warning : Resource Type 추가 시 Extern.cpp에서 ResourceTypeToStr함수에 문자열 추가하기
+
 
 enum class E_ConstBuffer {
 	Transform,		 // b0
@@ -132,7 +134,7 @@ enum class E_ComponentType {
 
 	Script,
 };
-// Function.cpp에 ComponentTypeToStr 함수에도 추가해주기
+// Warning extern.cpp에 ComponentTypeToStr 함수에도 추가해주기
 
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap

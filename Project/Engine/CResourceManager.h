@@ -50,6 +50,8 @@ public:
 
 
 	void AddCloneMaterial(SharedPtr<CMaterial> _pMtrl) { m_vecCloneMtrl.push_back(_pMtrl.Get()); }
+
+	void GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut);
 };
 
 // 리소스 추가 시 타입 지정

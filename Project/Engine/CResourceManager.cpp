@@ -399,3 +399,10 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComP
 
 	return pTexture;
 }
+
+void CResourceManager::GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut)
+{
+	_vecOut.empty();
+	for (const auto& pair : m_umapResource[(UINT)_eType])
+		_vecOut.push_back(pair.first);
+}
