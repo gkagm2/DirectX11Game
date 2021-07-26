@@ -56,6 +56,15 @@
     <Filter Include="GUI\InspectorGUI\ResourceGUI">
       <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI">
+      <UniqueIdentifier>{60268bf0-830c-4289-a8fb-facc3a018162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
+      <UniqueIdentifier>{c0c9bdb9-ba3f-4f53-92b0-3f21ed5ec85a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
+      <UniqueIdentifier>{875bbde1-f153-4430-884f-9cf509844aee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -134,6 +143,9 @@
     <ClInclude Include="InspectorGUI.h">
       <Filter>GUI\InspectorGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Collider2DRectGUI.h">
+      <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -199,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp">
       <Filter>GUI\InspectorGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DRectGUI.cpp">
+      <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

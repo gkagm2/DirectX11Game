@@ -200,6 +200,7 @@
     <ClInclude Include="ListViewGUI.h" />
     <ClInclude Include="MeshRendererGUI.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Collider2DRectGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
     <ClInclude Include="targetver.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="ListViewGUI.cpp" />
     <ClCompile Include="MeshRendererGUI.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Collider2DRectGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />

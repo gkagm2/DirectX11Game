@@ -8,6 +8,7 @@
 #include "ComponentGUI.h"
 #include "TransformGUI.h"
 #include "MeshRendererGUI.h"
+#include "Collider2DRectGUI.h"
 
 
 InspectorGUI::InspectorGUI() :
@@ -35,6 +36,10 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer] = new MeshRendererGUI;
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetSize(ImVec2(0.f, 100.f));
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetTargetObject(m_pTargetObject);
+
+	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DRectGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetSize(ImVec2(0.f, 100.f));
+	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetTargetObject(m_pTargetObject);
 }
 
 void InspectorGUI::Update()

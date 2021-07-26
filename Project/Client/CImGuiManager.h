@@ -24,21 +24,18 @@ public:
 private:
 	// Test Codes
 	int m_iTestCodeType;
-	void ImGuiInitTestCode();
-	void ImGuiUpdateTestCode();
 
+	void ImGuiInitTestCode();
 
 	// testCode 0. Text Print
 	void Update_PrintTextTest();
 
 	// testCode 1. Show GameObject Component's GUI
 	void Init_ShowGameObjectComponent();
-	void Update_ShowGameObjectComponent();
 
 	// testCode 2. Show ListView GUI
 	void Init_ListViewGUI();
 
 	// testCode 3. ResourceGUI & InspectorGUI
 	void Init_ShowResAndInspectorGUI();
-	void Update_ShowResAndInspectorGUI();
 };

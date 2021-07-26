@@ -18,7 +18,7 @@
 
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
-    m_iTestCodeType(3)
+    m_iTestCodeType(1)
 {
 }
 
@@ -86,9 +86,6 @@ void CImGuiManager::Update()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-
-    ImGuiUpdateTestCode();
-
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
     if (m_bDemoGUIOpen)
         ImGui::ShowDemoWindow(&m_bDemoGUIOpen);
@@ -142,6 +139,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "MeshRendererGUI.h"
 #include "InspectorGUI.h"
 #include "ResourceGUI.h"
+#include "Collider2DRectGUI.h"
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {
@@ -160,25 +158,6 @@ void CImGuiManager::ImGuiInitTestCode()
     }
 }
 
-void CImGuiManager::ImGuiUpdateTestCode()
-{
-    if (0 == m_iTestCodeType) {
-        // Text Print test
-        Update_PrintTextTest();
-    }
-    else if (1 == m_iTestCodeType) {
-        Update_ShowGameObjectComponent();
-    }
-    else if (2 == m_iTestCodeType) {
-        ;
-    }
-    else if (3 == m_iTestCodeType) {
-        Update_ShowResAndInspectorGUI();
-    }
-    else if (4 == m_iTestCodeType) {
-    }
-}
-
 void CImGuiManager::Update_PrintTextTest()
 {
     ImGui::Begin("Another Windows");
@@ -191,24 +170,19 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     CGameObject* pGameObject = CSceneManager::GetInstance()->FindGameObject(_T("Player"));
     assert(pGameObject); // TestScene에서 Player란 이름을 가진 오브젝트를 하나 만들자
 
-    // Transform GUI
-    TransformGUI* pTransformGUI = new TransformGUI;
-    AddGUI(pTransformGUI->GetName(), pTransformGUI);
-    pTransformGUI->SetTargetObject(pGameObject);
-    
+    // Resource들을 보여주는 GUI
+    ResourceGUI* pResourceGUI = new ResourceGUI;
+    pResourceGUI->Init();
+    AddGUI(pResourceGUI->GetName(), pResourceGUI);
 
-    // MeshRenderer GUI
-    MeshRendererGUI* pMeshRendererGUI = new MeshRendererGUI;
-    AddGUI(pMeshRendererGUI->GetName(), pMeshRendererGUI);
-    pMeshRendererGUI->SetTargetObject (pGameObject);
-
-    // ListView GUI
+    // Component들을 보여주는 GUI
+    InspectorGUI* pInspectorGUI = new InspectorGUI;
+    pInspectorGUI->Init();
+    AddGUI(pInspectorGUI->GetName(), pInspectorGUI);
+                         
+    // 리스트 뷰 GUI
     ListViewGUI* pListView = new ListViewGUI;
     AddGUI(pListView->GetName(), pListView);
-}
-
-void CImGuiManager::Update_ShowGameObjectComponent()
-{
 }
 
 void CImGuiManager::Init_ListViewGUI()
@@ -234,9 +208,4 @@ void CImGuiManager::Init_ShowResAndInspectorGUI()
     ListViewGUI* pListViewGUI = new ListViewGUI;
     pListViewGUI->Init();
     m_mapGUI.insert(make_pair(pListViewGUI->GetName(), pListViewGUI));
-}
-
-void CImGuiManager::Update_ShowResAndInspectorGUI()
-{
-
 }

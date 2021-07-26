@@ -498,8 +498,12 @@ void CTestScene::ImGuiTest()
 	pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
 	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 	pObj->SetName(_T("Player"));
-	pNewScene->AddGameObject(pObj);
+	
+	// Collider 세팅
+	pObj->AddComponent<CCollider2DRect>();
+	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
+	pNewScene->AddGameObject(pObj);
 
 	// Scene 초기화
 	pNewScene->Awake();
