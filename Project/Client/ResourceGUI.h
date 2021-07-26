@@ -5,6 +5,7 @@ class ResourceGUI : public GUI
 {
 private:
 	TreeViewGUI m_treeView;
+	bool m_bUseTreeFrame;
 
 public:
 	virtual void Init() override;
@@ -12,6 +13,7 @@ public:
 
 private:
 	void _RenewResource();
+	void _RenewTreeView();
 	  
 public:
 	ResourceGUI();

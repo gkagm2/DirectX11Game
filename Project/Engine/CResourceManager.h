@@ -17,8 +17,11 @@ private:
 	unordered_map<tstring, CResource*> m_umapResource[(UINT)E_ResourceType::End];
 	vector<CMaterial*> m_vecCloneMtrl; // 복사된 메터리얼들을 담을 벡터
 
+	bool m_bFixed; // Resource가 추가, 수정되었는지 여부
+
 public:
 	void Init();
+	void Update() { m_bFixed = false; }
 
 public:
 	void CreateDefaultMesh();
@@ -29,11 +32,9 @@ public:
 	void CreateDefaultMaterial();
 	void CreateComputeShader();
 	
+public:
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, ComPtr<ID3D11Texture2D> _pTexture2D);
-
-public:
-	// TODO : 나중에 쉐이더 코드의 함수이름..etc 을 읽어들일 때 사용 할 것임.
 
 	// strRelativePath값이 없으면 strKey값을 RelativePath값과 동일 시 함.
 	template<typename T>
@@ -48,10 +49,12 @@ public:
 	template<typename T>
 	bool IsExistRes(const tstring& _strKey);
 
-
 	void AddCloneMaterial(SharedPtr<CMaterial> _pMtrl) { m_vecCloneMtrl.push_back(_pMtrl.Get()); }
 
 	void GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut);
+	const unordered_map<tstring, CResource*>& GetResources(E_ResourceType _eType) { return m_umapResource[(UINT)_eType]; }
+
+	bool IsFixed() { return m_bFixed; }
 };
 
 // 리소스 추가 시 타입 지정
@@ -103,6 +106,7 @@ inline SharedPtr<T> CResourceManager::LoadRes(const tstring& _strKey, const tstr
 
 	if (FAILED(((CResource*)pResource)->Load(strFilePath))) {
 		assert(nullptr && _T("리소스 로딩 실패"));
+		m_bFixed = false;
 		return nullptr;
 	}
 
@@ -120,6 +124,7 @@ inline void CResourceManager::AddRes(const tstring& _strKey, T* _pRes)
 	if (bIsExistRes)
 		assert(nullptr && _T("리소스를 추가할 수 없음. 이미 리소스가 존재함."));
 
+	m_bFixed = true;
 	_pRes->SetKey(_strKey);
 	m_umapResource[(UINT)eResourceType].insert(make_pair(_strKey, _pRes));
 }

@@ -48,6 +48,7 @@ void CCore::Progress()
 	// Update
 	CTimeManager::GetInstance()->Update();
 	CKeyManager::GetInstance()->Update();
+	CResourceManager::GetInstance()->Update();
 	CSceneManager::GetInstance()->Progress();
 	CCollisionManager::GetInstance()->Update();
 

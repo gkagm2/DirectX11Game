@@ -269,7 +269,7 @@ tstring WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
 #ifdef UNICODE
 	string str = oss.str();
 	wstring wstrMsg;
-	wstrMsg.assign(str.begin(), str.end());
+	StringToWString(str, wstrMsg);
 	return wstrMsg;
 #else
 	return oss.str();

@@ -3,10 +3,13 @@
 #include "CMesh.h"
 #include "CGraphicsShader.h"
 
-CResourceManager::CResourceManager() {
-
+CResourceManager::CResourceManager() :
+	m_bFixed(false)
+{
 }
-CResourceManager::~CResourceManager() {
+
+CResourceManager::~CResourceManager()
+{
 	Safe_Delete_Vector(m_vecCloneMtrl);
 
 	for (UINT i = 0; i < (UINT)E_ResourceType::End; ++i)
@@ -396,7 +399,7 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComP
 	CTexture* pTexture = new CTexture;
 	pTexture->Create(_pTexture2D);
 	AddRes<CTexture>(_strKey, pTexture);
-
+	m_bFixed = true;
 	return pTexture;
 }
 

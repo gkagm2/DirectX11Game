@@ -75,23 +75,15 @@ void ListViewGUI::Update()
 void ListViewGUI::SetList(const vector<tstring>& _vecNames, const tstring& _strTitle)
 {
     // Set Title
-#ifdef UNICODE
-    WStringToString(_strTitle, m_strTitle);
-#elif
-    m_tTitle = _strTitle;
-#endif
+    TStringToString(_strTitle, m_strTitle);
 
     // 리스트의 문자열 세팅
     m_vecListName.empty();
-#ifdef UNICODE
     string strName;
     for (UINT i = 0; i < _vecNames.size(); ++i) {
-        WStringToString(_vecNames[i], strName);
+        TStringToString(_vecNames[i], strName);
         m_vecListName.push_back(strName);
     }
-#elif
-    m_vecListName = _vecNames;
-#endif
 
     // 보여줄 문자열 세팅
     m_vecListAdr.empty();

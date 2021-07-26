@@ -98,3 +98,10 @@ inline void WStringToString(const wstring& _in, string& _out) {
 	_out.assign(_in.begin(), _in.end());
 }
 
+inline void TStringToString(const tstring& _in, string& _out) {
+#ifdef UNICODE
+	WStringToString(_in, _out);
+#elif
+	_out = _in;
+#endif
+}

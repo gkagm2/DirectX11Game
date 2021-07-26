@@ -8,12 +8,7 @@ ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_vSize{}
 {
 	string strType;
-#ifdef UNICODE
-	wstring str = ComponentTypeToStr(_eType);
-	WStringToString(str, strType);
-#elif
-	strType = ComponentTypeToString(_eType);
-#endif
+	TStringToString(ComponentTypeToStr(_eType), strType);
 	SetName(strType);
 }
 
