@@ -5,6 +5,8 @@
 // TreeViewNode 
 // ------------
 TreeViewNode::TreeViewNode() :
+	m_pOwner(nullptr),
+	m_pParentNode(nullptr),
 	m_dwData(0),
 	m_bUseFrame(false),
 	m_iStyleFlag(0)
@@ -24,13 +26,37 @@ void TreeViewNode::Update()
 		hasChild = false;
 
 	m_iStyleFlag = ImGuiTreeNodeFlags_None;
+
+	// TODO (Jang) : 선택시 눌려지도록 만들기.
+	//if (m_pOwner) {
+	//	if(false == m_pOwner->IsFrameRender() ||
+	//		true == m_pOwner->IsRootRender() ||
+	//		)
+	//}
+
 	if (m_bUseFrame)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
 	if (!hasChild)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Leaf;
 
 	// Node Update
-	if (ImGui::TreeNodeEx(m_strName.c_str(), m_iStyleFlag)) {
+	string strName = m_strName;
+	if (strName.empty())
+		strName = "Game Object";
+	
+	/*char szBuffer[255] = {};
+	sprintf(szBuffer, "##%ld", m_dwData);*/
+	strName = strName + "##" + std::to_string(m_dwData);
+
+	if (ImGui::TreeNodeEx(strName.c_str(), m_iStyleFlag)) {
+		// 해당 아이템이 클릭된 경우
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
+			if (nullptr != m_pOwner->m_pSelectedNode) {
+				if (this != m_pOwner->m_pSelectedNode)
+					m_pOwner->_SetSelectedNode(this);
+			}
+		}
+
 		for (UINT i = 0; i < m_vecChildNodes.size(); ++i)
 			m_vecChildNodes[i]->Update();
 		ImGui::TreePop();
@@ -43,15 +69,20 @@ void TreeViewNode::Update()
 // TreeViewGUI 
 // ------------
 TreeViewGUI::TreeViewGUI() :
-	m_pRoot(nullptr),
-	m_bRootRender(false)
+	m_pRootNode(nullptr),
+	m_pSelectedNode(nullptr),
+	m_bRootRender(false),
+	m_bFrameUse(false),
+	m_bFrameOnlyParent(false),
+	m_pSelectFunc{ nullptr },
+	m_PDragDropFunc{ nullptr }
 {
 }
 
 TreeViewGUI::~TreeViewGUI()
 {
-	if (m_pRoot)
-		delete m_pRoot;
+	if (m_pRootNode)
+		delete m_pRootNode;
 }
 
 void TreeViewGUI::Init()
@@ -60,13 +91,13 @@ void TreeViewGUI::Init()
 
 void TreeViewGUI::Update()
 {
-	if (nullptr == m_pRoot)
+	if (nullptr == m_pRootNode)
 		return;
 
 	if (m_bRootRender)
-		m_pRoot->Update();
+		m_pRootNode->Update();
 	else {
-		const vector<TreeViewNode*>& vecChildNodes = m_pRoot->GetChildNodes();
+		const vector<TreeViewNode*>& vecChildNodes = m_pRootNode->GetChildNodes();
 		for (UINT i = 0; i < vecChildNodes.size(); ++i)
 			vecChildNodes[i]->Update();
 	}
@@ -74,30 +105,25 @@ void TreeViewGUI::Update()
 
 TreeViewNode* TreeViewGUI::AddItem(const string& _str, DWORD_PTR _dwData, TreeViewNode* _pParent)
 {
+
 	TreeViewNode* pNewNode = new TreeViewNode;
 	pNewNode->SetName(_str);
 	pNewNode->SetData(_dwData);
+	pNewNode->_SetOwner(this);
 
 	if (nullptr == _pParent) {
-		assert(!m_pRoot); // 존재하면 안됨.
-		m_pRoot = pNewNode;
+		assert(!m_pRootNode); // 존재하면 안됨.
+		m_pRootNode = pNewNode;
 	}
 	else
 		_pParent->AddChild(pNewNode);
 
 	return pNewNode;
 }
- 
-TreeViewNode* TreeViewGUI::AddItem(const string& _str, DWORD_PTR _dwData, bool _bUseFrame, TreeViewNode* _pParent)
-{
-	TreeViewNode* pNewNode = AddItem(_str, _dwData, _pParent);
-	pNewNode->UseFrame(_bUseFrame);
-	return pNewNode;
-}
 
 void TreeViewGUI::Clear()
 {
-	if (m_pRoot)
-		delete m_pRoot;
-	m_pRoot = nullptr;
+	if (m_pRootNode)
+		delete m_pRootNode;
+	m_pRootNode = nullptr;
 }

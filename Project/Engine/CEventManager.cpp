@@ -7,7 +7,8 @@
 #include "CLayer.h"
 
 
-CEventManager::CEventManager()
+CEventManager::CEventManager() :
+	m_bEventHappened(false)
 {
 
 }
@@ -18,10 +19,13 @@ CEventManager::~CEventManager()
 
 void CEventManager::Update()
 {
+	m_bEventHappened = false;
 	// 삭제 예정 오브젝트 정리
 	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
 		m_vecDeadObj[i]->_UnlinkParentGameObject();
 		delete m_vecDeadObj[i];
+
+		m_bEventHappened = true;
 	}
 	m_vecDeadObj.clear();
 
@@ -91,6 +95,16 @@ void CEventManager::_Excute(const TEvent& _event)
 	}
 		break;
 	default:
+		break;
+	}
+
+	switch (_event.eType) {
+	case E_EventType::Create_Object:
+	case E_EventType::Destroy_Object:
+	case E_EventType::Add_Child:
+	case E_EventType::Unlink_Parent:
+	case E_EventType::Change_Scene:
+		m_bEventHappened = true;
 		break;
 	}
 }
