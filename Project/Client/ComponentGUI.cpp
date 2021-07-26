@@ -42,9 +42,9 @@ bool ComponentGUI::Start()
 	ImGui::BeginChild(GetName().c_str(), m_vSize);
 
 	ImGui::PushID((int)m_eComponentType);
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.0f, 7.6f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.4f, 7.6f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.8f, 7.6f, 0.8f));
 	string strComponent;
 	WStringToString(ComponentTypeToStr(m_eComponentType), strComponent);
 	ImGui::Button(strComponent.c_str());

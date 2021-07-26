@@ -28,12 +28,12 @@ void InspectorGUI::Init()
 
 	// TransformGUI
 	m_arrComGUI[(UINT)E_ComponentType::Transform] = new TransformGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetSize(ImVec2(100.f, 200.f));
+	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetSize(ImVec2(0.f, 0.f));
 	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetTargetObject(m_pTargetObject);
 
 	// MeshRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer] = new MeshRendererGUI;
-	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetSize(ImVec2(100.f, 200.f));
+	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetSize(ImVec2(0.f, 0.f));
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetTargetObject(m_pTargetObject);
 }
 

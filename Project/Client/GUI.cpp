@@ -2,8 +2,6 @@
 #include "GUI.h"
 #include <Engine\CResource.h>
 
-
-
 GUI::GUI() :
 	m_bGUIOpen(true),
 	m_bActive(true)
