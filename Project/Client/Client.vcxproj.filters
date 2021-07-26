@@ -29,17 +29,32 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{ac6b3301-df2f-4b9f-bfdb-9534c36e72da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ComponentGUI">
+    <Filter Include="GUI\InspectorGUI">
+      <UniqueIdentifier>{94f54ad0-7a50-4086-80ad-d8495f7045b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\HierachyGUI">
+      <UniqueIdentifier>{f14b894b-abe1-4707-a600-f8030ef66852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Module">
+      <UniqueIdentifier>{2d05aa2c-6d07-4651-b554-34690ac11fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Module\ListViewGUI">
+      <UniqueIdentifier>{1d30f82e-3aaf-413b-9970-17b377b59996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Module\TreeVIewGUI">
+      <UniqueIdentifier>{e32e9031-89f6-4ba4-a03e-7abc80d63e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\ComponentGUI">
       <UniqueIdentifier>{1c92634c-f58e-4539-9847-146aa9c7e950}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ComponentGUI\TransformGUI">
+    <Filter Include="GUI\InspectorGUI\ComponentGUI\TransformGUI">
       <UniqueIdentifier>{1e712e9c-0f9d-43c8-a4a5-22ea74d56293}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ComponentGUI\MeshRendererGUI">
+    <Filter Include="GUI\InspectorGUI\ComponentGUI\MeshRendererGUI">
       <UniqueIdentifier>{83118172-75a5-4411-be87-933f27c5f73f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ComponentGUI\ListViewGUI">
-      <UniqueIdentifier>{1d30f82e-3aaf-413b-9970-17b377b59996}</UniqueIdentifier>
+    <Filter Include="GUI\InspectorGUI\ResourceGUI">
+      <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,16 +111,28 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="ComponentGUI.h">
-      <Filter>GUI\ComponentGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI</Filter>
     </ClInclude>
     <ClInclude Include="TransformGUI.h">
-      <Filter>GUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI\TransformGUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshRendererGUI.h">
-      <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClInclude>
     <ClInclude Include="ListViewGUI.h">
-      <Filter>GUI\ComponentGUI\ListViewGUI</Filter>
+      <Filter>GUI\Module\ListViewGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="HierachyGUI.h">
+      <Filter>GUI\HierachyGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceGUI.h">
+      <Filter>GUI\InspectorGUI\ResourceGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeViewGUI.h">
+      <Filter>GUI\Module\TreeVIewGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorGUI.h">
+      <Filter>GUI\InspectorGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,16 +177,28 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentGUI.cpp">
-      <Filter>GUI\ComponentGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI</Filter>
     </ClCompile>
     <ClCompile Include="TransformGUI.cpp">
-      <Filter>GUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI\TransformGUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshRendererGUI.cpp">
-      <Filter>GUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>GUI\InspectorGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClCompile>
     <ClCompile Include="ListViewGUI.cpp">
-      <Filter>GUI\ComponentGUI\ListViewGUI</Filter>
+      <Filter>GUI\Module\ListViewGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="HierachyGUI.cpp">
+      <Filter>GUI\HierachyGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceGUI.cpp">
+      <Filter>GUI\InspectorGUI\ResourceGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeViewGUI.cpp">
+      <Filter>GUI\Module\TreeVIewGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorGUI.cpp">
+      <Filter>GUI\InspectorGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

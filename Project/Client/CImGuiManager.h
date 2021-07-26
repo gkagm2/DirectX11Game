@@ -19,6 +19,7 @@ private:
 
 public:
 	GUI* FindGUI(const string& _strKey);
+	void AddGUI(const string& _strName, GUI* _pGUI);
 
 private:
 	// Test Codes
@@ -27,6 +28,7 @@ private:
 	void ImGuiUpdateTestCode();
 
 
+	// testCode 0. Text Print
 	void Update_PrintTextTest();
 
 	// testCode 1. Show GameObject Component's GUI
@@ -35,4 +37,8 @@ private:
 
 	// testCode 2. Show ListView GUI
 	void Init_ListViewGUI();
+
+	// testCode 3. ResourceGUI & InspectorGUI
+	void Init_ShowResAndInspectorGUI();
+	void Update_ShowResAndInspectorGUI();
 };

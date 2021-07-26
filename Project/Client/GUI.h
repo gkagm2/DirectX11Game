@@ -10,6 +10,7 @@ protected:
 	bool m_bGUIOpen;
 
 public:
+	virtual void Init() {}
 	virtual void Update() = 0;
 
 	void SetName(const string& _strName) { m_strName = _strName; }

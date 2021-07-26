@@ -41,6 +41,7 @@ void MeshRendererGUI::Update()
 		vector<tstring> vecNames;
 		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::Mesh, vecNames);
 		pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Mesh));
+		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MeshRendererGUI::_SetMesh);
 		pListViewGUI->SetActive(true);
 	}
 
@@ -57,10 +58,30 @@ void MeshRendererGUI::Update()
 		vector<tstring> vecNames;
 		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::Material, vecNames);
 		pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Material));
+		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MeshRendererGUI::_SetMatrial);
 		pListViewGUI->SetActive(true);
 	}
 
-	ImGui::SetNextItemWidth(100);
-
+	//ImGui::SetNextItemWidth(100);
 	End();
+}
+
+void MeshRendererGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
+{
+	string strKey = (const char*)_dw1;
+	wstring wstrKey; 
+	StringToWString(strKey, wstrKey);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(wstrKey);
+	assert(pMesh.Get());
+	GetTargetObject()->MeshRenderer()->SetMesh(pMesh);
+}
+
+void MeshRendererGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
+{
+	string strKey = (const char*)_dw1;
+	wstring wstrKey;
+	StringToWString(strKey, wstrKey);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(wstrKey);
+	assert(pMtrl.Get());
+	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
 }

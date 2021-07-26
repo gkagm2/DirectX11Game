@@ -4,7 +4,8 @@
 
 ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_eComponentType(_eType),
-	m_pTargetObj(nullptr)
+	m_pTargetObj(nullptr),
+	m_vSize{}
 {
 	string strType;
 #ifdef UNICODE
@@ -38,6 +39,17 @@ bool ComponentGUI::Start()
 	if (!IsActive())
 		return false;
 
-	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
+	ImGui::BeginChild(GetName().c_str(), m_vSize);
+
+	ImGui::PushID((int)m_eComponentType);
+	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.8f));
+	string strComponent;
+	WStringToString(ComponentTypeToStr(m_eComponentType), strComponent);
+	ImGui::Button(strComponent.c_str());
+	ImGui::PopStyleColor(3);
+	ImGui::PopID();
+
 	return true;
 }

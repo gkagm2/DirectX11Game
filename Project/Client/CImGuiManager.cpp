@@ -18,7 +18,7 @@
 
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
-    m_iTestCodeType(1)
+    m_iTestCodeType(3)
 {
 }
 
@@ -132,9 +132,16 @@ GUI* CImGuiManager::FindGUI(const string& _strKey)
     return iter->second;
 }
 
+void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
+{
+    m_mapGUI.insert(std::make_pair(_strName, _pGUI));
+}
+
 // Test code
 #include "TransformGUI.h"
 #include "MeshRendererGUI.h"
+#include "InspectorGUI.h"
+#include "ResourceGUI.h"
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {
@@ -145,6 +152,11 @@ void CImGuiManager::ImGuiInitTestCode()
     }
     else if (2 == m_iTestCodeType) {
         Init_ListViewGUI();
+    }
+    else if (3 == m_iTestCodeType) {
+        Init_ShowResAndInspectorGUI();
+    }
+    else if (4 == m_iTestCodeType) {
     }
 }
 
@@ -158,6 +170,12 @@ void CImGuiManager::ImGuiUpdateTestCode()
         Update_ShowGameObjectComponent();
     }
     else if (2 == m_iTestCodeType) {
+        ;
+    }
+    else if (3 == m_iTestCodeType) {
+        Update_ShowResAndInspectorGUI();
+    }
+    else if (4 == m_iTestCodeType) {
     }
 }
 
@@ -175,18 +193,18 @@ void CImGuiManager::Init_ShowGameObjectComponent()
 
     // Transform GUI
     TransformGUI* pTransformGUI = new TransformGUI;
-    m_mapGUI.insert(std::make_pair(pTransformGUI->GetName(), pTransformGUI));
-    pTransformGUI->SetTargetGameObject(pGameObject);
+    AddGUI(pTransformGUI->GetName(), pTransformGUI);
+    pTransformGUI->SetTargetObject(pGameObject);
     
 
     // MeshRenderer GUI
     MeshRendererGUI* pMeshRendererGUI = new MeshRendererGUI;
-    m_mapGUI.insert(std::make_pair(pMeshRendererGUI->GetName(), pMeshRendererGUI));
-    pMeshRendererGUI->SetTargetGameObject (pGameObject);
+    AddGUI(pMeshRendererGUI->GetName(), pMeshRendererGUI);
+    pMeshRendererGUI->SetTargetObject (pGameObject);
 
     // ListView GUI
     ListViewGUI* pListView = new ListViewGUI;
-    m_mapGUI.insert(std::make_pair(pListView->GetName(), pListView));
+    AddGUI(pListView->GetName(), pListView);
 }
 
 void CImGuiManager::Update_ShowGameObjectComponent()
@@ -197,5 +215,28 @@ void CImGuiManager::Init_ListViewGUI()
 {
     ListViewGUI* pListView = new ListViewGUI;
     pListView->SetName("ListView");
-    m_mapGUI.insert(std::make_pair(pListView->GetName(), pListView));
+    AddGUI(pListView->GetName(), pListView);
+}
+
+void CImGuiManager::Init_ShowResAndInspectorGUI()
+{
+    // ResourceGUI
+    ResourceGUI* pGUI = new ResourceGUI;
+    pGUI->Init();
+    AddGUI(pGUI->GetName(), pGUI);
+
+    // InspectorGUI
+    InspectorGUI* pInspectorGUI = new InspectorGUI;
+    pInspectorGUI->Init();
+    AddGUI(pInspectorGUI->GetName(), pInspectorGUI);
+
+    // ListGUI
+    ListViewGUI* pListViewGUI = new ListViewGUI;
+    pListViewGUI->Init();
+    m_mapGUI.insert(make_pair(pListViewGUI->GetName(), pListViewGUI));
+}
+
+void CImGuiManager::Update_ShowResAndInspectorGUI()
+{
+
 }

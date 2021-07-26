@@ -2,7 +2,9 @@
 #include "ListViewGUI.h"
 
 ListViewGUI::ListViewGUI() :
-    m_bPopUp(false)
+    m_bPopUp(false),
+    m_pDBCCallBack(nullptr),
+    m_pInst(nullptr)
 {
     SetName("ListView");
     SetActive(false);
@@ -52,6 +54,10 @@ void ListViewGUI::Update()
                 // 아이템을 더블클릭 했을 경우
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
                 {
+                    // 콜백 함수를 호출
+                    if (m_pInst && m_pDBCCallBack)
+                        ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[i], 0);
+
                     ImGui::CloseCurrentPopup();
                     _Clear();
                 }
@@ -102,7 +108,13 @@ void ListViewGUI::SetActive(bool _bIsActive)
 
 void ListViewGUI::_Clear()
 {
+    m_pInst = nullptr;
+    m_pDBCCallBack = nullptr;
+
     m_vecListName.clear();
     m_vecListAdr.clear();
+
+    ImGui::SetWindowFocus(nullptr);
+
     SetActive(false);
 }
