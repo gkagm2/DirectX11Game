@@ -141,6 +141,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "HierachyGUI.h"
 #include "ResourceGUI.h"
 #include "Collider2DRectGUI.h"
+#include "ResourceManagerGUI.h"
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {
@@ -172,9 +173,10 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     assert(pGameObject); // TestScene에서 Player란 이름을 가진 오브젝트를 하나 만들자
 
     // Resource들을 보여주는 GUI
-    ResourceGUI* pResourceGUI = new ResourceGUI;
+    ResourceManagerGUI* pResourceGUI = new ResourceManagerGUI;
     pResourceGUI->Init();
     AddGUI(pResourceGUI->GetName(), pResourceGUI);
+    
 
     // Hierachy GUI
     HierachyGUI* pHierachyGUI = new HierachyGUI;
@@ -201,7 +203,7 @@ void CImGuiManager::Init_ListViewGUI()
 void CImGuiManager::Init_ShowResAndInspectorGUI()
 {
     // ResourceGUI
-    ResourceGUI* pGUI = new ResourceGUI;
+    ResourceManagerGUI* pGUI = new ResourceManagerGUI;
     pGUI->Init();
     AddGUI(pGUI->GetName(), pGUI);
 

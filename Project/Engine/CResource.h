@@ -8,6 +8,8 @@ private:
 	tstring m_strKey;			// 고유 키 값
 	tstring m_strRelativePath;  // 상대경로
 
+	E_ResourceType m_eResourceType;
+
 public:
 	virtual bool Save(const tstring& _strRelativePath) { return true; }
 private:
@@ -24,8 +26,10 @@ public:
 		m_strRelativePath = _strRelativePath; }
 	const tstring& GetRelativePath() { return m_strRelativePath; }
 
+	E_ResourceType GetResourceType() { return m_eResourceType; }
+
 public:
-	CResource();
+	CResource(E_ResourceType _eType);
 	virtual ~CResource() override;
 
 	friend class CResourceManager;

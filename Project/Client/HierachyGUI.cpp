@@ -8,9 +8,12 @@
 #include <Engine\CLayer.h>
 #include <Engine\CGameObject.h>
 
+#include "CImGuiManager.h"
+#include "InspectorGUI.h"
+
 HierachyGUI::HierachyGUI()
 {
-	SetName("Hierachy");
+	SetName(STR_GUI_Hierachy);
 }
 
 HierachyGUI::~HierachyGUI()
@@ -22,6 +25,7 @@ void HierachyGUI::Init()
 	_RenewTreeView();
 	m_treeView.SetFrameRender(false);
 	m_treeView.SetFrameOnlyParent(false);
+	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&HierachyGUI::SelectGameObject);
 }
 
 void HierachyGUI::Update()
@@ -64,4 +68,12 @@ void HierachyGUI::_RenewTreeView()
 				stk.push_back(vecRootObjs[k]);
 		}
 	}
+}
+
+void HierachyGUI::SelectGameObject(TreeViewNode* _pNode)
+{
+	CGameObject* pTargetObj = (CGameObject*)_pNode->GetData();
+	InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
+	
+	pInspectorGUI->SetTargetObject(pTargetObj);
 }

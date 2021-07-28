@@ -198,12 +198,16 @@
     </ClInclude>
     <ClInclude Include="InspectorGUI.h" />
     <ClInclude Include="ListViewGUI.h" />
+    <ClInclude Include="MaterialGUI.h" />
     <ClInclude Include="MeshRendererGUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Collider2DRectGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
+    <ClInclude Include="ResourceManagerGUI.h" />
+    <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextureGUI.h" />
     <ClInclude Include="TransformGUI.h" />
     <ClInclude Include="TreeViewGUI.h" />
     <ClInclude Include="WindowsMessageMap.h" />
@@ -249,10 +253,13 @@
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp" />
     <ClCompile Include="ListViewGUI.cpp" />
+    <ClCompile Include="MaterialGUI.cpp" />
     <ClCompile Include="MeshRendererGUI.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Collider2DRectGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
+    <ClCompile Include="ResourceManagerGUI.cpp" />
+    <ClCompile Include="TextureGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />

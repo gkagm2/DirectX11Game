@@ -3,6 +3,7 @@
 #include "CDevice.h"
 
 CTexture::CTexture() :
+	CResource(E_ResourceType::Texture),
 	m_tDesc{}
 {
 }

@@ -16,6 +16,7 @@ private:
 
 private:
 	CPrefab() :
+		CResource(E_ResourceType::Prefab),
 		m_pProtoObj(nullptr)
 	{}
 public:

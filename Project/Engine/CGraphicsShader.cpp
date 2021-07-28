@@ -4,6 +4,7 @@
 #include "CDevice.h"
 
 CGraphicsShader::CGraphicsShader() :
+	CShader(E_ResourceType::GraphicsShader),
 	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
 	m_eRSState(E_RasterizerState::CullBack),
 	m_eBlendState(E_BlendState::Default),

@@ -34,7 +34,7 @@ void MeshRendererGUI::Update()
 	ImGui::SameLine();
 	if (ImGui::Button("Select##Mesh")) {
 		// 리스트 뷰를 보여준다.
-		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI("ListView"));
+		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
 		assert(pListViewGUI);
 
 		
@@ -52,7 +52,7 @@ void MeshRendererGUI::Update()
 	ImGui::SameLine();
 	if (ImGui::Button("Select##Material")) {
 		// 리스트 뷰를 보여준다.
-		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI("ListView"));
+		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
 		assert(pListViewGUI);
 
 		vector<tstring> vecNames;

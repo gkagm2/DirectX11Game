@@ -4,6 +4,7 @@
 #pragma warning (disable:6387)
 
 CMesh::CMesh() :
+	CResource(E_ResourceType::Mesh),
 	m_pVB(nullptr),
 	m_pIB(nullptr),
 	m_tVtxDesc{},

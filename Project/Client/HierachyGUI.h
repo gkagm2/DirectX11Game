@@ -16,6 +16,9 @@ private:
 	void _RenewTreeView();
 
 public:
+	void SelectGameObject(TreeViewNode* _pNode);
+
+public:
 	HierachyGUI();
 	virtual ~HierachyGUI() override;
 };

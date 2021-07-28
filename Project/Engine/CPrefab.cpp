@@ -4,6 +4,7 @@
 #include "CPathManager.h"
 
 CPrefab::CPrefab(CGameObject* _pProtoObj) :
+	CResource(E_ResourceType::Prefab),
 	m_pProtoObj(_pProtoObj)
 {
 	assert(m_pProtoObj);

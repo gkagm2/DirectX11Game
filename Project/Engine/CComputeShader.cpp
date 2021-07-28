@@ -5,6 +5,7 @@
 
 const CConstBuffer* CComputeShader::g_pMtrlBuffer = nullptr;
 CComputeShader::CComputeShader(UINT _iThreadNumX, UINT _iThreadNumY, UINT _iThreadNumZ) :
+	CShader(E_ResourceType::ComputeShader),
 	m_iThreadNumX(_iThreadNumX),
 	m_iThreadNumY(_iThreadNumY),
 	m_iThreadNumZ(_iThreadNumZ),

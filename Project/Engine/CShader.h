@@ -13,6 +13,6 @@ private:
 	CLONE_DISABLE(CShader);
 
 public:
-	CShader();
+	CShader(E_ResourceType _eType);
 	virtual ~CShader() override;
 };

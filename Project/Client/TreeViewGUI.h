@@ -6,7 +6,7 @@ class TreeViewNode;
 
 
 // SEL_CHANGE : Select Change (선택된게 변경되었을 경우의 콜백 함수)
-typedef void (GUI::* SELECT_CHANGE_CALLBACK)(TreeViewNode* _pNode);
+typedef void (GUI::* SEL_CHANGE_CALLBACK)(TreeViewNode* _pNode);
 typedef void (GUI::* DRAG_DROP_CALLBACK)(TreeViewNode* _pDragedItem, TreeViewNode* _pDropedItem);
 
 class TreeViewNode
@@ -60,8 +60,11 @@ private:
 	bool m_bFrameOnlyParent;// Parent만 Frame을 사용할 것인지 여부
 
 	// 콜백함수
-	SELECT_CHANGE_CALLBACK	m_pSelectFunc;
-	DRAG_DROP_CALLBACK		m_PDragDropFunc;
+	SEL_CHANGE_CALLBACK		m_pSelectFunc;
+	GUI*					m_pSelectInst;
+
+	DRAG_DROP_CALLBACK		m_pDragDropFunc;
+	GUI*					m_pDragDropInst;
 
 public:
 	virtual void Init() override;
@@ -82,8 +85,19 @@ public:
 
 	void Clear();
 
+public:
+	void SetSelectCallBack(GUI* _pInst, SEL_CHANGE_CALLBACK _pMemFunc) {
+		m_pSelectInst = _pInst;
+		m_pSelectFunc = _pMemFunc;
+	}
+	void SetDragDropCallBack(GUI* _pInst, DRAG_DROP_CALLBACK _pMemFunc) {
+		m_pDragDropInst = _pInst;
+		m_pDragDropFunc = _pMemFunc;
+	}
+
 private:
 	void _SetSelectedNode(TreeViewNode* _pNode) { m_pSelectedNode = _pNode; }
+
 
 public:
 	TreeViewGUI();

@@ -25,7 +25,7 @@ void TreeViewNode::Update()
 	if (m_vecChildNodes.empty())
 		hasChild = false;
 
-	m_iStyleFlag = ImGuiTreeNodeFlags_None;
+	m_iStyleFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 
 	// TODO (Jang) : 선택시 눌려지도록 만들기.
 	if (m_pOwner) {
@@ -55,11 +55,14 @@ void TreeViewNode::Update()
 	if (ImGui::TreeNodeEx(strName.c_str(), m_iStyleFlag)) {
 		// 해당 아이템이 클릭된 경우
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
+			// 현재 아이템이 선택되지 않았으면
 			if (this != m_pOwner->m_pSelectedNode) {
-				if (nullptr != m_pOwner->m_pSelectedNode) {
+				m_pOwner->_SetSelectedNode(this); // 선택
 
+				// 선택된 인스턴스가 존재하면
+				if (nullptr != m_pOwner->m_pSelectedNode && m_pOwner->m_pSelectInst) {
+					((m_pOwner->m_pSelectInst)->*m_pOwner->m_pSelectFunc)(m_pOwner->m_pSelectedNode);
 				}
-				m_pOwner->_SetSelectedNode(this);
 			}
 		}
 
@@ -80,7 +83,9 @@ TreeViewGUI::TreeViewGUI() :
 	m_bFrameUse(false),
 	m_bFrameOnlyParent(false),
 	m_pSelectFunc{ nullptr },
-	m_PDragDropFunc{ nullptr }
+	m_pSelectInst(nullptr),
+	m_pDragDropFunc{ nullptr },
+	m_pDragDropInst(nullptr)
 {
 }
 

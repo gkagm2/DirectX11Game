@@ -7,9 +7,10 @@
 #include "CResourceManager.h"
 
 CMaterial::CMaterial() :
+	CResource(E_ResourceType::Material),
 	m_pShader(nullptr),
 	m_tParam{},
-m_arrTexture{}
+	m_arrTexture{}
 {
 }
 

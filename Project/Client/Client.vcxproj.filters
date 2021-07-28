@@ -65,6 +65,15 @@
     <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
       <UniqueIdentifier>{875bbde1-f153-4430-884f-9cf509844aee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\InspectorGUI\ResourceGUI\MaterialGUI">
+      <UniqueIdentifier>{ff44992b-b687-4f10-9f2f-340ba707c5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\ResourceGUI\TextureGUI">
+      <UniqueIdentifier>{5e7649c4-a377-4249-8367-6ab431014f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\ResourceManagerGUI">
+      <UniqueIdentifier>{401419e2-b7af-4362-9fff-844f73366873}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -146,6 +155,18 @@
     <ClInclude Include="Collider2DRectGUI.h">
       <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClInclude>
+    <ClInclude Include="TextureGUI.h">
+      <Filter>GUI\InspectorGUI\ResourceGUI\TextureGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialGUI.h">
+      <Filter>GUI\InspectorGUI\ResourceGUI\MaterialGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerGUI.h">
+      <Filter>GUI\ResourceManagerGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="StringTableGUI.h">
+      <Filter>Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -214,6 +235,15 @@
     </ClCompile>
     <ClCompile Include="Collider2DRectGUI.cpp">
       <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureGUI.cpp">
+      <Filter>GUI\InspectorGUI\ResourceGUI\TextureGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialGUI.cpp">
+      <Filter>GUI\InspectorGUI\ResourceGUI\MaterialGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerGUI.cpp">
+      <Filter>GUI\ResourceManagerGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
