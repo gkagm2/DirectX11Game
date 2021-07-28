@@ -28,16 +28,20 @@ void TreeViewNode::Update()
 	m_iStyleFlag = ImGuiTreeNodeFlags_None;
 
 	// TODO (Jang) : 선택시 눌려지도록 만들기.
-	//if (m_pOwner) {
-	//	if(false == m_pOwner->IsFrameRender() ||
-	//		true == m_pOwner->IsRootRender() ||
-	//		)
-	//}
+	if (m_pOwner) {
+		if (!m_pOwner->IsFrameRender() ||
+			m_pOwner->IsRootRender() && !m_pParentNode ||
+			m_pOwner->IsRootRender() && m_pParentNode == m_pOwner->GetRootNode()) {
+			//m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
+		}
+	}
 
 	if (m_bUseFrame)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
 	if (!hasChild)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Leaf;
+	if (this == m_pOwner->m_pSelectedNode)
+		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
 
 	// Node Update
 	string strName = m_strName;
@@ -51,9 +55,11 @@ void TreeViewNode::Update()
 	if (ImGui::TreeNodeEx(strName.c_str(), m_iStyleFlag)) {
 		// 해당 아이템이 클릭된 경우
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
-			if (nullptr != m_pOwner->m_pSelectedNode) {
-				if (this != m_pOwner->m_pSelectedNode)
-					m_pOwner->_SetSelectedNode(this);
+			if (this != m_pOwner->m_pSelectedNode) {
+				if (nullptr != m_pOwner->m_pSelectedNode) {
+
+				}
+				m_pOwner->_SetSelectedNode(this);
 			}
 		}
 
@@ -62,7 +68,6 @@ void TreeViewNode::Update()
 		ImGui::TreePop();
 	}
 }
-
 
 
 // ------------
