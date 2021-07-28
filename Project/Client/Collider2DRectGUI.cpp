@@ -30,7 +30,7 @@ void Collider2DRectGUI::Update()
 	static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
 
 	// Offset Position
-	ImGui::Text("Offset Position");
+	ImGui::Text("Offset Position"); ImGui::SameLine();
 	ImGui::Text("x"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
 	ImGui::DragFloat("##RectColPositionX", &vOffPosition.x, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
@@ -39,13 +39,13 @@ void Collider2DRectGUI::Update()
 	ImGui::DragFloat("##RectColPositionY", &vOffPosition.y, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
 
 	// Offset Scale UI
-	ImGui::Text("Offset Scale");
+	ImGui::Text("Offset Scale   "); ImGui::SameLine();
 	ImGui::Text("x"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
 	ImGui::DragFloat("##RectColScaleX", &vOffScale.x, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
 	ImGui::Text("y"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##RectColScaleY", &vOffScale.y, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+	ImGui::DragFloat("##RectColScaleY", &vOffScale.y, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
 
 	pRectCol->SetOffsetPosition(vOffPosition);
 	pRectCol->SetOffsetScale(vOffScale);

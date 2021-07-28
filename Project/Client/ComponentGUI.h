@@ -10,11 +10,16 @@ private:
 	ImVec2 m_vSize;
 
 public:
-	// Warning
 	// Update문 시작과 끝에 Start와 End() 함수가 있어야 함.
-	bool Start();
 	virtual void Update() = 0;
-	void End() { ImGui::EndChild(); }
+
+protected:
+	bool Start();
+	
+	void End() { 
+		ImGui::Separator(); 
+		ImGui::EndChild();
+	}
 
 public:
 	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObj = _pTargetObj; }

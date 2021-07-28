@@ -18,21 +18,21 @@ ComponentGUI::~ComponentGUI()
 
 bool ComponentGUI::Start()
 {
-	if (m_pTargetObj && m_pTargetObj->IsDead()) {
+	if (nullptr == m_pTargetObj)
+		return false; 
+	
+	if (m_pTargetObj->IsDead()) {
 		m_pTargetObj = nullptr;
 		SetActive(false);
 		return false;
 	}
 
-	if (nullptr == m_pTargetObj)
-		return false;
-		
 	if (nullptr == m_pTargetObj->GetComponent(m_eComponentType)) {
 		SetActive(false);
 		return false;
 	}
-	if (!IsActive())
-		return false;
+	else
+		SetActive(true);
 
 	ImGui::BeginChild(GetName().c_str(), m_vSize);
 
