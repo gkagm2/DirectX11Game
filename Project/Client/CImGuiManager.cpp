@@ -18,7 +18,7 @@
 
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
-    m_iTestCodeType(1)
+    m_iTestCodeType(4)
 {
 }
 
@@ -81,7 +81,7 @@ void CImGuiManager::Update()
     if (InputKeyPress(E_Key::F1))
         m_bDemoGUIOpen = !m_bDemoGUIOpen;
 
-    // Start the Dear ImGui frame
+    // SetTitileButton the Dear ImGui frame
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -117,7 +117,6 @@ void CImGuiManager::Render()
 
 void CImGuiManager::CreateGUI()
 {
-    
 }
 
 GUI* CImGuiManager::FindGUI(const string& _strKey)
@@ -141,7 +140,9 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "HierachyGUI.h"
 #include "ResourceGUI.h"
 #include "Collider2DRectGUI.h"
-#include "ResourceManagerGUI.h"
+#include "ResourceViewGUI.h"
+#include "MenuGUI.h"
+#include "MainMenuGUI.h"
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {
@@ -157,6 +158,7 @@ void CImGuiManager::ImGuiInitTestCode()
         Init_ShowResAndInspectorGUI();
     }
     else if (4 == m_iTestCodeType) {
+        Init_ShowMainMenuGUI();
     }
 }
 
@@ -173,7 +175,7 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     assert(pGameObject); // TestScene에서 Player란 이름을 가진 오브젝트를 하나 만들자
 
     // Resource들을 보여주는 GUI
-    ResourceManagerGUI* pResourceGUI = new ResourceManagerGUI;
+    ResourceViewGUI* pResourceGUI = new ResourceViewGUI;
     pResourceGUI->Init();
     AddGUI(pResourceGUI->GetName(), pResourceGUI);
     
@@ -203,7 +205,7 @@ void CImGuiManager::Init_ListViewGUI()
 void CImGuiManager::Init_ShowResAndInspectorGUI()
 {
     // ResourceGUI
-    ResourceManagerGUI* pGUI = new ResourceManagerGUI;
+    ResourceViewGUI* pGUI = new ResourceViewGUI;
     pGUI->Init();
     AddGUI(pGUI->GetName(), pGUI);
 
@@ -215,5 +217,12 @@ void CImGuiManager::Init_ShowResAndInspectorGUI()
     // ListGUI
     ListViewGUI* pListViewGUI = new ListViewGUI;
     pListViewGUI->Init();
-    m_mapGUI.insert(make_pair(pListViewGUI->GetName(), pListViewGUI));
+    AddGUI(pListViewGUI->GetName(), pListViewGUI);
+}
+
+void CImGuiManager::Init_ShowMainMenuGUI()
+{
+    MainMenuGUI* pMainMenuGUI = new MainMenuGUI;
+    pMainMenuGUI->Init();
+    AddGUI(pMainMenuGUI->GetName(), pMainMenuGUI);
 }

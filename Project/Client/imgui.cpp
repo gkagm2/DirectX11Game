@@ -10273,7 +10273,7 @@ static void ImGui::NavUpdateWindowing()
             g.NavWindowingTargetAnim = NULL;
     }
 
-    // Start CTRL-TAB or Square+L/R window selection
+    // SetTitileButton CTRL-TAB or Square+L/R window selection
     bool start_windowing_with_gamepad = allow_windowing && !g.NavWindowingTarget && IsNavInputTest(ImGuiNavInput_Menu, ImGuiInputReadMode_Pressed);
     bool start_windowing_with_keyboard = allow_windowing && !g.NavWindowingTarget && g.IO.KeyCtrl && IsKeyPressedMap(ImGuiKey_Tab) && (g.IO.ConfigFlags & ImGuiConfigFlags_NavEnableKeyboard);
     if (start_windowing_with_gamepad || start_windowing_with_keyboard)
@@ -10867,7 +10867,7 @@ void ImGui::LogRenderedText(const ImVec2* ref_pos, const char* text, const char*
         LogRenderedText(ref_pos, suffix, suffix + strlen(suffix));
 }
 
-// Start logging/capturing text output
+// SetTitileButton logging/capturing text output
 void ImGui::LogBegin(ImGuiLogType type, int auto_open_depth)
 {
     ImGuiContext& g = *GImGui;
@@ -10904,7 +10904,7 @@ void ImGui::LogToTTY(int auto_open_depth)
 #endif
 }
 
-// Start logging/capturing text output to given file
+// SetTitileButton logging/capturing text output to given file
 void ImGui::LogToFile(int auto_open_depth, const char* filename)
 {
     ImGuiContext& g = *GImGui;
@@ -10929,7 +10929,7 @@ void ImGui::LogToFile(int auto_open_depth, const char* filename)
     g.LogFile = f;
 }
 
-// Start logging/capturing text output to clipboard
+// SetTitileButton logging/capturing text output to clipboard
 void ImGui::LogToClipboard(int auto_open_depth)
 {
     ImGuiContext& g = *GImGui;
@@ -11000,7 +11000,7 @@ void ImGui::LogButtons()
     PopAllowKeyboardFocus();
     PopID();
 
-    // Start logging at the end of the function so that the buttons don't appear in the log
+    // SetTitileButton logging at the end of the function so that the buttons don't appear in the log
     if (log_to_tty)
         LogToTTY();
     if (log_to_file)

@@ -197,14 +197,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="InspectorGUI.h" />
+    <ClInclude Include="InspectorViewGUI.h" />
     <ClInclude Include="ListViewGUI.h" />
+    <ClInclude Include="MainMenuGUI.h" />
     <ClInclude Include="MaterialGUI.h" />
+    <ClInclude Include="MenuGUI.h" />
     <ClInclude Include="MeshRendererGUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Collider2DRectGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
-    <ClInclude Include="ResourceManagerGUI.h" />
+    <ClInclude Include="ResourceViewGUI.h" />
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureGUI.h" />
@@ -252,13 +255,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp" />
+    <ClCompile Include="InspectorViewGUI.cpp" />
     <ClCompile Include="ListViewGUI.cpp" />
+    <ClCompile Include="MainMenuGUI.cpp" />
     <ClCompile Include="MaterialGUI.cpp" />
+    <ClCompile Include="MenuGUI.cpp" />
     <ClCompile Include="MeshRendererGUI.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Collider2DRectGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
-    <ClCompile Include="ResourceManagerGUI.cpp" />
+    <ClCompile Include="ResourceViewGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />

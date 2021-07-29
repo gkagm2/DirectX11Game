@@ -44,35 +44,44 @@
     <Filter Include="GUI\Module\TreeVIewGUI">
       <UniqueIdentifier>{e32e9031-89f6-4ba4-a03e-7abc80d63e0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI">
+      <UniqueIdentifier>{bc1d4313-a4c1-45ee-aeb8-b503433ba2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI">
       <UniqueIdentifier>{1c92634c-f58e-4539-9847-146aa9c7e950}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI\TransformGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI">
       <UniqueIdentifier>{1e712e9c-0f9d-43c8-a4a5-22ea74d56293}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI\MeshRendererGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI">
       <UniqueIdentifier>{83118172-75a5-4411-be87-933f27c5f73f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ResourceGUI">
-      <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI">
       <UniqueIdentifier>{60268bf0-830c-4289-a8fb-facc3a018162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
       <UniqueIdentifier>{c0c9bdb9-ba3f-4f53-92b0-3f21ed5ec85a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
       <UniqueIdentifier>{875bbde1-f153-4430-884f-9cf509844aee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ResourceGUI\MaterialGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI">
+      <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI">
       <UniqueIdentifier>{ff44992b-b687-4f10-9f2f-340ba707c5b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\ResourceGUI\TextureGUI">
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI">
       <UniqueIdentifier>{5e7649c4-a377-4249-8367-6ab431014f94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\ResourceManagerGUI">
+    <Filter Include="GUI\ResourceViewGUI">
       <UniqueIdentifier>{401419e2-b7af-4362-9fff-844f73366873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\MenuGUI">
+      <UniqueIdentifier>{8d4cc51a-66f8-454a-bd07-6d3f8c83f5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\MenuGUI\MainMenuGUI">
+      <UniqueIdentifier>{c70808a0-8999-4d34-8b8d-a3ec6e4c3ea7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,13 +138,13 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="ComponentGUI.h">
-      <Filter>GUI\InspectorGUI\ComponentGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
     </ClInclude>
     <ClInclude Include="TransformGUI.h">
-      <Filter>GUI\InspectorGUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshRendererGUI.h">
-      <Filter>GUI\InspectorGUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClInclude>
     <ClInclude Include="ListViewGUI.h">
       <Filter>GUI\Module\ListViewGUI</Filter>
@@ -144,7 +153,7 @@
       <Filter>GUI\HierachyGUI</Filter>
     </ClInclude>
     <ClInclude Include="ResourceGUI.h">
-      <Filter>GUI\InspectorGUI\ResourceGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
     </ClInclude>
     <ClInclude Include="TreeViewGUI.h">
       <Filter>GUI\Module\TreeVIewGUI</Filter>
@@ -153,19 +162,28 @@
       <Filter>GUI\InspectorGUI</Filter>
     </ClInclude>
     <ClInclude Include="Collider2DRectGUI.h">
-      <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClInclude>
     <ClInclude Include="TextureGUI.h">
-      <Filter>GUI\InspectorGUI\ResourceGUI\TextureGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
     </ClInclude>
     <ClInclude Include="MaterialGUI.h">
-      <Filter>GUI\InspectorGUI\ResourceGUI\MaterialGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManagerGUI.h">
-      <Filter>GUI\ResourceManagerGUI</Filter>
+    <ClInclude Include="ResourceViewGUI.h">
+      <Filter>GUI\ResourceViewGUI</Filter>
     </ClInclude>
     <ClInclude Include="StringTableGUI.h">
       <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorViewGUI.h">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuGUI.h">
+      <Filter>GUI\MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuGUI.h">
+      <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,13 +228,13 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentGUI.cpp">
-      <Filter>GUI\InspectorGUI\ComponentGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
     </ClCompile>
     <ClCompile Include="TransformGUI.cpp">
-      <Filter>GUI\InspectorGUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshRendererGUI.cpp">
-      <Filter>GUI\InspectorGUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClCompile>
     <ClCompile Include="ListViewGUI.cpp">
       <Filter>GUI\Module\ListViewGUI</Filter>
@@ -225,7 +243,7 @@
       <Filter>GUI\HierachyGUI</Filter>
     </ClCompile>
     <ClCompile Include="ResourceGUI.cpp">
-      <Filter>GUI\InspectorGUI\ResourceGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
     </ClCompile>
     <ClCompile Include="TreeViewGUI.cpp">
       <Filter>GUI\Module\TreeVIewGUI</Filter>
@@ -234,16 +252,25 @@
       <Filter>GUI\InspectorGUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DRectGUI.cpp">
-      <Filter>GUI\InspectorGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClCompile>
     <ClCompile Include="TextureGUI.cpp">
-      <Filter>GUI\InspectorGUI\ResourceGUI\TextureGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
     </ClCompile>
     <ClCompile Include="MaterialGUI.cpp">
-      <Filter>GUI\InspectorGUI\ResourceGUI\MaterialGUI</Filter>
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManagerGUI.cpp">
-      <Filter>GUI\ResourceManagerGUI</Filter>
+    <ClCompile Include="ResourceViewGUI.cpp">
+      <Filter>GUI\ResourceViewGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectorViewGUI.cpp">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuGUI.cpp">
+      <Filter>GUI\MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuGUI.cpp">
+      <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

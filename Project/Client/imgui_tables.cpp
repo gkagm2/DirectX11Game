@@ -1933,7 +1933,7 @@ void ImGui::TableBeginCell(ImGuiTable* table, int column_n)
     ImGuiWindow* window = table->InnerWindow;
     table->CurrentColumn = column_n;
 
-    // Start position is roughly ~~ CellRect.Min + CellPadding + Indent
+    // SetTitileButton position is roughly ~~ CellRect.Min + CellPadding + Indent
     float start_x = column->WorkMinX;
     if (column->Flags & ImGuiTableColumnFlags_IndentEnable)
         start_x += table->RowIndentOffsetX; // ~~ += window.DC.Indent.x - table->HostIndentX, except we locked it for the row.

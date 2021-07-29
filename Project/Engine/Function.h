@@ -105,3 +105,11 @@ inline void TStringToString(const tstring& _in, string& _out) {
 	_out = _in;
 #endif
 }
+
+inline void StringToTString(const string& _in, tstring& _out) {
+#ifdef UNICODE
+	StringToWString(_in, _out);
+#elif
+	_out = _in;
+#endif
+}

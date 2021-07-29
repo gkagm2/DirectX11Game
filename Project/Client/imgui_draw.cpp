@@ -2497,7 +2497,7 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
     else
         atlas->TexWidth = (surface_sqrt >= 4096 * 0.7f) ? 4096 : (surface_sqrt >= 2048 * 0.7f) ? 2048 : (surface_sqrt >= 1024 * 0.7f) ? 1024 : 512;
 
-    // 5. Start packing
+    // 5. SetTitileButton packing
     // Pack our extra data rectangles first, so it will be on the upper-left corner of our texture (UV will have small values).
     const int TEX_HEIGHT_MAX = 1024 * 32;
     stbtt_pack_context spc = {};

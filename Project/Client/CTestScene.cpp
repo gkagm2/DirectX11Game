@@ -164,7 +164,7 @@ void CTestScene::CreateTestScene()
 		pNewScene->AddGameObject(pPlayer, E_Layer::Player);
 	}
 	{
-		// ComputeShader Test
+		// ComputeShader Test 
 		SharedPtr<CTexture> pTestTexture = CResourceManager::GetInstance()->CreateTexture(_T("Test"), 500, 500,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE);

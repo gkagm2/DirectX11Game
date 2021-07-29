@@ -19,6 +19,7 @@ public:
 
 public:
 	void SetShader(SharedPtr<CGraphicsShader>& _pShader) { m_pShader = _pShader; }
+	SharedPtr<CGraphicsShader> GetShader() { return m_pShader; }
 	void SetData(E_ShaderParam _eParam, void* _pData);
 
 	static void Clear();

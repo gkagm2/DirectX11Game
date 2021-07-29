@@ -4,8 +4,7 @@
 
 ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_eComponentType(_eType),
-	m_pTargetObj(nullptr),
-	m_vSize{}
+	m_pTargetObj(nullptr)
 {
 	string strType;
 	TStringToString(ComponentTypeToStr(_eType), strType);
@@ -19,32 +18,25 @@ ComponentGUI::~ComponentGUI()
 bool ComponentGUI::Start()
 {
 	if (nullptr == m_pTargetObj)
-		return false; 
-	
+		return false;
+		
 	if (m_pTargetObj->IsDead()) {
 		m_pTargetObj = nullptr;
-		SetActive(false);
 		return false;
 	}
 
-	if (nullptr == m_pTargetObj->GetComponent(m_eComponentType)) {
-		SetActive(false);
+	// 타겟의 어떤 컴포넌트가 없으면 active false로 하고 종료
+	if (nullptr == m_pTargetObj->GetComponent(m_eComponentType))
 		return false;
-	}
-	else
-		SetActive(true);
+	
+	if (!IsActive())
+		return false;
 
-	ImGui::BeginChild(GetName().c_str(), m_vSize);
+	ImGui::BeginChild(GetName().c_str(), GetUISize());
 
-	ImGui::PushID((int)m_eComponentType);
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.0f, 7.6f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.4f, 7.6f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.8f, 7.6f, 0.8f));
-	string strComponent;
-	WStringToString(ComponentTypeToStr(m_eComponentType), strComponent);
-	ImGui::Button(strComponent.c_str());
-	ImGui::PopStyleColor(3);
-	ImGui::PopID();
+	string strComponentName;
+	WStringToString(ComponentTypeToStr(m_eComponentType), strComponentName);
+	SetTitileButton((int)m_eComponentType, strComponentName);
 
 	return true;
 }

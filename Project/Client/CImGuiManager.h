@@ -38,4 +38,7 @@ private:
 
 	// testCode 3. ResourceGUI & InspectorGUI
 	void Init_ShowResAndInspectorGUI();
+
+	// testCode 4. MainMenu GUI
+	void Init_ShowMainMenuGUI();
 };

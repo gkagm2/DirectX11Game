@@ -69,9 +69,9 @@ void MeshRendererGUI::Update()
 void MeshRendererGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
 {
 	string strKey = (const char*)_dw1;
-	wstring wstrKey; 
-	StringToWString(strKey, wstrKey);
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(wstrKey);
+	tstring tstrKey; 
+	StringToTString(strKey, tstrKey);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(tstrKey);
 	assert(pMesh.Get());
 	GetTargetObject()->MeshRenderer()->SetMesh(pMesh);
 }
@@ -79,9 +79,9 @@ void MeshRendererGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
 void MeshRendererGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
 {
 	string strKey = (const char*)_dw1;
-	wstring wstrKey;
-	StringToWString(strKey, wstrKey);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(wstrKey);
+	tstring tstrKey;
+	StringToTString(strKey, tstrKey);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
 	assert(pMtrl.Get());
 	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
 }
