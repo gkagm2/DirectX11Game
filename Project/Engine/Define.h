@@ -40,9 +40,10 @@
 	GET_COMPONENT(Animator2D)\
 	GET_COMPONENT(Light2D)\
 	GET_COMPONENT(TileMap)\
-	GET_COMPONENT(ParticleSystem)
+	GET_COMPONENT(ParticleSystem)\
+	GET_COMPONENT(Rigidbody2D)
 
-// TIP : 추가 할 경우 CGasmeObject.cpp에 헤더파일과 Load함수에도 추가해줘야 함.
+// TIP : 추가 할 경우 CGameObject.cpp에 헤더파일과 Load함수에도 추가해줘야 함.
 
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
@@ -56,8 +57,8 @@
 	GET_OTHER_COMPONENT(Animator2D)\
 	GET_OTHER_COMPONENT(Light2D)\
 	GET_OTHER_COMPONENT(TileMap)\
-	GET_OTHER_COMPONENT(ParticleSystem)
-
+	GET_OTHER_COMPONENT(ParticleSystem)\
+	GET_OTHER_COMPONENT(Rigidbody2D)
 #pragma endregion
 
 

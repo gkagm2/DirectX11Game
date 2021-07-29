@@ -18,7 +18,7 @@
 
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
-    m_iTestCodeType(4)
+    m_iTestCodeType(1)
 {
 }
 

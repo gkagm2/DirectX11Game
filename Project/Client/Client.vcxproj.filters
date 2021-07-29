@@ -83,6 +83,15 @@
     <Filter Include="GUI\MenuGUI\MainMenuGUI">
       <UniqueIdentifier>{c70808a0-8999-4d34-8b8d-a3ec6e4c3ea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI">
+      <UniqueIdentifier>{f01366db-6379-44b9-8e04-b9ad264f9ecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI">
+      <UniqueIdentifier>{4519215e-b30a-4437-99fb-c5914c369d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody3DGUI">
+      <UniqueIdentifier>{080de936-735c-482a-b80b-25c07c953014}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -185,6 +194,12 @@
     <ClInclude Include="MainMenuGUI.h">
       <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
     </ClInclude>
+    <ClInclude Include="RigidbodyGUI.h">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody2DGUI.h">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -271,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="MainMenuGUI.cpp">
       <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyGUI.cpp">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody2DGUI.cpp">
+      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

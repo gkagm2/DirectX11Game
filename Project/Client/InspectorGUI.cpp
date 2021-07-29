@@ -9,8 +9,9 @@
 #include "TransformGUI.h"
 #include "MeshRendererGUI.h"
 #include "Collider2DRectGUI.h"
-#include "ResourceGUI.h"
+#include "Rigidbody2DGUI.h"
 
+#include "ResourceGUI.h"
 #include "MaterialGUI.h"
 #include "TextureGUI.h"
 
@@ -32,6 +33,8 @@ InspectorGUI::~InspectorGUI()
 
 void InspectorGUI::Init()
 {
+	// Components
+
 	// TransformGUI
 	m_arrComGUI[(UINT)E_ComponentType::Transform] = new TransformGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetUISize(ImVec2(0.f, 110.f));
@@ -45,6 +48,12 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DRectGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetUISize(ImVec2(0.f, 110.f));
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetTargetObject(m_pTargetObject);
+
+	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D] = new Rigidbody2DGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetUISize(ImVec2(0.f, 110.f));
+	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetTargetObject(m_pTargetObject);
+
+	// Resources
 
 	m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
 	m_arrResGUI[(UINT)E_ResourceType::Material]->SetUISize(ImVec2(0.f, 0.f));

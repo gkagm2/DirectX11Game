@@ -13,6 +13,7 @@ class CAnimator2D;
 class CLight2D;
 class CTileMap;
 class CParticleSystem;
+class CRigidbody2D;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {

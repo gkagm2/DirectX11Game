@@ -16,6 +16,7 @@
 #include "CLight2D.h"
 #include "CTileMap.h"
 #include "CParticleSystem.h"
+#include "CRigidbody2D.h"
 
 #include "CScript.h"
 
@@ -392,6 +393,9 @@ CComponent* CGameObject::_CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::ParticleSystem:
 		pComponent = new CParticleSystem;
+		break;
+	case E_ComponentType::Rigidbody2D:
+		pComponent = new CRigidbody2D;
 		break;
 	}
 	return pComponent;

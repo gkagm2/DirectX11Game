@@ -163,6 +163,12 @@
     <ClInclude Include="CParticleUpdateShader.h">
       <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidbody.h">
+      <Filter>Engine\07. Component\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="CRigidbody2D.h">
+      <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -306,6 +312,12 @@
     <ClCompile Include="CParticleUpdateShader.cpp">
       <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
     </ClCompile>
+    <ClCompile Include="CRigidbody.cpp">
+      <Filter>Engine\07. Component\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidbody2D.cpp">
+      <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -361,12 +373,6 @@
     </Filter>
     <Filter Include="Engine\07. Component\Camera">
       <UniqueIdentifier>{05da4afa-0468-4011-bdd3-7412d3c9ac75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\07. Component\Rigidbody2D">
-      <UniqueIdentifier>{2b53afe3-84f8-493d-a47d-6744fff2050a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\07. Component\Rigidbody3D">
-      <UniqueIdentifier>{2f3c4be6-4c7d-4422-b3ff-5d03eebefba0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\ParticleSystem">
       <UniqueIdentifier>{41ba0245-cc3d-407e-a58e-16b18ccb6848}</UniqueIdentifier>
@@ -442,6 +448,15 @@
     </Filter>
     <Filter Include="Shader Script\ComputeShader\ParticleUpdate">
       <UniqueIdentifier>{cfd499c0-7a5c-479c-a1f1-a416c7239915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Rigidbody">
+      <UniqueIdentifier>{40455cda-c6a6-492c-a79f-9541d622b9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Rigidbody\Rigidbody2D">
+      <UniqueIdentifier>{2b53afe3-84f8-493d-a47d-6744fff2050a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Rigidbody\Rigidbody3D">
+      <UniqueIdentifier>{2f3c4be6-4c7d-4422-b3ff-5d03eebefba0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

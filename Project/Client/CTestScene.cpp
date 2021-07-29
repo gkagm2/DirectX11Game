@@ -35,6 +35,7 @@
 #include "Engine\CTileMap.h"
 #include "Engine\CParticleSystem.h"
 #include "Engine\CPrefab.h"
+#include "Engine\CRigidbody2D.h"
 
 // GameContents
 #include "Script\CGameManagerScript_sh.h"
@@ -503,6 +504,13 @@ void CTestScene::ImGuiTest()
 	pObj->AddComponent<CCollider2DRect>();
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
+	// Rigidobdy2D 세팅
+	pObj->AddComponent<CRigidbody2D>();
+	pObj->Rigidbody2D()->UseGravity(true);
+
+
+
+	
 	pNewScene->AddGameObject(pObj);
 
 	// Scene 초기화

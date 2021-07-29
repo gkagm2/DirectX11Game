@@ -5,3 +5,6 @@
 #define STR_GUI_ListView "ListView"
 #define STR_GUI_Hierachy "Hierachy"
 #define STR_GUI_MainMenu "MainMenu"
+
+// ComponentType
+#define STR

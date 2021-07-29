@@ -23,7 +23,6 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _origin) :
 		tstring strCurAnimName = _origin.m_pCurAnimation->GetName();
 		m_pCurAnimation = m_unmapAnim.find(strCurAnimName)->second;
 	}
-
 }
 
 CAnimator2D::~CAnimator2D()
