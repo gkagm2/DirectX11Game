@@ -236,6 +236,8 @@ void CResourceManager::CreateDefaultShader()
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	// Shader Param
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	AddRes(STR_KEY_StdAlphaBlend_CoverageShader, pShader);
 
 	// -----------------------
@@ -248,6 +250,8 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	// OM
 	pShader->SetBlendState(E_BlendState::AlphaBlend);
+	// Shader Param
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 
 	AddRes(STR_KEY_StdAlphaBlendShader, pShader);
 
@@ -261,6 +265,8 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	// OM
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	
 	AddRes(STR_KEY_StdLight2DShader, pShader);
 
@@ -278,6 +284,7 @@ void CResourceManager::CreateDefaultShader()
 
 	// OM (Output Merge)
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 
 	AddRes(STR_KEY_Collider2DShader, pShader);
 
@@ -289,7 +296,14 @@ void CResourceManager::CreateDefaultShader()
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("x face count") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("y face count") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Tile UV LeftTop size") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Tile UV Size") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Atlas Texture") });
 	
+
 	AddRes(STR_KEY_TileMapShader, pShader);
 
 	//-------------------------
@@ -310,6 +324,13 @@ void CResourceManager::CreateDefaultShader()
 
 	// Depth Stencil
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Write);
+
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Start Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("End Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_2, _T("Start Scale") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_3, _T("End Scale") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Particle Texture") });
 
 	AddRes(STR_KEY_ParticleShader, pShader);
 }

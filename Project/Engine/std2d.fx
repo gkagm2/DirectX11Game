@@ -207,6 +207,9 @@ float4 PS_Collider2D(VTX_OUT _in) : SV_Target
 
 ///////////////////////////////////////////////////
 /////////////////// Tile Map //////////////////////
+
+///////////////////////////////////////////////////
+
 struct VTX_TILEMAP_IN
 {
     float3 vPosition : POSITION;
@@ -227,14 +230,13 @@ VTX_TILEMAP_OUT VS_TileMap(VTX_TILEMAP_IN _in)
     return output;
 }
 
+// 렌더링 시 생성할 타일의 개수
+#define iXCnt g_int_0 
+#define iYCnt g_int_1
 float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
 {
-    // 렌더링 시 생성할 타일의 개수
-    int iXCnt = g_int_0;
-    int iYCnt = g_int_1;
-    
-    float2 vLTUV = g_vec2_0; // 렌더링 하고싶은 LeftTop UV
-    float2 vTileUVSize = g_vec2_1; // 렌더링 할 타일 하나의 UV 사이즈
+    float2 vLTUV = g_vec2_0;         // 렌더링 하고싶은 LeftTop UV
+    float2 vTileUVSize = g_vec2_1;   // 렌더링 할 타일 하나의 UV 사이즈
     
     // 타일이 2x2일 경우 사이즈를 2x2로 만들어준다. 이것을 vOriginUV가 가지고 있다.
     float2 vOriginUV = float2(_in.vUV.x * (float) iXCnt, _in.vUV.y * (float) iYCnt);
