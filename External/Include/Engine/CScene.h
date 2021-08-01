@@ -16,7 +16,7 @@ public:
     virtual void Update() override;
     virtual void LateUpdate() override;
     virtual void FinalUpdate() override;
-    virtual void Render() override;
+    virtual void Render() {};
 
 public:
     void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default, bool _bChangeChildLayer = true);
@@ -25,6 +25,8 @@ public:
 
     CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
     CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
+
+    void UnRegisterAllObjects();
 
 public:
     virtual bool SaveToScene(FILE* _pFile) override;

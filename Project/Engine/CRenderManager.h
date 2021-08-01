@@ -13,16 +13,34 @@ private:
 	vector<CLight2D*> m_vecLight2D;
 	vector<CTileMap*> m_vecTileMap;
 
+	vector<CCamera*> m_vecToolCam; // Tool용 카메라
+
 	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
 public:
 	void Init();
-	void Render();
+	void Render(); 
+
+private:
+	void _RenderInGame(); // Play 시 렌더링
+	void _RenderTool(); // Tool용 렌더링
 
 public:
+	// In Game Camera
 	void RegisterCamera(CCamera* _pCamera) { m_vecCam.push_back(_pCamera); }
+	void UnRegisterCamera() { m_vecCam.clear(); }
+	
+
 	void RegisterLight2D(CLight2D* _pLight2D) { m_vecLight2D.push_back(_pLight2D); }
 	void RegisterTileMap(CTileMap* _pTileMap) { m_vecTileMap.push_back(_pTileMap); }
 
+	// Tool Camera
+	void RegisterToolCamera(CCamera* _pCamera) { m_vecToolCam.push_back(_pCamera); }
+	void UnRegisterToolCamera() { m_vecToolCam.clear(); }
+
+	CCamera* GetMainCamera();
+	CCamera* GetToolCamera();
+
 private:
 	void _RenderInit_Light2D();
+	void _RenderClear();
 };

@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "MainMenuGUI.h"
 
-MainMenuGUI::MainMenuGUI()
+MainMenuGUI::MainMenuGUI() :
+    bPlay(true),
+    bPause(false),
+    bStop(false)
 {
     SetName(STR_GUI_MainMenu);
 }
@@ -22,6 +25,12 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Load Scene", "CTRL+L", false, false)) {
 
             }
+            ImGui::EndMenu();
+        }
+
+        // SceneMode
+        if (ImGui::BeginMenu("Mode")) {
+            ShowSceneMode();
             ImGui::EndMenu();
         }
 
@@ -67,5 +76,24 @@ void MainMenuGUI::ShowExampleMenuFile()
             ImGui::EndMenu();
         }
         ImGui::EndMenu();
+    }
+}
+
+void MainMenuGUI::ShowSceneMode()
+{
+    if (ImGui::MenuItem("Play", "CTLR+P", false, bPlay)) {
+        bPause = true;
+        bStop = true;
+        bPlay = false;
+    }
+    if (ImGui::MenuItem("Pause", "CTRL+P", false, bPause)) {
+        bPause = false;
+        bPlay = true;
+        bStop = true;
+    }
+    if (ImGui::MenuItem("Stop", "CTRL+O", false, bStop)) {
+        bStop = false;
+        bPlay = true;
+        bPause = false;
     }
 }

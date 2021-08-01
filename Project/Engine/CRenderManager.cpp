@@ -13,6 +13,7 @@ CRenderManager::CRenderManager() :
 CRenderManager::~CRenderManager()
 {
 }
+
 void CRenderManager::Init()
 {
 	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
@@ -27,17 +28,61 @@ void CRenderManager::Render()
 	// 1. 타겟 클리어
 	CDevice::GetInstance()->ClearTarget();
 
+	E_SceneMode eSceneMode = CSceneManager::GetInstance()->GetSceneMode();
+	switch (eSceneMode) {
+	case E_SceneMode::Play:
+		_RenderInGame();
+		// TODO (Jang) : InGame Camera, Tool Camera를 나눴을 때 만들기
+		//_RenderTool();
+	case E_SceneMode::Stop:
+	case E_SceneMode::Pause:
+		_RenderTool();
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+
 	// 타일맵 렌더링
 	for (UINT i = 0; i < m_vecTileMap.size(); ++i)
 		m_vecTileMap[i]->Render();
 
+	_RenderClear();
+	
+}
+
+void CRenderManager::_RenderInGame()
+{
 	// 2. 카메라 기준으로 렌더링
 	for (UINT i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->Render();
+}
 
-	m_vecCam.clear();
-	m_vecLight2D.clear();
-	m_vecTileMap.clear();
+void CRenderManager::_RenderTool()
+{
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+		if (!m_vecToolCam[i])
+			m_vecToolCam[i]->Render();
+	}
+
+	UnRegisterToolCamera();
+}
+
+CCamera* CRenderManager::GetMainCamera()
+{
+	// TODO (Jang) : 어떤 카메라를 가져올지 설정한 카메로 가져오기
+	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
+		if (m_vecCam.empty())
+			return nullptr;
+	}
+	return m_vecCam[0];
+}
+
+CCamera* CRenderManager::GetToolCamera()
+{
+	if (m_vecToolCam.empty())
+		return nullptr;
+	return m_vecToolCam[0];
 }
 
 void CRenderManager::_RenderInit_Light2D()
@@ -64,4 +109,10 @@ void CRenderManager::_RenderInit_Light2D()
 
 	m_pLight2DBuffer->SetData(vecLightInfo.data(), (UINT)vecLightInfo.size());
 	m_pLight2DBuffer->UpdateData(REGISTER_NUM_Light2DBuffer);
+}
+
+void CRenderManager::_RenderClear()
+{
+	m_vecLight2D.clear();
+	m_vecTileMap.clear();
 }

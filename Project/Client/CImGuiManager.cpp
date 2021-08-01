@@ -193,6 +193,11 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     // ¸®½ºÆ® ºä GUI
     ListViewGUI* pListView = new ListViewGUI;
     AddGUI(pListView->GetName(), pListView);
+
+    // Main Menu GUI
+    MainMenuGUI* pMainMenuGUI = new MainMenuGUI;
+    pMainMenuGUI->Init();
+    AddGUI(pMainMenuGUI->GetName(), pMainMenuGUI);
 }
 
 void CImGuiManager::Init_ListViewGUI()

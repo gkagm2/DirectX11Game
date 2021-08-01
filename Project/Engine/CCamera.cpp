@@ -31,11 +31,11 @@ CCamera::~CCamera()
 
 void CCamera::FinalUpdate()
 {
-	_CalculateViewMatrix();
-	_CalculateProjectionMatrix();
+	CalculateViewMatrix();
+	CalculateProjectionMatrix();
 
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
+	g_transform.matView = GetViewMatrix();
+	g_transform.matProjection = GetProjectionMatrix();
 	CRenderManager::GetInstance()->RegisterCamera(this);
 }
 
@@ -71,13 +71,13 @@ void CCamera::Update()
 	Transform()->SetLocalPosition(vPos);
 }
 
-void CCamera::_CalculateViewMatrix()
+void CCamera::CalculateViewMatrix()
 {
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
 	m_matView = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
 }
 
-void CCamera::_CalculateProjectionMatrix()
+void CCamera::CalculateProjectionMatrix()
 {
 	const Vector2& vRenderResolution = CDevice::GetInstance()->GetRenderResolution();
 

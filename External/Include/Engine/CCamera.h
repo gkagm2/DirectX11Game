@@ -59,11 +59,13 @@ public:
 		else
 			m_iLayerCheck &= ~(_iLayerIdx << 1); // bit flag 0 설정
 	}
-	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; }
+	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
 
-private:
-	void _CalculateViewMatrix();
-	void _CalculateProjectionMatrix();
+protected:
+	void CalculateViewMatrix();
+	void CalculateProjectionMatrix();
+	const Matrix& GetViewMatrix() { return m_matView; }
+	const Matrix& GetProjectionMatrix() { return m_matProjection; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

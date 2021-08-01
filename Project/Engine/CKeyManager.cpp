@@ -45,12 +45,13 @@ int g_arrVK[(int)E_Key::END] = {
 	0x37,
 	0x38,
 	0x39,
-	VK_CONTROL,
+	VK_CONTROL, // Left Ctrl
+	VK_MENU, // Left Alt
+	VK_LSHIFT,
 	VK_LBUTTON,
 	VK_RBUTTON,
 	VK_MBUTTON,
 	VK_RETURN,
-	VK_LSHIFT,
 	VK_F1,
 	VK_F2,
 	VK_F3,

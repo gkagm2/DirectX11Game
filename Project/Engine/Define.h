@@ -73,6 +73,13 @@
 
 #define REGISTER_NUM_Particle 12
 
+
+enum class E_SceneMode {
+	Play,
+	Pause,
+	Stop,
+};
+
 // 삭제 우선순위로 설정
 enum class E_ResourceType {
 	Prefab,

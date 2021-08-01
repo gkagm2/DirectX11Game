@@ -28,7 +28,6 @@ void CLayer::Start()
 
 void CLayer::PrevUpdate()
 {
-	m_vecObj.clear();
 	for (UINT i = 0; i < m_vecRootObj.size(); ++i)
 		m_vecRootObj[i]->PrevUpdate();
 }

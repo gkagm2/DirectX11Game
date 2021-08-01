@@ -53,12 +53,6 @@ void CScene::FinalUpdate()
 		m_arrLayer[i]->FinalUpdate();
 }
 
-void CScene::Render()
-{
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
-		m_arrLayer[i]->Render();
-}
-
 void CScene::AddGameObject(CGameObject* _pObj, E_Layer _eLayer, bool _bChangeChildLayer)
 {
 	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj, _bChangeChildLayer);
@@ -112,6 +106,12 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 		}
 	}
 	return nullptr;
+}
+
+void CScene::UnRegisterAllObjects()
+{
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+		m_arrLayer[i]->m_vecObj.clear();
 }
 
 bool CScene::SaveToScene(FILE* _pFile)

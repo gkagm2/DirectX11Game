@@ -103,7 +103,7 @@ void CParticleSystem::Update()
 {
 }
 
-void CParticleSystem::FinalUpdate()
+void CParticleSystem::LateUpdate()
 {
 	m_pUpdateShader->SetParticleBuffer(m_pParticleBuffer.get());
 	UINT iSpawnCount = _CalculateSpawnCount();

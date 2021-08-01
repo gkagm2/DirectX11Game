@@ -37,7 +37,7 @@ private:
 public:
 	virtual void Start() override;
 	virtual void Update() override;
-	virtual void FinalUpdate() override;
+	virtual void LateUpdate() override;
 	virtual void Render() override;
 
 private:

@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCameraEx.h" />
+    <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -161,6 +163,8 @@
     <ClInclude Include="ComponentGUI.h" />
     <ClInclude Include="CSceneSaveLoad.h" />
     <ClInclude Include="CTestScene.h" />
+    <ClInclude Include="CToolCameraScript.h" />
+    <ClInclude Include="CToolObjManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="HierachyGUI.h" />
@@ -218,6 +222,8 @@
     <ClInclude Include="WindowsMessageMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCameraEx.cpp" />
+    <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -226,6 +232,8 @@
     <ClCompile Include="ComponentGUI.cpp" />
     <ClCompile Include="CSceneSaveLoad.cpp" />
     <ClCompile Include="CTestScene.cpp" />
+    <ClCompile Include="CToolCameraScript.cpp" />
+    <ClCompile Include="CToolObjManager.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HierachyGUI.cpp" />
     <ClCompile Include="imgui.cpp">

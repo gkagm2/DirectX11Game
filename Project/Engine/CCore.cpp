@@ -7,7 +7,6 @@
 #include "CResourceManager.h"
 #include "CSceneManager.h"
 #include "CEventManager.h"
-#include "CCollisionManager.h"
 #include "CRenderManager.h"
 
 CCore::CCore() :
@@ -50,7 +49,6 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 	CResourceManager::GetInstance()->Update();
 	CSceneManager::GetInstance()->Progress();
-	CCollisionManager::GetInstance()->Update();
 
 	CRenderManager::GetInstance()->Render();
 

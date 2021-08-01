@@ -1,42 +1,15 @@
 #include "pch.h"
 #include "CSceneManager.h"
 #include "CScene.h"
-
-#include "CResourceManager.h"
-#include "CDevice.h"
-#include "CMesh.h"
-#include "CGraphicsShader.h"
-#include "CKeyManager.h"
-#include "CTimeManager.h"
-#include "CConstBuffer.h"
 #include "CCollisionManager.h"
-
-#include "CGameObject.h"
-
-#include "CCore.h"
-
-#include "CTestShader.h"
-
-// component
-#include "CTransform.h"
-#include "CMeshRenderer.h"
-#include "CGraphicsShader.h"
-#include "CComputeShader.h"
-#include "CCamera.h"
-#include "CTexture.h"
-#include "CMaterial.h"
-#include "CCollider2DRect.h"
-#include "CAnimator2D.h"
-#include "CAnimation2D.h"
-#include "Ptr.h"
-#include "CLight2D.h"
-#include "CTileMap.h"
-#include "CParticleSystem.h"
+#include "CRenderManager.h"
+#include "CEventManager.h"
 
 CSceneManager::CSceneManager() :
 	m_pCurScene(nullptr),
 	m_pLoadScript{},
-	m_pSaveScript{}
+	m_pSaveScript{},
+	m_eSceneMode(E_SceneMode::Stop)
 {
 }
 
@@ -51,23 +24,37 @@ void CSceneManager::Init() {
 
 void CSceneManager::Progress()
 {
-	m_pCurScene->PrevUpdate();
-	m_pCurScene->Update();
-	m_pCurScene->LateUpdate();
+	m_pCurScene->UnRegisterAllObjects();
+
+	switch (m_eSceneMode) {
+	case E_SceneMode::Play:
+		m_pCurScene->PrevUpdate();
+		m_pCurScene->Update();
+		m_pCurScene->LateUpdate();
+		break;
+	case E_SceneMode::Pause:
+		break;
+	case E_SceneMode::Stop:
+		
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+
+	CRenderManager::GetInstance()->UnRegisterCamera();
+	CRenderManager::GetInstance()->UnRegisterToolCamera();
+
+	// FinalUpdate 도중에 카메라가 등록 될 것임
 	m_pCurScene->FinalUpdate();
+
+	if(E_SceneMode::Play == m_eSceneMode)
+		CCollisionManager::GetInstance()->Update();
 }
 
 void CSceneManager::Render()
 {
 	m_pCurScene->Render();
-}
-
-void CSceneManager::CreateScene(const tstring& _strSceneName) {
-
-}
-
-void CSceneManager::LoadScene(const tstring& _strSceneName)
-{
 }
 
 void CSceneManager::ChangeScene(CScene* _pNextScene)
@@ -80,4 +67,12 @@ void CSceneManager::ChangeScene(CScene* _pNextScene)
 CGameObject* CSceneManager::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 {
 	return GetCurScene()->FindGameObject(_strName, _eLayer);
+}
+
+void CSceneManager::ChangeSceneModeEvt(E_SceneMode _eSceneMode)
+{
+	TEvent evn = {};
+	evn.eType = E_EventType::Change_SceneMode;
+	evn.lparam = (DWORD_PTR)_eSceneMode;
+	CEventManager::GetInstance()->AddEvent(evn);
 }

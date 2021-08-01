@@ -7,6 +7,7 @@
 #include "time.h"
 #include "CTestScene.h"
 #include "CSceneSaveLoad.h"
+#include "CToolObjManager.h"
 
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
@@ -80,6 +81,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
     
+    CToolObjManager::GetInstance()->Init(); // Tool 傈侩 Object 积己
     // TestScene 积己
     CSceneSaveLoad::Init();
     CTestScene::CreateTestScene();
@@ -100,6 +102,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else {
             // Game Run
             CCore::GetInstance()->Progress();
+
+            // Tool Objects
+            CToolObjManager::GetInstance()->Progress();
 
             // ImGUI Run
             CImGuiManager::GetInstance()->Progress();

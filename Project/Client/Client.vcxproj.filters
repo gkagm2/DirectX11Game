@@ -5,119 +5,140 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Default">
-      <UniqueIdentifier>{8acd106d-f303-4ffb-baff-b12483cbafd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client">
-      <UniqueIdentifier>{92c7f701-5b47-4a9b-b01d-e207adbd215a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\WindowsMessageMap">
-      <UniqueIdentifier>{453eb0cf-f452-41f0-aa05-ceb07675b4b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\Manager">
-      <UniqueIdentifier>{b511e684-3d8a-4a91-8611-3778f89b2b9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\Manager\SaveLoad">
-      <UniqueIdentifier>{ac121e6f-2dea-4b00-a418-7c13bd37b7bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGUI">
       <UniqueIdentifier>{1c8a472f-422e-4f7e-90bc-a4bd52740fc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\Manager\ImGui">
+    <Filter Include="01. Client">
+      <UniqueIdentifier>{92c7f701-5b47-4a9b-b01d-e207adbd215a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Client\WindowsMessageMap">
+      <UniqueIdentifier>{453eb0cf-f452-41f0-aa05-ceb07675b4b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Client\Manager">
+      <UniqueIdentifier>{b511e684-3d8a-4a91-8611-3778f89b2b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Client\Manager\SaveLoad">
+      <UniqueIdentifier>{ac121e6f-2dea-4b00-a418-7c13bd37b7bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Client\Manager\ImGui">
       <UniqueIdentifier>{f56bb79a-3037-4b9c-905f-13fd45bf757b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI">
+    <Filter Include="00. Default">
+      <UniqueIdentifier>{8acd106d-f303-4ffb-baff-b12483cbafd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI">
       <UniqueIdentifier>{ac6b3301-df2f-4b9f-bfdb-9534c36e72da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI">
+    <Filter Include="02. GUI\InspectorGUI">
       <UniqueIdentifier>{94f54ad0-7a50-4086-80ad-d8495f7045b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\HierachyGUI">
-      <UniqueIdentifier>{f14b894b-abe1-4707-a600-f8030ef66852}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\Module">
-      <UniqueIdentifier>{2d05aa2c-6d07-4651-b554-34690ac11fa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\Module\ListViewGUI">
-      <UniqueIdentifier>{1d30f82e-3aaf-413b-9970-17b377b59996}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\Module\TreeVIewGUI">
-      <UniqueIdentifier>{e32e9031-89f6-4ba4-a03e-7abc80d63e0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI">
       <UniqueIdentifier>{bc1d4313-a4c1-45ee-aeb8-b503433ba2dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI">
       <UniqueIdentifier>{1c92634c-f58e-4539-9847-146aa9c7e950}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI">
       <UniqueIdentifier>{1e712e9c-0f9d-43c8-a4a5-22ea74d56293}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI">
       <UniqueIdentifier>{83118172-75a5-4411-be87-933f27c5f73f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI">
       <UniqueIdentifier>{60268bf0-830c-4289-a8fb-facc3a018162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
       <UniqueIdentifier>{c0c9bdb9-ba3f-4f53-92b0-3f21ed5ec85a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
       <UniqueIdentifier>{875bbde1-f153-4430-884f-9cf509844aee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI">
-      <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI">
-      <UniqueIdentifier>{ff44992b-b687-4f10-9f2f-340ba707c5b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI">
-      <UniqueIdentifier>{5e7649c4-a377-4249-8367-6ab431014f94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\ResourceViewGUI">
-      <UniqueIdentifier>{401419e2-b7af-4362-9fff-844f73366873}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\MenuGUI">
-      <UniqueIdentifier>{8d4cc51a-66f8-454a-bd07-6d3f8c83f5c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\MenuGUI\MainMenuGUI">
-      <UniqueIdentifier>{c70808a0-8999-4d34-8b8d-a3ec6e4c3ea7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI">
       <UniqueIdentifier>{f01366db-6379-44b9-8e04-b9ad264f9ecd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI">
       <UniqueIdentifier>{4519215e-b30a-4437-99fb-c5914c369d19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody3DGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody3DGUI">
       <UniqueIdentifier>{080de936-735c-482a-b80b-25c07c953014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI">
+      <UniqueIdentifier>{c4785640-840c-4b99-b8a6-4d40366287b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI">
+      <UniqueIdentifier>{ff44992b-b687-4f10-9f2f-340ba707c5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI">
+      <UniqueIdentifier>{5e7649c4-a377-4249-8367-6ab431014f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\HierachyGUI">
+      <UniqueIdentifier>{f14b894b-abe1-4707-a600-f8030ef66852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\Module">
+      <UniqueIdentifier>{2d05aa2c-6d07-4651-b554-34690ac11fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\Module\ListViewGUI">
+      <UniqueIdentifier>{1d30f82e-3aaf-413b-9970-17b377b59996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\Module\TreeVIewGUI">
+      <UniqueIdentifier>{e32e9031-89f6-4ba4-a03e-7abc80d63e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\ResourceViewGUI">
+      <UniqueIdentifier>{401419e2-b7af-4362-9fff-844f73366873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\MenuGUI">
+      <UniqueIdentifier>{8d4cc51a-66f8-454a-bd07-6d3f8c83f5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\MenuGUI\MainMenuGUI">
+      <UniqueIdentifier>{c70808a0-8999-4d34-8b8d-a3ec6e4c3ea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools">
+      <UniqueIdentifier>{c4547edf-7a34-4ce3-9083-57ec53e7ff51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\01. Manager">
+      <UniqueIdentifier>{8b9e5434-262a-4861-9e89-e52a5bbbd28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\02. ToolObjects">
+      <UniqueIdentifier>{b0ff19cf-00b9-4a73-a2b8-9e3c3ce3697f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\02. ToolObjects\Camera">
+      <UniqueIdentifier>{6d6cb1fb-d7c3-43a7-bd0e-5084c690c9ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\02. ToolObjects\GameObject">
+      <UniqueIdentifier>{a6b692b2-e3d7-4636-99a9-74ed2fd0bc6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\03. Scripts">
+      <UniqueIdentifier>{dfc0855b-411a-4839-914c-ebec671e781e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\03. Scripts\Camera">
+      <UniqueIdentifier>{f8adec6c-4f89-4ad5-abcb-506eddc12d99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
-      <Filter>Client\WindowsMessageMap</Filter>
+      <Filter>01. Client\WindowsMessageMap</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
-      <Filter>Client</Filter>
+      <Filter>01. Client</Filter>
     </ClInclude>
     <ClInclude Include="CTestScene.h" />
     <ClInclude Include="CSceneSaveLoad.h">
-      <Filter>Client\Manager\SaveLoad</Filter>
+      <Filter>01. Client\Manager\SaveLoad</Filter>
     </ClInclude>
     <ClInclude Include="CImGuiManager.h">
-      <Filter>Client\Manager\ImGui</Filter>
+      <Filter>01. Client\Manager\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui_impl_dx11.h">
       <Filter>ImGUI</Filter>
@@ -144,79 +165,91 @@
       <Filter>ImGUI</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">
-      <Filter>GUI</Filter>
+      <Filter>02. GUI</Filter>
     </ClInclude>
     <ClInclude Include="ComponentGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
     </ClInclude>
     <ClInclude Include="TransformGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshRendererGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClInclude>
     <ClInclude Include="ListViewGUI.h">
-      <Filter>GUI\Module\ListViewGUI</Filter>
+      <Filter>02. GUI\Module\ListViewGUI</Filter>
     </ClInclude>
     <ClInclude Include="HierachyGUI.h">
-      <Filter>GUI\HierachyGUI</Filter>
+      <Filter>02. GUI\HierachyGUI</Filter>
     </ClInclude>
     <ClInclude Include="ResourceGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
     </ClInclude>
     <ClInclude Include="TreeViewGUI.h">
-      <Filter>GUI\Module\TreeVIewGUI</Filter>
+      <Filter>02. GUI\Module\TreeVIewGUI</Filter>
     </ClInclude>
     <ClInclude Include="InspectorGUI.h">
-      <Filter>GUI\InspectorGUI</Filter>
+      <Filter>02. GUI\InspectorGUI</Filter>
     </ClInclude>
     <ClInclude Include="Collider2DRectGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClInclude>
     <ClInclude Include="TextureGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
     </ClInclude>
     <ClInclude Include="MaterialGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
     </ClInclude>
     <ClInclude Include="ResourceViewGUI.h">
-      <Filter>GUI\ResourceViewGUI</Filter>
+      <Filter>02. GUI\ResourceViewGUI</Filter>
     </ClInclude>
     <ClInclude Include="StringTableGUI.h">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClInclude>
     <ClInclude Include="InspectorViewGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI</Filter>
     </ClInclude>
     <ClInclude Include="MenuGUI.h">
-      <Filter>GUI\MenuGUI</Filter>
+      <Filter>02. GUI\MenuGUI</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuGUI.h">
-      <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
+      <Filter>02. GUI\MenuGUI\MainMenuGUI</Filter>
     </ClInclude>
     <ClInclude Include="RigidbodyGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
     </ClInclude>
     <ClInclude Include="Rigidbody2DGUI.h">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolObjManager.h">
+      <Filter>03. Tools\01. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObjectEx.h">
+      <Filter>03. Tools\02. ToolObjects\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraEx.h">
+      <Filter>03. Tools\02. ToolObjects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolCameraScript.h">
+      <Filter>03. Tools\03. Scripts\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
-      <Filter>Client\WindowsMessageMap</Filter>
+      <Filter>01. Client\WindowsMessageMap</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Default</Filter>
+      <Filter>00. Default</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
-      <Filter>Client</Filter>
+      <Filter>01. Client</Filter>
     </ClCompile>
     <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="CSceneSaveLoad.cpp">
-      <Filter>Client\Manager\SaveLoad</Filter>
+      <Filter>01. Client\Manager\SaveLoad</Filter>
     </ClCompile>
     <ClCompile Include="CImGuiManager.cpp">
-      <Filter>Client\Manager\ImGui</Filter>
+      <Filter>01. Client\Manager\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui_demo.cpp">
       <Filter>ImGUI</Filter>
@@ -240,58 +273,70 @@
       <Filter>ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
-      <Filter>GUI</Filter>
+      <Filter>02. GUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI</Filter>
     </ClCompile>
     <ClCompile Include="TransformGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TransformGUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshRendererGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\MeshRendererGUI</Filter>
     </ClCompile>
     <ClCompile Include="ListViewGUI.cpp">
-      <Filter>GUI\Module\ListViewGUI</Filter>
+      <Filter>02. GUI\Module\ListViewGUI</Filter>
     </ClCompile>
     <ClCompile Include="HierachyGUI.cpp">
-      <Filter>GUI\HierachyGUI</Filter>
+      <Filter>02. GUI\HierachyGUI</Filter>
     </ClCompile>
     <ClCompile Include="ResourceGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI</Filter>
     </ClCompile>
     <ClCompile Include="TreeViewGUI.cpp">
-      <Filter>GUI\Module\TreeVIewGUI</Filter>
+      <Filter>02. GUI\Module\TreeVIewGUI</Filter>
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp">
-      <Filter>GUI\InspectorGUI</Filter>
+      <Filter>02. GUI\InspectorGUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DRectGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClCompile>
     <ClCompile Include="TextureGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\TextureGUI</Filter>
     </ClCompile>
     <ClCompile Include="MaterialGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\MaterialGUI</Filter>
     </ClCompile>
     <ClCompile Include="ResourceViewGUI.cpp">
-      <Filter>GUI\ResourceViewGUI</Filter>
+      <Filter>02. GUI\ResourceViewGUI</Filter>
     </ClCompile>
     <ClCompile Include="InspectorViewGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI</Filter>
     </ClCompile>
     <ClCompile Include="MenuGUI.cpp">
-      <Filter>GUI\MenuGUI</Filter>
+      <Filter>02. GUI\MenuGUI</Filter>
     </ClCompile>
     <ClCompile Include="MainMenuGUI.cpp">
-      <Filter>GUI\MenuGUI\MainMenuGUI</Filter>
+      <Filter>02. GUI\MenuGUI\MainMenuGUI</Filter>
     </ClCompile>
     <ClCompile Include="RigidbodyGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody2DGUI.cpp">
-      <Filter>GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RigidbodyGUI\Rigidbody2DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolObjManager.cpp">
+      <Filter>03. Tools\01. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObjectEx.cpp">
+      <Filter>03. Tools\02. ToolObjects\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraEx.cpp">
+      <Filter>03. Tools\02. ToolObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolCameraScript.cpp">
+      <Filter>03. Tools\03. Scripts\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

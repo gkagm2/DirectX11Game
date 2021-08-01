@@ -123,7 +123,7 @@ void CPlayerScript_sh::Move()
 
 	
 	float z = Transform()->GetLocalRotation().z;
-	if (InputKeyHold(E_Key::Ctrl))
+	if (InputKeyHold(E_Key::LCtrl))
 		Transform()->SetLocalRotation(Vector3(0.f, 0.f,  z + 15 * DT));
 
 	vDir.Normalize();

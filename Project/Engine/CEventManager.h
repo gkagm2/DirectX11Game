@@ -7,6 +7,8 @@ enum class E_EventType {
 	Unlink_Parent,
 	Change_Scene,
 	Change_State, // AI 상태 변환
+
+	Change_SceneMode, // 현재 씬 모드 변경
 };
 
 struct TEvent {

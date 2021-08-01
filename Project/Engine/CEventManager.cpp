@@ -94,7 +94,13 @@ void CEventManager::_Excute(const TEvent& _event)
 
 	}
 		break;
+	case E_EventType::Change_SceneMode: {
+		// lparam : enum SceneMode
+		E_SceneMode eSceneMode = (E_SceneMode)_event.lparam;
+		CSceneManager::GetInstance()->_SetSceneMode(eSceneMode);
+	}
 	default:
+		assert(nullptr);
 		break;
 	}
 
