@@ -12,6 +12,7 @@
 #include "Rigidbody2DGUI.h"
 #include "Animator2DGUI.h"
 #include "Light2DGUI.h"
+#include "TileMapGUI.h"
 
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
@@ -60,6 +61,10 @@ void InspectorGUI::Init()
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Light2D]->SetUISize(ImVec2(0.f, 110.f));
+
+	// TileMap
+	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;
+	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 110.f));
 
 	//////////// Resources
 

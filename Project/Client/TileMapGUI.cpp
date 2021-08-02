@@ -18,7 +18,5 @@ void TileMapGUI::Update()
 
 	CTileMap* pTileMap = GetTargetObject()->TileMap();
 	
-
-
 	End();
 }
