@@ -36,7 +36,6 @@ D3D11_INPUT_ELEMENT_DESC g_arrLayoutDesc[LAYOUT_DESCRIPTION_COUNT] = {
 TTransform g_transform = {};
 TGlobalConst g_globalConst = {};
 
-
 tstring ComponentTypeToStr(E_ComponentType _eType)
 {
 	tstring strComponentType = _T("ComponentDefaultType");

@@ -318,6 +318,7 @@
     <ClCompile Include="CRigidbody2D.cpp">
       <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
     </ClCompile>
+    <ClCompile Include="Define.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

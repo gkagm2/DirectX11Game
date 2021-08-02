@@ -268,6 +268,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CTestShader.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="Define.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CObject.cpp" />

@@ -122,6 +122,18 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator3DGUI">
       <UniqueIdentifier>{6e4bd7f7-3c2e-4209-b229-fa99b620b1f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TileMapGUI">
+      <UniqueIdentifier>{dcbbe4d7-859e-460a-ab38-87751c5e21a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI">
+      <UniqueIdentifier>{cf779776-a883-4a64-b225-acf806be12ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light2DGUI">
+      <UniqueIdentifier>{264e397c-c558-4820-a50f-abeeda204e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI">
+      <UniqueIdentifier>{14db0408-c6c4-4f87-84a9-12a229b680e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -248,6 +260,15 @@
     <ClInclude Include="Animator2DGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator2DGUI</Filter>
     </ClInclude>
+    <ClInclude Include="LightGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2DGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light2DGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TileMapGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -358,6 +379,15 @@
     </ClCompile>
     <ClCompile Include="Animator2DGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator2DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LightGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2DGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light2DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TileMapGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,11 @@ public:
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
 
+	const Vector3& GetUpVector() {
+		Vector3 vUpVec = XMVector3TransformCoord(Vector3{ 0.f,1.f,0.f }, GetWorldMatrix());
+		return  vUpVec.Normalize();
+	}
+
 public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;

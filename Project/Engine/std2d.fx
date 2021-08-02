@@ -137,7 +137,7 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
         {
             // Spot Light
             float3 vForwardDir = normalize(g_Light2DBuffer[0].vLightDir.xyz); // light πÊ«‚
-            float3 vDirToTarget = normalize(g_Light2DBuffer[0].vLightPos.xyz - _in.vWorldPos.xyz);
+            float3 vDirToTarget = normalize(_in.vWorldPos.xyz - g_Light2DBuffer[0].vLightPos.xyz);
     
             float fRadian = dot(vForwardDir, vDirToTarget);
             float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree

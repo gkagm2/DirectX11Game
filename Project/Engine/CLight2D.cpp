@@ -19,6 +19,7 @@ CLight2D::~CLight2D()
 void CLight2D::FinalUpdate()
 {
 	m_tInfo.vLightPos = Transform()->GetPosition();
+	m_tInfo.vLightDir = Transform()->GetUpVector();
 	CRenderManager::GetInstance()->RegisterLight2D(this);
 }
 

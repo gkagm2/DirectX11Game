@@ -204,6 +204,8 @@
     </ClInclude>
     <ClInclude Include="InspectorGUI.h" />
     <ClInclude Include="InspectorViewGUI.h" />
+    <ClInclude Include="Light2DGUI.h" />
+    <ClInclude Include="LightGUI.h" />
     <ClInclude Include="ListViewGUI.h" />
     <ClInclude Include="MainMenuGUI.h" />
     <ClInclude Include="MaterialGUI.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureGUI.h" />
+    <ClInclude Include="TileMapGUI.h" />
     <ClInclude Include="TransformGUI.h" />
     <ClInclude Include="TreeViewGUI.h" />
     <ClInclude Include="WindowsMessageMap.h" />
@@ -270,6 +273,8 @@
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp" />
     <ClCompile Include="InspectorViewGUI.cpp" />
+    <ClCompile Include="Light2DGUI.cpp" />
+    <ClCompile Include="LightGUI.cpp" />
     <ClCompile Include="ListViewGUI.cpp" />
     <ClCompile Include="MainMenuGUI.cpp" />
     <ClCompile Include="MaterialGUI.cpp" />
@@ -282,6 +287,7 @@
     <ClCompile Include="Rigidbody2DGUI.cpp" />
     <ClCompile Include="RigidbodyGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />
+    <ClCompile Include="TileMapGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />

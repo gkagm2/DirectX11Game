@@ -20,6 +20,7 @@ public:
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }
 	void SetRange(float _fRange);
 	const TLightInfo& GetLightInfo() { return m_tInfo; }
+	TLightInfo& GetLightInfoRef() { return m_tInfo; }
 	void SetLightPos(const Vector3& _vLightPos) { m_tInfo.vLightPos = Vector4(_vLightPos, 0.f); }
 	void SetLightDir(const Vector3& _vLightDir) { m_tInfo.vLightDir = Vector4(_vLightDir, 0.f); }
 

@@ -26,6 +26,8 @@
 // Math
 #define PI 3.14159265f
 
+// Make String
+//#define stringfiy(name) # name // FIXED (Jang) : tchar 타입은 어떻게하지
 
 #pragma region Components Define
 				// ---------- In GameObject class ----------
@@ -60,7 +62,6 @@
 	GET_OTHER_COMPONENT(ParticleSystem)\
 	GET_OTHER_COMPONENT(Rigidbody2D)
 #pragma endregion
-
 
 
 
@@ -246,5 +247,7 @@ enum class E_ShaderParam {
 enum class E_LightType {
 	Direction,
 	Point,
-	Spot
+	Spot,
+	End, // 사용하지 않음
 };
+tstring LightTypeToStr(E_LightType _eType);

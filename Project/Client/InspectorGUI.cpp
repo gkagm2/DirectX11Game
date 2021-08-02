@@ -11,6 +11,7 @@
 #include "Collider2DRectGUI.h"
 #include "Rigidbody2DGUI.h"
 #include "Animator2DGUI.h"
+#include "Light2DGUI.h"
 
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
@@ -39,28 +40,26 @@ void InspectorGUI::Init()
 	// TransformGUI
 	m_arrComGUI[(UINT)E_ComponentType::Transform] = new TransformGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetUISize(ImVec2(0.f, 110.f));
-	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetTargetObject(m_pTargetObject);
 
 	// MeshRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer] = new MeshRendererGUI;
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetUISize(ImVec2(0.f, 110.f));
-	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetTargetObject(m_pTargetObject);
 
 	// Collider2D
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DRectGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetUISize(ImVec2(0.f, 110.f));
-	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetTargetObject(m_pTargetObject);
 
 	// Rigidbody2D
 	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D] = new Rigidbody2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetUISize(ImVec2(0.f, 160.f));
-	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetTargetObject(m_pTargetObject);
 
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 110.f));
-	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetTargetObject(m_pTargetObject);
 
+	// Light2D
+	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Light2D]->SetUISize(ImVec2(0.f, 110.f));
 
 	//////////// Resources
 

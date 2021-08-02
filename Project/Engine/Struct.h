@@ -21,6 +21,7 @@ struct TTileInfo {
 	Vector2 vTileSizeUV;
 };
 
+// 추가시 GUI쪽도 추가해주기.
 struct TLightColor {
 	Vector4 vDiffuse;	// 난반사광
 	Vector4 vSpecular;	// 반사광

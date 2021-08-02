@@ -514,7 +514,8 @@ void CTestScene::ImGuiTest()
 	
 	CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
 
-	///////////////////
+	//////////////////////////////////////////////
+	// 
 	// 애니메이션 기능이 있는 오브젝트 생성
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
 	pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
@@ -560,7 +561,32 @@ void CTestScene::ImGuiTest()
 	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
 
 
-	/////////////////////
+	////////////////////////////////////////////////////
+	// 
+	// Spot Light 생성
+	CGameObject* pSpotLight = new CGameObject;
+	pSpotLight->AddComponent<CTransform>();
+	//pSpotLight->AddComponent<CMeshRenderer>();
+	pSpotLight->AddComponent<CLight2D>();
+	pSpotLight->AddComponent<CTestLight2DScript>();
+	pSpotLight->Light2D()->SetLightType(E_LightType::Spot);
+	//pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
+	pSpotLight->Transform()->SetLocalPosition(Vector3(300.f, 0.f, 0.f));
+	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
+	pSpotLight->Light2D()->SetRange(400.f);
+	pSpotLight->Light2D()->SetAngle(60.f);
+	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
+	pSpotLight->SetName(_T("SpotLight2D"));
+
+	CObject::CreateGameObjectEvn(pSpotLight, E_Layer::Default);
+
+	// Point Light 생성
+	CGameObject* pPointLight = pSpotLight->Clone();
+	pPointLight->Light2D()->SetLightType(E_LightType::Point);
+	pPointLight->Transform()->SetLocalPosition(Vector3(-300.f, 0.f, 0.f));
+	pPointLight->Light2D()->SetDiffColor(Vector3(1.0f, 0.0f, 0.0f));
+	pPointLight->SetName(_T("PointLight2D"));
+	CObject::CreateGameObjectEvn(pPointLight, E_Layer::Default);
 
 
 
@@ -760,7 +786,6 @@ void CTestScene::Light2DTest()
 	// Spot Light 생성
 	CGameObject* pSpotLight = new CGameObject;
 	pSpotLight->AddComponent<CTransform>();
-	pSpotLight->AddComponent<CMeshRenderer>();
 	pSpotLight->AddComponent<CLight2D>();
 	pSpotLight->AddComponent<CTestLight2DScript>();
 	pSpotLight->Light2D()->SetLightType(E_LightType::Spot);
