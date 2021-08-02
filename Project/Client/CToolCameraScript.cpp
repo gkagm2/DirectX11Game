@@ -6,7 +6,7 @@
 
 CToolCameraScript::CToolCameraScript() :
 	CScript(-1),
-	m_fSpeed(200.f)
+	m_fSpeed(40.f)
 {
 }
 
@@ -20,17 +20,18 @@ void CToolCameraScript::Update()
 		return;
 
 	Vector3 vPos = Transform()->GetLocalPosition();
-	if (InputKeyHold(E_Key::UP)) {
-		vPos.y += DT * 150.f;
+
+	if (InputKeyPress(E_Key::MBUTTON))
+	{
+		m_vPrevPos = MousePosition;
 	}
-	if (InputKeyHold(E_Key::DOWN)) {
-		vPos.y -= DT * 150.f;
+	if (InputKeyHold(E_Key::MBUTTON)) {
+		m_vMoveOffset = MousePosition - m_vPrevPos;
+		m_vMoveOffset.x *= -1;
+		vPos = vPos - m_vMoveOffset * DT * m_fSpeed;
 	}
-	if (InputKeyHold(E_Key::LEFT)) {
-		vPos.x -= DT * 150.f;
+	if (InputKeyRelease(E_Key::MBUTTON)) {
 	}
-	if (InputKeyHold(E_Key::RIGHT)) {
-		vPos.x += DT * 150.f;
-	}
+
 	Transform()->SetLocalPosition(vPos);
 }

@@ -514,6 +514,56 @@ void CTestScene::ImGuiTest()
 	
 	CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
 
+	///////////////////
+	// 애니메이션 기능이 있는 오브젝트 생성
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
+	pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	CGameObject* pPlayer = new CGameObject();
+	pPlayer->AddComponent<CTransform>();
+	pPlayer->AddComponent<CMeshRenderer>();
+	//pPlayer->AddComponent<CPlayerScript_sh>();
+	pPlayer->AddComponent<CAnimator2D>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
+
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMesh(pMesh);
+
+	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
+	TAnimation2DDesc tAnimDesc;
+	tAnimDesc.fDuration = 0.1f;
+	tAnimDesc.iFrameCount = 10;
+	tAnimDesc.pAtlas = pAnimTexture;
+	tAnimDesc.strName = _T("Player_Walk");
+	tAnimDesc.vBaseSize = Vector2{ 150.f,150.f };
+	tAnimDesc.vFrameSize = Vector2{ 60.f,65.f };
+	tAnimDesc.vLeftTop = Vector2(0.f, 4 * 65.f);
+
+	pPlayer->Animator2D()->CreateAnimation(tAnimDesc);
+
+	pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
+	CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
+
+	//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+
+	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
+	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
+
+	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+
+	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
+	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
+	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
+
+
+	/////////////////////
+
+
+
 	// Scene 초기화
 	pNewScene->Awake();
 	pNewScene->Start();

@@ -6,7 +6,6 @@ class CToolObjManager : public CSingleton<CToolObjManager>
 private:
 	vector<CGameObjectEx*> m_vecToolObjs;
 
-
 private:
 	void _AddGameObjectEx(CGameObjectEx* _pObjEx) { m_vecToolObjs.push_back(_pObjEx); }
 

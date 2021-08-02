@@ -113,6 +113,15 @@
     <Filter Include="03. Tools\03. Scripts\Camera">
       <UniqueIdentifier>{f8adec6c-4f89-4ad5-abcb-506eddc12d99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI">
+      <UniqueIdentifier>{da7be43f-1b90-4256-969d-0411db2185f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator2DGUI">
+      <UniqueIdentifier>{4110eef0-924a-4b4c-a2fd-8e8213202e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator3DGUI">
+      <UniqueIdentifier>{6e4bd7f7-3c2e-4209-b229-fa99b620b1f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -233,6 +242,12 @@
     <ClInclude Include="CToolCameraScript.h">
       <Filter>03. Tools\03. Scripts\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatorGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator2DGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator2DGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -337,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="CToolCameraScript.cpp">
       <Filter>03. Tools\03. Scripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator2DGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator2DGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

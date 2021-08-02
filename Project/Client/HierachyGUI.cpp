@@ -83,5 +83,7 @@ void HierachyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTa
 {
 	CGameObject* pDragStartNode = (CGameObject*)_pDragStartNode->GetData();
 	CGameObject* pDropTargetNode = (CGameObject*)_pDropTargetNode->GetData();
+	if (pDragStartNode == pDropTargetNode)
+		return;
 	CObject::AddChildGameObjectEvn(pDropTargetNode, pDragStartNode);
 }

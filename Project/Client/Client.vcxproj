@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animator2DGUI.h" />
+    <ClInclude Include="AnimatorGUI.h" />
     <ClInclude Include="CCameraEx.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
@@ -222,6 +224,8 @@
     <ClInclude Include="WindowsMessageMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animator2DGUI.cpp" />
+    <ClCompile Include="AnimatorGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">

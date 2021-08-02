@@ -10,7 +10,6 @@
 CEventManager::CEventManager() :
 	m_bEventHappened(false)
 {
-
 }
 
 CEventManager::~CEventManager()
@@ -104,7 +103,7 @@ void CEventManager::_Excute(const TEvent& _event)
 		E_SceneMode eSceneMode = (E_SceneMode)_event.lparam;
 		CSceneManager::GetInstance()->_SetSceneMode(eSceneMode);
 	}
-									  break;
+		break;
 	default:
 		assert(nullptr);
 		break;

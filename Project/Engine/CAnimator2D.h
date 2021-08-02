@@ -36,7 +36,9 @@ enum class E_AnimationState {
 	Loop, // repeat 0 to 10 
 	Once, // 0 to 10 and done
 	PingPong, // repeat 0 to 10 and 10 to 0 
+	End,
 };
+tstring AnimationStateToStr(E_AnimationState _eState);
 
 class CAnimator2D : public CComponent
 {
