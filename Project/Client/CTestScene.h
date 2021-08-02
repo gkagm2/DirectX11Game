@@ -28,12 +28,7 @@ protected:
 	
 	static void TextureTest();
 	
-	
-	
 	// TODO (Jang) : string 데이터를 읽게되면 제대로 안읽어짐. Scene Save, Load가 안됨. 
-	
-	
-
 
 private:
 	CTestScene();

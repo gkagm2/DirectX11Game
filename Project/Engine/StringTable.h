@@ -31,6 +31,10 @@
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
 #define STR_FILE_PATH_NoiseTexture2 _T("texture\\noise\\noise_02.png")
 
+
+// Scene path
+#define STR_FILE_PATH_TempScene _T("scene\\tempScene.scene")
+
 // Path Test
 #define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
 

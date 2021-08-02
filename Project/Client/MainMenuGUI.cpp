@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "MainMenuGUI.h"
+#include <Engine\CSceneManager.h>
+#include "CSceneSaveLoad.h"
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -85,15 +87,20 @@ void MainMenuGUI::ShowSceneMode()
         bPause = true;
         bStop = true;
         bPlay = false;
+        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Play);
+        CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), STR_FILE_PATH_TempScene);
     }
     if (ImGui::MenuItem("Pause", "CTRL+P", false, bPause)) {
         bPause = false;
         bPlay = true;
         bStop = true;
+        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Pause);
     }
     if (ImGui::MenuItem("Stop", "CTRL+O", false, bStop)) {
         bStop = false;
         bPlay = true;
         bPause = false;
+        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
+        CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
     }
 }

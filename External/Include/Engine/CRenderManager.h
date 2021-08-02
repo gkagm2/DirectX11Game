@@ -39,6 +39,7 @@ public:
 
 	CCamera* GetMainCamera();
 	CCamera* GetToolCamera();
+	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }
 
 private:
 	void _RenderInit_Light2D();

@@ -171,9 +171,6 @@ void CImGuiManager::Update_PrintTextTest()
 
 void CImGuiManager::Init_ShowGameObjectComponent()
 {
-    CGameObject* pGameObject = CSceneManager::GetInstance()->FindGameObject(_T("Player"));
-    assert(pGameObject); // TestScene에서 Player란 이름을 가진 오브젝트를 하나 만들자
-
     // Resource들을 보여주는 GUI
     ResourceViewGUI* pResourceGUI = new ResourceViewGUI;
     pResourceGUI->Init();

@@ -43,7 +43,6 @@ private:
 public:
 	virtual void FinalUpdate() override;
 	virtual void Render() override;
-	virtual void Update() override;
 	
 public:
 	void SetProjectionType(E_ProjectionType _eType) { m_eProjectionType = _eType; }

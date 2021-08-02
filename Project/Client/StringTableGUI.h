@@ -7,4 +7,3 @@
 #define STR_GUI_MainMenu "MainMenu"
 
 // ComponentType
-#define STR

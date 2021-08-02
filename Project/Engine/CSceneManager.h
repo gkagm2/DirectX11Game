@@ -27,14 +27,16 @@ public:
 
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
-	void ChangeScene(CScene* _pNextScene);
+	
 
 	CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
 	E_SceneMode GetSceneMode() { return m_eSceneMode; }
 
 	void ChangeSceneModeEvt(E_SceneMode _eSceneMode); // 현재 씬의 모드 변경
+	void ChangeSceneEvt(CScene* _pNextScene);
+	void ChangeScene(CScene* _pNextScene);
 
 private:
-	void _SetSceneMode(E_SceneMode _eSceneMode) { m_eSceneMode = _eSceneMode; }
+	void _SetSceneMode(E_SceneMode _eSceneMode);
 	friend class CEventManager;
 };

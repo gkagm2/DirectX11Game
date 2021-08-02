@@ -4,6 +4,7 @@
 #include "CConstBuffer.h"
 #include "CSceneManager.h"
 #include "CStructuredBuffer.h"
+#include "CCamera.h"
 
 CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr)
@@ -60,22 +61,22 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
-		if (!m_vecToolCam[i])
-			m_vecToolCam[i]->Render();
-	}
-
-	UnRegisterToolCamera();
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
+		m_vecToolCam[i]->Render();
 }
 
 CCamera* CRenderManager::GetMainCamera()
 {
+	CCamera* pMainCamera = nullptr;
 	// TODO (Jang) : 어떤 카메라를 가져올지 설정한 카메로 가져오기
 	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
-		if (m_vecCam.empty())
-			return nullptr;
+		if (!m_vecCam.empty())
+			pMainCamera = m_vecCam[0];
 	}
-	return m_vecCam[0];
+	else {
+		pMainCamera = m_vecToolCam[0];
+	}
+	return pMainCamera;
 }
 
 CCamera* CRenderManager::GetToolCamera()

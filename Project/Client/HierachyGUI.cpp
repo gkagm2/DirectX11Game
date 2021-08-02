@@ -26,6 +26,7 @@ void HierachyGUI::Init()
 	m_treeView.SetFrameRender(false);
 	m_treeView.SetFrameOnlyParent(false);
 	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&HierachyGUI::SelectGameObject);
+	m_treeView.SetDragDropCallBack(this, (DRAG_DROP_CALLBACK)&HierachyGUI::DragDrop);
 }
 
 void HierachyGUI::Update()
@@ -76,4 +77,11 @@ void HierachyGUI::SelectGameObject(TreeViewNode* _pNode)
 	InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
 	
 	pInspectorGUI->SetTargetObject(pTargetObj);
+}
+
+void HierachyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode)
+{
+	CGameObject* pDragStartNode = (CGameObject*)_pDragStartNode->GetData();
+	CGameObject* pDropTargetNode = (CGameObject*)_pDropTargetNode->GetData();
+	CObject::AddChildGameObjectEvn(pDropTargetNode, pDragStartNode);
 }

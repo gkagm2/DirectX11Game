@@ -35,10 +35,11 @@ void CEventManager::Update()
 	m_vecEvent.clear();
 
 	// 생성 예정 오브젝트 정리
-	for (UINT i = 0; i < m_vecCreateObj.size(); ++i) {
+	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
 			m_vecCreateObj[i]->Awake();
-			m_vecCreateObj[i]->Start();
-	}
+	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
+		m_vecCreateObj[i]->Start();
+
 	m_vecCreateObj.clear();
 }
 
@@ -50,9 +51,11 @@ void CEventManager::_Excute(const TEvent& _event)
 		// lparam : Object Address
 		// wparam : Layer Index
 		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+		assert(pCurScene);
 		CGameObject* pNewGameObject = (CGameObject*)_event.lparam;
+		assert(pNewGameObject);
 		int iLayer = (int)_event.wparam;
-		pCurScene->AddGameObject(pNewGameObject, (E_Layer)iLayer);
+		pCurScene->_AddGameObject(pNewGameObject, (E_Layer)iLayer);
 		m_vecCreateObj.push_back(pNewGameObject);
 	}
 		break;
@@ -87,7 +90,9 @@ void CEventManager::_Excute(const TEvent& _event)
 	}
 		break;
 	case E_EventType::Change_Scene: {
-
+		// lparam : next Scene
+		CScene* pNextScene = (CScene*)_event.lparam;
+		CSceneManager::GetInstance()->ChangeScene(pNextScene);
 	}
 		break;
 	case E_EventType::Change_State: {
@@ -99,6 +104,7 @@ void CEventManager::_Excute(const TEvent& _event)
 		E_SceneMode eSceneMode = (E_SceneMode)_event.lparam;
 		CSceneManager::GetInstance()->_SetSceneMode(eSceneMode);
 	}
+									  break;
 	default:
 		assert(nullptr);
 		break;
@@ -110,6 +116,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Add_Child:
 	case E_EventType::Unlink_Parent:
 	case E_EventType::Change_Scene:
+	//case E_EventType::Change_SceneMode:
 		m_bEventHappened = true;
 		break;
 	}

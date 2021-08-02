@@ -55,6 +55,9 @@ private:
 	TreeViewNode* m_pRootNode;		// 최상위 노드
 	TreeViewNode* m_pSelectedNode;	// 선택한 노드
 
+	TreeViewNode* m_pDraggedNode;	// 드래그 시작한 노드
+	TreeViewNode* m_pDropTargetNode;// 드래그 목적지 노드
+
 	bool m_bRootRender;		// 최상위 부모를 렌더링하는지 여부
 	bool m_bFrameUse;		// Frame 사용 여부
 	bool m_bFrameOnlyParent;// Parent만 Frame을 사용할 것인지 여부
@@ -97,7 +100,8 @@ public:
 
 private:
 	void _SetSelectedNode(TreeViewNode* _pNode) { m_pSelectedNode = _pNode; }
-
+	void _SetDragStartNode(TreeViewNode* _pNode) { m_pDraggedNode = _pNode; }
+	void _SetDropTargetNode(TreeViewNode* _pNode) { m_pDropTargetNode = _pNode; }
 
 public:
 	TreeViewGUI();

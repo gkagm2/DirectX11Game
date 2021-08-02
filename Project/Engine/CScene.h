@@ -16,17 +16,17 @@ public:
     virtual void Update() override;
     virtual void LateUpdate() override;
     virtual void FinalUpdate() override;
-    virtual void Render() {};
+    virtual void Render() override {};
 
 public:
-    void AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default, bool _bChangeChildLayer = true);
-
     CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
 
     CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
     CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
 
-    void UnRegisterAllObjects();
+private:
+    void _AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default, bool _bChangeChildLayer = true);
+    void _UnRegisterAllObjects();
 
 public:
     virtual bool SaveToScene(FILE* _pFile) override;
@@ -37,4 +37,6 @@ private:
 public:
     CScene();
     virtual ~CScene() override;
+    friend class CEventManager;
+    friend class CSceneManager;
 };

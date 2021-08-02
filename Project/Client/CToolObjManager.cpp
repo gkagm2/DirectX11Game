@@ -21,7 +21,7 @@ void CToolObjManager::Init()
 	pToolCamObj->AddComponent<CCameraEx>();
 	pToolCamObj->AddComponent<CToolCameraScript>();
 
-	pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Perspective);
+	pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pToolCamObj->Camera()->SetLayerCheckAll();
 	_AddGameObjectEx(pToolCamObj);
 
@@ -39,4 +39,9 @@ void CToolObjManager::Progress()
 		m_vecToolObjs[i]->Update();
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
 		m_vecToolObjs[i]->LateUpdate();
+
+	CRenderManager::GetInstance()->UnRegisterToolCamera();
+
+	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
+		m_vecToolObjs[i]->FinalUpdate();
 }

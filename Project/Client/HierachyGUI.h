@@ -17,6 +17,7 @@ private:
 
 public:
 	void SelectGameObject(TreeViewNode* _pNode);
+	void DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode);
 
 public:
 	HierachyGUI();

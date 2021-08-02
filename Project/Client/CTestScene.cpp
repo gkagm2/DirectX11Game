@@ -89,11 +89,14 @@ CTestScene::~CTestScene()
 
 void CTestScene::CreateTestScene()
 {
+	CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
 	ImGuiTest();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
+
 	CScene* pNewScene = new CScene;
+
 
 	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
@@ -113,7 +116,7 @@ void CTestScene::CreateTestScene()
 		pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 
-		pNewScene->AddGameObject(pCameraObj);
+		CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 	}
 	//{
 	//	// 게임 매니저 오브젝트 생성
@@ -162,7 +165,7 @@ void CTestScene::CreateTestScene()
 		pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 		pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 		
-		pNewScene->AddGameObject(pPlayer, E_Layer::Player);
+		CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
 	}
 	{
 		// ComputeShader Test 
@@ -179,7 +182,7 @@ void CTestScene::CreateTestScene()
 		pObj->MeshRenderer()->SetMesh(pMesh);
 		pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
 		pObj->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
-		pNewScene->AddGameObject(pObj);
+		CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
 	}
 
 
@@ -245,7 +248,7 @@ void CTestScene::Camera()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 
 	// Scene 초기화
@@ -264,7 +267,7 @@ void CTestScene::RenderingBoxObject()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	// 오브젝트 생성
 	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
@@ -290,7 +293,7 @@ void CTestScene::RenderingBoxObject()
 	pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
 
 	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-	pNewScene->AddGameObject(pObj);
+	CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
 
 	// Scene 초기화
 	pNewScene->Awake();
@@ -308,7 +311,7 @@ void CTestScene::RenderingAnimationTexture()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 
 	// 플레이어 오브젝트 생성
@@ -355,7 +358,7 @@ void CTestScene::RenderingAnimationTexture()
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
-	pNewScene->AddGameObject(pPlayer, E_Layer::Player);
+	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
 
 
 	// Scene 초기화
@@ -388,7 +391,7 @@ void CTestScene::SceneSaveLoadTest()
 		pCameraObj->AddComponent<CCamera>();
 		pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-		pNewScene->AddGameObject(pCameraObj);
+		CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 		CGameObject* pPlayer = TestCreateObj();
 		// 플레이어 오브젝트 생성
@@ -427,7 +430,7 @@ void CTestScene::SceneSaveLoadTest()
 			pPlayer->AddComponent<CCollider2DRect>();
 			pPlayer->Collider2D()->SetOffsetScale(Vector2(60.f, 60.f));
 
-			pNewScene->AddGameObject(pPlayer);
+			CObject::CreateGameObjectEvn(pPlayer, E_Layer::Default);
 		}
 	}
 
@@ -452,7 +455,7 @@ void CTestScene::MouseMovementTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 
 	// Scene 초기화
@@ -472,7 +475,8 @@ void CTestScene::ImGuiTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	pCameraObj->SetName(_T("Camera"));
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 
 	// 플레이어란 이름을 가진 오브젝트 생성
@@ -506,12 +510,9 @@ void CTestScene::ImGuiTest()
 
 	// Rigidobdy2D 세팅
 	pObj->AddComponent<CRigidbody2D>();
-	pObj->Rigidbody2D()->UseGravity(true);
-
-
-
+	pObj->Rigidbody2D()->UseGravity(false);
 	
-	pNewScene->AddGameObject(pObj);
+	CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
 
 	// Scene 초기화
 	pNewScene->Awake();
@@ -574,7 +575,7 @@ void CTestScene::SceneSaveLoadPrefabTest()
 		pCameraObj->AddComponent<CCamera>();
 		pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 		pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-		pNewScene->AddGameObject(pCameraObj);
+		CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 		CGameObject* pPlayer = TestCreateObj();
 		// 플레이어 오브젝트 생성
@@ -613,7 +614,7 @@ void CTestScene::SceneSaveLoadPrefabTest()
 			pPlayer->AddComponent<CCollider2DRect>();
 			pPlayer->Collider2D()->SetOffsetScale(Vector2(60.f, 60.f));
 
-			pNewScene->AddGameObject(pPlayer);
+			CObject::CreateGameObjectEvn(pPlayer, E_Layer::Default);
 		}
 	}
 
@@ -665,7 +666,7 @@ void CTestScene::Light2DTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	//// 플레이어 오브젝트 생성
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -704,7 +705,7 @@ void CTestScene::Light2DTest()
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
-	pNewScene->AddGameObject(pPlayer, E_Layer::Player);
+	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
 
 	// Spot Light 생성
 	CGameObject* pSpotLight = new CGameObject;
@@ -720,14 +721,14 @@ void CTestScene::Light2DTest()
 	pSpotLight->Light2D()->SetAngle(60.f);
 	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 
-	pNewScene->AddGameObject(pSpotLight, E_Layer::Default);
+	CObject::CreateGameObjectEvn(pSpotLight, E_Layer::Default);
 
 	// Point Light 생성
 	CGameObject* pPointLight = pSpotLight->Clone();
 	pPointLight->Light2D()->SetLightType(E_LightType::Point);
 	pPointLight->Transform()->SetLocalPosition(Vector3(-300.f, 0.f, 0.f));
 	pPointLight->Light2D()->SetDiffColor(Vector3(1.0f, 0.0f, 0.0f));
-	pNewScene->AddGameObject(pPointLight);
+	CObject::CreateGameObjectEvn(pPointLight, E_Layer::Default);
 
 
 	// Scene 초기화
@@ -747,7 +748,7 @@ void CTestScene::TileMapTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	// TileMap 1 
 	CGameObject* pTileMap = new CGameObject();
@@ -758,7 +759,7 @@ void CTestScene::TileMapTest()
 	pTileMap->Transform()->SetLocalPosition(Vector3(-400.f, 0.f, 0.f));
 
 	pTileMap->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
-	pNewScene->AddGameObject(pTileMap);
+	CObject::CreateGameObjectEvn(pTileMap, E_Layer::Default);
 
 
 	// TileMap 2
@@ -771,7 +772,7 @@ void CTestScene::TileMapTest()
 
 	pTileMap2->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
 	pTileMap2->TileMap()->CreateTile(7, 7);
-	pNewScene->AddGameObject(pTileMap2);
+	CObject::CreateGameObjectEvn(pTileMap2, E_Layer::Default);
 
 
 	// Scene 초기화
@@ -798,7 +799,7 @@ void CTestScene::PrefabRegisterTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	CGameObject* pPlayer = new CGameObject;
 	pPlayer->AddComponent<CTransform>();
@@ -806,7 +807,7 @@ void CTestScene::PrefabRegisterTest()
 	pPlayer->AddComponent<CMeshRenderer>();
 	pPlayer->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
 	pPlayer->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	pNewScene->AddGameObject(pPlayer);
+	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Default);
 
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
 	pPlayer->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
@@ -858,7 +859,7 @@ void CTestScene::ParticleSystemTest()
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	// Particle System Example
 	CGameObject* pParticleObj = new CGameObject();
@@ -868,12 +869,12 @@ void CTestScene::ParticleSystemTest()
 
 	pParticleObj->Transform()->SetLocalPosition(Vector3(100.f, 0.f, 100.f));
 	pParticleObj->Transform()->SetLocalScale(Vector3(25.f, 25.f, 1.f));
-	pNewScene->AddGameObject(pParticleObj);
+	CObject::CreateGameObjectEvn(pParticleObj, E_Layer::Default);
 
 	// 파티클 복사
 	pParticleObj = pParticleObj->Clone();
 	pParticleObj->Transform()->SetLocalPosition(Vector3(-100.f, 0.f, 100.f));
-	pNewScene->AddGameObject(pParticleObj);
+	CObject::CreateGameObjectEvn(pParticleObj, E_Layer::Default);
 
 	// Scene 초기화
 	pNewScene->Awake();
@@ -891,7 +892,7 @@ void CTestScene::Collision2DTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
-	pNewScene->AddGameObject(pCameraObj);
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
 
 	// 오브젝트 생성
 	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
@@ -919,7 +920,7 @@ void CTestScene::Collision2DTest()
 	// 충돌영역 설정
 	pObj->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
-	pNewScene->AddGameObject(pObj, E_Layer::Player);
+	CObject::CreateGameObjectEvn(pObj, E_Layer::Player);
 
 	
 	// 다른 오브젝트 생성
@@ -928,7 +929,7 @@ void CTestScene::Collision2DTest()
 	pObj2->AddComponent<CRotateZScript>();
 	pObj2->Transform()->SetLocalPosition(Vector3(120.f, 0.f, 0.f));
 	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 45.f));
-	pNewScene->AddGameObject(pObj2, E_Layer::Enemy);
+	CObject::CreateGameObjectEvn(pObj2, E_Layer::Enemy);
 
 
 	// 레이어 충돌 지정

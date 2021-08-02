@@ -66,6 +66,39 @@ void TreeViewNode::Update()
 			}
 		}
 
+		// 해당 아이템이 드래그 시작한 경우
+		if (ImGui::BeginDragDropSource()) {
+			// 자신이 드래그 시작 노드를 알림
+			m_pOwner->_SetDragStartNode(this);
+			ImGui::SetDragDropPayload("DraggedNode", this, sizeof(TreeViewNode));
+			ImGui::Text("This is a drag and drop source");
+			ImGui::EndDragDropSource();
+		}
+		 
+		// 해당 아이템이 드롭한 경우
+		if (ImGui::BeginDragDropTarget()) {
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DraggedNode");
+
+			if (payload) {
+				// 자신이 드래그 목적지를 알림
+				m_pOwner->_SetDropTargetNode(this);
+
+				// drag 시작한 트리노드의 정보를 가져옴
+				TreeViewNode* pDragNode = (TreeViewNode*)payload->Data;
+
+				// drag drop callback 호출
+				((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(pDragNode, this);
+
+				// tree의 drag시작, 타겟 정보 초기화
+				m_pOwner->_SetDragStartNode(nullptr);
+				m_pOwner->_SetDropTargetNode(nullptr);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+
+
+
 		for (UINT i = 0; i < m_vecChildNodes.size(); ++i)
 			m_vecChildNodes[i]->Update();
 		ImGui::TreePop();

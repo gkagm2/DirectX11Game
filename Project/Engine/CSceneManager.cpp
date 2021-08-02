@@ -24,7 +24,7 @@ void CSceneManager::Init() {
 
 void CSceneManager::Progress()
 {
-	m_pCurScene->UnRegisterAllObjects();
+	m_pCurScene->_UnRegisterAllObjects();
 
 	switch (m_eSceneMode) {
 	case E_SceneMode::Play:
@@ -43,7 +43,6 @@ void CSceneManager::Progress()
 	}
 
 	CRenderManager::GetInstance()->UnRegisterCamera();
-	CRenderManager::GetInstance()->UnRegisterToolCamera();
 
 	// FinalUpdate 도중에 카메라가 등록 될 것임
 	m_pCurScene->FinalUpdate();
@@ -75,4 +74,19 @@ void CSceneManager::ChangeSceneModeEvt(E_SceneMode _eSceneMode)
 	evn.eType = E_EventType::Change_SceneMode;
 	evn.lparam = (DWORD_PTR)_eSceneMode;
 	CEventManager::GetInstance()->AddEvent(evn);
+}
+
+void CSceneManager::ChangeSceneEvt(CScene* _pNextScene)
+{
+	TEvent evn = {};
+	evn.eType = E_EventType::Change_Scene;
+	evn.lparam = (DWORD_PTR)_pNextScene;
+	CEventManager::GetInstance()->AddEvent(evn);
+}
+
+void CSceneManager::_SetSceneMode(E_SceneMode _eSceneMode) {
+	// TODO (Jang) : 뭔가 이상한데 수정하기
+	if (E_SceneMode::Play == m_eSceneMode && E_SceneMode::Stop == m_eSceneMode)
+		m_pCurScene->Start();
+	m_eSceneMode = _eSceneMode;
 }
