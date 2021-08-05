@@ -13,6 +13,7 @@ class CSceneManager : public CSingleton<CSceneManager>
 
 private:
 	CScene* m_pCurScene;
+	CScene* m_pLoadingScene;  // 로딩화면을 위한 씬
 	E_SceneMode m_eSceneMode;
 
 public:
@@ -35,6 +36,15 @@ public:
 	void ChangeSceneModeEvt(E_SceneMode _eSceneMode); // 현재 씬의 모드 변경
 	void ChangeSceneEvt(CScene* _pNextScene);
 	void ChangeScene(CScene* _pNextScene);
+
+	// For Multi Thread
+public:
+	volatile int m_iLoadSync;   // Scene Load가 끝나면 0에서 1로 설정됨
+	CScene* m_pNextScene;
+
+public:
+	void SceneLoadStart();		//
+
 
 private:
 	void _SetSceneMode(E_SceneMode _eSceneMode);

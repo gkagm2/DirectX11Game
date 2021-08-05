@@ -122,6 +122,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui::DestroyContext();
     DestroyWindow(g_hWnd);
 
+    CSceneSaveLoad::Release();
+
     return (int) msg.wParam;
 }
 

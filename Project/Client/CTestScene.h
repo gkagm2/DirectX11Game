@@ -18,10 +18,12 @@ protected:
 	static void SceneSaveLoadTest();			// Done
 	static void MouseMovementTest();
 	static void ImGuiTest();
+	static void MultiThreadScene_LoadingScene();
 
 	static void SceneSaveLoadPrefabTest();// TODO (Jang) : 프리펩 RelativePath가 없음.
 
 	static void PlayerSaveLoad();
+	
 
 	static void ChildObjectTest();				
 	static void AnimationSaveLoad();

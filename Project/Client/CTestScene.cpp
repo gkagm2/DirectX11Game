@@ -596,6 +596,16 @@ void CTestScene::ImGuiTest()
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
+void CTestScene::MultiThreadScene_LoadingScene()
+{
+	CScene* pScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+
+	// Scene Load (Thread)
+	CSceneSaveLoad::LoadScene(STR_FILE_PATH_LoadingScene);
+	return;
+}
+
 void CTestScene::SceneSaveLoadPrefabTest()
 {
 	// Load test

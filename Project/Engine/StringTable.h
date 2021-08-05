@@ -34,6 +34,7 @@
 
 // Scene path
 #define STR_FILE_PATH_TempScene _T("scene\\tempScene.scene")
+#define STR_FILE_PATH_LoadingScene _T("scene\\loadingScene.scene")
 
 // Path Test
 #define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
