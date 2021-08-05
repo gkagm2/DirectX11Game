@@ -134,6 +134,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI">
       <UniqueIdentifier>{14db0408-c6c4-4f87-84a9-12a229b680e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\Module\ParamGUI">
+      <UniqueIdentifier>{a09aa518-2d76-49fb-975f-758327ff14f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -269,6 +272,9 @@
     <ClInclude Include="TileMapGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TileMapGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ParamGUI.h">
+      <Filter>02. GUI\Module\ParamGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -388,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="TileMapGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TileMapGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamGUI.cpp">
+      <Filter>02. GUI\Module\ParamGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
