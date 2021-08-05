@@ -4,8 +4,8 @@ class CScript;
 class CSceneSaveLoad
 {
 public:
-	static HANDLE g_hLoadThread;
-	static volatile int g_iThreadDead; // 0 : not dead, 1 dead
+	static HANDLE g_hLoadThread;		// 로딩용 스레드의 핸들
+	static volatile int g_iThreadDead;	// 0 : not dead, 1 dead
 
 	static HANDLE g_hLoadStartEvent;
 	static HANDLE g_hLoadExitEvent;

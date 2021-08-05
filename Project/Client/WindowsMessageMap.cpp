@@ -87,7 +87,7 @@ WindowsMessageMap::WindowsMessageMap() :
 	REGISTER_MESSAGE(WM_NCCREATE),
 	REGISTER_MESSAGE(WM_NCDESTROY),
 	REGISTER_MESSAGE(WM_NCCALCSIZE),
-	REGISTER_MESSAGE(WM_NCHITTEST),
+	//REGISTER_MESSAGE(WM_NCHITTEST),
 	REGISTER_MESSAGE(WM_NCPAINT),
 	REGISTER_MESSAGE(WM_NCACTIVATE),
 	REGISTER_MESSAGE(WM_GETDLGCODE),
@@ -258,9 +258,9 @@ tstring WindowsMessageMap::operator()(DWORD message, LPARAM lp, WPARAM wp) const
 		oss << std::left << std::setw(firstColWidth) << iter->second << std::right;
 	}
 	else {
-		std::ostringstream padss;
+		/*std::ostringstream padss;
 		padss << "Unknown message : 0x" << std::hex << message;
-		oss << std::left << std::setw(firstColWidth) << padss.str() << std::right;
+		oss << std::left << std::setw(firstColWidth) << padss.str() << std::right;*/
 	}
 
 	oss << "	LP: 0x" << std::hex << std::setfill('0') << std::setw(8) << lp;

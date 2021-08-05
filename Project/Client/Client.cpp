@@ -19,6 +19,7 @@
 
 #include <Engine\CCore.h>
 #include <Engine\CDevice.h>
+#include <Engine\CMouseManager.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_debug")
@@ -202,12 +203,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
 
-    /* Windows Message Log
-#ifdef _DEBUG
-    static WindowsMessageMap mm;
-    OutputDebugString(mm(message, lParam, wParam).c_str());
-#endif
-    */
+#pragma region Debug 화면으로 모든 이벤트 출력 
+    //Windows Message Log
+//#ifdef _DEBUG
+//    static WindowsMessageMap mm;
+//    OutputDebugString(mm(message, lParam, wParam).c_str());
+//#endif  
+#pragma endregion
+
+
+    CMouseManager::GetInstance()->WindowProc(hWnd, message, wParam, lParam);
 
     switch (message)
     {
@@ -226,6 +231,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
+        }
+        break;
+    case WM_MOUSEFIRST:
+        {
+
         }
         break;
     case WM_PAINT:

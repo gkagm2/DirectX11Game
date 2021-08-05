@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CToolCameraScript.h"
 #include <Engine\CSceneManager.h>
-
+#include <Engine\CMouseManager.h>
 #include "imgui.h"
 
 CToolCameraScript::CToolCameraScript() :
@@ -31,6 +31,11 @@ void CToolCameraScript::Update()
 		vPos = vPos - m_vMoveOffset * DT * m_fSpeed;
 	}
 	if (InputKeyRelease(E_Key::MBUTTON)) {
+	}
+	CMouseEvent evt = CMouseManager::GetInstance()->GetMouseEvent();
+	if (CMouseEvent::EventType::WheelUp == evt.GetType())
+	{
+		int a = 3;
 	}
 
 	Transform()->SetLocalPosition(vPos);

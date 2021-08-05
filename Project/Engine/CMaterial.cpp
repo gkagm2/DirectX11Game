@@ -92,7 +92,67 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 	case E_ShaderParam::TextureCube_0:
 	case E_ShaderParam::TextureCube_1:
 		m_arrTexture[(UINT)_eParam - (UINT)E_ShaderParam::Texture_0] = (CTexture*)_pData;
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+}
 
+void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)
+{
+	switch (_eParam) {
+	case E_ShaderParam::Int_0:
+	case E_ShaderParam::Int_1:
+	case E_ShaderParam::Int_2:
+	case E_ShaderParam::Int_3:
+		*((int*)_pOut) = m_tParam.iArr[(UINT)_eParam - (UINT)E_ShaderParam::Int_0];
+		break;
+
+	case E_ShaderParam::Float_0:
+	case E_ShaderParam::Float_1:
+	case E_ShaderParam::Float_2:
+	case E_ShaderParam::Float_3:
+		*((float*)_pOut) = m_tParam.fArr[(UINT)_eParam - (UINT)E_ShaderParam::Float_0];
+		break;
+
+	case E_ShaderParam::Vector2_0:
+	case E_ShaderParam::Vector2_1:
+	case E_ShaderParam::Vector2_2:
+	case E_ShaderParam::Vector2_3:
+		*((Vector2*)_pOut) = m_tParam.v2Arr[(UINT)_eParam - (UINT)E_ShaderParam::Vector2_0];
+		break;
+
+	case E_ShaderParam::Vector4_0:
+	case E_ShaderParam::Vector4_1:
+	case E_ShaderParam::Vector4_2:
+	case E_ShaderParam::Vector4_3:
+		*((Vector4*)_pOut) = m_tParam.v4Arr[(UINT)_eParam - (UINT)E_ShaderParam::Vector4_0];
+		break;
+
+	case E_ShaderParam::Matrix_0:
+	case E_ShaderParam::Matrix_1:
+	case E_ShaderParam::Matrix_2:
+	case E_ShaderParam::Matrix_3:
+		*((Matrix*)_pOut) = m_tParam.matArr[(UINT)_eParam - (UINT)E_ShaderParam::Matrix_0];
+		break;
+
+	case E_ShaderParam::Texture_0:
+	case E_ShaderParam::Texture_1:
+	case E_ShaderParam::Texture_2:
+	case E_ShaderParam::Texture_3:
+	case E_ShaderParam::Texture_4:
+	case E_ShaderParam::Texture_5:
+	case E_ShaderParam::Texture_6:
+	case E_ShaderParam::Texture_7:
+	case E_ShaderParam::TextureArr_0:
+	case E_ShaderParam::TextureArr_1:
+	case E_ShaderParam::TextureCube_0:
+	case E_ShaderParam::TextureCube_1:
+		(*(CTexture**)_pOut) = m_arrTexture[(UINT)_eParam - (UINT)E_ShaderParam::Texture_0].Get();
+		break;
+	default:
+		assert(nullptr);
 		break;
 	}
 }

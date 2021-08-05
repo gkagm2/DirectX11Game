@@ -67,7 +67,7 @@ int g_arrVK[(int)E_Key::END] = {
 };
 
 CKeyManager::CKeyManager() :
-	m_mousePosition{}
+	m_vMousePosition{}
 {
 
 }
@@ -117,7 +117,11 @@ void CKeyManager::Update()
 		POINT ptMousePoint;
 		GetCursorPos(&ptMousePoint);
 		ScreenToClient(CCore::GetInstance()->GetWndHandle(), &ptMousePoint);
-		m_mousePosition.x = (float)ptMousePoint.x;
-		m_mousePosition.y = (float)ptMousePoint.y;
+		m_vMousePosition.x = (float)ptMousePoint.x;
+		m_vMousePosition.y = (float)ptMousePoint.y;
 	}
+
+
+	//m_vMouseScrollDelta.y = 
+
 }

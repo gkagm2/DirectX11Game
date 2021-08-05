@@ -53,20 +53,22 @@ void HierachyGUI::_RenewTreeView()
 		const vector<CGameObject*>& vecRootObjs = pLayer->GetRootGameObjects();
 
 		// DFS를 이용한 순환
-		list<CGameObject*> stk; // stk : stack
-		for (UINT j = 0; j < vecRootObjs.size(); ++j)
-			stk.push_back(vecRootObjs[j]);
-		
-		while (!stk.empty()) {
-			CGameObject* pObj = stk.back();
-			stk.pop_back();
-			string strObjName;
-			TStringToString(pObj->GetName(), strObjName);
-			TreeViewNode* pNode = m_treeView.AddItem(strObjName, (DWORD_PTR)pObj, pTreeViewRoot);
+		list<std::pair<CGameObject*, TreeViewNode*>> stk; // stk : stack
+		for (UINT j = 0; j < vecRootObjs.size(); ++j) {
+			stk.push_back(std::make_pair(vecRootObjs[j], pTreeViewRoot));
 
-			const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
-			for (UINT k = 0; k < vecChilds.size(); ++k)
-				stk.push_back(vecRootObjs[k]);
+			while (!stk.empty()) {
+				CGameObject* pObj = stk.back().first;
+				TreeViewNode* pNode = stk.back().second;
+				stk.pop_back();
+				string strObjName;
+				TStringToString(pObj->GetName(), strObjName);
+				pNode = m_treeView.AddItem(strObjName, (DWORD_PTR)pObj, pNode);
+
+				const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
+				for (UINT k = 0; k < vecChilds.size(); ++k)
+					stk.push_back(std::make_pair(vecChilds[k],pNode));
+			}
 		}
 	}
 }

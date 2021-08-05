@@ -8,6 +8,7 @@
 #include "CSceneManager.h"
 #include "CEventManager.h"
 #include "CRenderManager.h"
+#include "CMouseManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -47,6 +48,7 @@ void CCore::Progress()
 	// Update
 	CTimeManager::GetInstance()->Update();
 	CKeyManager::GetInstance()->Update();
+	CMouseManager::GetInstance()->Update();
 	CResourceManager::GetInstance()->Update();
 	CSceneManager::GetInstance()->Progress();
 

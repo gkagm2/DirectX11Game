@@ -169,6 +169,12 @@
     <ClInclude Include="CRigidbody2D.h">
       <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
     </ClInclude>
+    <ClInclude Include="CMouseManager.h">
+      <Filter>Engine\04. Manager\Mouse Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouseEvent.h">
+      <Filter>Engine\04. Manager\Mouse Manager\Mouse Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -319,6 +325,12 @@
       <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
     </ClCompile>
     <ClCompile Include="Define.cpp" />
+    <ClCompile Include="CMouseManager.cpp">
+      <Filter>Engine\04. Manager\Mouse Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseEvent.cpp">
+      <Filter>Engine\04. Manager\Mouse Manager\Mouse Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -458,6 +470,12 @@
     </Filter>
     <Filter Include="Engine\07. Component\Rigidbody\Rigidbody3D">
       <UniqueIdentifier>{2f3c4be6-4c7d-4422-b3ff-5d03eebefba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Manager\Mouse Manager">
+      <UniqueIdentifier>{03fca9eb-937c-42ff-bf12-9112ce67a356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Manager\Mouse Manager\Mouse Event">
+      <UniqueIdentifier>{6084be49-36d2-405a-9fcc-1212869fc8d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

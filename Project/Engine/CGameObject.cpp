@@ -198,9 +198,26 @@ void CGameObject::_SetDead()
 
 void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 {
+	// 자식 오브젝트가 Ancestor 오브젝트면 안됨
+	if (_IsAncestorGameObject(_pChildObj)) {
+		assert(nullptr);
+		return;
+	}
+	
+	// 자식 오브젝트가 최상위 오브젝트인 경우
+	if (nullptr == _pChildObj->GetParentObject() && E_Layer::End != _pChildObj->GetLayer()) {
+		// 레이어의 Root들의 오브젝트를 저장하는걸 해제
+		CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pChildObj->GetLayer());
+		pLayer->_UnRegisterInRootGameObject(_pChildObj);
+	}
+
+	// 자식 오브젝트가 부모가 있으면 해제
+	_pChildObj->_UnlinkParentGameObject();
+
 	// 부모와 자식 연결
 	_pChildObj->m_pParentObj = this;
 	m_vecChildObj.push_back(_pChildObj);
+
 
 	// 소속된 레이어가 없으면 부모 오브젝트의 레이어로 설정.
 	if (E_Layer::End == _pChildObj->GetLayer())
@@ -218,7 +235,7 @@ void CGameObject::_UnlinkParentGameObject()
 	if (nullptr == m_pParentObj)
 		return;
 
-	vector<CGameObject*> vecChild = m_pParentObj->_GetChildsObjectRef();
+	vector<CGameObject*>& vecChild = m_pParentObj->_GetChildsObjectRef();
 	auto iter = vecChild.begin();
 
 	for (; iter != vecChild.end(); ++iter) {
@@ -229,6 +246,17 @@ void CGameObject::_UnlinkParentGameObject()
 	}
 
 	m_pParentObj = nullptr;
+}
+
+bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)
+{
+	CGameObject* pParentObj = m_pParentObj;
+	while (pParentObj != nullptr) {
+		if (_pObj == pParentObj)
+			return true;
+		pParentObj = pParentObj->GetParentObject();
+	}
+	return false;
 }
 
 bool CGameObject::_IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType)
@@ -396,6 +424,9 @@ CComponent* CGameObject::_CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Rigidbody2D:
 		pComponent = new CRigidbody2D;
+		break;
+	default:
+		assert(nullptr);
 		break;
 	}
 	return pComponent;

@@ -522,6 +522,7 @@ void CTestScene::ImGuiTest()
 	pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 
 	CGameObject* pPlayer = new CGameObject();
+	pPlayer->SetName(_T("Test Player"));
 	pPlayer->AddComponent<CTransform>();
 	pPlayer->AddComponent<CMeshRenderer>();
 	//pPlayer->AddComponent<CPlayerScript_sh>();
@@ -588,7 +589,9 @@ void CTestScene::ImGuiTest()
 	pPointLight->SetName(_T("PointLight2D"));
 	CObject::CreateGameObjectEvn(pPointLight, E_Layer::Default);
 
-
+	CGameObject* pPointLight2 = pPointLight->Clone();
+	CObject::AddChildGameObjectEvn(pPointLight, pPointLight2);
+		
 
 	// Scene ÃÊ±âÈ­
 	pNewScene->Awake();

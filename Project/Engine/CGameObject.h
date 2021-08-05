@@ -58,6 +58,7 @@ private:
 	vector<CGameObject*>& _GetChildsObjectRef() { return m_vecChildObj; }
 
 	void _UnlinkParentGameObject();
+	bool _IsAncestorGameObject(CGameObject* _pObj);
 
 
 	//오직 하나만 렌더링 가능한 컴포넌트인지 체크

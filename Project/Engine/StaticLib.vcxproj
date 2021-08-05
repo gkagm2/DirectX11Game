@@ -197,6 +197,8 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLight2D.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CMeshRenderer.h" />
+    <ClInclude Include="CMouseEvent.h" />
+    <ClInclude Include="CMouseManager.h" />
     <ClInclude Include="CParticleSystem.h" />
     <ClInclude Include="CParticleUpdateShader.h" />
     <ClInclude Include="CPrefab.h" />
@@ -254,6 +256,8 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLight2D.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CMeshRenderer.cpp" />
+    <ClCompile Include="CMouseEvent.cpp" />
+    <ClCompile Include="CMouseManager.cpp" />
     <ClCompile Include="CParticleSystem.cpp" />
     <ClCompile Include="CParticleUpdateShader.cpp" />
     <ClCompile Include="CPrefab.cpp" />

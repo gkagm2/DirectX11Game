@@ -93,6 +93,18 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 	}
 }
 
+void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
+{
+	vector<CGameObject*>::iterator iter = m_vecRootObj.begin();
+	for (; iter != m_vecRootObj.end(); ++iter) {
+		if (_pRootObj == *iter) { // 최상위 오브젝트를 찾았으면
+			m_vecRootObj.erase(iter); //  삭제
+			return;
+		}
+	}
+	assert(nullptr);
+}
+
 void CLayer::_ResignGameObject(CGameObject* _pObj)
 {
 	// Root오브젝트들을 담은 벡터에 있으면 삭제
