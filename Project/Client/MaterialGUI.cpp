@@ -10,7 +10,8 @@
 #include <Engine\CGraphicsShader.h>
 
 MaterialGUI::MaterialGUI() :
-	ResourceGUI(E_ResourceType::Material)
+	ResourceGUI(E_ResourceType::Material),
+	m_eSelectedTexParam{}
 {
 }
 
@@ -55,10 +56,11 @@ void MaterialGUI::Update()
 	if (nullptr != pShader) {
 		const vector<TShaderParam>& vecParam = pShader->GetShaderParams();
 		for (UINT i = 0; i < vecParam.size(); ++i) {
+			ImGui::Dummy(ImVec2(0.f, 10.f)); // 한줄 띄움
 			string strName;
 			TStringToString(vecParam[i].strName, strName);
 
-			strName = strName + std::to_string((DWORD_PTR)pShader);
+			strName = strName + "##" + std::to_string((DWORD_PTR)pShader);
 			/*
 			char szBuffer[255] = {};
 			sprintf(szBuffer, "##%lld", (DWORD_PTR)pShader);
@@ -71,8 +73,8 @@ void MaterialGUI::Update()
 			case E_ShaderParam::Int_3: {
 				int iTemp = 0;
 				pMtrl->GetData(vecParam[i].eType, &iTemp);
-				ParamGUI::Render_Int(strName, &iTemp);
-				pMtrl->SetData(vecParam[i].eType, &iTemp);
+				if( ParamGUI::Render_Int(strName, &iTemp))
+					pMtrl->SetData(vecParam[i].eType, &iTemp);
 			}
 				break;
 
@@ -80,29 +82,44 @@ void MaterialGUI::Update()
 			case E_ShaderParam::Float_1:
 			case E_ShaderParam::Float_2:
 			case E_ShaderParam::Float_3: {
-				float iTemp = 0;
-				pMtrl->GetData(vecParam[i].eType, &iTemp);
-				ParamGUI::Render_Float(strName, &iTemp);
-				pMtrl->SetData(vecParam[i].eType, &iTemp);
+				float fTemp = 0;
+				pMtrl->GetData(vecParam[i].eType, &fTemp);
+				if(ParamGUI::Render_Float(strName, &fTemp))
+					pMtrl->SetData(vecParam[i].eType, &fTemp);
 			}
 				break;
 
 			case E_ShaderParam::Vector2_0:
 			case E_ShaderParam::Vector2_1:
 			case E_ShaderParam::Vector2_2:
-			case E_ShaderParam::Vector2_3:
+			case E_ShaderParam::Vector2_3: {
+				Vector2 vTemp = {};
+				pMtrl->GetData(vecParam[i].eType, &vTemp);
+				if(ParamGUI::Render_Vector2(strName, &vTemp))
+					pMtrl->SetData(vecParam[i].eType, &vTemp);
+			}
 				break;
 
 			case E_ShaderParam::Vector4_0:
 			case E_ShaderParam::Vector4_1:
 			case E_ShaderParam::Vector4_2:
-			case E_ShaderParam::Vector4_3:
+			case E_ShaderParam::Vector4_3: {
+				Vector4 vTemp = {};
+				pMtrl->GetData(vecParam[i].eType, &vTemp);
+				if (ParamGUI::Render_Vector4(strName, &vTemp))
+					pMtrl->SetData(vecParam[i].eType, &vTemp);
+			}
 				break;
 
 			case E_ShaderParam::Matrix_0:
 			case E_ShaderParam::Matrix_1:
 			case E_ShaderParam::Matrix_2:
-			case E_ShaderParam::Matrix_3:
+			case E_ShaderParam::Matrix_3: {
+				Matrix matTemp = {};
+				pMtrl->GetData(vecParam[i].eType, &matTemp);
+				if(ParamGUI::Render_Matrix(strName, &matTemp))
+					pMtrl->SetData(vecParam[i].eType, &matTemp);
+			}
 				break;
 
 			case E_ShaderParam::Texture_0:
@@ -116,15 +133,17 @@ void MaterialGUI::Update()
 			case E_ShaderParam::TextureArr_0:
 			case E_ShaderParam::TextureArr_1:
 			case E_ShaderParam::TextureCube_0:
-			case E_ShaderParam::TextureCube_1:
+			case E_ShaderParam::TextureCube_1: {
+				CTexture* pTex = nullptr;
+				pMtrl->GetData(vecParam[i].eType, &pTex);
+				if (ParamGUI::Render_Texture(strName, pTex, this, (GUI_CALLBACK)&MaterialGUI::SelectTexture))
+					m_eSelectedTexParam = vecParam[i].eType;
+			}
 				break;
 			default:
 				assert(nullptr);
 				break;
 			}
-
-
-
 		}
 	}
 
@@ -141,4 +160,19 @@ void MaterialGUI::SetShader(DWORD_PTR _pShaderName, DWORD_PTR _NONE)
 	SharedPtr<CGraphicsShader> pShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(tstrKey);
 
 	pMtrl->SetShader(pShader);
+}
+
+void MaterialGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+{
+	// 선택한 텍스쳐를 알아낸다.
+	const char* pStr = (const char*)_pStr;
+	string str = pStr;
+	tstring tStr;
+	StringToTString(str, tStr);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStr).Get();
+	assert(pTex);
+
+	CMaterial* pMtrl = (CMaterial*)GetTargetResource();
+	pMtrl->SetData(m_eSelectedTexParam, pTex);
 }

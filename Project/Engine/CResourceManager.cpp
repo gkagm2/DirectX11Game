@@ -253,6 +253,14 @@ void CResourceManager::CreateDefaultShader()
 	// Shader Param
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 
+	// Test Shader Param
+	/*pShader->AddShaderParam({ E_ShaderParam::Int_0,	  _T("Test Param Int") });
+	pShader->AddShaderParam({ E_ShaderParam::Float_0,   _T("Test Param Float") });
+	pShader->AddShaderParam({ E_ShaderParam::Vector2_1, _T("Test Param Vec2") });
+	pShader->AddShaderParam({ E_ShaderParam::Vector4_2, _T("Test Param Vec4") });
+	pShader->AddShaderParam({ E_ShaderParam::Texture_0, _T("Output Texture1") });
+	pShader->AddShaderParam({ E_ShaderParam::Texture_1, _T("Output Texture2") });*/
+
 	AddRes(STR_KEY_StdAlphaBlendShader, pShader);
 
 	//----------------------

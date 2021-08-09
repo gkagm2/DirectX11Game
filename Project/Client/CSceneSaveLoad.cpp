@@ -50,7 +50,7 @@ UINT WINAPI Load_Thread(LPVOID _lparam) {
 		fclose(pFile);
 
 		// 시간 지연
-		Sleep(2000);
+		//Sleep(2000);
 
 		pNextScene = pScene;
 		CSceneManager::GetInstance()->m_iLoadSync = 1;

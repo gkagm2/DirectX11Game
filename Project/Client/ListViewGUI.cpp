@@ -58,6 +58,9 @@ void ListViewGUI::Update()
                     if (m_pInst && m_pDBCCallBack)
                         ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[i], 0);
 
+                    if (m_pGDBCCallBack)
+                        m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[i], 0);
+
                     ImGui::CloseCurrentPopup();
                     _Clear();
                 }
