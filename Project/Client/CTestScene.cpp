@@ -91,7 +91,8 @@ void CTestScene::CreateTestScene()
 {
 	CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
 	//ImGuiTest();
-	MaterialCreateTest();
+	//MaterialCreateTest();
+	DistortionObject();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -600,6 +601,144 @@ void CTestScene::ImGuiTest()
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
+void CTestScene::DistortionObject()
+{
+	// 씬 생성
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pCameraObj->SetName(_T("Camera"));
+	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);
+
+
+	//////////////////////
+	/// Distortion 오브젝트 생성
+	CGameObject* pDistortionObj = new CGameObject;
+	pDistortionObj->SetName(_T("Distortion"));
+	pDistortionObj->AddComponent<CTransform>();
+	pDistortionObj->AddComponent<CMeshRenderer>();
+
+	pDistortionObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
+	pDistortionObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DistortionMtrl));
+	CObject::CreateGameObjectEvn(pDistortionObj, E_Layer::Default);
+
+
+	// 플레이어란 이름을 가진 오브젝트 생성
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	// Material Load Test
+	//pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(L"Material 0.mtrl", L"material\\Material 0.mtrl");
+
+	CGameObject* pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
+
+	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMesh(pMesh);
+
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+
+	// Texture 사이즈로 크기로 설정
+	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
+
+	// 임의로 크기 설정
+	pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	pObj->SetName(_T("Player"));
+
+	// Collider 세팅
+	pObj->AddComponent<CCollider2DRect>();
+	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
+
+	// Rigidobdy2D 세팅
+	pObj->AddComponent<CRigidbody2D>();
+	pObj->Rigidbody2D()->UseGravity(false);
+
+	CObject::CreateGameObjectEvn(pObj, E_Layer::Default);
+
+	//////////////////////////////////////////////
+	// 
+	// 애니메이션 기능이 있는 오브젝트 생성
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
+	pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	CGameObject* pPlayer = new CGameObject();
+	pPlayer->SetName(_T("Test Player"));
+	pPlayer->AddComponent<CTransform>();
+	pPlayer->AddComponent<CMeshRenderer>();
+	//pPlayer->AddComponent<CPlayerScript_sh>();
+	pPlayer->AddComponent<CAnimator2D>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
+
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMesh(pMesh);
+
+	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
+	TAnimation2DDesc tAnimDesc;
+	tAnimDesc.fDuration = 0.1f;
+	tAnimDesc.iFrameCount = 10;
+	tAnimDesc.pAtlas = pAnimTexture;
+	tAnimDesc.strName = _T("Player_Walk");
+	tAnimDesc.vBaseSize = Vector2{ 150.f,150.f };
+	tAnimDesc.vFrameSize = Vector2{ 60.f,65.f };
+	tAnimDesc.vLeftTop = Vector2(0.f, 4 * 65.f);
+
+	pPlayer->Animator2D()->CreateAnimation(tAnimDesc);
+
+	pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
+	CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
+
+	//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+
+	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
+	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
+
+	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+
+	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
+	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
+	CObject::CreateGameObjectEvn(pPlayer, E_Layer::Player);
+
+
+	////////////////////////////////////////////////////
+	// 
+	// Spot Light 생성
+	CGameObject* pSpotLight = new CGameObject;
+	pSpotLight->AddComponent<CTransform>();
+	//pSpotLight->AddComponent<CMeshRenderer>();
+	pSpotLight->AddComponent<CLight2D>();
+	pSpotLight->AddComponent<CTestLight2DScript>();
+	pSpotLight->Light2D()->SetLightType(E_LightType::Spot);
+	//pLight2DObj->Light2D()->SetLightType(E_LightType::Point);
+	pSpotLight->Transform()->SetLocalPosition(Vector3(300.f, 0.f, 0.f));
+	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
+	pSpotLight->Light2D()->SetRange(400.f);
+	pSpotLight->Light2D()->SetAngle(60.f);
+	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
+	pSpotLight->SetName(_T("SpotLight2D"));
+
+	CObject::CreateGameObjectEvn(pSpotLight, E_Layer::Default);
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
 void CTestScene::MultiThreadScene_LoadingScene()
 {
 	CScene* pScene = new CScene;
@@ -612,7 +751,6 @@ void CTestScene::MultiThreadScene_LoadingScene()
 
 void CTestScene::MaterialCreateTest()
 {
-
 	// 씬 생성
 	CScene* pNewScene = new CScene;
 
@@ -747,7 +885,6 @@ void CTestScene::MaterialCreateTest()
 	pNewScene->Awake();
 	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
-
 }
 
 void CTestScene::SceneSaveLoadPrefabTest()

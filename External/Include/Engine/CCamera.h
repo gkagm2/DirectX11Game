@@ -42,11 +42,11 @@ private:
 
 	// 렌더링 시점별로 분류된 오브젝트들
 	vector<CGameObject*> m_vecForward;
+	vector<CGameObject*> m_vecParticle;
 	vector<CGameObject*> m_vecPostEffect;
 
 public:
 	virtual void FinalUpdate() override;
-	virtual void Render() override;
 	
 public:
 	void SetProjectionType(E_ProjectionType _eType) { m_eProjectionType = _eType; }
@@ -64,9 +64,6 @@ public:
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
 
-private:
-	void _SortObjects(); // 물체들을 렌더링 시점별로 분류
-
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
@@ -77,8 +74,18 @@ public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
+private:
+	// For Rendering
+	void _SortObjects(); // 물체들을 렌더링 시점별로 분류
+	void _RenderForward();
+	void _RenderParticle();
+	void _RenderPostEffect();
+
+
 public:
 	CLONE(CCamera);
 	CCamera();
 	virtual ~CCamera() override;
+
+	friend class CRenderManager;
 };

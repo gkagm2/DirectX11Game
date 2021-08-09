@@ -32,6 +32,8 @@ public:
 	void SetBlendState(E_BlendState _eBlendState) { m_eBlendState = _eBlendState; }
 	void SetDepthStencilState(E_DepthStencilState _eDepthStencilState) { m_eDepthStencilState = _eDepthStencilState; }
 
+	E_RenderPov GetRenderPov() { return m_eRenderPov; }
+
 public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);
 	//void CreateHullShader(const tstring& _strRelativePath, const string& _strFuncName);

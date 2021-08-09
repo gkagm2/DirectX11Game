@@ -7,6 +7,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CLayer.h"
+#include "CMeshRenderer.h"
 
 // Test
 #include "CKeyManager.h"
@@ -37,24 +38,6 @@ void CCamera::FinalUpdate()
 	g_transform.matView = GetViewMatrix();
 	g_transform.matProjection = GetProjectionMatrix();
 	CRenderManager::GetInstance()->RegisterCamera(this);
-}
-
-void CCamera::Render()
-{
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-
-	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
-		CLayer* pLayer = pCurScene->GetLayer(i);
-		const vector<CGameObject*>& vecAllObjs = pLayer->GetGameObjects();
-		for (UINT j = 0; j < vecAllObjs.size(); ++j)
-			vecAllObjs[j]->Render();
-	}
-}
-
-void CCamera::_SortObjects()
-{
 }
 
 void CCamera::CalculateViewMatrix()
@@ -92,4 +75,77 @@ bool CCamera::LoadFromScene(FILE* _pFile)
 	FRead(m_iLayerCheck, _pFile);
 
 	return true;
+}
+
+// Rendering
+
+void CCamera::_SortObjects()
+{
+	m_vecForward.clear();
+	m_vecParticle.clear();
+	m_vecPostEffect.clear();
+
+	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+		if (m_iLayerCheck & (1 << i)) { // 체크된 레이어면
+			CLayer* pLayer = pCurScene->GetLayer(i);
+
+			const vector<CGameObject*>& vecAllObjs = pLayer->GetGameObjects();
+
+			for (UINT i = 0; i < vecAllObjs.size(); ++i) {
+				CGameObject* pObj = vecAllObjs[i];
+
+				if (pObj->MeshRenderer() &&
+					pObj->MeshRenderer()->GetSharedMaterial().Get() &&
+					pObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get()) {
+					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial()->GetShader();
+
+					switch (pShader->GetRenderPov()) {
+					case E_RenderPov::Forward:
+						m_vecForward.push_back(pObj);
+						break;
+					case E_RenderPov::PostEffect:
+						m_vecPostEffect.push_back(pObj);
+						break;
+					default:
+						assert(nullptr);
+						break;
+					}
+				}
+				else if (pObj->ParticleSystem()) {
+					m_vecParticle.push_back(pObj);
+				}
+			}
+		}
+	}
+}
+
+void CCamera::_RenderForward()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	for (UINT i = 0; i < m_vecForward.size(); ++i)
+		m_vecForward[i]->Render();
+}
+
+void CCamera::_RenderParticle()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	for (UINT i = 0; i < m_vecParticle.size(); ++i)
+		m_vecParticle[i]->Render();
+}
+
+void CCamera::_RenderPostEffect()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	for (UINT i = 0; i < m_vecPostEffect.size(); ++i) {
+		CRenderManager::GetInstance()->_CopyBackBuffer();
+		m_vecPostEffect[i]->Render();
+	}
 }

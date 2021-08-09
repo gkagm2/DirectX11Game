@@ -61,17 +61,23 @@ void CRenderManager::Render()
 void CRenderManager::_RenderInGame()
 {
 	// In Game Scene의 카메라 기준 렌더링
-	for (UINT i = 0; i < m_vecCam.size(); ++i)
-		m_vecCam[i]->Render();
+	for (UINT i = 0; i < m_vecCam.size(); ++i) {
+		m_vecCam[i]->_SortObjects();
+		m_vecCam[i]->_RenderForward();
+		m_vecCam[i]->_RenderParticle();
+		m_vecCam[i]->_RenderPostEffect();
+	}
 }
 
 void CRenderManager::_RenderTool()
 {
 	// Tool 기준 렌더링
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
-		m_vecToolCam[i]->Render();
-
-	// Post Effect
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+		m_vecToolCam[i]->_SortObjects();
+		m_vecToolCam[i]->_RenderForward();
+		m_vecToolCam[i]->_RenderParticle();
+		m_vecToolCam[i]->_RenderPostEffect();
+	}
 }
 
 CCamera* CRenderManager::GetMainCamera()
@@ -93,6 +99,12 @@ CCamera* CRenderManager::GetToolCamera()
 	if (m_vecToolCam.empty())
 		return nullptr;
 	return m_vecToolCam[0];
+}
+
+void CRenderManager::_CopyBackBuffer()
+{
+	SharedPtr<CTexture> pRenderTargetTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_RTTexture);
+	CONTEXT->CopyResource(m_pPostEffectTargetTex->GetTex2D().Get(), pRenderTargetTex->GetTex2D().Get());
 }
 
 void CRenderManager::_RenderInit_Light2D()

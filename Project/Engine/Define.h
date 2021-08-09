@@ -121,6 +121,7 @@ enum class E_ShaderStage {
 
 enum class E_RenderPov {
 	Forward,
+	Particle,
 	PostEffect,
 };
 

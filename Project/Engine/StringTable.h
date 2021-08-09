@@ -27,6 +27,7 @@
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 #define STR_FILE_PATH_Material _T("material\\")
+#define STR_FILE_PATH_PostEffectShader _T("shader\\posteffect.fx")
 
 // Resource의 key이자 path임
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
@@ -60,6 +61,11 @@
 // particle_update.fx functions name
 #define STR_FUNC_NAME_ParticleUpdate "CS_ParticleUpdate"
 
+// posteffect.fx functions name
+#define STR_FUNC_NAME_VTX_Distortion "VS_Distortion"
+#define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
+
+
 ////////// Resource Key ///////////////
 // Mesh
 #define STR_KEY_PointMesh _T("PointMesh")
@@ -76,6 +82,7 @@
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
 #define STR_KEY_ParticleShader _T("ParticleShader")
+#define STR_KEY_DistortionShader _T("DistortionShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -91,13 +98,11 @@
 #define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
+#define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
-
-
-//
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
 
 

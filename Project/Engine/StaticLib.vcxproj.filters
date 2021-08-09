@@ -507,5 +507,8 @@
     <FxCompile Include="particle_update.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="posteffect.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

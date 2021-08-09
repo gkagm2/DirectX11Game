@@ -36,9 +36,9 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CPathManager::GetInstance()->Init();
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
+	CRenderManager::GetInstance()->Init(); 
 	CResourceManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
-	CRenderManager::GetInstance()->Init();
 
 	return S_OK;
 }

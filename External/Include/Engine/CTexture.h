@@ -41,7 +41,8 @@ public:
 public:
 	static void Clear(UINT _iRegisterNum);
 	static void ClearRW(UINT _iUAVRegisterNum);
-
+	
+	ComPtr<ID3D11Texture2D> GetTex2D() { return m_pTex2D; }
 	ComPtr<ID3D11ShaderResourceView> GetSRV() { return m_pSRV; }
 	ComPtr<ID3D11UnorderedAccessView>GetUAV() { return m_pUAV; }
 	ComPtr<ID3D11RenderTargetView>	GetRTV() { return m_pRTV; }

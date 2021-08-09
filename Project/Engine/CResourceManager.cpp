@@ -316,7 +316,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-------------------------
 	// ÆÄÆ¼Å¬ ·»´õ ½¦ÀÌ´õ »ý¼º
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderPov::Particle);
 	pShader->CreateVertexShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_VTX_Particle);
 	pShader->CreateGeometryShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_GEO_Particle);
 	pShader->CreatePixelShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_PIX_Particle);
@@ -341,6 +341,20 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Particle Texture") });
 
 	AddRes(STR_KEY_ParticleShader, pShader);
+
+	//-------------------------
+	// Distortion(¿Ö°î) ½¦ÀÌ´õ »ý¼º
+	pShader = new CGraphicsShader(E_RenderPov::PostEffect);
+	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_Distortion);
+	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_Distortion);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Depth Stencil
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
+	AddRes(STR_KEY_DistortionShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -380,6 +394,15 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
 	pMtrl->SetShader(pShaderParticle);
 	AddRes(STR_KEY_ParticleMtrl, pMtrl);
+
+	// ¿Ö°î(Distortion) ÀçÁú »ý¼º
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
+	pMtrl->SetShader(pShaderDistortion);
+
+	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_DistortionMtrl, pMtrl);
 }
 
 
