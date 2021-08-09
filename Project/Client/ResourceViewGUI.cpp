@@ -37,7 +37,7 @@ void ResourceViewGUI::_RenewResource()
 {
 	// 리소스 변경이 탐지되면 
 	if (CResourceManager::GetInstance()->IsFixed())
-		_RenewResource(); // 리소스 목록 추가	
+		_RenewTreeView(); // 리소스 목록 추가	
 }
 
 void ResourceViewGUI::_RenewTreeView()

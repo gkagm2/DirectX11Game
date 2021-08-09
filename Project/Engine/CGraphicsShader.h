@@ -16,6 +16,8 @@ private:
 	ComPtr<ID3DBlob>				m_pPSBlob;
 
 	ComPtr<ID3D11InputLayout>		m_pLayout; // 입력 어셈블러 단계에 대한 입력 버퍼 데이터를 설명하는 입력 레이어웃 개체를 만든다.(GPU에 전달할 버텍스가 어떤 구성요소인지 알려주는 역할)
+
+	E_RenderPov						m_eRenderPov; // 렌더링 시점
 	D3D11_PRIMITIVE_TOPOLOGY		m_eTopology; 
 	E_RasterizerState				m_eRSState; // Rasterizer의 상태
 	E_BlendState					m_eBlendState;
@@ -48,5 +50,6 @@ private:
 
 public:
 	CGraphicsShader();
+	CGraphicsShader(E_RenderPov _ePov);
 	virtual ~CGraphicsShader() override;
 };

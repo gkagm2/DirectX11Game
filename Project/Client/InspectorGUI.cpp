@@ -112,7 +112,6 @@ void InspectorGUI::UpdateResourceGUI()
 	ImGui::Separator();
 	E_ResourceType eType =  m_pTargetResource->GetResourceType();
 	if (nullptr == m_arrResGUI[(UINT)eType]) {
-		//assert(nullptr);
 		return;
 	}
 	m_arrResGUI[(UINT)eType]->Update();
@@ -143,7 +142,6 @@ void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
 	E_ResourceType eType = _pTargetResource->GetResourceType();
 
 	if (nullptr == m_arrResGUI[(UINT)eType]) {
-		//assert(nullptr);
 		return;
 	}
 

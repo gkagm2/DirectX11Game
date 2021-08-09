@@ -6,8 +6,11 @@
 #include "CStructuredBuffer.h"
 #include "CCamera.h"
 
+#include "CResourceManager.h"
+
 CRenderManager::CRenderManager() :
-	m_pLight2DBuffer(nullptr)
+	m_pLight2DBuffer(nullptr),
+	m_pPostEffectTargetTex(nullptr)
 {
 }
 
@@ -20,6 +23,9 @@ void CRenderManager::Init()
 	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
 	const UINT iDefaultElementCnt = 5;
 	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt);
+
+	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
+	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 }
 
 void CRenderManager::Render()
@@ -54,15 +60,18 @@ void CRenderManager::Render()
 
 void CRenderManager::_RenderInGame()
 {
-	// 2. 카메라 기준으로 렌더링
+	// In Game Scene의 카메라 기준 렌더링
 	for (UINT i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->Render();
 }
 
 void CRenderManager::_RenderTool()
 {
+	// Tool 기준 렌더링
 	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
 		m_vecToolCam[i]->Render();
+
+	// Post Effect
 }
 
 CCamera* CRenderManager::GetMainCamera()

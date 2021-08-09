@@ -29,7 +29,7 @@ void MaterialGUI::Update()
 
 	// Material이 참조하는 Shader 출력
 	
-	char strShaderName[255];
+	char strShaderName[255] = "";
 	GetResourceName(pShader, strShaderName, 255);
 
 	// 쉐이더 정보 출력

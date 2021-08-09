@@ -13,7 +13,7 @@ private:
 public:
 	virtual bool Save(const tstring& _strRelativePath) { return true; }
 private:
-	virtual int Load(const tstring& _strFilePath) = 0;
+	virtual int Load(const tstring& _strFilePath) = 0; // 0 : S_OK, 1 : fail
 
 private:
 	void AddRef() { ++m_iRefCount; }

@@ -53,6 +53,10 @@ void CCamera::Render()
 	}
 }
 
+void CCamera::_SortObjects()
+{
+}
+
 void CCamera::CalculateViewMatrix()
 {
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();

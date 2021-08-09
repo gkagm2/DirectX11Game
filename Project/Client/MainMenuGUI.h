@@ -11,6 +11,7 @@ public:
 
 	void ShowExampleMenuFile();
 	void ShowSceneMode();
+	void CreateEmptyMaterial();
 
 public:
 	MainMenuGUI();

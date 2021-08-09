@@ -26,6 +26,7 @@
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
+#define STR_FILE_PATH_Material _T("material\\")
 
 // Resource의 key이자 path임
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
@@ -94,6 +95,11 @@
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
+
+
+//
+#define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
+
 
 ////////// Shooting Game //////////
 // GameObject name

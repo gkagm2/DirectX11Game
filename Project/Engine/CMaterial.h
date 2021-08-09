@@ -10,8 +10,10 @@ private:
 
 	TMaterialParam m_tParam;
 	SharedPtr<CTexture> m_arrTexture[(UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0];
+	bool m_bIsDefaultMtrl; // 엔진에서 제공하는 기본 메터리얼
 
 private:
+	virtual bool Save(const tstring& _strRelativePath) override;
 	virtual int Load(const tstring& _strFilePath) override;
 
 public:
@@ -28,5 +30,6 @@ public:
 public:
 	virtual CMaterial* Clone() override;
 	CMaterial();
+	CMaterial(bool _bIsDefaultMaterial);
 	virtual ~CMaterial() override;
 };

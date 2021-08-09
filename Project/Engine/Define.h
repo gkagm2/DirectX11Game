@@ -119,6 +119,11 @@ enum class E_ShaderStage {
 	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
+enum class E_RenderPov {
+	Forward,
+	PostEffect,
+};
+
 enum class E_ComponentType {
 	Transform,
 	BoundingBox,

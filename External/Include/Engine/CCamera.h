@@ -27,18 +27,22 @@ private:
 	E_ProjectionType m_eProjectionType;	// 투영 방식
 	
 	// 원근투영 (Perspective)
-	TFOVAxis m_tFOVAxis;				// field of view axis
+	TFOVAxis		 m_tFOVAxis;				// field of view axis
 
 	// 직교투영 (Orthographic)
-	float m_fSize;						// 투영 사이즈 screen size;
+	float			 m_fSize;						// 투영 사이즈 screen size;
 
-	TClippingPlanes m_tClippingPlanes;  // near far 조절
-	TViewportRect m_tViewportRect;		// 뷰포트 조절
+	TClippingPlanes  m_tClippingPlanes;  // near far 조절
+	TViewportRect	 m_tViewportRect;		// 뷰포트 조절
 
-	Matrix m_matView;					// View 행렬
-	Matrix m_matProjection;				// Prjection 행렬
+	Matrix			 m_matView;					// View 행렬
+	Matrix			 m_matProjection;				// Prjection 행렬
 
-	UINT m_iLayerCheck;					// 렌더링 할 레이어 비트
+	UINT			 m_iLayerCheck;					// 렌더링 할 레이어 비트
+
+	// 렌더링 시점별로 분류된 오브젝트들
+	vector<CGameObject*> m_vecForward;
+	vector<CGameObject*> m_vecPostEffect;
 
 public:
 	virtual void FinalUpdate() override;
@@ -59,6 +63,9 @@ public:
 			m_iLayerCheck &= ~(_iLayerIdx << 1); // bit flag 0 설정
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
+
+private:
+	void _SortObjects(); // 물체들을 렌더링 시점별로 분류
 
 protected:
 	void CalculateViewMatrix();

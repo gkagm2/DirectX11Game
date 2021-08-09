@@ -4,13 +4,24 @@
 #include "CDevice.h"
 #include "CTexture.h"
 
+#include "CSceneManager.h"
 #include "CResourceManager.h"
 
 CMaterial::CMaterial() :
 	CResource(E_ResourceType::Material),
 	m_pShader(nullptr),
 	m_tParam{},
-	m_arrTexture{}
+	m_arrTexture{},
+	m_bIsDefaultMtrl(true)
+{
+}
+
+CMaterial::CMaterial(bool _bIsDefaultMaterial) :
+	CResource(E_ResourceType::Material),
+	m_pShader(nullptr),
+	m_tParam{},
+	m_arrTexture{},
+	m_bIsDefaultMtrl(_bIsDefaultMaterial)
 {
 }
 
@@ -92,6 +103,10 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 	case E_ShaderParam::TextureCube_0:
 	case E_ShaderParam::TextureCube_1:
 		m_arrTexture[(UINT)_eParam - (UINT)E_ShaderParam::Texture_0] = (CTexture*)_pData;
+
+		// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
+		if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
+			Save(GetRelativePath());
 		break;
 	default:
 		assert(nullptr);
@@ -157,9 +172,47 @@ void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)
 	}
 }
 
+bool CMaterial::Save(const tstring& _strRelativePath)
+{
+	tstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	FILE* pFile = nullptr;
+	errno_t err;
+	err = _tfopen_s(&pFile, strFilePath.c_str(), _T("wb"));
+	assert(pFile);
+	if (err)
+		return false;
+	
+	SaveResourceToFile(m_pShader, pFile);
+	FWrite(m_tParam, pFile);
+
+	UINT iMaxTex = (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0;
+	for (UINT i = 0; i < iMaxTex; ++i)
+		SaveResourceToFile(m_arrTexture[i], pFile);
+
+	fclose(pFile);
+	return true;
+}
+
 int CMaterial::Load(const tstring& _strFilePath)
 {
-	return 0;
+	FILE* pFile = nullptr;
+	errno_t err;
+	err = _tfopen_s(&pFile, _strFilePath.c_str(), _T("rb"));
+	assert(pFile);
+	if (err)
+		return false;
+
+	LoadResourceFromFile(m_pShader, pFile);
+	FRead(m_tParam, pFile);
+
+	UINT iMaxTex = (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0;
+	for (UINT i = 0; i < iMaxTex; ++i)
+		LoadResourceFromFile(m_arrTexture[i], pFile);
+
+	fclose(pFile);
+	return S_OK;
 }
 
 void CMaterial::Clear()

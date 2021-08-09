@@ -16,6 +16,7 @@ private:
 	vector<CCamera*> m_vecToolCam; // Tool용 카메라
 
 	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
+	SharedPtr<CTexture> m_pPostEffectTargetTex;
 public:
 	void Init();
 	void Render(); 

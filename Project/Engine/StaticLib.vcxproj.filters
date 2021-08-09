@@ -324,12 +324,14 @@
     <ClCompile Include="CRigidbody2D.cpp">
       <Filter>Engine\07. Component\Rigidbody\Rigidbody2D</Filter>
     </ClCompile>
-    <ClCompile Include="Define.cpp" />
     <ClCompile Include="CMouseManager.cpp">
       <Filter>Engine\04. Manager\Mouse Manager</Filter>
     </ClCompile>
     <ClCompile Include="CMouseEvent.cpp">
       <Filter>Engine\04. Manager\Mouse Manager\Mouse Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Define.cpp">
+      <Filter>Engine\01. Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "MainMenuGUI.h"
 #include <Engine\CSceneManager.h>
+#include <Engine\CResourceManager.h>
+#include <Engine\CMaterial.h>
 #include "CSceneSaveLoad.h"
+
+UINT g_iMtrlID = 0;
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -42,8 +46,7 @@ void MainMenuGUI::Update()
 
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Edit"))
-        {
+        if (ImGui::BeginMenu("Edit")) {
             if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
             if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
             ImGui::Separator();
@@ -52,6 +55,18 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Paste", "CTRL+V")) {}
             ImGui::EndMenu();
         }
+        
+        if (ImGui::BeginMenu("Object")) {
+            if (ImGui::MenuItem("Create GameObject")) {
+                // TODO : do
+            }
+            if (ImGui::MenuItem("Create Material")) {
+                CreateEmptyMaterial();
+            }
+
+            ImGui::EndMenu();
+        }
+
         ImGui::EndMainMenuBar();
     }
 }
@@ -103,4 +118,28 @@ void MainMenuGUI::ShowSceneMode()
         CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
         CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
     }
+}
+
+void MainMenuGUI::CreateEmptyMaterial()
+{
+    constexpr int iBuffSize = 255;
+    TCHAR szBuff[iBuffSize]= _T("");
+
+    // 고유 이름값 생성
+    while (true) {
+        _stprintf_s(szBuff, iBuffSize, _T("Material %d.mtrl"), g_iMtrlID++);
+        CMaterial* pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(szBuff).Get();
+        if (nullptr == pMtrl)
+            break;
+    }
+
+    tstring strKey = szBuff;
+    tstring strRelativePath = STR_FILE_PATH_Material;
+    strRelativePath = strRelativePath + strKey;
+
+    CMaterial* pNewMtrl = new CMaterial(true); // Create Default Material 
+    pNewMtrl->SetKey(strKey);
+    pNewMtrl->SetRelativePath(strRelativePath);
+
+    CResourceManager::GetInstance()->AddRes<CMaterial>(strKey, pNewMtrl);
 }

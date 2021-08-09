@@ -229,7 +229,7 @@ void CResourceManager::CreateDefaultShader()
 {
 	// --------------------------
 	// 기본 쉐이더 생성 (AlphaBlend Coveratge)
-	CGraphicsShader* pShader = new CGraphicsShader;
+	CGraphicsShader* pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
@@ -242,7 +242,7 @@ void CResourceManager::CreateDefaultShader()
 
 	// -----------------------
 	// 기본 쉐이더 생성 (AlphaBlend)
-	pShader = new CGraphicsShader;
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
@@ -265,7 +265,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// Light2D 쉐이더 생성
-	pShader = new CGraphicsShader;
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLight2D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLight2D);
 
@@ -280,7 +280,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// Collider2D 쉐이더 생성
-	pShader = new CGraphicsShader;
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderCollider2D);
 
@@ -298,7 +298,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-----------------------
 	// 타일맵 쉐이더 생성
-	pShader = new CGraphicsShader;
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderTileMap);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderTileMap);
 
@@ -316,7 +316,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-------------------------
 	// 파티클 렌더 쉐이더 생성
-	pShader = new CGraphicsShader;
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_VTX_Particle);
 	pShader->CreateGeometryShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_GEO_Particle);
 	pShader->CreatePixelShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_PIX_Particle);
@@ -346,41 +346,40 @@ void CResourceManager::CreateDefaultShader()
 void CResourceManager::CreateDefaultMaterial()
 {
 	// 기본 재질 생성 (AlphaBlend Coverage)
-	CMaterial* pMtrl = new CMaterial;
+	CMaterial* pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = LoadRes<CGraphicsShader>(STR_KEY_StdAlphaBlend_CoverageShader);
 	pMtrl->SetShader(pShaderAlphaBlendCV);
 	AddRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl, pMtrl);
 
 	// 기본 재질 생성 (AlphaBlend)
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderAlphaBlend = LoadRes<CGraphicsShader>(STR_KEY_StdAlphaBlendShader);
 	pMtrl->SetShader(pShaderAlphaBlend);
 	AddRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl, pMtrl);
 
 	// Light2D 재질 설정
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderLight2D = LoadRes<CGraphicsShader>(STR_KEY_StdLight2DShader);
 	pMtrl->SetShader(pShaderLight2D);
 	AddRes<CMaterial>(STR_KEY_StdLight2DMtrl, pMtrl);
 
 	// Collider2D 재질 생성
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
 	pMtrl->SetShader(pShaderCollider2D);
 	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
 
 	// 타일맵 재질 생성
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
 	pMtrl->SetShader(pShaderTileMap);
 	AddRes(STR_KEY_TileMapMtrl, pMtrl);
 
 	// 파티클 재질 생성
-	pMtrl = new CMaterial;
+	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
 	pMtrl->SetShader(pShaderParticle);
 	AddRes(STR_KEY_ParticleMtrl, pMtrl);
-
 }
 
 
@@ -410,6 +409,7 @@ void CResourceManager::CreateDefaultTexture()
 	g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
 }
 
+// param(_iBindFlag) : D3D11_BIND_FLAG
 SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
 {
 	assert(nullptr == FindRes<CTexture>(_strKey));
