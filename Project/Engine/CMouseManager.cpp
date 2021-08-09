@@ -83,7 +83,8 @@ LRESULT CMouseManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		return 0;
 	}
 	default:
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		//return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		return 0;
 	}
 }
 
