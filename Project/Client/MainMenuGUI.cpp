@@ -1,11 +1,17 @@
 #include "pch.h"
 #include "MainMenuGUI.h"
 #include <Engine\CSceneManager.h>
+#include <Engine\CScene.h>
 #include <Engine\CResourceManager.h>
 #include <Engine\CMaterial.h>
+
+#include <Engine\CRenderManager.h>
+#include <Engine\CCamera.h>
+#include <Engine\CTransform.h>
 #include "CSceneSaveLoad.h"
 
 UINT g_iMtrlID = 0;
+UINT g_iEmptyGameObjectID = 0;
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -58,7 +64,7 @@ void MainMenuGUI::Update()
         
         if (ImGui::BeginMenu("Object")) {
             if (ImGui::MenuItem("Create GameObject")) {
-                // TODO : do
+                CreateEmptyGameObject();
             }
             if (ImGui::MenuItem("Create Material")) {
                 CreateEmptyMaterial();
@@ -142,4 +148,29 @@ void MainMenuGUI::CreateEmptyMaterial()
     pNewMtrl->SetRelativePath(strRelativePath);
 
     CResourceManager::GetInstance()->AddRes<CMaterial>(strKey, pNewMtrl);
+}
+
+void MainMenuGUI::CreateEmptyGameObject()
+{
+    constexpr int iBuffSize = 255;
+    TCHAR szBuffer[iBuffSize] = _T("");
+
+    // 고유 이름값 생성
+    while (true) {
+        _stprintf_s(szBuffer, iBuffSize, _T("GameObject%d"), g_iEmptyGameObjectID++);
+        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
+        if (nullptr == pObj)
+            break;
+    }
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pNewGameObject = new CGameObject;
+    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->AddComponent<CTransform>();
+
+    // Tool Camera가 바라보고 있는 위치에 생성
+    CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+    Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+    CObject::CreateGameObjectEvn(pNewGameObject, E_Layer::Default);
 }

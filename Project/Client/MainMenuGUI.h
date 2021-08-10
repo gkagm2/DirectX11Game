@@ -12,6 +12,7 @@ public:
 	void ShowExampleMenuFile();
 	void ShowSceneMode();
 	void CreateEmptyMaterial();
+	void CreateEmptyGameObject();
 
 public:
 	MainMenuGUI();

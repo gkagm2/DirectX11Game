@@ -760,7 +760,7 @@ void CTestScene::FishEyePostEffect()
 	pBGObj->AddComponent<CTransform>();
 	pBGObj->AddComponent<CMeshRenderer>();
 	Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
-	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x , vResolution.y, 1.f));
+	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x , vResolution.x, 1.f));
 	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
 	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
 	pBGObj->MeshRenderer()->SetMaterial(mtrl);
