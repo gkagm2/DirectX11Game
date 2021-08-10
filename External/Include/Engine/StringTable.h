@@ -64,6 +64,8 @@
 // posteffect.fx functions name
 #define STR_FUNC_NAME_VTX_Distortion "VS_Distortion"
 #define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
+#define STR_FUNC_NAME_VTX_FishEye "VS_FishEye"
+#define STR_FUNC_NAME_PIX_FishEye "PS_FishEye"
 
 
 ////////// Resource Key ///////////////
@@ -83,6 +85,7 @@
 #define STR_KEY_TileMapShader _T("TileMapShader")
 #define STR_KEY_ParticleShader _T("ParticleShader")
 #define STR_KEY_DistortionShader _T("DistortionShader")
+#define STR_KEY_FishEyeShader _T("FishEyeShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -99,6 +102,7 @@
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
+#define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")

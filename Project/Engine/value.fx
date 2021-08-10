@@ -106,4 +106,6 @@ SamplerState g_sam_0 : register(s0); // Anisotropic
 SamplerState g_sam_1 : register(s1); // Point
 #define Sample_Anisotropic g_sam_0
 #define Sample_Point g_sam_1
+
+#define PI 3.1415926535
 #endif

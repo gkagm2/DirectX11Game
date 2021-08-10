@@ -19,10 +19,15 @@ protected:
 	static void MouseMovementTest();
 	static void ImGuiTest();					// 하는중
 	static void DistortionObject();				// PostEffect를 이용
+	static void FishEyePostEffect();			// PostEffect
+
+
+
 	// TODO (Jang) : 자식오브젝트가 있는 상태에서 로 Scene Stop 시 오류걸리는거 수정하기
 	static void MaterialCreateTest();			// Done
 
 	static void MultiThreadScene_LoadingScene();
+	
 
 
 	static void SceneSaveLoadPrefabTest();// TODO (Jang) : 프리펩 RelativePath가 없음.

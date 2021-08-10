@@ -355,6 +355,20 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 
 	AddRes(STR_KEY_DistortionShader, pShader);
+
+	//---------------------------
+	// FishEye Shader
+	pShader = new CGraphicsShader(E_RenderPov::PostEffect);
+	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_FishEye);
+	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_FishEye);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Depth Stencil
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
+	AddRes(STR_KEY_FishEyeShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -403,6 +417,15 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
 	AddRes(STR_KEY_DistortionMtrl, pMtrl);
+
+	// FishEye 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
+	pMtrl->SetShader(pShaderFishEye);
+
+	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
 }
 
 
