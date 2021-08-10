@@ -163,6 +163,7 @@
     </ClInclude>
     <ClInclude Include="Client.h" />
     <ClInclude Include="ComponentGUI.h" />
+    <ClInclude Include="ContextMenuGUI.h" />
     <ClInclude Include="CSceneSaveLoad.h" />
     <ClInclude Include="CTestScene.h" />
     <ClInclude Include="CToolCameraScript.h" />
@@ -238,6 +239,7 @@
     </ClCompile>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ComponentGUI.cpp" />
+    <ClCompile Include="ContextMenuGUI.cpp" />
     <ClCompile Include="CSceneSaveLoad.cpp" />
     <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="CToolCameraScript.cpp" />

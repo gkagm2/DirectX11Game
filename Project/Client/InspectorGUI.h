@@ -34,6 +34,9 @@ public:
 	void SetTargetObject(CGameObject* _pTargetObj);
 	void SetTargetResource(CResource* _pTargetResource);
 
+private:
+	void _AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
+
 public:
 	InspectorGUI();
 	virtual ~InspectorGUI() override;

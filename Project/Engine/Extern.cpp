@@ -44,7 +44,7 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 		strComponentType = _T("Transform");
 		break;
 	case E_ComponentType::BoundingBox:
-		strComponentType = _T("Transform");
+		strComponentType = _T("BoundingBox");
 		break;
 	case E_ComponentType::Collider2D:
 		strComponentType = _T("Collider2D");
@@ -93,6 +93,17 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 		break;
 	}
 	return strComponentType;
+}
+
+UINT ComponentStrToIdx(const tstring& _strComponent)
+{
+	UINT i = 0;
+	for (; i < (UINT)E_ComponentType::End; ++i) {
+		tstring str = ComponentTypeToStr((E_ComponentType)i);
+		if (str == _strComponent)
+			return i;
+	}
+	return i;
 }
 
 tstring ResourceTypeToStr(E_ResourceType _eType)

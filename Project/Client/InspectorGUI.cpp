@@ -4,6 +4,9 @@
 #include <Engine\CSceneManager.h>
 #include <Engine\CScene.h>
 
+#include "ListViewGUI.h"
+#include <Engine\CResourceManager.h>
+
 #include "CImGuiManager.h"
 #include "ComponentGUI.h"
 #include "TransformGUI.h"
@@ -17,6 +20,7 @@
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
 #include "TextureGUI.h"
+
 
 InspectorGUI::InspectorGUI() :
 	m_arrComGUI{},
@@ -108,9 +112,22 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// 컴포넌트 추가 버튼
 	if (ImGui::Button("Add Component##ComponentAdd")) {
-		int a = 3;
+		// 리스트 뷰를 보여준다.
+		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+		assert(pListViewGUI);
 
+		vector<tstring> vecNames;
+		for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+			CComponent* pComponent = m_pTargetObject->GetComponent((E_ComponentType)i);
+			if (pComponent)
+				continue;
+			tstring strComponentName = ComponentTypeToStr((E_ComponentType)i);
+			vecNames.push_back(strComponentName);
+		}
 
+		pListViewGUI->SetList(vecNames, _T("Component"));
+		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&InspectorGUI::_AddNewComponent);
+		pListViewGUI->SetActive(true);
 	}
 }
 
@@ -153,4 +170,15 @@ void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
 	}
 
 	m_arrResGUI[(UINT)eType]->SetTargetResource(_pTargetResource);
+}
+
+void InspectorGUI::_AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2)
+{
+	string strComponent = (char*)_dw1;
+	tstring tstrComponent;
+	StringToTString(strComponent, tstrComponent);
+	UINT i = ComponentStrToIdx(tstrComponent);
+	CComponent* pNewComponent = m_pTargetObject->CreateComponent((E_ComponentType)i);
+	m_pTargetObject->AddComponent(pNewComponent);
+	// FIXED (Jang) : 이벤트로 안해도 되려나?
 }

@@ -361,7 +361,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		FRead(iComIdx, _pFile);
 		if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
 			break;
-		CComponent* pComponent = _CreateComponent((E_ComponentType)iComIdx);
+		CComponent* pComponent = CreateComponent((E_ComponentType)iComIdx);
 
 		pComponent->LoadFromScene(_pFile);
 		AddComponent(pComponent);
@@ -391,7 +391,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	return true;
 }
 
-CComponent* CGameObject::_CreateComponent(E_ComponentType _eType)
+CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 {
 	CComponent* pComponent = nullptr;
 	switch ((E_ComponentType)_eType) {

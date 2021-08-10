@@ -81,7 +81,7 @@ void ListViewGUI::SetList(const vector<tstring>& _vecNames, const tstring& _strT
     TStringToString(_strTitle, m_strTitle);
 
     // 리스트의 문자열 세팅
-    m_vecListName.empty();
+    m_vecListName.clear();
     string strName;
     for (UINT i = 0; i < _vecNames.size(); ++i) {
         TStringToString(_vecNames[i], strName);
@@ -89,7 +89,7 @@ void ListViewGUI::SetList(const vector<tstring>& _vecNames, const tstring& _strT
     }
 
     // 보여줄 문자열 세팅
-    m_vecListAdr.empty();
+    m_vecListAdr.clear();
     for (const auto& name : m_vecListName)
         m_vecListAdr.push_back(name.c_str());
 }

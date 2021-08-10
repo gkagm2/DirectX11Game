@@ -66,6 +66,22 @@ void TreeViewNode::Update()
 			}
 		}
 
+		// 해당 아이템 오른쪽 버튼을 클릭한 경우
+		//if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(2)) {
+		//	// 현재 아이템이 선택되지 않았으면
+		//	if (this != m_pOwner->m_pSelectedNode) {
+		//		m_pOwner->_SetSelectedNode(this);
+
+		//		// 선택된 인스턴스가 존재하면
+		//		if (nullptr != m_pOwner->m_pSelectedNode && m_pOwner->m_pSelectInst) {
+		//			((m_pOwner->m_pSelectInst)->*m_pOwner->m_pSelectFunc)(m_pOwner->m_pSelectedNode);
+
+		//			// ContextMenu Open
+		//			
+		//		}
+		//	}
+		//}
+
 		// 해당 아이템이 드래그 시작한 경우
 		if (ImGui::BeginDragDropSource()) {
 			// 자신이 드래그 시작 노드를 알림
@@ -112,6 +128,8 @@ void TreeViewNode::Update()
 TreeViewGUI::TreeViewGUI() :
 	m_pRootNode(nullptr),
 	m_pSelectedNode(nullptr),
+	m_pDraggedNode(nullptr),
+	m_pDropTargetNode(nullptr),
 	m_bRootRender(false),
 	m_bFrameUse(false),
 	m_bFrameOnlyParent(false),

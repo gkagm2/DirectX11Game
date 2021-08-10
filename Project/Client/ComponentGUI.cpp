@@ -38,5 +38,12 @@ bool ComponentGUI::Start()
 	WStringToString(ComponentTypeToStr(m_eComponentType), strComponentName);
 	SetTitileButton((int)m_eComponentType, strComponentName);
 
+	ImGui::SameLine();
+
+	// Delete Component Button
+	if (ImGui::Button("Del")) {
+		//CObject::DestroyGameObjectEvn()
+	}
+
 	return true;
 }

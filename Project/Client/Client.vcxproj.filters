@@ -137,6 +137,12 @@
     <Filter Include="02. GUI\Module\ParamGUI">
       <UniqueIdentifier>{a09aa518-2d76-49fb-975f-758327ff14f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\Module\ContextMenuGUI">
+      <UniqueIdentifier>{908be2f2-a047-4314-9ab4-604a29ffa336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\Module\ContextMenuGUI\HierachyContextMenuGUI">
+      <UniqueIdentifier>{93bd1906-9f25-469e-a2a9-10697779543b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -275,6 +281,9 @@
     <ClInclude Include="ParamGUI.h">
       <Filter>02. GUI\Module\ParamGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ContextMenuGUI.h">
+      <Filter>02. GUI\Module\ContextMenuGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -397,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="ParamGUI.cpp">
       <Filter>02. GUI\Module\ParamGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ContextMenuGUI.cpp">
+      <Filter>02. GUI\Module\ContextMenuGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

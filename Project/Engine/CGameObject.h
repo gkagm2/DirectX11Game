@@ -65,7 +65,8 @@ private:
 	bool _IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType);
 	bool _IsExistComponent(E_ComponentType _eComponentType) { return m_arrComponent[(UINT)_eComponentType] ? true : false; }
 
-	CComponent* _CreateComponent(E_ComponentType _eType);
+public:
+	CComponent* CreateComponent(E_ComponentType _eType);
 	
 public:
 	template<typename TYPE>
