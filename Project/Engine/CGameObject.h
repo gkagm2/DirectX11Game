@@ -67,6 +67,8 @@ private:
 
 public:
 	CComponent* CreateComponent(E_ComponentType _eType);
+private:
+	void _DestroyComponent(E_ComponentType _eType);
 	
 public:
 	template<typename TYPE>

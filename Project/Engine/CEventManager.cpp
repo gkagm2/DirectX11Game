@@ -3,6 +3,7 @@
 #include "CSceneManager.h"
 
 #include "CGameObject.h"
+#include "CComponent.h"
 #include "CScene.h"
 #include "CLayer.h"
 
@@ -46,7 +47,7 @@ void CEventManager::_Excute(const TEvent& _event)
 {
 	switch (_event.eType)
 	{
-	case E_EventType::Create_Object: {
+	case E_EventType::Create_GameObject: {
 		// lparam : Object Address
 		// wparam : Layer Index
 		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
@@ -58,13 +59,45 @@ void CEventManager::_Excute(const TEvent& _event)
 		m_vecCreateObj.push_back(pNewGameObject);
 	}
 		break;
-	case E_EventType::Destroy_Object: {
+	case E_EventType::Destroy_GameObject: {
 		// lparam  : Object Address
 		CGameObject* pDeleteObj = (CGameObject*)_event.lparam;
 		if (pDeleteObj->IsDead())
 			break;
 		pDeleteObj->_SetDead();
 		m_vecDeadObj.push_back(pDeleteObj);
+	}
+		break;
+	case E_EventType::Create_Object: {
+		// lparam : Object Address
+		CObject* pObj = (CObject*)_event.lparam;
+		if (dynamic_cast<CGameObject*>(pObj)) {
+			// wparam : Layer Index
+			CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+			assert(pCurScene);
+			CGameObject* pNewGameObject = (CGameObject*)_event.lparam;
+			assert(pNewGameObject);
+			int iLayer = (int)_event.wparam;
+			pCurScene->_AddGameObject(pNewGameObject, (E_Layer)iLayer);
+			m_vecCreateObj.push_back(pNewGameObject);
+		}
+	}
+		break;
+	case E_EventType::Destroy_Object: {
+		// lparam : Object Address
+		CObject* pObj = (CObject*)_event.lparam;
+		if (dynamic_cast<CGameObject*>(pObj)) {
+			CGameObject* pDeleteObj = (CGameObject*)pObj;
+			if (pDeleteObj->IsDead())
+				break;
+			pDeleteObj->_SetDead();
+			m_vecDeadObj.push_back(pDeleteObj);
+		}
+		else if (dynamic_cast<CComponent*>(pObj)) {
+			CComponent* pComponent = (CComponent*)pObj;
+			E_ComponentType pComponentType = pComponent->GetComponentType();
+			pComponent->GetGameObject()->_DestroyComponent(pComponentType);
+		}
 	}
 		break;
 	case E_EventType::Add_Child: {
@@ -110,11 +143,13 @@ void CEventManager::_Excute(const TEvent& _event)
 	}
 
 	switch (_event.eType) {
-	case E_EventType::Create_Object:
-	case E_EventType::Destroy_Object:
+	case E_EventType::Create_GameObject:
+	case E_EventType::Destroy_GameObject:
 	case E_EventType::Add_Child:
 	case E_EventType::Unlink_Parent:
 	case E_EventType::Change_Scene:
+	case E_EventType::Create_Object:
+	case E_EventType::Destroy_Object:
 	//case E_EventType::Change_SceneMode:
 		m_bEventHappened = true;
 		break;

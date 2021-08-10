@@ -27,7 +27,7 @@ CObject::~CObject()
 void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
 {
     TEvent even = {};
-    even.eType = E_EventType::Create_Object;
+    even.eType = E_EventType::Create_GameObject;
     even.lparam = (DWORD_PTR)_pTargetObj;
     even.wparam = (int)_eLayer;
 
@@ -41,6 +41,14 @@ void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWor
 }
 
 void CObject::DestroyGameObjectEvn(CGameObject* _pTargetObj)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Destroy_GameObject;
+    even.lparam = (DWORD_PTR)_pTargetObj;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
+void CObject::DestroyObjectEvn(CObject* _pTargetObj)
 {
     TEvent even = {};
     even.eType = E_EventType::Destroy_Object;

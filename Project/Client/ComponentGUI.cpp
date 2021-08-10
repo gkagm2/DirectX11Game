@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ComponentGUI.h"
 #include <Engine\CGameObject.h>
+#include <Engine\CComponent.h>
 
 ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_eComponentType(_eType),
@@ -42,7 +43,8 @@ bool ComponentGUI::Start()
 
 	// Delete Component Button
 	if (ImGui::Button("Del")) {
-		//CObject::DestroyGameObjectEvn()
+		CComponent* pComponent = m_pTargetObj->GetComponent(m_eComponentType);
+		CObject::DestroyObjectEvn(pComponent);
 	}
 
 	return true;

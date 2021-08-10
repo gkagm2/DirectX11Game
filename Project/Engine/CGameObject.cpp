@@ -431,3 +431,11 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 	}
 	return pComponent;
 }
+
+void CGameObject::_DestroyComponent(E_ComponentType _eType)
+{
+	if (m_arrComponent[(UINT)_eType]) {
+		delete m_arrComponent[(UINT)_eType];
+		m_arrComponent[(UINT)_eType] = nullptr;
+	}
+}

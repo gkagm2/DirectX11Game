@@ -1,6 +1,8 @@
 #pragma once
 
 enum class E_EventType {
+	Create_GameObject,
+	Destroy_GameObject,
 	Create_Object,
 	Destroy_Object,
 	Add_Child,
