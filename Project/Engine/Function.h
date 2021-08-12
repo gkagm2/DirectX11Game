@@ -113,3 +113,6 @@ inline void StringToTString(const string& _in, tstring& _out) {
 	_out = _in;
 #endif
 }
+
+void StringToArr(const string& _in, char* _out, int _iSize);
+void TStringToArr(const tstring& _in, char* _out, int _iSize);

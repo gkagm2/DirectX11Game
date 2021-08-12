@@ -24,6 +24,8 @@ public:
 	static void UnlinkParentGameObjectEvn(CGameObject* _pChildObj);
 	static void InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer = E_Layer::Default);
 
+	static void ChangeStateEvn(); // 상태가 바뀌면
+
 public:
 	UINT GetID() { return m_iID; }
 	const tstring& GetName() { return m_strName; }

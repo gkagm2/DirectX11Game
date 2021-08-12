@@ -103,6 +103,18 @@ void InspectorGUI::Update()
 void InspectorGUI::UpdateObjectGUI()
 {
 	ImGui::Separator();
+	
+	ImGui::Text("Name"); ImGui::SameLine();
+	char strObjName[255] = "";
+	TStringToArr(m_pTargetObject->GetName(), strObjName, 255);
+	
+	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
+		tstring tname;
+		StringToTString(strObjName, tname);
+		m_pTargetObject->SetName(tname);
+		CObject::ChangeStateEvn();
+	}
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])
 			continue;

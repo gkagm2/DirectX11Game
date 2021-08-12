@@ -78,6 +78,13 @@ void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldP
     CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _eLayer);
 }
 
+void CObject::ChangeStateEvn()
+{
+    TEvent even = {};
+    even.eType = E_EventType::Change_State;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
 bool CObject::SaveToScene(FILE* _pFile)
 {
     SaveStringToFile(m_strName, _pFile);

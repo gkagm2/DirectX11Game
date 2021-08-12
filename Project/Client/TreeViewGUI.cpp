@@ -46,7 +46,7 @@ void TreeViewNode::Update()
 	// Node Update
 	string strName = m_strName;
 	if (strName.empty())
-		strName = "Game Object";
+		strName = "[No Name]";
 	
 	/*char szBuffer[255] = {};
 	sprintf(szBuffer, "##%ld", m_dwData);*/

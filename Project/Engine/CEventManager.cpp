@@ -128,7 +128,6 @@ void CEventManager::_Excute(const TEvent& _event)
 	}
 		break;
 	case E_EventType::Change_State: {
-
 	}
 		break;
 	case E_EventType::Change_SceneMode: {
@@ -150,6 +149,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Change_Scene:
 	case E_EventType::Create_Object:
 	case E_EventType::Destroy_Object:
+	case E_EventType::Change_State:
 	//case E_EventType::Change_SceneMode:
 		m_bEventHappened = true;
 		break;

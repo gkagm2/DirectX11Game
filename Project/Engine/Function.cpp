@@ -16,3 +16,15 @@ void LoadStringFromFile(tstring& _str, FILE* _pFile)
 	fread(szBuffer, sizeof(TCHAR), (size_t)iLen, _pFile);
 	_str = szBuffer;
 }
+
+void StringToArr(const string& _in, char* _out, int _iSize)
+{
+	strcpy_s(_out, _iSize, _in.c_str());
+}
+
+void TStringToArr(const tstring& _in, char* _out, int _iSize)
+{
+	string str;
+	TStringToString(_in, str);
+	strcpy_s(_out, _iSize, str.c_str());
+}
