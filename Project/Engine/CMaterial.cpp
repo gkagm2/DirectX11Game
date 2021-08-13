@@ -12,7 +12,7 @@ CMaterial::CMaterial() :
 	m_pShader(nullptr),
 	m_tParam{},
 	m_arrTexture{},
-	m_bIsDefaultMtrl(true)
+	m_bIsDefaultMtrl(false)
 {
 }
 
@@ -48,6 +48,14 @@ void CMaterial::UpdateData()
 	static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Material_Param);
 	pCB->SetData(&m_tParam);
 	pCB->UpdateData();
+}
+
+
+void CMaterial::SetShader(SharedPtr<CGraphicsShader>& _pShader) {
+	m_pShader = _pShader;
+	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
+	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
+		Save(GetRelativePath());
 }
 
 // Example :
@@ -104,14 +112,15 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 	case E_ShaderParam::TextureCube_1:
 		m_arrTexture[(UINT)_eParam - (UINT)E_ShaderParam::Texture_0] = (CTexture*)_pData;
 
-		// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
-		if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
-			Save(GetRelativePath());
 		break;
 	default:
 		assert(nullptr);
 		break;
 	}
+
+	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
+	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
+		Save(GetRelativePath());
 }
 
 void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)

@@ -82,11 +82,16 @@ void CSceneSaveLoad::Release()
 	while (WAIT_OBJECT_0 != WaitForSingleObject(g_hLoadExitEvent, 0)) {	}
 }
 
-bool CSceneSaveLoad::SaveScene(CScene* _pScene, const tstring& _strRelativePath)
+bool CSceneSaveLoad::SaveScene(CScene* _pScene, const tstring& _strPath, bool _bIsRelativePath)
 {
 	errno_t err;
-	tstring strFilePath = CPathManager::GetInstance()->GetContentPath();
-	strFilePath += _strRelativePath;
+	tstring strFilePath;
+	if (_bIsRelativePath) {
+		strFilePath = CPathManager::GetInstance()->GetContentPath();
+		strFilePath += _strPath;
+	}
+	else
+		strFilePath = _strPath;
 
 	FILE* pFile = nullptr;
 	err = _tfopen_s(&pFile, strFilePath.c_str(), _T("wb"));
@@ -105,11 +110,16 @@ bool CSceneSaveLoad::SaveScene(CScene* _pScene, const tstring& _strRelativePath)
 	return true;
 }
 
-CScene* CSceneSaveLoad::LoadScene(const tstring& _strRelativePath)
+CScene* CSceneSaveLoad::LoadScene(const tstring& _strPath, bool _bIsRelativePath)
 {
 	errno_t err;
-	tstring strFilePath = CPathManager::GetInstance()->GetContentPath();
-	strFilePath += _strRelativePath;
+	tstring strFilePath;
+	if (_bIsRelativePath) {
+		strFilePath = CPathManager::GetInstance()->GetContentPath();
+		strFilePath += _strPath;
+	}
+	else
+		strFilePath = _strPath;
 
 	FILE* pFile = nullptr;
 	err = _tfopen_s(&pFile, strFilePath.c_str(), _T("rb"));

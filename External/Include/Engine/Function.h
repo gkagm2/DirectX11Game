@@ -73,7 +73,7 @@ void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {
 }
 
 template<typename T>
-void LoadResourceFromFile(SharedPtr<T> _pRes, FILE* _pFile) {
+void LoadResourceFromFile(SharedPtr<T>& _pRes, FILE* _pFile) {
 	UINT iCheck = 0;
 
 	FRead(iCheck, _pFile);

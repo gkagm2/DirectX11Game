@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CEventManager.h"
 #include "CSceneManager.h"
+#include "CResourceManager.h"
 
 #include "CGameObject.h"
 #include "CComponent.h"
@@ -127,6 +128,14 @@ void CEventManager::_Excute(const TEvent& _event)
 		CSceneManager::GetInstance()->ChangeScene(pNextScene);
 	}
 		break;
+	case E_EventType::Remove_Material: {
+		// lparam : tstring material Key
+		tstring* pstrKey = (tstring*)_event.lparam;
+		CResourceManager::GetInstance()->_DeleteCopiedMaterial(*pstrKey);
+		if (pstrKey)
+			delete pstrKey;
+	}
+		break;
 	case E_EventType::Change_State: {
 	}
 		break;
@@ -150,6 +159,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Create_Object:
 	case E_EventType::Destroy_Object:
 	case E_EventType::Change_State:
+	case E_EventType::Remove_Material:
 	//case E_EventType::Change_SceneMode:
 		m_bEventHappened = true;
 		break;

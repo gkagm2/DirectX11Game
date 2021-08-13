@@ -16,8 +16,8 @@ public:
 	static void Init();
 	static void Release();
 
-	static bool SaveScene(CScene* _pScene, const tstring& _strRelativePath);
-	static CScene* LoadScene(const tstring& _strRelativePath);
+	static bool SaveScene(CScene* _pScene, const tstring& _strPath, bool _bIsRelativePath = true);
+	static CScene* LoadScene(const tstring& _strPath, bool _bIsRelativePath = true);
 
 	static bool SaveScript(CScript* _pScript, FILE* _pFile);
 	static CScript* LoadScript(FILE* _pFile);

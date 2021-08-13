@@ -6,6 +6,7 @@
 
 #include "ListViewGUI.h"
 #include <Engine\CResourceManager.h>
+#include <Engine\CMeshRenderer.h>
 
 #include "CImGuiManager.h"
 #include "ComponentGUI.h"
@@ -104,15 +105,23 @@ void InspectorGUI::UpdateObjectGUI()
 {
 	ImGui::Separator();
 	
+	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
 	TStringToArr(m_pTargetObject->GetName(), strObjName, 255);
-	
+
 	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
 		tstring tname;
 		StringToTString(strObjName, tname);
 		m_pTargetObject->SetName(tname);
 		CObject::ChangeStateEvn();
+	}
+
+	// 삭제
+	ImGui::SameLine();
+	if (ImGui::Button("Del##DeleteGameObject")) {
+		CObject::DestroyGameObjectEvn(m_pTargetObject);
+		m_eMode = E_InspectorUIMode::None;
 	}
 
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
@@ -146,7 +155,35 @@ void InspectorGUI::UpdateObjectGUI()
 void InspectorGUI::UpdateResourceGUI()
 {
 	ImGui::Separator();
-	E_ResourceType eType =  m_pTargetResource->GetResourceType();
+
+	// 이름 바꾸기
+	ImGui::Text("Name"); ImGui::SameLine();
+	char strObjName[255] = "";
+	TStringToArr(m_pTargetResource->GetName(), strObjName, 255);
+
+	if (ImGui::InputText("##ResourceName", strObjName, 255)) {
+		tstring tname;
+		StringToTString(strObjName, tname);
+		m_pTargetResource->SetName(tname);
+		CObject::ChangeStateEvn();
+	}
+
+	E_ResourceType eType = m_pTargetResource->GetResourceType();
+
+	if (eType == E_ResourceType::Material) {
+		// 메터리얼 삭제
+		CMaterial* pMtrl = (CMaterial*)m_pTargetResource;
+		if (false == pMtrl->IsDefaultMaterial()) {
+			// Delete Resource Button
+			ImGui::SameLine();
+			if (ImGui::Button("Del##Resource")) {
+				// Resource 삭제
+				CResourceManager::GetInstance()->DeleteCopiedMaterialEvn(pMtrl->GetKey());
+				m_eMode = E_InspectorUIMode::None;
+			}
+		}
+	}
+
 	if (nullptr == m_arrResGUI[(UINT)eType]) {
 		return;
 	}

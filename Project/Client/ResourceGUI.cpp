@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ResourceGUI.h"
+#include <Engine\CResourceManager.h>
 
 ResourceGUI::ResourceGUI(E_ResourceType _eType) :
 	m_pTargetResource(nullptr),

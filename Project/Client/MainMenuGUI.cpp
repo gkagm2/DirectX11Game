@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MainMenuGUI.h"
+#include <Engine\CCore.h>
 #include <Engine\CSceneManager.h>
 #include <Engine\CScene.h>
 #include <Engine\CResourceManager.h>
@@ -31,11 +32,11 @@ void MainMenuGUI::Update()
     {
         // Scene Menu
         if (ImGui::BeginMenu("Scene")) {
-            if (ImGui::MenuItem("Save Scene", "CTLR+S", false ,false)) {
-
+            if (ImGui::MenuItem("Save Scene", "CTLR+S", false , true)) {
+                SaveScene();
             }
-            if (ImGui::MenuItem("Load Scene", "CTRL+L", false, false)) {
-
+            if (ImGui::MenuItem("Load Scene", "CTRL+L", false, true)) {
+                LoadScene();
             }
             ImGui::EndMenu();
         }
@@ -102,6 +103,50 @@ void MainMenuGUI::ShowExampleMenuFile()
     }
 }
 
+void MainMenuGUI::SaveScene()
+{
+    OPENFILENAME ofn;
+    wchar_t strMaxPath[MAX_PATH] = L"";
+    memset(&ofn, 0, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+    ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+    ofn.lpstrFile = strMaxPath;
+    ofn.nMaxFile = MAX_PATH;
+
+    if (0 != GetSaveFileName(&ofn)) {
+        // Save
+        tstring path = ofn.lpstrFile;
+        CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), path, false);
+
+        wchar_t str[255] = L"Tile File Save";
+        MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+    }
+}
+
+void MainMenuGUI::LoadScene()
+{
+    OPENFILENAME ofn;
+    wchar_t strMaxPath[MAX_PATH] = L"";
+    memset(&ofn, 0, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+    ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+    ofn.lpstrFile = strMaxPath;
+    ofn.nMaxFile = MAX_PATH;
+
+
+    if (0 != GetOpenFileName(&ofn)) {
+        // Load
+        tstring path = ofn.lpstrFile;
+        CScene* pCurScene = CSceneSaveLoad::LoadScene(path, false);
+        CSceneManager::GetInstance()->ChangeSceneEvt(pCurScene);
+
+        wchar_t str[255] = L"Tile File Load";
+        MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
+    }
+}
+
 void MainMenuGUI::ShowSceneMode()
 {
     if (ImGui::MenuItem("Play", "CTLR+P", false, bPlay)) {
@@ -143,11 +188,14 @@ void MainMenuGUI::CreateEmptyMaterial()
     tstring strRelativePath = STR_FILE_PATH_Material;
     strRelativePath = strRelativePath + strKey;
 
-    CMaterial* pNewMtrl = new CMaterial(true); // Create Default Material 
+    CMaterial* pNewMtrl = new CMaterial(false); // Create Material 
     pNewMtrl->SetKey(strKey);
     pNewMtrl->SetRelativePath(strRelativePath);
 
     CResourceManager::GetInstance()->AddRes<CMaterial>(strKey, pNewMtrl);
+
+    if (!pNewMtrl->IsDefaultMaterial() && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
+        pNewMtrl->Save(strRelativePath);
 }
 
 void MainMenuGUI::CreateEmptyGameObject()

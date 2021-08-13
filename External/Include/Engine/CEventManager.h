@@ -8,6 +8,7 @@ enum class E_EventType {
 	Add_Child,
 	Unlink_Parent,
 	Change_Scene,
+	Remove_Material,
 	Change_State, // AI 상태 변환
 
 	Change_SceneMode, // 현재 씬 모드 변경

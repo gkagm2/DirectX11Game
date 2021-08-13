@@ -46,6 +46,9 @@ public:
 	template<typename T>
 	SharedPtr<T> FindRes(const tstring& _strKey);
 
+	
+
+
 	template<typename T>
 	bool IsExistRes(const tstring& _strKey);
 
@@ -55,6 +58,14 @@ public:
 	const unordered_map<tstring, CResource*>& GetResources(E_ResourceType _eType) { return m_umapResource[(UINT)_eType]; }
 
 	bool IsFixed() { return m_bFixed; }
+
+
+public:
+	void DeleteCopiedMaterialEvn(const tstring& _strKey);
+private:
+	void _DeleteCopiedMaterial(const tstring& _strKey);
+
+	friend class CEventManager;
 };
 
 // 리소스 추가 시 타입 지정

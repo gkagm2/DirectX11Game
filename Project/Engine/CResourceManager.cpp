@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CResourceManager.h"
 #include "CMesh.h"
+#include "CEventManager.h"
 #include "CGraphicsShader.h"
 
 CResourceManager::CResourceManager() :
@@ -391,41 +392,41 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderLight2D);
 	AddRes<CMaterial>(STR_KEY_StdLight2DMtrl, pMtrl);
 
-	// Collider2D 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
-	pMtrl->SetShader(pShaderCollider2D);
-	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
+// Collider2D 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
+pMtrl->SetShader(pShaderCollider2D);
+AddRes(STR_KEY_Collider2DMtrl, pMtrl);
 
-	// 타일맵 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
-	pMtrl->SetShader(pShaderTileMap);
-	AddRes(STR_KEY_TileMapMtrl, pMtrl);
+// 타일맵 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
+pMtrl->SetShader(pShaderTileMap);
+AddRes(STR_KEY_TileMapMtrl, pMtrl);
 
-	// 파티클 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
-	pMtrl->SetShader(pShaderParticle);
-	AddRes(STR_KEY_ParticleMtrl, pMtrl);
+// 파티클 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
+pMtrl->SetShader(pShaderParticle);
+AddRes(STR_KEY_ParticleMtrl, pMtrl);
 
-	// 왜곡(Distortion) 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
-	pMtrl->SetShader(pShaderDistortion);
+// 왜곡(Distortion) 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
+pMtrl->SetShader(pShaderDistortion);
 
-	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-	AddRes(STR_KEY_DistortionMtrl, pMtrl);
+SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+AddRes(STR_KEY_DistortionMtrl, pMtrl);
 
-	// FishEye 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
-	pMtrl->SetShader(pShaderFishEye);
+// FishEye 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
+pMtrl->SetShader(pShaderFishEye);
 
-	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
+pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+AddRes(STR_KEY_FishEyeMtrl, pMtrl);
 }
 
 
@@ -477,6 +478,58 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComP
 	m_bFixed = true;
 	return pTexture;
 }
+
+void CResourceManager::DeleteCopiedMaterialEvn(const tstring& _strKey)
+{
+	TEvent even = {};
+	even.eType = E_EventType::Remove_Material;
+	tstring* pStrKey = new tstring(_strKey);
+	even.lparam = (DWORD_PTR)pStrKey;
+	CEventManager::GetInstance()->AddEvent(even);
+}
+
+void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
+{
+	// 복사된 메터리얼에서 찾기.
+	SharedPtr<CMaterial> pMtrl = FindRes<CMaterial>(_strKey);
+	tstring strRelativePath = pMtrl->GetRelativePath();
+	tstring strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += strRelativePath;
+
+	if (pMtrl.Get()) {
+		{ // 복사된 메터리얼
+			vector<CMaterial*>::iterator iter = m_vecCloneMtrl.begin();
+			for (; iter != m_vecCloneMtrl.end(); ++iter) {
+				if ((*iter)->GetKey() == _strKey) {
+					m_bFixed = true;
+					CMaterial* pMtrl = *iter;
+					if (pMtrl)
+						delete pMtrl;
+					m_vecCloneMtrl.erase(iter);
+					break;
+				}
+			}
+		}
+		{ // 리소스쪽 메터리얼
+			unordered_map<tstring, CResource*>::iterator iter = m_umapResource[(UINT)E_ResourceType::Material].begin();
+			for (; iter != m_umapResource[(UINT)E_ResourceType::Material].end(); ++iter) {
+				if ((*iter).first == _strKey) {
+					m_bFixed = true;
+					CResource* pMtrl = iter->second;
+					if (pMtrl)
+						delete pMtrl;
+					m_umapResource[(UINT)E_ResourceType::Material].erase(iter);
+					break;
+				}
+			}
+		}
+	}
+
+	if (-1 == _tremove(strPath.c_str())) {
+		//assert(nullptr && _T("파일 삭제 실패"));
+	}
+}
+
 
 void CResourceManager::GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut)
 {

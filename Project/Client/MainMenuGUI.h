@@ -9,6 +9,8 @@ private:
 public:
 	virtual void Update() override;
 
+	void SaveScene();
+	void LoadScene();
 	void ShowExampleMenuFile();
 	void ShowSceneMode();
 	void CreateEmptyMaterial();
