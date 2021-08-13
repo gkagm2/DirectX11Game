@@ -35,6 +35,7 @@ private:
 	TClippingPlanes  m_tClippingPlanes;  // near far 조절
 	TViewportRect	 m_tViewportRect;		// 뷰포트 조절
 
+	////////////////////////////////////////
 	Matrix			 m_matView;					// View 행렬
 	Matrix			 m_matProjection;				// Prjection 행렬
 
@@ -49,13 +50,23 @@ public:
 	virtual void FinalUpdate() override;
 	
 public:
+	
 	void SetProjectionType(E_ProjectionType _eType) { m_eProjectionType = _eType; }
 	E_ProjectionType GetProjectionType() { return m_eProjectionType; }
 
+public: // Perspective
 	void SetFOVAxis(const TFOVAxis& _tFOVAxis) { m_tFOVAxis = _tFOVAxis; }
-	void SetClippingPlanes(const TClippingPlanes& _tClippingPlanes) { m_tClippingPlanes = _tClippingPlanes; }
-	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
+	const TFOVAxis& GetFOVAxis() { return m_tFOVAxis; }
 
+public: // Orthographic
+	void SetSize(float _fSize) { m_fSize = _fSize; }
+	float GetSize() { return m_fSize; }
+	void SetClippingPlanes(const TClippingPlanes& _tClippingPlanes) { m_tClippingPlanes = _tClippingPlanes; }
+	const TClippingPlanes& GetClippingPlanes() { return m_tClippingPlanes; }
+	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
+	const TViewportRect& GetViewportRect() { return m_tViewportRect; }
+
+public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
 			m_iLayerCheck |= (_iLayerIdx << 1); // bit flag 1 설정

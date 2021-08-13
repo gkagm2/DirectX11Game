@@ -9,6 +9,9 @@ public:
 	virtual void Update() override;
 
 private:
+	void _ShowPerspectiveUI();
+	void _ShowOrthographicUI();
+
 	void _InitComboBox();
 
 public:
