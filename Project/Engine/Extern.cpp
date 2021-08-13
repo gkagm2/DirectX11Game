@@ -137,3 +137,21 @@ tstring ResourceTypeToStr(E_ResourceType _eType)
 	}
 	return strResourceType;
 }
+
+
+tstring CameraProjectionTypeToStr(E_ProjectionType _eType)
+{
+	tstring strType;
+	switch (_eType) {
+	case E_ProjectionType::Orthographic:
+		strType = _T("Orthographic");
+		break;
+	case E_ProjectionType::Perspective:
+		strType = _T("Perspective");
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	return strType;
+}

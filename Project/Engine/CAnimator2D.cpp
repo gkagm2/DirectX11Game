@@ -146,22 +146,20 @@ bool CAnimator2D::LoadFromScene(FILE* _pFile)
 
 tstring AnimationStateToStr(E_AnimationState _eState)
 {
-	{
-		tstring strState;
-		switch (_eState) {
-		case E_AnimationState::Loop:
-			strState = _T("Loop");
-			break;
-		case E_AnimationState::Once:
-			strState = _T("Once");
-			break;
-		case E_AnimationState::PingPong:
-			strState = _T("PingPong");
-			break;
-		default:
-			assert(nullptr);
-			break;
-		}
-		return strState;
+	tstring strState;
+	switch (_eState) {
+	case E_AnimationState::Loop:
+		strState = _T("Loop");
+		break;
+	case E_AnimationState::Once:
+		strState = _T("Once");
+		break;
+	case E_AnimationState::PingPong:
+		strState = _T("PingPong");
+		break;
+	default:
+		assert(nullptr);
+		break;
 	}
+	return strState;
 }

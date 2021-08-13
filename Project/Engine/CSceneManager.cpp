@@ -134,7 +134,10 @@ void CSceneManager::SceneLoadStart()
 }
 
 void CSceneManager::_SetSceneMode(E_SceneMode _eSceneMode) {
-	if (E_SceneMode::Play == _eSceneMode && E_SceneMode::Stop == m_eSceneMode)
+	if (E_SceneMode::Play == _eSceneMode && E_SceneMode::Stop == m_eSceneMode) {
+		m_pCurScene->Awake();
 		m_pCurScene->Start();
+	}
+		
 	m_eSceneMode = _eSceneMode;
 }

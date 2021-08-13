@@ -750,6 +750,7 @@ void CTestScene::FishEyePostEffect()
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->Camera()->SetLayerCheckAll();
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 	pCameraObj->SetName(_T("Camera"));
 	CObject::CreateGameObjectEvn(pCameraObj, E_Layer::Default);

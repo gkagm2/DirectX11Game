@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="Animator2DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />
+    <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CCameraEx.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
@@ -231,6 +232,7 @@
   <ItemGroup>
     <ClCompile Include="Animator2DGUI.cpp" />
     <ClCompile Include="AnimatorGUI.cpp" />
+    <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">

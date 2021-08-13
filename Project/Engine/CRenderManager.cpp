@@ -41,6 +41,7 @@ void CRenderManager::Render()
 		_RenderInGame();
 		// TODO (Jang) : InGame Camera, Tool Camera를 나눴을 때 만들기
 		//_RenderTool();
+		break;
 	case E_SceneMode::Stop:
 	case E_SceneMode::Pause:
 		_RenderTool();

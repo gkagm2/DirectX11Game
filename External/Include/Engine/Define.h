@@ -183,6 +183,7 @@ enum class E_ProjectionType {
 	Perspective,
 	Orthographic,
 };
+#define PROJECTION_TYPE_COUNT 2
 
 enum class E_RasterizerState {
 	CullBack,

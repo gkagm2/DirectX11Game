@@ -9,3 +9,4 @@ extern TGlobalConst g_globalConst;
 extern tstring ComponentTypeToStr(E_ComponentType _eType);
 extern UINT ComponentStrToIdx(const tstring& _strComponent);
 extern tstring ResourceTypeToStr(E_ResourceType _eType);
+extern tstring CameraProjectionTypeToStr(E_ProjectionType _eType);

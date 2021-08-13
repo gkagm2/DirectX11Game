@@ -113,8 +113,6 @@ void TreeViewNode::Update()
 			ImGui::EndDragDropTarget();
 		}
 
-
-
 		for (UINT i = 0; i < m_vecChildNodes.size(); ++i)
 			m_vecChildNodes[i]->Update();
 		ImGui::TreePop();

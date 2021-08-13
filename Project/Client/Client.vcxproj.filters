@@ -143,6 +143,9 @@
     <Filter Include="02. GUI\Module\ContextMenuGUI\HierachyContextMenuGUI">
       <UniqueIdentifier>{93bd1906-9f25-469e-a2a9-10697779543b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI">
+      <UniqueIdentifier>{1b5ae7c7-548f-4f29-aec2-db3c106b87f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -284,6 +287,9 @@
     <ClInclude Include="ContextMenuGUI.h">
       <Filter>02. GUI\Module\ContextMenuGUI</Filter>
     </ClInclude>
+    <ClInclude Include="CameraGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -409,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="ContextMenuGUI.cpp">
       <Filter>02. GUI\Module\ContextMenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

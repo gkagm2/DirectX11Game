@@ -11,6 +11,7 @@
 #include "CImGuiManager.h"
 #include "ComponentGUI.h"
 #include "TransformGUI.h"
+#include "CameraGUI.h"
 #include "MeshRendererGUI.h"
 #include "Collider2DRectGUI.h"
 #include "Rigidbody2DGUI.h"
@@ -71,6 +72,10 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;
 	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 110.f));
 
+	// CameraGUI
+	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 110.f));
+
 	//////////// Resources
 
 	m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
@@ -109,7 +114,6 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
 	TStringToArr(m_pTargetObject->GetName(), strObjName, 255);
-
 	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
 		tstring tname;
 		StringToTString(strObjName, tname);
