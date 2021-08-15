@@ -2,7 +2,7 @@
 #include "CBoosterScript_ca.h"
 
 CBoosterScript_ca::CBoosterScript_ca() :
-	CPartsScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA)
+	CModuleScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA)
 {
 }
 

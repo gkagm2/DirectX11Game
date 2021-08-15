@@ -1,6 +1,6 @@
 #pragma once
-#include "CPartsScript_ca.h"
-class CBoosterScript_ca : public CPartsScript_ca
+#include "CModuleScript_ca.h"
+class CBoosterScript_ca : public CModuleScript_ca
 {
 private:
 	float fForce;		// ร฿ม๘ทย

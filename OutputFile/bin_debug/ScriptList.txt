@@ -7,9 +7,9 @@ CEnemyScript_sh
 CGameManagerScript_sh
 CGirderScript_ca
 CLaserScript_ca
+CModuleScript_ca
 CObjectDragAndDropScript_ca
 CObjectDragAndDrop_ca
-CPartsScript_ca
 CPlayerScript_ca
 CPlayerScript_sh
 CRotateZScript

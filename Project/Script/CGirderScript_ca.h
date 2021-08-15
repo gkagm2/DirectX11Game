@@ -1,6 +1,6 @@
 #pragma once
-#include "CPartsScript_ca.h"
-class CGirderScript_ca : public CPartsScript_ca
+#include "CModuleScript_ca.h"
+class CGirderScript_ca : public CModuleScript_ca
 {
 public:
 	virtual void Start() override;

@@ -82,7 +82,7 @@
     <ClInclude Include="CPlayerScript_ca.h">
       <Filter>Games\CaptainForever\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CPartsScript_ca.h">
+    <ClInclude Include="CModuleScript_ca.h">
       <Filter>Games\CaptainForever\Parts</Filter>
     </ClInclude>
     <ClInclude Include="CGirderScript_ca.h">
@@ -139,7 +139,7 @@
     <ClCompile Include="CPlayerScript_ca.cpp">
       <Filter>Games\CaptainForever\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CPartsScript_ca.cpp">
+    <ClCompile Include="CModuleScript_ca.cpp">
       <Filter>Games\CaptainForever\Parts</Filter>
     </ClCompile>
     <ClCompile Include="CGirderScript_ca.cpp">

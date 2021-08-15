@@ -2,7 +2,7 @@
 #include "CGirderScript_ca.h"
 
 CGirderScript_ca::CGirderScript_ca() :
-	CPartsScript_ca((UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA)
+	CModuleScript_ca((UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA)
 {
 }
 

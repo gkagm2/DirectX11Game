@@ -1,12 +1,11 @@
 #pragma once
-#include "CPartsScript_ca.h"
-
+#include "CModuleScript_ca.h"
 
 struct TGriderInfo_ca : public TPartsInfo {
 
 };
 
-class CLaserScript_ca : public CPartsScript_ca
+class CLaserScript_ca : public CModuleScript_ca
 {
 private:
 	float fDamage;		// µ¥¹ÌÁö

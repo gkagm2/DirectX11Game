@@ -2,7 +2,7 @@
 #include "CCommandModuleScript_ca.h"
 
 CCommandModuleScript_ca::CCommandModuleScript_ca() :
-	CPartsScript_ca((UINT)SCRIPT_TYPE::COMMANDMODULESCRIPT_CA)
+	CModuleScript_ca((UINT)SCRIPT_TYPE::COMMANDMODULESCRIPT_CA)
 {
 }
 
