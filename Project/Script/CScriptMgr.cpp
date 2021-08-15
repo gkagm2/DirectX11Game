@@ -12,7 +12,6 @@
 #include "CLaserScript_ca.h"
 #include "CModuleScript_ca.h"
 #include "CObjectDragAndDropScript_ca.h"
-#include "CObjectDragAndDrop_ca.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
 #include "CRotateZScript.h"
@@ -31,7 +30,6 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CModuleScript_ca");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
-	_vec.push_back(L"CObjectDragAndDrop_ca");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CRotateZScript");
@@ -62,8 +60,6 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CModuleScript_ca;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
-	if (L"CObjectDragAndDrop_ca" == _strScriptName)
-		return new CObjectDragAndDrop_ca;
 	if (L"CPlayerScript_ca" == _strScriptName)
 		return new CPlayerScript_ca;
 	if (L"CPlayerScript_sh" == _strScriptName)
@@ -111,9 +107,6 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
-		break;
-	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROP_CA:
-		return new CObjectDragAndDrop_ca;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT_CA:
 		return new CPlayerScript_ca;
@@ -177,10 +170,6 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return L"CObjectDragAndDropScript_ca";
-		break;
-
-	case SCRIPT_TYPE::OBJECTDRAGANDDROP_CA:
-		return L"CObjectDragAndDrop_ca";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT_CA:

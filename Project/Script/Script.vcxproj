@@ -179,7 +179,6 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGameManagerScript_sh.h" />
     <ClInclude Include="CGirderScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
-    <ClInclude Include="CObjectDragAndDrop_ca.h" />
     <ClInclude Include="CModuleScript_ca.h" />
     <ClInclude Include="CPlayerScript_ca.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
@@ -200,7 +199,6 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGameManagerScript_sh.cpp" />
     <ClCompile Include="CGirderScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
-    <ClCompile Include="CObjectDragAndDrop_ca.cpp" />
     <ClCompile Include="CModuleScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />

@@ -16,9 +16,6 @@
     <Filter Include="Games\CaptainForever">
       <UniqueIdentifier>{a3d9a2fe-af2d-4e9f-8952-b9d77f548035}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Games\Dummy">
-      <UniqueIdentifier>{59c555e8-2dfb-470b-99ea-3875d18b00e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Games\CaptainForever\Player">
       <UniqueIdentifier>{18e317fa-8c33-46ee-9335-99f2c084a626}</UniqueIdentifier>
     </Filter>
@@ -73,9 +70,6 @@
     <ClInclude Include="CObjectDragAndDropScript_ca.h">
       <Filter>Games\CaptainForever</Filter>
     </ClInclude>
-    <ClInclude Include="CObjectDragAndDrop_ca.h">
-      <Filter>Games\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="CCharacterScript_ca.h">
       <Filter>Games\CaptainForever\Character</Filter>
     </ClInclude>
@@ -129,9 +123,6 @@
     <ClCompile Include="CRotateZScript.cpp" />
     <ClCompile Include="CObjectDragAndDropScript_ca.cpp">
       <Filter>Games\CaptainForever</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjectDragAndDrop_ca.cpp">
-      <Filter>Games\Dummy</Filter>
     </ClCompile>
     <ClCompile Include="CCharacterScript_ca.cpp">
       <Filter>Games\CaptainForever\Character</Filter>
