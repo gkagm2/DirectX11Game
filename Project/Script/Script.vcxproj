@@ -170,11 +170,18 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBoosterScript_ca.h" />
     <ClInclude Include="CBulletScript_sh.h" />
+    <ClInclude Include="CCharacterScript_ca.h" />
+    <ClInclude Include="CCommandModuleScript_ca.h" />
     <ClInclude Include="CEnemyRespawnerScript_sh.h" />
     <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameManagerScript_sh.h" />
+    <ClInclude Include="CGirderScript_ca.h" />
+    <ClInclude Include="CLaserScript_ca.h" />
     <ClInclude Include="CObjectDragAndDrop_ca.h" />
+    <ClInclude Include="CPartsScript_ca.h" />
+    <ClInclude Include="CPlayerScript_ca.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
     <ClInclude Include="CRotateZScript.h" />
     <ClInclude Include="CScriptMgr.h" />
@@ -184,11 +191,18 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBoosterScript_ca.cpp" />
     <ClCompile Include="CBulletScript_sh.cpp" />
+    <ClCompile Include="CCharacterScript_ca.cpp" />
+    <ClCompile Include="CCommandModuleScript_ca.cpp" />
     <ClCompile Include="CEnemyRespawnerScript_sh.cpp" />
     <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameManagerScript_sh.cpp" />
+    <ClCompile Include="CGirderScript_ca.cpp" />
+    <ClCompile Include="CLaserScript_ca.cpp" />
     <ClCompile Include="CObjectDragAndDrop_ca.cpp" />
+    <ClCompile Include="CPartsScript_ca.cpp" />
+    <ClCompile Include="CPlayerScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
     <ClCompile Include="CRotateZScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />

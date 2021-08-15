@@ -19,6 +19,27 @@
     <Filter Include="Games\Dummy">
       <UniqueIdentifier>{59c555e8-2dfb-470b-99ea-3875d18b00e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\CaptainForever\Player">
+      <UniqueIdentifier>{18e317fa-8c33-46ee-9335-99f2c084a626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Character">
+      <UniqueIdentifier>{4c94a3ba-439b-4594-a9e3-4bde6aa7651e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Parts">
+      <UniqueIdentifier>{12bd7c26-f14e-4d3f-b934-6e3c3064d722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Parts\Girder">
+      <UniqueIdentifier>{872e9a6c-2d67-4cf6-8a1e-6874b6d9fc1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Parts\Laser">
+      <UniqueIdentifier>{da7ba207-5dfd-4ef7-aec5-6141ab6e673e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Parts\Booster">
+      <UniqueIdentifier>{cadf66df-5c09-4df5-95a6-bf18013c9064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Parts\CommandModule">
+      <UniqueIdentifier>{87b910d1-a9cb-4e08-ac76-5173ada63beb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -55,6 +76,27 @@
     <ClInclude Include="CObjectDragAndDrop_ca.h">
       <Filter>Games\Dummy</Filter>
     </ClInclude>
+    <ClInclude Include="CCharacterScript_ca.h">
+      <Filter>Games\CaptainForever\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript_ca.h">
+      <Filter>Games\CaptainForever\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPartsScript_ca.h">
+      <Filter>Games\CaptainForever\Parts</Filter>
+    </ClInclude>
+    <ClInclude Include="CGirderScript_ca.h">
+      <Filter>Games\CaptainForever\Parts\Girder</Filter>
+    </ClInclude>
+    <ClInclude Include="CLaserScript_ca.h">
+      <Filter>Games\CaptainForever\Parts\Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoosterScript_ca.h">
+      <Filter>Games\CaptainForever\Parts\Booster</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommandModuleScript_ca.h">
+      <Filter>Games\CaptainForever\Parts\CommandModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -90,6 +132,27 @@
     </ClCompile>
     <ClCompile Include="CObjectDragAndDrop_ca.cpp">
       <Filter>Games\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharacterScript_ca.cpp">
+      <Filter>Games\CaptainForever\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript_ca.cpp">
+      <Filter>Games\CaptainForever\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPartsScript_ca.cpp">
+      <Filter>Games\CaptainForever\Parts</Filter>
+    </ClCompile>
+    <ClCompile Include="CGirderScript_ca.cpp">
+      <Filter>Games\CaptainForever\Parts\Girder</Filter>
+    </ClCompile>
+    <ClCompile Include="CLaserScript_ca.cpp">
+      <Filter>Games\CaptainForever\Parts\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoosterScript_ca.cpp">
+      <Filter>Games\CaptainForever\Parts\Booster</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommandModuleScript_ca.cpp">
+      <Filter>Games\CaptainForever\Parts\CommandModule</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
