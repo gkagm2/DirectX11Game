@@ -92,7 +92,7 @@
 
  /////// / // Test ///// / / /
 #define STR_KEY_TestComputeShader _T("TestComputeShader")
-
+#define STR_FILE_PATH_Prefab _T("prefab\\")
 
 // Material
 #define STR_KEY_StdAlphaBlend_CoverageMtrl _T("StandardMaterialAlphaBlendCoverage")

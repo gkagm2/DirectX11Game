@@ -90,6 +90,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CTestScene::CreateTestScene();
     CImGuiManager::GetInstance()->Init();
 
+    //CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
+
     // Main message loop:
     while (true)
     {

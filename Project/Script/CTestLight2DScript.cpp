@@ -21,3 +21,15 @@ void CTestLight2DScript::Update()
 	CLight2D* pLight2D = Light2D();
 	Light2D()->SetLightDir(Vector3(cosf(m_fAngle), sinf(m_fAngle), 0.f));
 }
+
+bool CTestLight2DScript::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_fAngle, _pFile);
+	return true;
+}
+
+bool CTestLight2DScript::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_fAngle, _pFile);
+	return true;
+}

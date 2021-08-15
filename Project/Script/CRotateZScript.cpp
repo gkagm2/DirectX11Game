@@ -17,3 +17,15 @@ void CRotateZScript::Update()
 	vCurRotate.z += DT * m_fSpeed;
 	Transform()->SetLocalRotation(vCurRotate);
 }
+
+bool CRotateZScript::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_fSpeed, _pFile);
+	return true;
+}
+
+bool CRotateZScript::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_fSpeed, _pFile);
+	return true;
+}

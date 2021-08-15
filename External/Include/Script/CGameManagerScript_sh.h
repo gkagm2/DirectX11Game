@@ -19,6 +19,11 @@ public:
     virtual void Update() override;
 
 public:
+    virtual bool SaveToScene(FILE* _pFile) { return true; }
+    virtual bool LoadFromScene(FILE* _pFile) { return true; }
+    
+
+public:
     void SetGameState(E_GameState_sh _eState) { m_eState = _eState; }
 
 public:

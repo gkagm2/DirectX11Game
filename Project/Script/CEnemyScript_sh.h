@@ -23,6 +23,10 @@ public:
 	void ColorChange();
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	CLONE(CEnemyScript_sh);
 	CEnemyScript_sh();
 	virtual~CEnemyScript_sh() override;

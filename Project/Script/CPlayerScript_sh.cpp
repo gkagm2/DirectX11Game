@@ -139,12 +139,18 @@ void CPlayerScript_sh::Move()
 
 bool CPlayerScript_sh::SaveToScene(FILE* _pFile)
 {
+	FWrite(m_fHp, _pFile);
+	FWrite(m_fBulletDamage, _pFile);
+	FWrite(m_fMoveSpeed, _pFile);
 	SaveResourceToFile(m_pMissilePrefab, _pFile);
 	return true;
 }
 
 bool CPlayerScript_sh::LoadFromScene(FILE* _pFile)
 {
+	FRead(m_fHp, _pFile);
+	FRead(m_fBulletDamage, _pFile);
+	FRead(m_fMoveSpeed, _pFile);
 	LoadResourceFromFile(m_pMissilePrefab, _pFile);
 	return true;
 }

@@ -373,10 +373,9 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	}
 
 	// 스크립트 정보
-	UINT iScriptCount = (UINT)m_vecScript.size();
+	UINT iScriptCount = 0;
 	FRead(iScriptCount, _pFile);
 	m_vecScript.clear();
-	m_vecScript.resize(iScriptCount);
 	for (UINT i = 0; i < iScriptCount; ++i) {
 		CScript* pScript = CSceneManager::GetInstance()->m_pLoadScript(_pFile);
 		AddComponent(pScript);

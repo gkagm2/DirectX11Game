@@ -102,7 +102,7 @@ void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
 			return;
 		}
 	}
-	assert(nullptr);
+	//assert(nullptr);
 }
 
 void CLayer::_ResignGameObject(CGameObject* _pObj)

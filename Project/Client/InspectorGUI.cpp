@@ -7,6 +7,8 @@
 #include "ListViewGUI.h"
 #include <Engine\CResourceManager.h>
 #include <Engine\CMeshRenderer.h>
+#include <Engine\CPrefab.h>
+#include <Engine\CEventManager.h>
 
 #include "CImGuiManager.h"
 #include "ComponentGUI.h"
@@ -96,6 +98,9 @@ void InspectorGUI::Init()
 
 void InspectorGUI::Update()
 {
+	if (CEventManager::GetInstance()->DidEventHappended())
+		m_eMode = E_InspectorUIMode::None;
+
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 
 	switch (m_eMode) {
@@ -135,6 +140,15 @@ void InspectorGUI::UpdateObjectGUI()
 	if (ImGui::Button("Del##DeleteGameObject")) {
 		CObject::DestroyGameObjectEvn(m_pTargetObject);
 		m_eMode = E_InspectorUIMode::None;
+	}
+
+	// 프리펩으로 만들기
+	if (ImGui::Button("Make Prefab##Make Prefab")) {
+		tstring strName = m_pTargetObject->GetName();
+		m_pTargetObject->RegisterAsPrefab(strName);
+		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(strName);
+		tstring strRelativePath = STR_FILE_PATH_Prefab + strName + _T(".pref");
+		pPrefab->Save(strRelativePath);
 	}
 
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {

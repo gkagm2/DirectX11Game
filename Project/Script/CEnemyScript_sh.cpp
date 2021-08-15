@@ -68,3 +68,13 @@ void CEnemyScript_sh::ColorChange()
 		MeshRenderer()->SetMaterial(m_pCloneMtrl);
 	}
 }
+
+bool CEnemyScript_sh::SaveToScene(FILE* _pFile)
+{
+	return true;
+}
+
+bool CEnemyScript_sh::LoadFromScene(FILE* _pFile)
+{
+	return true;
+}
