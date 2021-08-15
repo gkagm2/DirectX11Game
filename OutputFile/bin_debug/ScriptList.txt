@@ -2,6 +2,8 @@ CBulletScript_sh
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh
+CObjectDragAndDropScript_ca
+CObjectDragAndDrop_ca
 CPlayerScript_sh
 CRotateZScript
 CTestLight2DScript

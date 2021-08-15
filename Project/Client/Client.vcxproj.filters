@@ -146,6 +146,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI">
       <UniqueIdentifier>{1b5ae7c7-548f-4f29-aec2-db3c106b87f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI">
+      <UniqueIdentifier>{bbf13f97-04bc-48e4-8a40-2c1c8906d2ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -290,6 +293,9 @@
     <ClInclude Include="CameraGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ScriptGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -418,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="CameraGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CCameraGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

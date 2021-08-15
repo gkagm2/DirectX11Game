@@ -56,6 +56,15 @@ void CObject::DestroyObjectEvn(CObject* _pTargetObj)
     CEventManager::GetInstance()->AddEvent(even);
 }
 
+void CObject::DestroyScriptEvn(CGameObject* _pTargetObj, CScript* _deleteScript)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Destroy_Script;
+    even.lparam = (DWORD_PTR)_pTargetObj;
+    even.wparam = (DWORD_PTR)_deleteScript;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
 void CObject::AddChildGameObjectEvn(CGameObject* _pParent, CGameObject* _pChild)
 {
     TEvent even = {};

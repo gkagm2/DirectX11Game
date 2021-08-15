@@ -309,6 +309,11 @@ CComponent* CGameObject::GetComponent(E_ComponentType _eType)
 	return m_arrComponent[(UINT)_eType];
 }
 
+const vector<CScript*>& CGameObject::GetScripts()
+{
+	return m_vecScript;
+}
+
 bool CGameObject::SaveToScene(FILE* _pFile)
 {
 	CObject::SaveToScene(_pFile);
@@ -437,5 +442,21 @@ void CGameObject::_DestroyComponent(E_ComponentType _eType)
 	if (m_arrComponent[(UINT)_eType]) {
 		delete m_arrComponent[(UINT)_eType];
 		m_arrComponent[(UINT)_eType] = nullptr;
+	}
+}
+
+void CGameObject::_DestroyScript(CScript* pScript)
+{
+	UINT iScriptType = pScript->GetScriptType();
+	vector<CScript*>::iterator iter = m_vecScript.begin();
+	
+	for (; iter != m_vecScript.end(); ++iter) {
+		if(iScriptType == (*iter)->GetScriptType())
+			break;
+	}
+	if (iter != m_vecScript.end()) {
+		CScript* pScr = *iter;
+		m_vecScript.erase(iter);
+		delete pScr;
 	}
 }

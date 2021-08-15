@@ -7,7 +7,7 @@
 #include "CComponent.h"
 #include "CScene.h"
 #include "CLayer.h"
-
+#include "CScript.h"
 
 CEventManager::CEventManager() :
 	m_bEventHappened(false)
@@ -101,6 +101,14 @@ void CEventManager::_Excute(const TEvent& _event)
 		}
 	}
 		break;
+	case E_EventType::Destroy_Script: {
+		// lapram : Game Object Address
+		// wparam : CScript Address
+		CGameObject* pObj = (CGameObject*)_event.lparam;
+		CScript* pScript = (CScript*)_event.wparam;
+		pObj->_DestroyScript(pScript);
+	}
+		break;
 	case E_EventType::Add_Child: {
 		// lparam : parent object
 		// wparam : child object
@@ -160,6 +168,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Destroy_Object:
 	case E_EventType::Change_State:
 	case E_EventType::Remove_Material:
+	case E_EventType::Destroy_Script:
 	//case E_EventType::Change_SceneMode:
 		m_bEventHappened = true;
 		break;

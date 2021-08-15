@@ -175,6 +175,9 @@
     <ClInclude Include="CMouseEvent.h">
       <Filter>Engine\04. Manager\Mouse Manager\Mouse Event</Filter>
     </ClInclude>
+    <ClInclude Include="CCamera2D.h">
+      <Filter>Engine\07. Component\Camera\Camera2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -333,6 +336,9 @@
     <ClCompile Include="Define.cpp">
       <Filter>Engine\01. Header</Filter>
     </ClCompile>
+    <ClCompile Include="CCamera2D.cpp">
+      <Filter>Engine\07. Component\Camera\Camera2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -478,6 +484,9 @@
     </Filter>
     <Filter Include="Engine\04. Manager\Mouse Manager\Mouse Event">
       <UniqueIdentifier>{6084be49-36d2-405a-9fcc-1212869fc8d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Camera\Camera2D">
+      <UniqueIdentifier>{32b1a89b-c501-4883-a945-754fcf17f0d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

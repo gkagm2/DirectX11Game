@@ -1,34 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ShootingGame">
-      <UniqueIdentifier>{1c677d58-07fe-4c84-9c04-a81f77ef9d30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Default">
       <UniqueIdentifier>{220db417-dec2-4b0d-bd27-4b19be930f4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ScriptManager">
       <UniqueIdentifier>{88a62faf-3187-4273-a5d4-c3d62f210f56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games">
+      <UniqueIdentifier>{50d6400e-7abc-492d-ac0f-1ae5db7fee46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\ShootingGame">
+      <UniqueIdentifier>{1c677d58-07fe-4c84-9c04-a81f77ef9d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever">
+      <UniqueIdentifier>{a3d9a2fe-af2d-4e9f-8952-b9d77f548035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Dummy">
+      <UniqueIdentifier>{59c555e8-2dfb-470b-99ea-3875d18b00e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="CBulletScript_sh.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="CEnemyRespawnerScript_sh.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="CEnemyScript_sh.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="CGameManagerScript_sh.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript_sh.h">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Default</Filter>
@@ -40,25 +49,31 @@
       <Filter>ScriptManager</Filter>
     </ClInclude>
     <ClInclude Include="CRotateZScript.h" />
+    <ClInclude Include="CObjectDragAndDropScript_ca.h">
+      <Filter>Games\CaptainForever</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectDragAndDrop_ca.h">
+      <Filter>Games\Dummy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="CBulletScript_sh.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="CEnemyRespawnerScript_sh.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="CEnemyScript_sh.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="CGameManagerScript_sh.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript_sh.cpp">
-      <Filter>ShootingGame</Filter>
+      <Filter>Games\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Default</Filter>
@@ -70,5 +85,11 @@
       <Filter>ScriptManager</Filter>
     </ClCompile>
     <ClCompile Include="CRotateZScript.cpp" />
+    <ClCompile Include="CObjectDragAndDropScript_ca.cpp">
+      <Filter>Games\CaptainForever</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectDragAndDrop_ca.cpp">
+      <Filter>Games\Dummy</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

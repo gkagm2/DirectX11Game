@@ -23,9 +23,14 @@
 #include "MaterialGUI.h"
 #include "TextureGUI.h"
 
+#include "ScriptGUI.h"
+
+#include <Script\CScriptMgr.h>
+
 
 InspectorGUI::InspectorGUI() :
 	m_arrComGUI{},
+	m_pScriptGUI{},
 	m_pTargetObject{nullptr},
 	m_arrResGUI{},
 	m_pTargetResource{ nullptr },
@@ -75,6 +80,10 @@ void InspectorGUI::Init()
 	// CameraGUI
 	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+
+	// Script GUI
+	m_pScriptGUI = new ScriptGUI;
+	m_pScriptGUI->SetUISize(ImVec2(0.f, 310.f));
 
 	//////////// Resources
 
@@ -134,6 +143,8 @@ void InspectorGUI::UpdateObjectGUI()
 
 		m_arrComGUI[i]->Update();
 	}
+	if (m_pScriptGUI)
+		m_pScriptGUI->Update();
 
 	// 컴포넌트 추가 버튼
 	if (ImGui::Button("Add Component##ComponentAdd")) {
@@ -152,6 +163,22 @@ void InspectorGUI::UpdateObjectGUI()
 
 		pListViewGUI->SetList(vecNames, _T("Component"));
 		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&InspectorGUI::_AddNewComponent);
+		pListViewGUI->SetActive(true);
+	}
+
+	ImGui::SameLine();
+
+	// 스크립트 추가 버튼
+	if (ImGui::Button("Add Script##ScriptAdd")) {
+		// 리스트 뷰를 보여준다.
+		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+		assert(pListViewGUI);
+
+		vector<tstring> vecScriptNames;
+		CScriptMgr::GetScriptInfo(vecScriptNames);
+		
+		pListViewGUI->SetList(vecScriptNames, _T("Script"));
+		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&InspectorGUI::_AddNewScriptComponent);
 		pListViewGUI->SetActive(true);
 	}
 }
@@ -208,6 +235,8 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 
 		m_arrComGUI[i]->SetTargetObject(_pTargetObj);
 	}
+	if (m_pScriptGUI)
+		m_pScriptGUI->SetTargetObject(_pTargetObj);
 }
 
 void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
@@ -234,4 +263,13 @@ void InspectorGUI::_AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2)
 	CComponent* pNewComponent = m_pTargetObject->CreateComponent((E_ComponentType)i);
 	m_pTargetObject->AddComponent(pNewComponent);
 	// FIXED (Jang) : 이벤트로 안해도 되려나?
+}
+
+void InspectorGUI::_AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2)
+{
+	string strComponent = (char*)_dw1;
+	tstring tstrComponent;
+	StringToTString(strComponent, tstrComponent);
+	CComponent* pScriptComponent = (CComponent*)CScriptMgr::GetScript(tstrComponent);
+	m_pTargetObject->AddComponent(pScriptComponent);
 }

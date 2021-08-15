@@ -88,6 +88,9 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Audio:
 		strComponentType = _T("Audio");
 		break;
+	case E_ComponentType::Script:
+		strComponentType = _T("Script");
+		break;
 	default:
 		assert(nullptr && _T("컴포넌트 타입을 String으로 바꿀 수 없음"));
 		break;

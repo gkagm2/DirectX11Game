@@ -13,6 +13,8 @@ public:
 public:
 	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObj = _pTargetObj; }
 	CGameObject* GetTargetObject() { return m_pTargetObj; }
+
+	E_ComponentType GetComponentType() { return m_eComponentType; }
 	
 public:
 	ComponentGUI(E_ComponentType _eType);

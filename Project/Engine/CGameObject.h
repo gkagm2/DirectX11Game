@@ -69,6 +69,7 @@ public:
 	CComponent* CreateComponent(E_ComponentType _eType);
 private:
 	void _DestroyComponent(E_ComponentType _eType);
+	void _DestroyScript(CScript* pScript);
 	
 public:
 	template<typename TYPE>
@@ -79,6 +80,8 @@ public:
 	template<typename TYPE>
 	TYPE* GetComponent();
 	CComponent* GetComponent(E_ComponentType _eType);
+
+	const vector<CScript*>& GetScripts();// 추가되어있는 스크립트 컴포넌트들을 가져온다.
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

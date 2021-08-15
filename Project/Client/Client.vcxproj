@@ -221,6 +221,7 @@
     <ClInclude Include="ResourceViewGUI.h" />
     <ClInclude Include="Rigidbody2DGUI.h" />
     <ClInclude Include="RigidbodyGUI.h" />
+    <ClInclude Include="ScriptGUI.h" />
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureGUI.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="ResourceViewGUI.cpp" />
     <ClCompile Include="Rigidbody2DGUI.cpp" />
     <ClCompile Include="RigidbodyGUI.cpp" />
+    <ClCompile Include="ScriptGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />
     <ClCompile Include="TileMapGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />

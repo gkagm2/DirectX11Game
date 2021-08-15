@@ -5,6 +5,7 @@ enum class E_EventType {
 	Destroy_GameObject,
 	Create_Object,
 	Destroy_Object,
+	Destroy_Script,
 	Add_Child,
 	Unlink_Parent,
 	Change_Scene,

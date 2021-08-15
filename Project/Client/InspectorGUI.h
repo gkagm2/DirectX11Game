@@ -3,6 +3,7 @@
 class CGameObject;
 class ComponentGUI;
 class ResourceGUI;
+class ScriptGUI;
 //class CResource;
 
 enum class E_InspectorUIMode {
@@ -15,6 +16,7 @@ class InspectorGUI : public GUI
 {
 private:
 	ComponentGUI*	m_arrComGUI[(UINT)E_ComponentType::End]; // Com : ComponentSX
+	ComponentGUI*	m_pScriptGUI;
 	CGameObject*	m_pTargetObject;
 
 	ResourceGUI*	m_arrResGUI[(UINT)E_ResourceType::End]; // Res : Resource
@@ -36,6 +38,7 @@ public:
 
 private:
 	void _AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
+	void _AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
 
 public:
 	InspectorGUI();
