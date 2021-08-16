@@ -94,7 +94,6 @@ private:
 	void _RenderParticle();
 	void _RenderPostEffect();
 
-
 public:
 	CLONE(CCamera);
 	CCamera();

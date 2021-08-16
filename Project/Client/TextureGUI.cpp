@@ -2,8 +2,6 @@
 #include "TextureGUI.h"
 #include <Engine\CTexture.h>
 
-
-
 TextureGUI::TextureGUI() :
 	ResourceGUI(E_ResourceType::Texture),
 	m_vSize(110.f,110.f),

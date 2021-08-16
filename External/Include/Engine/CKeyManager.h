@@ -84,7 +84,6 @@ class CKeyManager : public CSingleton<CKeyManager>
 private:
 	vector<tKey> m_vecKey; // 누를 수 있는 키의 정보를 모아놓음.
 	Vector2 m_vMousePosition;
-	Vector2 m_vMouseScrollDelta; // y만 사용한다. scroll을 안하고있으면 0이 됨.
 	
 public:
 	void Init();
@@ -93,5 +92,4 @@ public:
 public:
 	E_KeyState GetKeyState(E_Key _eKey) const { return m_vecKey[(int)_eKey].eState; }
 	Vector2& GetMousePosition() { return m_vMousePosition; }
-	Vector2& GetMouseSccrollDelta() { return m_vMouseScrollDelta; }
 };

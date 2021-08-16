@@ -24,6 +24,7 @@
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
 #include "TextureGUI.h"
+#include "PrefabGUI.h"
 
 #include "ScriptGUI.h"
 
@@ -85,7 +86,7 @@ void InspectorGUI::Init()
 
 	// Script GUI
 	m_pScriptGUI = new ScriptGUI;
-	m_pScriptGUI->SetUISize(ImVec2(0.f, 310.f));
+	m_pScriptGUI->SetUISize(ImVec2(0.f, 0.f));
 
 	//////////// Resources
 
@@ -94,12 +95,15 @@ void InspectorGUI::Init()
 
 	m_arrResGUI[(UINT)E_ResourceType::Texture] = new TextureGUI;
 	m_arrResGUI[(UINT)E_ResourceType::Texture]->SetUISize(ImVec2(0.f, 0.f));
+
+	m_arrResGUI[(UINT)E_ResourceType::Prefab] = new PrefabGUI;
+	m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
 }
 
 void InspectorGUI::Update()
 {
-	if (CEventManager::GetInstance()->DidEventHappended())
-		m_eMode = E_InspectorUIMode::None;
+	/*if (CEventManager::GetInstance()->DidEventHappended())
+		m_eMode = E_InspectorUIMode::None;*/
 
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 

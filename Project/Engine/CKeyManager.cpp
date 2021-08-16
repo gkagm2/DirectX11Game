@@ -120,8 +120,4 @@ void CKeyManager::Update()
 		m_vMousePosition.x = (float)ptMousePoint.x;
 		m_vMousePosition.y = (float)ptMousePoint.y;
 	}
-
-
-	//m_vMouseScrollDelta.y = 
-
 }

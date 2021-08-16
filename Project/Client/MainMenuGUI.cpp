@@ -10,6 +10,8 @@
 #include <Engine\CCamera.h>
 #include <Engine\CTransform.h>
 #include "CSceneSaveLoad.h"
+#include "InspectorGUI.h"
+#include "CImGuiManager.h"
 
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
@@ -141,8 +143,9 @@ void MainMenuGUI::LoadScene()
         tstring path = ofn.lpstrFile;
         CScene* pCurScene = CSceneSaveLoad::LoadScene(path, false);
         CSceneManager::GetInstance()->ChangeSceneEvt(pCurScene);
-
+        InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
         wchar_t str[255] = L"Tile File Load";
+        pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
         MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
     }
 }

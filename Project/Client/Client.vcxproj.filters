@@ -149,6 +149,12 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI">
       <UniqueIdentifier>{bbf13f97-04bc-48e4-8a40-2c1c8906d2ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\PrefabGUI">
+      <UniqueIdentifier>{9cc65d72-b485-45e5-b22a-81c29235e4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\DebugGUI">
+      <UniqueIdentifier>{02080a95-815e-4cd4-8afe-1711d4bdaea1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -296,6 +302,12 @@
     <ClInclude Include="ScriptGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI</Filter>
     </ClInclude>
+    <ClInclude Include="PrefabGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\PrefabGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugGUI.h">
+      <Filter>02. GUI\DebugGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -427,6 +439,12 @@
     </ClCompile>
     <ClCompile Include="ScriptGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ScriptGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ResourceGUI\PrefabGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugGUI.cpp">
+      <Filter>02. GUI\DebugGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

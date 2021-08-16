@@ -13,6 +13,7 @@
 
 #include "GUI.h"
 #include "ListViewGUI.h"
+#include "DebugGUI.h"
 
 
 
@@ -195,6 +196,12 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     MainMenuGUI* pMainMenuGUI = new MainMenuGUI;
     pMainMenuGUI->Init();
     AddGUI(pMainMenuGUI->GetName(), pMainMenuGUI);
+
+    // Debug GUI
+    DebugGUI* pDebugGUI = new DebugGUI;
+    pDebugGUI->Init();
+    AddGUI(pDebugGUI->GetName(), pDebugGUI);
+    
 }
 
 void CImGuiManager::Init_ListViewGUI()

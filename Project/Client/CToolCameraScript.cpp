@@ -2,7 +2,14 @@
 #include "CToolCameraScript.h"
 #include <Engine\CSceneManager.h>
 #include <Engine\CMouseManager.h>
-#include "imgui.h"
+#include <Engine\CRenderManager.h>
+#include <Engine\CKeyManager.h>
+#include <Engine\CMouseManager.h>
+
+#include "CImGuiManager.h"
+#include "DebugGUI.h"
+
+#include "CCameraEx.h"
 
 CToolCameraScript::CToolCameraScript() :
 	CScript(-1),
@@ -33,10 +40,20 @@ void CToolCameraScript::Update()
 	if (InputKeyRelease(E_Key::MBUTTON)) {
 	}
 	CMouseEvent evt = CMouseManager::GetInstance()->GetMouseEvent();
-	if (CMouseEvent::EventType::WheelUp == evt.GetType())
+	if (CMouseEvent::EventType::WheelUp == evt.GetType() || 
+		CMouseEvent::EventType::WheelDown == evt.GetType())
 	{
-		int a = 3;
+		CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
+			float y = MouseScrollDelta * DT;
+			if (y == 0.f) {
+				y = 0.001f;
+			}
+			pToolCam->SetSize(y);
+		}
 	}
+	static UINT i = 0;
+	DBug->Debug("Debug test %u", i++);
 
 	Transform()->SetLocalPosition(vPos);
 }

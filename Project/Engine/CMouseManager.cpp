@@ -80,6 +80,7 @@ LRESULT CMouseManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		{
 			_OnWheelDown(x, y);
 		}
+		m_fWheelAccumulator = (float)wParam;
 		return 0;
 	}
 	default:
@@ -93,6 +94,8 @@ void CMouseManager::Update()
 {
 	while(!_EventBufferIsEmpty())
 		m_CurMouseEvent = _ReadEvent();
+
+	//m_fWheelAccumulator = 0.f;
 }
 
 void CMouseManager::_OnLeftPressed(int x, int y)

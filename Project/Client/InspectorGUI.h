@@ -36,6 +36,8 @@ public:
 	void SetTargetObject(CGameObject* _pTargetObj);
 	void SetTargetResource(CResource* _pTargetResource);
 
+	void SetInspectorUIMode(E_InspectorUIMode _eMode) { m_eMode = _eMode; }
+
 private:
 	void _AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
 	void _AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);

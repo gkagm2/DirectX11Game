@@ -169,6 +169,7 @@
     <ClInclude Include="CTestScene.h" />
     <ClInclude Include="CToolCameraScript.h" />
     <ClInclude Include="CToolObjManager.h" />
+    <ClInclude Include="DebugGUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="HierachyGUI.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="ParamGUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Collider2DRectGUI.h" />
+    <ClInclude Include="PrefabGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
     <ClInclude Include="ResourceViewGUI.h" />
@@ -247,6 +249,7 @@
     <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="CToolCameraScript.cpp" />
     <ClCompile Include="CToolObjManager.cpp" />
+    <ClCompile Include="DebugGUI.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HierachyGUI.cpp" />
     <ClCompile Include="imgui.cpp">
@@ -289,6 +292,7 @@
     <ClCompile Include="ParamGUI.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Collider2DRectGUI.cpp" />
+    <ClCompile Include="PrefabGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
     <ClCompile Include="ResourceViewGUI.cpp" />
     <ClCompile Include="Rigidbody2DGUI.cpp" />

@@ -20,6 +20,7 @@ private:
 	bool mbuttonDown = false;
 	int x = 0;
 	int y = 0;
+	float m_fWheelAccumulator;
 
 	CMouseEvent m_CurMouseEvent;
 
@@ -28,6 +29,8 @@ public:
 	inline int GetPosX();
 	inline int GetPosY();
 	MousePoint GetPos();
+
+	float GetMouseScrollDelta() { return m_fWheelAccumulator; }
 
 private:
 	inline void _OnLeftPressed(int x, int y);
