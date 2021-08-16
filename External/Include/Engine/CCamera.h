@@ -60,7 +60,7 @@ public: // Perspective
 
 public: // Orthographic
 	void SetSize(float _fSize) { m_fSize = _fSize; }
-	bool GetSize() { return m_fSize; }
+	float GetSize() { return m_fSize; }
 	void SetClippingPlanes(const TClippingPlanes& _tClippingPlanes) { m_tClippingPlanes = _tClippingPlanes; }
 	const TClippingPlanes& GetClippingPlanes() { return m_tClippingPlanes; }
 	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
