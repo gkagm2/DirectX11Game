@@ -7,6 +7,8 @@ public:
 	virtual void Update() override;
 
 public:
+
+public:
 	CLONE(CPlayerScript_ca);
 	CPlayerScript_ca();
 	virtual ~CPlayerScript_ca() override;

@@ -1,11 +1,13 @@
 CBoosterScript_ca
 CBulletScript_sh
+CCameraFollowerScript
 CCharacterScript_ca
 CCommandModuleScript_ca
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh
 CGirderScript_ca
+CKeyControllerScript_ca
 CLaserScript_ca
 CModuleScript_ca
 CObjectDragAndDropScript_ca

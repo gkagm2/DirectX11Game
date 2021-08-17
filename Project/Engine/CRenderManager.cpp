@@ -85,6 +85,7 @@ CCamera* CRenderManager::GetMainCamera()
 {
 	CCamera* pMainCamera = nullptr;
 	// TODO (Jang) : 어떤 카메라를 가져올지 설정한 카메로 가져오기
+
 	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
 		if (!m_vecCam.empty())
 			pMainCamera = m_vecCam[0];

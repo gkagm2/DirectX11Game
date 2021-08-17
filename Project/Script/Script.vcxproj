@@ -170,6 +170,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCameraFollowerScript.h" />
     <ClInclude Include="CBoosterScript_ca.h" />
     <ClInclude Include="CBulletScript_sh.h" />
     <ClInclude Include="CCharacterScript_ca.h" />
@@ -178,6 +179,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameManagerScript_sh.h" />
     <ClInclude Include="CGirderScript_ca.h" />
+    <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
     <ClInclude Include="CModuleScript_ca.h" />
     <ClInclude Include="CPlayerScript_ca.h" />
@@ -190,6 +192,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCameraFollowerScript.cpp" />
     <ClCompile Include="CBoosterScript_ca.cpp" />
     <ClCompile Include="CBulletScript_sh.cpp" />
     <ClCompile Include="CCharacterScript_ca.cpp" />
@@ -198,6 +201,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameManagerScript_sh.cpp" />
     <ClCompile Include="CGirderScript_ca.cpp" />
+    <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
     <ClCompile Include="CModuleScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_ca.cpp" />

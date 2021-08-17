@@ -4,6 +4,7 @@ class CToolCameraScript : public CScript
 {
 private:
 	float m_fSpeed;
+	float m_fMouseScrollSpeed;
 
 	Vector2 m_vPrevPos;
 	Vector2 m_vMoveOffset;

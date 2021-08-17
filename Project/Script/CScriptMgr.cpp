@@ -3,12 +3,14 @@
 
 #include "CBoosterScript_ca.h"
 #include "CBulletScript_sh.h"
+#include "CCameraFollowerScript.h"
 #include "CCharacterScript_ca.h"
 #include "CCommandModuleScript_ca.h"
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
 #include "CGameManagerScript_sh.h"
 #include "CGirderScript_ca.h"
+#include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CModuleScript_ca.h"
 #include "CObjectDragAndDropScript_ca.h"
@@ -21,12 +23,14 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CBoosterScript_ca");
 	_vec.push_back(L"CBulletScript_sh");
+	_vec.push_back(L"CCameraFollowerScript");
 	_vec.push_back(L"CCharacterScript_ca");
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CGirderScript_ca");
+	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CModuleScript_ca");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
@@ -42,6 +46,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBoosterScript_ca;
 	if (L"CBulletScript_sh" == _strScriptName)
 		return new CBulletScript_sh;
+	if (L"CCameraFollowerScript" == _strScriptName)
+		return new CCameraFollowerScript;
 	if (L"CCharacterScript_ca" == _strScriptName)
 		return new CCharacterScript_ca;
 	if (L"CCommandModuleScript_ca" == _strScriptName)
@@ -54,6 +60,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CGirderScript_ca" == _strScriptName)
 		return new CGirderScript_ca;
+	if (L"CKeyControllerScript_ca" == _strScriptName)
+		return new CKeyControllerScript_ca;
 	if (L"CLaserScript_ca" == _strScriptName)
 		return new CLaserScript_ca;
 	if (L"CModuleScript_ca" == _strScriptName)
@@ -81,6 +89,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::BULLETSCRIPT_SH:
 		return new CBulletScript_sh;
 		break;
+	case (UINT)SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:
+		return new CCameraFollowerScript;
+		break;
 	case (UINT)SCRIPT_TYPE::CHARACTERSCRIPT_CA:
 		return new CCharacterScript_ca;
 		break;
@@ -98,6 +109,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return new CGirderScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
+		return new CKeyControllerScript_ca;
 		break;
 	case (UINT)SCRIPT_TYPE::LASERSCRIPT_CA:
 		return new CLaserScript_ca;
@@ -136,6 +150,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CBulletScript_sh";
 		break;
 
+	case SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:
+		return L"CCameraFollowerScript";
+		break;
+
 	case SCRIPT_TYPE::CHARACTERSCRIPT_CA:
 		return L"CCharacterScript_ca";
 		break;
@@ -158,6 +176,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return L"CGirderScript_ca";
+		break;
+
+	case SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
+		return L"CKeyControllerScript_ca";
 		break;
 
 	case SCRIPT_TYPE::LASERSCRIPT_CA:

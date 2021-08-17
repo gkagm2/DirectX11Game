@@ -74,13 +74,15 @@ LRESULT CMouseManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 		int y = HIWORD(lParam);
 		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
 		{
+			m_fWheelAccumulator = 1.f * DT;
 			_OnWheelUp(x, y);
 		}
 		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0)
 		{
 			_OnWheelDown(x, y);
+			m_fWheelAccumulator = -1.f * DT;
 		}
-		m_fWheelAccumulator = (float)wParam;
+		
 		return 0;
 	}
 	default:
@@ -92,10 +94,12 @@ LRESULT CMouseManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
 void CMouseManager::Update()
 {
+	//m_fWheelAccumulator = 0.f;
+	m_CurMouseEvent = {};
 	while(!_EventBufferIsEmpty())
 		m_CurMouseEvent = _ReadEvent();
 
-	//m_fWheelAccumulator = 0.f;
+	
 }
 
 void CMouseManager::_OnLeftPressed(int x, int y)

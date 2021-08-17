@@ -4,6 +4,11 @@ class CTestScene
 public:
 	static void CreateTestScene();
 
+
+protected:
+	static void CaptainForever();
+
+
 protected:
 	static void SceneStart();					// Done
 	static void Camera();						// Done

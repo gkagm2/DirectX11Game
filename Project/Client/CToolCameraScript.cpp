@@ -13,7 +13,8 @@
 
 CToolCameraScript::CToolCameraScript() :
 	CScript(-1),
-	m_fSpeed(40.f)
+	m_fSpeed(40.f),
+	m_fMouseScrollSpeed(14.f)
 {
 }
 
@@ -45,15 +46,13 @@ void CToolCameraScript::Update()
 	{
 		CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
 		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
-			float y = MouseScrollDelta * DT;
-			if (y == 0.f) {
+			float y = MouseScrollDelta * m_fMouseScrollSpeed;
+			float fSize = pToolCam->GetSize();
+			if (y == 0.f)
 				y = 0.001f;
-			}
-			pToolCam->SetSize(y);
+			fSize += y;
+			pToolCam->SetSize(fSize);
 		}
 	}
-	static UINT i = 0;
-	DBug->Debug("Debug test %u", i++);
-
 	Transform()->SetLocalPosition(vPos);
 }

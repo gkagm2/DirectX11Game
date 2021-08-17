@@ -37,6 +37,12 @@
     <Filter Include="Games\CaptainForever\Parts\CommandModule">
       <UniqueIdentifier>{87b910d1-a9cb-4e08-ac76-5173ada63beb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\CaptainForever\KeyController">
+      <UniqueIdentifier>{db508137-142a-4458-9f9e-95dda9195a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\CameraFollower">
+      <UniqueIdentifier>{a6d5108b-55ae-4a6f-8eb2-ed67941f05f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -91,6 +97,12 @@
     <ClInclude Include="CCommandModuleScript_ca.h">
       <Filter>Games\CaptainForever\Parts\CommandModule</Filter>
     </ClInclude>
+    <ClInclude Include="CKeyControllerScript_ca.h">
+      <Filter>Games\CaptainForever\KeyController</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraFollowerScript.h">
+      <Filter>Games\CaptainForever\CameraFollower</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -144,6 +156,12 @@
     </ClCompile>
     <ClCompile Include="CCommandModuleScript_ca.cpp">
       <Filter>Games\CaptainForever\Parts\CommandModule</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyControllerScript_ca.cpp">
+      <Filter>Games\CaptainForever\KeyController</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraFollowerScript.cpp">
+      <Filter>Games\CaptainForever\CameraFollower</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

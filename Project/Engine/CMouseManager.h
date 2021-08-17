@@ -1,6 +1,8 @@
 #pragma once
 #include "CSingleton.h"
 #include "CMouseEvent.h"
+#include "CTimeManager.h"
+
 
 class CMouseEvent;
 class CMouseManager : public CSingleton<CMouseManager>
