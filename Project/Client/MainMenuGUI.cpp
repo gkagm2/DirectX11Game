@@ -122,6 +122,7 @@ void MainMenuGUI::SaveScene()
         CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), path, false);
 
         wchar_t str[255] = L"Tile File Save";
+        CObject::ChangeStateEvn();
         MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
     }
 }
@@ -146,6 +147,7 @@ void MainMenuGUI::LoadScene()
         InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
         wchar_t str[255] = L"Tile File Load";
         pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
+        CObject::ChangeStateEvn();
         MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
     }
 }

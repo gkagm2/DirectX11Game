@@ -9,6 +9,10 @@ class TreeViewNode;
 typedef void (GUI::* SEL_CHANGE_CALLBACK)(TreeViewNode* _pNode);
 typedef void (GUI::* DRAG_DROP_CALLBACK)(TreeViewNode* _pDragedItem, TreeViewNode* _pDropedItem);
 
+// 더블 클릭 시 콜백
+typedef void (GUI::* GUI_CALLBACK)(DWORD_PTR, DWORD_PTR);
+typedef void (*GLOBAL_CALLBACK)(DWORD_PTR, DWORD_PTR);
+
 class TreeViewNode
 {
 private:
@@ -63,11 +67,18 @@ private:
 	bool m_bFrameOnlyParent;// Parent만 Frame을 사용할 것인지 여부
 
 	// 콜백함수
+	// 클릭 시 콜백
 	SEL_CHANGE_CALLBACK		m_pSelectFunc;
 	GUI*					m_pSelectInst;
 
+	// 드래그 앤 드롭시 콜백
 	DRAG_DROP_CALLBACK		m_pDragDropFunc;
 	GUI*					m_pDragDropInst;
+
+	// 더블 클릭 시 콜백
+	GUI_CALLBACK	m_pDBCallBack; // DBC :: Double Click
+	GUI*			m_pDBCInst;
+	GLOBAL_CALLBACK m_pGDBCCallBack; // GDBC : global double click
 
 public:
 	virtual void Init() override;
@@ -96,6 +107,13 @@ public:
 	void SetDragDropCallBack(GUI* _pInst, DRAG_DROP_CALLBACK _pMemFunc) {
 		m_pDragDropInst = _pInst;
 		m_pDragDropFunc = _pMemFunc;
+	}
+
+	void SetDoubleClickCallBack(GUI* _pGUI, GUI_CALLBACK _pFunc) {
+		m_pDBCInst = _pGUI; m_pDBCallBack = _pFunc;
+	}
+	void SetDoubleClickCallBack(GLOBAL_CALLBACK _pFunc) {
+		m_pGDBCCallBack = _pFunc;
 	}
 
 private:

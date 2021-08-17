@@ -41,7 +41,13 @@
 // Path Test
 #define STR_FILE_PATH_TestComputeShader _T("shader\\testShader.fx")
 
-
+// Directory path
+#define STR_DIR_PATH_Scene _T("scene\\")
+#define STR_DIR_PATH_Texture _T("texture\\")
+#define STR_DIR_PATH_Prefab _T("prefab\\")
+#define STR_DIR_PATH_Shader _T("shader\\")
+#define STR_DIR_PATH_Material _T("material\\")
+#define STR_DIR_PATH_Anim _T("anim\\")
 
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"

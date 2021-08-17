@@ -6,7 +6,7 @@
 
 ResourceViewGUI::ResourceViewGUI()
 {
-	SetName("Resource");
+	SetName(STR_GUI_ResourceView);
 }
 
 ResourceViewGUI::~ResourceViewGUI()

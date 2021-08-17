@@ -6,4 +6,6 @@
 #define STR_GUI_Hierachy "Hierachy"
 #define STR_GUI_MainMenu "MainMenu"
 #define STR_GUI_Debug  "Debug"
+#define STR_GUI_ResourceView "Resource"
+#define STR_GUI_SceneView "Scene"
 // ComponentType

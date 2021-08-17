@@ -81,6 +81,16 @@ void TreeViewNode::Update()
 		//		}
 		//	}
 		//}
+		
+		// 아이템을 더블클릭 했을 경우
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+		{
+			if (m_pOwner->m_pDBCInst && m_pOwner->m_pDBCallBack) {
+				string name = GetName();
+				std::shared_ptr<string> pName = std::make_shared<string>(name);
+				(m_pOwner->m_pDBCInst->*m_pOwner->m_pDBCallBack)((DWORD_PTR)pName.get(), 0);
+			}
+		}
 
 		// 해당 아이템이 드래그 시작한 경우
 		if (ImGui::BeginDragDropSource()) {

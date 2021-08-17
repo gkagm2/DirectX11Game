@@ -144,6 +144,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "ResourceViewGUI.h"
 #include "MenuGUI.h"
 #include "MainMenuGUI.h"
+#include "SceneViewGUI.h"
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {
@@ -201,7 +202,10 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     DebugGUI* pDebugGUI = new DebugGUI;
     pDebugGUI->Init();
     AddGUI(pDebugGUI->GetName(), pDebugGUI);
-    
+
+    SceneViewGUI* pSceneViewGUI = new SceneViewGUI;
+    pSceneViewGUI->Init();
+    AddGUI(pSceneViewGUI->GetName(), pSceneViewGUI);
 }
 
 void CImGuiManager::Init_ListViewGUI()
