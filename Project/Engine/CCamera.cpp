@@ -24,6 +24,7 @@ CCamera::CCamera() :
 	m_matProjection{},
 	m_iLayerCheck(0)
 {
+	SetLayerCheckAll();
 }
 
 CCamera::~CCamera()

@@ -9,7 +9,6 @@
 #include "CCollider2D.h"
 #include "CCollider3D.h"
 
-
 class CResourceManager : public CSingleton<CResourceManager>
 {
 	SINGLETON(CResourceManager)
@@ -64,6 +63,9 @@ public:
 	void DeleteCopiedMaterialEvn(const tstring& _strKey);
 private:
 	void _DeleteCopiedMaterial(const tstring& _strKey);
+
+	template<typename TYPE>
+	void LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter);
 
 	friend class CEventManager;
 };
@@ -185,4 +187,21 @@ inline bool CResourceManager::IsExistRes(const tstring& _strKey)
 		assert(pResource && _T("Resource를 찾지 못함."));
 	}
 	return isExist;
+}
+
+template<typename TYPE>
+inline void CResourceManager::LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter)
+{
+	vector<tstring> vecPath;
+	tstring contentPath = CPathManager::GetInstance()->GetContentPath();
+	contentPath += _strRelativeDirPath;
+
+	// 1. 파일 경로 안에 있는 모든 텍스쳐의 이름을 가져온다.
+	vecPath = CPathManager::GetInstance()->GetFilesInDirectory(contentPath, _strFilter);
+
+	// 2. 모든 텍스쳐의 이름을 가져와 그 이름을 로딩한다.
+	for (int i = 0; i < vecPath.size(); ++i) {
+		tstring path = vecPath[i];
+		CResourceManager::GetInstance()->LoadRes<TYPE>(vecPath[i], path);
+	}
 }

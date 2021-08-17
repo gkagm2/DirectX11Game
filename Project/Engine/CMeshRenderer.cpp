@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "CMesh.h"
+#include "CResourceManager.h"
 #include "CMeshRenderer.h"
 #include "CGraphicsShader.h"
+
 #include "CTexture.h"
 
 #include "CGameObject.h"
@@ -14,6 +16,8 @@ CMeshRenderer::CMeshRenderer() :
 	m_pMesh(nullptr),
 	m_pMtrl(nullptr)
 {
+	m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+	m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 }
 
 CMeshRenderer::~CMeshRenderer()

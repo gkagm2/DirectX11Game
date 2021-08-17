@@ -98,7 +98,7 @@ void CTestScene::CreateTestScene()
 	//DistortionObject();
 	//FishEyePostEffect();
 	CaptainForever();
-	CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
+	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -233,81 +233,11 @@ void CTestScene::CreateTestScene()
 	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
-#include <io.h>
-vector<tstring> get_files_inDirectory(const tstring& _path, const tstring& _filter)
-{
-	tstring searching = _path + _filter;
-	vector<tstring> return_;
-	tstring contentPath = CPathManager::GetInstance()->GetContentPath();
-	tstring relativePath = _path.substr(contentPath.size(), _path.size() -1);
-
-
-	_tfinddata64_t fd;
-	const auto handle = _tfindfirst64(searching.c_str(), &fd);  //현재 폴더 내 모든 파일을 찾는다.
-
-	if (handle == -1)
-		return return_;
-
-	auto result = 0;
-	do
-	{
-		if (fd.attrib & _A_SUBDIR) { // 디렉토리면
-			tstring dirName = fd.name;
-			if (dirName != L".") {
-				tstring subPath = _path + L"\\" + dirName;
-				vector<tstring> vec = get_files_inDirectory(subPath, _filter);
-				for (int i = 0; i < vec.size(); ++i) {
-					return_.push_back(vec[i]);
-				}
-			}
-		}
-		else {
-			tstring fileName = fd.name;
-			fileName = relativePath + fileName;
-			return_.push_back(fileName);
-		}
-
-		result = _tfindnext64(handle, &fd);
-	} while (result != -1);
-
-	_findclose(handle);
-
-	return return_;
-}
-
-void FilePrintTest() {
-}
-
-
 
 void CTestScene::CaptainForever()
 {
 	CScene* pNewScene = new CScene;
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
-
-	// Texture 로딩
-	// 파일 안에 텍스쳐 모드 로딩
-
-	vector<tstring> vecPath;
-	tstring contentPath = CPathManager::GetInstance()->GetContentPath();
-	contentPath += _T("texture\\CaptainForever\\");
-
-	// 1. 파일 경로 안에 있는 모든 텍스쳐의 이름을 가져온다.
-	vecPath = get_files_inDirectory(contentPath, _T("*.*"));
-
-	// 2. 모든 텍스쳐의 이름을 가져와 그 이름을 로딩한다.
-	for (int i = 0; i < vecPath.size(); ++i) {
-		tstring path = vecPath[i];
-		CResourceManager::GetInstance()->LoadRes<CTexture>(vecPath[i], path);
-	}
-
-	// 프리펩 로딩
-	contentPath = CPathManager::GetInstance()->GetContentPath();
-	contentPath += _T("prefab\\");
-
-
-
-	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
 }
 
 void CTestScene::SceneStart()

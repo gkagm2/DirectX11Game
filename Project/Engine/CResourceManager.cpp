@@ -26,6 +26,15 @@ void CResourceManager::Init()
 	CreateDefaultTexture();
 	CreateComputeShader();
 	CreateDefaultMaterial();
+
+	// Texture 로딩
+	LoadResourcesFromDir<CTexture>(_T("texture\\"), _T("*.*"));
+
+	// 프리펩 로딩
+	LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
+
+	// 메터리얼 로딩
+	LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
 }
 
 void CResourceManager::CreateDefaultMesh()

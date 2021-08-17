@@ -9,4 +9,6 @@ public:
 	const TCHAR* GetContentPath() {
 		return m_strContentPath.c_str();
 	 }
+
+	vector<tstring> GetFilesInDirectory(const tstring& _absolutePath, const tstring& _filter);
 };

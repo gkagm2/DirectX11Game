@@ -28,3 +28,4 @@ void TStringToArr(const tstring& _in, char* _out, int _iSize)
 	TStringToString(_in, str);
 	strcpy_s(_out, _iSize, str.c_str());
 }
+
