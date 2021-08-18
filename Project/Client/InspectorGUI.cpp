@@ -45,6 +45,8 @@ InspectorGUI::InspectorGUI() :
 InspectorGUI::~InspectorGUI()
 {
 	Safe_Delete_Array(m_arrComGUI);
+	if (m_pScriptGUI)
+		delete m_pScriptGUI;
 	Safe_Delete_Array(m_arrResGUI);
 }
 
