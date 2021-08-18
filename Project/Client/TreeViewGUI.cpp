@@ -20,25 +20,21 @@ TreeViewNode::~TreeViewNode()
 
 void TreeViewNode::Update()
 {
-	// Node의 옵션 설정
-	bool hasChild = true;
-	if (m_vecChildNodes.empty())
-		hasChild = false;
+
 
 	m_iStyleFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 
-	// TODO (Jang) : 선택시 눌려지도록 만들기.
-	if (m_pOwner) {
+	/*if (m_pOwner) {
 		if (!m_pOwner->IsFrameRender() ||
 			m_pOwner->IsRootRender() && !m_pParentNode ||
 			m_pOwner->IsRootRender() && m_pParentNode == m_pOwner->GetRootNode()) {
-			//m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
+			m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
 		}
-	}
+	}*/
 
 	if (m_bUseFrame)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
-	if (!hasChild)
+	if (m_vecChildNodes.empty()) // 자식이 없는 경우 화살표 표시 X
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Leaf;
 	if (this == m_pOwner->m_pSelectedNode)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
@@ -100,7 +96,9 @@ void TreeViewNode::Update()
 			ImGui::Text("This is a drag and drop source");
 			ImGui::EndDragDropSource();
 		}
-		 
+		
+		
+
 		// 해당 아이템이 드롭한 경우
 		if (ImGui::BeginDragDropTarget()) {
 			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DraggedNode");
@@ -111,7 +109,6 @@ void TreeViewNode::Update()
 
 				// drag 시작한 트리노드의 정보를 가져옴
 				TreeViewNode* pDragNode = (TreeViewNode*)payload->Data;
-
 				// drag drop callback 호출
 				((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(pDragNode, this);
 
@@ -121,6 +118,18 @@ void TreeViewNode::Update()
 			}
 
 			ImGui::EndDragDropTarget();
+		}
+		// 아이템을 드롭했는데 비어있는 창이면
+		else if (ImGui::IsMouseReleased(0) && m_pOwner->m_pDraggedNode && !m_pOwner->m_pDropTargetNode) {
+			if (m_pOwner->m_pDragDropInst && m_pOwner->m_pDragDropFunc) {
+				if (GUI::IsMouseInWindowContentRegion()) {
+					// drag 시작한 트리노드의 정보를 가져옴
+					m_pOwner->_SetDropTargetNode(this);
+					((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(m_pOwner->m_pDraggedNode, nullptr);
+					m_pOwner->_SetDragStartNode(nullptr);
+					m_pOwner->_SetDropTargetNode(nullptr);
+				}
+			}
 		}
 
 		for (UINT i = 0; i < m_vecChildNodes.size(); ++i)

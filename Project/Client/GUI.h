@@ -22,6 +22,8 @@ public:
 	bool IsActive() { return m_bActive; }
 	static void GetResourceName(CResource* _pResource, string& _pOut);
 	static void GetResourceName(CResource* _pResource, char* _pOut, int _size);
+
+	static bool IsMouseInWindowContentRegion();
 public:
 	GUI();
 	virtual ~GUI();

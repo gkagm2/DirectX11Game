@@ -242,7 +242,9 @@ void InspectorGUI::UpdateResourceGUI()
 
 void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 {
-	assert(_pTargetObj);
+	if (nullptr == _pTargetObj)
+		return;
+
 	m_eMode = E_InspectorUIMode::GameObject;
 	m_pTargetObject = _pTargetObj;
 	
@@ -259,7 +261,8 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 
 void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
 {
-	assert(_pTargetResource);
+	if (nullptr == _pTargetResource)
+		return;
 	m_eMode = E_InspectorUIMode::Resource;
 	m_pTargetResource = _pTargetResource;
 

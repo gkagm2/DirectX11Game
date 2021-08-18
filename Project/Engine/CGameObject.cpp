@@ -199,10 +199,8 @@ void CGameObject::_SetDead()
 void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 {
 	// 자식 오브젝트가 Ancestor 오브젝트면 안됨
-	if (_IsAncestorGameObject(_pChildObj)) {
-		assert(nullptr);
+	if (_IsAncestorGameObject(_pChildObj))
 		return;
-	}
 	
 	// 자식 오브젝트가 최상위 오브젝트인 경우
 	if (nullptr == _pChildObj->GetParentObject() && E_Layer::End != _pChildObj->GetLayer()) {

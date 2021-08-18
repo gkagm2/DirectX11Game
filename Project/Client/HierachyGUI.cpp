@@ -84,8 +84,20 @@ void HierachyGUI::SelectGameObject(TreeViewNode* _pNode)
 void HierachyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode)
 {
 	CGameObject* pDragStartNode = (CGameObject*)_pDragStartNode->GetData();
-	CGameObject* pDropTargetNode = (CGameObject*)_pDropTargetNode->GetData();
+	CGameObject* pDropTargetNode = nullptr;
+
+	if (nullptr != _pDropTargetNode) {
+		pDropTargetNode = (CGameObject*)_pDropTargetNode->GetData();
+	}
+
 	if (pDragStartNode == pDropTargetNode)
 		return;
-	CObject::AddChildGameObjectEvn(pDropTargetNode, pDragStartNode);
+
+	if (nullptr == pDropTargetNode) {
+		if (pDragStartNode->GetParentObject())
+			CObject::UnlinkParentGameObjectEvn(pDragStartNode);
+	}
+	else {
+		CObject::AddChildGameObjectEvn(pDropTargetNode, pDragStartNode);
+	}
 }

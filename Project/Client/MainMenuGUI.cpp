@@ -145,9 +145,8 @@ void MainMenuGUI::LoadScene()
         CScene* pCurScene = CSceneSaveLoad::LoadScene(path, false);
         CSceneManager::GetInstance()->ChangeSceneEvt(pCurScene);
         InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
-        wchar_t str[255] = L"Tile File Load";
         pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
-        CObject::ChangeStateEvn();
+        wchar_t str[255] = L"Tile File Load";
         MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
     }
 }
