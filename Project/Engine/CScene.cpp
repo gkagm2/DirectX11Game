@@ -67,8 +67,33 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 		for (UINT i = 0; i < vecGameObjects.size(); ++i) {
 			// BFS를 이용하여 자식 오브젝트들을 순회하며 이름을 찾는다.
 			list<CGameObject*> que;
+			
 			que.push_back(vecGameObjects[i]);
 			
+			while (!que.empty()) {
+				CGameObject* pObj = que.front();
+				que.pop_front();
+
+				if (_strName == pObj->GetName())
+					return pObj;
+
+				const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
+				for (UINT j = 0; j < vecChildsObj.size(); ++j) {
+					if(_eLayer == vecChildsObj[j]->GetLayer())
+						que.push_back(vecChildsObj[j]);
+				}
+			}
+		}
+	}
+	else {
+		vector<CGameObject*> vecRootObjs;
+		GetRootGameObjects(vecRootObjs);
+
+		// 모든 루트 오브젝트부터 순회한다.
+		for (UINT i = 0; i < vecRootObjs.size(); ++i) {
+			list<CGameObject*> que;
+			que.push_back(vecRootObjs[i]);
+
 			while (!que.empty()) {
 				CGameObject* pObj = que.front();
 				que.pop_front();
@@ -82,30 +107,21 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 			}
 		}
 	}
-	else {
-		// 모든 레이어를 순회한다.
-		for (UINT iLayerNum = 0; iLayerNum < (UINT)E_Layer::End; ++iLayerNum) {
-			const vector<CGameObject*>& vecGameObjects = m_arrLayer[iLayerNum]->GetRootGameObjects();
+	return nullptr;
+}
 
-			for (UINT i = 0; i < vecGameObjects.size(); ++i) {
-				list<CGameObject*> que;
-				que.push_back(vecGameObjects[i]);
-
-				while (!que.empty()) {
-					CGameObject* pObj = que.front();
-					que.pop_front();
-
-					if (_strName == pObj->GetName())
-						return pObj;
-
-					const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
-					for (UINT j = 0; j < vecChildsObj.size(); ++j)
-						que.push_back(vecChildsObj[j]);
-				}
+void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
+{
+	// Scene중에 최상위 오브젝트를 가져옴
+	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+		CLayer* pLayer = GetLayer(i);
+		const vector<CGameObject*>& vecLayerRootObj = pLayer->GetRootGameObjects();
+		for (UINT j = 0; j < vecLayerRootObj.size(); ++j) {
+			if (nullptr == vecLayerRootObj[j]->GetParentObject()) {
+				_vecRootObjs.push_back(vecLayerRootObj[j]);
 			}
 		}
 	}
-	return nullptr;
 }
 
 void CScene::_UnRegisterAllObjects()

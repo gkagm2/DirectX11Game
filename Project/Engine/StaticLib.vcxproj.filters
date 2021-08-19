@@ -178,6 +178,9 @@
     <ClInclude Include="CCamera2D.h">
       <Filter>Engine\07. Component\Camera\Camera2D</Filter>
     </ClInclude>
+    <ClInclude Include="CConfigurationManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="CCamera2D.cpp">
       <Filter>Engine\07. Component\Camera\Camera2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CConfigurationManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,8 @@ public:
 	virtual bool Save(const tstring& _strRelativePath);
 	virtual int Load(const tstring& _strFilePath);
 
+public:
+	CGameObject* GetProtoObj() { return m_pProtoObj; }
 private:
 	CLONE_DISABLE(CPrefab);
 

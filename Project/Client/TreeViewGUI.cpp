@@ -183,7 +183,6 @@ void TreeViewGUI::Update()
 
 TreeViewNode* TreeViewGUI::AddItem(const string& _str, DWORD_PTR _dwData, TreeViewNode* _pParent)
 {
-
 	TreeViewNode* pNewNode = new TreeViewNode;
 	pNewNode->SetName(_str);
 	pNewNode->SetData(_dwData);

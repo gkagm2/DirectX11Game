@@ -11,6 +11,7 @@ enum class E_EventType {
 	Change_Scene,
 	Remove_Material,
 	Change_State, // AI 상태 변환
+	Change_GameObject_And_Childs_Layer,
 
 	Change_SceneMode, // 현재 씬 모드 변경
 };

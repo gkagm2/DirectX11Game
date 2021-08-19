@@ -2,6 +2,8 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 #include "CScene.h"
+#include "CSceneManager.h"
+#include "CScene.h"
 
 CLayer::CLayer() :
 	m_pOwnScene(nullptr),
@@ -93,6 +95,20 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 	}
 }
 
+void CLayer::_RegisterInRootGameObject(CGameObject* _pChildObj) {
+	// 존재여부 확인 후 집어넣기
+	vector<CGameObject*>::iterator iter = m_vecRootObj.begin();
+	for (; iter != m_vecRootObj.end(); ++iter) {
+		if (*iter == _pChildObj) {
+			return; // 이미 존재하면 끝
+		}
+	}
+
+	// 존재하지 않을 경우 삽입
+	if(iter == m_vecRootObj.end())
+		m_vecRootObj.push_back(_pChildObj);
+}
+
 void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
 {
 	vector<CGameObject*>::iterator iter = m_vecRootObj.begin();
@@ -102,19 +118,58 @@ void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
 			return;
 		}
 	}
-	//assert(nullptr);
+	// assert(nullptr && _T("최상위 오브젝트를 찾지 못함"));
+}
+
+// DFS를 이용하여 자식부터 바꿈
+void CLayer::_ResignRecursive(CGameObject* _pObj) {
+	const vector<CGameObject*>& vecChilds = _pObj->GetChildsObject();
+
+	// 자식들 모두가 End로 초기화 되었으면
+	for (UINT i = 0; i < vecChilds.size(); ++i) {
+		if (E_Layer::End != vecChilds[i]->GetLayer()) {
+			_ResignRecursive(vecChilds[i]); // 자식껄로 재귀함수 호출
+		}
+	}
+
+	// 부모가 존재하면
+	if (_pObj->GetParentObject()) {
+		// 부모와 레이어가 같지 않다면 Layer의 Root vector에 존재한다는 의미이므로 레이어 할당을 해제한다.
+		if (_pObj->GetParentObject()->GetLayer() != _pObj->GetLayer()) {
+			CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pObj->GetLayer());
+			vector<CGameObject*>& vecRootObj = pLayer->GetRootGameObjects();
+
+			// Root오브젝트들을 담고 최상위 일때 벡터에 있으면 삭제
+			auto iter = vecRootObj.begin();
+			for (; iter != vecRootObj.end(); ++iter) {
+				if ((*iter) == _pObj) {
+					vecRootObj.erase(iter);
+					break;
+				}
+			}
+			_pObj->_SetLayer(E_Layer::End);
+		}
+	}
+	else { // 부모가 존재하지 않으면
+		// Root오브젝트들을 담고있는 Layer의 vector에서 삭제
+		CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pObj->GetLayer());
+		vector<CGameObject*>& vecRootObj = pLayer->GetRootGameObjects();
+		auto iter = vecRootObj.begin();
+		for (; iter != vecRootObj.end(); ++iter) {
+			if ((*iter) == _pObj) {
+				vecRootObj.erase(iter);
+				break;
+			}
+		}
+	}
+	_pObj->_SetLayer(E_Layer::End);
 }
 
 void CLayer::_ResignGameObject(CGameObject* _pObj)
 {
-	// Root오브젝트들을 담은 벡터에 있으면 삭제
-	auto iter = m_vecRootObj.begin();
-	for (; iter != m_vecRootObj.end(); ++iter) {
-		if ((*iter) == _pObj) {
-			m_vecRootObj.erase(iter);
-			break;
-		}
-	}
+	_ResignRecursive(_pObj);
+	/*
+	CGameObject* pStartObj = _pObj;
 
 	list<CGameObject*> que;
 	que.push_back(_pObj);
@@ -129,6 +184,7 @@ void CLayer::_ResignGameObject(CGameObject* _pObj)
 		for (UINT i = 0; i < pObj->m_vecChildObj.size(); ++i)
 			que.push_back(pObj->m_vecChildObj[i]);
 	}
+	*/
 }
 
 bool CLayer::SaveToScene(FILE* _pFile)

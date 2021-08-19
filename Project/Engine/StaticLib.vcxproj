@@ -187,6 +187,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CComputeShader.h" />
+    <ClInclude Include="CConfigurationManager.h" />
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CDevice.h" />
@@ -247,6 +248,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CComputeShader.cpp" />
+    <ClCompile Include="CConfigurationManager.cpp" />
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CDevice.cpp" />

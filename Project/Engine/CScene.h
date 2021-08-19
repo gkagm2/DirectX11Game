@@ -20,6 +20,7 @@ public:
 
 public:
     CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
+    void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs);
 
     CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
     CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }

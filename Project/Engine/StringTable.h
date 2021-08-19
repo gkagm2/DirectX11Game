@@ -49,6 +49,8 @@
 #define STR_DIR_PATH_Material _T("material\\")
 #define STR_DIR_PATH_Anim _T("anim\\")
 
+#define STR_DIR_PATH_Config _T("config\\") // 엔진 환경
+
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"
 #define STR_FUNC_NAME_PIXShader "PS_Std2D"

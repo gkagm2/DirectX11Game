@@ -33,6 +33,7 @@ CGameObject::CGameObject() :
 }
 
 CGameObject::CGameObject(const CGameObject& _origin) :
+	CObject(_origin),
 	m_arrComponent{},
 	m_pParentObj(nullptr),
 	m_eLayer(E_Layer::End),
@@ -144,10 +145,10 @@ void CGameObject::FinalUpdate()
 		if (nullptr != m_arrComponent[i])
 			m_arrComponent[i]->FinalUpdate();
 	}
-	
+
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->FinalUpdate();
-	
+
 	_RegisterLayer(); // 레이어 등록
 }
 
@@ -204,9 +205,11 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	
 	// 자식 오브젝트가 최상위 오브젝트인 경우
 	if (nullptr == _pChildObj->GetParentObject() && E_Layer::End != _pChildObj->GetLayer()) {
-		// 레이어의 Root들의 오브젝트를 저장하는걸 해제
-		CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pChildObj->GetLayer());
-		pLayer->_UnRegisterInRootGameObject(_pChildObj);
+		if (_pChildObj->GetLayer() == GetLayer()) {
+			// 레이어의 Root들의 오브젝트를 저장하는걸 해제
+			CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pChildObj->GetLayer());
+			pLayer->_UnRegisterInRootGameObject(_pChildObj);
+		}
 	}
 
 	// 자식 오브젝트가 부모가 있으면 해제

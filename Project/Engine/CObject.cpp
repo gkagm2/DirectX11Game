@@ -16,7 +16,8 @@ CObject::CObject() :
 }
 
 CObject::CObject(const CObject& _origin) :
-    m_iID(g_iNextID++)
+    m_iID(g_iNextID++),
+    m_strName(_origin.m_strName)
 {
 }
 
@@ -85,6 +86,15 @@ void CObject::UnlinkParentGameObjectEvn(CGameObject* _pChildObj)
 void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer)
 {
     CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _eLayer);
+}
+
+void CObject::ChangeLayerEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Change_GameObject_And_Childs_Layer;
+    even.lparam = (DWORD_PTR)_pTargetObj;
+    even.wparam = (DWORD_PTR)_eLayer;
+    CEventManager::GetInstance()->AddEvent(even);
 }
 
 void CObject::ChangeStateEvn()

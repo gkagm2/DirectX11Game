@@ -9,7 +9,7 @@ class CLayer : public CObject , ILifeCycleInterface
 {
 private:
 	CScene* m_pOwnScene;
-	vector<CGameObject*> m_vecRootObj; // 최상위 부모들
+	vector<CGameObject*> m_vecRootObj; // 레이어의 최상위 부모들 ( 레이어가 다른 부모가 존재하는 오브젝트도 포함)
 	vector<CGameObject*> m_vecObj;	// 모든 오브젝트 ( 렌더링을 위해 존재)
 	E_Layer m_eLayer;
 
@@ -30,11 +30,12 @@ public:
 
 private:
 	// 자식 오브젝트가 레이어를 유지하며 최상위 부모로 등록시 사용
-	void _RegisterInRootGameObject(CGameObject* _pChildObj) { m_vecRootObj.push_back(_pChildObj); }
+	void _RegisterInRootGameObject(CGameObject* _pChildObj);
 	void _UnRegisterInRootGameObject(CGameObject* _pRootObj);
 
 	// 파라미터로 받은 오브젝트와 오브젝트의 자식 오브젝트들의 레이어를 해제
 	void _ResignGameObject(CGameObject* _pObj);
+	void _ResignRecursive(CGameObject* _pObj);
 
 public:
 	virtual bool SaveToScene(FILE* _pFile);

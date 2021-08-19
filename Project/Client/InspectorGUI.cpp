@@ -157,6 +157,26 @@ void InspectorGUI::UpdateObjectGUI()
 		pPrefab->Save(strRelativePath);
 	}
 
+	ImGui::Separator();
+
+	// 레이어 변경
+	int iLayer = (int)m_pTargetObject->GetLayer();
+	ImGui::Text("Cur Layer %d", iLayer);
+	static int iSetLayer = -1;
+	if (ImGui::InputInt("Set Layer##GameObject", &iSetLayer)) {
+	}
+
+	if (ImGui::Button("Sel##LayerSelect")) {
+		if ((int)m_pTargetObject->GetLayer() != iSetLayer &&
+			iSetLayer != -1) {
+			// 레이어를 바꾼다.
+			// 자신부터 자식까지 모두 바꾸기
+			CObject::ChangeLayerEvn(m_pTargetObject, (E_Layer)iSetLayer);
+		}
+		iSetLayer = -1;
+	}
+	ImGui::Separator();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])
 			continue;
