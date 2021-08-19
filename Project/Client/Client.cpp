@@ -76,6 +76,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Vector2 vWindowResolution{ 1440, 810 };
     Vector2 vRenderResolution{ 1440, 810 };
 
+
+    CSceneSaveLoad::Init();
     bool bSuc = CCore::GetInstance()->Init(g_hWnd, vWindowResolution, vRenderResolution);
     if (FAILED(bSuc))
         return 0;
@@ -86,7 +88,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     CToolObjManager::GetInstance()->Init(); // Tool 傈侩 Object 积己
     // TestScene 积己
-    CSceneSaveLoad::Init();
+    
     CTestScene::CreateTestScene();
     CImGuiManager::GetInstance()->Init();
 

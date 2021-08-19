@@ -92,16 +92,19 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 
 void CLayer::_RegisterInRootGameObject(CGameObject* _pChildObj) {
 	// 존재여부 확인 후 집어넣기
-	vector<CGameObject*>::iterator iter = m_vecRootObj.begin();
-	for (; iter != m_vecRootObj.end(); ++iter) {
-		if (*iter == _pChildObj) {
-			return; // 이미 존재하면 끝
-		}
-	}
+#pragma region 한곳에서만 사용하므로 할 필요 없음
+			//vector<CGameObject*>::iterator iter = m_vecRootObj.begin();
+//for (; iter != m_vecRootObj.end(); ++iter) {
+//	if (*iter == _pChildObj) {
+//		return; // 이미 존재하면 끝
+//	}
+//}
 
-	// 존재하지 않을 경우 삽입
-	if(iter == m_vecRootObj.end())
-		m_vecRootObj.push_back(_pChildObj);
+// 존재하지 않을 경우 삽입
+//if(iter == m_vecRootObj.end())
+//	m_vecRootObj.push_back(_pChildObj);  
+#pragma endregion
+	m_vecRootObj.push_back(_pChildObj);
 }
 
 void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)

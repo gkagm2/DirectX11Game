@@ -60,8 +60,16 @@ void CScene::LateUpdate()
 void CScene::FinalUpdate()
 {
 	GetRootGameObjects(m_vecRootObjs);
-	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
-		m_vecRootObjs[i]->FinalUpdate();
+
+	auto iter = m_vecRootObjs.begin();
+
+	while (iter != m_vecRootObjs.end()) {
+		(*iter)->FinalUpdate();
+		if ((*iter)->IsDead())
+			iter = m_vecRootObjs.erase(iter);
+		else
+			++iter;
+	}
 	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
 		m_arrLayer[i]->FinalUpdate();*/
 }
