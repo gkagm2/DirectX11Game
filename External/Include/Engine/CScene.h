@@ -8,6 +8,7 @@ class CScene : public CObject, ILifeCycleInterface
 {
 private:
     CLayer* m_arrLayer[(UINT)E_Layer::End];
+    vector<CGameObject*> m_vecRootObjs;
 
 public:
     virtual void Awake() override;

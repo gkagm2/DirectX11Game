@@ -20,6 +20,7 @@ void CLayer::Awake()
 {
 	for (UINT i = 0; i < m_vecRootObj.size(); ++i)
 		m_vecRootObj[i]->Awake();
+
 }
 
 void CLayer::Start()
@@ -58,12 +59,6 @@ void CLayer::FinalUpdate()
 		else
 			++iter;
 	}
-}
-
-void CLayer::Render()
-{
-	for (UINT i = 0; i < m_vecObj.size(); ++i)
-		m_vecObj[i]->Render();
 }
 
 void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)

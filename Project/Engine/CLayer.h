@@ -5,7 +5,7 @@
 
 //class CGameObject;
 class CScene;
-class CLayer : public CObject , ILifeCycleInterface
+class CLayer : public CObject, ILifeCycleInterface
 {
 private:
 	CScene* m_pOwnScene;
@@ -20,7 +20,7 @@ public:
 	virtual void Update() final;
 	virtual void LateUpdate() final;
 	virtual void FinalUpdate() final;
-	virtual void Render() final;
+	virtual void Render() final {};
 
 public:
 	void AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer);
