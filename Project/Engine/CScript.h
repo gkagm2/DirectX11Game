@@ -20,13 +20,13 @@ private:
 public:
 	virtual void FinalUpdate() final {}
 
-	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override {}
-	virtual void OnCollisionStay2D(CCollider2D* _pOther) override {}
-	virtual void OnCollisionExit2D(CCollider2D* _pOther) override {}
+	virtual void OnCollisionEnter2D(CCollider2D* _pOther) {}
+	virtual void OnCollisionStay2D(CCollider2D* _pOther) {}
+	virtual void OnCollisionExit2D(CCollider2D* _pOther) {}
 
-	virtual void OnCollisionEnter(CCollider3D* _pOther) override {}
-	virtual void OnCollisionStay(CCollider3D* _pOther) override {}
-	virtual void OnCollisionExit(CCollider3D* _pOther) override {}
+	virtual void OnCollisionEnter(CCollider3D* _pOther) {}
+	virtual void OnCollisionStay(CCollider3D* _pOther) {}
+	virtual void OnCollisionExit(CCollider3D* _pOther) {}
 
 	UINT GetScriptType() { return m_iScriptType; }
 

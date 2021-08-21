@@ -22,3 +22,15 @@ void CMouseCollision2DScript::Start()
 void CMouseCollision2DScript::Update()
 {
 }
+
+void CMouseCollision2DScript::OnCollisionEnter2D(CCollider2D* _pOther)
+{
+}
+
+void CMouseCollision2DScript::OnCollisionStay2D(CCollider2D* _pOther)
+{
+}
+
+void CMouseCollision2DScript::OnCollisionExit2D(CCollider2D* _pOther)
+{
+}

@@ -14,17 +14,17 @@ CCollider2DRect::~CCollider2DRect()
 {
 }
 
-void CCollider2DRect::OnCollisionEnter(CCollider2D* _pOther)
+void CCollider2DRect::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	CCollider2D::OnCollisionEnter2D(_pOther);
 }
 
-void CCollider2DRect::OnCollisionStay(CCollider2D* _pOther)
+void CCollider2DRect::OnCollisionStay2D(CCollider2D* _pOther)
 {
 	CCollider2D::OnCollisionStay2D(_pOther);
 }
 
-void CCollider2DRect::OnCollisionExit(CCollider2D* _pOther)
+void CCollider2DRect::OnCollisionExit2D(CCollider2D* _pOther)
 {
 	CCollider2D::OnCollisionExit2D(_pOther);
 }
