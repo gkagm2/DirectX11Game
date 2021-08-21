@@ -2,7 +2,6 @@
 
 class CCollider;
 class CCollider2D;
-class CCollider2DRect;
 union COLLIDER_ID
 {
 	struct {
@@ -42,5 +41,5 @@ public:
 	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);
 
 private:
-	bool _IsCollision(CCollider2DRect* _pLeft, CCollider2DRect* _pRight);
+	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);
 };

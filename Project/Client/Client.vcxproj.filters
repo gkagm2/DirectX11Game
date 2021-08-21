@@ -47,9 +47,6 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI">
       <UniqueIdentifier>{60268bf0-830c-4289-a8fb-facc3a018162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\CircleCollider2DGUI">
-      <UniqueIdentifier>{c0c9bdb9-ba3f-4f53-92b0-3f21ed5ec85a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI">
       <UniqueIdentifier>{875bbde1-f153-4430-884f-9cf509844aee}</UniqueIdentifier>
     </Filter>
@@ -236,7 +233,7 @@
     <ClInclude Include="InspectorGUI.h">
       <Filter>02. GUI\InspectorGUI</Filter>
     </ClInclude>
-    <ClInclude Include="Collider2DRectGUI.h">
+    <ClInclude Include="Collider2DGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClInclude>
     <ClInclude Include="TextureGUI.h">
@@ -380,7 +377,7 @@
     <ClCompile Include="InspectorGUI.cpp">
       <Filter>02. GUI\InspectorGUI</Filter>
     </ClCompile>
-    <ClCompile Include="Collider2DRectGUI.cpp">
+    <ClCompile Include="Collider2DGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\RectCollider2DGUI</Filter>
     </ClCompile>
     <ClCompile Include="TextureGUI.cpp">

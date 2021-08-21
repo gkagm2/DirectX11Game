@@ -18,6 +18,18 @@ void CGirderScript_ca::Update()
 {
 }
 
+void CGirderScript_ca::OnCollisionEnter2D(CCollider2D* _pOther)
+{
+}
+
+void CGirderScript_ca::OnCollisionStay2D(CCollider2D* _pOther)
+{
+}
+
+void CGirderScript_ca::OnCollisionExit2D(CCollider2D* _pOther)
+{
+}
+
 void CGirderScript_ca::InitModule(E_ModuleLevel_ca _eLevel)
 {
 	switch (_eLevel) {

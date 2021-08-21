@@ -216,7 +216,7 @@
     <ClInclude Include="MeshRendererGUI.h" />
     <ClInclude Include="ParamGUI.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Collider2DRectGUI.h" />
+    <ClInclude Include="Collider2DGUI.h" />
     <ClInclude Include="PrefabGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
@@ -292,7 +292,7 @@
     <ClCompile Include="MeshRendererGUI.cpp" />
     <ClCompile Include="ParamGUI.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Collider2DRectGUI.cpp" />
+    <ClCompile Include="Collider2DGUI.cpp" />
     <ClCompile Include="PrefabGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
     <ClCompile Include="ResourceViewGUI.cpp" />

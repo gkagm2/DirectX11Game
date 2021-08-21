@@ -182,7 +182,6 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CCamera2D.h" />
     <ClInclude Include="CCollider.h" />
     <ClInclude Include="CCollider2D.h" />
-    <ClInclude Include="CCollider2DRect.h" />
     <ClInclude Include="CCollider3D.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CComponent.h" />
@@ -243,7 +242,6 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CCamera2D.cpp" />
     <ClCompile Include="CCollider.cpp" />
     <ClCompile Include="CCollider2D.cpp" />
-    <ClCompile Include="CCollider2DRect.cpp" />
     <ClCompile Include="CCollider3D.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CComponent.cpp" />

@@ -127,9 +127,6 @@
     <ClInclude Include="CCollider3D.h">
       <Filter>Engine\07. Component\Collider\CCollider3D</Filter>
     </ClInclude>
-    <ClInclude Include="CCollider2DRect.h">
-      <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
-    </ClInclude>
     <ClInclude Include="CObject.h">
       <Filter>Engine\08. Objects</Filter>
     </ClInclude>
@@ -288,9 +285,6 @@
     <ClCompile Include="CCollider3D.cpp">
       <Filter>Engine\07. Component\Collider\CCollider3D</Filter>
     </ClCompile>
-    <ClCompile Include="CCollider2DRect.cpp">
-      <Filter>Engine\07. Component\Collider\CCollider2D\CCollider2DRect</Filter>
-    </ClCompile>
     <ClCompile Include="CObject.cpp">
       <Filter>Engine\08. Objects</Filter>
     </ClCompile>
@@ -445,12 +439,6 @@
     </Filter>
     <Filter Include="Engine\07. Component\Collider\CCollider3D">
       <UniqueIdentifier>{e2665e39-68ac-42b4-a068-a9fb89c4b2cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DRect">
-      <UniqueIdentifier>{d516d10c-5946-4488-a43a-1b7c5a6f68e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\07. Component\Collider\CCollider2D\CCollider2DCircle">
-      <UniqueIdentifier>{a97c5dc8-07c6-447b-9184-2482cc57adda}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\Animator\2D">
       <UniqueIdentifier>{f2f24d61-12d6-4baa-b773-28c5ee94bc83}</UniqueIdentifier>

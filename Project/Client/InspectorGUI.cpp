@@ -15,11 +15,11 @@
 #include "TransformGUI.h"
 #include "CameraGUI.h"
 #include "MeshRendererGUI.h"
-#include "Collider2DRectGUI.h"
 #include "Rigidbody2DGUI.h"
 #include "Animator2DGUI.h"
 #include "Light2DGUI.h"
 #include "TileMapGUI.h"
+#include "Collider2DGUI.h"
 
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
@@ -63,7 +63,7 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetUISize(ImVec2(0.f, 110.f));
 
 	// Collider2D
-	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DRectGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetUISize(ImVec2(0.f, 110.f));
 
 	// Rigidbody2D
@@ -203,6 +203,7 @@ void InspectorGUI::UpdateObjectGUI()
 			CComponent* pComponent = m_pTargetObject->GetComponent((E_ComponentType)i);
 			if (pComponent)
 				continue;
+		
 			tstring strComponentName = ComponentTypeToStr((E_ComponentType)i);
 			vecNames.push_back(strComponentName);
 		}

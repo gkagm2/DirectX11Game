@@ -3,7 +3,6 @@
 #include "CCore.h"
 #include "CCollider.h"
 #include "CCollider2D.h"
-#include "CCollider2DRect.h"
 
 #include "CGameObject.h"
 
@@ -169,17 +168,15 @@ else
 bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
 	{
-		auto pLeft = dynamic_cast<CCollider2DRect*>(_pLeft);
-		auto pRight = dynamic_cast<CCollider2DRect*>(_pRight);
-		if (pLeft && pRight)
-			return _IsCollision(pLeft, pRight);
+		// FIXED : Collider2D에서 Rect로만 되어있는데 나중에 추가되면 타입에 따라 분기할 수 있도록 하기
+		return _IsCollision(_pLeft, _pRight);
 	}
 
 	return false;
 }
 
 // OBB Check
-bool CCollisionManager::_IsCollision(CCollider2DRect* _pLeft, CCollider2DRect* _pRight)
+bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
 	// 로컬 좌표
 	/*

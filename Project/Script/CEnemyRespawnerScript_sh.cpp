@@ -3,7 +3,7 @@
 #include "CEnemyScript_sh.h"
 #include <Engine\CCore.h>
 #include "CGameManagerScript_sh.h"
-#include <Engine\CCollider2DRect.h>
+#include <Engine\CCollider2D.h>
 
 CEnemyRespawnerScript_sh::CEnemyRespawnerScript_sh() :
 	CScript((UINT)SCRIPT_TYPE::ENEMYRESPAWNERSCRIPT_SH),
@@ -48,7 +48,7 @@ void CEnemyRespawnerScript_sh::CreateEnemy()
 	pEnemy->AddComponent<CTransform>();
 	pEnemy->AddComponent<CMeshRenderer>();
 	pEnemy->AddComponent<CEnemyScript_sh>();
-	pEnemy->AddComponent<CCollider2DRect>();
+	pEnemy->AddComponent<CCollider2D>();
 
 	pEnemy->MeshRenderer()->SetMaterial(pMtrl);
 	pEnemy->MeshRenderer()->SetMesh(pMesh);

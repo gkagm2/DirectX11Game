@@ -140,7 +140,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "InspectorGUI.h"
 #include "HierachyGUI.h"
 #include "ResourceGUI.h"
-#include "Collider2DRectGUI.h"
+#include "Collider2DGUI.h"
 #include "ResourceViewGUI.h"
 #include "MenuGUI.h"
 #include "MainMenuGUI.h"

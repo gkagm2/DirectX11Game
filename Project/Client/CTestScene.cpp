@@ -27,7 +27,7 @@
 #include "Engine\CCamera.h"
 #include "Engine\CTexture.h"
 #include "Engine\CMaterial.h"
-#include "Engine\CCollider2DRect.h"
+#include "Engine\CCollider2D.h"
 #include "Engine\CAnimator2D.h"
 #include "Engine\CAnimation2D.h"
 #include "Engine\Ptr.h"
@@ -98,6 +98,7 @@ void CTestScene::CreateTestScene()
 	//DistortionObject();
 	//FishEyePostEffect();
 	CaptainForever();
+	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	return;
 	// TODO (Jang) : Test code
@@ -162,7 +163,7 @@ void CTestScene::CreateTestScene()
 		/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 		pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-		CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+		CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 		CGameObject* pOwner = pCollider2D->GetGameObject();
 
 		Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
@@ -205,7 +206,7 @@ void CTestScene::CreateTestScene()
 		//}
 		//{
 		//	CGameObject* pEnemy = TestCreateObj();
-		//	CCollider2DRect* pCollider2D = pEnemy->AddComponent<CCollider2DRect>();
+		//	CCollider2D* pCollider2D = pEnemy->AddComponent<CCollider2D>();
 		//	CGameObject* pOwner = pCollider2D->GetGameObject();
 
 		//	SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
@@ -238,6 +239,8 @@ void CTestScene::CaptainForever()
 {
 	CScene* pNewScene = new CScene;
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+
+	CCollisionManager::GetInstance()->CollisionByLayer(0, 0);
 }
 
 void CTestScene::SceneStart()
@@ -366,7 +369,7 @@ void CTestScene::RenderingAnimationTexture()
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+	CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
@@ -441,7 +444,7 @@ void CTestScene::SceneSaveLoadTest()
 			pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 
 			// Collider2D
-			pPlayer->AddComponent<CCollider2DRect>();
+			pPlayer->AddComponent<CCollider2D>();
 			pPlayer->Collider2D()->SetOffsetScale(Vector2(60.f, 60.f));
 
 			CObject::CreateGameObjectEvn(pPlayer, 0);
@@ -519,7 +522,7 @@ void CTestScene::ImGuiTest()
 	pObj->SetName(_T("Player"));
 	
 	// Collider 技泼
-	pObj->AddComponent<CCollider2DRect>();
+	pObj->AddComponent<CCollider2D>();
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
 	// Rigidobdy2D 技泼
@@ -567,7 +570,7 @@ void CTestScene::ImGuiTest()
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+	CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
@@ -669,7 +672,7 @@ void CTestScene::DistortionObject()
 	pObj->SetName(_T("Player"));
 
 	// Collider 技泼
-	pObj->AddComponent<CCollider2DRect>();
+	pObj->AddComponent<CCollider2D>();
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
 	// Rigidobdy2D 技泼
@@ -717,7 +720,7 @@ void CTestScene::DistortionObject()
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+	CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
@@ -824,7 +827,7 @@ void CTestScene::FishEyePostEffect()
 	pObj->SetName(_T("Player"));
 
 	// Collider 技泼
-	pObj->AddComponent<CCollider2DRect>();
+	pObj->AddComponent<CCollider2D>();
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
 	// Rigidobdy2D 技泼
@@ -872,7 +875,7 @@ void CTestScene::FishEyePostEffect()
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+	CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
@@ -960,7 +963,7 @@ void CTestScene::MaterialCreateTest()
 	pObj->SetName(_T("Player"));
 
 	// Collider 技泼
-	pObj->AddComponent<CCollider2DRect>();
+	pObj->AddComponent<CCollider2D>();
 	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 
 	// Rigidobdy2D 技泼
@@ -1008,7 +1011,7 @@ void CTestScene::MaterialCreateTest()
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
 
-	CCollider2DRect* pCollider2D = pPlayer->AddComponent<CCollider2DRect>();
+	CCollider2D* pCollider2D = pPlayer->AddComponent<CCollider2D>();
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
@@ -1145,7 +1148,7 @@ void CTestScene::SceneSaveLoadPrefabTest()
 			pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
 
 			// Collider2D
-			pPlayer->AddComponent<CCollider2DRect>();
+			pPlayer->AddComponent<CCollider2D>();
 			pPlayer->Collider2D()->SetOffsetScale(Vector2(60.f, 60.f));
 
 			CObject::CreateGameObjectEvn(pPlayer, 0);
@@ -1435,8 +1438,8 @@ void CTestScene::Collision2DTest()
 	CGameObject* pObj = new CGameObject();
 	pObj->AddComponent<CTransform>();
 	pObj->AddComponent<CMeshRenderer>();
-	pObj->AddComponent<CCollider2DRect>();
-	CCollider2DRect* pColRect = (CCollider2DRect*)pObj->GetComponent<CCollider2D>();
+	pObj->AddComponent<CCollider2D>();
+	CCollider2D* pColRect = pObj->GetComponent<CCollider2D>();
 
 	
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
