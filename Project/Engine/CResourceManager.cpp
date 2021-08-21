@@ -262,7 +262,6 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::AlphaBlend);
 	// Shader Param
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
-
 	// Test Shader Param
 	/*pShader->AddShaderParam({ E_ShaderParam::Int_0,	  _T("Test Param Int") });
 	pShader->AddShaderParam({ E_ShaderParam::Float_0,   _T("Test Param Float") });
@@ -387,55 +386,58 @@ void CResourceManager::CreateDefaultMaterial()
 	CMaterial* pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderAlphaBlendCV = LoadRes<CGraphicsShader>(STR_KEY_StdAlphaBlend_CoverageShader);
 	pMtrl->SetShader(pShaderAlphaBlendCV);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl, pMtrl);
 
 	// 기본 재질 생성 (AlphaBlend)
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderAlphaBlend = LoadRes<CGraphicsShader>(STR_KEY_StdAlphaBlendShader);
 	pMtrl->SetShader(pShaderAlphaBlend);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl, pMtrl);
 
 	// Light2D 재질 설정
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderLight2D = LoadRes<CGraphicsShader>(STR_KEY_StdLight2DShader);
 	pMtrl->SetShader(pShaderLight2D);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes<CMaterial>(STR_KEY_StdLight2DMtrl, pMtrl);
 
-// Collider2D 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
-pMtrl->SetShader(pShaderCollider2D);
-AddRes(STR_KEY_Collider2DMtrl, pMtrl);
+	// Collider2D 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
+	pMtrl->SetShader(pShaderCollider2D);
+	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
 
-// 타일맵 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
-pMtrl->SetShader(pShaderTileMap);
-AddRes(STR_KEY_TileMapMtrl, pMtrl);
+	// 타일맵 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
+	pMtrl->SetShader(pShaderTileMap);
+	AddRes(STR_KEY_TileMapMtrl, pMtrl);
 
-// 파티클 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
-pMtrl->SetShader(pShaderParticle);
-AddRes(STR_KEY_ParticleMtrl, pMtrl);
+	// 파티클 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
+	pMtrl->SetShader(pShaderParticle);
+	AddRes(STR_KEY_ParticleMtrl, pMtrl);
 
-// 왜곡(Distortion) 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
-pMtrl->SetShader(pShaderDistortion);
+	// 왜곡(Distortion) 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
+	pMtrl->SetShader(pShaderDistortion);
 
-SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-AddRes(STR_KEY_DistortionMtrl, pMtrl);
+	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_DistortionMtrl, pMtrl);
 
-// FishEye 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
-pMtrl->SetShader(pShaderFishEye);
+	// FishEye 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
+	pMtrl->SetShader(pShaderFishEye);
 
-pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-AddRes(STR_KEY_FishEyeMtrl, pMtrl);
+	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
 }
 
 

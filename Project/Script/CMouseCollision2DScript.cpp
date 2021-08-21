@@ -23,20 +23,33 @@ void CMouseCollision2DScript::Start()
 void CMouseCollision2DScript::Update()
 {
 	if (InputKeyPress(E_Key::LBUTTON)) {
+		if (!m_listHitObjs.empty()) {
+			m_pTargetObj = m_listHitObjs.front();
+			m_listHitObjs.clear();
+		}
 	}
 	if (InputKeyHold(E_Key::LBUTTON)) {
-
+		if (m_pTargetObj) {
+			Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
+			Vector2 vMousePos = MousePosition;
+			// Camera의 Screen의 World Position을 구해서 넣어주자
+			vTargetPos.x = vMousePos.x;
+			vTargetPos.y = vMousePos.y;
+			m_pTargetObj->Transform()->SetLocalPosition(vTargetPos);
+		}
 	}
 	if (InputKeyPress(E_Key::LBUTTON)) {
-
+		if (m_pTargetObj) {
+			m_pTargetObj = nullptr;
+		}
 	}
 }
 
 void CMouseCollision2DScript::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	// 클릭한것이라면
-	if (1 == _pOther->GetGameObject()->GetLayer()) {
-	}
+	if (1 == _pOther->GetGameObject()->GetLayer())
+		m_listHitObjs.push_back(_pOther->GetGameObject());
 }
 
 void CMouseCollision2DScript::OnCollisionStay2D(CCollider2D* _pOther)

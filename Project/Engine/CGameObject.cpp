@@ -28,6 +28,7 @@ CGameObject::CGameObject() :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
 	m_iLayer(MAX_SIZE_LAYER),
+	m_iTag(0),
 	m_bDead(false)
 {
 }
@@ -37,6 +38,7 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
 	m_iLayer(MAX_SIZE_LAYER),
+	m_iTag(_origin.m_iTag),
 	m_bDead(false)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {

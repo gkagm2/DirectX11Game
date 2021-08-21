@@ -182,6 +182,9 @@ enum class E_ComponentType {
 //	End = MAX_SIZE_LAYER,
 //};
 
+
+
+
 enum class E_ProjectionType {
 	Perspective,
 	Orthographic,
