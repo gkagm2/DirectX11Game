@@ -15,6 +15,8 @@
 
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
+UINT g_iEmpty2DCameraGameObjectID = 0;
+UINT g_iEmptyRect2DGameObjectID = 0;
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -69,9 +71,16 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create GameObject")) {
                 CreateEmptyGameObject();
             }
+            if (ImGui::MenuItem("Create 2DCamera")) {
+                CreateCamera2DGameObject();
+            }
+            if (ImGui::MenuItem("Create 2DRect")) {
+                Create2DRectGameObjet();
+            }
             if (ImGui::MenuItem("Create Material")) {
                 CreateEmptyMaterial();
             }
+            
 
             ImGui::EndMenu();
         }
@@ -219,6 +228,62 @@ void MainMenuGUI::CreateEmptyGameObject()
     CGameObject* pNewGameObject = new CGameObject;
     pNewGameObject->SetName(szBuffer);
     pNewGameObject->AddComponent<CTransform>();
+
+    // Tool Camera가 바라보고 있는 위치에 생성
+    CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+    Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+    CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
+void MainMenuGUI::CreateCamera2DGameObject()
+{
+    constexpr int iBuffSize = 255;
+    TCHAR szBuffer[iBuffSize] = _T("");
+
+    // 고유 이름값 생성
+    while (true) {
+        _stprintf_s(szBuffer, iBuffSize, _T("2D Camera%d"), g_iEmpty2DCameraGameObjectID++);
+        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
+        if (nullptr == pObj)
+            break;
+    }
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pNewGameObject = new CGameObject;
+    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->AddComponent<CTransform>();
+    pNewGameObject->AddComponent<CCamera>();
+    pNewGameObject->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+    pNewGameObject->Camera()->SetLayerCheckAll();
+
+    // Tool Camera가 바라보고 있는 위치에 생성
+    CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+    Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+    CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
+void MainMenuGUI::Create2DRectGameObjet()
+{
+    constexpr int iBuffSize = 255;
+    TCHAR szBuffer[iBuffSize] = _T("");
+
+    // 고유 이름값 생성
+    while (true) {
+        _stprintf_s(szBuffer, iBuffSize, _T("Rect GameObject%d"), g_iEmptyRect2DGameObjectID++);
+        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
+        if (nullptr == pObj)
+            break;
+    }
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pNewGameObject = new CGameObject;
+    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->AddComponent<CTransform>();
+    pNewGameObject->AddComponent<CMeshRenderer>();
+    CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl);
+
 
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();

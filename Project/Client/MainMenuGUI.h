@@ -15,6 +15,8 @@ public:
 	void ShowSceneMode();
 	void CreateEmptyMaterial();
 	void CreateEmptyGameObject();
+	void CreateCamera2DGameObject();
+	void Create2DRectGameObjet();
 
 public:
 	MainMenuGUI();

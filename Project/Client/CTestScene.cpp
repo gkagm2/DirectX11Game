@@ -240,7 +240,7 @@ void CTestScene::CaptainForever()
 	CScene* pNewScene = new CScene;
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 
-	CCollisionManager::GetInstance()->CollisionByLayer(0, 0);
+	CCollisionManager::GetInstance()->SetOnOffCollision(0, 0, true);
 }
 
 void CTestScene::SceneStart()
