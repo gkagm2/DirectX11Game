@@ -327,6 +327,8 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 	// 자식 오브젝트일 경우
 	if (GetParentObject())
 		FWrite(m_iLayer, _pFile);
+
+	FWrite(m_iTag, _pFile);
 	
 	// 컴포넌트
 	UINT iComIdx = 0;
@@ -365,6 +367,8 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	// 자식 오브젝트인 경우 Layer 소속 읽기
 	if (0 != _iDepth)
 		FRead(m_iLayer, _pFile);
+
+	FRead(m_iTag, _pFile);
 
 	// 컴포넌트 정보
 	UINT iComIdx = (UINT)E_ComponentType::End;
