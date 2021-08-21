@@ -2,6 +2,8 @@
 #include "PrefabGUI.h"
 #include <Engine\CPrefab.h>
 #include <Engine\CResourceManager.h>
+#include "CImGuiManager.h"
+#include "InspectorGUI.h"
 
 PrefabGUI::PrefabGUI() :
 	ResourceGUI(E_ResourceType::Prefab),
@@ -19,6 +21,17 @@ void PrefabGUI::Update()
 		return;
 
 	CPrefab* pPrefab = (CPrefab*)GetTargetResource();
+
+	if (ImGui::Button("Del##PrefabDelete")) {
+		CResourceManager::GetInstance()->DeleteCustomResourceEvn(pPrefab->GetKey(), pPrefab->GetResourceType());
+
+		tstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+		strFilePath += pPrefab->GetRelativePath();
+		_tremove(strFilePath.c_str());
+		InspectorGUI* pInspectorGUI = (InspectorGUI * )CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
+		pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
+	}
+
 	tstring tstrName = pPrefab->GetProtoObj()->GetName();
 	string strName;
 	TStringToString(tstrName, strName);

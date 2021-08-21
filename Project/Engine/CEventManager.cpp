@@ -142,6 +142,16 @@ void CEventManager::_Excute(const TEvent& _event)
 			delete pstrKey;
 	}
 		break;
+	case E_EventType::Remove_Resource: {
+		// lparam : tstring resource Key
+		// wparam : E_ResourceType resource Type
+		tstring* pStrResourceKey = (tstring*)_event.lparam;
+		E_ResourceType eResourceType = (E_ResourceType)_event.wparam;
+		CResourceManager::GetInstance()->_DeleteCustomResource(*pStrResourceKey, eResourceType);
+		
+		if (pStrResourceKey) delete pStrResourceKey;
+	}
+		break;
 	case E_EventType::Change_State: {
 	}
 		break;
@@ -176,6 +186,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Destroy_Object:
 	case E_EventType::Change_State:
 	case E_EventType::Remove_Material:
+	case E_EventType::Remove_Resource:
 	case E_EventType::Destroy_Script:
 	//case E_EventType::Change_SceneMode:
 	case E_EventType::Change_GameObject_And_Childs_Layer:

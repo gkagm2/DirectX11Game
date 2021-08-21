@@ -10,6 +10,7 @@ CGirderScript_ca
 CKeyControllerScript_ca
 CLaserScript_ca
 CModuleScript_ca
+CMouseCollision2DScript
 CObjectDragAndDropScript_ca
 CPlayerScript_ca
 CPlayerScript_sh

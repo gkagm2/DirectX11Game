@@ -14,9 +14,16 @@ CCore::CCore() :
 	m_hWnd(nullptr),
 	m_vWindowResolution{}
 {
+#ifdef _DEBUG
+	AllocConsole(); // 콘솔창 생성
+	//_tcprintf(_T("Test"); // Using
+#endif
 }
 
 CCore::~CCore() {
+
+#ifdef _DEBUG
+#endif
 }
 
 int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution)

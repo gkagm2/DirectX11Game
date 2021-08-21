@@ -10,6 +10,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CLayer.h"
+#include "CScript.h"
 
 
 CCollisionManager::CCollisionManager()
@@ -66,28 +67,28 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 					// 둘 중 하나라도 삭제 예정 상태일 경우
 					if (vecLeft[l]->IsDead() || vecRight[r]->IsDead()) {
 						// 충돌을 벗어난다.
-						vecLeft[l]->Collider2D()->OnCollisionExit(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionExit(vecLeft[l]->Collider2D());
+						vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
+						vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
 						iter->second = false;
 					}
 					else {
-						vecLeft[l]->Collider2D()->OnCollisionStay(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionStay(vecLeft[l]->Collider2D());
+						vecLeft[l]->Collider2D()->OnCollisionStay2D(vecRight[r]->Collider2D());
+						vecRight[r]->Collider2D()->OnCollisionStay2D(vecLeft[l]->Collider2D());
 					}
 				}
 				else {
 					// 둘다 삭제 예정이 아니고 처음 충돌 시 
 					if (!vecLeft[l]->IsDead() && !vecRight[r]->IsDead()) {
-						vecLeft[l]->Collider2D()->OnCollisionEnter(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionEnter(vecLeft[l]->Collider2D());
+						vecLeft[l]->Collider2D()->OnCollisionEnter2D(vecRight[r]->Collider2D());
+						vecRight[r]->Collider2D()->OnCollisionEnter2D(vecLeft[l]->Collider2D());
 						iter->second = true;
 					}
 				}
 			}
 			else { // 충돌하지 않았을 경우
 				if (iter->second) { // 이전에 충돌했을 경우
-					vecLeft[l]->Collider2D()->OnCollisionExit(vecRight[r]->Collider2D());
-					vecRight[r]->Collider2D()->OnCollisionExit(vecLeft[l]->Collider2D());
+					vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
+					vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
 					iter->second = false;
 				}
 			}

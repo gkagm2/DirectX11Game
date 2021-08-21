@@ -13,6 +13,7 @@
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CModuleScript_ca.h"
+#include "CMouseCollision2DScript.h"
 #include "CObjectDragAndDropScript_ca.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
@@ -33,6 +34,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CModuleScript_ca");
+	_vec.push_back(L"CMouseCollision2DScript");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
@@ -66,6 +68,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLaserScript_ca;
 	if (L"CModuleScript_ca" == _strScriptName)
 		return new CModuleScript_ca;
+	if (L"CMouseCollision2DScript" == _strScriptName)
+		return new CMouseCollision2DScript;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
 	if (L"CPlayerScript_ca" == _strScriptName)
@@ -118,6 +122,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MODULESCRIPT_CA:
 		return new CModuleScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::MOUSECOLLISION2DSCRIPT:
+		return new CMouseCollision2DScript;
 		break;
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
@@ -188,6 +195,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MODULESCRIPT_CA:
 		return L"CModuleScript_ca";
+		break;
+
+	case SCRIPT_TYPE::MOUSECOLLISION2DSCRIPT:
+		return L"CMouseCollision2DScript";
 		break;
 
 	case SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:

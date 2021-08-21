@@ -10,6 +10,7 @@ enum class E_EventType {
 	Unlink_Parent,
 	Change_Scene,
 	Remove_Material,
+	Remove_Resource,
 	Change_State, // AI 상태 변환
 	Change_GameObject_And_Childs_Layer,
 

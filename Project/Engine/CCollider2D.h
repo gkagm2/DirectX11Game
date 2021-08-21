@@ -1,7 +1,7 @@
 #pragma once
 #include "CCollider.h"
 
-class CCollider2D : public CCollider
+class CCollider2D : public CCollider, public ICollision2DInterface
 {
 protected:
 	Vector2 m_vOffsetPosition;
@@ -19,9 +19,9 @@ private:
 	virtual void UpdateData() override;
 
 public:
-	virtual void OnCollisionEnter(CCollider2D* _pOther);
-	virtual void OnCollisionStay(CCollider2D* _pOther);
-	virtual void OnCollisionExit(CCollider2D* _pOther);
+	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override;
+	virtual void OnCollisionStay2D(CCollider2D* _pOther) override;
+	virtual void OnCollisionExit2D(CCollider2D* _pOther) override;
 	
 protected:
 	void SetMesh(const SharedPtr<CMesh>& _pMesh) { m_pMesh = _pMesh; }

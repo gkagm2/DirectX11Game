@@ -43,6 +43,12 @@
     <Filter Include="Games\CaptainForever\CameraFollower">
       <UniqueIdentifier>{a6d5108b-55ae-4a6f-8eb2-ed67941f05f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Functions">
+      <UniqueIdentifier>{1ab025ea-1022-42d7-81b4-161fc04c9e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions\MouseCollision2D">
+      <UniqueIdentifier>{9f520fff-4404-4584-866d-cd8684d21016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -103,6 +109,9 @@
     <ClInclude Include="CCameraFollowerScript.h">
       <Filter>Games\CaptainForever\CameraFollower</Filter>
     </ClInclude>
+    <ClInclude Include="CMouseCollision2DScript.h">
+      <Filter>Functions\MouseCollision2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -162,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="CCameraFollowerScript.cpp">
       <Filter>Games\CaptainForever\CameraFollower</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseCollision2DScript.cpp">
+      <Filter>Functions\MouseCollision2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

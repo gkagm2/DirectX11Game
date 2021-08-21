@@ -20,6 +20,10 @@ private:
 public:
 	virtual void FinalUpdate() final {}
 
+	virtual void OnCollisionEnter(CCollider2D* _pOther) {}
+	virtual void OnCollisionStay(CCollider2D* _pOther) {}
+	virtual void OnCollisionExit(CCollider2D* _pOther) {}
+
 	UINT GetScriptType() { return m_iScriptType; }
 
 public:

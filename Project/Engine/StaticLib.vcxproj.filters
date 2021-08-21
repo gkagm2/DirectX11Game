@@ -494,6 +494,9 @@
     <Filter Include="Engine\07. Component\Camera\Camera2D">
       <UniqueIdentifier>{32b1a89b-c501-4883-a945-754fcf17f0d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\11. Functions">
+      <UniqueIdentifier>{e00cb856-2862-4218-82c2-edbfe05ac8e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">

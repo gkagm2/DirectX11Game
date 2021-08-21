@@ -4,6 +4,7 @@
 #include "CConstBuffer.h"
 #include "CDevice.h"
 #include "CTransform.h"
+#include "CScript.h"
 
 queue<CMaterial*> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
 
@@ -66,7 +67,7 @@ void CCollider2D::UpdateData()
 	pCB->UpdateData(E_ShaderStage::Vertex);
 }
 
-void CCollider2D::OnCollisionEnter(CCollider2D* _pOther)
+void CCollider2D::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	// 카운트가 0인 상태면
 	if (m_iCollisionCount == 0) {
@@ -82,19 +83,29 @@ void CCollider2D::OnCollisionEnter(CCollider2D* _pOther)
 		m_pMaterial->SetData(E_ShaderParam::Int_0, &iConnectColor);
 	}
 	IncreaseCollisionCnt();
+
+	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
+	for (UINT i = 0; i < vecScripts.size(); ++i)
+		vecScripts[i]->OnCollisionEnter2D(_pOther);
 }
 
-void CCollider2D::OnCollisionStay(CCollider2D* _pOther)
+void CCollider2D::OnCollisionStay2D(CCollider2D* _pOther)
 {
+	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
+	for (UINT i = 0; i < vecScripts.size(); ++i)
+		vecScripts[i]->OnCollisionStay2D(_pOther);
 }
 
-void CCollider2D::OnCollisionExit(CCollider2D* _pOther)
+void CCollider2D::OnCollisionExit2D(CCollider2D* _pOther)
 {
 	DecreaseCollisionCnt();
 	if (0 == m_iCollisionCount) {
 		g_queCollisionMtrl.push(m_pMaterial.Get());
 		m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
 	}
+	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
+	for (UINT i = 0; i < vecScripts.size(); ++i)
+		vecScripts[i]->OnCollisionExit2D(_pOther);
 }
 
 bool CCollider2D::SaveToScene(FILE* _pFile)

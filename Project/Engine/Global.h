@@ -9,6 +9,10 @@
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 
+#ifdef _DEBUG
+#include <conio.h> // Console screen
+#endif
+
 
 #include <vector>
 using std::vector;

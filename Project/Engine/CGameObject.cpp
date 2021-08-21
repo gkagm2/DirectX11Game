@@ -320,11 +320,6 @@ CComponent* CGameObject::GetComponent(E_ComponentType _eType)
 	return m_arrComponent[(UINT)_eType];
 }
 
-const vector<CScript*>& CGameObject::GetScripts()
-{
-	return m_vecScript;
-}
-
 bool CGameObject::SaveToScene(FILE* _pFile)
 {
 	CObject::SaveToScene(_pFile);

@@ -150,11 +150,17 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// 프리펩으로 만들기
 	if (ImGui::Button("Make Prefab##Make Prefab")) {
-		tstring strName = m_pTargetObject->GetName();
-		m_pTargetObject->RegisterAsPrefab(strName);
-		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(strName);
-		tstring strRelativePath = STR_FILE_PATH_Prefab + strName + _T(".pref");
+		tstring strFileName = m_pTargetObject->GetName() + _T(".pref");
+		m_pTargetObject->RegisterAsPrefab(strFileName);
+		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(strFileName);
+		tstring strRelativePath = STR_FILE_PATH_Prefab + strFileName;
 		pPrefab->Save(strRelativePath);
+	}
+
+	// 복사
+	if (ImGui::Button("Clone##Clone GameObject")) {
+		CGameObject* pCloneObj = m_pTargetObject->Clone();
+		CObject::CreateGameObjectEvn(pCloneObj, m_pTargetObject->GetLayer());
 	}
 
 	ImGui::Separator();

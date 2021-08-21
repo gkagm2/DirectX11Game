@@ -13,12 +13,20 @@
 #include "CLight2D.h"
 #include "CGameObject.h"
 
-class CScript : public CComponent
+class CScript : public CComponent, public ICollision2DInterface, public ICollision3DInterface
 {
 private:
 	UINT m_iScriptType;
 public:
 	virtual void FinalUpdate() final {}
+
+	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override {}
+	virtual void OnCollisionStay2D(CCollider2D* _pOther) override {}
+	virtual void OnCollisionExit2D(CCollider2D* _pOther) override {}
+
+	virtual void OnCollisionEnter(CCollider3D* _pOther) override {}
+	virtual void OnCollisionStay(CCollider3D* _pOther) override {}
+	virtual void OnCollisionExit(CCollider3D* _pOther) override {}
 
 	UINT GetScriptType() { return m_iScriptType; }
 

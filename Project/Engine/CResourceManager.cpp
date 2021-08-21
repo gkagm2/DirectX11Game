@@ -497,6 +497,16 @@ void CResourceManager::DeleteCopiedMaterialEvn(const tstring& _strKey)
 	CEventManager::GetInstance()->AddEvent(even);
 }
 
+void CResourceManager::DeleteCustomResourceEvn(const tstring& _strKey, E_ResourceType _eResourceType)
+{
+	TEvent even = {};
+	even.eType = E_EventType::Remove_Resource;
+	tstring* pStrKey = new tstring(_strKey);
+	even.lparam = (DWORD_PTR)pStrKey;
+	even.wparam = (DWORD_PTR)_eResourceType;
+	CEventManager::GetInstance()->AddEvent(even);
+}
+
 void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
 {
 	// 복사된 메터리얼에서 찾기.
@@ -539,6 +549,63 @@ void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
 	}
 }
 
+bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType)
+{
+	bool bIsDeleted = false; 
+	SharedPtr<CResource> pResource = nullptr;
+	switch (_eResourceType) {
+	case E_ResourceType::Prefab:
+		pResource = FindRes<CPrefab>(_strKey).Get();
+		break;
+	case E_ResourceType::Material:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CMaterial>(_strKey).Get();
+		break;
+	case E_ResourceType::GraphicsShader:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CGraphicsShader>(_strKey).Get();
+		break;
+	case E_ResourceType::ComputeShader:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CComputeShader>(_strKey).Get();
+		break;
+	case E_ResourceType::Mesh:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CMesh>(_strKey).Get();
+		break;
+	case E_ResourceType::Texture:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CTexture>(_strKey).Get();
+		break;
+	case E_ResourceType::Sound:
+		//pResource = FindRes<CSound>(_strKey).Get();
+			// TOOD : 해야 됨.
+		assert(nullptr && _T("미완성"));
+		return bIsDeleted;
+		break;
+	default:
+		assert(nullptr && _T("ResourceType : 알수없는 enum 값"));
+		return bIsDeleted;
+	}
+		
+	if (nullptr == pResource.Get())
+		return bIsDeleted;
+
+	// 존재할경우 삭제한다.
+
+	E_ResourceType eResourceType = pResource->GetResourceType();
+	auto iter = m_umapResource[(UINT)eResourceType].begin();
+	for (; iter != m_umapResource[(UINT)eResourceType].end(); ++iter) {
+		if ((*iter).first == _strKey) {
+			m_umapResource[(UINT)eResourceType].erase(iter);
+			bIsDeleted = true;
+			break;
+		}
+	}
+	m_bFixed = true;
+
+	return bIsDeleted;
+}
 
 void CResourceManager::GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut)
 {
