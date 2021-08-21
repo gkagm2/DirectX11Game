@@ -88,7 +88,7 @@ void CCamera::_SortObjects()
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 		if (m_iLayerCheck & (1 << i)) { // 체크된 레이어면
 			CLayer* pLayer = pCurScene->GetLayer(i);
 

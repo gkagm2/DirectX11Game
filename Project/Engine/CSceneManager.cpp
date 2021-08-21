@@ -101,9 +101,9 @@ void CSceneManager::ChangeScene(CScene* _pNextScene)
 	m_pCurScene = _pNextScene;
 }
 
-CGameObject* CSceneManager::FindGameObject(const tstring& _strName, E_Layer _eLayer)
+CGameObject* CSceneManager::FindGameObject(const tstring& _strName, UINT _iLayer)
 {
-	return GetCurScene()->FindGameObject(_strName, _eLayer);
+	return GetCurScene()->FindGameObject(_strName, _iLayer);
 }
 
 void CSceneManager::ChangeSceneModeEvt(E_SceneMode _eSceneMode)

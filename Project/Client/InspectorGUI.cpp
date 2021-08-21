@@ -177,7 +177,7 @@ void InspectorGUI::UpdateObjectGUI()
 			iSetLayer != -1) {
 			// 레이어를 바꾼다.
 			// 자신부터 자식까지 모두 바꾸기
-			CObject::ChangeLayerEvn(m_pTargetObject, (E_Layer)iSetLayer);
+			CObject::ChangeLayerEvn(m_pTargetObject, iSetLayer);
 		}
 		iSetLayer = -1;
 	}

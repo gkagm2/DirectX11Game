@@ -5,9 +5,9 @@
 
 CScene::CScene()
 {
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 		m_arrLayer[i] = new CLayer;
-		m_arrLayer[i]->m_eLayer = (E_Layer)i;
+		m_arrLayer[i]->m_iLayer = i;
 		m_arrLayer[i]->m_pOwnScene = this;
 	}
 }
@@ -21,7 +21,7 @@ void CScene::Awake()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Awake();
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->Awake();*/
 }
 
@@ -29,7 +29,7 @@ void CScene::Start()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Start();
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->Start();*/
 }
 
@@ -37,7 +37,7 @@ void CScene::PrevUpdate()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->PrevUpdate();
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->PrevUpdate();*/
 }
 
@@ -45,7 +45,7 @@ void CScene::Update()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Update();
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->Update();*/
 }
 
@@ -53,7 +53,7 @@ void CScene::LateUpdate()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->LateUpdate();
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->LateUpdate();*/
 }
 
@@ -70,20 +70,20 @@ void CScene::FinalUpdate()
 		else
 			++iter;
 	}
-	/*for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->FinalUpdate();*/
 }
 
-void CScene::_AddGameObject(CGameObject* _pObj, E_Layer _eLayer, bool _bChangeChildLayer)
+void CScene::_AddGameObject(CGameObject* _pObj, UINT _iLayer, bool _bChangeChildLayer)
 {
-	m_arrLayer[(UINT)_eLayer]->AddGameObject(_pObj, _bChangeChildLayer);
+	m_arrLayer[_iLayer]->AddGameObject(_pObj, _bChangeChildLayer);
 }
 
-CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
+CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 {
-	if (E_Layer::End != _eLayer) {
+	if (MAX_SIZE_LAYER != _iLayer) {
 		// 레이어의 모든 루트 오브젝트들을 가져온다.
-		const vector<CGameObject*>& vecGameObjects = m_arrLayer[(UINT)_eLayer]->GetRootGameObjects();
+		const vector<CGameObject*>& vecGameObjects = m_arrLayer[_iLayer]->GetRootGameObjects();
 
 		for (UINT i = 0; i < vecGameObjects.size(); ++i) {
 			// BFS를 이용하여 자식 오브젝트들을 순회하며 이름을 찾는다.
@@ -100,7 +100,7 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, E_Layer _eLayer)
 
 				const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
 				for (UINT j = 0; j < vecChildsObj.size(); ++j) {
-					if(_eLayer == vecChildsObj[j]->GetLayer())
+					if(_iLayer == vecChildsObj[j]->GetLayer())
 						que.push_back(vecChildsObj[j]);
 				}
 			}
@@ -135,7 +135,7 @@ void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
 {
 	_vecRootObjs.clear();
 	// Scene중에 최상위 오브젝트를 가져옴
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 		CLayer* pLayer = GetLayer(i);
 		const vector<CGameObject*>& vecLayerRootObj = pLayer->GetRootGameObjects();
 		for (UINT j = 0; j < vecLayerRootObj.size(); ++j) {
@@ -148,7 +148,7 @@ void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
 
 void CScene::_UnRegisterAllObjects()
 {
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->m_vecObj.clear();
 }
 
@@ -157,7 +157,7 @@ bool CScene::SaveToScene(FILE* _pFile)
 	CObject::SaveToScene(_pFile);
 
 	// Layer 정보
- 	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+ 	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->SaveToScene(_pFile);
 
 	return true;
@@ -167,7 +167,7 @@ bool CScene::LoadFromScene(FILE* _pFile)
 {
 	CObject::LoadFromScene(_pFile);
 
-	for (UINT i = 0; i < (UINT)E_Layer::End; ++i)
+	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 		m_arrLayer[i]->LoadFromScene(_pFile);
 	GetRootGameObjects(m_vecRootObjs);
 	return true;

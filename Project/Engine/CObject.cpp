@@ -25,20 +25,20 @@ CObject::~CObject()
 {
 }
 
-void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
+void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, UINT _iLayer)
 {
     TEvent even = {};
     even.eType = E_EventType::Create_GameObject;
     even.lparam = (DWORD_PTR)_pTargetObj;
-    even.wparam = (int)_eLayer;
+    even.wparam = (DWORD_PTR)_iLayer;
 
     CEventManager::GetInstance()->AddEvent(even);
 }
 
-void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWorldPos, E_Layer _eLayer)
+void CObject::CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWorldPos, UINT _iLayer)
 {
     _pTargetObj->Transform()->SetLocalPosition(_vWorldPos);
-    CreateGameObjectEvn(_pTargetObj, _eLayer);
+    CreateGameObjectEvn(_pTargetObj, _iLayer);
 }
 
 void CObject::DestroyGameObjectEvn(CGameObject* _pTargetObj)
@@ -83,17 +83,17 @@ void CObject::UnlinkParentGameObjectEvn(CGameObject* _pChildObj)
     CEventManager::GetInstance()->AddEvent(even);
 }
 
-void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer)
+void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer)
 {
-    CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _eLayer);
+    CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _iLayer);
 }
 
-void CObject::ChangeLayerEvn(CGameObject* _pTargetObj, E_Layer _eLayer)
+void CObject::ChangeLayerEvn(CGameObject* _pTargetObj, UINT _iLayer)
 {
     TEvent even = {};
     even.eType = E_EventType::Change_GameObject_And_Childs_Layer;
     even.lparam = (DWORD_PTR)_pTargetObj;
-    even.wparam = (DWORD_PTR)_eLayer;
+    even.wparam = (DWORD_PTR)_iLayer;
     CEventManager::GetInstance()->AddEvent(even);
 }
 

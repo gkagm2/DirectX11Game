@@ -4,6 +4,7 @@ class CMouseCollision2DScript : public CScript
 {
 private:
 	list<CGameObject*> m_listHitObjs;
+	CGameObject* m_pTargetObj;
 
 	virtual void Awake() override;
 	virtual void Start() override;

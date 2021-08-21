@@ -16,16 +16,16 @@ private:
 public:
 	virtual void UpdateData() {}
 
-	static void CreateGameObjectEvn(CGameObject* _pTargetObj, E_Layer _eLayer = E_Layer::End);
-	static void CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWorldPos, E_Layer _eLayer = E_Layer::End);
+	static void CreateGameObjectEvn(CGameObject* _pTargetObj, UINT _iLayer = MAX_SIZE_LAYER);
+	static void CreateGameObjectEvn(CGameObject* _pTargetObj, const Vector3& _vWorldPos, UINT _iLayer = MAX_SIZE_LAYER);
 	static void DestroyGameObjectEvn(CGameObject* _pTargetObj);
 	static void DestroyObjectEvn(CObject* _pTargetObj);
 	static void DestroyScriptEvn(CGameObject* _pTargetObj, CScript* _deleteScript);
 
 	static void AddChildGameObjectEvn(CGameObject* _pParent, CGameObject* _pChild);
 	static void UnlinkParentGameObjectEvn(CGameObject* _pChildObj);
-	static void InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, E_Layer _eLayer = E_Layer::Default);
-	static void ChangeLayerEvn(CGameObject* _pTargetObj, E_Layer _eLayer);
+	static void InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer = 0);
+	static void ChangeLayerEvn(CGameObject* _pTargetObj, UINT _iLayer);
 
 	static void ChangeStateEvn(); // 상태가 바뀌면
 

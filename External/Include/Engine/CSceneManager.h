@@ -30,7 +30,7 @@ public:
 	CScene* GetCurScene() { return m_pCurScene; }
 	
 
-	CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
+	CGameObject* FindGameObject(const tstring& _strName, UINT _iLayer = MAX_SIZE_LAYER);
 	E_SceneMode GetSceneMode() { return m_eSceneMode; }
 
 	void ChangeSceneModeEvt(E_SceneMode _eSceneMode); // 현재 씬의 모드 변경

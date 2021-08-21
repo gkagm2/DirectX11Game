@@ -224,5 +224,5 @@ void MainMenuGUI::CreateEmptyGameObject()
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
-    CObject::CreateGameObjectEvn(pNewGameObject, E_Layer::Default);
+    CObject::CreateGameObjectEvn(pNewGameObject, 0);
 }

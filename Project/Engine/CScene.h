@@ -7,7 +7,7 @@ class CGameObject;
 class CScene : public CObject, ILifeCycleInterface
 {
 private:
-    CLayer* m_arrLayer[(UINT)E_Layer::End];
+    CLayer* m_arrLayer[MAX_SIZE_LAYER];
     vector<CGameObject*> m_vecRootObjs;
 
 public:
@@ -20,14 +20,13 @@ public:
     virtual void Render() override {};
 
 public:
-    CGameObject* FindGameObject(const tstring& _strName, E_Layer _eLayer = E_Layer::End);
+    CGameObject* FindGameObject(const tstring& _strName, UINT _iLayer = MAX_SIZE_LAYER);
     void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs);
 
-    CLayer* GetLayer(E_Layer _eLayer) { return m_arrLayer[(UINT)_eLayer]; }
-    CLayer* GetLayer(UINT _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
+    CLayer* GetLayer(UINT _iLayer) { return m_arrLayer[_iLayer]; }
 
 private:
-    void _AddGameObject(CGameObject* _pObj, E_Layer _eLayer = E_Layer::Default, bool _bChangeChildLayer = true);
+    void _AddGameObject(CGameObject* _pObj, UINT _iLayer = 0, bool _bChangeChildLayer = true);
     void _UnRegisterAllObjects();
 
 public:

@@ -27,7 +27,7 @@
 CGameObject::CGameObject() :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
-	m_eLayer(E_Layer::End),
+	m_iLayer(MAX_SIZE_LAYER),
 	m_bDead(false)
 {
 }
@@ -36,7 +36,7 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	CObject(_origin),
 	m_arrComponent{},
 	m_pParentObj(nullptr),
-	m_eLayer(E_Layer::End),
+	m_iLayer(MAX_SIZE_LAYER),
 	m_bDead(false)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
@@ -204,7 +204,7 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 		return;
 	
 	// 자식 오브젝트가 최상위 오브젝트인 경우
-	if (nullptr == _pChildObj->GetParentObject() && E_Layer::End != _pChildObj->GetLayer()) {
+	if (nullptr == _pChildObj->GetParentObject() && MAX_SIZE_LAYER != _pChildObj->GetLayer()) {
 		if (_pChildObj->GetLayer() == GetLayer()) {
 			// 레이어의 Root들의 오브젝트를 저장하는걸 해제
 			CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(_pChildObj->GetLayer());
@@ -221,13 +221,13 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 
 
 	// 소속된 레이어가 없으면 부모 오브젝트의 레이어로 설정.
-	if (E_Layer::End == _pChildObj->GetLayer())
+	if (MAX_SIZE_LAYER == _pChildObj->GetLayer())
 		_pChildObj->_SetLayer(GetLayer());
 }
 
 void CGameObject::_RegisterLayer()
 {
-	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_eLayer);
+	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_iLayer);
 	pLayer->RegisterGameObject(this);
 }
 
@@ -326,7 +326,7 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 
 	// 자식 오브젝트일 경우
 	if (GetParentObject())
-		FWrite(m_eLayer, _pFile);
+		FWrite(m_iLayer, _pFile);
 	
 	// 컴포넌트
 	UINT iComIdx = 0;
@@ -364,7 +364,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 
 	// 자식 오브젝트인 경우 Layer 소속 읽기
 	if (0 != _iDepth)
-		FRead(m_eLayer, _pFile);
+		FRead(m_iLayer, _pFile);
 
 	// 컴포넌트 정보
 	UINT iComIdx = (UINT)E_ComponentType::End;

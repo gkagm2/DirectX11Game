@@ -55,8 +55,8 @@ void CEventManager::_Excute(const TEvent& _event)
 		assert(pCurScene);
 		CGameObject* pNewGameObject = (CGameObject*)_event.lparam;
 		assert(pNewGameObject);
-		int iLayer = (int)_event.wparam;
-		pCurScene->_AddGameObject(pNewGameObject, (E_Layer)iLayer);
+		UINT iLayer = (UINT)_event.wparam;
+		pCurScene->_AddGameObject(pNewGameObject, iLayer);
 		m_vecCreateObj.push_back(pNewGameObject);
 	}
 									   break;
@@ -78,8 +78,8 @@ void CEventManager::_Excute(const TEvent& _event)
 			assert(pCurScene);
 			CGameObject* pNewGameObject = (CGameObject*)_event.lparam;
 			assert(pNewGameObject);
-			int iLayer = (int)_event.wparam;
-			pCurScene->_AddGameObject(pNewGameObject, (E_Layer)iLayer);
+			UINT iLayer = (UINT)_event.wparam;
+			pCurScene->_AddGameObject(pNewGameObject, iLayer);
 			m_vecCreateObj.push_back(pNewGameObject);
 		}
 	}
@@ -124,7 +124,7 @@ void CEventManager::_Excute(const TEvent& _event)
 
 		// 최상위 부모로 레이어에 등록.
 		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
-		CLayer* pCurLayer = pCurScene->GetLayer(pChild->m_eLayer);
+		CLayer* pCurLayer = pCurScene->GetLayer(pChild->m_iLayer);
 		pCurLayer->_RegisterInRootGameObject(pChild);
 	}
 		break;

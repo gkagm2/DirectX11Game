@@ -23,7 +23,9 @@ private:
 	vector<CGameObject*> m_vecChildObj;
 	vector<CScript*> m_vecScript;
 
-	E_Layer m_eLayer;
+	UINT m_iLayer;
+	UINT m_iTag;
+
 	bool m_bDead;
 
 public:
@@ -43,14 +45,16 @@ public:
 	void RegisterAsPrefab(const tstring& _strName = _T(""));
 
 public:
-	E_Layer GetLayer() { return m_eLayer; }
+	UINT GetLayer() { return m_iLayer; }
+	void SetTag(UINT _iTag) { m_iTag = _iTag; }
+	UINT GetTag() { return m_iTag; }
 	bool IsDead() { return m_bDead; }
 
 	CGameObject* GetParentObject() { return m_pParentObj; }
 	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 
 private:
-	void _SetLayer(E_Layer _eLayer) { m_eLayer = _eLayer; }
+	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }
 	void _SetDead();
 	void _AddChildGameObject(CGameObject* _pChildObj);
 	void _RegisterLayer();

@@ -70,7 +70,7 @@ void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 	Vector3 vPlayerScale = Transform()->GetLocalScale();
 	Vector3 vMuzzlePos = vPlayerPos;
 
- 	InstantiateEvn(m_pMissilePrefab, vPlayerPos, E_Layer::Bullet);
+ 	InstantiateEvn(m_pMissilePrefab, vPlayerPos, 4);
 	//CGameObject* pBulletObj = new CGameObject;
 	//pBulletObj->AddComponent<CTransform>();
 	//pBulletObj->AddComponent<CMeshRenderer>();
@@ -96,7 +96,7 @@ void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 	//pBullet->SetDirection(vDirPos);
 	//pBullet->SetBulletSpeed(800.f);
 
-	//CreateGameObjectEvn(pBulletObj, E_Layer::Bullet);
+	//CreateGameObjectEvn(pBulletObj, 4);
 }
 
 void CPlayerScript_sh::Move()

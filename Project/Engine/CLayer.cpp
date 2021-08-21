@@ -7,7 +7,7 @@
 
 CLayer::CLayer() :
 	m_pOwnScene(nullptr),
-	m_eLayer(E_Layer::Default)
+	m_iLayer(0)
 {
 }
 
@@ -63,11 +63,11 @@ void CLayer::FinalUpdate()
 
 void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 {
-	assert(!(m_eLayer == _pObj->GetLayer()) && _T("오브젝트를 이미 속한 동일 레이어로 다시 넣었습니다."));
+	assert(!(m_iLayer == _pObj->GetLayer()) && _T("오브젝트를 이미 속한 동일 레이어로 다시 넣었습니다."));
 
 
 	// _pObj가 다른 Layer의 최상위 부모로 속해있었던 경우
-	if (0 <= (int)_pObj->GetLayer() && (int)_pObj->GetLayer() < (int)E_Layer::End) {
+	if (0 <= (int)_pObj->GetLayer() && (int)_pObj->GetLayer() < MAX_SIZE_LAYER) {
 		m_pOwnScene->GetLayer(_pObj->GetLayer())->_ResignGameObject(_pObj);
 	}
 
@@ -82,8 +82,8 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 
 		// 자식 오브젝트도 현재 레이어 소속으로 변경
 		// 자식 오브젝트는 기존 레이어를 유지(but, 무소속인 상태인 경우 부모를 따라게 함)
-		if (_bChangeChildLayer || E_Layer::End == pObj->GetLayer())
-			pObj->_SetLayer(m_eLayer);
+		if (_bChangeChildLayer || MAX_SIZE_LAYER == pObj->GetLayer())
+			pObj->_SetLayer(m_iLayer);
 
 		for (UINT i = 0; i < pObj->m_vecChildObj.size(); ++i)
 			que.push_back(pObj->m_vecChildObj[i]);
@@ -125,7 +125,7 @@ void CLayer::_ResignRecursive(CGameObject* _pObj) {
 
 	// 자식들 모두가 End로 초기화 되었으면
 	for (UINT i = 0; i < vecChilds.size(); ++i) {
-		if (E_Layer::End != vecChilds[i]->GetLayer()) {
+		if (MAX_SIZE_LAYER != vecChilds[i]->GetLayer()) {
 			_ResignRecursive(vecChilds[i]); // 자식껄로 재귀함수 호출
 		}
 	}
@@ -145,7 +145,7 @@ void CLayer::_ResignRecursive(CGameObject* _pObj) {
 					break;
 				}
 			}
-			_pObj->_SetLayer(E_Layer::End);
+			_pObj->_SetLayer(MAX_SIZE_LAYER);
 		}
 	}
 	else { // 부모가 존재하지 않으면
@@ -160,7 +160,7 @@ void CLayer::_ResignRecursive(CGameObject* _pObj) {
 			}
 		}
 	}
-	_pObj->_SetLayer(E_Layer::End);
+	_pObj->_SetLayer(MAX_SIZE_LAYER);
 }
 
 void CLayer::_ResignGameObject(CGameObject* _pObj)
@@ -177,7 +177,7 @@ void CLayer::_ResignGameObject(CGameObject* _pObj)
 		que.pop_front();
 
 		// 부모 포함해서 자식 모두 레이어에서 해제된다.
-		pObj->_SetLayer(E_Layer::End);
+		pObj->_SetLayer(MAX_SIZE_LAYER);
 		
 		for (UINT i = 0; i < pObj->m_vecChildObj.size(); ++i)
 			que.push_back(pObj->m_vecChildObj[i]);

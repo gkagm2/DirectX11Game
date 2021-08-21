@@ -44,7 +44,7 @@ void PrefabGUI::Update()
 	// InGame에 추가하기
 	if (ImGui::Button("Add In game")) {
 		CPrefab* pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(GetTargetResource()->GetKey()).Get();
-		CObject::InstantiateEvn(pPrefab, m_iRespawnPos, (E_Layer)m_iLayer);
+		CObject::InstantiateEvn(pPrefab, m_iRespawnPos, m_iLayer);
 	}
 
 	End();

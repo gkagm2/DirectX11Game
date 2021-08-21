@@ -23,8 +23,8 @@ CCollisionManager::~CCollisionManager()
 
 void CCollisionManager::Update()
 {
-	for (UINT iRow = 0; iRow < (UINT)E_Layer::End; ++iRow) {
-		for (UINT iCol = 0; iCol < (UINT)E_Layer::End; ++iCol) {
+	for (UINT iRow = 0; iRow < MAX_SIZE_LAYER; ++iRow) {
+		for (UINT iCol = 0; iCol < MAX_SIZE_LAYER; ++iCol) {
 #pragma region Bit flag version
 			// arrLayerFlag[iRow] & ( 1 << iCol ) => iRow라인에 iCol자리 비트가 1인지 체크  
 #pragma endregion
@@ -144,14 +144,11 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 	}
 }
 
-void CCollisionManager::SetOnOffCollision(E_Layer _eLayerOne, E_Layer _eLayerTwo, bool _bIsOn)
+void CCollisionManager::SetOnOffCollision(UINT _iLayerOne, UINT _iLayerTwo, bool _bIsOn)
 {
-	UINT iLeft = (UINT)_eLayerOne;
-	UINT iRight = (UINT)_eLayerTwo;
-
 	// Flag의(행렬) 반절만 이용하면 되므로 행을 더 작은값으로 변환
-	UINT iRow = iLeft < iRight ? iLeft : iRight;
-	UINT iCol = iLeft > iRight ? iLeft : iRight;
+	UINT iRow = _iLayerOne < _iLayerTwo ? _iLayerOne : _iLayerTwo;
+	UINT iCol = _iLayerOne > _iLayerTwo ? _iLayerOne : _iLayerTwo;
 
 	if (_bIsOn)
 		m_bitsetCollisionGroup[iRow].set(iCol); // iRow칸의 iCol의 비트를 1로 세팅

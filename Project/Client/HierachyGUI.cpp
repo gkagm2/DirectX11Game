@@ -73,7 +73,7 @@ void HierachyGUI::_RenewTreeView()
 	}
 
 	//// 오브젝트 추가
-	//for (UINT i = 0; i < (UINT)E_Layer::End; ++i) {
+	//for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 	//	CLayer* pLayer = pCurScene->GetLayer(i);
 
 	//	const vector<CGameObject*>& vecRootObjs = pLayer->GetRootGameObjects();

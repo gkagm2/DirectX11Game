@@ -159,27 +159,28 @@ enum class E_ComponentType {
 
 
 #define MAX_SIZE_LAYER 32
+#define MAX_SIZE_TAG 32
 
 // TODO (Jang) : 환경설정 파일을 따로 만들어볼까
-#define _SHOOTING_GAME
-#if defined(_SHOOTING_GAME)
-enum class E_Layer {
-	Default,
-	Manager,
-	Player,
-	Enemy,
-	Bullet,
-	UI,
-	End = MAX_SIZE_LAYER,
-};
-#elif defined(_SHOOTING_GAME)
-enum class E_Layer {
-	Default,
-	Manager,
-	UI,
-	End = MAX_SIZE_LAYER,
-};
-#endif
+
+#define _CAPTAIN_FOREVER_GAME
+//
+//enum class E_Layer {
+//	Default,
+//#if defined(_SHOOTING_GAME)
+//	Manager, // 1
+//	Player, // 2
+//	Enemy, // 3
+//	Bullet,// 4
+//#elif defined(_SHOOTING_GAME)
+//	Manager,// 1
+//#elif defined(_CAPTAIN_FOREVER_GAME)
+//	Module,//1
+//	Manager,//2
+//#endif
+//	UI,//31
+//	End = MAX_SIZE_LAYER,
+//};
 
 enum class E_ProjectionType {
 	Perspective,

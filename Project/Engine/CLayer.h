@@ -11,7 +11,7 @@ private:
 	CScene* m_pOwnScene;
 	vector<CGameObject*> m_vecRootObj; // 레이어의 최상위 부모들 ( 레이어가 다른 부모가 존재하는 오브젝트도 포함)
 	vector<CGameObject*> m_vecObj;	// 모든 오브젝트 ( 렌더링을 위해 존재)
-	E_Layer m_eLayer;
+	UINT m_iLayer;
 
 public:
 	virtual void Awake() final;
