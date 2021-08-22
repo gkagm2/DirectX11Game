@@ -41,14 +41,15 @@ enum class E_ModuleType_ca {
 };
 
 struct TModuleConnectPoint_ca {
-	Vector3 vPosition;	// 연결 위치
+	Vector3 vPosition;	// 연결 위치 (object coordination position)
 	Vector3 vDirection;	// 연결 방향
+	bool bIsMain;		// Main 연결구
 };
 
 class CModuleScript_ca : public CScript
 {
 private:
-	vector<TModuleConnectPoint_ca> m_vecPartsConnectPoint;
+	vector<TModuleConnectPoint_ca> m_vecModuleConnectPoint;
 
 	CGameObject* m_pParentModuleGameObj;
 	vector<CGameObject*> m_pChildModuleGameObj;
@@ -71,10 +72,23 @@ public:
 	float GetHp() { return m_fHp; }
 	void SetHp(float _fHp) { m_fHp = _fHp; }
 
+
+	const vector<TModuleConnectPoint_ca>& GetConnectPoints() { return m_vecModuleConnectPoint; }
+
+	// 연결당하는 위치
+	const Vector3& FindNearestConnectionPosition(const Vector3& _vPositon);
+	// 연결하는 위치
+	const Vector3& GetMainConnectionPosition();
+
 public:
 	virtual void InitModule(E_ModuleLevel_ca _eLevel) {};
 	/*void ConnectPart(CGameObject _pPart, TPartConnectPoint_ca _tConnectPoint);
 	void DisconnectPart();*/
+
+protected:
+	void AddModuleConnectPoint(const TModuleConnectPoint_ca& _tModuleConnectPoint) { m_vecModuleConnectPoint.push_back(_tModuleConnectPoint); }
+protected:
+	void _ClearModuleConnectPoint() { m_vecModuleConnectPoint.clear(); }
 
 public:
 	CLONE(CModuleScript_ca);

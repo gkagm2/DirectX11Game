@@ -52,6 +52,9 @@
     <Filter Include="Games\CaptainForever\GameManager">
       <UniqueIdentifier>{6662231c-9fee-4e3d-bad0-3bbef1e43f51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\CaptainForever\Container">
+      <UniqueIdentifier>{6f6960f4-e3f6-404b-bf75-010024f8d881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -112,11 +115,11 @@
     <ClInclude Include="CCameraFollowerScript.h">
       <Filter>Games\CaptainForever\CameraFollower</Filter>
     </ClInclude>
-    <ClInclude Include="CMouseCollision2DScript.h">
-      <Filter>Functions\MouseCollision2D</Filter>
-    </ClInclude>
     <ClInclude Include="CGameManager_ca.h">
       <Filter>Games\CaptainForever\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CManagerContainer_ca.h">
+      <Filter>Games\CaptainForever\Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,11 +181,11 @@
     <ClCompile Include="CCameraFollowerScript.cpp">
       <Filter>Games\CaptainForever\CameraFollower</Filter>
     </ClCompile>
-    <ClCompile Include="CMouseCollision2DScript.cpp">
-      <Filter>Functions\MouseCollision2D</Filter>
-    </ClCompile>
     <ClCompile Include="CGameManager_ca.cpp">
       <Filter>Games\CaptainForever\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CManagerContainer_ca.cpp">
+      <Filter>Games\CaptainForever\Container</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

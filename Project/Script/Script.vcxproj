@@ -182,8 +182,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGirderScript_ca.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
+    <ClInclude Include="CManagerContainer_ca.h" />
     <ClInclude Include="CModuleScript_ca.h" />
-    <ClInclude Include="CMouseCollision2DScript.h" />
     <ClInclude Include="CPlayerScript_ca.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
     <ClInclude Include="CRotateZScript.h" />
@@ -206,8 +206,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGirderScript_ca.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
+    <ClCompile Include="CManagerContainer_ca.cpp" />
     <ClCompile Include="CModuleScript_ca.cpp" />
-    <ClCompile Include="CMouseCollision2DScript.cpp" />
     <ClCompile Include="CPlayerScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
     <ClCompile Include="CRotateZScript.cpp" />

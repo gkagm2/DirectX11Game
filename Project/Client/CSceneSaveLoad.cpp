@@ -153,6 +153,8 @@ CScript* CSceneSaveLoad::LoadScript(FILE* _pFile)
 	LoadStringFromFile(strScriptName, _pFile);
 
 	CScript* pScript = CScriptMgr::GetScript(strScriptName);
+	if (nullptr == pScript)
+		return nullptr;
 	pScript->LoadFromScene(_pFile);
 	return pScript;
 }

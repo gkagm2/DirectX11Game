@@ -422,7 +422,12 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	m_vecScript.clear();
 	for (UINT i = 0; i < iScriptCount; ++i) {
 		CScript* pScript = CSceneManager::GetInstance()->m_pLoadScript(_pFile);
-		AddComponent(pScript);
+		if (nullptr == pScript) {
+			_tcprintf(_T("[Error] Script Data를 찾을 수 없음"));
+		}
+		else {
+			AddComponent(pScript);
+		}
 	}
 		
 	// 자식 정보

@@ -24,8 +24,6 @@
 #define FIND_GameObject_Layer(objName, layer) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer)
 #define FIND_GameObject(objName) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName)
 
-#define DBUG CDebugManager::GetInstance()
-
 // Math
 #define PI 3.14159265f
 

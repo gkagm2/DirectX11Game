@@ -43,7 +43,7 @@ void CCamera::FinalUpdate()
 	CRenderManager::GetInstance()->RegisterCamera(this);
 }
 
-const Vector3& CCamera::GetScreenToWorld2DPosition()
+const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 {
 	// orthographic일경우에만 사용 가능 
 	if (E_ProjectionType::Perspective == GetProjectionType())
@@ -52,12 +52,12 @@ const Vector3& CCamera::GetScreenToWorld2DPosition()
 	Vector3 vWorldPos = Transform()->GetPosition();
 	Vector2 vScreenHalfSize = CCore::GetInstance()->GetWindowResolution();
 	vScreenHalfSize /= 2.f;
-	Vector2& vMousePos = MousePosition;
-	vMousePos.x = (-vScreenHalfSize.x + vMousePos.x) *GetSize();
-	vMousePos.y = (vScreenHalfSize.y - vMousePos.y) * GetSize();
+	Vector2 vPos;
+	vPos.x = (-vScreenHalfSize.x + _vPosition.x) * GetSize();
+	vPos.y = (vScreenHalfSize.y - _vPosition.y) * GetSize();
 
-	vWorldPos.x = vWorldPos.x + vMousePos.x;
-	vWorldPos.y = vWorldPos.y + vMousePos.y;
+	vWorldPos.x = vWorldPos.x + vPos.x;
+	vWorldPos.y = vWorldPos.y + vPos.y;
 	return vWorldPos;
 }
 

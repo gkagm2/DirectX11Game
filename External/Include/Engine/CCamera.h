@@ -66,7 +66,7 @@ public: // Orthographic
 	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
 	const TViewportRect& GetViewportRect() { return m_tViewportRect; }
 
-	virtual const Vector3& GetScreenToWorld2DPosition();
+	virtual const Vector3& GetScreenToWorld2DPosition(const Vector2& _vPosition);
 
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {

@@ -32,3 +32,32 @@ void CModuleScript_ca::Start()
 void CModuleScript_ca::Update()
 {
 }
+
+const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPositon)
+{
+	const vector<TModuleConnectPoint_ca>& vecConnectPoints = GetConnectPoints();
+	Vector3 vNearestPos = {};
+	float fMinDistance = (numeric_limits<float>::max)();
+	for (UINT i = 0; i < vecConnectPoints.size(); ++i) {
+		Vector3 vWorldPos = XMVector3TransformCoord(vecConnectPoints[i].vPosition, Transform()->GetWorldMatrix());
+		float fDis = Vector3::Distance(_vPositon, vWorldPos);
+		if (fMinDistance > fDis) {
+			vNearestPos = vWorldPos;
+			fMinDistance = fDis;
+		}
+	}
+	return vNearestPos;
+}
+
+const Vector3& CModuleScript_ca::GetMainConnectionPosition()
+{
+	Vector3 vMainPosition = {};
+	const vector<TModuleConnectPoint_ca>& vecConnectPoints = GetConnectPoints();
+	for (UINT i = 0; i < vecConnectPoints.size(); ++i) {
+		if (vecConnectPoints[i].bIsMain) {
+			vMainPosition = XMVector3TransformCoord(vecConnectPoints[i].vPosition, Transform()->GetWorldMatrix());
+			break;
+		}
+	}
+	return vMainPosition;
+}
