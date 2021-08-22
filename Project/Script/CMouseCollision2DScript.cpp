@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CMouseCollision2DScript.h"
+#include <Engine\CRenderManager.h>
 
 CMouseCollision2DScript::CMouseCollision2DScript() :
 	CScript((UINT)SCRIPT_TYPE::MOUSECOLLISION2DSCRIPT),
@@ -14,6 +15,7 @@ CMouseCollision2DScript::~CMouseCollision2DScript()
 void CMouseCollision2DScript::Awake()
 {
 	GetGameObject()->AddComponent<CCollider2D>();
+	Collider2D()->SetOffsetScale(Vector2(50.f, 50.f));
 }
 
 void CMouseCollision2DScript::Start()
@@ -43,12 +45,16 @@ void CMouseCollision2DScript::Update()
 			m_pTargetObj = nullptr;
 		}
 	}
+	Vector3 mousePos = Vector3(MousePosition.x, MousePosition.y, 0.f);
+	CCamera* pMainCamera = CRenderManager::GetInstance()->GetMainCamera();
+	Vector3 vWorldPos = pMainCamera->GetScreenToWorld2DPosition();
+	Transform()->SetLocalPosition(vWorldPos);
 }
 
 void CMouseCollision2DScript::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	// 클릭한것이라면
-	if (1 == _pOther->GetGameObject()->GetLayer())
+	if (0 == _pOther->GetGameObject()->GetLayer())
 		m_listHitObjs.push_back(_pOther->GetGameObject());
 }
 

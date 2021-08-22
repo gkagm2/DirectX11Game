@@ -8,10 +8,12 @@
 #include "CScene.h"
 #include "CLayer.h"
 #include "CMeshRenderer.h"
+#include "CCore.h"
 
 // Test
 #include "CKeyManager.h"
 #include "CTimeManager.h"
+
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
@@ -39,6 +41,17 @@ void CCamera::FinalUpdate()
 	g_transform.matView = GetViewMatrix();
 	g_transform.matProjection = GetProjectionMatrix();
 	CRenderManager::GetInstance()->RegisterCamera(this);
+}
+
+const Vector3& CCamera::GetScreenToWorld2DPosition()
+{
+	Vector3 vWorldPos = Transform()->GetPosition();
+	Vector2 vScreenHalfSize = CCore::GetInstance()->GetWindowResolution();
+	vScreenHalfSize /= 2.f;
+	const Vector2& vMousePos = MousePosition;
+	vWorldPos.x = vWorldPos.x - vScreenHalfSize.x + vMousePos.x;
+	vWorldPos.y = vWorldPos.y + vScreenHalfSize.y - vMousePos.y;
+	return vWorldPos;
 }
 
 void CCamera::CalculateViewMatrix()
