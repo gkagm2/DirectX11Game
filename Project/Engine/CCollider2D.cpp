@@ -10,7 +10,6 @@ queue<CMaterial*> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
 
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
-	m_tColliderType{},
 	m_vOffsetPosition{},
 	m_vOffsetScale{Vector2(1.f,1.f)},
 	m_matColWorld{},

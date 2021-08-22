@@ -236,12 +236,16 @@ void CGameObject::_RegisterLayer()
 void CGameObject::_UnlinkParentGameObject()
 {
 	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(GetLayer());
-	vector<CGameObject*>& vecRootObjs = pLayer->GetRootGameObjects();
-	auto rootObjIter = vecRootObjs.begin();
-	for (; rootObjIter != vecRootObjs.end(); ++rootObjIter) {
-		if (*rootObjIter == this) {
-			vecRootObjs.erase(rootObjIter);
-			break;
+
+	UINT iLayer = GetLayer();
+	if (iLayer != MAX_SIZE_LAYER) {
+		vector<CGameObject*>& vecRootObjs = pLayer->GetRootGameObjects();
+		vector<CGameObject*>::iterator rootObjIter = vecRootObjs.begin();
+		for (; rootObjIter != vecRootObjs.end(); ++rootObjIter) {
+			if (*rootObjIter == this) {
+				vecRootObjs.erase(rootObjIter);
+				break;
+			}
 		}
 	}
 
@@ -249,7 +253,7 @@ void CGameObject::_UnlinkParentGameObject()
 		return;
 	
 	vector<CGameObject*>& vecChild = m_pParentObj->_GetChildsObjectRef();
-	auto iter = vecChild.begin();
+	vector<CGameObject*>::iterator iter = vecChild.begin();
 
 	for (; iter != vecChild.end(); ++iter) {
 		if (*iter == this) {

@@ -241,6 +241,17 @@ void CTestScene::CaptainForever()
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 
 	CCollisionManager::GetInstance()->SetOnOffCollision(0, 0, true);
+
+	const unordered_map<tstring, CResource*>& res = CResourceManager::GetInstance()->GetResources(E_ResourceType::Material);
+	auto iter = res.begin();
+	auto end = res.end();
+	for (; iter != end; ++iter) {
+		tstring key = iter->first;
+		tstring key1 = iter->second->GetKey();
+		tstring name = iter->second->GetName();
+
+		_tcprintf(_T("[%s]\n[%s]\n[%s]\n\n"), key.c_str(), key1.c_str(), name.c_str());
+	}
 }
 
 void CTestScene::SceneStart()

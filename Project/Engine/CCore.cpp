@@ -16,7 +16,7 @@ CCore::CCore() :
 {
 #ifdef _DEBUG
 	AllocConsole(); // 콘솔창 생성
-	//_tcprintf(_T("Test"); // Using
+	//_tcprintf(_T("Test")); // Using
 #endif
 }
 

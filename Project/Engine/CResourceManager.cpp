@@ -34,7 +34,7 @@ void CResourceManager::Init()
 	LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
 
 	// 메터리얼 로딩
-	LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
+	//LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
 }
 
 void CResourceManager::CreateDefaultMesh()

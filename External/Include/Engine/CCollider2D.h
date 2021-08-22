@@ -1,23 +1,8 @@
 #pragma once
 #include "CCollider.h"
 
-enum class E_Collider2DType {
-	rect,
-	circle
-};
-
 class CCollider2D : public CCollider, public ICollision2DInterface
 {
-public:
-	
-	struct TColliderType {
-		E_Collider2DType eType;
-		tstring strType;
-	};
-	
-protected:
-	TColliderType m_tColliderType; // 상속받은 클래스에서 반드시 초기화
-
 protected:
 	Vector2 m_vOffsetPosition;
 	Vector2 m_vOffsetScale;
@@ -43,9 +28,6 @@ protected:
 	void SetMaterial(const SharedPtr<CMaterial> _pMaterial) { m_pMaterial = _pMaterial; }
 
 public:
-	E_Collider2DType GetColliderType() { return m_tColliderType.eType; }
-	const tstring& GetColliderTypeName() { return m_tColliderType.strType; }
-
 	const Vector2& GetOffsetPosition() { return m_vOffsetPosition; }
 	void SetOffsetPosition(const Vector2& _vPosition) { m_vOffsetPosition = _vPosition; }
 
