@@ -6,6 +6,8 @@
 #include "CResourceManager.h"
 #include "CResource.h"
 #include "CTimeManager.h"
+#include "CMouseManager.h"
+#include "CMouseEvent.h"
 
 #include "CMeshRenderer.h"
 #include "CTransform.h"

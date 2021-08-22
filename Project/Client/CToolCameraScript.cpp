@@ -41,8 +41,8 @@ void CToolCameraScript::Update()
 	if (InputKeyRelease(E_Key::MBUTTON)) {
 	}
 	CMouseEvent evt = CMouseManager::GetInstance()->GetMouseEvent();
-	if (CMouseEvent::EventType::WheelUp == evt.GetType() || 
-		CMouseEvent::EventType::WheelDown == evt.GetType())
+	if (E_MouseEventType::WheelUp == evt.GetType() ||
+		E_MouseEventType::WheelDown == evt.GetType())
 	{
 		CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
 		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {

@@ -3,10 +3,16 @@
 class CCameraFollowerScript : public CScript
 {
 private:
-	CGameObject* m_pTargetCamObj;
+	CGameObject* m_pTargetObj;
+
+	float m_fMouseScrollSpeed;
 public:
-	virtual void Start() override;
+	virtual void Awake() override;
 	virtual void Update() override;
+
+public:
+	void Zoom();
+
 public:
 	CLONE(CCameraFollowerScript);
 	CCameraFollowerScript();

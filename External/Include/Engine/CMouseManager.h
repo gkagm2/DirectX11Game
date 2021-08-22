@@ -30,7 +30,7 @@ public:
 	const CMouseEvent& GetMouseEvent() { return m_CurMouseEvent; }
 	inline int GetPosX();
 	inline int GetPosY();
-	MousePoint GetPos();
+	TMousePoint GetPos();
 
 	float GetMouseScrollDelta() { return m_fWheelAccumulator; }
 

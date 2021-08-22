@@ -105,55 +105,55 @@ void CMouseManager::Update()
 void CMouseManager::_OnLeftPressed(int x, int y)
 {
 	leftIsDown = true;
-	CMouseEvent me(CMouseEvent::EventType::LPress, x, y);
+	CMouseEvent me(E_MouseEventType::LPress, x, y);
 	eventBuffer.push(me);
 }
 
 void CMouseManager::_OnLeftReleased(int x, int y)
 {
 	leftIsDown = false;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::LRelease, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::LRelease, x, y));
 }
 
 void CMouseManager::_OnRightPressed(int x, int y)
 {
 	rightIsDown = true;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::RPress, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::RPress, x, y));
 }
 
 void CMouseManager::_OnRightReleased(int x, int y)
 {
 	rightIsDown = false;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::RRelease, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::RRelease, x, y));
 }
 
 void CMouseManager::_OnMiddlePressed(int x, int y)
 {
 	mbuttonDown = true;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::MPress, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::MPress, x, y));
 }
 
 void CMouseManager::_OnMiddleReleased(int x, int y)
 {
 	mbuttonDown = false;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::MRelease, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::MRelease, x, y));
 }
 
 void CMouseManager::_OnWheelUp(int x, int y)
 {
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::WheelUp, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::WheelUp, x, y));
 }
 
 void CMouseManager::_OnWheelDown(int x, int y)
 {
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::WheelDown, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::WheelDown, x, y));
 }
 
 void CMouseManager::_OnMouseMove(int x, int y)
 {
 	x = x;
 	y = y;
-	eventBuffer.push(CMouseEvent(CMouseEvent::EventType::Move, x, y));
+	eventBuffer.push(CMouseEvent(E_MouseEventType::Move, x, y));
 }
 
 bool CMouseManager::_IsLeftDown()
@@ -181,7 +181,7 @@ int CMouseManager::GetPosY()
 	return y;
 }
 
-MousePoint CMouseManager::GetPos()
+TMousePoint CMouseManager::GetPos()
 {
 	return{ x, y };
 }
