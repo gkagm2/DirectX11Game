@@ -45,12 +45,19 @@ void CCamera::FinalUpdate()
 
 const Vector3& CCamera::GetScreenToWorld2DPosition()
 {
+	// orthographic일경우에만 사용 가능 
+	if (E_ProjectionType::Perspective == GetProjectionType())
+		assert(nullptr &&_T("Perspectie type임"));
+
 	Vector3 vWorldPos = Transform()->GetPosition();
 	Vector2 vScreenHalfSize = CCore::GetInstance()->GetWindowResolution();
 	vScreenHalfSize /= 2.f;
-	const Vector2& vMousePos = MousePosition;
-	vWorldPos.x = vWorldPos.x - vScreenHalfSize.x + vMousePos.x;
-	vWorldPos.y = vWorldPos.y + vScreenHalfSize.y - vMousePos.y;
+	Vector2& vMousePos = MousePosition;
+	vMousePos.x = (-vScreenHalfSize.x + vMousePos.x) *GetSize();
+	vMousePos.y = (vScreenHalfSize.y - vMousePos.y) * GetSize();
+
+	vWorldPos.x = vWorldPos.x + vMousePos.x;
+	vWorldPos.y = vWorldPos.y + vMousePos.y;
 	return vWorldPos;
 }
 

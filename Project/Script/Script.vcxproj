@@ -178,6 +178,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CEnemyRespawnerScript_sh.h" />
     <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameManagerScript_sh.h" />
+    <ClInclude Include="CGameManager_ca.h" />
     <ClInclude Include="CGirderScript_ca.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
@@ -201,6 +202,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CEnemyRespawnerScript_sh.cpp" />
     <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameManagerScript_sh.cpp" />
+    <ClCompile Include="CGameManager_ca.cpp" />
     <ClCompile Include="CGirderScript_ca.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />

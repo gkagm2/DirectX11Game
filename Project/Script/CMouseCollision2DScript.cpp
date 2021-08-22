@@ -15,7 +15,7 @@ CMouseCollision2DScript::~CMouseCollision2DScript()
 void CMouseCollision2DScript::Awake()
 {
 	GetGameObject()->AddComponent<CCollider2D>();
-	Collider2D()->SetOffsetScale(Vector2(50.f, 50.f));
+	Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
 }
 
 void CMouseCollision2DScript::Start()

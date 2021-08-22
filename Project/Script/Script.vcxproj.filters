@@ -49,6 +49,9 @@
     <Filter Include="Functions\MouseCollision2D">
       <UniqueIdentifier>{9f520fff-4404-4584-866d-cd8684d21016}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\CaptainForever\GameManager">
+      <UniqueIdentifier>{6662231c-9fee-4e3d-bad0-3bbef1e43f51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -112,6 +115,9 @@
     <ClInclude Include="CMouseCollision2DScript.h">
       <Filter>Functions\MouseCollision2D</Filter>
     </ClInclude>
+    <ClInclude Include="CGameManager_ca.h">
+      <Filter>Games\CaptainForever\GameManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -174,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="CMouseCollision2DScript.cpp">
       <Filter>Functions\MouseCollision2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameManager_ca.cpp">
+      <Filter>Games\CaptainForever\GameManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

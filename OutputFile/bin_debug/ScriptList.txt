@@ -6,6 +6,7 @@ CCommandModuleScript_ca
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh
+CGameManager_ca
 CGirderScript_ca
 CKeyControllerScript_ca
 CLaserScript_ca
