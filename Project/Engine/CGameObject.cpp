@@ -29,7 +29,8 @@ CGameObject::CGameObject() :
 	m_pParentObj(nullptr),
 	m_iLayer(MAX_SIZE_LAYER),
 	m_iTag(0),
-	m_bDead(false)
+	m_bDead(false),
+	m_bActive(true)
 {
 }
 
@@ -39,7 +40,8 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_pParentObj(nullptr),
 	m_iLayer(MAX_SIZE_LAYER),
 	m_iTag(_origin.m_iTag),
-	m_bDead(false)
+	m_bDead(false),
+	m_bActive(_origin.m_bActive)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != _origin.m_arrComponent[i])
@@ -62,15 +64,20 @@ CGameObject::~CGameObject()
 
 void CGameObject::Awake()
 {
-	if (IsDead())
+	if (IsDead() || !IsActive())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->Awake();
+		if (nullptr != m_arrComponent[i]) {
+			if(m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->Awake();
+		}
 	}
 
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->Awake();
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		if(m_vecScript[i]->IsActive())
+			m_vecScript[i]->Awake();
+	}
+		
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Awake();
@@ -78,14 +85,19 @@ void CGameObject::Awake()
 
 void CGameObject::Start()
 {
-	if (IsDead())
+	if (IsDead() || !IsActive())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->Start();
+		if (nullptr != m_arrComponent[i]) {
+			if(m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->Start();
+		}
 	}
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->Start();
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->Start();
+	}
+		
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Start();
@@ -93,15 +105,19 @@ void CGameObject::Start()
 
 void CGameObject::PrevUpdate()
 {
-	if (IsDead())
+	if (IsDead() || !IsActive())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->PrevUpdate();
+		if (nullptr != m_arrComponent[i]) {
+			if (m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->PrevUpdate();
+		}
 	}
 
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->PrevUpdate();
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->PrevUpdate();
+	}
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->PrevUpdate();
@@ -109,15 +125,19 @@ void CGameObject::PrevUpdate()
 
 void CGameObject::Update()
 {
-	if (IsDead())
+	if (IsDead() || !IsActive())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->Update();
+		if (nullptr != m_arrComponent[i]) {
+			if (m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->Update();
+		}
 	}
 
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->Update();
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->Update();
+	}
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->Update();
@@ -125,15 +145,19 @@ void CGameObject::Update()
 
 void CGameObject::LateUpdate()
 {
-	if (IsDead())
+	if (IsDead() || !IsActive())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->LateUpdate();
+		if (nullptr != m_arrComponent[i]) {
+			if (m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->LateUpdate();
+		}
 	}
 
-	for (UINT i = 0; i < m_vecScript.size(); ++i)
-		m_vecScript[i]->LateUpdate();
+	for (UINT i = 0; i < m_vecScript.size(); ++i) {
+		if (m_vecScript[i]->IsActive())
+			m_vecScript[i]->LateUpdate();
+	}
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->LateUpdate();
@@ -144,8 +168,10 @@ void CGameObject::FinalUpdate()
 	if (IsDead())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-		if (nullptr != m_arrComponent[i])
-			m_arrComponent[i]->FinalUpdate();
+		if (nullptr != m_arrComponent[i]) {
+			if(m_arrComponent[i]->IsActive())
+				m_arrComponent[i]->FinalUpdate();
+		}
 	}
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
@@ -156,19 +182,19 @@ void CGameObject::FinalUpdate()
 
 void CGameObject::Render()
 {
-	if (MeshRenderer())		// 메쉬 렌더링
+	if (MeshRenderer() && MeshRenderer()->IsActive())		// 메쉬 렌더링
 		MeshRenderer()->Render();
 
-	if (TileMap())			// 타일맵 렌더링
+	if (TileMap() && TileMap()->IsActive())			// 타일맵 렌더링
 		TileMap()->Render();
 
-	if (ParticleSystem())	// 파티클 시스템 렌더링
+	if (ParticleSystem() && ParticleSystem()->IsActive())	// 파티클 시스템 렌더링
 		ParticleSystem()->Render();
 
-	if (Light2D())			// 광원 렌더링
+	if (Light2D() && Light2D()->IsActive())			// 광원 렌더링
 		Light2D()->Render();
 
-	if (Collider2D())		// 충돌체 렌더링
+	if (Collider2D() && Collider2D()->IsActive())		// 충돌체 렌더링
 		Collider2D()->Render();
 }
 
@@ -328,6 +354,7 @@ CComponent* CGameObject::GetComponent(E_ComponentType _eType)
 bool CGameObject::SaveToScene(FILE* _pFile)
 {
 	CObject::SaveToScene(_pFile);
+	FWrite(m_bActive, _pFile);
 
 	// 자식 오브젝트일 경우
 	if (GetParentObject())
@@ -368,6 +395,7 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 {
 	CObject::LoadFromScene(_pFile);
+	FRead(m_bActive, _pFile);
 
 	// 자식 오브젝트인 경우 Layer 소속 읽기
 	if (0 != _iDepth)

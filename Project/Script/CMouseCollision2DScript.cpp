@@ -24,23 +24,26 @@ void CMouseCollision2DScript::Start()
 
 void CMouseCollision2DScript::Update()
 {
+	static Vector3 vOffset = {};
+	static Vector3 vStart = {};
+	static Vector3 vTargetStartPos = {};
 	if (InputKeyPress(E_Key::LBUTTON)) {
-		if (!m_listHitObjs.empty()) {
-			m_pTargetObj = m_listHitObjs.front();
-			m_listHitObjs.clear();
+		Collider2D()->SetActive(true);
+		if (m_pTargetObj) {
+			Vector3 vMouseWorldPos = CRenderManager::GetInstance()->GetMainCamera()->GetScreenToWorld2DPosition(); 
+			vStart = vMouseWorldPos;
+			vTargetStartPos = m_pTargetObj->Transform()->GetPosition();
 		}
 	}
 	if (InputKeyHold(E_Key::LBUTTON)) {
 		if (m_pTargetObj) {
-			Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
-			Vector2 vMousePos = MousePosition;
-			// Camera의 Screen의 World Position을 구해서 넣어주자
-			vTargetPos.x = vMousePos.x;
-			vTargetPos.y = vMousePos.y;
-			m_pTargetObj->Transform()->SetLocalPosition(vTargetPos);
+			Vector3 vMouseWorldPos = CRenderManager::GetInstance()->GetMainCamera()->GetScreenToWorld2DPosition();
+			vOffset = vMouseWorldPos - vStart;
+			m_pTargetObj->Transform()->SetLocalPosition(vTargetStartPos + vOffset);
 		}
 	}
-	if (InputKeyPress(E_Key::LBUTTON)) {
+	if (InputKeyRelease(E_Key::LBUTTON)) {
+		Collider2D()->SetActive(false);
 		if (m_pTargetObj) {
 			m_pTargetObj = nullptr;
 		}
@@ -55,7 +58,8 @@ void CMouseCollision2DScript::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	// 클릭한것이라면
 	if (0 == _pOther->GetGameObject()->GetLayer())
-		m_listHitObjs.push_back(_pOther->GetGameObject());
+		if(nullptr == m_pTargetObj)
+			m_pTargetObj = _pOther->GetGameObject();
 }
 
 void CMouseCollision2DScript::OnCollisionStay2D(CCollider2D* _pOther)

@@ -21,40 +21,30 @@ void CScene::Awake()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Awake();
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->Awake();*/
 }
 
 void CScene::Start()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Start();
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->Start();*/
 }
 
 void CScene::PrevUpdate()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->PrevUpdate();
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->PrevUpdate();*/
 }
 
 void CScene::Update()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->Update();
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->Update();*/
 }
 
 void CScene::LateUpdate()
 {
 	for (UINT i = 0; i < m_vecRootObjs.size(); ++i)
 		m_vecRootObjs[i]->LateUpdate();
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->LateUpdate();*/
 }
 
 void CScene::FinalUpdate()
@@ -70,8 +60,6 @@ void CScene::FinalUpdate()
 		else
 			++iter;
 	}
-	/*for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
-		m_arrLayer[i]->FinalUpdate();*/
 }
 
 void CScene::_AddGameObject(CGameObject* _pObj, UINT _iLayer, bool _bChangeChildLayer)

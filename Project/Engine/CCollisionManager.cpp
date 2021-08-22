@@ -71,16 +71,27 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 						iter->second = false;
 					}
 					else {
-						vecLeft[l]->Collider2D()->OnCollisionStay2D(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionStay2D(vecLeft[l]->Collider2D());
+						// 하나라도 active가 된게 있으면
+						if (!vecLeft[l]->Collider2D()->IsActive() || !vecRight[r]->Collider2D()->IsActive()) {
+							// 충돌을 벗어난다.
+							vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
+							vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
+							iter->second = false;
+						}
+						else {
+							vecLeft[l]->Collider2D()->OnCollisionStay2D(vecRight[r]->Collider2D());
+							vecRight[r]->Collider2D()->OnCollisionStay2D(vecLeft[l]->Collider2D());
+						}
 					}
 				}
 				else {
 					// 둘다 삭제 예정이 아니고 처음 충돌 시 
 					if (!vecLeft[l]->IsDead() && !vecRight[r]->IsDead()) {
-						vecLeft[l]->Collider2D()->OnCollisionEnter2D(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionEnter2D(vecLeft[l]->Collider2D());
-						iter->second = true;
+						if (vecLeft[l]->Collider2D()->IsActive() && vecRight[r]->Collider2D()->IsActive()) {
+							vecLeft[l]->Collider2D()->OnCollisionEnter2D(vecRight[r]->Collider2D());
+							vecRight[r]->Collider2D()->OnCollisionEnter2D(vecLeft[l]->Collider2D());
+							iter->second = true;
+						}
 					}
 				}
 			}

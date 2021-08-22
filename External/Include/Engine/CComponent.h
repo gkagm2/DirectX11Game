@@ -7,6 +7,7 @@ class CComponent : public CObject, ILifeCycleInterface
 private:
 	CGameObject* m_pGameObj;
 	E_ComponentType m_eType;
+	bool m_bActive;
 
 public:
 	virtual void Awake() override {}
@@ -20,6 +21,9 @@ public:
 public:
 	CGameObject* GetGameObject() { return m_pGameObj; }
 	E_ComponentType GetComponentType() { return m_eType; }
+
+	void SetActive(bool _bActive) { m_bActive = _bActive; }
+	bool IsActive() { return m_bActive; }
 
 public:
 	// Components

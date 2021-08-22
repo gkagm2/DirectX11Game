@@ -27,6 +27,7 @@ private:
 	UINT m_iTag;
 
 	bool m_bDead;
+	bool m_bActive;
 
 public:
 	virtual void Awake() override;
@@ -49,6 +50,9 @@ public:
 	void SetTag(UINT _iTag) { m_iTag = _iTag; }
 	UINT GetTag() { return m_iTag; }
 	bool IsDead() { return m_bDead; }
+
+	void SetActive(bool _bActive) { m_bActive = _bActive; }
+	bool IsActive() { return m_bActive; }
 
 	CGameObject* GetParentObject() { return m_pParentObj; }
 	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }

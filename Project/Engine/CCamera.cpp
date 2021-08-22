@@ -116,6 +116,8 @@ void CCamera::_SortObjects()
 
 			for (UINT i = 0; i < vecAllObjs.size(); ++i) {
 				CGameObject* pObj = vecAllObjs[i];
+				if (!pObj->IsActive())
+					continue;
 
 				if (pObj->MeshRenderer() &&
 					pObj->MeshRenderer()->GetSharedMaterial().Get() &&
