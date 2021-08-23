@@ -40,6 +40,12 @@ enum class E_ModuleType_ca {
 	End,
 };
 
+enum class E_ModuleSize_ca {
+	Size1x1,
+	Size1x2,
+	End
+};
+
 struct TModuleConnectPoint_ca {
 	Vector3 vPosition;	// 연결 위치 (object coordination position)
 	Vector3 vDirection;	// 연결 방향
@@ -82,6 +88,8 @@ public:
 
 public:
 	virtual void InitModule(E_ModuleLevel_ca _eLevel) {};
+	virtual void InitModuleSize(E_ModuleSize_ca _eModuleSize);
+
 	/*void ConnectPart(CGameObject _pPart, TPartConnectPoint_ca _tConnectPoint);
 	void DisconnectPart();*/
 

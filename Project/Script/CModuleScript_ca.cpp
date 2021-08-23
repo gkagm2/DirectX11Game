@@ -61,3 +61,80 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 	}
 	return vMainPosition;
 }
+
+void CModuleScript_ca::InitModuleSize(E_ModuleSize_ca _eModuleSize)
+{
+	_ClearModuleConnectPoint();
+	switch (_eModuleSize) {
+	case E_ModuleSize_ca::Size1x1: {
+		//(위) 위 -> 아래
+		TModuleConnectPoint_ca tConnectPoint;
+		tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(아래) 아래 -> 위
+		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
+		tConnectPoint.bIsMain = true;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(왼쪽) 왼쪽->오른쪽
+		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(-0.5f, 0.f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(오른쪽) 오른쪽 -> 왼쪽
+		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.5f, 0.f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+		break;
+	}
+		
+	case E_ModuleSize_ca::Size1x2: {
+		//(위) 위 -> 아래
+		TModuleConnectPoint_ca tConnectPoint;
+		tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(아래) 아래 -> 위
+		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
+		tConnectPoint.bIsMain = true;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(왼쪽 상단) 왼쪽->오른쪽
+		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(-0.5f, 0.125f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(왼쪽 하단) 왼쪽->오른쪽
+		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(-0.5f, -0.125f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(오른쪽 상단) 오른쪽 -> 왼쪽
+		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.5f, 0.125f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+
+		//(오른쪽 하단) 오른쪽 -> 왼쪽
+		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.5f, -0.125f, 0.f);
+		tConnectPoint.bIsMain = false;
+		AddModuleConnectPoint(tConnectPoint);
+		break;
+	}
+	default:
+		assert(nullptr);
+		break;
+	}
+}

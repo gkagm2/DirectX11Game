@@ -55,6 +55,12 @@
     <Filter Include="Games\CaptainForever\Container">
       <UniqueIdentifier>{6f6960f4-e3f6-404b-bf75-010024f8d881}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\CaptainForever\DragAndDrop">
+      <UniqueIdentifier>{6c750901-f624-4e09-94d8-77cf5421586a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\CaptainForever\Managers">
+      <UniqueIdentifier>{6ad62205-88da-4752-aa21-3f560b3dc8a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTestLight2DScript.h">
@@ -85,9 +91,6 @@
       <Filter>ScriptManager</Filter>
     </ClInclude>
     <ClInclude Include="CRotateZScript.h" />
-    <ClInclude Include="CObjectDragAndDropScript_ca.h">
-      <Filter>Games\CaptainForever</Filter>
-    </ClInclude>
     <ClInclude Include="CCharacterScript_ca.h">
       <Filter>Games\CaptainForever\Character</Filter>
     </ClInclude>
@@ -121,6 +124,12 @@
     <ClInclude Include="CManagerContainer_ca.h">
       <Filter>Games\CaptainForever\Container</Filter>
     </ClInclude>
+    <ClInclude Include="CGirder1x2Script_ca.h">
+      <Filter>Games\CaptainForever\Parts\Girder</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectDragAndDropScript_ca.h">
+      <Filter>Games\CaptainForever\DragAndDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -151,9 +160,6 @@
       <Filter>ScriptManager</Filter>
     </ClCompile>
     <ClCompile Include="CRotateZScript.cpp" />
-    <ClCompile Include="CObjectDragAndDropScript_ca.cpp">
-      <Filter>Games\CaptainForever</Filter>
-    </ClCompile>
     <ClCompile Include="CCharacterScript_ca.cpp">
       <Filter>Games\CaptainForever\Character</Filter>
     </ClCompile>
@@ -186,6 +192,12 @@
     </ClCompile>
     <ClCompile Include="CManagerContainer_ca.cpp">
       <Filter>Games\CaptainForever\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="CGirder1x2Script_ca.cpp">
+      <Filter>Games\CaptainForever\Parts\Girder</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectDragAndDropScript_ca.cpp">
+      <Filter>Games\CaptainForever\DragAndDrop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

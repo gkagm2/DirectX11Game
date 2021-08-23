@@ -10,6 +10,7 @@
 #include "CEnemyScript_sh.h"
 #include "CGameManagerScript_sh.h"
 #include "CGameManager_ca.h"
+#include "CGirder1x2Script_ca.h"
 #include "CGirderScript_ca.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
@@ -32,6 +33,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CGameManager_ca");
+	_vec.push_back(L"CGirder1x2Script_ca");
 	_vec.push_back(L"CGirderScript_ca");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
@@ -64,6 +66,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CGameManager_ca" == _strScriptName)
 		return new CGameManager_ca;
+	if (L"CGirder1x2Script_ca" == _strScriptName)
+		return new CGirder1x2Script_ca;
 	if (L"CGirderScript_ca" == _strScriptName)
 		return new CGirderScript_ca;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
@@ -117,6 +121,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGER_CA:
 		return new CGameManager_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::GIRDER1X2SCRIPT_CA:
+		return new CGirder1x2Script_ca;
 		break;
 	case (UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return new CGirderScript_ca;
@@ -190,6 +197,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GAMEMANAGER_CA:
 		return L"CGameManager_ca";
+		break;
+
+	case SCRIPT_TYPE::GIRDER1X2SCRIPT_CA:
+		return L"CGirder1x2Script_ca";
 		break;
 
 	case SCRIPT_TYPE::GIRDERSCRIPT_CA:

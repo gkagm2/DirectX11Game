@@ -16,5 +16,6 @@ public:
 public:
 	CLONE(CGirderScript_ca);
 	CGirderScript_ca();
+	CGirderScript_ca(UINT _iScriptNum);
 	virtual ~CGirderScript_ca() override;
 };

@@ -47,5 +47,6 @@ void CCameraFollowerScript::Zoom()
 	if (fY == 0.f)
 		fY = 0.001f;
 	fSize += fY;
+	fSize = max(0.001f, fSize);
 	Camera()->SetSize(fSize);
 }

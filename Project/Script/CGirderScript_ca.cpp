@@ -5,6 +5,11 @@ CGirderScript_ca::CGirderScript_ca() :
 	CModuleScript_ca((UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA)
 {
 }
+CGirderScript_ca::CGirderScript_ca(UINT _iScriptNum) :
+	CModuleScript_ca(_iScriptNum)
+{
+}
+
 
 CGirderScript_ca::~CGirderScript_ca()
 {
@@ -13,6 +18,7 @@ CGirderScript_ca::~CGirderScript_ca()
 void CGirderScript_ca::Start()
 {
 	InitModule(E_ModuleLevel_ca::Alpha);
+	InitModuleSize(E_ModuleSize_ca::Size1x1);
 }
 
 void CGirderScript_ca::Update()
@@ -82,30 +88,4 @@ void CGirderScript_ca::InitModule(E_ModuleLevel_ca _eLevel)
 		assert(nullptr);
 		break;
 	}
-
-	_ClearModuleConnectPoint();
-	//(위) 위 -> 아래
-	TModuleConnectPoint_ca tConnectPoint;
-	tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
-	tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
-	tConnectPoint.bIsMain = false;
-	AddModuleConnectPoint(tConnectPoint);
-
-	//(아래) 아래 -> 위
-	tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
-	tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
-	tConnectPoint.bIsMain = true;
-	AddModuleConnectPoint(tConnectPoint);
-
-	//(왼쪽) 왼쪽->오른쪽
-	tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
-	tConnectPoint.vPosition = Vector3(-0.5f, 0.f, 0.f);
-	tConnectPoint.bIsMain = false;
-	AddModuleConnectPoint(tConnectPoint);
-
-	//(오른쪽) 오른쪽 -> 왼쪽
-	tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
-	tConnectPoint.vPosition = Vector3(0.5f, 0.f, 0.f);
-	tConnectPoint.bIsMain = false;
-	AddModuleConnectPoint(tConnectPoint);
 }
