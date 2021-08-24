@@ -1,21 +1,46 @@
 #include "pch.h"
 #include "CModuleScript_ca.h"
 
+const TCHAR* ModuleLevelSTR_ca[(UINT)E_ModuleLevel_ca::End] = {
+	_T("Nemesis"),
+	_T("Alpha"),
+	_T("Bravo"),
+	_T("Charlie"),
+	_T("Delta"),
+	_T("Echo"),
+	_T("Foxtrot"),
+	_T("Golf"),
+	_T("Hotel"),
+	_T("India"),
+	_T("Juliet"),
+	_T("Kilo")
+};
+const TCHAR* ModuleTypeSTR_ca[(UINT)E_ModuleType_ca::End] = {
+	_T("Girder1x1"),
+	_T("Girder1x2"),
+	_T("Laser"),
+	_T("Booster"),
+	_T("Command")
+}; 
+
 CModuleScript_ca::CModuleScript_ca() :
 	CScript((UINT)SCRIPT_TYPE::MODULESCRIPT_CA),
 	m_pParentModuleGameObj(nullptr),
 	m_eModuleLevel(E_ModuleLevel_ca::Alpha),
-	m_eModuleType(E_ModuleType_ca::Girder),
+	m_eModuleType(E_ModuleType_ca::Girder1x1),
+	m_eModuleSize(E_ModuleSize_ca::Size1x1),
 	m_fHp(1.f),
 	m_fWeight(1.f)
 {
+	assert(nullptr);
 }
 
-CModuleScript_ca::CModuleScript_ca(UINT _iScriptNum) :
+CModuleScript_ca::CModuleScript_ca(UINT _iScriptNum, E_ModuleType_ca _eModuleType, E_ModuleLevel_ca _eModuleLevel, E_ModuleSize_ca _eModuleSize) :
 	CScript(_iScriptNum),
 	m_pParentModuleGameObj(nullptr),
-	m_eModuleLevel(E_ModuleLevel_ca::Alpha),
-	m_eModuleType(E_ModuleType_ca::Girder),
+	m_eModuleLevel(_eModuleLevel),
+	m_eModuleType(_eModuleType),
+	m_eModuleSize(_eModuleSize),
 	m_fHp(1.f),
 	m_fWeight(1.f)
 {
@@ -62,7 +87,7 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 	return vMainPosition;
 }
 
-void CModuleScript_ca::InitModuleSize(E_ModuleSize_ca _eModuleSize)
+void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 {
 	_ClearModuleConnectPoint();
 	switch (_eModuleSize) {
@@ -137,4 +162,13 @@ void CModuleScript_ca::InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		assert(nullptr);
 		break;
 	}
+} 
+
+void CModuleScript_ca::SetModuleLevel(E_ModuleLevel_ca _eModuleLevel) {
+	m_eModuleLevel = _eModuleLevel;
+	_InitModuleLevel(_eModuleLevel);
+}
+void CModuleScript_ca::SetModuleSize(E_ModuleSize_ca _eModuleSize) {
+	m_eModuleSize = _eModuleSize;
+	_InitModuleSize(_eModuleSize);
 }

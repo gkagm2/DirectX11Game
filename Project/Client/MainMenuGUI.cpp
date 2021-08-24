@@ -13,6 +13,10 @@
 #include "InspectorGUI.h"
 #include "CImGuiManager.h"
 
+// Captain Forever Game
+#include "ModuleCreatorGUI_ca.h"
+
+
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
 UINT g_iEmpty2DCameraGameObjectID = 0;
@@ -81,6 +85,13 @@ void MainMenuGUI::Update()
                 CreateEmptyMaterial();
             }
             
+
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("CF Game")) {
+            if (ImGui::MenuItem("Modeul Creator Tool")) {
+                OpenModuleCreatorToolWindows();
+            }
 
             ImGui::EndMenu();
         }
@@ -189,18 +200,18 @@ void MainMenuGUI::CreateEmptyMaterial()
     constexpr int iBuffSize = 255;
     TCHAR szBuff[iBuffSize]= _T("");
 
+    tstring strRelativePath = STR_FILE_PATH_Material;
+
     // 고유 이름값 생성
     while (true) {
-        _stprintf_s(szBuff, iBuffSize, _T("Material %d.mtrl"), g_iMtrlID++);
+        _stprintf_s(szBuff, iBuffSize, _T("%sMaterial %d.mtrl"), strRelativePath.c_str(), g_iMtrlID++);
         CMaterial* pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(szBuff).Get();
         if (nullptr == pMtrl)
             break;
     }
 
     tstring strKey = szBuff;
-    tstring strRelativePath = STR_FILE_PATH_Material;
-    strRelativePath = strRelativePath + strKey;
-
+    strRelativePath = szBuff;
     CMaterial* pNewMtrl = new CMaterial(false); // Create Material 
     pNewMtrl->SetKey(strKey);
     pNewMtrl->SetRelativePath(strRelativePath);
@@ -211,7 +222,7 @@ void MainMenuGUI::CreateEmptyMaterial()
         pNewMtrl->Save(strRelativePath);
 }
 
-void MainMenuGUI::CreateEmptyGameObject()
+CGameObject* MainMenuGUI::CreateEmptyGameObject()
 {
     constexpr int iBuffSize = 255;
     TCHAR szBuffer[iBuffSize] = _T("");
@@ -231,9 +242,12 @@ void MainMenuGUI::CreateEmptyGameObject()
 
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+    
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
+
+    return pNewGameObject;
 }
 
 void MainMenuGUI::CreateCamera2DGameObject()
@@ -290,4 +304,15 @@ void MainMenuGUI::Create2DRectGameObjet()
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
+void MainMenuGUI::OpenModuleCreatorToolWindows()
+{
+    ModuleCreatorGUI_ca* pGUI = dynamic_cast<ModuleCreatorGUI_ca*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ModuleCreator));
+    if (nullptr == pGUI) {
+        assert(nullptr && _T("Module Creator를 열 수 없다."));
+        return;
+    }
+
+    pGUI->SetActive(true);
 }

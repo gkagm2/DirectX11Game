@@ -27,6 +27,7 @@ void MaterialGUI::Update()
 	CMaterial* pMtrl = (CMaterial*)GetTargetResource();
 	CShader* pShader = pMtrl->GetShader().Get();
 
+
 	// Material이 참조하는 Shader 출력
 	
 	char strShaderName[255] = "";
@@ -45,7 +46,7 @@ void MaterialGUI::Update()
 		ListViewGUI* pListViewGUI = (ListViewGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView);
 		// 목록을 전달한다.
 		vector<tstring> vecNames;
-		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::GraphicsShader, vecNames);
+		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::GraphicsShader, vecNames);
 		tstring strTitle = _T("Shader");
 		pListViewGUI->SetList(vecNames, strTitle);
 		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MaterialGUI::SetShader);

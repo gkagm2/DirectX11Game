@@ -609,7 +609,7 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 	return bIsDeleted;
 }
 
-void CResourceManager::GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut)
+void CResourceManager::GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut)
 {
 	_vecOut.empty();
 	for (const auto& pair : m_umapResource[(UINT)_eType])

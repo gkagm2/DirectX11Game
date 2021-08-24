@@ -130,6 +130,9 @@
     <ClInclude Include="CObjectDragAndDropScript_ca.h">
       <Filter>Games\CaptainForever\DragAndDrop</Filter>
     </ClInclude>
+    <ClInclude Include="CModuleCreator_ca.h">
+      <Filter>Games\CaptainForever\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -198,6 +201,9 @@
     </ClCompile>
     <ClCompile Include="CObjectDragAndDropScript_ca.cpp">
       <Filter>Games\CaptainForever\DragAndDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="CModuleCreator_ca.cpp">
+      <Filter>Games\CaptainForever\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -83,9 +83,11 @@ void CObject::UnlinkParentGameObjectEvn(CGameObject* _pChildObj)
     CEventManager::GetInstance()->AddEvent(even);
 }
 
-void CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer)
+CGameObject* CObject::InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer)
 {
-    CreateGameObjectEvn(_prefab->Instantiate(), _vWorldPos, _iLayer);
+    CGameObject* pObj = _prefab->Instantiate();
+    CreateGameObjectEvn(pObj, _vWorldPos, _iLayer);
+    return pObj;
 }
 
 void CObject::ChangeLayerEvn(CGameObject* _pTargetObj, UINT _iLayer)

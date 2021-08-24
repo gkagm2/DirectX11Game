@@ -11,6 +11,7 @@ public:
 	virtual void OnCollisionExit2D(CCollider2D* _pOther);
 
 public:
+	CLONE(CGirder1x2Script_ca);
 	CGirder1x2Script_ca();
 	virtual ~CGirder1x2Script_ca() override;
 };

@@ -98,7 +98,6 @@ void ListViewGUI::SetActive(bool _bIsActive)
 {
     GUI::SetActive(_bIsActive);
     _SetActivePopup(_bIsActive);
-    m_bGUIOpen = true;
 }
 
 void ListViewGUI::_Clear()

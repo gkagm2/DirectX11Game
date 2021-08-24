@@ -24,7 +24,7 @@ public:
 
 	static void AddChildGameObjectEvn(CGameObject* _pParent, CGameObject* _pChild);
 	static void UnlinkParentGameObjectEvn(CGameObject* _pChildObj);
-	static void InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer = 0);
+	static CGameObject* InstantiateEvn(SharedPtr<CPrefab> _prefab, const Vector3& _vWorldPos, UINT _iLayer = 0);
 	static void ChangeLayerEvn(CGameObject* _pTargetObj, UINT _iLayer);
 
 	static void ChangeStateEvn(); // 상태가 바뀌면

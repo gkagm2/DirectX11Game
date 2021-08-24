@@ -14,9 +14,12 @@ public:
 	void ShowExampleMenuFile();
 	void ShowSceneMode();
 	void CreateEmptyMaterial();
-	void CreateEmptyGameObject();
+	CGameObject* CreateEmptyGameObject();
 	void CreateCamera2DGameObject();
 	void Create2DRectGameObjet();
+
+	// CaptainForever
+	void OpenModuleCreatorToolWindows();
 
 public:
 	MainMenuGUI();

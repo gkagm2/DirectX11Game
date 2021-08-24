@@ -155,6 +155,18 @@
     <Filter Include="02. GUI\SceneViewGUI">
       <UniqueIdentifier>{20974e55-5f0b-47a2-a987-587d9e4961c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Contents">
+      <UniqueIdentifier>{06651c1f-c44c-4e77-8cd1-b9f6787a7aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Contents\CaptainForever">
+      <UniqueIdentifier>{3ca3d871-1166-4253-a8bb-dff0b0bfd1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Contents\CaptainForever\01. Tool">
+      <UniqueIdentifier>{ae754a57-9d68-4bdd-8471-16cf2662f741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Contents\CaptainForever\02. GUI">
+      <UniqueIdentifier>{93d9b37a-ee6b-4337-b408-9e3154cecc85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -311,6 +323,9 @@
     <ClInclude Include="SceneViewGUI.h">
       <Filter>02. GUI\SceneViewGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCreatorGUI_ca.h">
+      <Filter>04. Contents\CaptainForever\02. GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -451,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="SceneViewGUI.cpp">
       <Filter>02. GUI\SceneViewGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCreatorGUI_ca.cpp">
+      <Filter>04. Contents\CaptainForever\02. GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

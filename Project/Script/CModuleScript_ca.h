@@ -2,6 +2,7 @@
 #include <Engine\CScript.h>
 
 enum class E_ModuleLevel_ca {
+	Nemesis,//아무것도 없는 // Command Module에서만 사용한다.
 	Alpha,	//초록색
 	Bravo,	//노란색
 	Charlie,//주황색
@@ -15,30 +16,17 @@ enum class E_ModuleLevel_ca {
 	Kilo,	//회색
 	End,
 };
-
-enum class E_CommandModuleLevel_ca {
-	Nemesis,//아무것도 없는
-	Alpha,	//초록색
-	Bravo,	//노란색
-	Charlie,//주황색
-	Delta,	//빨간색
-	Echo,	//분홍색
-	Foxtrot,//보라색
-	Golf,	//파란색
-	Hotel,	//하늘색
-	India,	//옥색
-	Juliet,	//흰색
-	Kilo,	//회색
-	End,
-};
+extern const TCHAR* ModuleLevelSTR_ca[(UINT)E_ModuleLevel_ca::End];
 
 enum class E_ModuleType_ca {
-	Girder,
+	Girder1x1,
+	Girder1x2,
 	Laser,
 	Booster,
 	Command,
 	End,
 };
+extern const TCHAR* ModuleTypeSTR_ca[(UINT)E_ModuleType_ca::End];
 
 enum class E_ModuleSize_ca {
 	Size1x1,
@@ -62,6 +50,7 @@ private:
 
 	E_ModuleLevel_ca m_eModuleLevel;// 레벨
 	E_ModuleType_ca m_eModuleType;	// 타입
+	E_ModuleSize_ca m_eModuleSize;	// 모듈 사이즈
 	float m_fWeight;				// 질량  
 	float m_fHp;					// 체력
 
@@ -72,12 +61,19 @@ public:
 public:
 	E_ModuleLevel_ca GetModuleLevel() { return m_eModuleLevel; }
 	E_ModuleType_ca GetModuleType() { return m_eModuleType; }
+	E_ModuleSize_ca GetModuleSize() { return m_eModuleSize; }
 
 	float GetWeight() { return m_fWeight; }
 	void SetWeight(float _fWeight) { m_fWeight = _fWeight; }
 	float GetHp() { return m_fHp; }
 	void SetHp(float _fHp) { m_fHp = _fHp; }
 
+protected:
+	void _SetModuleType(E_ModuleType_ca _eModuleType) { m_eModuleType = _eModuleType; }
+
+public:
+	void SetModuleLevel(E_ModuleLevel_ca _eModuleLevel);
+	void SetModuleSize(E_ModuleSize_ca _eModuleSize);
 
 	const vector<TModuleConnectPoint_ca>& GetConnectPoints() { return m_vecModuleConnectPoint; }
 
@@ -86,9 +82,9 @@ public:
 	// 연결하는 위치
 	const Vector3& GetMainConnectionPosition();
 
-public:
-	virtual void InitModule(E_ModuleLevel_ca _eLevel) {};
-	virtual void InitModuleSize(E_ModuleSize_ca _eModuleSize);
+private:
+	virtual void _InitModuleLevel(E_ModuleLevel_ca _eLevel) {};
+	virtual void _InitModuleSize(E_ModuleSize_ca _eModuleSize);
 
 	/*void ConnectPart(CGameObject _pPart, TPartConnectPoint_ca _tConnectPoint);
 	void DisconnectPart();*/
@@ -101,6 +97,6 @@ protected:
 public:
 	CLONE(CModuleScript_ca);
 	CModuleScript_ca();
-	CModuleScript_ca(UINT _iScriptNum);
+	CModuleScript_ca(UINT _iScriptNum, E_ModuleType_ca _eModuleType, E_ModuleLevel_ca _eModuleLevel, E_ModuleSize_ca _eModuleSize);
 	virtual ~CModuleScript_ca() override;
 };

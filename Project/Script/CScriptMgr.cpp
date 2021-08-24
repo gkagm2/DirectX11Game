@@ -15,6 +15,7 @@
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CManagerContainer_ca.h"
+#include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
 #include "CObjectDragAndDropScript_ca.h"
 #include "CPlayerScript_ca.h"
@@ -38,6 +39,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CManagerContainer_ca");
+	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
 	_vec.push_back(L"CPlayerScript_ca");
@@ -76,6 +78,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLaserScript_ca;
 	if (L"CManagerContainer_ca" == _strScriptName)
 		return new CManagerContainer_ca;
+	if (L"CModuleCreator_ca" == _strScriptName)
+		return new CModuleCreator_ca;
 	if (L"CModuleScript_ca" == _strScriptName)
 		return new CModuleScript_ca;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
@@ -136,6 +140,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MANAGERCONTAINER_CA:
 		return new CManagerContainer_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::MODULECREATOR_CA:
+		return new CModuleCreator_ca;
 		break;
 	case (UINT)SCRIPT_TYPE::MODULESCRIPT_CA:
 		return new CModuleScript_ca;
@@ -217,6 +224,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MANAGERCONTAINER_CA:
 		return L"CManagerContainer_ca";
+		break;
+
+	case SCRIPT_TYPE::MODULECREATOR_CA:
+		return L"CModuleCreator_ca";
 		break;
 
 	case SCRIPT_TYPE::MODULESCRIPT_CA:

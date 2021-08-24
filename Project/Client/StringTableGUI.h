@@ -9,3 +9,7 @@
 #define STR_GUI_ResourceView "Resource"
 #define STR_GUI_SceneView "Scene"
 // ComponentType
+
+
+// CaptainForever
+#define STR_GUI_ModuleCreator "ModuleCreator"

@@ -214,6 +214,7 @@
     <ClInclude Include="MaterialGUI.h" />
     <ClInclude Include="MenuGUI.h" />
     <ClInclude Include="MeshRendererGUI.h" />
+    <ClInclude Include="ModuleCreatorGUI_ca.h" />
     <ClInclude Include="ParamGUI.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Collider2DGUI.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="MaterialGUI.cpp" />
     <ClCompile Include="MenuGUI.cpp" />
     <ClCompile Include="MeshRendererGUI.cpp" />
+    <ClCompile Include="ModuleCreatorGUI_ca.cpp" />
     <ClCompile Include="ParamGUI.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Collider2DGUI.cpp" />

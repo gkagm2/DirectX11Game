@@ -394,6 +394,12 @@ public:
 	static float Lerp(const float _fFrom, const float _fTo, float _fAlpha) {
 		return _fFrom * (1.f - _fAlpha) + _fTo * _fAlpha;
 	}
+
+	template<typename TYPE>
+	static TYPE Clamp(TYPE _fValue, TYPE _fMin, TYPE _fMax) {
+		_fValue = max(_fValue, _fMin);
+		return min(_fValue, _fMax);
+	}
 };
 
 // 비율을 유지한채로 지정된 크기로 사이즈를 변경.

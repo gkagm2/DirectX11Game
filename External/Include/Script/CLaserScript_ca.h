@@ -18,7 +18,7 @@ public:
 	float GetFireRate() { return m_fFireRate; }
 
 public:
-	virtual void InitModule(E_ModuleLevel_ca _eLevel) override;
+	virtual void _InitModuleLevel(E_ModuleLevel_ca _eLevel) override;
 
 public:
 	CLONE(CLaserScript_ca);

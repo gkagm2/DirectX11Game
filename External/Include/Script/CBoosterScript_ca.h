@@ -14,7 +14,7 @@ public:
 	void SetForce(float _fForce) { m_fForce = _fForce; }
 	
 public:
-	virtual void InitModule(E_ModuleLevel_ca _eLevel) override;
+	virtual void _InitModuleLevel(E_ModuleLevel_ca _eLevel) override;
 
 public:
 	CLONE(CBoosterScript_ca);

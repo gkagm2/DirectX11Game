@@ -53,7 +53,7 @@ public:
 
 	void AddCloneMaterial(SharedPtr<CMaterial> _pMtrl) { m_vecCloneMtrl.push_back(_pMtrl.Get()); }
 
-	void GetResourceNames(E_ResourceType _eType, vector<tstring>& _vecOut);
+	void GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut);
 	const unordered_map<tstring, CResource*>& GetResources(E_ResourceType _eType) { return m_umapResource[(UINT)_eType]; }
 
 	bool IsFixed() { return m_bFixed; }
@@ -198,10 +198,10 @@ inline void CResourceManager::LoadResourcesFromDir(const tstring& _strRelativeDi
 	tstring contentPath = CPathManager::GetInstance()->GetContentPath();
 	contentPath += _strRelativeDirPath;
 
-	// 1. 파일 경로 안에 있는 모든 텍스쳐의 이름을 가져온다.
+	// 1. 파일 경로 안에 있는 모든 리소스 이름을 가져온다.
 	vecPath = CPathManager::GetInstance()->GetFilesInDirectory(contentPath, _strFilter);
 
-	// 2. 모든 텍스쳐의 이름을 가져와 그 이름을 로딩한다.
+	// 2. 모든 리소스 이름을 가져와 그 이름을 로딩한다.
 	for (int i = 0; i < vecPath.size(); ++i) {
 		tstring path = vecPath[i];
 		CResourceManager::GetInstance()->LoadRes<TYPE>(vecPath[i], path);

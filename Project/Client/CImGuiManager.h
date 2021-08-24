@@ -21,6 +21,9 @@ public:
 	GUI* FindGUI(const string& _strKey);
 	void AddGUI(const string& _strName, GUI* _pGUI);
 
+public:
+	void InitCaptainForeverGUI();
+
 private:
 	// Test Codes
 	int m_iTestCodeType;

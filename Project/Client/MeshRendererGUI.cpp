@@ -39,7 +39,7 @@ void MeshRendererGUI::Update()
 
 		
 		vector<tstring> vecNames;
-		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::Mesh, vecNames);
+		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Mesh, vecNames);
 		pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Mesh));
 		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MeshRendererGUI::_SetMesh);
 		pListViewGUI->SetActive(true);
@@ -56,7 +56,7 @@ void MeshRendererGUI::Update()
 		assert(pListViewGUI);
 
 		vector<tstring> vecNames;
-		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::Material, vecNames);
+		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Material, vecNames);
 		pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Material));
 		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MeshRendererGUI::_SetMatrial);
 		pListViewGUI->SetActive(true);

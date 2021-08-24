@@ -91,7 +91,7 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 	if (ImGui::Button(strLabel.c_str())) {
 		// 목록 전달
 		vector<tstring> vecName;
-		CResourceManager::GetInstance()->GetResourceNames(E_ResourceType::Texture, vecName);
+		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
 		pListGUI->SetList(vecName, titleName);
 		pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
 		pListGUI->SetActive(true);

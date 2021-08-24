@@ -2,7 +2,7 @@
 #include "CCommandModuleScript_ca.h"
 
 CCommandModuleScript_ca::CCommandModuleScript_ca() :
-	CModuleScript_ca((UINT)SCRIPT_TYPE::COMMANDMODULESCRIPT_CA)
+	CModuleScript_ca((UINT)SCRIPT_TYPE::COMMANDMODULESCRIPT_CA, E_ModuleType_ca::Command, E_ModuleLevel_ca::Nemesis, E_ModuleSize_ca::Size1x1)
 {
 	SetWeight(15000.f);
 	SetHp(1600.f);
@@ -20,9 +20,13 @@ void CCommandModuleScript_ca::Update()
 {
 }
 
-void CCommandModuleScript_ca::InitModule(E_ModuleLevel_ca _eLevel)
+void CCommandModuleScript_ca::_InitModuleLevel(E_ModuleLevel_ca _eLevel)
 {
 	switch (_eLevel) {
+	case E_ModuleLevel_ca::Nemesis:
+		SetWeight(15000.f);
+		SetHp(16000.f);
+		break;
 	case E_ModuleLevel_ca::Alpha:
 		SetWeight(20000.f);
 		SetHp(500.f);

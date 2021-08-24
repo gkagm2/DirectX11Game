@@ -67,7 +67,9 @@ void CImGuiManager::Init()
     ImGui_ImplWin32_Init(CCore::GetInstance()->GetWndHandle());
     ImGui_ImplDX11_Init(DEVICE.Get(), CONTEXT.Get());
 
-    ImGuiInitTestCode();
+
+    //ImGuiInitTestCode();
+    InitCaptainForeverGUI();
     CreateGUI();
 }
 
@@ -145,6 +147,19 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "MenuGUI.h"
 #include "MainMenuGUI.h"
 #include "SceneViewGUI.h"
+
+
+#include "ModuleCreatorGUI_ca.h"
+void CImGuiManager::InitCaptainForeverGUI()
+{
+    Init_ShowGameObjectComponent();
+
+    ModuleCreatorGUI_ca* pModuleCreatorGUI = new ModuleCreatorGUI_ca;
+    pModuleCreatorGUI->Init();
+    AddGUI(pModuleCreatorGUI->GetName(), pModuleCreatorGUI);
+}
+
+
 void CImGuiManager::ImGuiInitTestCode()
 {
     if (0 == m_iTestCodeType) {

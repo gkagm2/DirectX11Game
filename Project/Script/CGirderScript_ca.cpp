@@ -2,14 +2,14 @@
 #include "CGirderScript_ca.h"
 
 CGirderScript_ca::CGirderScript_ca() :
-	CModuleScript_ca((UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA)
-{
-}
-CGirderScript_ca::CGirderScript_ca(UINT _iScriptNum) :
-	CModuleScript_ca(_iScriptNum)
+	CModuleScript_ca((UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA, E_ModuleType_ca::Girder1x1, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x1)
 {
 }
 
+CGirderScript_ca::CGirderScript_ca(UINT _iScriptNum, E_ModuleType_ca _eModuleType, E_ModuleLevel_ca _eModuleLevel, E_ModuleSize_ca _eModuleSize) :
+	CModuleScript_ca(_iScriptNum, _eModuleType, _eModuleLevel, _eModuleSize)
+{
+}
 
 CGirderScript_ca::~CGirderScript_ca()
 {
@@ -17,8 +17,6 @@ CGirderScript_ca::~CGirderScript_ca()
 
 void CGirderScript_ca::Start()
 {
-	InitModule(E_ModuleLevel_ca::Alpha);
-	InitModuleSize(E_ModuleSize_ca::Size1x1);
 }
 
 void CGirderScript_ca::Update()
@@ -37,7 +35,7 @@ void CGirderScript_ca::OnCollisionExit2D(CCollider2D* _pOther)
 {
 }
 
-void CGirderScript_ca::InitModule(E_ModuleLevel_ca _eLevel)
+void CGirderScript_ca::_InitModuleLevel(E_ModuleLevel_ca _eLevel)
 {
 	switch (_eLevel) {
 	case E_ModuleLevel_ca::Alpha:

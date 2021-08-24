@@ -12,6 +12,7 @@ CGirderScript_ca
 CKeyControllerScript_ca
 CLaserScript_ca
 CManagerContainer_ca
+CModuleCreator_ca
 CModuleScript_ca
 CObjectDragAndDropScript_ca
 CPlayerScript_ca

@@ -2,7 +2,7 @@
 #include "CBoosterScript_ca.h"
 
 CBoosterScript_ca::CBoosterScript_ca() :
-	CModuleScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA),
+	CModuleScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA, E_ModuleType_ca::Booster, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x1),
 	m_fForce(1.f)
 {
 }
@@ -19,7 +19,7 @@ void CBoosterScript_ca::Update()
 {
 }
 
-void CBoosterScript_ca::InitModule(E_ModuleLevel_ca _eLevel)
+void CBoosterScript_ca::_InitModuleLevel(E_ModuleLevel_ca _eLevel)
 {
 	switch (_eLevel) {
 	case E_ModuleLevel_ca::Alpha:
