@@ -58,14 +58,14 @@ void CModuleScript_ca::Update()
 {
 }
 
-const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPositon)
+const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPosition)
 {
-	const vector<TModuleConnectPoint_ca>& vecConnectPoints = GetConnectPoints();
+	const vector<TModuleConnector_ca>& vecConnectors = GetConnectors();
 	Vector3 vNearestPos = {};
 	float fMinDistance = (numeric_limits<float>::max)();
-	for (UINT i = 0; i < vecConnectPoints.size(); ++i) {
-		Vector3 vWorldPos = XMVector3TransformCoord(vecConnectPoints[i].vPosition, Transform()->GetWorldMatrix());
-		float fDis = Vector3::Distance(_vPositon, vWorldPos);
+	for (UINT i = 0; i < vecConnectors.size(); ++i) {
+		Vector3 vWorldPos = XMVector3TransformCoord(vecConnectors[i].vPosition, Transform()->GetWorldMatrix());
+		float fDis = Vector3::Distance(_vPosition, vWorldPos);
 		if (fMinDistance > fDis) {
 			vNearestPos = vWorldPos;
 			fMinDistance = fDis;
@@ -74,10 +74,29 @@ const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _v
 	return vNearestPos;
 }
 
+TModuleConnector_ca& CModuleScript_ca::FindNearestConnector(const Vector3& _vPosition)
+{
+	vector<TModuleConnector_ca>& vecConnectors = GetConnectors();
+	Vector3 vNearestPos = {};
+	float fMinDistance = (numeric_limits<float>::max)();
+	UINT idx = 0;
+	for (UINT i = 0; i < vecConnectors.size(); ++i) {
+		Vector3 vWorldPos = XMVector3TransformCoord(vecConnectors[i].vPosition, Transform()->GetWorldMatrix());
+		float fDis = Vector3::Distance(_vPosition, vWorldPos);
+		if (fMinDistance > fDis) {
+			vNearestPos = vWorldPos;
+			fMinDistance = fDis;
+			idx = i;
+		}
+	}
+
+	return vecConnectors[idx];
+}
+
 const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 {
 	Vector3 vMainPosition = {};
-	const vector<TModuleConnectPoint_ca>& vecConnectPoints = GetConnectPoints();
+	const vector<TModuleConnector_ca>& vecConnectPoints = GetConnectors();
 	for (UINT i = 0; i < vecConnectPoints.size(); ++i) {
 		if (vecConnectPoints[i].bIsMain) {
 			vMainPosition = XMVector3TransformCoord(vecConnectPoints[i].vPosition, Transform()->GetWorldMatrix());
@@ -93,68 +112,78 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 	switch (_eModuleSize) {
 	case E_ModuleSize_ca::Size1x1: {
 		//(위) 위 -> 아래
-		TModuleConnectPoint_ca tConnectPoint;
+		TModuleConnector_ca tConnectPoint;
 		tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(아래) 아래 -> 위
 		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
 		tConnectPoint.bIsMain = true;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽) 왼쪽->오른쪽
 		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(-0.5f, 0.f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽) 오른쪽 -> 왼쪽
 		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.5f, 0.f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 		break;
 	}
 		
 	case E_ModuleSize_ca::Size1x2: {
 		//(위) 위 -> 아래
-		TModuleConnectPoint_ca tConnectPoint;
+		TModuleConnector_ca tConnectPoint;
 		tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(아래) 아래 -> 위
 		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
 		tConnectPoint.bIsMain = true;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽 상단) 왼쪽->오른쪽
 		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(-0.5f, 0.125f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽 하단) 왼쪽->오른쪽
 		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(-0.5f, -0.125f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽 상단) 오른쪽 -> 왼쪽
 		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.5f, 0.125f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽 하단) 오른쪽 -> 왼쪽
 		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
 		tConnectPoint.vPosition = Vector3(0.5f, -0.125f, 0.f);
 		tConnectPoint.bIsMain = false;
+		tConnectPoint.bIsConnectable = true;
 		AddModuleConnectPoint(tConnectPoint);
 		break;
 	}

@@ -6,7 +6,8 @@ CConfigurationManager::CConfigurationManager() :
 	m_strLayerNames{},
 	m_strFilter(_T(".txt")),
 
-	m_strLayerFileName(_T("Layer.txt"))
+	m_strLayerFileName(_T("Layer.txt")),
+	m_fUnit(1.f)
 {
 	m_strRelConfigPath = STR_DIR_PATH_Config;
 	m_strAbsConfigPath = CPathManager::GetInstance()->GetContentPath() + tstring(STR_DIR_PATH_Config);
@@ -21,13 +22,15 @@ CConfigurationManager::~CConfigurationManager()
 
 void CConfigurationManager::Init()
 {
+	// Engine 설정
+	m_fUnit = 20.f; // 1 pixel당 unity
+
 	// 설정된 환경 값 불러오기
 	LoadLayer();
 }
 
 void CConfigurationManager::Update()
 {
-
 }
 
 void CConfigurationManager::Save()

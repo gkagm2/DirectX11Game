@@ -24,6 +24,7 @@ public:
     void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs);
 
     CLayer* GetLayer(UINT _iLayer) { return m_arrLayer[_iLayer]; }
+    void GetGameObjects(vector<CGameObject*>& _vecObjs, UINT _iLayer = MAX_SIZE_LAYER);
 
 private:
     void _AddGameObject(CGameObject* _pObj, UINT _iLayer = 0, bool _bChangeChildLayer = true);

@@ -9,6 +9,7 @@
 #include "CEventManager.h"
 #include "CRenderManager.h"
 #include "CMouseManager.h"
+#include "CConfigurationManager.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -39,7 +40,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 		MessageBox(nullptr, STR_MSG_FailDeviceInitializing, STR_MSG_InitError, MB_OK);
 		return E_FAIL;
 	}
-		
+	CConfigurationManager::GetInstance()->Init();
 	CPathManager::GetInstance()->Init();
 	CTimeManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();

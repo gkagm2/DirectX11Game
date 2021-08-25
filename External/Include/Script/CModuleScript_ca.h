@@ -34,16 +34,17 @@ enum class E_ModuleSize_ca {
 	End
 };
 
-struct TModuleConnectPoint_ca {
+struct TModuleConnector_ca {
 	Vector3 vPosition;	// 연결 위치 (object coordination position)
 	Vector3 vDirection;	// 연결 방향
 	bool bIsMain;		// Main 연결구
+	bool bIsConnectable;// 연결 가능한지 여부
 };
 
 class CModuleScript_ca : public CScript
 {
 private:
-	vector<TModuleConnectPoint_ca> m_vecModuleConnectPoint;
+	vector<TModuleConnector_ca> m_vecModuleConnectors;
 
 	CGameObject* m_pParentModuleGameObj;
 	vector<CGameObject*> m_pChildModuleGameObj;
@@ -75,10 +76,11 @@ public:
 	void SetModuleLevel(E_ModuleLevel_ca _eModuleLevel);
 	void SetModuleSize(E_ModuleSize_ca _eModuleSize);
 
-	const vector<TModuleConnectPoint_ca>& GetConnectPoints() { return m_vecModuleConnectPoint; }
+	vector<TModuleConnector_ca>& GetConnectors() { return m_vecModuleConnectors; }
 
 	// 연결당하는 위치
-	const Vector3& FindNearestConnectionPosition(const Vector3& _vPositon);
+	const Vector3& FindNearestConnectionPosition(const Vector3& _vPosition);
+	TModuleConnector_ca& FindNearestConnector(const Vector3& _vPosition);
 	// 연결하는 위치
 	const Vector3& GetMainConnectionPosition();
 
@@ -90,9 +92,9 @@ private:
 	void DisconnectPart();*/
 
 protected:
-	void AddModuleConnectPoint(const TModuleConnectPoint_ca& _tModuleConnectPoint) { m_vecModuleConnectPoint.push_back(_tModuleConnectPoint); }
+	void AddModuleConnectPoint(const TModuleConnector_ca& _tModuleConnectPoint) { m_vecModuleConnectors.push_back(_tModuleConnectPoint); }
 protected:
-	void _ClearModuleConnectPoint() { m_vecModuleConnectPoint.clear(); }
+	void _ClearModuleConnectPoint() { m_vecModuleConnectors.clear(); }
 
 public:
 	CLONE(CModuleScript_ca);

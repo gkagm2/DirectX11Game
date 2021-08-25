@@ -134,6 +134,35 @@ void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
 	}
 }
 
+// 전체 검색
+void CScene::GetGameObjects(vector<CGameObject*>& _vecObjs, UINT _iLayer)
+{
+	_vecObjs.clear();
+	vector<CGameObject*> vecRootObjs;
+	GetRootGameObjects(vecRootObjs);
+
+	list<CGameObject*> que;
+	for (UINT i = 0; i < vecRootObjs.size(); ++i)
+		que.push_back(vecRootObjs[i]);
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop_front();
+
+		if (_iLayer == MAX_SIZE_LAYER)
+			_vecObjs.push_back(pObj);
+		else {
+			if(_iLayer == pObj->GetLayer())
+				_vecObjs.push_back(pObj);
+		}
+
+		const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
+		for (UINT i = 0; i < vecChilds.size(); ++i) {
+			que.push_front(vecChilds[i]);
+		}
+	}
+}
+
 void CScene::_UnRegisterAllObjects()
 {
 	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)

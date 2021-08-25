@@ -29,25 +29,25 @@ void TransformGUI::Update()
 	ImGui::Text("Position "); ImGui::SameLine();
 	ImGui::Text("x"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##PositionX", &vTrans.x, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+	ImGui::DragFloat("##PositionX", &vTrans.x, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
 	ImGui::Text("y"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##PositionY", &vTrans.y, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+	ImGui::DragFloat("##PositionY", &vTrans.y, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
 	ImGui::Text("z"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##PositionZ", &vTrans.z, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
+	ImGui::DragFloat("##PositionZ", &vTrans.z, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
 
 	// Scale UI
 	ImGui::Text("Scale    "); ImGui::SameLine();
 	ImGui::Text("x"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##ScaleX", &vScale.x, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+	ImGui::DragFloat("##ScaleX", &vScale.x, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
 	ImGui::Text("y"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##ScaleY", &vScale.y, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+	ImGui::DragFloat("##ScaleY", &vScale.y, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
 	ImGui::Text("z"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##ScaleZ", &vScale.z, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
+	ImGui::DragFloat("##ScaleZ", &vScale.z, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags);
 
 	// Rotation UI
 	vRotation = vRotation * CMyMath::Rad2Deg();
