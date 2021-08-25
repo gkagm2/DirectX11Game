@@ -24,6 +24,7 @@ void CToolObjManager::Init()
 	pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pToolCamObj->Camera()->SetLayerCheckAll();
 	_AddGameObjectEx(pToolCamObj);
+	pToolCamObj->Camera()->SetSize(0.02f);
 
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
 		m_vecToolObjs[i]->Awake();

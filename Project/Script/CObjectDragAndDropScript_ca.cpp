@@ -10,9 +10,10 @@
 CObjectDragAndDropScript_ca::CObjectDragAndDropScript_ca() :
 	CScript((UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA),
 	m_pTargetObj(nullptr),
+	m_pModuleScript(nullptr),
 	m_pNearestModuleObj(nullptr),
-	m_fMaxSearchObjDistance(600.f),
-	m_fMaxConnectableDistance(25.f),
+	m_fMaxSearchObjDistance(1.f),
+	m_fMaxConnectableDistance(0.5f),
 	m_bIsConnectableOtherObj(false)
 {
 }
@@ -25,7 +26,7 @@ void CObjectDragAndDropScript_ca::Awake()
 {
 	GetGameObject()->AddComponent<CCollider2D>();
 	Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
-	Collider2D()->SetActive(false);
+	Collider2D()->SetActive(true);
 }
 
 void CObjectDragAndDropScript_ca::Update()
@@ -77,7 +78,6 @@ void CObjectDragAndDropScript_ca::Update()
 					}
 					// 현재 잡고 있는 오브젝트가 회전하게 된다.
 					Vector3 vDir = tConnector.vDirection;
-
 				}
 			}
 

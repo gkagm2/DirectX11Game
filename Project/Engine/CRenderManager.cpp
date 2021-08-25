@@ -66,6 +66,7 @@ void CRenderManager::_RenderInGame()
 		m_vecCam[i]->_SortObjects();
 		m_vecCam[i]->_RenderForward();
 		m_vecCam[i]->_RenderParticle();
+		m_vecCam[i]->_RenderCollider2D();
 		m_vecCam[i]->_RenderPostEffect();
 	}
 }
@@ -77,6 +78,7 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_SortObjects();
 		m_vecToolCam[i]->_RenderForward();
 		m_vecToolCam[i]->_RenderParticle();
+		m_vecToolCam[i]->_RenderCollider2D();
 		m_vecToolCam[i]->_RenderPostEffect();
 	}
 }

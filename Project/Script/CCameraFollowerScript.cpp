@@ -5,7 +5,7 @@
 CCameraFollowerScript::CCameraFollowerScript() :
 	CScript((UINT)SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT),
 	m_pTargetObj(nullptr),
-	m_fMouseScrollSpeed(18.f)
+	m_fMouseScrollSpeed(0.8f)
 {
 }
 

@@ -45,6 +45,7 @@ private:
 	vector<CGameObject*> m_vecForward;
 	vector<CGameObject*> m_vecParticle;
 	vector<CGameObject*> m_vecPostEffect;
+	vector<CGameObject*> m_vecCollider2D;
 
 public:
 	virtual void FinalUpdate() override;
@@ -93,6 +94,7 @@ private:
 	void _RenderForward();
 	void _RenderParticle();
 	void _RenderPostEffect();
+	void _RenderCollider2D();
 
 public:
 	CLONE(CCamera);

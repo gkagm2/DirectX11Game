@@ -4,7 +4,6 @@
 #include "CDevice.h"
 
 #include "CGameObject.h"
-#include "CConfigurationManager.h"
 // Test
 CTransform::CTransform() :
 	CComponent(E_ComponentType::Transform),
@@ -34,11 +33,8 @@ Vector3 CTransform::GetScale()
 
 void CTransform::FinalUpdate()
 {
-	float fUnit = CConfigurationManager::GetInstance()->GetUnit();
-	if (GetGameObject()->GetParentObject())
-		fUnit = 1.f;
 	// 크기 행렬
-	Matrix matScale = XMMatrixScaling(m_vLocalScale.x * fUnit, m_vLocalScale.y * fUnit, m_vLocalScale.z * fUnit);
+	Matrix matScale = XMMatrixScaling(m_vLocalScale.x, m_vLocalScale.y, m_vLocalScale.z);
 
 	// 회전 행렬
 	Matrix matRotX = XMMatrixRotationX(m_vLocalRotation.x);
@@ -47,7 +43,7 @@ void CTransform::FinalUpdate()
 
 	Matrix matRot = matRotX * matRotY * matRotZ;
 	// 이동 행렬
-	Matrix matTrans = XMMatrixTranslation(m_vLocalPosition.x * fUnit, m_vLocalPosition.y * fUnit, m_vLocalPosition.z * fUnit);
+	Matrix matTrans = XMMatrixTranslation(m_vLocalPosition.x, m_vLocalPosition.y, m_vLocalPosition.z);
 
 	m_matWorld = m_matLocal = matScale * matRot * matTrans;
 	

@@ -20,6 +20,9 @@ public:
 	SharedPtr<CMaterial> GetCloneMaterial();
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
 
+	void SetTexSize(const Vector2& _vSize);
+	const Vector2& GetTexSize();
+
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;

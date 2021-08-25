@@ -10,6 +10,9 @@
 #include "CMeshRenderer.h"
 #include "CCore.h"
 
+#include "CCollider2D.h"
+#include "CParticleSystem.h"
+
 // Test
 #include "CKeyManager.h"
 #include "CTimeManager.h"
@@ -19,7 +22,7 @@ CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
 	m_eProjectionType(E_ProjectionType::Perspective),
 	m_tFOVAxis{60.f, 67.f},
-	m_fSize{ 1.f },
+	m_fSize{ 0.02f },
 	m_tClippingPlanes{ 1.f, 1000.f },
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
@@ -105,6 +108,7 @@ void CCamera::_SortObjects()
 	m_vecForward.clear();
 	m_vecParticle.clear();
 	m_vecPostEffect.clear();
+	m_vecCollider2D.clear();
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 
@@ -139,6 +143,9 @@ void CCamera::_SortObjects()
 				else if (pObj->ParticleSystem()) {
 					m_vecParticle.push_back(pObj);
 				}
+				else if (pObj->Collider2D()) {
+					m_vecCollider2D.push_back(pObj);
+				}
 			}
 		}
 	}
@@ -159,7 +166,7 @@ void CCamera::_RenderParticle()
 	g_transform.matProjection = m_matProjection;
 
 	for (UINT i = 0; i < m_vecParticle.size(); ++i)
-		m_vecParticle[i]->Render();
+		m_vecParticle[i]->ParticleSystem()->Render();
 }
 
 void CCamera::_RenderPostEffect()
@@ -171,4 +178,13 @@ void CCamera::_RenderPostEffect()
 		CRenderManager::GetInstance()->_CopyBackBuffer();
 		m_vecPostEffect[i]->Render();
 	}
+}
+
+void CCamera::_RenderCollider2D()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	for (UINT i = 0; i < m_vecCollider2D.size(); ++i)
+		m_vecCollider2D[i]->Collider2D()->Render();
 }

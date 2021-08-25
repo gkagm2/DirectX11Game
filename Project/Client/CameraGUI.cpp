@@ -82,7 +82,7 @@ void CameraGUI::_ShowOrthographicUI()
 	// Size
 	ImGui::Text("Orthographic Size");
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	if (ImGui::DragFloat("Size##camOrthographicSize", &fOrthographicSize, 0.01f, -FLT_MAX, +FLT_MAX, "%.2f", flags)) {
+	if (ImGui::DragFloat("Size##camOrthographicSize", &fOrthographicSize, 0.001f, -FLT_MAX, +FLT_MAX, "%.4f", flags)) {
 		if (0.f == fOrthographicSize)
 			fOrthographicSize = 0.001f;
 		pCam->SetSize(fOrthographicSize);

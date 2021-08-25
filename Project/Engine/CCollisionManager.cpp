@@ -237,7 +237,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 	Vector3 vToDown2 = v3 - v0;
 
 	// 각 투영축을 모두 검사하기 위해 배열에 넣어줌
-	Vector3 arrProjAxis[4] = { vToLeft1, vToDown1, vToLeft2, vToDown2 };
+	Vector3 arrProjAxis[4] = { vToLeft1 , vToDown1 , vToLeft2 , vToDown2 };
 
 	Vector3 vCenterPosLeftCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pLeft->GetWorldMatrix());
 	Vector3 vCenterPosRightCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pRight->GetWorldMatrix());

@@ -475,7 +475,7 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT
 	CTexture* pTexture = new CTexture;
 	pTexture->Create(_iWidth, _iHeight, _eFormat, _iBindFlag);
 	AddRes<CTexture>(_strKey, pTexture);
-
+	m_bFixed = true;
 	return pTexture;
 }
 

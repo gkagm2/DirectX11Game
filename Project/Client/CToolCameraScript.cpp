@@ -13,8 +13,8 @@
 
 CToolCameraScript::CToolCameraScript() :
 	CScript(-1),
-	m_fSpeed(40.f),
-	m_fMouseScrollSpeed(14.f)
+	m_fSpeed(0.5f),
+	m_fMouseScrollSpeed(0.8f)
 {
 }
 

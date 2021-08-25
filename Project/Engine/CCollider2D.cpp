@@ -5,6 +5,7 @@
 #include "CDevice.h"
 #include "CTransform.h"
 #include "CScript.h"
+#include "CConfigurationManager.h"
 
 queue<CMaterial*> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
 
@@ -51,9 +52,14 @@ void CCollider2D::FinalUpdate()
 {
 	// 충돌체 크기 * 충돌체 이동(물체 크기로 미리 나눔) *  (물체 크기 * 물체 회전 * 물체 이동) == 충돌체의 World Matrix
 	//                                                  (           World Matrix       )
+	Vector2 vOffsetPosition = m_vOffsetPosition  / Transform()->GetScale().XY();
 
-	Vector2 vOffsetPosition = m_vOffsetPosition / Transform()->GetScale().XY();
+	//vOffsetPosition *= fUnit;
+	
 	Matrix matTrans = XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, 0.f);
+
+
+
 	Matrix matScale = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, 1.f);
 
 	m_matColWorld = matScale * matTrans * Transform()->GetWorldMatrix();

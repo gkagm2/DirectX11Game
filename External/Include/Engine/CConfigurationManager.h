@@ -18,19 +18,12 @@ private:
 	tstring m_strFormatRead;
 	tstring m_strFormatWrite;
 
-private:
-	float m_fUnit;
-
 public:
 	void Init();
 	void Update();
 
 	void Save();
 	void Load();
-
-public:
-	void SetUnit(float _fUnit) { m_fUnit = _fUnit; }
-	float GetUnit() { return m_fUnit; }
 
 private:
 	tstring m_strLayerFileName;
