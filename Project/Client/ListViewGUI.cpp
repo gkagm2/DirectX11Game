@@ -35,8 +35,8 @@ void ListViewGUI::Update()
         ImGui::SetNextWindowSize(ImVec2(300.f, 400.f));
 
 
-        char strFilter[255]{};
-        ImGui::InputText("##ListBox Filter", strFilter,255);
+        char filter[255]{};
+        ImGui::InputText("##ListBox Filter", filter,255);
 
         static int item_current_idx = 0; // 선택한 데이터의 인덱스
         // 리스트를 표시
@@ -45,7 +45,10 @@ void ListViewGUI::Update()
             for (UINT i = 0; i < m_vecListAdr.size(); ++i) {
                 // 문자열 filter 
                 string str = m_vecListAdr[i];
-                if (strcmp(strFilter, "") != 0) {
+                string strFilter = filter;
+                StringTool::StringToLower(str);
+                StringTool::StringToLower(strFilter);
+                if (strcmp(filter, "") != 0) {
                     if (str.find(strFilter) == string::npos)
                         continue;
                 }

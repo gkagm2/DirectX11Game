@@ -29,3 +29,26 @@ void TStringToArr(const tstring& _in, char* _out, int _iSize)
 	strcpy_s(_out, _iSize, str.c_str());
 }
 
+void StringTool::StringToLower(string& _str)
+{
+	int i = 0;
+	int iStrSize = _str.size();
+	while (i < iStrSize) {
+		if (std::isupper(_str[i])) {
+			_str[i] = std::tolower(_str[i]);
+		}
+		++i;
+	}
+}
+
+void StringTool::StringToUpper(string& _str)
+{
+	int i = 0;
+	int iStrSize = _str.size();
+	while (i < iStrSize) {
+		if (std::islower(_str[i])) {
+			_str[i] = std::toupper(_str[i]);
+		}
+		++i;
+	}
+}

@@ -116,3 +116,8 @@ inline void StringToTString(const string& _in, tstring& _out) {
 
 void StringToArr(const string& _in, char* _out, int _iSize);
 void TStringToArr(const tstring& _in, char* _out, int _iSize);
+
+namespace StringTool {
+	void StringToLower(string& _str);
+	void StringToUpper(string& _str);
+}
