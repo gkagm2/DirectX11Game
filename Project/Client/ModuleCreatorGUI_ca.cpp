@@ -10,6 +10,7 @@
 #include <Engine\CCamera.h>
 #include <Engine\CRenderManager.h>
 #include <Engine\CCore.h>
+#include "DebugGUI.h"
 
 #include "TextureGUI.h"
 
@@ -221,39 +222,41 @@ void ModuleCreatorGUI_ca::Update()
 
             iLayer = CMyMath::Clamp(iLayer, 0, MAX_SIZE_LAYER - 1);
             if (ImGui::Button("Add")) {
-
                 tstring strKey {};
                 StringToTString(m_vecPrefabKey[selectedModule], strKey);
                 // 프리펩스에서 불러오기
                 SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->LoadRes<CPrefab>(strKey);
-                if (nullptr == pPrefab.Get()) {
-                    assert(nullptr && _T("Prefab을 찾을 수 없음"));
-                    return;
-                }
-                CCamera* pCamera = CRenderManager::GetInstance()->GetToolCamera();
-                Vector2 vRespawnPos = CCore::GetInstance()->GetWindowResolution();
-                vRespawnPos /= 2.f;
-                Vector3 vCreationPosition = pCamera->GetScreenToWorld2DPosition(vRespawnPos);
-                CGameObject* pNewObj = CObject::InstantiateEvn(pPrefab, vCreationPosition, iLayer);
-              
-                CModuleScript_ca* pModuleScript = pNewObj->GetComponent<CModuleScript_ca>();
-                if (nullptr == pModuleScript) {
-                    assert(nullptr);
+
+                if (nullptr == pPrefab->GetProtoObj()) {
+                    DBug->Debug("[Warning] can't find the prefab file");
+                   // assert(nullptr && _T("Prefab을 찾을 수 없음"));
                 }
                 else {
-                    UINT iSelectedModuleLevel;
-                    if (E_ModuleType_ca::Command == (E_ModuleType_ca)selectedModule)
-                        iSelectedModuleLevel = selectedCommandModuleLevel;
-                    else
-                        iSelectedModuleLevel = selectedModuleLevel;
-                    pModuleScript->SetModuleLevel((E_ModuleLevel_ca)iSelectedModuleLevel);
+                    CCamera* pCamera = CRenderManager::GetInstance()->GetToolCamera();
+                    Vector2 vRespawnPos = CCore::GetInstance()->GetWindowResolution();
+                    vRespawnPos /= 2.f;
+                    Vector3 vCreationPosition = pCamera->GetScreenToWorld2DPosition(vRespawnPos);
+                    CGameObject* pNewObj = CObject::InstantiateEvn(pPrefab, vCreationPosition, iLayer);
+
+                    CModuleScript_ca* pModuleScript = pNewObj->GetComponent<CModuleScript_ca>();
+                    if (nullptr == pModuleScript) {
+                        assert(nullptr);
+                    }
+                    else {
+                        UINT iSelectedModuleLevel;
+                        if (E_ModuleType_ca::Command == (E_ModuleType_ca)selectedModule)
+                            iSelectedModuleLevel = selectedCommandModuleLevel;
+                        else
+                            iSelectedModuleLevel = selectedModuleLevel;
+                        pModuleScript->SetModuleLevel((E_ModuleLevel_ca)iSelectedModuleLevel);
 
 
-                    CGirder1x2Script_ca* pGirder1x2 = dynamic_cast<CGirder1x2Script_ca*>(pModuleScript);
-                    if (pGirder1x2)
-                        pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x2);
-                    else
-                        pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x1);
+                        CGirder1x2Script_ca* pGirder1x2 = dynamic_cast<CGirder1x2Script_ca*>(pModuleScript);
+                        if (pGirder1x2)
+                            pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x2);
+                        else
+                            pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x1);
+                    }
                 }
             }
 

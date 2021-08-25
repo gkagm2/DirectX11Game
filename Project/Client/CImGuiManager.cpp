@@ -95,7 +95,7 @@ void CImGuiManager::Update()
 
     // GUI Update
     for (const auto& pair : m_mapGUI) {
-        if(pair.second->IsActive())
+        if(pair.second->IsActive()) 
             pair.second->Update();
     }
 }
