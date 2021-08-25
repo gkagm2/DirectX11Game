@@ -169,19 +169,31 @@ void InspectorGUI::UpdateObjectGUI()
 	int iLayer = (int)m_pTargetObject->GetLayer();
 	ImGui::Text("Cur Layer %d", iLayer);
 	static int iSetLayer = -1;
-	if (ImGui::InputInt("Set Layer##GameObject", &iSetLayer)) {
-	}
+	ImGui::InputInt("Set Layer##GameObject", &iSetLayer);
+	iSetLayer = CMyMath::Clamp(iSetLayer, 0, MAX_SIZE_LAYER - 1);
 
 	if (ImGui::Button("Sel##LayerSelect")) {
-		if ((int)m_pTargetObject->GetLayer() != iSetLayer &&
-			iSetLayer != -1) {
+		if ((int)m_pTargetObject->GetLayer() != iSetLayer) {
 			// 레이어를 바꾼다.
 			// 자신부터 자식까지 모두 바꾸기
 			CObject::ChangeLayerEvn(m_pTargetObject, iSetLayer);
 		}
-		iSetLayer = -1;
+		iSetLayer = 0;
 	}
 	ImGui::Separator();
+
+	// 태그 변경
+	int iTag = (int)m_pTargetObject->GetTag();
+	ImGui::Text("Cur Tag %d", iTag);
+	static int iSetTag = 0;
+	ImGui::InputInt("Set Tag##GameObject", &iSetTag);
+	iSetTag = CMyMath::Clamp(iSetTag, 0, MAX_SIZE_TAG - 1);
+	if (ImGui::Button("Sel##TagSelect")) {
+		if ((int)m_pTargetObject->GetTag() != iSetTag)
+			m_pTargetObject->SetTag((UINT)iSetTag);
+		iSetTag = 0;
+	}
+
 
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])
