@@ -27,6 +27,8 @@ void CObjectDragAndDropScript_ca::Awake()
 void CObjectDragAndDropScript_ca::Update()
 {
 	CCamera* pMainCamera = CRenderManager::GetInstance()->GetMainCamera();
+	if (nullptr == pMainCamera)
+		return;
 	Vector3 vWorldMousePos = pMainCamera->GetScreenToWorld2DPosition(MousePosition);
 
 	if (InputKeyPress(E_Key::LBUTTON)) {

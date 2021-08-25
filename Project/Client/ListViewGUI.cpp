@@ -32,16 +32,23 @@ void ListViewGUI::Update()
 
     // 모달 팝업창을 만든다.
     if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen, ImGuiWindowFlags_None)) {
-        ImGui::SetNextWindowSize(ImVec2(300.f, 500.f));
+        ImGui::SetNextWindowSize(ImVec2(300.f, 400.f));
 
+
+        char strFilter[255]{};
+        ImGui::InputText("##ListBox Filter", strFilter,255);
 
         static int item_current_idx = 0; // 선택한 데이터의 인덱스
         // 리스트를 표시
         if (ImGui::BeginListBox("##ListBox")) {
-            
-
             // 리스트에 적을 글자들을 순회하여 표시
             for (UINT i = 0; i < m_vecListAdr.size(); ++i) {
+                // 문자열 filter 
+                string str = m_vecListAdr[i];
+                if (strcmp(strFilter, "") != 0) {
+                    if (str.find(strFilter) == string::npos)
+                        continue;
+                }
 
                 const bool is_selected = (item_current_idx == i);
                 if (ImGui::Selectable(m_vecListAdr[i], is_selected))
