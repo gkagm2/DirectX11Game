@@ -31,6 +31,7 @@ public:
 	
 public:
 	virtual CMaterial* Clone() override;
+	virtual CMaterial* CloneDeep();
 	CMaterial();
 	CMaterial(bool _bIsDefaultMaterial);
 	virtual ~CMaterial() override;

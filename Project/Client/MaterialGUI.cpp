@@ -3,6 +3,7 @@
 #include "ListViewGUI.h"
 #include "CImGuiManager.h"
 #include "ParamGUI.h"
+#include "InspectorGUI.h"
 
 #include <Engine\CResourceManager.h>
 #include <Engine\CMaterial.h>
@@ -29,7 +30,40 @@ void MaterialGUI::Update()
 
 
 	// Material이 참조하는 Shader 출력
-	
+	// 이름 바꾸기
+	if (!pMtrl->IsDefaultMaterial()) {
+		
+		ImGui::Text("Name"); ImGui::SameLine();
+		static char strResourceName[255] = "";
+		ImGui::InputText("##MaterialName", strResourceName, 255);
+		ImGui::SameLine();
+
+		if (ImGui::Button("Change##MaterialName")) {
+			if (strcmp(strResourceName, "") != 0) {
+				tstring strKey;
+				StringToTString(strResourceName, strKey);
+				CResourceManager::GetInstance()->ChangeResourceKeyEvn(GetTargetResource()->GetKey(), strKey, GetTargetResource()->GetResourceType());
+				memset(strResourceName, 0, 255);
+				/*InspectorGUI* pInspectorGUI = dynamic_cast<InspectorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector));
+				if (pInspectorGUI)
+					pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);*/
+			}
+		}
+	}
+
+	// 메터리얼 삭제
+	if (false == pMtrl->IsDefaultMaterial()) {
+		// Delete Resource Button
+		if (ImGui::Button("Del##Resource")) {
+			// Resource 삭제
+			CResourceManager::GetInstance()->DeleteCopiedMaterialEvn(pMtrl->GetKey());
+			InspectorGUI* pInspectorGUI = dynamic_cast<InspectorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector));
+			if (pInspectorGUI) {
+				pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
+			}
+		}
+	}
+
 	char strShaderName[255] = "";
 	GetResourceName(pShader, strShaderName, 255);
 

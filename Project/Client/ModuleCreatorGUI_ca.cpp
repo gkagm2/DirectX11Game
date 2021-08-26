@@ -7,6 +7,7 @@
 #include <Script\CModuleScript_ca.h>
 #include <Script\CCommandModuleScript_ca.h>
 #include <Script\CGirder1x2Script_ca.h>
+#include <Engine\CGameObject.h>
 #include <Engine\CCamera.h>
 #include <Engine\CRenderManager.h>
 #include <Engine\CCore.h>
@@ -238,7 +239,8 @@ void ModuleCreatorGUI_ca::Update()
                     Vector3 vCreationPosition = pCamera->GetScreenToWorld2DPosition(vRespawnPos);
                     CGameObject* pNewObj = CObject::InstantiateEvn(pPrefab, vCreationPosition, iLayer);
 
-                    CModuleScript_ca* pModuleScript = pNewObj->GetComponent<CModuleScript_ca>();
+                    CGameObject* pModuleObj = pNewObj->FindGameObjectInChilds(_T("Module"));
+                    CModuleScript_ca* pModuleScript = pModuleObj->GetComponent<CModuleScript_ca>();
                     if (nullptr == pModuleScript) {
                         assert(nullptr);
                     }

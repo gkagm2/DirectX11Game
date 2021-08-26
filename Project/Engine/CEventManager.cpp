@@ -134,12 +134,26 @@ void CEventManager::_Excute(const TEvent& _event)
 		CSceneManager::GetInstance()->ChangeScene(pNextScene);
 	}
 		break;
+	case E_EventType::Chagne_ResourceKey: {
+		// lparam : key
+		// wparam : key to change
+		// mparam : resource type
+		tstring* pStrKey = (tstring*)_event.lparam;
+		tstring* pStrKeyChange = (tstring*)_event.wparam;
+		E_ResourceType eResourceType = (E_ResourceType)_event.mparam;
+
+		CResourceManager::GetInstance()->_ChangeResourceKey(*pStrKey, *pStrKeyChange, eResourceType);
+
+		if (pStrKey) delete pStrKey;
+		if (pStrKeyChange)delete pStrKeyChange;
+	}
+		break;
 	case E_EventType::Remove_Material: {
 		// lparam : tstring material Key
-		tstring* pstrKey = (tstring*)_event.lparam;
-		CResourceManager::GetInstance()->_DeleteCopiedMaterial(*pstrKey);
-		if (pstrKey)
-			delete pstrKey;
+		tstring* pStrKey = (tstring*)_event.lparam;
+		CResourceManager::GetInstance()->_DeleteCopiedMaterial(*pStrKey);
+		if (pStrKey)
+			delete pStrKey;
 	}
 		break;
 	case E_EventType::Remove_Resource: {
@@ -185,6 +199,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Create_Object:
 	case E_EventType::Destroy_Object:
 	case E_EventType::Change_State:
+	case E_EventType::Chagne_ResourceKey:
 	case E_EventType::Remove_Material:
 	case E_EventType::Remove_Resource:
 	case E_EventType::Destroy_Script:

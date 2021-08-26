@@ -58,6 +58,24 @@ void CModuleScript_ca::Update()
 {
 }
 
+bool CModuleScript_ca::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_eModuleLevel, _pFile);
+	FWrite(m_eModuleType, _pFile);
+	FWrite(m_eModuleSize, _pFile);
+	return true;
+}
+bool CModuleScript_ca::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_eModuleLevel, _pFile);
+	FRead(m_eModuleType, _pFile);
+	FRead(m_eModuleSize, _pFile);
+
+	SetModuleLevel(m_eModuleLevel);
+	SetModuleSize(m_eModuleSize);
+	return true;
+}
+
 const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPosition)
 {
 	const vector<TModuleConnector_ca>& vecConnectors = GetConnectors();
@@ -104,6 +122,19 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 		}
 	}
 	return vMainPosition;
+}
+
+const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()
+{
+	Vector3 vMainLocalPosition = {};
+	const vector<TModuleConnector_ca>& vecConnectPoints = GetConnectors();
+	for (UINT i = 0; i < vecConnectPoints.size(); ++i) {
+		if (vecConnectPoints[i].bIsMain) {
+			vMainLocalPosition = vecConnectPoints[i].vPosition;
+			break;
+		}
+	}
+	return vMainLocalPosition;
 }
 
 void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
@@ -191,7 +222,7 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		assert(nullptr);
 		break;
 	}
-} 
+}
 
 void CModuleScript_ca::SetModuleLevel(E_ModuleLevel_ca _eModuleLevel) {
 	m_eModuleLevel = _eModuleLevel;

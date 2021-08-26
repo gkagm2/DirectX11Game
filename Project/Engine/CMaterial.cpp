@@ -237,3 +237,9 @@ CMaterial* CMaterial::Clone()
 	CResourceManager::GetInstance()->AddCloneMaterial(pMtrl);
 	return pMtrl.Get();
 }
+
+CMaterial* CMaterial::CloneDeep()
+{
+	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
+	return pMtrl.Get();
+}

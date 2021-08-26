@@ -88,7 +88,7 @@ void InspectorGUI::Init()
 
 	// Script GUI
 	m_pScriptGUI = new ScriptGUI;
-	m_pScriptGUI->SetUISize(ImVec2(0.f, 0.f));
+	m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
 
 	//////////// Resources
 
@@ -128,6 +128,7 @@ void InspectorGUI::Update()
 
 void InspectorGUI::UpdateObjectGUI()
 {
+	ImGui::BeginChild("Object view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
 	ImGui::Separator();
 	
 	// 이름 바꾸기
@@ -204,6 +205,9 @@ void InspectorGUI::UpdateObjectGUI()
 	if (m_pScriptGUI)
 		m_pScriptGUI->Update();
 
+	ImGui::EndChild();
+
+
 	// 컴포넌트 추가 버튼
 	if (ImGui::Button("Add Component##ComponentAdd")) {
 		// 리스트 뷰를 보여준다.
@@ -259,20 +263,6 @@ void InspectorGUI::UpdateResourceGUI()
 	}
 
 	E_ResourceType eType = m_pTargetResource->GetResourceType();
-
-	if (eType == E_ResourceType::Material) {
-		// 메터리얼 삭제
-		CMaterial* pMtrl = (CMaterial*)m_pTargetResource;
-		if (false == pMtrl->IsDefaultMaterial()) {
-			// Delete Resource Button
-			ImGui::SameLine();
-			if (ImGui::Button("Del##Resource")) {
-				// Resource 삭제
-				CResourceManager::GetInstance()->DeleteCopiedMaterialEvn(pMtrl->GetKey());
-				m_eMode = E_InspectorUIMode::None;
-			}
-		}
-	}
 
 	if (nullptr == m_arrResGUI[(UINT)eType]) {
 		return;

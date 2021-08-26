@@ -60,11 +60,15 @@ public:
 
 
 public:
+	
 	void DeleteCopiedMaterialEvn(const tstring& _strKey);
+	void ChangeResourceKeyEvn(const tstring& _strKey, const tstring& _strKeyChange, E_ResourceType _eResourceType);
 	void DeleteCustomResourceEvn(const tstring& _strKey, E_ResourceType _eResourceType);
 	
 private:
+	
 	void _DeleteCopiedMaterial(const tstring& _strKey);
+	bool _ChangeResourceKey(const tstring& _strOldKey, const tstring& _strNewKey, E_ResourceType _eResourceType);
 	bool _DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType);
 	template<typename TYPE>
 	void LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter);

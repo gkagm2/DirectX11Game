@@ -31,11 +31,12 @@ void ListViewGUI::Update()
         return;
 
     // 모달 팝업창을 만든다.
+    static char filter[255]{};
     if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen, ImGuiWindowFlags_None)) {
         ImGui::SetNextWindowSize(ImVec2(300.f, 400.f));
 
-
-        char filter[255]{};
+        if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
+            ImGui::SetKeyboardFocusHere(0);
         ImGui::InputText("##ListBox Filter", filter,255);
 
         static int item_current_idx = 0; // 선택한 데이터의 인덱스
@@ -70,8 +71,9 @@ void ListViewGUI::Update()
 
                     if (m_pGDBCCallBack)
                         m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[i], 0);
-
+                    memset(filter, 0, 255);
                     ImGui::CloseCurrentPopup();
+                    
                     _Clear();
                 }
             }
@@ -81,6 +83,7 @@ void ListViewGUI::Update()
         ImGui::EndPopup();
      }
     else {
+        memset(filter, 0, 255);
         _Clear();
     }
 }

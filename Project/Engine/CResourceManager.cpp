@@ -3,6 +3,8 @@
 #include "CMesh.h"
 #include "CEventManager.h"
 #include "CGraphicsShader.h"
+#include "CSceneManager.h"
+#include "CScene.h"
 
 CResourceManager::CResourceManager() :
 	m_bFixed(false)
@@ -490,6 +492,19 @@ SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComP
 	return pTexture;
 }
 
+void CResourceManager::ChangeResourceKeyEvn(const tstring& _strKey, const tstring& _strKeyChange, E_ResourceType _eResourceType)
+{
+	TEvent even = {};
+	even.eType = E_EventType::Chagne_ResourceKey;
+	tstring* pStrKey = new tstring(_strKey);
+	tstring* pStrKeyChange = new tstring(_strKeyChange);
+	even.lparam = (DWORD_PTR)pStrKey;
+	even.wparam = (DWORD_PTR)pStrKeyChange;
+	even.mparam= (DWORD_PTR)_eResourceType; 
+	
+	CEventManager::GetInstance()->AddEvent(even);
+}
+
 void CResourceManager::DeleteCopiedMaterialEvn(const tstring& _strKey)
 {
 	TEvent even = {};
@@ -549,6 +564,114 @@ void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
 	if (-1 == _tremove(strPath.c_str())) {
 		//assert(nullptr && _T("파일 삭제 실패"));
 	}
+}
+
+/// <param name="_strOldKey">경로명 + 키 이름 + 확장명으로 되어있는 Key</param>
+/// <param name="_strNewKey">키 이름</param>
+/// <param name="_eResourceType">리소스 타입</param>
+bool CResourceManager::_ChangeResourceKey(const tstring& _strOldKey, const tstring& _strNewKey, E_ResourceType _eResourceType)
+{
+	bool bIsChangedName = false;
+
+	if (_strOldKey == _strNewKey)
+		return bIsChangedName;
+
+	SharedPtr<CResource> pResource = nullptr;
+	switch (_eResourceType) {
+	case E_ResourceType::Prefab: {
+		SharedPtr<CPrefab> pPrefab = FindRes<CPrefab>(_strOldKey).Get();
+		if (nullptr != pPrefab && pPrefab->GetProtoObj()) {
+			// 파일 이름 변경
+			tstring strOldFilePath = CPathManager::GetInstance()->GetContentPath() + pPrefab->GetRelativePath();
+
+			tstring strNewPrefabKey = STR_FILE_PATH_Prefab + _strNewKey + _T(".pref");
+			tstring strNewFilePath = CPathManager::GetInstance()->GetContentPath() + strNewPrefabKey;
+			if (_trename(strOldFilePath.c_str(), strNewFilePath.c_str()) == -1) {
+				assert(nullptr && _T("Prefab 파일 이름을 바꿀 수 없습니다."));
+				return bIsChangedName = false;
+			}
+				
+
+			// 리소스의 Key를 바꿔서 다시 리소스에 저장
+			pPrefab->SetKey(strNewPrefabKey);
+			
+			tstring strNewRelativePath = strNewPrefabKey;
+			pPrefab->SetRelativePath(strNewRelativePath);
+			pPrefab->Save(strNewRelativePath);
+
+			// 리소스에서 삭제, 삽입
+			unordered_map<tstring, CResource*>::iterator it = m_umapResource[(UINT)_eResourceType].find(_strOldKey);
+			if (it != m_umapResource[(UINT)_eResourceType].end()) {
+				m_umapResource[(UINT)_eResourceType].erase(it);
+				AddRes(strNewPrefabKey, pPrefab.Get());
+			}
+				
+			bIsChangedName = true;
+		}
+	}
+		break;
+	case E_ResourceType::Material: {
+		SharedPtr<CMaterial> pMtrl = FindRes<CMaterial>(_strOldKey).Get();
+		if (nullptr != pMtrl && nullptr != pMtrl.Get()) {
+			// 파일 이름 변경
+			tstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+			strFilePath += pMtrl->GetRelativePath();
+			tstring strOldFilePath = CPathManager::GetInstance()->GetContentPath() + pMtrl->GetRelativePath();
+
+			tstring strNewKeyName = STR_FILE_PATH_Material + _strNewKey + _T(".mtrl");
+			tstring strNewFilePath = CPathManager::GetInstance()->GetContentPath() + strNewKeyName;
+				
+			if (_trename(strOldFilePath.c_str(), strNewFilePath.c_str()) == -1) {
+				assert(nullptr && _T("Material 파일 이름을 바꿀 수 없습니다."));
+				return bIsChangedName = false;
+			}
+				
+
+			// 이름 바꿔서 다시 리소스에 저장
+			pMtrl->SetKey(strNewKeyName);
+
+			tstring strRelativePath = strNewKeyName;
+			pMtrl->SetRelativePath(strRelativePath);
+			pMtrl->Save(strRelativePath);
+
+			// 리소스에서 삭제, 삽입
+			unordered_map<tstring, CResource*>::iterator it = m_umapResource[(UINT)_eResourceType].find(_strOldKey);
+			if (it != m_umapResource[(UINT)_eResourceType].end()) {
+				if (it->second)
+				m_umapResource[(UINT)_eResourceType].erase(it);
+				AddRes(strNewKeyName, pMtrl.Get());
+			}
+			bIsChangedName = true;
+		}
+	}
+		break;
+	case E_ResourceType::GraphicsShader:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CGraphicsShader>(_strOldKey).Get();
+		break;
+	case E_ResourceType::ComputeShader:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CComputeShader>(_strOldKey).Get();
+		break;
+	case E_ResourceType::Mesh:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CMesh>(_strOldKey).Get();
+		break;
+	case E_ResourceType::Texture:
+		assert(nullptr && _T("아직 쓰기에는 위험하다"));
+		pResource = FindRes<CTexture>(_strOldKey).Get();
+		break;
+	case E_ResourceType::Sound:
+		//pResource = FindRes<CSound>(_strKey).Get();
+			// TOOD : 해야 됨.
+		assert(nullptr && _T("미완성"));
+		return bIsChangedName;
+		break;
+	default:
+		assert(nullptr && _T("ResourceType : 알수없는 enum 값"));
+		return bIsChangedName;
+	}
+	m_bFixed = true;
 }
 
 bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType)

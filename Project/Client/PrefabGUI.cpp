@@ -22,6 +22,39 @@ void PrefabGUI::Update()
 
 	CPrefab* pPrefab = (CPrefab*)GetTargetResource();
 
+	// 이름 바꾸기
+	ImGui::Text("Prefab Name"); ImGui::SameLine();
+	static char strResourceName[255] = "";
+	ImGui::InputText("##PrefName", strResourceName, 255);
+	ImGui::SameLine();
+
+	if (ImGui::Button("Change##PrefabName")) {
+		if (strcmp(strResourceName, "") != 0) {
+			tstring strKey;
+			StringToTString(strResourceName, strKey);
+			CResourceManager::GetInstance()->ChangeResourceKeyEvn(GetTargetResource()->GetKey(), strKey, GetTargetResource()->GetResourceType());
+			memset(strResourceName, 0, 255);
+			/*InspectorGUI* pInspectorGUI = dynamic_cast<InspectorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector));
+			if (pInspectorGUI)
+				pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);*/
+		}
+	}
+	static char strObjectName[255] = "";
+	ImGui::Text("Object Name"); ImGui::SameLine();
+	ImGui::InputText("##ObjName", strObjectName, 255);
+	ImGui::SameLine();
+	if (ImGui::Button("Change##ObjectNameInPrefab")) {
+		if (strcmp(strObjectName, "") != 0) {
+			tstring strName;
+			StringToTString(strObjectName, strName);
+			pPrefab->GetProtoObj()->SetName(strName);
+			pPrefab->Save(pPrefab->GetRelativePath());
+			memset(strObjectName, 0, 255);
+		}
+	}
+
+
+	// 삭제
 	if (ImGui::Button("Del##PrefabDelete")) {
 		CResourceManager::GetInstance()->DeleteCustomResourceEvn(pPrefab->GetKey(), pPrefab->GetResourceType());
 
@@ -35,7 +68,7 @@ void PrefabGUI::Update()
 	tstring tstrName = pPrefab->GetProtoObj()->GetName();
 	string strName;
 	TStringToString(tstrName, strName);
-	ImGui::Text("Name : %s", strName.c_str());
+	ImGui::Text("Game Object Name : %s", strName.c_str());
 
 	// 들어갈 레이어
 	ImGui::DragInt("Insert Layer", &m_iLayer, 1, 0, MAX_SIZE_LAYER - 1, "%d");

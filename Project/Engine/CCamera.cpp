@@ -166,7 +166,7 @@ void CCamera::_RenderParticle()
 	g_transform.matProjection = m_matProjection;
 
 	for (UINT i = 0; i < m_vecParticle.size(); ++i)
-		m_vecParticle[i]->ParticleSystem()->Render();
+		m_vecParticle[i]->Render();
 }
 
 void CCamera::_RenderPostEffect()
@@ -186,5 +186,5 @@ void CCamera::_RenderCollider2D()
 	g_transform.matProjection = m_matProjection;
 
 	for (UINT i = 0; i < m_vecCollider2D.size(); ++i)
-		m_vecCollider2D[i]->Collider2D()->Render();
+		m_vecCollider2D[i]->Render();
 }

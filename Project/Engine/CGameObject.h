@@ -56,6 +56,10 @@ public:
 
 	CGameObject* GetParentObject() { return m_pParentObj; }
 	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
+	CGameObject* FindGameObjectInChilds(const tstring& _strObjName);
+
+	template<typename TYPE>
+	CGameObject* FindGameObjectInChilds();
 
 private:
 	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }
@@ -176,4 +180,29 @@ inline TYPE* CGameObject::GetComponent()
 	}
 
 	return nullptr;
+}
+
+template<typename TYPE>
+inline CGameObject* CGameObject::FindGameObjectInChilds()
+{
+	CGameObject* pFindObject = nullptr;
+	list<CGameObject*> que;
+	const vector<CGameObject*>& vecChilds = GetChildsObject();
+	for (UINT i = 0; i < vecChilds.size(); ++i)
+		que.push_back(vecChilds[i]);
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop_front();
+		TYPE* pComponent = GetComponent<TYPE>();
+		if (pComponent) {
+			pFindObject = pObj;
+			break;
+		}
+		const vector<CGameObject*>& childs = pObj->GetChildsObject();
+		for (UINT i = 0; i < childs.size(); ++i)
+			que.push_back(childs[i]);
+	}
+
+	return pFindObject;
 }

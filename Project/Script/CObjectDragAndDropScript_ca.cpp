@@ -25,8 +25,9 @@ CObjectDragAndDropScript_ca::~CObjectDragAndDropScript_ca()
 void CObjectDragAndDropScript_ca::Awake()
 {
 	GetGameObject()->AddComponent<CCollider2D>();
-	Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
-	Collider2D()->SetActive(true);
+	
+	Collider2D()->SetOffsetScale(Vector2(0.1f, 0.1f));
+	Collider2D()->SetActive(false);
 }
 
 void CObjectDragAndDropScript_ca::Update()
@@ -91,8 +92,15 @@ void CObjectDragAndDropScript_ca::Update()
 					TModuleConnector_ca& tConnector = m_pNearestModuleObj->GetComponent<CModuleScript_ca>()->FindNearestConnector(vWorldMousePos);
 
 					if (tConnector.bIsConnectable) {
-						m_pTargetObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
-						m_pTargetObj->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
+						Vector3 vConnectPos = tConnector.vPosition;
+						Vector3 vMainConnectPos = m_pTargetObj->GetComponent<CModuleScript_ca>()->GetMainConnectionLocalPosition();
+
+						// 위치에 같다 붙인다
+						m_pTargetObj->Transform()->SetLocalPosition(vMainConnectPos  - vConnectPos);
+
+						// 회전을 해야 한다.
+
+
 						CObject::AddChildGameObjectEvn(m_pNearestModuleObj, m_pTargetObj);
 					}
 				}

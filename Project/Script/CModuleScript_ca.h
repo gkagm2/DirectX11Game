@@ -60,6 +60,10 @@ public:
 	virtual void Update() override;
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
 	E_ModuleLevel_ca GetModuleLevel() { return m_eModuleLevel; }
 	E_ModuleType_ca GetModuleType() { return m_eModuleType; }
 	E_ModuleSize_ca GetModuleSize() { return m_eModuleSize; }
@@ -83,6 +87,7 @@ public:
 	TModuleConnector_ca& FindNearestConnector(const Vector3& _vPosition);
 	// 연결하는 위치
 	const Vector3& GetMainConnectionPosition();
+	const Vector3& GetMainConnectionLocalPosition();
 
 private:
 	virtual void _InitModuleLevel(E_ModuleLevel_ca _eLevel) {};

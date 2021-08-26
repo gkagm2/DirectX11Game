@@ -9,6 +9,7 @@ enum class E_EventType {
 	Add_Child,
 	Unlink_Parent,
 	Change_Scene,
+	Chagne_ResourceKey,
 	Remove_Material,
 	Remove_Resource,
 	Change_State, // AI 상태 변환
@@ -21,6 +22,7 @@ struct TEvent {
 	E_EventType eType;
 	DWORD_PTR lparam;
 	DWORD_PTR wparam;
+	DWORD_PTR mparam;
 };
 
 class CGameObject;
