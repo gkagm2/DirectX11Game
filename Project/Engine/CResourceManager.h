@@ -8,6 +8,7 @@
 #include "CPathManager.h"
 #include "CCollider2D.h"
 #include "CCollider3D.h"
+#include "CSound.h"
 
 class CResourceManager : public CSingleton<CResourceManager>
 {
@@ -30,6 +31,8 @@ public:
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();
 	void CreateComputeShader();
+
+	void InitSound();
 	
 public:
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
@@ -87,6 +90,7 @@ E_ResourceType GetResourceType() {
 	const type_info& graphicsShader = typeid(CGraphicsShader);
 	const type_info& computeShader= typeid(CComputeShader);
 	const type_info& texture = typeid(CTexture);
+	const type_info& sound = typeid(CSound);
 
 	E_ResourceType eResourceType = E_ResourceType::End;
 
@@ -102,6 +106,8 @@ E_ResourceType GetResourceType() {
 		eResourceType = E_ResourceType::ComputeShader;
 	else if (&info == &texture)
 		eResourceType = E_ResourceType::Texture;
+	else if (&info == &sound)
+		eResourceType = E_ResourceType::Sound;
 
 	return eResourceType;
 }

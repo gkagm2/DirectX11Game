@@ -25,6 +25,7 @@ protected:
 	static void ImGuiTest();					// 하는중
 	static void DistortionObject();				// PostEffect를 이용
 	static void FishEyePostEffect();			// PostEffect
+	static void SoundTest();					// Done
 
 
 
