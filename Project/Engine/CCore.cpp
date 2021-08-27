@@ -10,6 +10,7 @@
 #include "CRenderManager.h"
 #include "CMouseManager.h"
 #include "CConfigurationManager.h"
+#include "CSound.h"
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -48,6 +49,8 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CResourceManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
 
+	// Sound Test
+
 	return S_OK;
 }
 
@@ -58,6 +61,9 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 	CMouseManager::GetInstance()->Update();
 	CResourceManager::GetInstance()->Update();
+
+	CSound::g_pFMOD->update();
+
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();

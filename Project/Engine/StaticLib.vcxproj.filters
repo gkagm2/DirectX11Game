@@ -178,6 +178,9 @@
     <ClInclude Include="CConfigurationManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>Engine\05. Resource\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -339,6 +342,9 @@
     <ClCompile Include="CConfigurationManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CSound.cpp">
+      <Filter>Engine\05. Resource\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -484,6 +490,9 @@
     </Filter>
     <Filter Include="Engine\11. Functions">
       <UniqueIdentifier>{e00cb856-2862-4218-82c2-edbfe05ac8e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Sound">
+      <UniqueIdentifier>{de00c2b9-1464-493a-aa30-ffaee2720395}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

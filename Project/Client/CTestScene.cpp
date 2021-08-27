@@ -12,6 +12,7 @@
 #include "Engine\CTimeManager.h"
 #include "Engine\CConstBuffer.h"
 #include "Engine\CCollisionManager.h"
+#include "Engine\CSound.h"
 
 #include "Engine\CGameObject.h"
 
@@ -36,6 +37,7 @@
 #include "Engine\CParticleSystem.h"
 #include "Engine\CPrefab.h"
 #include "Engine\CRigidbody2D.h"
+
 
 // GameContents
 #include "Script\CGameManagerScript_sh.h"
@@ -97,7 +99,8 @@ void CTestScene::CreateTestScene()
 	//MaterialCreateTest();
 	//DistortionObject();
 	//FishEyePostEffect();
-	CaptainForever();
+	//CaptainForever();
+	SoundTest();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	return;
@@ -918,6 +921,17 @@ void CTestScene::FishEyePostEffect()
 	pNewScene->Awake();
 	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::SoundTest()
+{
+	CScene* pScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+
+	// Sound ·Îµù
+	SharedPtr<CSound> pSound = CResourceManager::GetInstance()->LoadRes<CSound>(_T("Sound"), _T("sound\\BGM_Stage1.wav"));
+	int iChannel = pSound->Play(0);
+	pSound->SetVolume(0.2f, iChannel);
 }
 
 void CTestScene::MultiThreadScene_LoadingScene()

@@ -28,6 +28,7 @@ void CResourceManager::Init()
 	CreateDefaultTexture();
 	CreateComputeShader();
 	CreateDefaultMaterial();
+	InitSound(); // FMOD 초기화
 
 	// Texture 로딩
 	LoadResourcesFromDir<CTexture>(_T("texture\\"), _T("*.*"));
@@ -37,6 +38,7 @@ void CResourceManager::Init()
 
 	// 메터리얼 로딩
 	LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
+
 }
 
 void CResourceManager::CreateDefaultMesh()
@@ -457,6 +459,17 @@ void CResourceManager::CreateComputeShader()
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_ParticleUpdateShader, STR_FUNC_NAME_ParticleUpdate);
 	AddRes(STR_KEY_ParticleUpdateShader, pShader);
+}
+
+void CResourceManager::InitSound()
+{
+	FMOD::System_Create(&CSound::g_pFMOD);
+
+	if (nullptr == CSound::g_pFMOD)
+		assert(nullptr);
+
+	// 32개 채널 생성
+	CSound::g_pFMOD->init(32, FMOD_DEFAULT, nullptr);
 }
 
 void CResourceManager::CreateDefaultTexture()
