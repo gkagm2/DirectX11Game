@@ -38,6 +38,10 @@ void CGirderScript_ca::OnCollisionExit2D(CCollider2D* _pOther)
 void CGirderScript_ca::_InitModuleLevel(E_ModuleLevel_ca _eLevel)
 {
 	switch (_eLevel) {
+	case E_ModuleLevel_ca::Nemesis:
+		SetWeight(1000.f);
+		SetHp(2000.f);
+		break;
 	case E_ModuleLevel_ca::Alpha:
 		SetWeight(1000.f);
 		SetHp(2000.f);

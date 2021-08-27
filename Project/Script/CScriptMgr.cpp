@@ -14,6 +14,7 @@
 #include "CGirderScript_ca.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
+#include "CLookAtScript.h"
 #include "CManagerContainer_ca.h"
 #include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
@@ -38,6 +39,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGirderScript_ca");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
+	_vec.push_back(L"CLookAtScript");
 	_vec.push_back(L"CManagerContainer_ca");
 	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
@@ -76,6 +78,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CKeyControllerScript_ca;
 	if (L"CLaserScript_ca" == _strScriptName)
 		return new CLaserScript_ca;
+	if (L"CLookAtScript" == _strScriptName)
+		return new CLookAtScript;
 	if (L"CManagerContainer_ca" == _strScriptName)
 		return new CManagerContainer_ca;
 	if (L"CModuleCreator_ca" == _strScriptName)
@@ -137,6 +141,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::LASERSCRIPT_CA:
 		return new CLaserScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::LOOKATSCRIPT:
+		return new CLookAtScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MANAGERCONTAINER_CA:
 		return new CManagerContainer_ca;
@@ -220,6 +227,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LASERSCRIPT_CA:
 		return L"CLaserScript_ca";
+		break;
+
+	case SCRIPT_TYPE::LOOKATSCRIPT:
+		return L"CLookAtScript";
 		break;
 
 	case SCRIPT_TYPE::MANAGERCONTAINER_CA:

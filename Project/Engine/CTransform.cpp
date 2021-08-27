@@ -31,6 +31,7 @@ Vector3 CTransform::GetScale()
 	return vWorldScale;
 }
 
+
 void CTransform::FinalUpdate()
 {
 	// 크기 행렬

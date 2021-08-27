@@ -2,7 +2,7 @@
 #include "CBoosterScript_ca.h"
 
 CBoosterScript_ca::CBoosterScript_ca() :
-	CModuleScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA, E_ModuleType_ca::Booster, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x1),
+	CModuleScript_ca((UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA, E_ModuleType_ca::Booster, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size_OnlyMain),
 	m_fForce(1.f)
 {
 }

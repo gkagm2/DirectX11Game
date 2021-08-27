@@ -48,6 +48,7 @@ void PrefabGUI::Update()
 			tstring strName;
 			StringToTString(strObjectName, strName);
 			pPrefab->GetProtoObj()->SetName(strName);
+			tstring relativepath = pPrefab->GetRelativePath();
 			pPrefab->Save(pPrefab->GetRelativePath());
 			memset(strObjectName, 0, 255);
 		}

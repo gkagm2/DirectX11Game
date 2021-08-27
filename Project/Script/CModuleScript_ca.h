@@ -31,20 +31,29 @@ extern const TCHAR* ModuleTypeSTR_ca[(UINT)E_ModuleType_ca::End];
 enum class E_ModuleSize_ca {
 	Size1x1,
 	Size1x2,
+	Size_OnlyMain,
 	End
 };
 
+enum class E_Direction_ca{
+	Forward,
+	Left,
+	Right,
+	Back,
+};
 struct TModuleConnector_ca {
 	Vector3 vPosition;	// 연결 위치 (object coordination position)
 	Vector3 vDirection;	// 연결 방향
 	bool bIsMain;		// Main 연결구
 	bool bIsConnectable;// 연결 가능한지 여부
+	E_Direction_ca eDirection;
 };
 
 class CModuleScript_ca : public CScript
 {
 private:
 	vector<TModuleConnector_ca> m_vecModuleConnectors;
+	TModuleConnector_ca* m_pParentModuleConnector; // 연결된 부모의 모듈 컨넥터
 
 	CGameObject* m_pParentModuleGameObj;
 	vector<CGameObject*> m_pChildModuleGameObj;
@@ -88,6 +97,12 @@ public:
 	// 연결하는 위치
 	const Vector3& GetMainConnectionPosition();
 	const Vector3& GetMainConnectionLocalPosition();
+	TModuleConnector_ca& MainConnector();
+	
+
+	void ConnectModule(TModuleConnector_ca& _tOtherConnector);
+	void DisConnectModule();
+	
 
 private:
 	virtual void _InitModuleLevel(E_ModuleLevel_ca _eLevel) {};

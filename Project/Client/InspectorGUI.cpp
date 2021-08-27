@@ -154,6 +154,7 @@ void InspectorGUI::UpdateObjectGUI()
 		tstring strPrefabName = STR_FILE_PATH_Prefab + m_pTargetObject->GetName() + _T(".pref");
 		m_pTargetObject->RegisterAsPrefab(strPrefabName);
 		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(strPrefabName);
+		pPrefab->SetRelativePath(strPrefabName);
 		tstring strRelativePath = strPrefabName;
 		pPrefab->Save(strRelativePath);
 	}

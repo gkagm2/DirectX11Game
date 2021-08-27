@@ -37,71 +37,129 @@ void CObjectDragAndDropScript_ca::Update()
 		return;
 	Vector3 vWorldMousePos = pMainCamera->GetScreenToWorld2DPosition(MousePosition);
 
+
+	if (m_pTargetObj && m_pNearestModuleObj) {
+		Vector3 vDownDir = -(m_pTargetObj->GetParentObject()->Transform()->GetUpVector());
+		Vector3 vNDownDir = m_pNearestModuleObj->GetComponent<CModuleScript_ca>()->MainConnector().vDirection;
+		Vector3 vOtherModuleDir = XMVector3TransformCoord(vNDownDir, m_pNearestModuleObj->Transform()->GetWorldMatrix());
+
+		Vector3 r1 = m_pTargetObj->GetParentObject()->Transform()->GetLocalRotationDegree();
+		Vector3 r2 = m_pNearestModuleObj->GetParentObject()->Transform()->GetLocalRotationDegree();
+		_tcprintf(_T("1[%.2f %.2f %.2f][%.2f %.2f %.2f]\n"), r1.x, r1.y, r1.z, r1.x * CMyMath::Deg2Rad(), r1.y * CMyMath::Deg2Rad(), r1.z * CMyMath::Deg2Rad());
+		_tcprintf(_T("2[%.2f %.2f %.2f][%.2f %.2f %.2f]\n"), r2.x, r2.y, r2.z, r2.x * CMyMath::Deg2Rad(), r2.y * CMyMath::Deg2Rad(), r2.z * CMyMath::Deg2Rad());
+	}
+
 	if (InputKeyPress(E_Key::LBUTTON)) {
 		Collider2D()->SetActive(true);
 	}
 	if (InputKeyHold(E_Key::LBUTTON)) {
 		if (m_pTargetObj) {
 
-			Vector3 vOffsetPos = {};
-			Vector3 vTargetObjPos = m_pTargetObj->Transform()->GetPosition();
-			if (m_pModuleScript) {
-				// 모듈의 Main연결 위치를 구한다.
-				Vector3 vModulePosition = m_pModuleScript->GetMainConnectionPosition();
-
-				// 모듈의 연결 위치와 오브젝트의 위치 차를 구한다.
-				vOffsetPos = vModulePosition - vTargetObjPos;
+			// 연결 해제
+			if (m_pTargetObj->GetParentObject() && m_pTargetObj->GetParentObject()->GetParentObject()) {
+				CObject::UnlinkParentGameObjectEvn(m_pTargetObj->GetParentObject());
+				// 연결 해제
+				m_pTargetObj->GetComponent<CModuleScript_ca>()->DisConnectModule();
 			}
+			else {
+				// 가장 가까운 모듈 오브젝트를 검색한다.
+				m_pNearestModuleObj = FindNearestModuleObject(vWorldMousePos);
+				if (m_pNearestModuleObj && m_pNearestModuleObj->GetParentObject()) {
+					// 오브젝트가 존재하면
+					Vector3 vNearestPos = {};
 
-			// 가장 가까운 모듈 오브젝트를 검색한다.
-			m_pNearestModuleObj = FindNearestModuleObject(vWorldMousePos);
+					// 가장 가까운 모듈의 연결 가능한 위치 찾기
+					CModuleScript_ca* pNearestModule = m_pNearestModuleObj->GetComponent< CModuleScript_ca>();
+					vNearestPos = pNearestModule->FindNearestConnectionPosition(vWorldMousePos);
 
-			// 오브젝트가 존재하면
-			if (m_pNearestModuleObj) {
-				Vector3 vNearestPos = {};
+					float fDistance = Vector3::Distance(vNearestPos, vWorldMousePos);
 
-				// 가장 가까운 모듈의 연결 가능한 위치 찾기
-				CModuleScript_ca* pModule = m_pNearestModuleObj->GetComponent< CModuleScript_ca>();
-				vNearestPos = pModule->FindNearestConnectionPosition(vWorldMousePos);
+					if (fDistance > m_fMaxConnectableDistance)
+						m_bIsConnectableOtherObj = false;
+					else { // 연결 가능한 거리면
+						TModuleConnector_ca& tNearestConnector = pNearestModule->FindNearestConnector(vWorldMousePos);
+						TModuleConnector_ca& tDraggedMainConnector = m_pTargetObj->GetComponent<CModuleScript_ca>()->MainConnector();
 
-				float fDistance = Vector3::Distance(vNearestPos, vWorldMousePos);
-			
-				// 연결 가능한 거리면
-				if (fDistance <= m_fMaxConnectableDistance) {
-					TModuleConnector_ca& tConnector = m_pNearestModuleObj->GetComponent<CModuleScript_ca>()->FindNearestConnector(vWorldMousePos);
+						// 가장 가까운 연결구를 구한다.
+						// 비어있는 연결구면
+						if (tNearestConnector.bIsConnectable) {
+							// TODO (Jang) : Effect가 튀간다.
+							m_bIsConnectableOtherObj = true;
 
-					// 가장 가까운 연결구를 구한다.
+							Vector3 vOtherModuleRotation = m_pNearestModuleObj->GetParentObject()->Transform()->GetLocalRotationDegree();
+							Vector3 vTargetModuleRotation = m_pTargetObj->GetParentObject()->Transform()->GetLocalRotationDegree();
 
-					// 연결이 되지 않는 연결구면
-					if (tConnector.bIsConnectable) {
-						// TODO (Jang) : Effect가 튀간다.
-						m_bIsConnectableOtherObj = true;
+							// 회전 할 각도 구하기
+
+							float degree = 0;
+							vTargetModuleRotation = vOtherModuleRotation;
+							switch (tNearestConnector.eDirection) {
+							case E_Direction_ca::Left:
+								degree -= 90.f;
+								break;
+							case E_Direction_ca::Right:
+								degree += 90.f;
+								break;
+							case E_Direction_ca::Forward:
+								degree = 180.f;
+								break;
+							default:
+								break;
+							}
+							vTargetModuleRotation.z += degree;
+							m_pTargetObj->GetParentObject()->Transform()->SetLocalRotationDegree(vTargetModuleRotation);
+						}
 					}
-					// 현재 잡고 있는 오브젝트가 회전하게 된다.
-					Vector3 vDir = tConnector.vDirection;
 				}
+				m_pTargetObj->GetParentObject()->Transform()->SetLocalPosition(vWorldMousePos);
 			}
-
-			m_pTargetObj->Transform()->SetLocalPosition(vWorldMousePos - vOffsetPos);
 		}
 	}
 	if (InputKeyRelease(E_Key::LBUTTON)) {
 		if (m_pTargetObj) {
-			if (m_pNearestModuleObj) {
+			// 가장 가까운 모듈 오브젝트를 검색한다.
+			if(m_pNearestModuleObj && m_pNearestModuleObj->GetParentObject()) {
 				if (m_bIsConnectableOtherObj) {
-					TModuleConnector_ca& tConnector = m_pNearestModuleObj->GetComponent<CModuleScript_ca>()->FindNearestConnector(vWorldMousePos);
+					TModuleConnector_ca& tNearestConnector = m_pNearestModuleObj->GetComponent<CModuleScript_ca>()->FindNearestConnector(vWorldMousePos);
 
-					if (tConnector.bIsConnectable) {
-						Vector3 vConnectPos = tConnector.vPosition;
-						Vector3 vMainConnectPos = m_pTargetObj->GetComponent<CModuleScript_ca>()->GetMainConnectionLocalPosition();
+					if (tNearestConnector.bIsConnectable) {
+						Vector3 vConnectPos = tNearestConnector.vPosition;
+
+						Vector3 offset = m_pNearestModuleObj->Transform()->GetLocalPosition();
 
 						// 위치에 같다 붙인다
-						m_pTargetObj->Transform()->SetLocalPosition(vMainConnectPos  - vConnectPos);
+						m_pTargetObj->GetParentObject()->Transform()->SetLocalPosition(vConnectPos + offset);
 
 						// 회전을 해야 한다.
+						Vector3 vOtherModuleRotation = m_pNearestModuleObj->GetParentObject()->Transform()->GetLocalRotationDegree();
+						Vector3 vTargetModuleRotation = m_pTargetObj->GetParentObject()->Transform()->GetLocalRotationDegree();
+
+						// 회전 할 각도 구하기
+
+						float degree = 0;
+						vTargetModuleRotation = vOtherModuleRotation;
+						switch (tNearestConnector.eDirection) {
+						case E_Direction_ca::Left:
+							degree = -90.f;
+							break;
+						case E_Direction_ca::Right:
+							degree = 90.f;
+							break;
+						case E_Direction_ca::Forward:
+							degree = 180.f;
+							break;
+						default:
+							break;
+						}
+						vTargetModuleRotation.z = degree;
+						m_pTargetObj->GetParentObject()->Transform()->SetLocalRotationDegree(vTargetModuleRotation);
 
 
-						CObject::AddChildGameObjectEvn(m_pNearestModuleObj, m_pTargetObj);
+						// 자식 오브젝트로 넣는다.
+						CObject::AddChildGameObjectEvn(m_pNearestModuleObj->GetParentObject(), m_pTargetObj->GetParentObject());
+
+						// 연결하다.
+						m_pTargetObj->GetComponent<CModuleScript_ca>()->ConnectModule(tNearestConnector);
 					}
 				}
 			}
@@ -124,7 +182,7 @@ void CObjectDragAndDropScript_ca::OnCollisionEnter2D(CCollider2D* _pOther)
 			CModuleScript_ca* pModuleScript =_pOther->GetGameObject()->GetComponent<CModuleScript_ca>();
 			if (pModuleScript) {
 				m_pModuleScript = pModuleScript;
-				if (nullptr == m_pTargetObj) {
+				if (nullptr == m_pTargetObj && _pOther->GetGameObject()->GetParentObject()) {
 					m_pTargetObj = _pOther->GetGameObject();
 					Collider2D()->SetActive(false);
 				}

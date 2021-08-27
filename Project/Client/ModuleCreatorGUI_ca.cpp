@@ -251,13 +251,6 @@ void ModuleCreatorGUI_ca::Update()
                         else
                             iSelectedModuleLevel = selectedModuleLevel;
                         pModuleScript->SetModuleLevel((E_ModuleLevel_ca)iSelectedModuleLevel);
-
-
-                        CGirder1x2Script_ca* pGirder1x2 = dynamic_cast<CGirder1x2Script_ca*>(pModuleScript);
-                        if (pGirder1x2)
-                            pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x2);
-                        else
-                            pModuleScript->SetModuleSize(E_ModuleSize_ca::Size1x1);
                     }
                 }
             }

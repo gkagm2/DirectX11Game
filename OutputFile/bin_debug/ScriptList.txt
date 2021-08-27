@@ -11,6 +11,7 @@ CGirder1x2Script_ca
 CGirderScript_ca
 CKeyControllerScript_ca
 CLaserScript_ca
+CLookAtScript
 CManagerContainer_ca
 CModuleCreator_ca
 CModuleScript_ca

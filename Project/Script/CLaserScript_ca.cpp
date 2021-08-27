@@ -2,7 +2,7 @@
 #include "CLaserScript_ca.h"
 
 CLaserScript_ca::CLaserScript_ca() :
-	CModuleScript_ca((UINT)SCRIPT_TYPE::LASERSCRIPT_CA, E_ModuleType_ca::Laser, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x1),
+	CModuleScript_ca((UINT)SCRIPT_TYPE::LASERSCRIPT_CA, E_ModuleType_ca::Laser, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size_OnlyMain),
 	m_fDamage(1.f),
 	m_fFireRate(1.f)
 {

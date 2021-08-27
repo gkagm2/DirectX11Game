@@ -133,6 +133,7 @@
     <ClInclude Include="CModuleCreator_ca.h">
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="CLookAtScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTestLight2DScript.cpp">
@@ -205,5 +206,6 @@
     <ClCompile Include="CModuleCreator_ca.cpp">
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="CLookAtScript.cpp" />
   </ItemGroup>
 </Project>

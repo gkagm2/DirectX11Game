@@ -26,6 +26,7 @@ const TCHAR* ModuleTypeSTR_ca[(UINT)E_ModuleType_ca::End] = {
 CModuleScript_ca::CModuleScript_ca() :
 	CScript((UINT)SCRIPT_TYPE::MODULESCRIPT_CA),
 	m_pParentModuleGameObj(nullptr),
+	m_pParentModuleConnector{nullptr},
 	m_eModuleLevel(E_ModuleLevel_ca::Alpha),
 	m_eModuleType(E_ModuleType_ca::Girder1x1),
 	m_eModuleSize(E_ModuleSize_ca::Size1x1),
@@ -46,12 +47,33 @@ CModuleScript_ca::CModuleScript_ca(UINT _iScriptNum, E_ModuleType_ca _eModuleTyp
 {
 }
 
+
+
 CModuleScript_ca::~CModuleScript_ca()
 {
 }
 
 void CModuleScript_ca::Start()
 {
+}
+
+void CModuleScript_ca::ConnectModule(TModuleConnector_ca& _tOtherConnector)
+{
+	assert(true == MainConnector().bIsConnectable);
+	assert(true == _tOtherConnector.bIsConnectable);
+	MainConnector().bIsConnectable = false;
+	_tOtherConnector.bIsConnectable = false;
+	m_pParentModuleConnector = &_tOtherConnector;
+}
+
+void CModuleScript_ca::DisConnectModule()
+{
+	assert(m_pParentModuleConnector);
+	assert(false == MainConnector().bIsConnectable);
+	assert(false == m_pParentModuleConnector->bIsConnectable);
+	MainConnector().bIsConnectable = true;
+	m_pParentModuleConnector->bIsConnectable = true;
+	m_pParentModuleConnector = nullptr;
 }
 
 void CModuleScript_ca::Update()
@@ -124,6 +146,16 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 	return vMainPosition;
 }
 
+TModuleConnector_ca& CModuleScript_ca::MainConnector()
+{
+	vector<TModuleConnector_ca>& vecConnectors = GetConnectors();
+	for (UINT i = 0; i < vecConnectors.size(); ++i) {
+		if (vecConnectors[i].bIsMain) {
+			return vecConnectors[i];
+		}
+	}
+}
+
 const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()
 {
 	Vector3 vMainLocalPosition = {};
@@ -148,6 +180,7 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Back;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(아래) 아래 -> 위
@@ -155,6 +188,7 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
 		tConnectPoint.bIsMain = true;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Forward; // Main Connector를 Forward 방향으로 지정
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽) 왼쪽->오른쪽
@@ -162,6 +196,7 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		tConnectPoint.vPosition = Vector3(-0.5f, 0.f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Right;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽) 오른쪽 -> 왼쪽
@@ -169,6 +204,7 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		tConnectPoint.vPosition = Vector3(0.5f, 0.f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Left;
 		AddModuleConnectPoint(tConnectPoint);
 		break;
 	}
@@ -177,47 +213,64 @@ void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)
 		//(위) 위 -> 아래
 		TModuleConnector_ca tConnectPoint;
 		tConnectPoint.vDirection = Vector3(0.f, -1.f, 0.f);
-		tConnectPoint.vPosition = Vector3(0.f, 0.5f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, 0.1f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Back;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(아래) 아래 -> 위
 		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
-		tConnectPoint.vPosition = Vector3(0.f, -0.5f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, -0.1f, 0.f);
 		tConnectPoint.bIsMain = true;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Forward;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽 상단) 왼쪽->오른쪽
 		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
-		tConnectPoint.vPosition = Vector3(-0.5f, 0.125f, 0.f);
+		tConnectPoint.vPosition = Vector3(-0.5f, 0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Right;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(왼쪽 하단) 왼쪽->오른쪽
 		tConnectPoint.vDirection = Vector3(-1.f, 0.f, 0.f);
-		tConnectPoint.vPosition = Vector3(-0.5f, -0.125f, 0.f);
+		tConnectPoint.vPosition = Vector3(-0.5f, -0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Right;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽 상단) 오른쪽 -> 왼쪽
 		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
-		tConnectPoint.vPosition = Vector3(0.5f, 0.125f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.5f, 0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Left;
 		AddModuleConnectPoint(tConnectPoint);
 
 		//(오른쪽 하단) 오른쪽 -> 왼쪽
 		tConnectPoint.vDirection = Vector3(1.f, 0.f, 0.f);
-		tConnectPoint.vPosition = Vector3(0.5f, -0.125f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.5f, -0.5f, 0.f);
 		tConnectPoint.bIsMain = false;
 		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Left;
 		AddModuleConnectPoint(tConnectPoint);
 		break;
 	}
+	case E_ModuleSize_ca::Size_OnlyMain: {
+		//(아래) 아래 -> 위
+		TModuleConnector_ca tConnectPoint;
+		tConnectPoint.vDirection = Vector3(0.f, 1.f, 0.f);
+		tConnectPoint.vPosition = Vector3(0.f, -1.f, 0.f);
+		tConnectPoint.bIsMain = true;
+		tConnectPoint.bIsConnectable = true;
+		tConnectPoint.eDirection = E_Direction_ca::Forward;
+		AddModuleConnectPoint(tConnectPoint);
+	}
+		break;
 	default:
 		assert(nullptr);
 		break;

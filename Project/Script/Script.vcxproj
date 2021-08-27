@@ -183,6 +183,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGirder1x2Script_ca.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
+    <ClInclude Include="CLookAtScript.h" />
     <ClInclude Include="CManagerContainer_ca.h" />
     <ClInclude Include="CModuleCreator_ca.h" />
     <ClInclude Include="CModuleScript_ca.h" />
@@ -209,6 +210,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGirder1x2Script_ca.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
+    <ClCompile Include="CLookAtScript.cpp" />
     <ClCompile Include="CManagerContainer_ca.cpp" />
     <ClCompile Include="CModuleCreator_ca.cpp" />
     <ClCompile Include="CModuleScript_ca.cpp" />

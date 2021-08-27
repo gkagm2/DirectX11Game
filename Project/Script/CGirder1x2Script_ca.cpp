@@ -2,7 +2,7 @@
 #include "CGirder1x2Script_ca.h"
 
 CGirder1x2Script_ca::CGirder1x2Script_ca() :
-	CGirderScript_ca((UINT)SCRIPT_TYPE::GIRDER1X2SCRIPT_CA, E_ModuleType_ca::Girder1x2, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x1)
+	CGirderScript_ca((UINT)SCRIPT_TYPE::GIRDER1X2SCRIPT_CA, E_ModuleType_ca::Girder1x2, E_ModuleLevel_ca::Alpha, E_ModuleSize_ca::Size1x2)
 {
 }
 

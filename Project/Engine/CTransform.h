@@ -5,7 +5,7 @@ class CTransform : public CComponent
 private:
 	Vector3 m_vLocalPosition;
 	Vector3 m_vLocalScale;
-	Vector3 m_vLocalRotation;
+	Vector3 m_vLocalRotation; // Radian임
 
 	Matrix m_matLocal;
 	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
@@ -22,6 +22,13 @@ public:
 	// Radian으로 입력받음
 	void SetLocalRotation(const Vector3& _vRotation) { m_vLocalRotation = _vRotation; }
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
+	// Degree로 입력받음
+	void SetLocalRotationDegree(const Vector3& _vDegree) {
+		m_vLocalRotation = _vDegree* CMyMath::Deg2Rad();
+	}
+	const Vector3& GetLocalRotationDegree() {
+		return m_vLocalRotation * CMyMath::Rad2Deg();
+	}
 
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
