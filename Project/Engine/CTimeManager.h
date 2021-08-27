@@ -8,6 +8,8 @@ private:
 	LARGE_INTEGER m_llPrevFrameCount;
 	LARGE_INTEGER m_llPrevCount;
 
+	tstring m_strFPS;
+
 	float m_fDeltaTime; // 프레임 간격 시간
 	int m_iFPS; // 초당 프레임 수
 	int m_iFrameCount;// 실제 호출 횟수
@@ -24,5 +26,5 @@ public:
 	
 	void Init();
 	void Update();
-	void Render(HDC _hdc);
+	void Render();
 };

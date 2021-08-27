@@ -26,6 +26,7 @@ protected:
 	static void DistortionObject();				// PostEffect¸¦ ÀÌ¿ë
 	static void FishEyePostEffect();			// PostEffect
 	static void SoundTest();					// Done
+	static void FontRendering();
 
 
 

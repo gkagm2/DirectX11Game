@@ -3,6 +3,7 @@
 #include "CDevice.h"
 #include "CPathManager.h"
 #include "CTimeManager.h"
+#include "CFontManager.h"
 #include "CKeyManager.h"
 #include "CResourceManager.h"
 #include "CSceneManager.h"
@@ -44,6 +45,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CConfigurationManager::GetInstance()->Init();
 	CPathManager::GetInstance()->Init();
 	CTimeManager::GetInstance()->Init();
+	CFontManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
 	CRenderManager::GetInstance()->Init(); 
 	CResourceManager::GetInstance()->Init();
@@ -67,6 +69,7 @@ void CCore::Progress()
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();
+	CTimeManager::GetInstance()->Render();
 
 	// Event ผ๖วเ
 	CEventManager::GetInstance()->Update();

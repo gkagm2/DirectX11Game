@@ -181,6 +181,9 @@
     <ClInclude Include="CSound.h">
       <Filter>Engine\05. Resource\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="CFontManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -345,6 +348,9 @@
     <ClCompile Include="CSound.cpp">
       <Filter>Engine\05. Resource\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="CFontManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -493,6 +499,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Sound">
       <UniqueIdentifier>{de00c2b9-1464-493a-aa30-ffaee2720395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Font">
+      <UniqueIdentifier>{f395f7b4-7e95-48e9-b546-278c771db015}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

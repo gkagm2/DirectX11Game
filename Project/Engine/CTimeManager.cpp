@@ -1,6 +1,7 @@
  #include "pch.h"
 #include "CTimeManager.h"
 #include "CCore.h"
+#include "CFontManager.h"
 
 CTimeManager::CTimeManager() :
 	m_llFrequency{},
@@ -43,6 +44,10 @@ void CTimeManager::Update()
 		_stprintf_s(szFPSBuffer, 255, _T("FPS:%d"), m_iFPS);
 		SetWindowText(CCore::GetInstance()->GetWndHandle(), szFPSBuffer);
 
+		TCHAR szBuffer[255] = _T("");
+		_stprintf_s(szBuffer,255, _T("FPS : %d"), m_iFPS);
+		m_strFPS = szBuffer;
+
 		m_iFrameCount = 0;
 	}
 	m_fDeltaTime = (float)(m_llCurFrameCount.QuadPart - m_llPrevFrameCount.QuadPart) / (float)(m_llFrequency.QuadPart);  // (ÇöÀç Æ½ - ÀÌÀü Æ½) / ºóµµ ¼ö(ÃÊ´ç Æ½)
@@ -57,8 +62,7 @@ void CTimeManager::Update()
 	g_globalConst.fAccTime += m_fDeltaTime;
 }
 
-void CTimeManager::Render(HDC _hdc)
+void CTimeManager::Render()
 {
-	if (!m_bIsRender)
-		return;
+	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255));
 }

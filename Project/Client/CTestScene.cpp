@@ -12,6 +12,7 @@
 #include "Engine\CTimeManager.h"
 #include "Engine\CConstBuffer.h"
 #include "Engine\CCollisionManager.h"
+#include "Engine\CFontManager.h"
 #include "Engine\CSound.h"
 
 #include "Engine\CGameObject.h"
@@ -100,7 +101,8 @@ void CTestScene::CreateTestScene()
 	//DistortionObject();
 	//FishEyePostEffect();
 	//CaptainForever();
-	SoundTest();
+	//SoundTest();
+	FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	return;
@@ -932,6 +934,18 @@ void CTestScene::SoundTest()
 	SharedPtr<CSound> pSound = CResourceManager::GetInstance()->LoadRes<CSound>(_T("Sound"), _T("sound\\BGM_Stage1.wav"));
 	int iChannel = pSound->Play(0);
 	pSound->SetVolume(0.2f, iChannel);
+}
+
+void CTestScene::FontRendering()
+{
+	CScene* pScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+
+	// Font RenderingÇÏ´Â ¹ý
+	int iFPS = CTimeManager::GetInstance()->GetFPS();
+	TCHAR szBuffer[255] = _T("");
+	_stprintf_s(szBuffer, 255, _T("FPS : %d"), iFPS);
+	CFontManager::GetInstance()->DrawFont(szBuffer, 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255));
 }
 
 void CTestScene::MultiThreadScene_LoadingScene()
