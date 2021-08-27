@@ -39,10 +39,9 @@ void CTimeManager::Update()
 		m_iFPS = m_iFrameCount;
 
 		// Print FPS
-		TCHAR szFPSBuffer[255] = _T("");
-		
-		_stprintf_s(szFPSBuffer, 255, _T("FPS:%d"), m_iFPS);
-		SetWindowText(CCore::GetInstance()->GetWndHandle(), szFPSBuffer);
+		//TCHAR szFPSBuffer[255] = _T("");
+		//_stprintf_s(szFPSBuffer, 255, _T("FPS:%d"), m_iFPS);
+		//SetWindowText(CCore::GetInstance()->GetWndHandle(), szFPSBuffer);
 
 		TCHAR szBuffer[255] = _T("");
 		_stprintf_s(szBuffer,255, _T("FPS : %d"), m_iFPS);
@@ -64,5 +63,6 @@ void CTimeManager::Update()
 
 void CTimeManager::Render()
 {
-	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255));
+	tstring tile = _T("Hello World ¾È´¨.");
+	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 250.f, 250.f, 12, FONT_RGBA(200, 30, 30, 255));
 }
