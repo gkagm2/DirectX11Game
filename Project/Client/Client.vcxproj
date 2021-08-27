@@ -229,6 +229,7 @@
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureGUI.h" />
+    <ClInclude Include="TileMapEditorGUI.h" />
     <ClInclude Include="TileMapGUI.h" />
     <ClInclude Include="TransformGUI.h" />
     <ClInclude Include="TreeViewGUI.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="SceneViewGUI.cpp" />
     <ClCompile Include="ScriptGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />
+    <ClCompile Include="TileMapEditorGUI.cpp" />
     <ClCompile Include="TileMapGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />

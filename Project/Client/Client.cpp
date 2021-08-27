@@ -78,6 +78,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     CSceneSaveLoad::Init();
+
+    CCore::g_Wnd = g_hWnd;
+    CCore::g_hDC = GetDC(g_hWnd);
+
     bool bSuc = CCore::GetInstance()->Init(g_hWnd, vWindowResolution, vRenderResolution);
     if (FAILED(bSuc))
         return 0;

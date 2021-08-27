@@ -38,10 +38,33 @@ private:
 	void _RenderInit();
 
 public:
-	// _iTexTileSize : Atlas Texture에서 Tile 하나의 사이즈
-	void SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture, const Vector2& _iTexTileSize);
+	
+	void SaperateTile(); // 타일로 분리하다
 
-	void CreateTile(int _iCol, int _iRow);
+	void SetTileFaceSize(int _iCol, int _iRow);
+
+	int GetCol() { return m_iTileCol; }
+	int GetRow() { return m_iTileRow; }
+
+	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
+	SharedPtr<CMaterial> GetMaterial() { return m_pMaterial; }
+	void SetMesh(SharedPtr<CMesh> _pMesh) { m_pMesh = _pMesh; }
+	void SetMaterial(SharedPtr<CMaterial>_pMaterial) { m_pMaterial = _pMaterial; }
+
+	void SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture);
+
+	SharedPtr<CTexture> GetAtlasTexture() {	return m_pAtlasTexture;	}
+
+	void SetEachFaceTextureSize(const Vector2& _vFaceTextureSize) {
+		m_vTexTileSize = _vFaceTextureSize;
+	}
+	const Vector2& GetEachFaceTextureSize() { return m_vTexTileSize; }
+
+	// atlas texture 설정
+	// 생성 할 타일 사이즈를 설정한다.
+	// 타일 하나의 픽셀 사이즈 설정
+	// 타일로 분리한다.
+	// 분리된 타일들의 정보를 가지고 있는 
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

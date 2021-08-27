@@ -138,6 +138,14 @@ enum class E_ComponentType {
 	Light3D,
 	Camera,
 
+#pragma region UI Component
+	//CanvasUI,
+	ButtonUI,
+	TextUI,
+	ImageUI,
+#pragma endregion
+
+
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	MeshRenderer,
 	ParticleSystem,
@@ -160,6 +168,8 @@ enum class E_ComponentType {
 #define MAX_SIZE_TAG 32
 
 // TODO (Jang) : 환경설정 파일을 따로 만들어볼까
+
+#define NUM_LAYER_UI 31
 
 #define _CAPTAIN_FOREVER_GAME
 //

@@ -167,6 +167,12 @@
     <Filter Include="04. Contents\CaptainForever\02. GUI">
       <UniqueIdentifier>{93d9b37a-ee6b-4337-b408-9e3154cecc85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\04. GUI">
+      <UniqueIdentifier>{82c96f97-d325-49e9-b8c4-210e6c9cc569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tools\04. GUI\TileMapEditor">
+      <UniqueIdentifier>{d3ceadf4-b540-443f-83a5-f194a22ec9cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -326,6 +332,9 @@
     <ClInclude Include="ModuleCreatorGUI_ca.h">
       <Filter>04. Contents\CaptainForever\02. GUI</Filter>
     </ClInclude>
+    <ClInclude Include="TileMapEditorGUI.h">
+      <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -469,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="ModuleCreatorGUI_ca.cpp">
       <Filter>04. Contents\CaptainForever\02. GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapEditorGUI.cpp">
+      <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

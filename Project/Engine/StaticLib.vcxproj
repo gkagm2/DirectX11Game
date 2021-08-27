@@ -178,6 +178,8 @@ call EngineCopy.bat</Command>
     <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
     <ClInclude Include="CAnimation2D.h" />
     <ClInclude Include="CAnimator2D.h" />
+    <ClInclude Include="CBehaviour.h" />
+    <ClInclude Include="CButtonUI.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCamera2D.h" />
     <ClInclude Include="CCollider.h" />
@@ -194,6 +196,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CFontManager.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
+    <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CLayer.h" />
     <ClInclude Include="CLight2D.h" />
@@ -214,8 +217,12 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CStructuredBuffer.h" />
     <ClInclude Include="CTestShader.h" />
+    <ClInclude Include="CTextUI.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTileMap.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIBehaviour.h" />
+    <ClInclude Include="CUIManager.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CObject.h" />
@@ -240,6 +247,8 @@ call EngineCopy.bat</Command>
   <ItemGroup>
     <ClCompile Include="CAnimation2D.cpp" />
     <ClCompile Include="CAnimator2D.cpp" />
+    <ClCompile Include="CBehaviour.cpp" />
+    <ClCompile Include="CButtonUI.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCamera2D.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -256,6 +265,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CFontManager.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
+    <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CLayer.cpp" />
     <ClCompile Include="CLight2D.cpp" />
@@ -276,8 +286,12 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CStructuredBuffer.cpp" />
     <ClCompile Include="CTestShader.cpp" />
+    <ClCompile Include="CTextUI.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIBehaviour.cpp" />
+    <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="Define.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />

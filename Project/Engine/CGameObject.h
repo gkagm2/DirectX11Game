@@ -110,6 +110,7 @@ public:
 	friend class CLayer;
 	friend class CCollider2D;
 	friend class CCollider3D;
+	friend class CUI;
 };
 
 template<typename TYPE>

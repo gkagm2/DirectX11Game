@@ -184,6 +184,27 @@
     <ClInclude Include="CFontManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CBehaviour.h">
+      <Filter>Engine\07. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIBehaviour.h">
+      <Filter>Engine\07. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CButtonUI.h">
+      <Filter>Engine\07. Component\UI\ButtonUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextUI.h">
+      <Filter>Engine\07. Component\UI\TextUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CImageUI.h">
+      <Filter>Engine\07. Component\UI\ImageUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -351,6 +372,27 @@
     <ClCompile Include="CFontManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CBehaviour.cpp">
+      <Filter>Engine\07. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIBehaviour.cpp">
+      <Filter>Engine\07. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CButtonUI.cpp">
+      <Filter>Engine\07. Component\UI\ButtonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextUI.cpp">
+      <Filter>Engine\07. Component\UI\TextUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CImageUI.cpp">
+      <Filter>Engine\07. Component\UI\ImageUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -502,6 +544,18 @@
     </Filter>
     <Filter Include="Engine\07. Component\Font">
       <UniqueIdentifier>{f395f7b4-7e95-48e9-b546-278c771db015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\UI">
+      <UniqueIdentifier>{8364987d-49eb-43c6-b32d-c8fdea6c96c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\UI\TextUI">
+      <UniqueIdentifier>{ae37998d-ff1e-49c5-8ab0-10724629b439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\UI\ButtonUI">
+      <UniqueIdentifier>{355009bd-a2a4-43be-bd93-8ecf23f67c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\UI\ImageUI">
+      <UniqueIdentifier>{83bf1239-307f-44bd-a00d-94f27b2723c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

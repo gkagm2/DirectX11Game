@@ -91,6 +91,17 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Script:
 		strComponentType = _T("Script");
 		break;
+		// UI
+	case E_ComponentType::ButtonUI:
+		strComponentType = _T("ButtonUI");
+		break;
+	case E_ComponentType::TextUI:
+		strComponentType = _T("TextUI");
+		break;
+	case E_ComponentType::ImageUI:
+		strComponentType = _T("ImageUI");
+		break;
+
 	default:
 		assert(nullptr && _T("컴포넌트 타입을 String으로 바꿀 수 없음"));
 		break;

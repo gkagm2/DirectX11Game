@@ -13,6 +13,8 @@
 #include "InspectorGUI.h"
 #include "CImGuiManager.h"
 
+#include "TileMapEditorGUI.h"
+
 // Captain Forever Game
 #include "ModuleCreatorGUI_ca.h"
 
@@ -92,7 +94,12 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Modeul Creator Tool")) {
                 OpenModuleCreatorToolWindows();
             }
-
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Editor")) {
+            if (ImGui::MenuItem("Tile Map Editor")) {
+                OpenTileMapEditor();
+            }
             ImGui::EndMenu();
         }
 
@@ -309,10 +316,20 @@ void MainMenuGUI::Create2DRectGameObjet()
 void MainMenuGUI::OpenModuleCreatorToolWindows()
 {
     ModuleCreatorGUI_ca* pGUI = dynamic_cast<ModuleCreatorGUI_ca*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ModuleCreator));
-    if (nullptr == pGUI) {
+    if (!pGUI) {
         assert(nullptr && _T("Module Creator를 열 수 없다."));
         return;
     }
 
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenTileMapEditor()
+{
+    TileMapEditorGUI* pGUI = dynamic_cast<TileMapEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_TileMapEditor));
+    if (!pGUI) {
+        assert(nullptr && _T("Tile Map Editor를 열 수 없다."));
+        return;
+    }
     pGUI->SetActive(true);
 }

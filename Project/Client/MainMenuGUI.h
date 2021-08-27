@@ -18,8 +18,12 @@ public:
 	void CreateCamera2DGameObject();
 	void Create2DRectGameObjet();
 
+	// Editor
+	void OpenTileMapEditor();
+
 	// CaptainForever
 	void OpenModuleCreatorToolWindows();
+	
 
 public:
 	MainMenuGUI();

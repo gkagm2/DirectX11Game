@@ -8,6 +8,9 @@
 #define STR_GUI_Debug  "Debug"
 #define STR_GUI_ResourceView "Resource"
 #define STR_GUI_SceneView "Scene"
+
+// GUI tool names
+#define STR_GUI_TileMapEditor "Tile Map Editor"
 // ComponentType
 
 

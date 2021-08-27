@@ -12,6 +12,10 @@
 #include "CMouseManager.h"
 #include "CConfigurationManager.h"
 #include "CSound.h"
+#include "CUIManager.h"
+
+HWND CCore::g_Wnd = 0;
+HDC CCore::g_hDC = 0;
 
 CCore::CCore() :
 	m_hWnd(nullptr),
@@ -50,7 +54,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CRenderManager::GetInstance()->Init(); 
 	CResourceManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
-
+	CUIManager::GetInstance()->Init();
 	// Sound Test
 
 	return S_OK;
@@ -63,12 +67,13 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 	CMouseManager::GetInstance()->Update();
 	CResourceManager::GetInstance()->Update();
-
+	CUIManager::GetInstance()->Update();
 	CSound::g_pFMOD->update();
 
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();
+	
 	CTimeManager::GetInstance()->Render();
 
 	// Event ผ๖วเ

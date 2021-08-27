@@ -501,6 +501,7 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 	case E_ComponentType::Rigidbody2D:
 		pComponent = new CRigidbody2D;
 		break;
+	case E_ComponentType::TextUI:
 	default:
 		assert(nullptr);
 		break;

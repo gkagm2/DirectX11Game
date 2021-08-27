@@ -26,12 +26,11 @@ void Animator2DGUI::Update()
 	CAnimation2D* pAnimation = pAnimator->GetCurAnimation();
 
 	// 현재 애니메이션 이름
-	string strAnimName;
-	TStringToString(pAnimation->GetName(), strAnimName);
-	ImGui::Text("%s", strAnimName.c_str());
+	if (pAnimation)
+		ImGui::Text("Animation Name : %s", pAnimation->GetName().c_str());
 
 	// 애니메이션 상태
-	string strAnimState;
+	string strAnimState = "";
 	TStringToString(AnimationStateToStr(eAnimationState), strAnimState);
 	ImGui::Text("State : %s", strAnimState.c_str());
 

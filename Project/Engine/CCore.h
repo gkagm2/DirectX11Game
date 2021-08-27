@@ -7,6 +7,10 @@ private:
 	Vector2 m_vWindowResolution; // 윈도우 해상도
 
 public:
+	static HDC g_hDC;
+	static HWND g_Wnd;
+
+public:
 	int Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vector2& _vRenderResolution);
 	void Progress();
 	HWND GetWndHandle() { return m_hWnd; }

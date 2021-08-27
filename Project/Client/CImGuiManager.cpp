@@ -147,6 +147,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "MenuGUI.h"
 #include "MainMenuGUI.h"
 #include "SceneViewGUI.h"
+#include "TileMapEditorGUI.h"
 
 
 #include "ModuleCreatorGUI_ca.h"
@@ -218,9 +219,15 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     pDebugGUI->Init();
     AddGUI(pDebugGUI->GetName(), pDebugGUI);
 
+    // Scene View GUI
     SceneViewGUI* pSceneViewGUI = new SceneViewGUI;
     pSceneViewGUI->Init();
     AddGUI(pSceneViewGUI->GetName(), pSceneViewGUI);
+
+    // Tile Map Editor GUI
+    TileMapEditorGUI* pTileMapEditorGUI = new TileMapEditorGUI;
+    pTileMapEditorGUI->Init();
+    AddGUI(pTileMapEditorGUI->GetName(), pTileMapEditorGUI);
 }
 
 void CImGuiManager::Init_ListViewGUI()

@@ -102,7 +102,8 @@ void CTestScene::CreateTestScene()
 	//FishEyePostEffect();
 	//CaptainForever();
 	//SoundTest();
-	FontRendering();
+	TileMapTest();
+	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	return;
@@ -1323,6 +1324,7 @@ void CTestScene::TileMapTest()
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pCameraObj->SetName(_T("Camera"));
 	CObject::CreateGameObjectEvn(pCameraObj, 0);
 
 	// TileMap 1 
@@ -1331,23 +1333,37 @@ void CTestScene::TileMapTest()
 	pTileMap->AddComponent<CTransform>();
 	pTileMap->AddComponent<CTileMap>();
 	pTileMap->Transform()->SetLocalScale(Vector3(500.f, 500.f, 1.f));
-	pTileMap->Transform()->SetLocalPosition(Vector3(-400.f, 0.f, 0.f));
+	pTileMap->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
-	pTileMap->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
+	// 생성 할 타일 사이즈를 설정
+	pTileMap->TileMap()->SetTileFaceSize(20, 20);
+
+	SharedPtr<CTexture> pAtlasTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp"));
+	// 아틀라스 텍스쳐 설정
+	pTileMap->TileMap()->SetTileAtlas(pAtlasTexture);
+	
+;
+
+	// 타일 하나의 픽셀 사이즈 설정
+	pTileMap->TileMap()->SetEachFaceTextureSize(Vector2(64.f, 64.f));
+
+	// 타일 분리
+	pTileMap->TileMap()->SaperateTile();
+
 	CObject::CreateGameObjectEvn(pTileMap, 0);
 
 
-	// TileMap 2
-	CGameObject* pTileMap2 = new CGameObject();
-	pTileMap2->SetName(_T("TileMap"));
-	pTileMap2->AddComponent<CTransform>();
-	pTileMap2->AddComponent<CTileMap>();
-	pTileMap2->Transform()->SetLocalScale(Vector3(500.f, 500.f, 1.f));
-	pTileMap2->Transform()->SetLocalPosition(Vector3(400.f, 0.f, 0.f));
+	//// TileMap 2
+	//CGameObject* pTileMap2 = new CGameObject();
+	//pTileMap2->SetName(_T("TileMap"));
+	//pTileMap2->AddComponent<CTransform>();
+	//pTileMap2->AddComponent<CTileMap>();
+	//pTileMap2->Transform()->SetLocalScale(Vector3(500.f, 500.f, 1.f));
+	//pTileMap2->Transform()->SetLocalPosition(Vector3(400.f, 0.f, 0.f));
 
-	pTileMap2->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
-	pTileMap2->TileMap()->CreateTile(7, 7);
-	CObject::CreateGameObjectEvn(pTileMap2, 0);
+	//pTileMap2->TileMap()->SetTileAtlas(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp")), Vector2(64.f, 64.f));
+	//pTileMap2->TileMap()->SetTileSize(7, 7);
+	//CObject::CreateGameObjectEvn(pTileMap2, 0);
 
 
 	// Scene 초기화
