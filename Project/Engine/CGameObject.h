@@ -14,6 +14,11 @@ class CLight2D;
 class CTileMap;
 class CParticleSystem;
 class CRigidbody2D;
+class CRectTransform;
+class CCanvasRenderer;
+class CTextUI;
+class CImageUI;
+class CButtonUI;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {

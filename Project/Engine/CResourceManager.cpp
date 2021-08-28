@@ -382,6 +382,20 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 
 	AddRes(STR_KEY_FishEyeShader, pShader);
+
+	//----------------------------
+	// Canvas Shader
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXCanvasShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXCanvasShader);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	// Shader Param
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Float_2, _T("Size") });
+	AddRes(STR_KEY_CanvasShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -442,6 +456,13 @@ void CResourceManager::CreateDefaultMaterial()
 	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
 	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
+
+	// Canvas 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderCanvas = LoadRes<CGraphicsShader>(STR_KEY_CanvasShader);
+	pMtrl->SetShader(pShaderCanvas);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+	AddRes(STR_KEY_CanvasMtrl, pMtrl);
 }
 
 

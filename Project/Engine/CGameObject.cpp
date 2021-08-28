@@ -17,6 +17,12 @@
 #include "CTileMap.h"
 #include "CParticleSystem.h"
 #include "CRigidbody2D.h"
+#include "CRectTransform.h"
+#include "CCanvasRenderer.h"
+
+#include "CTextUI.h"
+#include "CButtonUI.h"
+#include "CImageUI.h"
 
 #include "CScript.h"
 
@@ -184,6 +190,9 @@ void CGameObject::Render()
 {
 	if (MeshRenderer() && MeshRenderer()->IsActive())		// ¸Þ½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
+
+	if (CanvasRenderer() && CanvasRenderer()->IsActive())
+		CanvasRenderer()->Render();
 
 	if (TileMap() && TileMap()->IsActive())			// Å¸ÀÏ¸Ê ·»´õ¸µ
 		TileMap()->Render();
@@ -501,7 +510,21 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 	case E_ComponentType::Rigidbody2D:
 		pComponent = new CRigidbody2D;
 		break;
+	case E_ComponentType::RectTransform:
+		pComponent = new CRectTransform;
+		break;
+	case E_ComponentType::CanvasRenderer:
+		pComponent = new CCanvasRenderer;
+		break;
 	case E_ComponentType::TextUI:
+		pComponent = new CTextUI;
+		break;
+	case E_ComponentType::ImageUI:
+		pComponent = new CImageUI;
+		break;
+	case E_ComponentType::ButtonUI:
+		pComponent = new CButtonUI;
+		break;
 	default:
 		assert(nullptr);
 		break;

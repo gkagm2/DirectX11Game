@@ -60,6 +60,8 @@
 #define STR_FUNC_NAME_PIXShaderLight2D "PS_Std2D_Light2D"
 #define STR_FUNC_NAME_VTXShaderTileMap "VS_TileMap"
 #define STR_FUNC_NAME_PIXShaderTileMap "PS_TileMap"
+#define STR_FUNC_NAME_VTXCanvasShader "VS_Canvas"
+#define STR_FUNC_NAME_PIXCanvasShader "PS_Canvas"
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -94,6 +96,7 @@
 #define STR_KEY_ParticleShader _T("ParticleShader")
 #define STR_KEY_DistortionShader _T("DistortionShader")
 #define STR_KEY_FishEyeShader _T("FishEyeShader")
+#define STR_KEY_CanvasShader _T("CanvasShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -111,12 +114,17 @@
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 #define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")
+#define STR_KEY_CanvasMtrl _T("CanvasMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
 
+
+///////////////////////
+// GameObject name
+#define STR_OBJ_NAME_UICamera _T("UI Camera")
 
 ////////// Shooting Game //////////
 // GameObject name

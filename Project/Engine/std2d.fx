@@ -261,4 +261,65 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
 */
 }
 
+////////////
+// UI
+////////////
+struct VTX_UI_IN
+{
+    float3 vPos : POSITION;
+    float2 vUV : TEXCOORD;
+    uint iInstID : SV_InstanceID; // 인스턴싱 ID 
+};
+
+struct VTX_UI_OUT
+{
+    float3 vViewPos : POSITION;
+    float2 vUV : TEXCOORD;
+    float fInstID : FOG; // 인스턴싱 ID
+};
+
+////////////////
+// Vertex shader
+////////////////
+// vPos, vColor를 입력받아서 처리해주는 함수
+VTX_OUT VS_Canvas(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f; // 초기화
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matRectWorld);
+    float4 vViewPos = mul(vWorldPos, g_matRectView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+    
+	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
+    output.vPosition = vProjPos;
+    output.vColor = _in.vColor;
+    output.vUV = _in.vUV;
+    return output;
+}
+
+///////////////
+// Pixel shader
+///////////////
+float4 PS_Canvas(VTX_OUT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
+    
+    // 애니메이션 타입인 경우
+    if (bIsAnimating2D)
+    {
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
+                
+        if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
+            && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
+            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+        else
+            clip(-1);
+    }
+    else if (bTex_0)
+        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+    return vOutColor;
+}
+
 #endif

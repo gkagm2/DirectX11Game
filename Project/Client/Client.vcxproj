@@ -156,6 +156,7 @@
     <ClInclude Include="Animator2DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />
     <ClInclude Include="CameraGUI.h" />
+    <ClInclude Include="CanvasRendererGUI.h" />
     <ClInclude Include="CCameraEx.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
@@ -219,6 +220,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Collider2DGUI.h" />
     <ClInclude Include="PrefabGUI.h" />
+    <ClInclude Include="RectTransformGUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceGUI.h" />
     <ClInclude Include="ResourceViewGUI.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="Animator2DGUI.cpp" />
     <ClCompile Include="AnimatorGUI.cpp" />
     <ClCompile Include="CameraGUI.cpp" />
+    <ClCompile Include="CanvasRendererGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">
@@ -297,6 +300,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Collider2DGUI.cpp" />
     <ClCompile Include="PrefabGUI.cpp" />
+    <ClCompile Include="RectTransformGUI.cpp" />
     <ClCompile Include="ResourceGUI.cpp" />
     <ClCompile Include="ResourceViewGUI.cpp" />
     <ClCompile Include="Rigidbody2DGUI.cpp" />

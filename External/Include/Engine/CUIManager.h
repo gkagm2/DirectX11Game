@@ -1,6 +1,6 @@
 #pragma once
 class CUI;
-class CUIManager
+class CUIManager : public CSingleton<CUIManager>
 {
 	SINGLETON(CUIManager);
 

@@ -4,7 +4,6 @@ class CImageUI : public CUI
 {
 public:
 	CLONE(CImageUI);
-	CImageUI() = delete;
-	CImageUI(E_ComponentType _eComponentType);
+	CImageUI();
 	virtual ~CImageUI() override;
 };

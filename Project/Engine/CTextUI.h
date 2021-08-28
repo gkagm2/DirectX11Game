@@ -4,7 +4,6 @@ class CTextUI : public CUI
 {
 public:
 	CLONE(CTextUI);
-	CTextUI() = delete;
-	CTextUI(E_ComponentType _eComponentType);
+	CTextUI();
 	virtual ~CTextUI() override;
 };

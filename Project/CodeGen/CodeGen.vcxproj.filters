@@ -14,5 +14,6 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PathMgr.h" />
+    <ClInclude Include="..\Engine\CCanvasRenderer.h" />
   </ItemGroup>
 </Project>

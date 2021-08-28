@@ -2,6 +2,7 @@
 #include "CTransform.h"
 #include "CConstBuffer.h"
 #include "CDevice.h"
+#include "CRectTransform.h"
 
 #include "CGameObject.h"
 // Test
@@ -11,7 +12,19 @@ CTransform::CTransform() :
 	m_vLocalScale{1.f, 1.f, 1.f},
 	m_vLocalRotation{},
 	m_matLocal{},
-	m_matWorld{}
+	m_matWorld{},
+	m_matWorld_noParentScale{}
+{
+}
+
+CTransform::CTransform(E_ComponentType _eComponentType) :
+	CComponent(_eComponentType),
+	m_vLocalPosition{},
+	m_vLocalScale{ 1.f, 1.f, 1.f },
+	m_vLocalRotation{},
+	m_matLocal{},
+	m_matWorld{},
+	m_matWorld_noParentScale{}
 {
 }
 
@@ -25,7 +38,10 @@ Vector3 CTransform::GetScale()
 	CGameObject* pGameObj = GetGameObject();
 
 	while (pGameObj->GetParentObject()) {
-		vWorldScale *= pGameObj->GetParentObject()->Transform()->GetLocalScale();
+		if (pGameObj->GetParentObject()->RectTransform())
+			vWorldScale *= pGameObj->GetParentObject()->RectTransform()->GetLocalScale();
+		else
+			vWorldScale *= pGameObj->GetParentObject()->Transform()->GetLocalScale();
 		pGameObj = pGameObj->GetParentObject();
 	}
 	return vWorldScale;
@@ -47,11 +63,19 @@ void CTransform::FinalUpdate()
 	Matrix matTrans = XMMatrixTranslation(m_vLocalPosition.x, m_vLocalPosition.y, m_vLocalPosition.z);
 
 	m_matWorld = m_matLocal = matScale * matRot * matTrans;
+
+	m_matWorld_noParentScale = m_matWorld;
 	
 	CGameObject* pParentObj = GetGameObject()->GetParentObject();
 	if (pParentObj) {
-		const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix();
-		m_matWorld *= matParentWorld;
+		if (pParentObj->RectTransform()) {
+			const Matrix& matParentWorld = pParentObj->RectTransform()->GetWorldMatrix();
+			m_matWorld *= matParentWorld;
+		}
+		else {
+			const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix();
+			m_matWorld *= matParentWorld;
+		}
 	}
 }
 

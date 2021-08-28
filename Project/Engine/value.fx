@@ -79,6 +79,17 @@ cbuffer GLOBAL_CONST : register(b3)
     int     g_iLight3DCount; // 3D 광원 개수
 }
 
+cbuffer RECT_TRANSFORM : register(b4)
+{
+    row_major Matrix g_matRectWorld; // 행기반 v (L-)
+    row_major Matrix g_matRectView;
+    row_major Matrix g_matRectProjection;
+    
+    float g_fRectWidth;
+    float g_fRectHeight;
+    float2 g_fRectTransformPadding;
+}
+
 // Texture register (t)
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);

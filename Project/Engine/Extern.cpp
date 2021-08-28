@@ -35,6 +35,7 @@ D3D11_INPUT_ELEMENT_DESC g_arrLayoutDesc[LAYOUT_DESCRIPTION_COUNT] = {
 
 TTransform g_transform = {};
 TGlobalConst g_globalConst = {};
+TRectTransform g_rectTransform = {};
 
 tstring ComponentTypeToStr(E_ComponentType _eType)
 {
@@ -90,6 +91,12 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Script:
 		strComponentType = _T("Script");
+		break;
+	case E_ComponentType::CanvasRenderer:
+		strComponentType = _T("CanvasRenderer");
+		break;
+	case E_ComponentType::RectTransform:
+		strComponentType = _T("RectTransform");
 		break;
 		// UI
 	case E_ComponentType::ButtonUI:

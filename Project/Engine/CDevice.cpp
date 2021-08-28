@@ -221,6 +221,9 @@ void CDevice::CreateConstBuffer()
 
 	m_arrCB[(UINT)E_ConstBuffer::Global] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::Global]->Create(E_ConstBuffer::Global, sizeof(TGlobalConst));
+
+	m_arrCB[(UINT)E_ConstBuffer::RectTransform] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::RectTransform]->Create(E_ConstBuffer::RectTransform, sizeof(TRectTransform));
 }
 
 void CDevice::CreateSampler()

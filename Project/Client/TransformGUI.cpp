@@ -16,7 +16,12 @@ void TransformGUI::Update()
 {
 	if (false == Start())
 		return;
+	TransformUpdate();
+	End();
+}
 
+void TransformGUI::TransformUpdate()
+{
 	CTransform* pTransform = GetTargetObject()->Transform();
 
 	Vector3 vTrans = pTransform->GetLocalPosition();
@@ -25,7 +30,7 @@ void TransformGUI::Update()
 
 	static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
 	// Position UI
-	
+
 	ImGui::Text("Position "); ImGui::SameLine();
 	ImGui::Text("x"); ImGui::SameLine();
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
@@ -66,6 +71,4 @@ void TransformGUI::Update()
 	pTransform->SetLocalPosition(vTrans);
 	pTransform->SetLocalScale(vScale);
 	pTransform->SetLocalRotation(vRotation);
-
-	End();
 }

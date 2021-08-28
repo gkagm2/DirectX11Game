@@ -20,6 +20,8 @@
 #include "Light2DGUI.h"
 #include "TileMapGUI.h"
 #include "Collider2DGUI.h"
+#include "RectTransformGUI.h"
+#include "CanvasRendererGUI.h"
 
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
@@ -58,9 +60,17 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::Transform] = new TransformGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Transform]->SetUISize(ImVec2(0.f, 110.f));
 
+	// RectTransformGUI
+	m_arrComGUI[(UINT)E_ComponentType::RectTransform] = new RectTransformGUI;
+	m_arrComGUI[(UINT)E_ComponentType::RectTransform]->SetUISize(ImVec2(0.f, 150.f));
+
 	// MeshRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer] = new MeshRendererGUI;
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer]->SetUISize(ImVec2(0.f, 110.f));
+
+	// CanvasRendererGUI
+	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer] = new CanvasRendererGUI;
+	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer]->SetUISize(ImVec2(0.f, 0.f));
 
 	// Collider2D
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DGUI;
@@ -85,6 +95,9 @@ void InspectorGUI::Init()
 	// CameraGUI
 	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+
+	// UI들
+	// TODO (Jang) : UI들 작성하기
 
 	// Script GUI
 	m_pScriptGUI = new ScriptGUI;

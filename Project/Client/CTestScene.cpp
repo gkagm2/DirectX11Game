@@ -949,6 +949,12 @@ void CTestScene::FontRendering()
 	CFontManager::GetInstance()->DrawFont(szBuffer, 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255));
 }
 
+void CTestScene::Test()
+{
+	CScene* pScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+}
+
 void CTestScene::MultiThreadScene_LoadingScene()
 {
 	CScene* pScene = new CScene;

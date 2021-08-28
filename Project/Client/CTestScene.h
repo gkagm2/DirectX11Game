@@ -26,9 +26,10 @@ protected:
 	static void DistortionObject();				// PostEffect를 이용
 	static void FishEyePostEffect();			// PostEffect
 	static void SoundTest();					// Done
-	static void FontRendering();
+	static void FontRendering();				// Done
 
 
+	static void Test();
 
 	// TODO (Jang) : 자식오브젝트가 있는 상태에서 로 Scene Stop 시 오류걸리는거 수정하기
 	static void MaterialCreateTest();			// Done

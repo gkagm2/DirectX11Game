@@ -173,6 +173,12 @@
     <Filter Include="03. Tools\04. GUI\TileMapEditor">
       <UniqueIdentifier>{d3ceadf4-b540-443f-83a5-f194a22ec9cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI">
+      <UniqueIdentifier>{9af7c156-5e53-42d4-bd8a-b94557b66adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI">
+      <UniqueIdentifier>{dc685ffd-1e47-4393-9a45-d0029f3fad0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -335,6 +341,12 @@
     <ClInclude Include="TileMapEditorGUI.h">
       <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="RectTransformGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CanvasRendererGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -481,6 +493,12 @@
     </ClCompile>
     <ClCompile Include="TileMapEditorGUI.cpp">
       <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="RectTransformGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CanvasRendererGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

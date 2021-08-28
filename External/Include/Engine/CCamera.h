@@ -44,6 +44,7 @@ private:
 	// 렌더링 시점별로 분류된 오브젝트들
 	vector<CGameObject*> m_vecForward;
 	vector<CGameObject*> m_vecParticle;
+	vector<CGameObject*> m_vecCanvas; // UI
 	vector<CGameObject*> m_vecPostEffect;
 	vector<CGameObject*> m_vecCollider2D;
 
@@ -77,7 +78,7 @@ public:
 			m_iLayerCheck &= ~(_iLayerIdx << 1); // bit flag 0 설정
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
-
+	void SetLayerCheckAllUnActive() { m_iLayerCheck = 0; }	// 모든 레이어 렌더링 해제
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
@@ -95,7 +96,7 @@ private:
 	void _RenderParticle();
 	void _RenderPostEffect();
 	void _RenderCollider2D();
-
+	void _RenderCanvas(); // UI Canvas
 public:
 	CLONE(CCamera);
 	CCamera();

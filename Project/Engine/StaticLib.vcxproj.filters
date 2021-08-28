@@ -205,6 +205,12 @@
     <ClInclude Include="CImageUI.h">
       <Filter>Engine\07. Component\UI\ImageUI</Filter>
     </ClInclude>
+    <ClInclude Include="CRectTransform.h">
+      <Filter>Engine\07. Component\RectTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="CCanvasRenderer.h">
+      <Filter>Engine\07. Component\Renderer\CanvasRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -393,6 +399,12 @@
     <ClCompile Include="CImageUI.cpp">
       <Filter>Engine\07. Component\UI\ImageUI</Filter>
     </ClCompile>
+    <ClCompile Include="CRectTransform.cpp">
+      <Filter>Engine\07. Component\RectTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="CCanvasRenderer.cpp">
+      <Filter>Engine\07. Component\Renderer\CanvasRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -556,6 +568,12 @@
     </Filter>
     <Filter Include="Engine\07. Component\UI\ImageUI">
       <UniqueIdentifier>{83bf1239-307f-44bd-a00d-94f27b2723c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\RectTransform">
+      <UniqueIdentifier>{96ae5c9d-0b78-40bd-987d-a0ccb1416fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Renderer\CanvasRender">
+      <UniqueIdentifier>{35d86728-2a65-4b41-98dd-e5c3182abef0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

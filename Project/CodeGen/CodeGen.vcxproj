@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\CCanvasRenderer.h" />
     <ClInclude Include="PathMgr.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

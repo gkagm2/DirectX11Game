@@ -4,7 +4,6 @@ class CButtonUI : public CUI
 {
 public:
 	CLONE(CButtonUI);
-	CButtonUI() = delete;
-	CButtonUI(E_ComponentType _eComponentType);
+	CButtonUI();
 	virtual ~CButtonUI() override;
 };

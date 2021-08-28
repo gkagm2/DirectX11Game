@@ -6,6 +6,7 @@
 #include "CImGuiManager.h"
 #include "MeshRendererGUI.h"
 #include "ParamGUI.h"
+#include "TileMapEditorGUI.h"
 
 TileMapGUI::TileMapGUI() :
 	ComponentGUI(E_ComponentType::TileMap)
@@ -55,6 +56,13 @@ void TileMapGUI::Update()
 
 	ShowMeshRenderer();
 
+	if (ImGui::Button("Editor Open")) {
+		TileMapEditorGUI* pTileMapEditorGUI = dynamic_cast<TileMapEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_TileMapEditor));
+		if (!pTileMapEditorGUI)
+			assert(nullptr && _T("타일맵 에디터를 열 수 없다."));
+		else
+			pTileMapEditorGUI->SetActive(true);
+	}
 
 	End();
 }

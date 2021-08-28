@@ -2,13 +2,16 @@
 #include "CComponent.h"
 class CTransform : public CComponent
 {
-private:
+protected:
 	Vector3 m_vLocalPosition;
 	Vector3 m_vLocalScale;
 	Vector3 m_vLocalRotation; // Radian임
 
 	Matrix m_matLocal;
 	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
+
+	Matrix m_matWorld_noParentScale; // 부모 자식간 scale을 고려하지 않은 행렬
+
 
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
@@ -32,6 +35,7 @@ public:
 
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
+	const Matrix& GetWOrldMatrix_NoParentScale() { return m_matWorld_noParentScale; }
 
 	const Vector3& GetUpVector() {
 		Vector3 vUpVec = XMVector3TransformCoord(Vector3{ 0.f,1.f,0.f }, GetWorldMatrix());
@@ -42,6 +46,8 @@ public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;
 
+
+
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
@@ -49,5 +55,6 @@ public:
 public:
 	CLONE(CTransform);
 	CTransform();
+	CTransform(E_ComponentType _eComponentType);
 	virtual ~CTransform() override;
 };

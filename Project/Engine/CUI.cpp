@@ -17,7 +17,6 @@ CUI::CUI(E_ComponentType _eComponentType) :
     m_ePivotState(E_UIPivot::leftTop),
     m_vFinalPosition{}
 {
-    GetGameObject()->_SetLayer(NUM_LAYER_UI);
 }
 
 CUI::CUI(const CUI& _origin) :
@@ -53,6 +52,11 @@ void CUI::LateUpdate()
 
     for (UINT i = 0; i < m_vecChildUI.size(); ++i)
         m_vecChildUI[i]->LateUpdate();*/
+}
+
+void CUI::FinalUpdate()
+{
+    // UI 
 }
 
 void CUI::Render()
@@ -94,13 +98,13 @@ void CUI::OnPointerClick()
 
 bool CUI::IsPointerOn(const Vector2& _vMousePosition)
 {
-    Vector2 mousePos = _vMousePosition;
+   /* Vector2 mousePos = _vMousePosition;
     Vector3 minPos = GetMin();
     Vector3 maxPos = GetMax();
     if (_vMousePosition.x >= GetMin().x && _vMousePosition.x <= GetMax().x &&
         _vMousePosition.y >= GetMin().y && _vMousePosition.y <= GetMax().y) {
         return true;
-    }
+    }*/
     return false;
 }
 

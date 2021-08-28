@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CButtonUI.h"
 
-CButtonUI::CButtonUI(E_ComponentType _eComponentType) :
+CButtonUI::CButtonUI() :
 	CUI(E_ComponentType::ButtonUI)
 {
 }

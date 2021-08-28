@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CTextUI.h"
 
-CTextUI::CTextUI(E_ComponentType _eComponentType) :
+CTextUI::CTextUI() :
 	CUI(E_ComponentType::TextUI)
 {
 }

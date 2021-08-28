@@ -9,6 +9,13 @@
 #include <Engine\CRenderManager.h>
 #include <Engine\CCamera.h>
 #include <Engine\CTransform.h>
+
+#include <Engine\CCanvasRenderer.h>
+#include <Engine\CRectTransform.h>
+#include <Engine\CTextUI.h>
+#include <Engine\CButtonUI.h>
+#include <Engine\CImageUI.h>
+
 #include "CSceneSaveLoad.h"
 #include "InspectorGUI.h"
 #include "CImGuiManager.h"
@@ -23,6 +30,11 @@ UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
 UINT g_iEmpty2DCameraGameObjectID = 0;
 UINT g_iEmptyRect2DGameObjectID = 0;
+
+
+UINT g_iTextUIGameObjectID = 0;
+UINT g_iButtonUIGameObjectID = 0;
+UINT g_iImageUIGameObjectID = 0;
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -86,7 +98,19 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Material")) {
                 CreateEmptyMaterial();
             }
-            
+            if (ImGui::BeginMenu("UI")) {
+                if (ImGui::MenuItem("Button UI")) {
+                    CreateButtonUI();
+                }
+                if (ImGui::MenuItem("Image UI")) {
+                    CreateImageUI();
+                }
+                if (ImGui::MenuItem("Text UI")) {
+                    CreateTextUI();
+                }
+
+                ImGui::EndMenu();
+            }
 
             ImGui::EndMenu();
         }
@@ -105,6 +129,21 @@ void MainMenuGUI::Update()
 
         ImGui::EndMainMenuBar();
     }
+}
+
+tstring MainMenuGUI::_CreateObjectName(const tstring& _strObjDefaultName, UINT& id)
+{
+    constexpr int iBuffSize = 255;
+    TCHAR szBuffer[iBuffSize] = _T("");
+
+    // 고유 이름값 생성
+    while (true) {
+        _stprintf_s(szBuffer, iBuffSize, _T("%s%d"), _strObjDefaultName.c_str() , id++);
+        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
+        if (nullptr == pObj)
+            break;
+    }
+    return szBuffer;
 }
 
 void MainMenuGUI::ShowExampleMenuFile()
@@ -231,20 +270,11 @@ void MainMenuGUI::CreateEmptyMaterial()
 
 CGameObject* MainMenuGUI::CreateEmptyGameObject()
 {
-    constexpr int iBuffSize = 255;
-    TCHAR szBuffer[iBuffSize] = _T("");
-
-    // 고유 이름값 생성
-    while (true) {
-        _stprintf_s(szBuffer, iBuffSize, _T("GameObject%d"), g_iEmptyGameObjectID++);
-        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
-        if (nullptr == pObj)
-            break;
-    }
+    tstring strObjName =_CreateObjectName(_T("GameObject"), g_iEmptyGameObjectID);
 
     // 새 게임 오브젝트 생성
     CGameObject* pNewGameObject = new CGameObject;
-    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->SetName(strObjName);
     pNewGameObject->AddComponent<CTransform>();
 
     // Tool Camera가 바라보고 있는 위치에 생성
@@ -259,20 +289,11 @@ CGameObject* MainMenuGUI::CreateEmptyGameObject()
 
 void MainMenuGUI::CreateCamera2DGameObject()
 {
-    constexpr int iBuffSize = 255;
-    TCHAR szBuffer[iBuffSize] = _T("");
-
-    // 고유 이름값 생성
-    while (true) {
-        _stprintf_s(szBuffer, iBuffSize, _T("2D Camera%d"), g_iEmpty2DCameraGameObjectID++);
-        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
-        if (nullptr == pObj)
-            break;
-    }
+    tstring strObjName = _CreateObjectName(_T("2D Camera"), g_iEmpty2DCameraGameObjectID);
 
     // 새 게임 오브젝트 생성
     CGameObject* pNewGameObject = new CGameObject;
-    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->SetName(strObjName);
     pNewGameObject->AddComponent<CTransform>();
     pNewGameObject->AddComponent<CCamera>();
     pNewGameObject->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
@@ -287,20 +308,11 @@ void MainMenuGUI::CreateCamera2DGameObject()
 
 void MainMenuGUI::Create2DRectGameObjet()
 {
-    constexpr int iBuffSize = 255;
-    TCHAR szBuffer[iBuffSize] = _T("");
-
-    // 고유 이름값 생성
-    while (true) {
-        _stprintf_s(szBuffer, iBuffSize, _T("Rect GameObject%d"), g_iEmptyRect2DGameObjectID++);
-        CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
-        if (nullptr == pObj)
-            break;
-    }
+    tstring strObjName = _CreateObjectName(_T("Rect GameObject"), g_iEmptyRect2DGameObjectID);
 
     // 새 게임 오브젝트 생성
     CGameObject* pNewGameObject = new CGameObject;
-    pNewGameObject->SetName(szBuffer);
+    pNewGameObject->SetName(strObjName);
     pNewGameObject->AddComponent<CTransform>();
     pNewGameObject->AddComponent<CMeshRenderer>();
     CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl);
@@ -311,6 +323,101 @@ void MainMenuGUI::Create2DRectGameObjet()
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
+CGameObject* MainMenuGUI::_CreateUIGameObject()
+{
+    CGameObject* pUIGameObject = new CGameObject;
+    pUIGameObject->AddComponent<CRectTransform>();
+    pUIGameObject->AddComponent<CCanvasRenderer>();
+    return pUIGameObject;
+}
+
+CGameObject* MainMenuGUI::_CreateDefaultUICamera()
+{
+    tstring strObjName = STR_OBJ_NAME_UICamera;
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pUICameraObj = new CGameObject;
+    pUICameraObj->SetName(strObjName);
+    pUICameraObj->AddComponent<CTransform>();
+    pUICameraObj->AddComponent<CCamera>();
+    pUICameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+    pUICameraObj->Camera()->SetLayerCheckAllUnActive();
+    pUICameraObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
+
+    // Tool Camera가 바라보고 있는 위치에 생성
+    CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+    Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    pUICameraObj->Transform()->SetLocalPosition(Vector3(0.f,0.f,0.f));
+    CObject::CreateGameObjectEvn(pUICameraObj, NUM_LAYER_UI);
+    return pUICameraObj;
+}
+
+void MainMenuGUI::CreateTextUI()
+{   
+    tstring strObjName = _CreateObjectName(_T("TextUI"), g_iTextUIGameObjectID);
+    
+    // 새 게임 오브젝트 생성
+    CGameObject* pTextUIObj = _CreateUIGameObject();
+    pTextUIObj->SetName(strObjName);
+    pTextUIObj->AddComponent<CTextUI>();
+
+    // 자식 오브젝트로 넣기
+    
+    CGameObject* pUICamera = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(STR_OBJ_NAME_UICamera, NUM_LAYER_UI);
+
+    // UI 카메라가 없으면 새로 생성한다.
+    if (!pUICamera)
+        pUICamera = _CreateDefaultUICamera();
+
+    // UI Camera의 자식 오브젝트로 넣는다.
+    CObject::CreateGameObjectEvn(pTextUIObj, NUM_LAYER_UI);
+    CObject::AddChildGameObjectEvn(pUICamera, pTextUIObj);
+}
+
+void MainMenuGUI::CreateImageUI()
+{
+    tstring strObjName = _CreateObjectName(_T("ImageUI"), g_iImageUIGameObjectID);
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pImageUI = _CreateUIGameObject();
+    pImageUI->SetName(strObjName);
+    pImageUI->AddComponent<CImageUI>();
+
+    // 자식 오브젝트로 넣기
+
+    CGameObject* pUICamera = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(STR_OBJ_NAME_UICamera, NUM_LAYER_UI);
+
+    // UI 카메라가 없으면 새로 생성한다.
+    if (!pUICamera)
+        pUICamera = _CreateDefaultUICamera();
+
+    // UI Camera의 자식 오브젝트로 넣는다.
+    CObject::CreateGameObjectEvn(pImageUI, NUM_LAYER_UI);
+    CObject::AddChildGameObjectEvn(pUICamera, pImageUI);
+}
+
+void MainMenuGUI::CreateButtonUI()
+{
+    tstring strObjName = _CreateObjectName(_T("ButtonUI"), g_iButtonUIGameObjectID);
+
+    // 새 게임 오브젝트 생성
+    CGameObject* pButtonUIObj = _CreateUIGameObject();
+    pButtonUIObj->SetName(strObjName);
+    pButtonUIObj->AddComponent<CButtonUI>();
+
+    // 자식 오브젝트로 넣기
+
+    CGameObject* pUICamera = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(STR_OBJ_NAME_UICamera, NUM_LAYER_UI);
+
+    // UI 카메라가 없으면 새로 생성한다.
+    if (!pUICamera)
+        pUICamera = _CreateDefaultUICamera();
+    
+    // UI Camera의 자식 오브젝트로 넣는다.
+    CObject::CreateGameObjectEvn(pButtonUIObj, NUM_LAYER_UI);
+    CObject::AddChildGameObjectEvn(pUICamera, pButtonUIObj);
 }
 
 void MainMenuGUI::OpenModuleCreatorToolWindows()

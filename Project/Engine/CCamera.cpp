@@ -8,6 +8,7 @@
 #include "CScene.h"
 #include "CLayer.h"
 #include "CMeshRenderer.h"
+#include "CCanvasRenderer.h"
 #include "CCore.h"
 
 #include "CCollider2D.h"
@@ -109,6 +110,7 @@ void CCamera::_SortObjects()
 	m_vecParticle.clear();
 	m_vecPostEffect.clear();
 	m_vecCollider2D.clear();
+	m_vecCanvas.clear();
 
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 
@@ -139,6 +141,11 @@ void CCamera::_SortObjects()
 						assert(nullptr);
 						break;
 					}
+				}
+				else if (pObj->CanvasRenderer() &&
+					pObj->CanvasRenderer()->GetSharedMaterial().Get() &&
+					pObj->CanvasRenderer()->GetSharedMaterial()->GetShader().Get()) {
+					m_vecCanvas.push_back(pObj);
 				}
 				else if (pObj->ParticleSystem()) {
 					m_vecParticle.push_back(pObj);
@@ -187,4 +194,13 @@ void CCamera::_RenderCollider2D()
 
 	for (UINT i = 0; i < m_vecCollider2D.size(); ++i)
 		m_vecCollider2D[i]->Render();
+}
+
+void CCamera::_RenderCanvas()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+
+	for (UINT i = 0; i < m_vecCanvas.size(); ++i)
+		m_vecCanvas[i]->Render();
 }

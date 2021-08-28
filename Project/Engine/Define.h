@@ -44,7 +44,12 @@
 	GET_COMPONENT(Light2D)\
 	GET_COMPONENT(TileMap)\
 	GET_COMPONENT(ParticleSystem)\
-	GET_COMPONENT(Rigidbody2D)
+	GET_COMPONENT(Rigidbody2D)\
+	GET_COMPONENT(RectTransform)\
+	GET_COMPONENT(CanvasRenderer)\
+	GET_COMPONENT(TextUI)\
+	GET_COMPONENT(ImageUI)\
+	GET_COMPONENT(ButtonUI)
 
 // TIP : 추가 할 경우 CGameObject.cpp에 헤더파일과 Load함수에도 추가해줘야 함.
 
@@ -61,7 +66,12 @@
 	GET_OTHER_COMPONENT(Light2D)\
 	GET_OTHER_COMPONENT(TileMap)\
 	GET_OTHER_COMPONENT(ParticleSystem)\
-	GET_OTHER_COMPONENT(Rigidbody2D)
+	GET_OTHER_COMPONENT(Rigidbody2D)\
+	GET_OTHER_COMPONENT(RectTransform)\
+	GET_OTHER_COMPONENT(CanvasRenderer)\
+	GET_OTHER_COMPONENT(TextUI)\
+	GET_OTHER_COMPONENT(ImageUI)\
+	GET_OTHER_COMPONENT(ButtonUI)
 #pragma endregion
 
 
@@ -101,6 +111,7 @@ enum class E_ConstBuffer {
 	Material_Param,	 // b1
 	Animation2D_Data,// b2
 	Global,			 // b3
+	RectTransform,	 // b4
 	End,
 };
 
@@ -137,7 +148,7 @@ enum class E_ComponentType {
 	Light2D,
 	Light3D,
 	Camera,
-
+	RectTransform,
 #pragma region UI Component
 	//CanvasUI,
 	ButtonUI,
@@ -147,6 +158,7 @@ enum class E_ComponentType {
 
 
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
+	CanvasRenderer,
 	MeshRenderer,
 	ParticleSystem,
 	TileMap,
@@ -160,7 +172,7 @@ enum class E_ComponentType {
 };
 // Warning extern.cpp에 ComponentTypeToStr 함수에도 추가해주기
 
-#define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::MeshRenderer
+#define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::CanvasRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
 
 

@@ -62,6 +62,16 @@ struct TTransform {
 	Matrix matWorldViewProj; // World * View * Projection Matrix
 };
 
+struct TRectTransform {
+	Matrix matWorld;
+	Matrix matView;
+	Matrix matProjection;
+
+	float fWidth;
+	float fHeight;
+	float padding[2];
+};
+
 struct TMaterialData {
 	Vector4 vDiffuse; // ºÐ»ê±¤
 	Vector4 vSpecular;// ¹Ý¿µ±¤

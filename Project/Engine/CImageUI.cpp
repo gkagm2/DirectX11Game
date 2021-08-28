@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CImageUI.h"
 
-CImageUI::CImageUI(E_ComponentType _eComponentType) :
+CImageUI::CImageUI() :
 	CUI(E_ComponentType::ImageUI)
 {
 }
