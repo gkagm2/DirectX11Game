@@ -1,7 +1,16 @@
 #include "pch.h"
 #include "TileMapEditorGUI.h"
 
-TileMapEditorGUI::TileMapEditorGUI()
+#include "CImGuiManager.h"
+#include <Engine\CTileMap.h>
+#include <Engine\CGameObject.h>
+#include <Engine\CResourceManager.h>
+#include "ParamGUI.h"
+
+TileMapEditorGUI::TileMapEditorGUI() :
+	m_pTargetObject(nullptr),
+	m_iFaceSize{},
+	m_iAtlasTileColRowSize{}
 {
 }
 
@@ -16,19 +25,83 @@ void TileMapEditorGUI::Init()
 
 void TileMapEditorGUI::Update()
 {
-    // 창을 하나 연다
-    if (!m_bGUIOpen) {
+	if (!m_pTargetObject)
+		return;
+
+	CTileMap* pTileMap = m_pTargetObject->TileMap();
+	if (!pTileMap) {
+		assert(nullptr);
+		return;
+	}
+	// 창을 하나 연다
+    if (!m_bGUIOpen)
         return;
-    }
 
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(STR_GUI_TileMapEditor, &m_bGUIOpen))
     {
-		// TODO (Jang) : 뭐해야되나
+		ImGui::Text("Face Size : %d %d", pTileMap->GetCol(), pTileMap->GetRow());
+		ImGui::InputInt2("##Tile Map Size", m_iFaceSize);
+		m_iFaceSize[0] = CMyMath::Clamp(m_iFaceSize[0], 0, INT_MAX);
+		m_iFaceSize[1] = CMyMath::Clamp(m_iFaceSize[1], 0, INT_MAX);
+
+		ImGui::Spacing();
+
+		ImGui::Text("Texture Tile Count");
+		ImGui::InputInt2("##Texture Tile Count", m_iAtlasTileColRowSize);
+
+		ImGui::Spacing();
+
+
+		if (ImGui::Button("Create")) {
+			// 생성 할 타일 사이즈를 설정
+			pTileMap->SetTileFaceSize(m_iFaceSize[0], m_iFaceSize[0]);
+		
+			SharedPtr<CTexture> pAtlasTexture;
+			// 아틀라스 텍스쳐 설정
+			pTileMap->SetTileAtlas(pAtlasTexture);
+
+			// 아틀라스 텍스쳐의 가로 세로 개수
+			pTileMap->SetAtlasTileColRowSize(m_iAtlasTileColRowSize[0], m_iAtlasTileColRowSize[1]);
+
+			// 타일 분리
+			pTileMap->SaperateTile();
+
+		}
+
+		// 아틀라스 텍스쳐 선택
+		// ListView선택.
+
+
+		// 아틀라스 텍스쳐 세팅
+		CTexture* pAtlasTexture = pTileMap->GetAtlasTexture().Get();
+		if (pAtlasTexture) {
+			string strName{};
+			tstring tstrName = pAtlasTexture->GetName();
+			TStringToString(tstrName, strName);
+			ParamGUI::Render_Texture(strName.c_str(), pAtlasTexture, this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
+		}
+		else {
+			if (ImGui::Button("Atlas Texture Select")) {
+				// 목록 전달
+				vector<tstring> vecName;
+				CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
+				ListViewGUI* pListGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+				assert(pListGUI);
+				if (pListGUI) {
+					pListGUI->SetList(vecName, _T("Atlas Texture"));
+					pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
+					pListGUI->SetActive(true);
+				}
+			}
+		}
 
 		// 탭을 만들어서 하나는 타일맵의 텍스쳐를 수정하고
 		// 세팅하는것.
 		// 다른 탭은 그 텍스쳐를 이용해서 타일을 까는 것
+
+
+
 
 		ImGui::PushItemWidth(-ImGui::GetFontSize() * 15);
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -129,4 +202,23 @@ void TileMapEditorGUI::Update()
     ImGui::End();
 
     
+}
+
+void TileMapEditorGUI::_SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)
+{
+	// 선택한 텍스쳐를 알아낸다.
+	const char* pStrKey = (const char*)_strKey;
+	string strKey = pStrKey;
+	tstring tStrKey;
+	StringToTString(strKey, tStrKey);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
+	assert(pTex);
+	GetTargetObject()->TileMap()->SetTileAtlas(pTex);
+}
+
+void TileMapEditorGUI::_Clear()
+{
+	m_iFaceSize[0] = m_iFaceSize[1] = 0;
+	m_iAtlasTileColRowSize[0] = m_iAtlasTileColRowSize[1] = 0;
 }

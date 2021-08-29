@@ -98,7 +98,7 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Material")) {
                 CreateEmptyMaterial();
             }
-            if (ImGui::BeginMenu("UI")) {
+            if (ImGui::BeginMenu("Create UI")) {
                 if (ImGui::MenuItem("Button UI")) {
                     CreateButtonUI();
                 }

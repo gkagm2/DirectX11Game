@@ -23,6 +23,24 @@ void RectTransformGUI::Update()
 	Vector3 vRotation = pRectTransform->GetLocalRotation();
 
 	static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
+
+	// Width , Height UI
+	float fWidth = pRectTransform->GetWidth();
+	float fHeight = pRectTransform->GetHeight();
+
+	ImGui::Text("Width    "); ImGui::SameLine();
+	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
+	ImGui::DragFloat("##Width", &fWidth, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
+
+	ImGui::Text("Height   "); ImGui::SameLine();
+	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
+	ImGui::DragFloat("##Height", &fHeight, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); 
+
+	pRectTransform->SetWidth(fWidth);
+	pRectTransform->SetHeight(fHeight);
+
+	ImGui::Spacing();
+
 	// Position UI
 
 	ImGui::Text("Position "); ImGui::SameLine();
@@ -65,22 +83,6 @@ void RectTransformGUI::Update()
 	pRectTransform->SetLocalPosition(vTrans);
 	pRectTransform->SetLocalScale(vScale);
 	pRectTransform->SetLocalRotation(vRotation);
-
-	float fWidth = pRectTransform->GetWidth();
-	float fHeight = pRectTransform->GetHeight();
-	
-	ImGui::Text("Width    "); ImGui::SameLine();
-	ImGui::Text("x"); ImGui::SameLine();
-	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##Width", &fWidth, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
-
-	ImGui::Text("Height   "); ImGui::SameLine();
-	ImGui::Text("x"); ImGui::SameLine();
-	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-	ImGui::DragFloat("##Height", &fHeight, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", flags); ImGui::SameLine();
-
-	pRectTransform->SetWidth(fWidth);
-	pRectTransform->SetHeight(fHeight);
 
 	End();
 }

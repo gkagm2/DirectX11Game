@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="Animator2DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />
+    <ClInclude Include="ButtonUIGUI.h" />
     <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CanvasRendererGUI.h" />
     <ClInclude Include="CCameraEx.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="HierachyGUI.h" />
+    <ClInclude Include="ImageUIGUI.h" />
     <ClInclude Include="imconfig.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -230,6 +232,7 @@
     <ClInclude Include="ScriptGUI.h" />
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextUIGUI.h" />
     <ClInclude Include="TextureGUI.h" />
     <ClInclude Include="TileMapEditorGUI.h" />
     <ClInclude Include="TileMapGUI.h" />
@@ -240,6 +243,7 @@
   <ItemGroup>
     <ClCompile Include="Animator2DGUI.cpp" />
     <ClCompile Include="AnimatorGUI.cpp" />
+    <ClCompile Include="ButtonUIGUI.cpp" />
     <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CanvasRendererGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
@@ -258,6 +262,7 @@
     <ClCompile Include="DebugGUI.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HierachyGUI.cpp" />
+    <ClCompile Include="ImageUIGUI.cpp" />
     <ClCompile Include="imgui.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -307,6 +312,7 @@
     <ClCompile Include="RigidbodyGUI.cpp" />
     <ClCompile Include="SceneViewGUI.cpp" />
     <ClCompile Include="ScriptGUI.cpp" />
+    <ClCompile Include="TextUIGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />
     <ClCompile Include="TileMapEditorGUI.cpp" />
     <ClCompile Include="TileMapGUI.cpp" />

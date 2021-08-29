@@ -24,21 +24,6 @@ void TileMapGUI::Update()
 
 	CTileMap* pTileMap = GetTargetObject()->TileMap();
 
-	static int iTileSize[2];
-
-	ImGui::Text("Tile Map Size : %d %d", pTileMap->GetCol(), pTileMap->GetRow());
-	ImGui::InputInt2("##Tile Map Size", iTileSize);
-	iTileSize[0] = CMyMath::Clamp(iTileSize[0], 0, INT_MAX);
-	iTileSize[1] = CMyMath::Clamp(iTileSize[1], 0, INT_MAX);
-
-	ImGui::SameLine();
-	if (ImGui::Button("Create")) {
-		pTileMap->SetTileFaceSize(iTileSize[0], iTileSize[0]);
-		iTileSize[0] = iTileSize[1] = 0;
-	}
-
-	// 타일맵 텍스쳐 세팅
-
 	// 텍스쳐 세팅
 	static ImVec2 m_vSize;			// Size of the image
 	static ImVec2 m_vUvMin;		// Left-Top
@@ -48,11 +33,14 @@ void TileMapGUI::Update()
 	static ImVec4 m_v4BorderColor;
 
 	CTexture* pTex = pTileMap->GetAtlasTexture().Get();
-	string strKey;
-	TStringToString(pTex->GetKey().c_str(), strKey);
+	if (pTex) {
+		string strKey;
+		TStringToString(pTex->GetKey().c_str(), strKey);
 
-	if (ParamGUI::Render_Texture(strKey.c_str(), pTex, this, (GUI_CALLBACK)&TileMapGUI::SelectTexture)) {
+		if (ParamGUI::Render_Texture(strKey.c_str(), pTex, this, (GUI_CALLBACK)&TileMapGUI::SelectTexture)) {
+		}
 	}
+	
 
 	ShowMeshRenderer();
 
@@ -60,8 +48,10 @@ void TileMapGUI::Update()
 		TileMapEditorGUI* pTileMapEditorGUI = dynamic_cast<TileMapEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_TileMapEditor));
 		if (!pTileMapEditorGUI)
 			assert(nullptr && _T("타일맵 에디터를 열 수 없다."));
-		else
+		else {
 			pTileMapEditorGUI->SetActive(true);
+			pTileMapEditorGUI->SetTargetObject(GetTargetObject());
+		}
 	}
 
 	End();

@@ -9,6 +9,8 @@ int g_arrVK[(int)E_Key::END] = {
 	VK_UP,
 	VK_DOWN,
 	VK_SPACE,
+	VK_ESCAPE,
+	VK_TAB,
 	'Q',
 	'W',
 	'E',

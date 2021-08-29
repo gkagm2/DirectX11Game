@@ -23,10 +23,6 @@ private:
 
 	SharedPtr<CTexture> m_pAtlasTexture; // 아틀라스 텍스쳐
 
-	// Atlas Texture에서 Tile 하나의 사이즈
-	Vector2 m_vTexTileSize;
-	Vector2 m_vTexSize; // 아틀라스 텍스쳐 사이즈
-
 	int m_iDefaultElementCountCol; // 기본으로 세팅 할 타일맵의 Column 크기
 	int m_iDefaultElementCountRow; // 기본으로 세팅 할 타일맵의 Row 크기
 
@@ -55,16 +51,13 @@ public:
 
 	SharedPtr<CTexture> GetAtlasTexture() {	return m_pAtlasTexture;	}
 
-	void SetEachFaceTextureSize(const Vector2& _vFaceTextureSize) {
-		m_vTexTileSize = _vFaceTextureSize;
+	void SetAtlasTileColRowSize(int _iCol, int _iRow) {
+		m_iAtlasTileCol = _iCol;
+		m_iAtlasTileRow = _iRow;
 	}
-	const Vector2& GetEachFaceTextureSize() { return m_vTexTileSize; }
 
-	// atlas texture 설정
-	// 생성 할 타일 사이즈를 설정한다.
-	// 타일 하나의 픽셀 사이즈 설정
-	// 타일로 분리한다.
-	// 분리된 타일들의 정보를 가지고 있는 
+public:
+
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

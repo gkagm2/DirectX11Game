@@ -1347,11 +1347,8 @@ void CTestScene::TileMapTest()
 	SharedPtr<CTexture> pAtlasTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp"));
 	// 아틀라스 텍스쳐 설정
 	pTileMap->TileMap()->SetTileAtlas(pAtlasTexture);
-	
-;
 
-	// 타일 하나의 픽셀 사이즈 설정
-	pTileMap->TileMap()->SetEachFaceTextureSize(Vector2(64.f, 64.f));
+	pTileMap->TileMap()->SetAtlasTileColRowSize(5, 5);
 
 	// 타일 분리
 	pTileMap->TileMap()->SaperateTile();

@@ -173,10 +173,22 @@
     <Filter Include="03. Tools\04. GUI\TileMapEditor">
       <UniqueIdentifier>{d3ceadf4-b540-443f-83a5-f194a22ec9cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI">
+      <UniqueIdentifier>{2fe9104e-f00e-489d-98d6-8af73499010c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ImageUIGUI">
+      <UniqueIdentifier>{70aecfe7-1046-428d-be0d-51c95eae7546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\TextUIGUI">
+      <UniqueIdentifier>{658d122e-b851-4464-982e-ab820b8edc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\RectTransformGUI">
       <UniqueIdentifier>{9af7c156-5e53-42d4-bd8a-b94557b66adf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI">
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ButtonUIGUI">
+      <UniqueIdentifier>{5f4ff9b8-b09d-4de1-b01a-a78b5692252a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\CanvasRendererGUI">
       <UniqueIdentifier>{dc685ffd-1e47-4393-9a45-d0029f3fad0d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -342,10 +354,19 @@
       <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
     </ClInclude>
     <ClInclude Include="RectTransformGUI.h">
-      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\RectTransformGUI</Filter>
     </ClInclude>
     <ClInclude Include="CanvasRendererGUI.h">
-      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\CanvasRendererGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextUIGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\TextUIGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonUIGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ButtonUIGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageUIGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ImageUIGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,10 +516,19 @@
       <Filter>03. Tools\04. GUI\TileMapEditor</Filter>
     </ClCompile>
     <ClCompile Include="RectTransformGUI.cpp">
-      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\RectTransformGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\RectTransformGUI</Filter>
     </ClCompile>
     <ClCompile Include="CanvasRendererGUI.cpp">
-      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\CanvasRendererGUI</Filter>
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\CanvasRendererGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextUIGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\TextUIGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonUIGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ButtonUIGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageUIGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ImageUIGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

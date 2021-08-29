@@ -23,6 +23,11 @@
 #include "RectTransformGUI.h"
 #include "CanvasRendererGUI.h"
 
+// Contents UI
+#include "TextUIGUI.h"
+#include "ButtonUIGUI.h"
+#include "ImageUIGUI.h"
+
 #include "ResourceGUI.h"
 #include "MaterialGUI.h"
 #include "TextureGUI.h"
@@ -96,8 +101,19 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
 
-	// UI들
-	// TODO (Jang) : UI들 작성하기
+	// UI
+	// TextUI
+	m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 0.f));
+
+	// ImageUI
+	m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
+
+	// ButtonUI
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
+
 
 	// Script GUI
 	m_pScriptGUI = new ScriptGUI;

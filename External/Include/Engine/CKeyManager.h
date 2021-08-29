@@ -7,6 +7,8 @@ enum class E_Key {
 	UP,
 	DOWN,
 	SPACE,
+	ESCAPE,
+	TAB,
 	Q,
 	W,
 	E,

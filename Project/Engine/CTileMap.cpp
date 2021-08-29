@@ -12,8 +12,6 @@ CTileMap::CTileMap() :
 	m_iAtlasTileRow(0),
 	m_iTileCol(4),
 	m_iTileRow(4),
-	m_vTexTileSize{},
-	m_vTexSize{},
 	m_iDefaultElementCountCol(10),
 	m_iDefaultElementCountRow(10)
 {
@@ -68,53 +66,27 @@ void CTileMap::_RenderInit()
 
 void CTileMap::SaperateTile()
 {
-	m_iAtlasTileCol = (int)(m_vTexSize.x / m_vTexTileSize.x);
-	m_iAtlasTileRow = (int)(m_vTexSize.y / m_vTexTileSize.y);
+	Vector2 vAtlasTexSize = m_pAtlasTexture.Get()->GetDimension();
+	Vector2 m_vEachAtlasTexSize;
+	m_vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
+	m_vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
 
 	m_vecTiles.clear();
 	for (int y = 0; y < m_iAtlasTileRow; ++y) {
 		for (int x = 0; x < m_iAtlasTileCol; ++x) {
 			TTileInfo tTileInfo = {};
-			tTileInfo.vLeftTop = Vector2(x * m_vTexTileSize.x, y * m_vTexTileSize.y);
-			tTileInfo.vLeftTopUV = Vector2(x * m_vTexTileSize.x / m_vTexSize.x, y * m_vTexTileSize.y / m_vTexSize.y);
-			tTileInfo.vRightBottom = Vector2((x * m_vTexTileSize.x + m_vTexTileSize.x), (y * m_vTexTileSize.y + m_vTexTileSize.y));
-			tTileInfo.vRightBottomUV = Vector2((x * m_vTexTileSize.x + m_vTexTileSize.x) / m_vTexSize.x, (y * m_vTexTileSize.y + m_vTexTileSize.y) / m_vTexSize.y);
-			tTileInfo.vTileSize = Vector2(m_vTexTileSize);
-			tTileInfo.vTileSizeUV = Vector2(m_vTexTileSize / m_vTexSize);
+			tTileInfo.vLeftTop = Vector2(x * m_vEachAtlasTexSize.x, y * m_vEachAtlasTexSize.y);
+			tTileInfo.vLeftTopUV = Vector2(x * m_vEachAtlasTexSize.x / vAtlasTexSize.x, y * m_vEachAtlasTexSize.y / vAtlasTexSize.y);
+			tTileInfo.vRightBottom = Vector2((x * m_vEachAtlasTexSize.x + m_vEachAtlasTexSize.x), (y * m_vEachAtlasTexSize.y + m_vEachAtlasTexSize.y));
+			tTileInfo.vRightBottomUV = Vector2((x * m_vEachAtlasTexSize.x + m_vEachAtlasTexSize.x) / vAtlasTexSize.x, (y * m_vEachAtlasTexSize.y + m_vEachAtlasTexSize.y) / vAtlasTexSize.y);
+			tTileInfo.vTileSize = Vector2(m_vEachAtlasTexSize);
+			tTileInfo.vTileSizeUV = Vector2(m_vEachAtlasTexSize / vAtlasTexSize);
 			m_vecTiles.push_back(tTileInfo);
 		}
 	}
 
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTiles.size());
 }
-//
-//void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture, const Vector2& _iTexTileSize)
-//{
-//	m_vTexTileSize = _iTexTileSize;
-//
-//	m_pMaterial->SetData(E_ShaderParam::Texture_0, _pAtlasTexture.Get());
-//
-//	m_pAtlasTexture = _pAtlasTexture;
-//	m_vTexSize = _pAtlasTexture.Get()->GetDimension();
-//	m_iAtlasTileCol = (int)(m_vTexSize.x / _iTexTileSize.x);
-//	m_iAtlasTileRow = (int)(m_vTexSize.y / _iTexTileSize.y);
-//
-//	m_vecTiles.clear();
-//	for (int y = 0; y < m_iAtlasTileRow; ++y) {
-//		for (int x = 0; x < m_iAtlasTileCol; ++x) {
-//			TTileInfo tTileInfo = {};
-//			tTileInfo.vLeftTop = Vector2(x * _iTexTileSize.x, y * _iTexTileSize.y);
-//			tTileInfo.vLeftTopUV = Vector2(x * _iTexTileSize.x / m_vTexSize.x, y * _iTexTileSize.y / m_vTexqSize.y);
-//			tTileInfo.vRightBottom = Vector2((x * _iTexTileSize.x + _iTexTileSize.x), (y * _iTexTileSize.y + _iTexTileSize.y));
-//			tTileInfo.vRightBottomUV = Vector2((x * _iTexTileSize.x + _iTexTileSize.x) / m_vTexSize.x, (y * _iTexTileSize.y + _iTexTileSize.y) / m_vTexSize.y);
-//			tTileInfo.vTileSize = Vector2(m_vTexTileSize);
-//			tTileInfo.vTileSizeUV = Vector2(m_vTexTileSize / m_vTexSize);
-//			m_vecTiles.push_back(tTileInfo);
-//		}
-//	}
-//
-//	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTiles.size());
-//}
 
 void CTileMap::SetTileFaceSize(int _iCol, int _iRow)
 {
@@ -126,7 +98,6 @@ void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture)
 {
 	m_pAtlasTexture = _pAtlasTexture;
 	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pAtlasTexture.Get());
-	m_vTexSize = _pAtlasTexture.Get()->GetDimension();
 }
 
 bool CTileMap::SaveToScene(FILE* _pFile)
@@ -135,7 +106,6 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	SaveResourceToFile(m_pMaterial, _pFile);
 
 	SaveResourceToFile(m_pAtlasTexture, _pFile);
-	FWrite(m_vTexTileSize, _pFile);
 
 	FWrite(m_iTileCol, _pFile);
 	FWrite(m_iTileRow, _pFile);
@@ -149,7 +119,6 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	LoadResourceFromFile(m_pMaterial, _pFile);
 
 	LoadResourceFromFile(m_pAtlasTexture, _pFile);
-	FRead(m_vTexTileSize, _pFile);
 
 	FRead(m_iTileCol, _pFile);
 	FRead(m_iTileRow, _pFile);
