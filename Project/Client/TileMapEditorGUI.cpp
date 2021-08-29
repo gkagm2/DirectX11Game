@@ -49,24 +49,26 @@ void TileMapEditorGUI::Update()
 
 		ImGui::Text("Texture Tile Count");
 		ImGui::InputInt2("##Texture Tile Count", m_iAtlasTileColRowSize);
-
+		m_iAtlasTileColRowSize[0] = CMyMath::Clamp(m_iAtlasTileColRowSize[0], 0, INT_MAX);
+		m_iAtlasTileColRowSize[1] = CMyMath::Clamp(m_iAtlasTileColRowSize[1], 0, INT_MAX);
 		ImGui::Spacing();
 
 
 		if (ImGui::Button("Create")) {
-			// 생성 할 타일 사이즈를 설정
-			pTileMap->SetTileFaceSize(m_iFaceSize[0], m_iFaceSize[0]);
-		
-			SharedPtr<CTexture> pAtlasTexture;
-			// 아틀라스 텍스쳐 설정
-			pTileMap->SetTileAtlas(pAtlasTexture);
+			if (0 != m_iFaceSize[0] &&
+				0 != m_iFaceSize[1] &&
+				0 != m_iAtlasTileColRowSize[0] &&
+				0 != m_iAtlasTileColRowSize[1] &&
+				nullptr != pTileMap->GetAtlasTexture().Get()) {
+				// 생성 할 타일 사이즈를 설정
+				pTileMap->SetTileFaceSize(m_iFaceSize[0], m_iFaceSize[0]);
 
-			// 아틀라스 텍스쳐의 가로 세로 개수
-			pTileMap->SetAtlasTileColRowSize(m_iAtlasTileColRowSize[0], m_iAtlasTileColRowSize[1]);
+				// 아틀라스 텍스쳐의 가로 세로 개수
+				pTileMap->SetAtlasTileColRowSize(m_iAtlasTileColRowSize[0], m_iAtlasTileColRowSize[1]);
 
-			// 타일 분리
-			pTileMap->SaperateTile();
-
+				// 타일 분리
+				pTileMap->SaperateTile();
+			}
 		}
 
 		// 아틀라스 텍스쳐 선택

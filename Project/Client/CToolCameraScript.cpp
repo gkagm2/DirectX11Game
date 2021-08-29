@@ -104,17 +104,11 @@ void CToolCameraScript::Update()
 		vMoveOffset.y = vCurPos.y - m_vPrevPos.y;
 
 		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
-			pToolCam->Transform()->SetLocalPosition(m_vPrevToolCamPos + vMoveOffset);
+			pToolCam->Transform()->SetLocalPosition(m_vPrevToolCamPos + vMoveOffset * pToolCam->GetSize());
 		}
 	}
 	if (InputKeyPress(E_Key::F2)) {
 		CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
 		pToolCam->Transform()->SetLocalPosition(Vector3{});
-	}
-
-	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	if (pToolCam) {
-		_tcprintf(_T("[%.2f %.2f %.2f]\n"), pToolCam->Transform()->GetPosition().x, pToolCam->Transform()->GetPosition().y, pToolCam->Transform()->GetPosition().z);
-
 	}
 }
