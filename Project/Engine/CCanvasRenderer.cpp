@@ -2,6 +2,8 @@
 #include "CCanvasRenderer.h"
 #include "CResourceManager.h"
 #include "CTextUI.h"
+#include "CButtonUI.h"
+#include "CImageUI.h"
 
 CCanvasRenderer::CCanvasRenderer() :
 	CRenderer(E_ComponentType::CanvasRenderer)
@@ -22,4 +24,8 @@ void CCanvasRenderer::Render()
 	CRenderer::Render();
 	if (TextUI() && TextUI()->IsActive())
 		TextUI()->Render();
+	if (ButtonUI() && ButtonUI()->IsActive())
+		ButtonUI()->Render();
+	if (ImageUI() && ImageUI()->IsActive())
+		ImageUI()->Render();
 }

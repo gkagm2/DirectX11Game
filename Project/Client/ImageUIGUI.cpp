@@ -15,6 +15,5 @@ void ImageUIGUI::Update()
 	if (false == Start())
 		return;
 
-
 	End();
 }

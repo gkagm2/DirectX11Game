@@ -14,7 +14,8 @@
 CRenderer::CRenderer(E_ComponentType _eType) :
 	CComponent(_eType),
 	m_pMesh(nullptr),
-	m_pMtrl(nullptr)
+	m_pMtrl(nullptr),
+	m_iColor{}
 {
 }
 
