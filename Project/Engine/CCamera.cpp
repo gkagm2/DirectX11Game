@@ -65,6 +65,34 @@ const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 	return vWorldPos;
 }
 
+const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPosition)
+{
+
+	Vector3 vLTPos = GetScreenToWorld2DPosition(Vector2(0.f, 0.f));
+	Vector3 vRBPos = GetScreenToWorld2DPosition(Vector2(CCore::GetInstance()->GetWindowResolution()));
+
+	// 영역 안에 있는지 에러 처리하는 
+
+	Vector3 vWH{};
+	vWH.x = vRBPos.x - vLTPos.x;
+	vWH.y = vLTPos.y - vRBPos.y;
+
+	Vector3 vCursorWHPos{};
+	vCursorWHPos.x = _vWorldPosition.x - vLTPos.x;
+	vCursorWHPos.y = vLTPos.y - _vWorldPosition.y;
+
+	Vector3 vCursorResultPos{};
+	vCursorResultPos.x = vCursorWHPos.x / vWH.x;
+	vCursorResultPos.y = vCursorWHPos.y / vWH.y;
+	
+	Vector2 vScreenPos{};
+	vScreenPos = CCore::GetInstance()->GetWindowResolution();
+
+	Vector2 vFinalScreenPos = vCursorResultPos * vScreenPos;
+
+	return vFinalScreenPos;
+}
+
 void CCamera::CalculateViewMatrix()
 {
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();

@@ -50,7 +50,7 @@ void CanvasRendererGUI::Update()
 	ImGui::Text("Material");
 	ImGui::SameLine();
 	ImGui::InputText("##Material", strMaterialName, 255, ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine();
+	
 	//if (ImGui::Button("Select##Material")) {
 	//	// 리스트 뷰를 보여준다.
 	//	ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));

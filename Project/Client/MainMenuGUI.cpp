@@ -362,6 +362,7 @@ void MainMenuGUI::CreateTextUI()
     CGameObject* pTextUIObj = _CreateUIGameObject();
     pTextUIObj->SetName(strObjName);
     pTextUIObj->AddComponent<CTextUI>();
+    pTextUIObj->TextUI()->SetText(_T("Text"));
 
     // 자식 오브젝트로 넣기
     

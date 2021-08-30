@@ -111,6 +111,14 @@ inline void TStringToString(const tstring& _in, string& _out) {
 #endif
 }
 
+inline void TStringToWString(const tstring& _in, wstring& _out) {
+#ifdef UNICODE
+	_out = _in;
+#elif
+	StringToWString(_in, _out);
+#endif
+}
+
 inline void StringToTString(const string& _in, tstring& _out) {
 #ifdef UNICODE
 	StringToWString(_in, _out);

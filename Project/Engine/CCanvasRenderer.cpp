@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CCanvasRenderer.h"
 #include "CResourceManager.h"
+#include "CTextUI.h"
+
 CCanvasRenderer::CCanvasRenderer() :
 	CRenderer(E_ComponentType::CanvasRenderer)
 {
@@ -13,4 +15,11 @@ CCanvasRenderer::CCanvasRenderer() :
 
 CCanvasRenderer::~CCanvasRenderer()
 {
+}
+
+void CCanvasRenderer::Render()
+{
+	CRenderer::Render();
+	if (TextUI() && TextUI()->IsActive())
+		TextUI()->Render();
 }

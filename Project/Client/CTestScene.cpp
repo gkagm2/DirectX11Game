@@ -946,7 +946,7 @@ void CTestScene::FontRendering()
 	int iFPS = CTimeManager::GetInstance()->GetFPS();
 	TCHAR szBuffer[255] = _T("");
 	_stprintf_s(szBuffer, 255, _T("FPS : %d"), iFPS);
-	CFontManager::GetInstance()->DrawFont(szBuffer, 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255));
+	CFontManager::GetInstance()->DrawFont(szBuffer, 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
 }
 
 void CTestScene::Test()

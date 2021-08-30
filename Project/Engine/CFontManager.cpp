@@ -31,7 +31,7 @@ void CFontManager::Init()
 	}
 }
 
-void CFontManager::DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color)
+void CFontManager::DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag)
 {
 	m_pFontWrapper->DrawString(
 		CONTEXT.Get(),
@@ -40,6 +40,13 @@ void CFontManager::DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, f
 		_fPosX,// X position
 		_fPosY,// Y position
 		_Color,// Text color, 0xAaBbGgRr
-		0      // Flags (for example FW1_RESTORESTATE to keep context states unchanged)
+		_eFlag      // Flags (for example FW1_RESTORESTATE to keep context states unchanged)
 	);
+}
+
+void CFontManager::DrawTextLayout()
+{
+	/*IDWriteTextLayout layout;
+
+	m_pFontWrapper->DrawTextLayout(CONTEXT.Get(),  )*/
 }

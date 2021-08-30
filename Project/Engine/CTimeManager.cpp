@@ -64,5 +64,5 @@ void CTimeManager::Update()
 void CTimeManager::Render()
 {
 	tstring tile = _T("Hello World ¾È´¨.");
-	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10, 30, 12, FONT_RGBA(200, 30, 30, 255));
+	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10, 30, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
 }
