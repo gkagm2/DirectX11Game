@@ -20,6 +20,7 @@
 #include <Engine\CCore.h>
 #include <Engine\CDevice.h>
 #include <Engine\CMouseManager.h>
+#include <Engine\CResourceManager.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine/Engine_debug")
@@ -53,8 +54,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     // _CrtSetBreakAlloc(); // prompt창에 메모리 누수 발생 시 라인이 뜨는데 그 라인의 숫자를 파라미터에 넣으면 메모리 누수 발생지점에서 중단점이 걸린다.
-    //_CrtSetBreakAlloc(496);
-    //_CrtSetBreakAlloc(298);
+    /*_CrtSetBreakAlloc(2655);
+    _CrtSetBreakAlloc(2654);*/
     //_CrtSetBreakAlloc(55139);
     //_CrtSetBreakAlloc(54983);
     //_CrtSetBreakAlloc(54827);
@@ -77,6 +78,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Vector2 vRenderResolution{ 1440, 810 };
 
 
+    CResourceManager::GetInstance();
     CSceneSaveLoad::Init();
 
     CCore::g_Wnd = g_hWnd;

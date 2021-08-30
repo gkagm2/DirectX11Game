@@ -17,6 +17,7 @@ CToolObjManager::~CToolObjManager()
 void CToolObjManager::Init()
 {
 	CGameObjectEx* pToolCamObj = new CGameObjectEx;
+	pToolCamObj->SetName(_T("Tool Camera_Engine"));
 	pToolCamObj->AddComponent<CTransform>();
 	pToolCamObj->AddComponent<CCameraEx>();
 	pToolCamObj->AddComponent<CToolCameraScript>();
@@ -25,7 +26,6 @@ void CToolObjManager::Init()
 	pToolCamObj->Camera()->SetLayerCheckAll();
 	_AddGameObjectEx(pToolCamObj);
 	pToolCamObj->Camera()->SetSize(0.02);
-	pToolCamObj->Camera()->SetSize(1.f);
 
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
 		m_vecToolObjs[i]->Awake();

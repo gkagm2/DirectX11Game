@@ -37,12 +37,14 @@ void CSceneManager::Init()
 	
 	// 朝五虞 持失
 	CGameObject* pCamera = new CGameObject;
+	pCamera->SetName(_T("Loading Scene Camera"));
 	pCamera->AddComponent<CCamera>();
 	pCamera->AddComponent<CTransform>();
 	pCamera->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
 	m_pLoadingScene->_AddGameObject(pCamera);
 
 	CGameObject* pScreenBGObj = new CGameObject;
+	pScreenBGObj->SetName(_T("Loading Scene Screen Background Game Object"));
 	pScreenBGObj->AddComponent<CTransform>();
 	pScreenBGObj->AddComponent<CMeshRenderer>();
 	pScreenBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));

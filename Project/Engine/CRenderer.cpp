@@ -22,8 +22,6 @@ CRenderer::~CRenderer()
 {
 }
 
-
-
 void CRenderer::Render()
 {
 	if (nullptr == m_pMesh || nullptr == m_pMtrl)

@@ -13,7 +13,7 @@ CLayer::CLayer() :
 
 CLayer::~CLayer()
 {
-	Safe_Delete_Vector(m_vecRootObj);
+	//Safe_Delete_Vector(m_vecRootObj);
 }
 
 void CLayer::Awake()

@@ -8,6 +8,7 @@ void Safe_Delete_UnorderedMap(unordered_map<T1, T2>& _umap) {
 	for (; iter != _umap.end(); ++iter) {
 		if (nullptr != iter->second) {
 			delete iter->second;
+			iter->second = nullptr;
 		}
 	}
 	_umap.clear();
@@ -19,6 +20,7 @@ void Safe_Delete_Map(map<T1, T2>& _map) {
 	for (; iter != _map.end(); ++iter) {
 		if (nullptr != iter->second) {
 			delete iter->second;
+			iter->second = nullptr;
 		}
 	}
 	_map.clear();
@@ -37,8 +39,11 @@ void Safe_Delete_Array(T* (&_arr)[iSize]) {
 template<typename T>
 void Safe_Delete_Vector(vector<T>& _vec) {
 	for (UINT i = 0; i < _vec.size(); ++i) {
-		if (nullptr != _vec[i])
+		if (nullptr != _vec[i]) {
 			delete _vec[i];
+			_vec[i] = nullptr;
+		}
+			
 	}
 	_vec.clear();
 }

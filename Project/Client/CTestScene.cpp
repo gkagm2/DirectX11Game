@@ -102,7 +102,7 @@ void CTestScene::CreateTestScene()
 	//FishEyePostEffect();
 	//CaptainForever();
 	//SoundTest();
-	TileMapTest();
+	Test();
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);

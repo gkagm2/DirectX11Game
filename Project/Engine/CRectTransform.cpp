@@ -2,6 +2,8 @@
 #include "CConstBuffer.h"
 #include "CDevice.h"
 #include "CRectTransform.h"
+#include "CRenderManager.h"
+#include "CCamera.h"
 
 #include "CGameObject.h"
 
@@ -48,9 +50,17 @@ void CRectTransform::FinalUpdate()
 			}
 		}
 
+		float fSize = 1.f;
+		if (CRenderManager::GetInstance()->GetMainCamera()) {
+			CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
+			if (E_ProjectionType::Orthographic == pMainCam->GetProjectionType()) {
+				fSize = pMainCam->GetSize();
+			}
+		}
+
 		Matrix matScaleWH = XMMatrixScaling(m_vLocalScale.x * m_fWidth, m_vLocalScale.y * m_fHeight, m_vLocalScale.z);
 
-		m_matLocal_noParentScale = matScaleWH * matRot * matTrans;
+		m_matLocal_noParentScale = matScaleWH * matRot * matTrans * fSize;
 		m_matWorld_noParentScale = m_matLocal_noParentScale;
 		pParentObj = GetGameObject()->GetParentObject();
 		if (pParentObj) {

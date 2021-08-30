@@ -14,6 +14,10 @@ CScene::CScene()
 
 CScene::~CScene()
 {
+	vector<CGameObject*> vecObjs;
+	GetRootGameObjects(vecObjs);
+	Safe_Delete_Vector(vecObjs);
+
 	Safe_Delete_Array(m_arrLayer);
 }
 
