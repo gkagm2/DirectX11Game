@@ -12,8 +12,7 @@ CTransform::CTransform() :
 	m_vLocalScale{1.f, 1.f, 1.f},
 	m_vLocalRotation{},
 	m_matLocal{},
-	m_matWorld{},
-	m_matWorld_noParentScale{}
+	m_matWorld{}
 {
 }
 
@@ -23,8 +22,7 @@ CTransform::CTransform(E_ComponentType _eComponentType) :
 	m_vLocalScale{ 1.f, 1.f, 1.f },
 	m_vLocalRotation{},
 	m_matLocal{},
-	m_matWorld{},
-	m_matWorld_noParentScale{}
+	m_matWorld{}
 {
 }
 
@@ -48,6 +46,11 @@ Vector3 CTransform::GetScale()
 }
 
 
+Vector3 CTransform::GetPosition_NoScale()
+{
+	return Vector3();
+}
+
 void CTransform::FinalUpdate()
 {
 	// 크기 행렬
@@ -64,8 +67,6 @@ void CTransform::FinalUpdate()
 
 	m_matWorld = m_matLocal = matScale * matRot * matTrans;
 
-	m_matWorld_noParentScale = m_matWorld;
-	
 	CGameObject* pParentObj = GetGameObject()->GetParentObject();
 	if (pParentObj) {
 		if (pParentObj->RectTransform()) {

@@ -288,7 +288,7 @@ VTX_OUT VS_Canvas(VTX_IN _in)
 	
     float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matRectWorld);
     float4 vViewPos = mul(vWorldPos, g_matRectView);
-    float4 vProjPos = mul(vViewPos, g_matProjection);
+    float4 vProjPos = mul(vViewPos, g_matRectProjection);
     
 	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
     output.vPosition = vProjPos;

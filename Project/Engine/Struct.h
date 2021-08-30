@@ -66,10 +66,6 @@ struct TRectTransform {
 	Matrix matWorld;
 	Matrix matView;
 	Matrix matProjection;
-
-	float fWidth;
-	float fHeight;
-	float padding[2];
 };
 
 struct TMaterialData {

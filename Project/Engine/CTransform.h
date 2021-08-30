@@ -10,9 +10,6 @@ protected:
 	Matrix m_matLocal;
 	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
 
-	Matrix m_matWorld_noParentScale; // 부모 자식간 scale을 고려하지 않은 행렬
-
-
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
 	const Vector3& GetLocalPosition() const { return m_vLocalPosition; }
@@ -35,12 +32,14 @@ public:
 
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
-	const Matrix& GetWOrldMatrix_NoParentScale() { return m_matWorld_noParentScale; }
 
 	const Vector3& GetUpVector() {
 		Vector3 vUpVec = XMVector3TransformCoord(Vector3{ 0.f,1.f,0.f }, GetWorldMatrix());
 		return  vUpVec.Normalize();
 	}
+	Vector3 GetPosition_NoScale();
+private:
+	
 
 public:
 	virtual void FinalUpdate() override;

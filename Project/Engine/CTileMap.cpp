@@ -109,6 +109,8 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 
 	FWrite(m_iTileCol, _pFile);
 	FWrite(m_iTileRow, _pFile);
+	FWrite(m_iAtlasTileCol, _pFile);
+	FWrite(m_iAtlasTileRow, _pFile);
 
 	return true;
 }
@@ -122,6 +124,8 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 
 	FRead(m_iTileCol, _pFile);
 	FRead(m_iTileRow, _pFile);
+	FRead(m_iAtlasTileCol, _pFile);
+	FRead(m_iAtlasTileRow, _pFile);
 
 	SetTileAtlas(m_pAtlasTexture);
 	

@@ -84,10 +84,6 @@ cbuffer RECT_TRANSFORM : register(b4)
     row_major Matrix g_matRectWorld; // Çà±â¹Ý v (L-)
     row_major Matrix g_matRectView;
     row_major Matrix g_matRectProjection;
-    
-    float g_fRectWidth;
-    float g_fRectHeight;
-    float2 g_fRectTransformPadding;
 }
 
 // Texture register (t)
