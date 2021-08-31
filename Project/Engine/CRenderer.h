@@ -1,7 +1,7 @@
 #pragma once
 #include "CComponent.h"
 
-#define COLOR_RGBA(r,g,b,a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
+#define COLOR_RGBA(r,g,b,a) (UINT)(((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
 #define COLOR_R_FROM_RGBA(r) (BYTE)r
 #define COLOR_G_FROM_RGBA(g) (((BYTE)g >> 8) | (BYTE)0)
 #define COLOR_B_FROM_RGBA(b) (((BYTE)b >> 16) | (BYTE)0)
@@ -29,7 +29,8 @@ public:
 	void SetTexSize(const Vector2& _vSize);
 	const Vector2& GetTexSize();
 
-	void SetColor(UINT _r, UINT _g, UINT _b, UINT _a) {
+	void SetColor(BYTE _r, BYTE _g, BYTE _b, BYTE _a) {
+		m_iColor = COLOR_RGBA(_r, _g, _b, _a);
 	}
 	UINT GetColor() { return m_iColor; }
 

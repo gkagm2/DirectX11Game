@@ -96,12 +96,13 @@ void TileMapGUI::ShowMeshRenderer()
 		// 리스트 뷰를 보여준다.
 		ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
 		assert(pListViewGUI);
-
-		vector<tstring> vecNames;
-		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Material, vecNames);
-		pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Material));
-		pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapGUI::_SetMatrial);
-		pListViewGUI->SetActive(true);
+		if (pListViewGUI) {
+			vector<tstring> vecNames;
+			CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Material, vecNames);
+			pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Material));
+			pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapGUI::_SetMatrial);
+			pListViewGUI->SetActive(true);
+		}
 	}
 }
 

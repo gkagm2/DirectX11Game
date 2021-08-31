@@ -15,7 +15,7 @@ CRenderer::CRenderer(E_ComponentType _eType) :
 	CComponent(_eType),
 	m_pMesh(nullptr),
 	m_pMtrl(nullptr),
-	m_iColor{}
+	m_iColor{COLOR_RGBA(0,0,0,255)}
 {
 }
 
@@ -62,7 +62,7 @@ void CRenderer::SetTexSize(const Vector2& _vSize)
 const Vector2& CRenderer::GetTexSize()
 {
 	SharedPtr<CTexture> pTexture = nullptr;
-	m_pMtrl->GetData(E_ShaderParam::Texture_0, pTexture.Get());
+	m_pMtrl->GetData(E_ShaderParam::Texture_0, pTexture.GetAddress());
 	return pTexture->GetDimension();
 }
 

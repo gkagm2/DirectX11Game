@@ -37,6 +37,18 @@ public:
 		Vector3 vUpVec = XMVector3TransformCoord(Vector3{ 0.f,1.f,0.f }, GetWorldMatrix());
 		return  vUpVec.Normalize();
 	}
+	const Vector3& GetRightVector() {
+		Vector3 vRightVec = XMVector3TransformCoord(Vector3{ 1.f,0.f,0.f }, GetWorldMatrix());
+		return vRightVec.Normalize();
+	}
+	const Vector3& GetLeftVector() {
+		Vector3 vLeftVec = XMVector3TransformCoord(Vector3{ -1.f, 0.f, 0.f }, GetWorldMatrix());
+		return vLeftVec.Normalize();
+	}
+	const Vector3& GetDownVector() {
+		Vector3 vDownVec = XMVector3TransformCoord(Vector3{ 0.f, -1.f, 0.f }, GetWorldMatrix());
+		return vDownVec.Normalize();
+	}
 	Vector3 GetPosition_NoScale();
 private:
 	

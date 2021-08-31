@@ -123,6 +123,9 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 		Save(GetRelativePath());
 }
 
+// Example : 
+// CTexture* pTex = nullptr;
+// GetData(E_ShaderParam::Texture_0, &pTex);
 void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)
 {
 	switch (_eParam) {

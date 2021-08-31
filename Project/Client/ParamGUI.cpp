@@ -64,7 +64,8 @@ bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut)
 	return false;
 }
 
-bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc)
+// ButtonOn을 false로 할 경우 pInst와 pFunc는 nullptr로 한다.
+bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn)
 {
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
@@ -88,15 +89,20 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 
 	tstring titleName = _T("Texture");
 
-	if (ImGui::Button(strLabel.c_str())) {
-		// 목록 전달
-		vector<tstring> vecName;
-		CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
-		pListGUI->SetList(vecName, titleName);
-		pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
-		pListGUI->SetActive(true);
-		return true;
+	if (_bIsButtonOn) {
+		if (ImGui::Button(strLabel.c_str())) {
+			// 목록 전달
+			vector<tstring> vecName;
+			CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
+			pListGUI->SetList(vecName, titleName);
+			pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
+			pListGUI->SetActive(true);
+			return true;
+		}
 	}
+	if (!_bIsButtonOn)
+		return true;
+	
 	return false;
 }
 
