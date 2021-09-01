@@ -19,6 +19,8 @@ class CCanvasRenderer;
 class CTextUI;
 class CImageUI;
 class CButtonUI;
+class CUI;
+class CBehaviour;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {
@@ -65,6 +67,18 @@ public:
 
 	template<typename TYPE>
 	CGameObject* FindGameObjectInChilds();
+
+	CGameObject* FindGameObjectInParent(const tstring& _strObjName);
+
+	template<typename TYPE>
+	CGameObject* FindGameObjectInParent();
+
+	template<typename TYPE>
+	TYPE* FindComponentInChilds();
+	template<typename TYPE>
+	TYPE* FindComponentInParent();
+	
+	CGameObject* GetRootObject();
 
 private:
 	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }
@@ -176,13 +190,13 @@ inline TYPE* CGameObject::GetComponent()
 		}
 	}
 
-	// Script Type老 版快
+	// Script Type老 版快    
 	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
 		if (typeid(TYPE) == typeid(*m_vecScript[i]))
 			return (TYPE*)m_vecScript[i];
-		TYPE* pType = dynamic_cast<TYPE*>(m_vecScript[i]);
+		/*TYPE* pType = dynamic_cast<TYPE*>(m_vecScript[i]);
 		if (pType)
-			return (TYPE*)m_vecScript[i];
+			return (TYPE*)m_vecScript[i];*/
 	}
 
 	return nullptr;
@@ -211,4 +225,57 @@ inline CGameObject* CGameObject::FindGameObjectInChilds()
 	}
 
 	return pFindObject;
+}
+
+template<typename TYPE>
+inline CGameObject* CGameObject::FindGameObjectInParent()
+{
+	CGameObject* pParent = GetParentObject();
+	while (nullptr != pParent) {
+		TYPE* pCom =  pParent->GetComponent<TYPE>();
+		if (pCom) {
+			break;
+		}
+		pParent = pParent->GetParentObject();
+	}
+	return pParent;
+}
+
+template<typename TYPE>
+inline TYPE* CGameObject::FindComponentInChilds()
+{
+	TYPE* pFindComType = nullptr;
+	list<CGameObject*> que;
+	const vector<CGameObject*>& vecChilds = GetChildsObject();
+	for (UINT i = 0; i < vecChilds.size(); ++i)
+		que.push_back(vecChilds[i]);
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop_front();
+		TYPE* pComponent = GetComponent<TYPE>();
+		if (pComponent) {
+			pFindComType = pComponent;
+			break;
+		}
+		const vector<CGameObject*>& childs = pObj->GetChildsObject();
+		for (UINT i = 0; i < childs.size(); ++i)
+			que.push_back(childs[i]);
+	}
+
+	return pFindComType;
+}
+
+template<typename TYPE>
+inline TYPE* CGameObject::FindComponentInParent()
+{
+	CGameObject* pParent = GetParentObject();
+
+	while (nullptr != pParent) {
+		TYPE* pCom = pParent->GetComponent<TYPE>();
+		if (pCom)
+			return pCom;
+		pParent = pParent->GetParentObject();
+	}
+	return nullptr;
 }

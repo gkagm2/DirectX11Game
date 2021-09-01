@@ -95,7 +95,8 @@ CCamera* CRenderManager::GetMainCamera()
 			pMainCamera = m_vecCam[0];
 	}
 	else {
-		pMainCamera = m_vecToolCam[0];
+		if(!m_vecToolCam.empty())
+			pMainCamera = m_vecToolCam[0];
 	}
 	return pMainCamera;
 }

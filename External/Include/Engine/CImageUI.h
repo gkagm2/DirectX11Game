@@ -3,6 +3,8 @@
 class CImageUI : public CUI
 {
 private:
+	SharedPtr<CMesh> m_pMesh;
+	SharedPtr<CMaterial> m_pMtrl;
 	SharedPtr<CTexture> m_pTexture;
 	UINT m_iColor;
 
@@ -17,8 +19,17 @@ public:
 	void SetColor(UINT _iColor) { m_iColor = _iColor; }
 	UINT GetColor() { return m_iColor; }
 
+	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
+	SharedPtr<CMaterial> GetCloneMaterial();
+	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
+
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
 public:
 	CLONE(CImageUI);
 	CImageUI();
+	CImageUI(E_ComponentType _eType);
 	virtual ~CImageUI() override;
 };

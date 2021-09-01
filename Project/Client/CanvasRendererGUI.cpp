@@ -20,18 +20,7 @@ void CanvasRendererGUI::Update()
 	if (false == Start())
 		return;
 
-	CCanvasRenderer* pCanvasRenderer = GetTargetObject()->CanvasRenderer();
-	SharedPtr<CMesh> pMesh = pCanvasRenderer->GetMesh();
-	SharedPtr<CMaterial> pMaterial = pCanvasRenderer->GetSharedMaterial();
-
-	char strMeshName[255];
-	GetResourceName(pMesh.Get(), strMeshName, 255);
-
-	char strMaterialName[255];
-	GetResourceName(pMaterial.Get(), strMaterialName, 255);
-	ImGui::Text("Mesh    ");
-	ImGui::SameLine();
-	ImGui::InputText("##Mesh", strMeshName, 255, ImGuiInputTextFlags_ReadOnly);
+	//CCanvasRenderer* pCanvasRenderer = GetTargetObject()->CanvasRenderer();
 
 	//if (ImGui::Button("Select##Mesh")) {
 	//	// 리스트 뷰를 보여준다.
@@ -47,10 +36,6 @@ void CanvasRendererGUI::Update()
 	//}
 
 
-	ImGui::Text("Material");
-	ImGui::SameLine();
-	ImGui::InputText("##Material", strMaterialName, 255, ImGuiInputTextFlags_ReadOnly);
-	
 	//if (ImGui::Button("Select##Material")) {
 	//	// 리스트 뷰를 보여준다.
 	//	ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));

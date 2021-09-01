@@ -2,7 +2,7 @@
 #include "CButtonUI.h"
 
 CButtonUI::CButtonUI() :
-	CUI(E_ComponentType::ButtonUI)
+	CImageUI(E_ComponentType::ButtonUI)
 {
 }
 

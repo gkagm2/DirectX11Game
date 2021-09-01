@@ -74,9 +74,9 @@ public: // Orthographic
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
-			m_iLayerCheck |= (_iLayerIdx << 1); // bit flag 1 설정
+			m_iLayerCheck |= (1 << _iLayerIdx ); // bit flag 1 설정
 		else
-			m_iLayerCheck &= ~(_iLayerIdx << 1); // bit flag 0 설정
+			m_iLayerCheck &= ~(1 << _iLayerIdx); // bit flag 0 설정
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
 	void SetLayerCheckAllUnActive() { m_iLayerCheck = 0; }	// 모든 레이어 렌더링 해제

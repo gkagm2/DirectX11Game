@@ -1,7 +1,8 @@
 #pragma once
-#include "CUI.h"
-class CButtonUI : public CUI
+#include "CImageUI.h"
+class CButtonUI : public CImageUI
 {
+
 public:
 	CLONE(CButtonUI);
 	CButtonUI();

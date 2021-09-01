@@ -38,7 +38,7 @@ public:
 	void SetText(const tstring& _strText) { m_strText = _strText; }
 	const tstring& GetText() { return m_strText; }
 
-	void SetColor(BYTE _r, BYTE _g, BYTE _b, BYTE _a) { m_iColor = FONT_RGBA(_r, _g, _b, _a); }
+	void SetColor(UINT _r, UINT _g, UINT _b, UINT _a) { m_iColor = FONT_RGBA(_r, _g, _b, _a); }
 	void SetColor(UINT _iColor) { m_iColor = _iColor; }
 	UINT GetColor() { return m_iColor; }
 	float GetFontSize() { return m_fFontSize; }

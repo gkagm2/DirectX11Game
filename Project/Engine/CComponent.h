@@ -6,8 +6,10 @@ class CComponent : public CObject, ILifeCycleInterface
 {
 private:
 	CGameObject* m_pGameObj;
-	E_ComponentType m_eType;
 	bool m_bActive;
+
+protected:
+	E_ComponentType m_eType;
 
 public:
 	virtual void Awake() override {}

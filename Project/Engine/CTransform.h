@@ -3,9 +3,10 @@
 class CTransform : public CComponent
 {
 protected:
+	// MeshRenderer에서 이용
 	Vector3 m_vLocalPosition;
 	Vector3 m_vLocalScale;
-	Vector3 m_vLocalRotation; // Radian임
+	Vector3 m_vLocalRotation;	// Radian임
 
 	Matrix m_matLocal;
 	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
@@ -49,15 +50,28 @@ public:
 		Vector3 vDownVec = XMVector3TransformCoord(Vector3{ 0.f, -1.f, 0.f }, GetWorldMatrix());
 		return vDownVec.Normalize();
 	}
-	Vector3 GetPosition_NoScale();
-private:
-	
+
+protected:
+	// CanvasRenderer에서 이용
+	// (RectTransform, 2D Sprite에서)
+	float m_fWidth;
+	float m_fHeight;
+	Matrix m_matLocal_noParentScale;
+	Matrix m_matWorld_noParentScale; // 부모 자식간 scale을 고려하지 않은 행렬
+
+public:
+	// RectTransform, 2D Sprite에서 이용 (Canvas Material 이용)
+	void SetWidth(float _fWidth) { m_fWidth = _fWidth; }
+	void SetHeight(float _fHeight) { m_fHeight = _fHeight; }
+	float GetWidth() { return m_fWidth; }
+	float GetHeight() { return m_fHeight; }
+
+	const Matrix& GetWorldMatrix_NoParentScale() { return m_matWorld_noParentScale; }
+	const Matrix& GetLocalMatrix_NoParentScale() { return m_matLocal_noParentScale; }
 
 public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;
-
-
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

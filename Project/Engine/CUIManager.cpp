@@ -6,6 +6,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CUI.h"
+#include "CCamera.h"
 
 CUIManager::CUIManager() :
 	m_pCurFocusedUI(nullptr),
@@ -19,10 +20,21 @@ CUIManager::~CUIManager() {
 
 void CUIManager::Update()
 {
+	/*
 	CScene* pScene = CSceneManager::GetInstance()->GetCurScene();
 	if (nullptr == pScene) return;
 	vector<CGameObject*> vecUIObjs;
 	pScene->GetGameObjects(vecUIObjs, NUM_LAYER_UI);
+
+	// 카메라는 제거
+	vector<CGameObject*>::iterator iter = vecUIObjs.begin();
+	for (; iter != vecUIObjs.end(); ++iter) {
+		if ((*iter)->Camera()) {
+			break;
+		}
+	}
+	if (iter != vecUIObjs.end())
+		vecUIObjs.erase(iter);
 
 	CUI* pPrevFocusedUI = m_pCurFocusedUI;// 이전에 포커싱된 부모 UI
 
@@ -34,8 +46,6 @@ void CUIManager::Update()
 		m_pCurFocusedUI = nullptr;
 		m_pPointDownUI = nullptr;
 	}
-		
-
 
 	for (int i = iUICnt - 1; i >= 0; --i) {
 		if (((CUI*)vecUIObjs[i])->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS) {
@@ -126,10 +136,12 @@ void CUIManager::Update()
 			}
 		}
 	}
+	*/
 }
 
 bool CUIManager::IsMousePointInUI()
 {
+	/*
 	vector<CGameObject*> vecUIObjs;
 	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecUIObjs, NUM_LAYER_UI);
 	queue<CUI*> que;
@@ -145,6 +157,6 @@ bool CUIManager::IsMousePointInUI()
 		for (UINT i = 0; i < pUI->GetChildsUI().size(); ++i)
 			que.push(pUI->GetChildsUI()[i]);
 	}
-
+	*/
 	return false;
 }

@@ -56,9 +56,9 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CSceneManager::GetInstance()->Init();
 	CUIManager::GetInstance()->Init();
 	// Sound Test
-	SharedPtr<CSound> pSound = CResourceManager ::GetInstance()->LoadRes<CSound>(L"Sound", L"sound\\BGM_Stage1.wav");
+	/*SharedPtr<CSound> pSound = CResourceManager ::GetInstance()->LoadRes<CSound>(L"Sound", L"sound\\BGM_Stage1.wav");
 	int iChannel = pSound->Play(0);
-	pSound->SetVolume(0.6f, iChannel);
+	pSound->SetVolume(0.6f, iChannel);*/
 
 	return S_OK;
 }

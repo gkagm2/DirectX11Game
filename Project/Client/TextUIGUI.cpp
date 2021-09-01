@@ -89,16 +89,16 @@ void TextUIGUI::Update()
 	BYTE bb = FONT_B_FROM_RGBA(iColor);
 	BYTE ba = FONT_A_FROM_RGBA(iColor);
 
-	static ImVec4 colf = ImVec4(float(br / 255.f), bg / 255.f, bb / 255.f, ba / 255.f);
+	static ImVec4 colf = ImVec4(float(br / 255.f), float(bg / 255.f), float(bb / 255.f), float(ba / 255.f));
 
 	if (ImGui::ColorEdit4("Color", &colf.x, ImGuiColorEditFlags_InputRGB)) {
 		BYTE r = BYTE(colf.x * 255);
 		BYTE g = BYTE(colf.y * 255);
 		BYTE b = BYTE(colf.z * 255);
 		BYTE a = BYTE(colf.w * 255);
-		UINT iColor = FONT_RGBA(r, g, b, a);
-		pTextUI->SetColor(iColor);
+		iColor = FONT_RGBA(r, g, b, a);
 	}
+	pTextUI->SetColor(iColor);
 
 	End();
 }

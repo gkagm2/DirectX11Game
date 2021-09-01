@@ -298,6 +298,7 @@ void MainMenuGUI::CreateCamera2DGameObject()
     pNewGameObject->AddComponent<CCamera>();
     pNewGameObject->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
     pNewGameObject->Camera()->SetLayerCheckAll();
+    pNewGameObject->Camera()->SetLayerCheck(NUM_LAYER_UI, false);
 
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();

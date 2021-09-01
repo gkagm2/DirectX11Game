@@ -9,11 +9,14 @@
 #pragma comment(lib, "FontEngine/FW1FontWrapper"))
 #endif
 
+// Return UINT
 #define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
-#define FONT_R_FROM_RGBA(r) (BYTE)r
-#define FONT_G_FROM_RGBA(g) (((BYTE)g >> 8) | (BYTE)0)
-#define FONT_B_FROM_RGBA(b) (((BYTE)b >> 16) | (BYTE)0)
-#define FONT_A_FROM_RGBA(a) (((BYTE)a >> 24) | (BYTE)0)
+
+// Return BYTE
+#define FONT_R_FROM_RGBA(r) ((BYTE)r)
+#define FONT_G_FROM_RGBA(g) ((BYTE)(g >> 8))
+#define FONT_B_FROM_RGBA(b) ((BYTE)(b >> 16))
+#define FONT_A_FROM_RGBA(a) ((BYTE)(a >> 24))
 
 class CFontManager : public CSingleton<CFontManager>
 {

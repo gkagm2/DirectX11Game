@@ -170,9 +170,7 @@ void CCamera::_SortObjects()
 						break;
 					}
 				}
-				else if (pObj->CanvasRenderer() &&
-					pObj->CanvasRenderer()->GetSharedMaterial().Get() &&
-					pObj->CanvasRenderer()->GetSharedMaterial()->GetShader().Get()) {
+				else if (pObj->CanvasRenderer()) {
 					m_vecCanvas.push_back(pObj);
 				}
 				else if (pObj->ParticleSystem()) {

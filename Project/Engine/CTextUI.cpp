@@ -3,14 +3,16 @@
 #include "CFontManager.h"
 #include "CRenderManager.h"
 #include "CRectTransform.h"
+#include "CCamera.h"
+#include "CScript.h"
 
 CTextUI::CTextUI() :
 	CUI(E_ComponentType::TextUI),
 	m_strText(_T("")),
 	m_fFontSize(10.f),
-	m_vScreenPos{}
+	m_vScreenPos{},
+	m_iColor(FONT_RGBA(0, 0, 0, 255))
 {
-	m_iColor = FONT_RGBA(0, 0, 0, 255);
 	SetAlign(E_TextAlign::Left);
 }
 
@@ -32,17 +34,19 @@ void CTextUI::Render()
 	wstring strText;
 	TStringToWString(m_strText, strText);
 
-	// World position을 Screen 포지션으로 바꿔야 한다.
-	// TOOD (Jang) : Main Camera가 아닌 UI Camera로 해야 함
-	CCamera* pUICamera = CRenderManager::GetInstance()->GetMainCamera();
-	if (!pUICamera)
-		return;
-
+	CCamera* pUICamera = GetGameObject()->GetRootObject()->GetComponent<CCamera>();
+	float fSize = 1.f;
 	if (E_ProjectionType::Orthographic == pUICamera->GetProjectionType()) {
 		m_vScreenPos = pUICamera->GetWorldToScreen2DPosition(RectTransform()->GetPosition());
+		fSize = pUICamera->GetSize();
+	}
+	float fFontSize = GetFontSize();
+	if (0.f != fFontSize) {
+		fFontSize = fSize * fFontSize * 100.f;
+		CFontManager::GetInstance()->DrawFont(strText.c_str(), m_vScreenPos.x, m_vScreenPos.y, fFontSize, m_iColor, m_eFlag);
 	}
 
-	CFontManager::GetInstance()->DrawFont(strText.c_str(), m_vScreenPos.x, m_vScreenPos.y, GetFontSize(), m_iColor, m_eFlag);
+	CUI::Render();
 }
 
 

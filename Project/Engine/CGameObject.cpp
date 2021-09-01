@@ -240,6 +240,26 @@ CGameObject* CGameObject::FindGameObjectInChilds(const tstring& _strObjName)
 	return pFindObject;
 }
 
+CGameObject* CGameObject::FindGameObjectInParent(const tstring& _strObjName)
+{
+	CGameObject* pParent = GetParentObject();
+	while (nullptr != pParent) {
+		if (_strObjName == pParent->GetName())
+			break;
+		pParent = pParent->GetParentObject();
+	}
+	return pParent;
+}
+
+CGameObject* CGameObject::GetRootObject()
+{
+	CGameObject* pRootObj = this;
+	while (pRootObj->GetParentObject())
+		pRootObj = pRootObj->GetParentObject();
+
+	return pRootObj;
+}
+
 void CGameObject::_SetDead()
 {
 	list<CGameObject*> que;

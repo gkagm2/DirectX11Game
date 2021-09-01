@@ -306,6 +306,8 @@ void CResourceManager::CreateDefaultShader()
 	// OM (Output Merge)
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Rect Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("Connect Rect Color") });
 
 	AddRes(STR_KEY_Collider2DShader, pShader);
 
@@ -425,6 +427,8 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
 	pMtrl->SetShader(pShaderCollider2D);
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // green
+	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
 	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
 
 	// 타일맵 재질 생성
