@@ -61,7 +61,9 @@ public: // Perspective
 	const TFOVAxis& GetFOVAxis() { return m_tFOVAxis; }
 
 public: // Orthographic
-	void SetSize(float _fSize) { m_fSize = _fSize; }
+	void SetSize(float _fSize) {
+		m_fSize = CMyMath::Clamp(_fSize, 0.001f, FLT_MAX);
+	}
 	float GetSize() { return m_fSize; }
 	void SetClippingPlanes(const TClippingPlanes& _tClippingPlanes) { m_tClippingPlanes = _tClippingPlanes; }
 	const TClippingPlanes& GetClippingPlanes() { return m_tClippingPlanes; }
@@ -71,12 +73,14 @@ public: // Orthographic
 	virtual const Vector3& GetScreenToWorld2DPosition(const Vector2& _vPosition);
 	virtual const Vector2& GetWorldToScreen2DPosition(const Vector3& _vWorldPosition);
 
+	float GetDistancePerFixel(); // 1 pixel당 거리 구하기
+
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
-			m_iLayerCheck |= (_iLayerIdx << 1); // bit flag 1 설정
+			m_iLayerCheck |= (1 << _iLayerIdx); // bit flag 1 설정
 		else
-			m_iLayerCheck &= ~(_iLayerIdx << 1); // bit flag 0 설정
+			m_iLayerCheck &= ~(1 << _iLayerIdx); // bit flag 0 설정
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
 	void SetLayerCheckAllUnActive() { m_iLayerCheck = 0; }	// 모든 레이어 렌더링 해제

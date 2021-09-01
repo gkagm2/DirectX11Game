@@ -54,8 +54,6 @@ void CToolCameraScript::Update()
 			float fOffSet = fDistance * m_fDragSpeed;
 			if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
 				float fSize = m_fPrefSize + fOffSet;
-				if (0.f == fSize)
-					fSize = 0.001f;
 				pToolCam->SetSize(fSize);
 			}
 		}
@@ -78,8 +76,6 @@ void CToolCameraScript::Update()
 			if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
 				float y = MouseScrollDelta * m_fMouseScrollSpeed;
 				float fSize = pToolCam->GetSize();
-				if (y == 0.f)
-					y = 0.001f;
 				fSize += y;
 				pToolCam->SetSize(fSize);
 			}

@@ -28,6 +28,7 @@ public:
 	// UI
 private:
 	CGameObject* _CreateUIGameObject();
+	CGameObject* _CreateCanvas();
 	CGameObject* _CreateDefaultUICamera();
 public:
 	void CreateTextUI();

@@ -303,6 +303,7 @@ void MainMenuGUI::CreateCamera2DGameObject()
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    vWorldPos.z = -500.f;
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
 }
@@ -332,6 +333,14 @@ CGameObject* MainMenuGUI::_CreateUIGameObject()
     pUIGameObject->AddComponent<CRectTransform>();
     pUIGameObject->AddComponent<CCanvasRenderer>();
     return pUIGameObject;
+}
+
+CGameObject* MainMenuGUI::_CreateCanvas()
+{
+    CGameObject* pUICanvas = _CreateUIGameObject();
+    pUICanvas->SetName(STR_OBJ_NAME_UICanvas);
+    CObject::CreateGameObjectEvn(pUICanvas, NUM_LAYER_UI);
+    return pUICanvas;
 }
 
 CGameObject* MainMenuGUI::_CreateDefaultUICamera()
@@ -373,9 +382,13 @@ void MainMenuGUI::CreateTextUI()
     if (!pUICamera)
         pUICamera = _CreateDefaultUICamera();
 
+    CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
+    if (!pUICanvas)
+        pUICanvas = _CreateCanvas();
+
     // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pTextUIObj, NUM_LAYER_UI);
-    CObject::AddChildGameObjectEvn(pUICamera, pTextUIObj);
+    CObject::AddChildGameObjectEvn(pUICanvas, pTextUIObj);
 }
 
 void MainMenuGUI::CreateImageUI()
@@ -395,9 +408,13 @@ void MainMenuGUI::CreateImageUI()
     if (!pUICamera)
         pUICamera = _CreateDefaultUICamera();
 
+    CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
+    if (!pUICanvas)
+        pUICanvas = _CreateCanvas();
+
     // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pImageUI, NUM_LAYER_UI);
-    CObject::AddChildGameObjectEvn(pUICamera, pImageUI);
+    CObject::AddChildGameObjectEvn(pUICanvas, pImageUI);
 }
 
 void MainMenuGUI::CreateButtonUI()
@@ -417,9 +434,14 @@ void MainMenuGUI::CreateButtonUI()
     if (!pUICamera)
         pUICamera = _CreateDefaultUICamera();
     
+
+    CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
+    if (!pUICanvas)
+        pUICanvas = _CreateCanvas();
+
     // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pButtonUIObj, NUM_LAYER_UI);
-    CObject::AddChildGameObjectEvn(pUICamera, pButtonUIObj);
+    CObject::AddChildGameObjectEvn(pUICanvas, pButtonUIObj);
 }
 
 void MainMenuGUI::OpenModuleCreatorToolWindows()

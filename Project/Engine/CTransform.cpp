@@ -87,12 +87,12 @@ void CTransform::FinalUpdate()
 
 	// Canvas Renderer, 2D Sprite Renderer
 	float fSize = 1.f;
-	if (CRenderManager::GetInstance()->GetMainCamera()) {
-		CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
-		if (E_ProjectionType::Orthographic == pMainCam->GetProjectionType()) {
-			fSize = pMainCam->GetSize();
-		}
-	}
+	//if (CRenderManager::GetInstance()->GetUICamera()) {
+	//	CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
+	//	if (E_ProjectionType::Orthographic == pMainCam->GetProjectionType()) {
+	//		fSize = pMainCam->GetSize();
+	//	}
+	//}
 
 	Matrix matScaleWH = XMMatrixScaling(m_vLocalScale.x * m_fWidth, m_vLocalScale.y * m_fHeight, m_vLocalScale.z);
 

@@ -75,7 +75,7 @@ void InspectorGUI::Init()
 
 	// CanvasRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer] = new CanvasRendererGUI;
-	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer]->SetUISize(ImVec2(0.f, 100.f));
+	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer]->SetUISize(ImVec2(0.f, 20.f));
 
 	// Collider2D
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DGUI;

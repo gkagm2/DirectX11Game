@@ -81,7 +81,7 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_RenderParticle();
 		m_vecToolCam[i]->_RenderCollider2D();
 		m_vecToolCam[i]->_RenderPostEffect();
-		m_vecToolCam[i]->_RenderCanvas();
+		m_vecToolCam[i]->_RenderCanvas(); // UI Render
 	}
 }
 
@@ -91,14 +91,36 @@ CCamera* CRenderManager::GetMainCamera()
 	// TODO (Jang) : 어떤 카메라를 가져올지 설정한 카메로 가져오기
 
 	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
-		if (!m_vecCam.empty())
-			pMainCamera = m_vecCam[0];
+		for (UINT i = 0; i < m_vecCam.size(); ++i) {
+			if (NUM_LAYER_UI == m_vecCam[i]->GetGameObject()->GetLayer())
+				continue;
+			pMainCamera = m_vecCam[i];
+			break;
+		}
 	}
 	else {
 		if(!m_vecToolCam.empty())
 			pMainCamera = m_vecToolCam[0];
 	}
 	return pMainCamera;
+}
+
+CCamera* CRenderManager::GetUICamera()
+{
+	CCamera* pUICam = nullptr;
+	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
+		for (UINT i = 0; i < m_vecCam.size(); ++i) {
+			if (NUM_LAYER_UI == m_vecCam[i]->GetGameObject()->GetLayer()) {
+				pUICam = m_vecCam[i];
+				break;
+			}
+		}
+	}
+	else {
+		if (!m_vecToolCam.empty())
+			pUICam = m_vecToolCam[0];
+	}
+	return pUICam;
 }
 
 CCamera* CRenderManager::GetToolCamera()

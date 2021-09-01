@@ -125,6 +125,7 @@
 ///////////////////////
 // GameObject name
 #define STR_OBJ_NAME_UICamera _T("UI Camera")
+#define STR_OBJ_NAME_UICanvas _T("UI Canvas")
 
 ////////// Shooting Game //////////
 // GameObject name

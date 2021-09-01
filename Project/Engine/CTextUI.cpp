@@ -34,8 +34,12 @@ void CTextUI::Render()
 	wstring strText;
 	TStringToWString(m_strText, strText);
 
-	CCamera* pUICamera = GetGameObject()->GetRootObject()->GetComponent<CCamera>();
+	CCamera* pUICamera = CRenderManager::GetInstance()->GetUICamera();
 	float fSize = 1.f;
+	if (!pUICamera) {
+		return;
+		assert(pUICamera);
+	}
 	if (E_ProjectionType::Orthographic == pUICamera->GetProjectionType()) {
 		m_vScreenPos = pUICamera->GetWorldToScreen2DPosition(RectTransform()->GetPosition());
 		fSize = pUICamera->GetSize();

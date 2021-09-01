@@ -93,6 +93,14 @@ const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPositio
 	return vFinalScreenPos;
 }
 
+float CCamera::GetDistancePerFixel()
+{
+	Vector3 v1 = GetScreenToWorld2DPosition(Vector2(1.f, 0.f));
+	Vector3 v2 = GetScreenToWorld2DPosition(Vector2(0.f, 0.f));
+	float vDitance = Vector3::Distance(v1, v2);
+	return vDitance;
+}
+
 void CCamera::CalculateViewMatrix()
 {
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
@@ -143,7 +151,7 @@ void CCamera::_SortObjects()
 	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
 
 	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
-		if (m_iLayerCheck & (1 << i)) { // 체크된 레이어면
+		if ((m_iLayerCheck & (1 << i)) > 0) { // 체크된 레이어면
 			CLayer* pLayer = pCurScene->GetLayer(i);
 
 			const vector<CGameObject*>& vecAllObjs = pLayer->GetGameObjects();
