@@ -362,7 +362,7 @@ void CDevice::ClearTarget()
 	m_pContext->OMSetRenderTargets(1, m_pRTTex->GetRTV().GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
 
 
-	float fArrColor[4] = { 0.1f, 0.1f, 0.1f, 1.f}; // 색상 (black)
+	float fArrColor[4] = { 0.4f, 0.4f, 0.4f, 1.f}; // 색상
 	m_pContext->ClearRenderTargetView(m_pRTTex->GetRTV().Get(), fArrColor);
 
 	float fDepth = 1.0f;

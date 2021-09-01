@@ -3,6 +3,7 @@
 class CButtonUI : public CImageUI
 {
 
+
 public:
 	CLONE(CButtonUI);
 	CButtonUI();

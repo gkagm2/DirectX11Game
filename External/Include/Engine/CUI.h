@@ -30,9 +30,8 @@ public:
 	bool IsPointerOn(const Vector2& _vPointerPosition);
 
 public:
-	// TODO : Min, Max 구하기 구현
-	virtual Vector3 GetMin();
-	virtual Vector3 GetMax();
+	virtual Vector2 GetMin(); // Screen 좌표로 구함
+	virtual Vector2 GetMax(); // Screen 좌표로 구함
 
 public:
 	virtual CUI* Clone() = 0;

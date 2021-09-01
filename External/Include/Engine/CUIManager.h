@@ -11,6 +11,8 @@ public:
 	void Update();
 	void Init() { m_pCurFocusedUI = nullptr, m_pPointDownUI = nullptr; }
 
+private:
+	void GetRootUIObjectsInCanvas(vector<CGameObject*> _vecRootObjs);
 public:
 	void SetCurFocusedUI(CUI* _pCurFocusedUI) { m_pCurFocusedUI = _pCurFocusedUI; }
 	CUI* GetCurFocusedUI() { return m_pCurFocusedUI; }

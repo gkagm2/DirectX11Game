@@ -21,7 +21,7 @@ public:
 
 public:
     CGameObject* FindGameObject(const tstring& _strName, UINT _iLayer = MAX_SIZE_LAYER);
-    void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs);
+    void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs, UINT _iLayer = MAX_SIZE_LAYER);
 
     CLayer* GetLayer(UINT _iLayer) { return m_arrLayer[_iLayer]; }
     void GetGameObjects(vector<CGameObject*>& _vecObjs, UINT _iLayer = MAX_SIZE_LAYER);

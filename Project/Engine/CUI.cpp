@@ -7,7 +7,7 @@
 #include "CUIManager.h"
 #include "CRectTransform.h"
 #include "CComponent.h"
-
+#include "CRenderManager.h"
 //Test
 #include "CCore.h"
 
@@ -91,67 +91,53 @@ void CUI::OnPointerClick()
 bool CUI::IsPointerOn(const Vector2& _vMousePosition)
 {
     Vector2 mousePos = _vMousePosition;
-    Vector3 minPos = GetMin();
-    Vector3 maxPos = GetMax();
-    if (_vMousePosition.x >= GetMin().x && _vMousePosition.x <= GetMax().x &&
-        _vMousePosition.y >= GetMin().y && _vMousePosition.y <= GetMax().y) {
+    Vector2 minScreenPos = GetMin();
+    Vector2 maxScreenPos = GetMax();
+    if (_vMousePosition.x >= minScreenPos.x && _vMousePosition.x <= maxScreenPos.x &&
+        _vMousePosition.y >= minScreenPos.y && _vMousePosition.y <= maxScreenPos.y) {
         return true;
     }
     return false;
 }
 
-// TODO : Min, Max 구하기 구현
-Vector3 CUI::GetMin()
+// UI의 World 좌표의 min, max 구하기
+Vector2 CUI::GetMin()
 {
-    // TODO (Jang) : 해야됨
-    //CCamera* pUICam = GetGameObject()->GetComponentInParent
+    // pixel 사이즈라고 생각하고 해야되는듯?
+    CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
+    assert(pUICam && _T("UI Camera 없음"));
+    // 중심점으로부터 width, height을 구해서 위치를 구함
+    assert(RectTransform() && _T("RectTransform 없음"));
+    Vector3 vPos = RectTransform()->GetPosition();
+    float fHalfWidth = fabsf(vPos.x - RectTransform()->GetWidth()) * 0.5f;
+    float fHalfHeight = fabsf(vPos.y - RectTransform()->GetHeight()) * 0.5;
 
-    return Vector3();
+    Vector3 vMin;
+    vMin.x = vPos.x - fHalfWidth;
+    vMin.y = vPos.y + fHalfHeight;
+    vMin.z = vPos.z;
+
+    Vector2 vScreenMin = pUICam->GetWorldToScreen2DPosition(vMin);
+
+    return vScreenMin;
 }
-Vector3 CUI::GetMax()
+Vector2 CUI::GetMax()
 {
-    //switch (m_ePivotState) {
-    //case E_UIPivot::leftTop:
-    //{
-    //    Vector3 maxVec = GetFinalPosition();
-    //    CTexture* pTexture = GetTexture();
-    //    if (nullptr != pTexture) {
-    //        //maxVec.x += pTexture->GetWidth();
-    //        //maxVec.y += pTexture->GetHeight();
-    //        maxVec.x += GetScale().x;
-    //        maxVec.y += GetScale().y;
-    //    }
-    //    else
-    //        maxVec += GetScale();
-    //    return maxVec;
-    //}
-    //case E_UIPivot::left:
-    //    break;
-    //case E_UIPivot::leftBottom:
-    //    break;
-    //case E_UIPivot::top:
-    //    break;
-    //case E_UIPivot::center:
-    //{
-    //    Vector3 maxVec = GetFinalPosition();
-    //    CTexture* pTexture = GetTexture();
-    //    if (nullptr != pTexture) {
-    //        /*maxVec.x += pTexture->GetWidth() * 0.5f;
-    //        maxVec.y += pTexture->GetHeight() * 0.5f;*/
-    //        maxVec.x += GetScale().x * 0.5f;
-    //        maxVec.y += GetScale().y * 0.5f;
-    //    }
-    //    else
-    //        maxVec += GetScale() * 0.5f;
-    //    return maxVec;
-    //}
-    //    break;
-    //case E_UIPivot::rightTop:
-    //    break;
-    //case E_UIPivot::right:
-    //    break;
-    //case E_UIPivot::rightBottom:
-    //    break;
-    //}
-    return Vector3();
+    // pixel 사이즈라고 생각하고 해야되는듯?
+    CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
+    assert(pUICam && _T("UI Camera 없음"));
+    // 중심점으로부터 width, height을 구해서 위치를 구함
+    assert(RectTransform() && _T("RectTransform 없음"));
+    Vector3 vPos = RectTransform()->GetPosition();
+    float fHalfWidth = fabsf(vPos.x - RectTransform()->GetWidth()) * 0.5f;
+    float fHalfHeight = fabsf(vPos.y - RectTransform()->GetHeight()) * 0.5;
+
+    Vector3 vMax;
+    vMax.x = vPos.x + fHalfWidth;
+    vMax.y = vPos.y - fHalfHeight;
+    vMax.z = vPos.z;
+
+    Vector2 vScreenMax = pUICam->GetWorldToScreen2DPosition(vMax);
+
+    return vScreenMax;
 }

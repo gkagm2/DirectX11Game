@@ -8,6 +8,10 @@
 #include "CUI.h"
 #include "CCamera.h"
 
+//Test
+
+#include "CTimeManager.h"
+
 CUIManager::CUIManager() :
 	m_pCurFocusedUI(nullptr),
 	m_pPointDownUI(nullptr)
@@ -20,37 +24,42 @@ CUIManager::~CUIManager() {
 
 void CUIManager::Update()
 {
-	/*
+	// 현재 씬을 가져온다
 	CScene* pScene = CSceneManager::GetInstance()->GetCurScene();
 	if (nullptr == pScene) return;
-	vector<CGameObject*> vecUIObjs;
-	pScene->GetGameObjects(vecUIObjs, NUM_LAYER_UI);
 
-	// 카메라는 제거
-	vector<CGameObject*>::iterator iter = vecUIObjs.begin();
-	for (; iter != vecUIObjs.end(); ++iter) {
-		if ((*iter)->Camera()) {
-			break;
-		}
-	}
-	if (iter != vecUIObjs.end())
-		vecUIObjs.erase(iter);
+	
+	
+	// Canvas내부에 존재하는 최상위 UI 오브젝트들을 가져온다.
+	vector<CGameObject*> vecUIObjs;
+	GetRootUIObjectsInCanvas(vecUIObjs);
+	
 
 	CUI* pPrevFocusedUI = m_pCurFocusedUI;// 이전에 포커싱된 부모 UI
 
 	// 현재 포커싱된 최상위 부모 UI를 가져옴
 	E_KeyState eCurKeyState = CKeyManager::GetInstance()->GetKeyState(E_Key::LBUTTON); // Mouse Left Button 상태를 가져옴
 
+	// UI 오브젝트들의 개수를 가져온다.
 	int iUICnt = (int)vecUIObjs.size();
+
+	// UI의 개수가 0이면 포커스 해제, 포인트 다운 해제
 	if (0 == iUICnt) {
 		m_pCurFocusedUI = nullptr;
 		m_pPointDownUI = nullptr;
 	}
 
+	// TODO (Jang) : 난 이것을 z값을 이용해서 만들 것임.
+	// 맨 끝에 있는 UI를 눌렀으면 Press 이벤트가 발생하게 한다.
 	for (int i = iUICnt - 1; i >= 0; --i) {
-		if (((CUI*)vecUIObjs[i])->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS) {
-			m_pCurFocusedUI = ((CUI*)vecUIObjs[i]);
-			break;
+		// Pointer가 On인 상태에서 Press키를 눌렀을 경우
+		CUI* pUI = vecUIObjs[i]->GetComponent<CUI>();
+		if (pUI) {
+			if ((pUI->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS)) {
+				// 현재 포커싱된 UI의오브젝트를 담는다.
+				m_pCurFocusedUI = pUI;
+				break;
+			}
 		}
 	}
 
@@ -77,9 +86,10 @@ void CUIManager::Update()
 			CUI* pChildUI = que.front();
 			que.pop();
 
-			vector<CUI*>& vecChilds = pChildUI->GetChildsUI();
+			vector<CGameObject*> vecChilds = pChildUI->GetGameObject()->GetChildsObject();
+
 			for (UINT i = 0; i < vecChilds.size(); ++i)
-				que.push(vecChilds[i]);
+				que.push(vecChilds[i]->GetComponent<CUI>());
 
 			if (pChildUI->IsPointerOn(MousePosition)) {
 				
@@ -91,7 +101,7 @@ void CUIManager::Update()
 			else {
 				pChildUI->m_bIsOn = false;
 			}
-		}
+		}	
 
 		// 마우스 포인터가 UI 외부에 있을 경우
 		if (false == pTargetUI->IsPointerOn(MousePosition)) {
@@ -105,6 +115,7 @@ void CUIManager::Update()
 			if (InputKeyPress(E_Key::LBUTTON)) {
 				m_pPointDownUI = pTargetUI;
 				pTargetUI->OnPointerDown();
+				_tcprintf(_T("PointerDown %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
 				pTargetUI->m_bIsDown = true;
 			}
 		}
@@ -112,9 +123,12 @@ void CUIManager::Update()
 		if (InputKeyRelease(E_Key::LBUTTON)) {
 			if (nullptr != m_pPointDownUI) {
 				m_pPointDownUI->OnPointerUp();
+				_tcprintf(_T("PointerUp %s\n"), m_pPointDownUI->GetGameObject()->GetName().c_str());
 
 				if (pTargetUI->m_bIsDown && InputKeyRelease(E_Key::LBUTTON)) { //pTargetUI == m_pPointDownUI
 					pTargetUI->OnPointerClick();
+					_tcprintf(_T("PointerClick %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
+
 					pTargetUI->m_bIsDown = false;
 				}
 				else
@@ -136,27 +150,53 @@ void CUIManager::Update()
 			}
 		}
 	}
-	*/
+	static float f = 0.f;
+	static float m = 0.1f;
+	f += DT;
+	if (f > m) {
+		if (m_pCurFocusedUI)
+			_tcprintf(_T("%s\n"), m_pCurFocusedUI->GetGameObject()->GetName().c_str());
+		f = 0.f;
+	}
+}
+
+void CUIManager::GetRootUIObjectsInCanvas(vector<CGameObject*> _vecRootObjs)
+{
+	_vecRootObjs.clear();
+	CScene* pScene = CSceneManager::GetInstance()->GetCurScene();
+	// 현재 씬에서 UI레이어를 가진 최상위 오브젝트들을 가져온다
+	vector<CGameObject*> vecCanvas;
+	pScene->GetRootGameObjects(vecCanvas, NUM_LAYER_UI);
+
+	// Canvas내부에 존재하는 최상위 UI 오브젝트들을 가져온다.
+	for (UINT i = 0; i < vecCanvas.size(); ++i) {
+		const vector<CGameObject*>& vecChilds = vecCanvas[i]->GetChildsObject();
+		for (UINT j = 0; j < vecChilds.size(); ++j) {
+			// CUI이면서 CanvasRenderer가 존재하면 vector에 넣어줌
+			if (vecChilds[j]->CanvasRenderer() && vecChilds[j]->GetComponent<CUI>())
+				_vecRootObjs.push_back(vecChilds[j]);
+		}
+	}
 }
 
 bool CUIManager::IsMousePointInUI()
 {
-	/*
 	vector<CGameObject*> vecUIObjs;
-	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecUIObjs, NUM_LAYER_UI);
+	GetRootUIObjectsInCanvas(vecUIObjs);
+
 	queue<CUI*> que;
 	for (UINT i = 0; i < vecUIObjs.size(); ++i)
-		que.push((CUI*)vecUIObjs[i]);
+		que.push(vecUIObjs[i]->GetComponent<CUI>());
 	
 	while (!que.empty()) {
 		CUI* pUI = que.front();
 		que.pop();
 		if (pUI->IsPointerOn(MousePosition))
 			return true;
-		
-		for (UINT i = 0; i < pUI->GetChildsUI().size(); ++i)
-			que.push(pUI->GetChildsUI()[i]);
+
+		const vector<CGameObject*>& vecChilds = pUI->GetGameObject()->GetChildsObject();
+		for (UINT i = 0; i < vecChilds.size(); ++i)
+			que.push(vecChilds[i]->GetComponent<CUI>());
 	}
-	*/
 	return false;
 }

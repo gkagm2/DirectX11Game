@@ -35,14 +35,11 @@ public:
 	void CreateImageUI();
 	void CreateButtonUI();
 
-
-
 	// Editor
 	void OpenTileMapEditor();
 
 	// CaptainForever
 	void OpenModuleCreatorToolWindows();
-	
 
 public:
 	MainMenuGUI();

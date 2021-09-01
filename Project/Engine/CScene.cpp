@@ -123,16 +123,20 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 	return nullptr;
 }
 
-void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
+void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs, UINT _iLayer)
 {
 	_vecRootObjs.clear();
+
 	// Scene중에 최상위 오브젝트를 가져옴
 	for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 		CLayer* pLayer = GetLayer(i);
 		const vector<CGameObject*>& vecLayerRootObj = pLayer->GetRootGameObjects();
 		for (UINT j = 0; j < vecLayerRootObj.size(); ++j) {
 			if (nullptr == vecLayerRootObj[j]->GetParentObject()) {
-				_vecRootObjs.push_back(vecLayerRootObj[j]);
+				if(MAX_SIZE_LAYER == _iLayer)
+					_vecRootObjs.push_back(vecLayerRootObj[j]);
+				else if (_iLayer == vecLayerRootObj[j]->GetLayer())
+					_vecRootObjs.push_back(vecLayerRootObj[j]);
 			}
 		}
 	}
@@ -141,6 +145,7 @@ void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs)
 // 전체 검색
 void CScene::GetGameObjects(vector<CGameObject*>& _vecObjs, UINT _iLayer)
 {
+	// BFS 이요
 	_vecObjs.clear();
 	vector<CGameObject*> vecRootObjs;
 	GetRootGameObjects(vecRootObjs);

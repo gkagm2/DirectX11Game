@@ -355,6 +355,10 @@ CGameObject* MainMenuGUI::_CreateDefaultUICamera()
     pUICameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
     pUICameraObj->Camera()->SetLayerCheckAllUnActive();
     pUICameraObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
+    TClippingPlanes tCp;
+    tCp.fFar = 1000.f;
+    tCp.fNear = 0.f;
+    pUICameraObj->Camera()->SetClippingPlanes(tCp);
 
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
