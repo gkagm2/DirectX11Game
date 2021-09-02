@@ -5,8 +5,15 @@
 class CUI : public CBehaviour
 {
 private:
+	// Collider
 	SharedPtr<CMesh> m_pColMesh;
 	SharedPtr<CMaterial> m_pColMtrl;
+
+	Vector2 m_vOffsetPosition;
+	Vector2 m_vOffsetScale;
+
+	Matrix m_matColWorld;
+
 protected:
 	bool m_bIsOn;
 	bool m_bIsDown; // 마우스를 눌렀는가
@@ -19,6 +26,7 @@ public:
 	virtual void LateUpdate() override;
 	virtual void FinalUpdate();
 	virtual void Render() override;
+	virtual void UpdateData() override;
 
 public:
 	// TODO : 이걸 다른걸로 뺄까?

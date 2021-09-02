@@ -58,6 +58,7 @@ protected:
 	float m_fHeight;
 	Matrix m_matLocal_noParentScale;
 	Matrix m_matWorld_noParentScale; // 부모 자식간 scale을 고려하지 않은 행렬
+	Vector3 m_vLocalScale_RT; // Rect Transform에서 사용하는 width, height 이 반영된 scale 값
 
 public:
 	// RectTransform, 2D Sprite에서 이용 (Canvas Material 이용)
@@ -68,6 +69,8 @@ public:
 
 	const Matrix& GetWorldMatrix_NoParentScale() { return m_matWorld_noParentScale; }
 	const Matrix& GetLocalMatrix_NoParentScale() { return m_matLocal_noParentScale; }
+
+	Vector3 GetLocalScale_RectTR() { return m_vLocalScale_RT; }
 
 public:
 	virtual void FinalUpdate() override;

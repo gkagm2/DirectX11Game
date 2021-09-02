@@ -38,9 +38,11 @@ public:
 	void RegisterToolCamera(CCamera* _pCamera) { m_vecToolCam.push_back(_pCamera); }
 	void UnRegisterToolCamera() { m_vecToolCam.clear(); }
 
-
+	//
 	CCamera* GetMainCamera();
 	CCamera* GetUICamera();
+
+	
 	CCamera* GetToolCamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolCamera);
 	CCamera* GetToolUICamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolUICamera);
 	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }

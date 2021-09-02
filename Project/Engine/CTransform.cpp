@@ -11,15 +11,16 @@
 CTransform::CTransform() :
 	CComponent(E_ComponentType::Transform),
 	m_vLocalPosition{},
-	m_vLocalScale{1.f, 1.f, 1.f},
+	m_vLocalScale{ 1.f, 1.f, 1.f },
 	m_vLocalRotation{},
 	m_matLocal{},
 	m_matWorld{},
 
-	m_fWidth(1.f),
-	m_fHeight(1.f),
+	m_fWidth(100.f),
+	m_fHeight(100.f),
 	m_matLocal_noParentScale{},
-	m_matWorld_noParentScale{}
+	m_matWorld_noParentScale{},
+	m_vLocalScale_RT{Vector3(1.f,1.f,1.f)}
 {
 }
 
@@ -31,10 +32,11 @@ CTransform::CTransform(E_ComponentType _eComponentType) :
 	m_matLocal{},
 	m_matWorld{},
 
-	m_fWidth(1.f),
-	m_fHeight(1.f),
+	m_fWidth(100.f),
+	m_fHeight(100.f),
 	m_matLocal_noParentScale{},
-	m_matWorld_noParentScale{}
+	m_matWorld_noParentScale{},
+	m_vLocalScale_RT{ Vector3(1.f,1.f,1.f) }
 {
 }
 
@@ -94,8 +96,11 @@ void CTransform::FinalUpdate()
 	//	}
 	//}
 
-	Matrix matScaleWH = XMMatrixScaling(m_vLocalScale.x * m_fWidth, m_vLocalScale.y * m_fHeight, m_vLocalScale.z);
-
+	m_vLocalScale_RT.x = m_vLocalScale.x * m_fWidth;
+	m_vLocalScale_RT.y = m_vLocalScale.y * m_fHeight;
+	m_vLocalScale_RT.z = m_vLocalScale.z;
+	Matrix matScaleWH = XMMatrixScaling(m_vLocalScale_RT.x, m_vLocalScale_RT.y, m_vLocalScale_RT.z);
+	
 	m_matLocal_noParentScale = matScaleWH * matRot * matTrans * fSize;
 	m_matWorld_noParentScale = m_matLocal_noParentScale;
 	pParentObj = GetGameObject()->GetParentObject();

@@ -2,6 +2,7 @@
 #include "TextUIGUI.h"
 #include <Engine\CFontManager.h>
 #include <Engine\CTextUI.h>
+#include "ParamGUI.h"
 
 const size_t TextUIGUI::m_gTextBuffSize = 2048;
 
@@ -81,10 +82,13 @@ void TextUIGUI::Update()
 	}
 
 	// Color
-	ImGui::Text("Color");
+	ImGui::Text("Color##TextUIGUI");
+
+	
 
 	UINT iColor = pTextUI->GetColor();
-	BYTE br = FONT_R_FROM_RGBA(iColor);
+	ParamGUI::Render_Color("Color##TextUIGUI", &iColor);
+	/*BYTE br = FONT_R_FROM_RGBA(iColor);
 	BYTE bg = FONT_G_FROM_RGBA(iColor);
 	BYTE bb = FONT_B_FROM_RGBA(iColor);
 	BYTE ba = FONT_A_FROM_RGBA(iColor);
@@ -97,7 +101,7 @@ void TextUIGUI::Update()
 		BYTE b = BYTE(colf.z * 255);
 		BYTE a = BYTE(colf.w * 255);
 		iColor = FONT_RGBA(r, g, b, a);
-	}
+	}*/
 	pTextUI->SetColor(iColor);
 
 	End();

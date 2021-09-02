@@ -8,13 +8,17 @@
 #include "CRectTransform.h"
 #include "CComponent.h"
 #include "CRenderManager.h"
+#include "CDevice.h"
+#include "CConstBuffer.h"
 //Test
 #include "CCore.h"
 
 CUI::CUI(E_ComponentType _eComponentType) :
     CBehaviour(_eComponentType),
     m_bIsOn(false),
-    m_bIsDown(false)
+    m_bIsDown(false),
+    m_vOffsetPosition{Vector3(0.f,0.f,0.f)},
+    m_vOffsetScale(Vector3(1.f,1.f,1.f))
 {
     m_pColMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectLineMesh);
     m_pColMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMtrl);
@@ -52,7 +56,20 @@ void CUI::LateUpdate()
 
 void CUI::FinalUpdate()
 {
-    // UI 
+    // 충돌체 크기 * 충돌체 이동(물체 크기로 미리 나눔) *  (물체 크기 * 물체 회전 * 물체 이동) == 충돌체의 World Matrix
+    //                                                  (           World Matrix       )
+    // Collider Material 
+ 
+    //Vector2 vOffsetPosition = m_vOffsetPosition / RectTransform()->GetLocalScale_RectTR().XY();
+
+    //Matrix matTrans = XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, 0.f);
+
+    //RectTransform()->GetWorldMatrix_NoParentScale();
+    //Vector3 vScale = RectTransform()->GetLocalScale_RectTR();
+    //Matrix matScale = XMMatrixScaling(vScale.x, vScale.y, 1.f);
+
+    //m_matColWorld = matScale * matTrans * Transform()->GetWorldMatrix_NoParentScale();
+    //m_matColWorld._43 = 0.f; //2D이므로 0 (3d면?)
 }
 
 void CUI::Render()
@@ -65,6 +82,8 @@ void CUI::Render()
     //Vector4(0.2f, 0.9f, 0.2, 1.f)); //green
     //Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
 
+    // 충돌체의 정보 업데이트
+    //UpdateData();
 
     //m_pColMesh->UpdateData();   // 메쉬 세팅
     //m_pColMtrl->UpdateData();	 // 메터리얼 세팅
@@ -76,6 +95,15 @@ void CUI::Render()
 
     //m_pColMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // greeen
     //m_pColMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
+}
+
+void CUI::UpdateData()
+{
+    static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::RectTransform);
+    g_rectTransform.matWorld = m_matColWorld;
+
+    pCB->SetData(&g_rectTransform);
+    pCB->UpdateData(E_ShaderStage::Vertex);
 }
 
 void CUI::OnPointerDown()
@@ -109,8 +137,8 @@ Vector2 CUI::GetMin()
     // 중심점으로부터 width, height을 구해서 위치를 구함
     assert(RectTransform() && _T("RectTransform 없음"));
     Vector3 vPos = RectTransform()->GetPosition();
-    float fHalfWidth = fabsf(vPos.x - RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(vPos.y - RectTransform()->GetHeight()) * 0.5;
+    float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
+    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5;
 
     Vector3 vMin;
     vMin.x = vPos.x - fHalfWidth;
@@ -129,8 +157,8 @@ Vector2 CUI::GetMax()
     // 중심점으로부터 width, height을 구해서 위치를 구함
     assert(RectTransform() && _T("RectTransform 없음"));
     Vector3 vPos = RectTransform()->GetPosition();
-    float fHalfWidth = fabsf(vPos.x - RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(vPos.y - RectTransform()->GetHeight()) * 0.5;
+    float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
+    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5;
 
     Vector3 vMax;
     vMax.x = vPos.x + fHalfWidth;

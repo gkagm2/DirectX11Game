@@ -4,6 +4,8 @@
 #include "imgui.h"
 #include "CImGuiManager.h"
 
+#include <Engine\CFontManager.h>
+
 #include <Engine\CTexture.h>
 #include <Engine\CResourceManager.h>
 ParamGUI::ParamGUI()
@@ -156,4 +158,34 @@ bool ParamGUI::Render_Matrix(const string& _strName, Matrix* _pOut)
 		bFixed = true;
 	}
 	return bFixed;
+}
+
+bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
+{
+	string strText = _strName.substr(0, _strName.find("##"));
+	ImGui::Text(strText.c_str());
+
+	string strLabel = "##";
+	strLabel += strText;
+
+	UINT iColor = *_iColorInOut;
+	BYTE br = FONT_R_FROM_RGBA(iColor);
+	BYTE bg = FONT_G_FROM_RGBA(iColor);
+	BYTE bb = FONT_B_FROM_RGBA(iColor);
+	BYTE ba = FONT_A_FROM_RGBA(iColor);
+
+	static ImVec4 colf = ImVec4(float(br / 255.f), float(bg / 255.f), float(bb / 255.f), float(ba / 255.f));
+
+	bool bIsFixed = false;
+	if (ImGui::ColorEdit4(strLabel.c_str(), &colf.x, ImGuiColorEditFlags_InputRGB)) {
+		BYTE r = BYTE(colf.x * 255);
+		BYTE g = BYTE(colf.y * 255);
+		BYTE b = BYTE(colf.z * 255);
+		BYTE a = BYTE(colf.w * 255);
+		iColor = FONT_RGBA(r, g, b, a);
+		bIsFixed = true;
+	}
+
+	*_iColorInOut = iColor;
+	return bIsFixed;
 }

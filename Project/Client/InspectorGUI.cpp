@@ -97,38 +97,38 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;
 	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 0.f));
 
-	// CameraGUI
-	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+// CameraGUI
+m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
+m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
 
-	// UI
-	// TextUI
-	m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 100.f));
+// UI
+// TextUI
+m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
+m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 100.f));
 
-	// ImageUI
-	m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
+// ImageUI
+m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
+m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
 
-	// ButtonUI
-	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
+// ButtonUI
+m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
+m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
 
 
-	// Script GUI
-	m_pScriptGUI = new ScriptGUI;
-	m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
+// Script GUI
+m_pScriptGUI = new ScriptGUI;
+m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
 
-	//////////// Resources
+//////////// Resources
 
-	m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
-	m_arrResGUI[(UINT)E_ResourceType::Material]->SetUISize(ImVec2(0.f, 0.f));
+m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
+m_arrResGUI[(UINT)E_ResourceType::Material]->SetUISize(ImVec2(0.f, 0.f));
 
-	m_arrResGUI[(UINT)E_ResourceType::Texture] = new TextureGUI;
-	m_arrResGUI[(UINT)E_ResourceType::Texture]->SetUISize(ImVec2(0.f, 0.f));
+m_arrResGUI[(UINT)E_ResourceType::Texture] = new TextureGUI;
+m_arrResGUI[(UINT)E_ResourceType::Texture]->SetUISize(ImVec2(0.f, 0.f));
 
-	m_arrResGUI[(UINT)E_ResourceType::Prefab] = new PrefabGUI;
-	m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
+m_arrResGUI[(UINT)E_ResourceType::Prefab] = new PrefabGUI;
+m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
 }
 
 void InspectorGUI::Update()
@@ -159,7 +159,7 @@ void InspectorGUI::UpdateObjectGUI()
 {
 	ImGui::BeginChild("Object view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
 	ImGui::Separator();
-	
+
 	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
@@ -192,6 +192,18 @@ void InspectorGUI::UpdateObjectGUI()
 	if (ImGui::Button("Clone##Clone GameObject")) {
 		CGameObject* pCloneObj = m_pTargetObject->Clone();
 		CObject::CreateGameObjectEvn(pCloneObj, m_pTargetObject->GetLayer());
+	}
+
+	// 활성화  세팅
+	if (ImGui::Button("Active##Set Actie GameObject")) {
+		bool bIsActive = m_pTargetObject->IsActive();
+		if (bIsActive) {
+
+		}
+		else {
+
+		}
+		
 	}
 
 	ImGui::Separator();

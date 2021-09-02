@@ -49,6 +49,8 @@ void CUIManager::Update()
 		m_pPointDownUI = nullptr;
 	}
 
+	_tcprintf(_T("%.2f %.2f\n"), MousePosition.x, MousePosition.y);
+
 	// TODO (Jang) : 난 이것을 z값을 이용해서 만들 것임.
 	// 맨 끝에 있는 UI를 눌렀으면 Press 이벤트가 발생하게 한다.
 	for (int i = iUICnt - 1; i >= 0; --i) {
@@ -115,7 +117,7 @@ void CUIManager::Update()
 			if (InputKeyPress(E_Key::LBUTTON)) {
 				m_pPointDownUI = pTargetUI;
 				pTargetUI->OnPointerDown();
-				_tcprintf(_T("PointerDown %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
+				//_tcprintf(_T("PointerDown %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
 				pTargetUI->m_bIsDown = true;
 			}
 		}
@@ -123,11 +125,11 @@ void CUIManager::Update()
 		if (InputKeyRelease(E_Key::LBUTTON)) {
 			if (nullptr != m_pPointDownUI) {
 				m_pPointDownUI->OnPointerUp();
-				_tcprintf(_T("PointerUp %s\n"), m_pPointDownUI->GetGameObject()->GetName().c_str());
+				//_tcprintf(_T("PointerUp %s\n"), m_pPointDownUI->GetGameObject()->GetName().c_str());
 
 				if (pTargetUI->m_bIsDown && InputKeyRelease(E_Key::LBUTTON)) { //pTargetUI == m_pPointDownUI
 					pTargetUI->OnPointerClick();
-					_tcprintf(_T("PointerClick %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
+					//_tcprintf(_T("PointerClick %s\n"), pTargetUI->GetGameObject()->GetName().c_str());
 
 					pTargetUI->m_bIsDown = false;
 				}
@@ -149,12 +151,6 @@ void CUIManager::Update()
 				}
 			}
 		}
-	}
-
-	if (m_pCurFocusedUI) {
-		auto s = m_pCurFocusedUI->GetGameObject()->GetComponent<CUI>();
-		bool b = IsMousePointInUI();
-		_tcprintf(_T("%d\n"), b);
 	}
 }
 

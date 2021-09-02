@@ -35,18 +35,15 @@ void CTextUI::Render()
 	TStringToWString(m_strText, strText);
 
 	CCamera* pUICamera = CRenderManager::GetInstance()->GetUICamera();
-	float fSize = 1.f;
 	if (!pUICamera) {
 		return;
 		assert(pUICamera);
 	}
 	if (E_ProjectionType::Orthographic == pUICamera->GetProjectionType()) {
 		m_vScreenPos = pUICamera->GetWorldToScreen2DPosition(RectTransform()->GetPosition());
-		fSize = pUICamera->GetSize();
 	}
 	float fFontSize = GetFontSize();
 	if (0.f != fFontSize) {
-		fFontSize = fSize * fFontSize * 100.f;
 		CFontManager::GetInstance()->DrawFont(strText.c_str(), m_vScreenPos.x, m_vScreenPos.y, fFontSize, m_iColor, m_eFlag);
 	}
 

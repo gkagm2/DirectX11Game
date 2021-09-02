@@ -99,8 +99,7 @@ CCamera* CRenderManager::GetMainCamera()
 		}
 	}
 	else {
-		if(!m_vecToolCam.empty())
-			pMainCamera = m_vecToolCam[0];
+		pMainCamera = GetToolCamera();
 	}
 	return pMainCamera;
 }
@@ -117,8 +116,7 @@ CCamera* CRenderManager::GetUICamera()
 		}
 	}
 	else {
-		if (!m_vecToolCam.empty())
-			pUICam = m_vecToolCam[0];
+		pUICam = GetToolUICamera();
 	}
 	return pUICam;
 }

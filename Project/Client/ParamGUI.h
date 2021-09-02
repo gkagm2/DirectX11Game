@@ -12,6 +12,8 @@ public:
 	static bool Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn = true); 
 	static bool Render_Matrix(const string& _strName, Matrix* _pOut);
 
+	static bool Render_Color(const string& _strName, UINT* _iColorInOut);
+
 public:
 	ParamGUI();
 	virtual ~ParamGUI();

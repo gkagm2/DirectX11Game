@@ -45,6 +45,9 @@ void ImageUIGUI::Update()
 		}
 	}
 
+	ImGui::Text("Color");
+
+
 	// 컴포넌트 추가 버튼
 	//if (ImGui::Button("Add Component##ComponentAdd")) {
 	//	// 리스트 뷰를 보여준다.
