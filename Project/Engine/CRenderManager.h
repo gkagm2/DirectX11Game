@@ -41,7 +41,8 @@ public:
 
 	CCamera* GetMainCamera();
 	CCamera* GetUICamera();
-	CCamera* GetToolCamera();
+	CCamera* GetToolCamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolCamera);
+	CCamera* GetToolUICamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolUICamera);
 	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }
 
 private:

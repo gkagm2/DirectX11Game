@@ -122,6 +122,10 @@
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
 
 
+// Tool Object name
+#define STR_TOOL_OBJ_NAME_ToolCamera _T("Tool Camera_Engine")
+#define STR_TOOL_OBJ_NAME_ToolUICamera _T("Tool UI Camera_Engine")
+
 ///////////////////////
 // GameObject name
 #define STR_OBJ_NAME_UICamera _T("UI Camera")

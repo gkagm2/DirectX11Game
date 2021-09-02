@@ -16,16 +16,33 @@ CToolObjManager::~CToolObjManager()
 
 void CToolObjManager::Init()
 {
-	CGameObjectEx* pToolCamObj = new CGameObjectEx;
-	pToolCamObj->SetName(_T("Tool Camera_Engine"));
-	pToolCamObj->AddComponent<CTransform>();
-	pToolCamObj->AddComponent<CCameraEx>();
-	pToolCamObj->AddComponent<CToolCameraScript>();
+	{
+		CGameObjectEx* pToolCamObj = new CGameObjectEx;
+		pToolCamObj->SetName(STR_TOOL_OBJ_NAME_ToolCamera);
+		pToolCamObj->AddComponent<CTransform>();
+		pToolCamObj->AddComponent<CCameraEx>();
+		pToolCamObj->AddComponent<CToolCameraScript>();
 
-	pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
-	pToolCamObj->Camera()->SetLayerCheckAll();
-	_AddGameObjectEx(pToolCamObj);
-	pToolCamObj->Camera()->SetSize(0.02);
+		pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+		pToolCamObj->Camera()->SetLayerCheckAll();
+		pToolCamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, false);
+		pToolCamObj->Camera()->SetSize(0.02f);
+		_AddGameObjectEx(pToolCamObj);
+	}
+	
+	{
+		CGameObjectEx* pToolUICamObj = new CGameObjectEx;
+		pToolUICamObj->SetName(STR_TOOL_OBJ_NAME_ToolUICamera);
+		pToolUICamObj->AddComponent<CTransform>();
+		pToolUICamObj->AddComponent<CCameraEx>();
+
+		pToolUICamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+		pToolUICamObj->Camera()->SetLayerCheckAllUnActive();
+		pToolUICamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
+		pToolUICamObj->Camera()->SetSize(1.f);
+		pToolUICamObj->Transform()->SetLocalPosition(Vector3(9999.f, 9999.f, 0.f));
+		_AddGameObjectEx(pToolUICamObj);
+	}
 
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
 		m_vecToolObjs[i]->Awake();

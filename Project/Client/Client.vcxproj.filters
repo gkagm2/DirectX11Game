@@ -191,6 +191,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\CanvasRendererGUI">
       <UniqueIdentifier>{dc685ffd-1e47-4393-9a45-d0029f3fad0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\04. GUI\ToolCameraGUI">
+      <UniqueIdentifier>{039c6e91-12c6-4a1a-8346-c555b5bcf5be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -368,6 +371,9 @@
     <ClInclude Include="ImageUIGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ImageUIGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ToolCameraGUI.h">
+      <Filter>03. Tools\04. GUI\ToolCameraGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -529,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="ImageUIGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\UI\ImageUIGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolCameraGUI.cpp">
+      <Filter>03. Tools\04. GUI\ToolCameraGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -35,6 +35,9 @@ public:
 	void CreateImageUI();
 	void CreateButtonUI();
 
+	// Engine
+	void OpenToolCameraUI();
+
 	// Editor
 	void OpenTileMapEditor();
 

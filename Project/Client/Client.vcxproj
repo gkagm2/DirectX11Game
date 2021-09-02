@@ -236,6 +236,7 @@
     <ClInclude Include="TextureGUI.h" />
     <ClInclude Include="TileMapEditorGUI.h" />
     <ClInclude Include="TileMapGUI.h" />
+    <ClInclude Include="ToolCameraGUI.h" />
     <ClInclude Include="TransformGUI.h" />
     <ClInclude Include="TreeViewGUI.h" />
     <ClInclude Include="WindowsMessageMap.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="TextureGUI.cpp" />
     <ClCompile Include="TileMapEditorGUI.cpp" />
     <ClCompile Include="TileMapGUI.cpp" />
+    <ClCompile Include="ToolCameraGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />

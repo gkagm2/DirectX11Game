@@ -21,6 +21,7 @@
 #include "CImGuiManager.h"
 
 #include "TileMapEditorGUI.h"
+#include "ToolCameraGUI.h"
 
 // Captain Forever Game
 #include "ModuleCreatorGUI_ca.h"
@@ -123,6 +124,9 @@ void MainMenuGUI::Update()
         if (ImGui::BeginMenu("Editor")) {
             if (ImGui::MenuItem("Tile Map Editor")) {
                 OpenTileMapEditor();
+            }
+            if (ImGui::MenuItem("Tool Camera")) {
+                OpenToolCameraUI();
             }
             ImGui::EndMenu();
         }
@@ -339,6 +343,7 @@ CGameObject* MainMenuGUI::_CreateCanvas()
 {
     CGameObject* pUICanvas = _CreateUIGameObject();
     pUICanvas->SetName(STR_OBJ_NAME_UICanvas);
+    pUICanvas->RectTransform()->SetLocalPosition(Vector3(9999.f, 9999.f, 0.f));
     CObject::CreateGameObjectEvn(pUICanvas, NUM_LAYER_UI);
     return pUICanvas;
 }
@@ -353,6 +358,7 @@ CGameObject* MainMenuGUI::_CreateDefaultUICamera()
     pUICameraObj->AddComponent<CTransform>();
     pUICameraObj->AddComponent<CCamera>();
     pUICameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+    pUICameraObj->Camera()->SetSize(1.f);
     pUICameraObj->Camera()->SetLayerCheckAllUnActive();
     pUICameraObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
     TClippingPlanes tCp;
@@ -363,7 +369,7 @@ CGameObject* MainMenuGUI::_CreateDefaultUICamera()
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-    pUICameraObj->Transform()->SetLocalPosition(Vector3(0.f,0.f,0.f));
+    pUICameraObj->Transform()->SetLocalPosition(Vector3(9999.f,9999.f,0.f));
     CObject::CreateGameObjectEvn(pUICameraObj, NUM_LAYER_UI);
     return pUICameraObj;
 }
@@ -389,8 +395,6 @@ void MainMenuGUI::CreateTextUI()
     CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
     if (!pUICanvas)
         pUICanvas = _CreateCanvas();
-
-    // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pTextUIObj, NUM_LAYER_UI);
     CObject::AddChildGameObjectEvn(pUICanvas, pTextUIObj);
 }
@@ -415,8 +419,6 @@ void MainMenuGUI::CreateImageUI()
     CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
     if (!pUICanvas)
         pUICanvas = _CreateCanvas();
-
-    // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pImageUI, NUM_LAYER_UI);
     CObject::AddChildGameObjectEvn(pUICanvas, pImageUI);
 }
@@ -438,14 +440,21 @@ void MainMenuGUI::CreateButtonUI()
     if (!pUICamera)
         pUICamera = _CreateDefaultUICamera();
     
-
     CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
     if (!pUICanvas)
         pUICanvas = _CreateCanvas();
-
-    // UI Camera의 자식 오브젝트로 넣는다.
     CObject::CreateGameObjectEvn(pButtonUIObj, NUM_LAYER_UI);
     CObject::AddChildGameObjectEvn(pUICanvas, pButtonUIObj);
+}
+
+void MainMenuGUI::OpenToolCameraUI()
+{
+    ToolCameraGUI* pGUI = dynamic_cast<ToolCameraGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ToolCamera));
+    if (!pGUI) {
+        assert(nullptr && _T("Tool Camera GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
 }
 
 void MainMenuGUI::OpenModuleCreatorToolWindows()

@@ -107,7 +107,7 @@ CCamera* CRenderManager::GetMainCamera()
 
 CCamera* CRenderManager::GetUICamera()
 {
-	CCamera* pUICam = nullptr;
+	CCamera* pUICam = nullptr;	
 	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
 		for (UINT i = 0; i < m_vecCam.size(); ++i) {
 			if (NUM_LAYER_UI == m_vecCam[i]->GetGameObject()->GetLayer()) {
@@ -123,11 +123,28 @@ CCamera* CRenderManager::GetUICamera()
 	return pUICam;
 }
 
-CCamera* CRenderManager::GetToolCamera()
+CCamera* CRenderManager::GetToolCamera(const tstring& _strObjName)
 {
-	if (m_vecToolCam.empty())
-		return nullptr;
-	return m_vecToolCam[0];
+	CCamera* pToolCam = nullptr;
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+		if (_strObjName == m_vecToolCam[i]->GetGameObject()->GetName()) {
+			pToolCam = m_vecToolCam[i];
+			break;
+		}
+	}
+	return pToolCam;
+}
+
+CCamera* CRenderManager::GetToolUICamera(const tstring& _strObjName)
+{
+	CCamera* pToolCam = nullptr;
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+		if (_strObjName == m_vecToolCam[i]->GetGameObject()->GetName()) {
+			pToolCam = m_vecToolCam[i];
+			break;
+		}
+	}
+	return pToolCam;
 }
 
 void CRenderManager::_CopyBackBuffer()

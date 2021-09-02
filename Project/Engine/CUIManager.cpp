@@ -150,17 +150,15 @@ void CUIManager::Update()
 			}
 		}
 	}
-	static float f = 0.f;
-	static float m = 0.1f;
-	f += DT;
-	if (f > m) {
-		if (m_pCurFocusedUI)
-			_tcprintf(_T("%s\n"), m_pCurFocusedUI->GetGameObject()->GetName().c_str());
-		f = 0.f;
+
+	if (m_pCurFocusedUI) {
+		auto s = m_pCurFocusedUI->GetGameObject()->GetComponent<CUI>();
+		bool b = IsMousePointInUI();
+		_tcprintf(_T("%d\n"), b);
 	}
 }
 
-void CUIManager::GetRootUIObjectsInCanvas(vector<CGameObject*> _vecRootObjs)
+void CUIManager::GetRootUIObjectsInCanvas(vector<CGameObject*>& _vecRootObjs)
 {
 	_vecRootObjs.clear();
 	CScene* pScene = CSceneManager::GetInstance()->GetCurScene();
