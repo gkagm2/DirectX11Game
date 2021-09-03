@@ -11,3 +11,7 @@ extern tstring ComponentTypeToStr(E_ComponentType _eType);
 extern UINT ComponentStrToIdx(const tstring& _strComponent);
 extern tstring ResourceTypeToStr(E_ResourceType _eType);
 extern tstring CameraProjectionTypeToStr(E_ProjectionType _eType);
+
+
+extern Vector4 ChangeColorUintToVector4(UINT _iColor);
+extern UINT ChangeColorVector4ToUint(float _vColor[4]);

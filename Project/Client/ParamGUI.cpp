@@ -169,23 +169,14 @@ bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
 	strLabel += strText;
 
 	UINT iColor = *_iColorInOut;
-	BYTE br = FONT_R_FROM_RGBA(iColor);
-	BYTE bg = FONT_G_FROM_RGBA(iColor);
-	BYTE bb = FONT_B_FROM_RGBA(iColor);
-	BYTE ba = FONT_A_FROM_RGBA(iColor);
-
-	static ImVec4 colf = ImVec4(float(br / 255.f), float(bg / 255.f), float(bb / 255.f), float(ba / 255.f));
+	Vector4 colf = ChangeColorUintToVector4(iColor);
 
 	bool bIsFixed = false;
-	if (ImGui::ColorEdit4(strLabel.c_str(), &colf.x, ImGuiColorEditFlags_InputRGB)) {
-		BYTE r = BYTE(colf.x * 255);
-		BYTE g = BYTE(colf.y * 255);
-		BYTE b = BYTE(colf.z * 255);
-		BYTE a = BYTE(colf.w * 255);
-		iColor = FONT_RGBA(r, g, b, a);
+	if (ImGui::ColorEdit4(_strName.c_str(), &colf.x, ImGuiColorEditFlags_InputRGB)) {
+		iColor = ChangeColorVector4ToUint(&colf.x);
 		bIsFixed = true;
+		*_iColorInOut = iColor;
 	}
-
-	*_iColorInOut = iColor;
+	
 	return bIsFixed;
 }

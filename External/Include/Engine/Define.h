@@ -24,6 +24,16 @@
 #define FIND_GameObject_Layer(objName, layer) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer)
 #define FIND_GameObject(objName) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName)
 
+// Return UINT
+#define COLOR_RGBA(r,g,b,a) (UINT)(((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
+
+// Return BYTE
+#define COLOR_R_FROM_RGBA(iColor) ((BYTE)iColor)
+#define COLOR_G_FROM_RGBA(iColor) ((BYTE)(iColor >> 8))
+#define COLOR_B_FROM_RGBA(iColor) ((BYTE)(iColor >> 16))
+#define COLOR_A_FROM_RGBA(iColor) ((BYTE)(iColor >> 24))
+
+
 // Math
 #define PI 3.14159265f
 

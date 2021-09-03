@@ -3,11 +3,11 @@
 
 CButtonUI::CButtonUI() :
 	CImageUI(E_ComponentType::ButtonUI),
-	m_fNormalColor{ Vector4(0.f,0.f,0.f,1.f) },
-	m_fHighlightedColor{ Vector4(0.f,0.f,0.f,1.f) },
-	m_fPressedColor{ Vector4(0.f,0.f,0.f,1.f) },
-	m_fSelectedColor{ Vector4(0.f,0.f,0.f,1.f) },
-	m_fDisableColor{ Vector4(0.f,0.f,0.f,1.f) },
+	m_iNormalColor{ COLOR_RGBA(0,0,0,255)},
+	m_iHighlightedColor{ COLOR_RGBA(0,0,0,255) },
+	m_iPressedColor{ COLOR_RGBA(0,0,0,255) },
+	m_iSelectedColor{ COLOR_RGBA(0,0,0,255) },
+	m_iDisableColor{ COLOR_RGBA(0,0,0,255) },
 	m_fFadeDuration{ 0.1f}
 {
 }
@@ -18,34 +18,39 @@ CButtonUI::~CButtonUI()
 
 void CButtonUI::FinalUpdate()
 {
+	SharedPtr<CMaterial> pMtrl = GetCloneMaterial();
+	Vector4 colf = ChangeColorUintToVector4(m_iNormalColor);
+	pMtrl->SetData(E_ShaderParam::Vector4_0, &colf);
 }
 
 void CButtonUI::UpdateData()
 {
+	// TODO (Jang) : GPU 버퍼로 보내기
 }
 
 void CButtonUI::Render()
 {
+	CImageUI::Render();
 }
 
 bool CButtonUI::SaveToScene(FILE* _pFile)
 {
-	FWrite(m_fNormalColor, _pFile);
-	FWrite(m_fHighlightedColor, _pFile);
-	FWrite(m_fPressedColor, _pFile);
-	FWrite(m_fSelectedColor, _pFile);
-	FWrite(m_fDisableColor, _pFile);
+	FWrite(m_iNormalColor, _pFile);
+	FWrite(m_iHighlightedColor, _pFile);
+	FWrite(m_iPressedColor, _pFile);
+	FWrite(m_iSelectedColor, _pFile);
+	FWrite(m_iDisableColor, _pFile);
 	FWrite(m_fFadeDuration,_pFile);
 	return true;
 }
 
 bool CButtonUI::LoadFromScene(FILE* _pFile)
 {
-	FRead(m_fNormalColor, _pFile);
-	FRead(m_fHighlightedColor, _pFile);
-	FRead(m_fPressedColor, _pFile);
-	FRead(m_fSelectedColor, _pFile);
-	FRead(m_fDisableColor, _pFile);
+	FRead(m_iNormalColor, _pFile);
+	FRead(m_iHighlightedColor, _pFile);
+	FRead(m_iPressedColor, _pFile);
+	FRead(m_iSelectedColor, _pFile);
+	FRead(m_iDisableColor, _pFile);
 	FRead(m_fFadeDuration, _pFile);
 	return true;
 }

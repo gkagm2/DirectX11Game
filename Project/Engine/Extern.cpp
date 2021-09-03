@@ -176,3 +176,24 @@ tstring CameraProjectionTypeToStr(E_ProjectionType _eType)
 	}
 	return strType;
 }
+
+
+Vector4 ChangeColorUintToVector4(UINT _iColor)
+{
+	BYTE br = COLOR_R_FROM_RGBA(_iColor);
+	BYTE bg = COLOR_G_FROM_RGBA(_iColor);
+	BYTE bb = COLOR_B_FROM_RGBA(_iColor);
+	BYTE ba = COLOR_A_FROM_RGBA(_iColor);
+	Vector4 colf = Vector4(float(br / 255.f), float(bg / 255.f), float(bb / 255.f), float(ba / 255.f));
+	return colf;
+}
+
+UINT ChangeColorVector4ToUint(float _vColor[4])
+{
+	BYTE r = BYTE(_vColor[0] * 255);
+	BYTE g = BYTE(_vColor[1] * 255);
+	BYTE b = BYTE(_vColor[2] * 255);
+	BYTE a = BYTE(_vColor[3] * 255);
+	UINT iColor = COLOR_RGBA(r, g, b, a);
+	return iColor;
+}

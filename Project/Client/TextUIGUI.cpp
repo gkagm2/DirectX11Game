@@ -84,24 +84,8 @@ void TextUIGUI::Update()
 	// Color
 	ImGui::Text("Color##TextUIGUI");
 
-	
-
 	UINT iColor = pTextUI->GetColor();
 	ParamGUI::Render_Color("Color##TextUIGUI", &iColor);
-	/*BYTE br = FONT_R_FROM_RGBA(iColor);
-	BYTE bg = FONT_G_FROM_RGBA(iColor);
-	BYTE bb = FONT_B_FROM_RGBA(iColor);
-	BYTE ba = FONT_A_FROM_RGBA(iColor);
-
-	static ImVec4 colf = ImVec4(float(br / 255.f), float(bg / 255.f), float(bb / 255.f), float(ba / 255.f));
-
-	if (ImGui::ColorEdit4("Color", &colf.x, ImGuiColorEditFlags_InputRGB)) {
-		BYTE r = BYTE(colf.x * 255);
-		BYTE g = BYTE(colf.y * 255);
-		BYTE b = BYTE(colf.z * 255);
-		BYTE a = BYTE(colf.w * 255);
-		iColor = FONT_RGBA(r, g, b, a);
-	}*/
 	pTextUI->SetColor(iColor);
 
 	End();
