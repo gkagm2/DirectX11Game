@@ -9,6 +9,7 @@ ToolCameraGUI::ToolCameraGUI() :
 	m_pTargetObject(nullptr),
 	m_flags(ImGuiSliderFlags_None)
 {
+	_InitComboBox();
 }
 
 ToolCameraGUI::~ToolCameraGUI()
@@ -40,9 +41,19 @@ void ToolCameraGUI::Update()
 		CTransform* pTransform = pToolCam->Transform();
 		PrintPosition(pTransform);
 
+		E_ProjectionType eProjType = pToolCam->GetProjectionType();
+
+		// 콤보로 표현하기
+		static int iCurItem = (int)eProjType;
+		if (ParamGUI::Render_ComboBox("Camera Type", &iCurItem, m_strList)) {
+			eProjType = (E_ProjectionType)iCurItem;
+			pToolCam->SetProjectionType(eProjType);
+		}
+
+		ImGui::Separator();
 
 		CCamera* pToolUICam = CRenderManager::GetInstance()->GetToolUICamera();
-		TStringToString(pToolCam->GetGameObject()->GetName(), strObjName);
+		TStringToString(pToolUICam->GetGameObject()->GetName(), strObjName);
 		ImGui::Text("%s", strObjName.c_str());
 
 		pTransform = pToolUICam->Transform();
@@ -108,4 +119,18 @@ void ToolCameraGUI::PrintPosition(CTransform* pTransform)
 	ImGui::DragFloat(strLabel.c_str(), &vTrans.z, 0.1f, -FLT_MAX, +FLT_MAX, "%.2f", m_flags);
 
 	pTransform->SetLocalPosition(vTrans);
+}
+
+void ToolCameraGUI::_InitComboBox()
+{
+	// Combo Box의 리스트 생성
+	vector<string> vecList;
+
+	string strState;
+	for (UINT i = 0; i < PROJECTION_TYPE_COUNT; ++i) {
+		TStringToString(CameraProjectionTypeToStr((E_ProjectionType)i), strState);
+		vecList.push_back(strState);
+	}
+
+	ParamGUI::Make_ComboBoxList(vecList, m_strList);
 }

@@ -2,6 +2,7 @@
 #include "CameraGUI.h"
 #include <Engine\CCamera.h>
 #include <Engine\CGameObject.h>
+#include "ParamGUI.h"
 
 CameraGUI::CameraGUI() :
 	ComponentGUI(E_ComponentType::Camera)
@@ -31,7 +32,7 @@ void CameraGUI::Update()
 
 	// 콤보로 표현하기
 	static int iCurItem = (int)eCamType;
-	ImGui::Combo("Camera Type", &iCurItem, m_strList.data(), m_strList.size());
+	ParamGUI::Render_ComboBox("Camera Type", &iCurItem, m_strList);
 	eCamType = (E_ProjectionType)iCurItem;
 
 	pCam->SetProjectionType(eCamType);
@@ -125,12 +126,13 @@ void CameraGUI::_ShowOrthographicUI()
 void CameraGUI::_InitComboBox()
 {
 	// Combo Box의 리스트 생성
+	vector<string> vecList;
+	
 	string strState;
 	for (UINT i = 0; i < PROJECTION_TYPE_COUNT; ++i) {
 		TStringToString(CameraProjectionTypeToStr((E_ProjectionType)i), strState);
-		for (UINT j = 0; j < strState.size(); ++j)
-			m_strList.push_back(strState[j]);
-		m_strList.push_back('\0');
+		vecList.push_back(strState);
 	}
-	m_strList.push_back('\0');
+	
+	ParamGUI::Make_ComboBoxList(vecList, m_strList);
 }

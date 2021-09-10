@@ -25,6 +25,7 @@ VTX_OUT VS_Std2D(VTX_IN _in)
 {
 	VTX_OUT output = (VTX_OUT)0.f; // 초기화
 	
+    // 1.0f -> 이동 파트 적용
     float4 vProjPos = mul(float4(_in.vPosition, 1.0f), g_matWorldViewProj);
     
 	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    

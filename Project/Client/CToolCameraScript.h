@@ -17,6 +17,9 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	void UpdateOrthographic(CCamera* _pCamera);
+	void UpdatePerspective(CCamera* _pCamera);
+
 public:
 	CLONE(CToolCameraScript);
 	CToolCameraScript();

@@ -22,7 +22,7 @@
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
 	m_eProjectionType(E_ProjectionType::Perspective),
-	m_tFOVAxis{60.f, 67.f},
+	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45도 60도
 	m_fSize{ 0.02f },
 	m_tClippingPlanes{ 1.f, 1000.f },
 	m_tViewportRect{0.f,0.f,1.f,1.f},
@@ -104,14 +104,35 @@ float CCamera::GetDistancePerFixel()
 void CCamera::CalculateViewMatrix()
 {
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
-	m_matView = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
+
+	Matrix matTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
+
+	Vector3 vRight = Transform()->GetRightVector();
+	Vector3 vUp = Transform()->GetUpVector();
+	Vector3 vFront = Transform()->GetFrontVector();
+
+	Matrix matRevolution = XMMatrixIdentity(); // 공전 (회전 량)
+	matRevolution._11 = vRight.x; matRevolution._12 = vUp.x; matRevolution._13 = vFront.x;
+	matRevolution._21 = vRight.y; matRevolution._22 = vUp.y; matRevolution._23 = vFront.y;
+	matRevolution._31 = vRight.z; matRevolution._32 = vUp.z; matRevolution._33 = vFront.z;
+
+	// 회전 행렬 구하기
+	m_matView = matTrans * matRevolution;
 }
 
 void CCamera::CalculateProjectionMatrix()
 {
 	const Vector2& vRenderResolution = CDevice::GetInstance()->GetRenderResolution();
+	if (E_ProjectionType::Orthographic == m_eProjectionType) {
+		m_matProjection = XMMatrixOrthographicLH(vRenderResolution.x * m_fSize, vRenderResolution.y * m_fSize, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
+	}
+	else if (E_ProjectionType::Perspective == m_eProjectionType) {
+		// 화면 종횡비
 
-	m_matProjection = XMMatrixOrthographicLH(vRenderResolution.x * m_fSize, vRenderResolution.y * m_fSize, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
+		float fFov = XM_PI / 3.f;
+		float fAspectRatio = vRenderResolution.x / vRenderResolution.y;
+		m_matProjection = XMMatrixPerspectiveFovLH(fFov, fAspectRatio, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
+	}
 }
 
 bool CCamera::SaveToScene(FILE* _pFile)

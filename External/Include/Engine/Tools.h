@@ -322,7 +322,6 @@ public:
 
 */
 
-
 class CMyMath {
 public:
 	static float GetDistance(const Vector3& v1, const Vector3& v2) {

@@ -75,6 +75,12 @@ void CTransform::FinalUpdate()
 
 	m_matWorld = m_matLocal = matScale * matRot * matTrans;
 
+	// 회전
+	// Local 방향 업데이트 (우 상 전)
+	m_vWorldRightDir = m_vLocalRightDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Right, matRot));
+	m_vWorldUpDir = m_vLocalUpDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Up, matRot));
+	m_vWorldFrontDir = m_vLocalFrontDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Front, matRot));
+
 	CGameObject* pParentObj = GetGameObject()->GetParentObject();
 	if (pParentObj) {
 		if (pParentObj->RectTransform()) {
@@ -85,6 +91,11 @@ void CTransform::FinalUpdate()
 			const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix();
 			m_matWorld *= matParentWorld;
 		}
+
+		// 부모상태까지 적용시킨 월드 방향 정보
+		m_vWorldRightDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Right, matRot));
+		m_vWorldUpDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Up, matRot));
+		m_vWorldFrontDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Front, matRot));
 	}
 
 	// Canvas Renderer, 2D Sprite Renderer
@@ -111,7 +122,7 @@ void CTransform::FinalUpdate()
 		}
 		else {
 			const Matrix& matParentWorld = pParentObj->Transform()->GetWorldMatrix();
-			m_matWorld_noParentScale *= matParentWorld;
+			m_matWorld_noParentScale *= matParentWorld; 
 		}
 	}
 }

@@ -5,8 +5,8 @@ class CTransform;
 class ToolCameraGUI : public GUI
 {
 private:
+	vector<char> m_strList;
 	CGameObject* m_pTargetObject;
-
 	ImGuiSliderFlags m_flags;
 public:
 	virtual void Init();
@@ -18,6 +18,9 @@ protected:
 public:
 	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObject = _pTargetObj; }
 	CGameObject* GetTargetObject() { return m_pTargetObject; }
+
+private:
+	void _InitComboBox();
 
 public:
 	ToolCameraGUI();

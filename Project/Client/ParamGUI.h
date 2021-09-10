@@ -14,6 +14,8 @@ public:
 
 	static bool Render_Color(const string& _strName, UINT* _iColorInOut);
 
+	static void Make_ComboBoxList(const vector<string>& _inStrList, vector<char>& _outStrList);
+	static bool Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& m_strList);
 public:
 	ParamGUI();
 	virtual ~ParamGUI();

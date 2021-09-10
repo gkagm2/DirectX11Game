@@ -8,6 +8,14 @@ protected:
 	Vector3 m_vLocalScale;
 	Vector3 m_vLocalRotation;	// Radian임
 
+	Vector3 m_vLocalUpDir;
+	Vector3 m_vLocalFrontDir;
+	Vector3 m_vLocalRightDir;
+
+	Vector3 m_vWorldUpDir;
+	Vector3 m_vWorldFrontDir;
+	Vector3 m_vWorldRightDir;
+
 	Matrix m_matLocal;
 	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
 
@@ -16,7 +24,7 @@ public:
 	const Vector3& GetLocalPosition() const { return m_vLocalPosition; }
 	Vector3 GetPosition() { return m_matWorld.Translation(); }
 	
-	void SetLocalScale(const Vector3& _vScale) { m_vLocalScale = _vScale; }
+	void SetLocalScale(const Vector3& _vScale) { m_vLocalScale = _vScale; } 
 	const Vector3& GetLocalScale() const { return m_vLocalScale; }
 	Vector3 GetScale();
 
@@ -34,22 +42,14 @@ public:
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
 
-	const Vector3& GetUpVector() {
-		Vector3 vUpVec = XMVector3TransformCoord(Vector3{ 0.f,1.f,0.f }, GetWorldMatrix());
-		return  vUpVec.Normalize();
-	}
-	const Vector3& GetRightVector() {
-		Vector3 vRightVec = XMVector3TransformCoord(Vector3{ 1.f,0.f,0.f }, GetWorldMatrix());
-		return vRightVec.Normalize();
-	}
-	const Vector3& GetLeftVector() {
-		Vector3 vLeftVec = XMVector3TransformCoord(Vector3{ -1.f, 0.f, 0.f }, GetWorldMatrix());
-		return vLeftVec.Normalize();
-	}
-	const Vector3& GetDownVector() {
-		Vector3 vDownVec = XMVector3TransformCoord(Vector3{ 0.f, -1.f, 0.f }, GetWorldMatrix());
-		return vDownVec.Normalize();
-	}
+
+	const Vector3& GetRightVector() { return m_vWorldRightDir; }
+	const Vector3& GetUpVector() { return m_vWorldUpDir; }
+	const Vector3& GetFrontVector() { return m_vWorldFrontDir; }
+
+	const Vector3& GetLocalRightVector() { return m_vLocalRightDir; }
+	const Vector3& GetLocalUpVector() {	return m_vLocalUpDir; }
+	const Vector3& GetLocalFrontVector() { return m_vLocalFrontDir; }
 
 protected:
 	// CanvasRenderer에서 이용

@@ -180,3 +180,20 @@ bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
 	
 	return bIsFixed;
 }
+
+void ParamGUI::Make_ComboBoxList(const vector<string>& _inStrList, vector<char>& _outStrList)
+{
+	for (UINT i = 0; i < _inStrList.size(); ++i) {
+		for (UINT j = 0; j < _inStrList[i].size(); ++j)
+			_outStrList.push_back(_inStrList[i][j]);
+		_outStrList.push_back('\0');
+	}
+	_outStrList.push_back('\0');
+}
+
+bool ParamGUI::Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& _strList)
+{
+	if (ImGui::Combo(_strName.c_str(), &(*_piCurItem), _strList.data(), _strList.size()))
+		return true;
+	return false;
+}
