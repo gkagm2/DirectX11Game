@@ -12,21 +12,21 @@ CRigidbody2D::~CRigidbody2D()
 
 void CRigidbody2D::PrevUpdate()
 {
-	if (false == GetActive())
+	if (false == GetGameObject()->IsActive())
 		return;
 	CRigidbody::PrevUpdate();
 }
 
 void CRigidbody2D::Update()
 {
-	if (false == GetActive())
+	if (false == GetGameObject()->IsActive())
 		return;
 	CRigidbody::Update();
 }
 
 void CRigidbody2D::LateUpdate()
 {
-	if (false == GetActive())
+	if (false == GetGameObject()->IsActive())
 		return;
 	CRigidbody::LateUpdate();
 }

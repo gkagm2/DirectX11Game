@@ -207,6 +207,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CMouseManager.h" />
     <ClInclude Include="CParticleSystem.h" />
     <ClInclude Include="CParticleUpdateShader.h" />
+    <ClInclude Include="CPathFinding.h" />
     <ClInclude Include="CPrefab.h" />
     <ClInclude Include="CRectTransform.h" />
     <ClInclude Include="CRenderer.h" />
@@ -278,6 +279,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CMouseManager.cpp" />
     <ClCompile Include="CParticleSystem.cpp" />
     <ClCompile Include="CParticleUpdateShader.cpp" />
+    <ClCompile Include="CPathFinding.cpp" />
     <ClCompile Include="CPrefab.cpp" />
     <ClCompile Include="CRectTransform.cpp" />
     <ClCompile Include="CRenderer.cpp" />

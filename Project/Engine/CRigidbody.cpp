@@ -18,8 +18,7 @@ CRigidbody::CRigidbody(E_ComponentType _eType) :
 	m_bIsFrictionActive(true),
 	m_vGracityAccel(0.0f, 9.80665f, 0.0f),
 	m_bUseGravity(false),
-	m_bIsKinematic(false),
-	m_bIsActive(true)
+	m_bIsKinematic(false)
 {
 }
 
@@ -36,8 +35,7 @@ CRigidbody::CRigidbody(const CRigidbody& _other) :
 	m_bIsFrictionActive( _other.m_fFriction),
 	m_vGracityAccel{ _other.m_vGracityAccel },
 	m_bUseGravity( _other.m_bUseGravity),
-	m_bIsKinematic( _other.m_bIsKinematic),
-	m_bIsActive(_other.m_bIsActive)
+	m_bIsKinematic( _other.m_bIsKinematic)
 {
 	// TODO : OwnerObject Setting
 }
@@ -48,8 +46,6 @@ CRigidbody::~CRigidbody()
 
 void CRigidbody::PrevUpdate()
 {
-	if (false == m_bIsActive)
-		return;
 	m_vForce = Vector3(0.f,0.f,0.f);
 }
 
@@ -59,14 +55,10 @@ void CRigidbody::Update()
 		return;
 	if (m_bIsKinematic)
 		return;
-	if (false == m_bIsActive)
-		return;
 }
 
 void CRigidbody::LateUpdate()
 {
-	if (false == m_bIsActive)
-		return;
 	if (nullptr == GetGameObject())
 		return;
 	if (m_bIsKinematic)
@@ -106,4 +98,37 @@ void CRigidbody::LateUpdate()
 
 	Vector3 vObjPos = GetGameObject()->Transform()->GetPosition();
 	GetGameObject()->Transform()->SetLocalPosition(vObjPos - m_vVelocity);
+}
+
+bool CRigidbody::SaveToScene(FILE* _pFile)
+{
+	CComponent::SaveToScene(_pFile);
+	FWrite(m_vForce, _pFile);
+	FWrite(m_fMass, _pFile);
+	FWrite(m_fDrag, _pFile);
+	FWrite(m_fMaxSpeed, _pFile);
+	FWrite(m_fFriction, _pFile);
+	FWrite(m_bIsFrictionActive, _pFile);
+	FWrite(m_vGracityAccel, _pFile);
+	FWrite(m_bUseGravity, _pFile);
+	FWrite(m_bIsKinematic, _pFile);
+
+	return true;
+}
+
+bool CRigidbody::LoadFromScene(FILE* _pFile)
+{
+	CComponent::LoadFromScene(_pFile);
+
+	FRead(m_vForce, _pFile);
+	FRead(m_fMass, _pFile);
+	FRead(m_fDrag, _pFile);
+	FRead(m_fMaxSpeed, _pFile);
+	FRead(m_fFriction, _pFile);
+	FRead(m_bIsFrictionActive, _pFile);
+	FRead(m_vGracityAccel, _pFile);
+	FRead(m_bUseGravity, _pFile);
+	FRead(m_bIsKinematic, _pFile);
+
+	return true;
 }

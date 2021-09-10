@@ -11,7 +11,10 @@ private:
 	SharedPtr<CMaterial> m_pMaterial;
 
 	CStructuredBuffer* m_pTileMapBuffer;
-	vector<TTileInfo> m_vecTiles;
+	vector<TTileInfo> m_vecTilesInfo; // 아틀라스 텍스쳐의 타일
+
+	vector<TTileInfo> m_vecTiles; // 사용자가 생성한 타일
+
 
 	// 생성할 Tile의 개수
 	int m_iTileCol;
@@ -55,8 +58,12 @@ public:
 		m_iAtlasTileCol = _iCol;
 		m_iAtlasTileRow = _iRow;
 	}
+	int GetAtlasTileCol() { return m_iAtlasTileCol; }
+	int GetAtlasTileRow() { return m_iAtlasTileRow; }
 
+	vector<TTileInfo>& GetAtlasTileInfo() { return m_vecTilesInfo; }
 public:
+	void SetTile(UINT _iX, UINT _iY, UINT _iIdx);
 
 
 public:

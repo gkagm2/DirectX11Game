@@ -10,7 +10,8 @@
 TileMapEditorGUI::TileMapEditorGUI() :
 	m_pTargetObject(nullptr),
 	m_iFaceSize{},
-	m_iAtlasTileColRowSize{}
+	m_iAtlasTileColRowSize{},
+	m_fTileSize(20.f)
 {
 }
 
@@ -102,8 +103,19 @@ void TileMapEditorGUI::Update()
 		// 세팅하는것.
 		// 다른 탭은 그 텍스쳐를 이용해서 타일을 까는 것
 
+		ImGui::DragFloat("Size", &m_fTileSize, 0.2f, 2.0f, 100.0f, "%.0f");
 
+		int iTexCol = pTileMap->GetAtlasTileCol();
+		int iTexRow = pTileMap->GetAtlasTileRow();
 
+		vector<TTileInfo>& vecAtlasTileInfo = pTileMap->GetAtlasTileInfo();
+
+		for (int i = 0; i < iTexRow; ++i) {
+			for (int j = 0; j < iTexCol; ++j) {
+				_RenderTileMap("TileMap&&Texture", pTileMap->GetAtlasTexture().Get(), this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTileMap, vecAtlasTileInfo[i * iTexCol + j]);
+			}
+			ImGui::Spacing();
+		}
 
 		ImGui::PushItemWidth(-ImGui::GetFontSize() * 15);
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
@@ -206,6 +218,29 @@ void TileMapEditorGUI::Update()
     
 }
 
+void TileMapEditorGUI::_SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE)
+{
+}
+
+bool TileMapEditorGUI::_RenderTileMap(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, TTileInfo& _tTileInfo)
+{
+	// ButtonOn을 false로 할 경우 pInst와 pFunc는 nullptr로 한다.
+	ImVec2 uv_min = ImVec2(_tTileInfo.vLeftTopUV.x, _tTileInfo.vLeftTopUV.y); // top left
+	ImVec2 uv_max = ImVec2(_tTileInfo.vRightBottomUV.x, _tTileInfo.vRightBottomUV.y); // bottom right
+	ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);         // Black background
+	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);       // No tint
+
+	ImTextureID tex_id = 0;
+	if (nullptr != _pTex)
+		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
+
+	ImGui::ImageButton(tex_id, ImVec2(m_fTileSize, m_fTileSize), uv_min, uv_max, -1 , bg_col, tint_col);
+
+	ImGui::SameLine();
+
+	return true;
+}
+
 void TileMapEditorGUI::_SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)
 {
 	// 선택한 텍스쳐를 알아낸다.
@@ -223,4 +258,5 @@ void TileMapEditorGUI::_Clear()
 {
 	m_iFaceSize[0] = m_iFaceSize[1] = 0;
 	m_iAtlasTileColRowSize[0] = m_iAtlasTileColRowSize[1] = 0;
+	m_fTileSize = 20.f;
 }

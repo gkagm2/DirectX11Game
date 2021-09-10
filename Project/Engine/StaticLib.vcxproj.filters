@@ -211,6 +211,9 @@
     <ClInclude Include="CCanvasRenderer.h">
       <Filter>Engine\07. Component\Renderer\CanvasRender</Filter>
     </ClInclude>
+    <ClInclude Include="CPathFinding.h">
+      <Filter>Engine\11. Functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -404,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="CCanvasRenderer.cpp">
       <Filter>Engine\07. Component\Renderer\CanvasRender</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathFinding.cpp">
+      <Filter>Engine\11. Functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

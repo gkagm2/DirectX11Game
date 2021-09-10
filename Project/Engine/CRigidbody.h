@@ -22,12 +22,15 @@ private:
 	bool m_bUseGravity; // 중력 사용 플래그
 	bool m_bIsKinematic; // 물리 효과 없애기 플래그
 
-	bool m_bIsActive;
 
 public:
 	virtual void PrevUpdate();
 	virtual void Update();
 	virtual void LateUpdate();
+
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	void SetMaxSpeed(float _fMaxSpeed) { m_fMaxSpeed = _fMaxSpeed; } // 최대 속도
@@ -49,10 +52,6 @@ public:
 	void AddForce(Vector3 _vForce) { m_vForce += _vForce; } // 힘을 추가하다.
 	void AddVelocity(Vector3 _vVelocity) { m_vVelocity += _vVelocity; } // 속도를 추가하다.
 	const Vector3& GetForce() { return m_vForce; } //read only
-
-public:
-	bool GetActive() { return m_bIsActive; }
-	void SetActive(bool _bIsActive) { m_bIsActive = _bIsActive; }
 
 protected:
 	CRigidbody(const CRigidbody& _other);

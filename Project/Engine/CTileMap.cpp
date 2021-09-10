@@ -60,32 +60,32 @@ void CTileMap::Render()
 
 void CTileMap::_RenderInit()
 {
-	m_pTileMapBuffer->SetData(m_vecTiles.data(), (UINT)m_vecTiles.size());
+	m_pTileMapBuffer->SetData(m_vecTilesInfo.data(), (UINT)m_vecTilesInfo.size());
 	m_pTileMapBuffer->UpdateData(REGISTER_NUM_TileMapBuffer);
 }
 
 void CTileMap::SaperateTile()
 {
 	Vector2 vAtlasTexSize = m_pAtlasTexture.Get()->GetDimension();
-	Vector2 m_vEachAtlasTexSize;
-	m_vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
-	m_vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
+	Vector2 vEachAtlasTexSize;
+	vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
+	vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
 
-	m_vecTiles.clear();
+	m_vecTilesInfo.clear();
 	for (int y = 0; y < m_iAtlasTileRow; ++y) {
 		for (int x = 0; x < m_iAtlasTileCol; ++x) {
 			TTileInfo tTileInfo = {};
-			tTileInfo.vLeftTop = Vector2(x * m_vEachAtlasTexSize.x, y * m_vEachAtlasTexSize.y);
-			tTileInfo.vLeftTopUV = Vector2(x * m_vEachAtlasTexSize.x / vAtlasTexSize.x, y * m_vEachAtlasTexSize.y / vAtlasTexSize.y);
-			tTileInfo.vRightBottom = Vector2((x * m_vEachAtlasTexSize.x + m_vEachAtlasTexSize.x), (y * m_vEachAtlasTexSize.y + m_vEachAtlasTexSize.y));
-			tTileInfo.vRightBottomUV = Vector2((x * m_vEachAtlasTexSize.x + m_vEachAtlasTexSize.x) / vAtlasTexSize.x, (y * m_vEachAtlasTexSize.y + m_vEachAtlasTexSize.y) / vAtlasTexSize.y);
-			tTileInfo.vTileSize = Vector2(m_vEachAtlasTexSize);
-			tTileInfo.vTileSizeUV = Vector2(m_vEachAtlasTexSize / vAtlasTexSize);
-			m_vecTiles.push_back(tTileInfo);
+			tTileInfo.vLeftTop = Vector2(x * vEachAtlasTexSize.x, y * vEachAtlasTexSize.y);
+			tTileInfo.vLeftTopUV = Vector2(x * vEachAtlasTexSize.x / vAtlasTexSize.x, y * vEachAtlasTexSize.y / vAtlasTexSize.y);
+			tTileInfo.vRightBottom = Vector2((x * vEachAtlasTexSize.x + vEachAtlasTexSize.x), (y * vEachAtlasTexSize.y + vEachAtlasTexSize.y));
+			tTileInfo.vRightBottomUV = Vector2((x * vEachAtlasTexSize.x + vEachAtlasTexSize.x) / vAtlasTexSize.x, (y * vEachAtlasTexSize.y + vEachAtlasTexSize.y) / vAtlasTexSize.y);
+			tTileInfo.vTileSize = Vector2(vEachAtlasTexSize);
+			tTileInfo.vTileSizeUV = Vector2(vEachAtlasTexSize / vAtlasTexSize);
+			m_vecTilesInfo.push_back(tTileInfo);
 		}
 	}
 
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTiles.size());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTilesInfo.size());
 }
 
 void CTileMap::SetTileFaceSize(int _iCol, int _iRow)
@@ -98,6 +98,25 @@ void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture)
 {
 	m_pAtlasTexture = _pAtlasTexture;
 	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pAtlasTexture.Get());
+}
+
+void CTileMap::SetTile(UINT _iX, UINT _iY, UINT _iIdx)
+{
+	Vector2 vAtlasTexSize = m_pAtlasTexture.Get()->GetDimension();
+	Vector2 vEachAtlasTexSize;
+	vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
+	vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
+
+
+	TTileInfo tTileInfo = {};
+	tTileInfo.vLeftTop = Vector2(_iX * vEachAtlasTexSize.x, _iY * vEachAtlasTexSize.y);
+	tTileInfo.vLeftTopUV = Vector2(_iX * vEachAtlasTexSize.x / vAtlasTexSize.x, _iY * vEachAtlasTexSize.y / vAtlasTexSize.y);
+	tTileInfo.vRightBottom = Vector2((_iX * vEachAtlasTexSize.x + vEachAtlasTexSize.x), (_iY * vEachAtlasTexSize.y + vEachAtlasTexSize.y));
+	tTileInfo.vRightBottomUV = Vector2((_iX * vEachAtlasTexSize.x + vEachAtlasTexSize.x) / vAtlasTexSize.x, (_iY * vEachAtlasTexSize.y + vEachAtlasTexSize.y) / vAtlasTexSize.y);
+	tTileInfo.vTileSize = Vector2(vEachAtlasTexSize);
+	tTileInfo.vTileSizeUV = Vector2(vEachAtlasTexSize / vAtlasTexSize);
+
+	m_vecTilesInfo.push_back(tTileInfo);
 }
 
 bool CTileMap::SaveToScene(FILE* _pFile)

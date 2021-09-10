@@ -191,6 +191,7 @@ enum class E_ComponentType {
 // TODO (Jang) : 환경설정 파일을 따로 만들어볼까
 
 #define NUM_LAYER_UI 31
+#define NUM_LAYER_TILEMAP 29
 
 #define _CAPTAIN_FOREVER_GAME
 //
