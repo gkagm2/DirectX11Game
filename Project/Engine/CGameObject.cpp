@@ -303,6 +303,13 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	// 소속된 레이어가 없으면 부모 오브젝트의 레이어로 설정.
 	if (MAX_SIZE_LAYER == _pChildObj->GetLayer())
 		_pChildObj->_SetLayer(GetLayer());
+
+	Vector3 vLocalScale = Vector3::One;
+	if (Transform())
+		vLocalScale = Transform()->GetLocalScale();
+
+	if (_pChildObj->Transform())
+		_pChildObj->Transform()->_ReUpdate(vLocalScale);
 }
 
 void CGameObject::_RegisterLayer()
@@ -328,7 +335,7 @@ void CGameObject::_UnlinkParentGameObject()
 
 	if (nullptr == m_pParentObj)
 		return;
-	
+
 	vector<CGameObject*>& vecChild = m_pParentObj->_GetChildsObjectRef();
 	vector<CGameObject*>::iterator iter = vecChild.begin();
 
@@ -338,8 +345,15 @@ void CGameObject::_UnlinkParentGameObject()
 			break;
 		}
 	}
+	Vector3 vLocalScale = Vector3::One;
+	if (m_pParentObj->Transform())
+		vLocalScale = m_pParentObj->Transform()->GetLocalScale();
+
 
 	m_pParentObj = nullptr;
+
+	if (Transform())
+		Transform()->_UnlinkParent(vLocalScale);
 }
 
 bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)

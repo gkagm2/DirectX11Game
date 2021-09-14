@@ -282,6 +282,11 @@ struct VTX_UI_OUT
     float fInstID : FOG; // 인스턴싱 ID
 };
 
+/////
+// UI
+#define vUiColor g_vec4_0
+/////
+
 ////////////////
 // Vertex shader
 ////////////////
@@ -321,8 +326,11 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
             clip(-1);
     }
     else if (bTex_0)
+    {
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-    
+    }
+    // 색상을 혼합해야 되는데..
+    vOutColor = vOutColor * vUiColor;
     return vOutColor;
 }
 

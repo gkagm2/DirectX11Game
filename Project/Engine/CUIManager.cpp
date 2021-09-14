@@ -49,8 +49,6 @@ void CUIManager::Update()
 		m_pPointDownUI = nullptr;
 	}
 
-	_tcprintf(_T("%.2f %.2f\n"), MousePosition.x, MousePosition.y);
-
 	// TODO (Jang) : 난 이것을 z값을 이용해서 만들 것임.
 	// 맨 끝에 있는 UI를 눌렀으면 Press 이벤트가 발생하게 한다.
 	for (int i = iUICnt - 1; i >= 0; --i) {

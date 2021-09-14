@@ -154,6 +154,8 @@ TModuleConnector_ca& CModuleScript_ca::MainConnector()
 			return vecConnectors[i];
 		}
 	}
+	assert(nullptr);
+	return vecConnectors[0];
 }
 
 const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()

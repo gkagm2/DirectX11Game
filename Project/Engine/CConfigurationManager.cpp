@@ -39,8 +39,8 @@ void CConfigurationManager::Load()
 
 void CConfigurationManager::SaveLayer()
 {
-	FILE* pFile;
-	errno_t err;
+	/*FILE* pFile;
+	errno_t err;*/
 	//err = _tfopen_s(&pFile, m_strLayerFileName.c_str(), _T("")
 }
 

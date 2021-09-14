@@ -73,6 +73,10 @@ public:
 	Vector3 GetLocalScale_RectTR() { return m_vLocalScale_RT; }
 
 public:
+	void _ReUpdate(const Vector3& vParentLocalScale = Vector3::One);
+	void _UnlinkParent(const Vector3& vParentLocalScale = Vector3::One);
+
+public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override;
 

@@ -140,6 +140,7 @@ int CDevice::CreateSwapChain() {
 	// 창모드 설정
 	tDesc.Windowed = m_bWindowMode;
 
+	// Font, back 버퍼가 Swap할 때 방식
 	// 이 플래그를 사용하여 비트 블록 전송 (bitblt) 모델을 지정하고 DXGI가 IDXGISwapChain1 :: Present1 을 호출 한 후 백 버퍼의 내용을 삭제하도록 지정
 	tDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; 
 

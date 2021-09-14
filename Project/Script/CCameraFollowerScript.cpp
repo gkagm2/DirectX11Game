@@ -17,9 +17,7 @@ void CCameraFollowerScript::Awake()
 {
 	assert(Camera());
 	m_pTargetObj = FIND_GameObject(_T("Player"));
-	//assert(m_pTargetObj);
-	if (nullptr == m_pTargetObj)
-		_tcprintf(_T("[Warning]CCameraFollowerScript Å¸°Ù ÄÄÆ÷³ÍÆ®°¡ ¾øÀ½\n"));
+	assert(m_pTargetObj);
 }
 
 void CCameraFollowerScript::Update()

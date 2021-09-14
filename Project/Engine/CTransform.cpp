@@ -59,6 +59,34 @@ Vector3 CTransform::GetScale()
 	return vWorldScale;
 }
 
+void CTransform::_ReUpdate(const Vector3& vParentLocalScale)
+{
+	Vector3 vLocalScale = m_vLocalScale;
+	Vector3 fDefaultParentScale = vParentLocalScale;
+	if (GetGameObject()->GetParentObject()) {
+		fDefaultParentScale = GetScale();
+	}
+	m_vLocalScale = (vLocalScale / fDefaultParentScale) * m_vLocalScale;
+}
+
+void CTransform::_UnlinkParent(const Vector3& vParentLocalScale)
+{
+	Vector3 vScale;
+	vScale.x = 1.f / vParentLocalScale.x;
+	vScale.y = 1.f / vParentLocalScale.y;
+	vScale.z = 1.f / vParentLocalScale.z;
+	m_vLocalScale = m_vLocalScale / vScale;
+
+	// 월드 좌표를 로컬좌표로 넣는다.
+	Vector3 vWorldPos = GetPosition();
+	Vector3 vLocalPos = GetLocalPosition();
+	vLocalPos = vWorldPos;
+	SetLocalPosition(vLocalPos);
+
+	// 월드 회전을 로컬 회전으로 넣는다.
+	Vector3 vLocalLotation = GetLocalRotation();
+}
+
 void CTransform::FinalUpdate()
 {
 	// 크기 행렬

@@ -5,9 +5,12 @@
 #include "CMesh.h"
 #include "CResourceManager.h"
 
+#include "CDevice.h"
+#include "CConstBuffer.h"
+
 CImageUI::CImageUI() :
 	CUI(E_ComponentType::ImageUI),
-	m_iColor{COLOR_RGBA(0,0,0,255)}
+	m_iColor{COLOR_RGBA(255,255,255,255)}
 {
 	// 일단 기본은 CanvasMaterial을 이용한다.
 	m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
@@ -16,7 +19,7 @@ CImageUI::CImageUI() :
 
 CImageUI::CImageUI(E_ComponentType _eType) :
 	CUI(_eType),
-	m_iColor{ COLOR_RGBA(0,0,0,255) }
+	m_iColor{ COLOR_RGBA(255,255,255,255) }
 {
 	// 일단 기본은 CanvasMaterial을 이용한다.
 	m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
@@ -29,6 +32,8 @@ CImageUI::~CImageUI()
 
 void CImageUI::FinalUpdate()
 {
+	Vector4 vColorRGBA = ChangeColorUintToVector4(m_iColor); // 색상을 Vector4로 변환
+	m_pMtrl->SetData(E_ShaderParam::Vector4_0, vColorRGBA);
 }
 
 void CImageUI::UpdateData()

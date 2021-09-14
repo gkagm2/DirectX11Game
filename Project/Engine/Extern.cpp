@@ -201,3 +201,5 @@ UINT ChangeColorVector4ToUint(float _vColor[4])
 const Vector3 Vector3::Right = Vector3(1.f, 0.f, 0.f);
 const Vector3 Vector3::Up = Vector3(0.f, 1.f, 0.f);
 const Vector3 Vector3::Front = Vector3(0.f, 0.f, 1.f);
+const Vector3 Vector3::Zero = Vector3(0.f, 0.f, 0.f);
+const Vector3 Vector3::One = Vector3(1.f, 1.f, 1.f);

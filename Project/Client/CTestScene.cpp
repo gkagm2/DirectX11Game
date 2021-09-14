@@ -255,8 +255,6 @@ void CTestScene::CaptainForever()
 		tstring key = iter->first;
 		tstring key1 = iter->second->GetKey();
 		tstring name = iter->second->GetName();
-
-		_tcprintf(_T("[%s]\n[%s]\n[%s]\n\n"), key.c_str(), key1.c_str(), name.c_str());
 	}
 }
 

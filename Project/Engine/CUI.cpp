@@ -158,7 +158,7 @@ Vector2 CUI::GetMax()
     assert(RectTransform() && _T("RectTransform ¾øÀ½"));
     Vector3 vPos = RectTransform()->GetPosition();
     float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5;
+    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5f;
 
     Vector3 vMax;
     vMax.x = vPos.x + fHalfWidth;

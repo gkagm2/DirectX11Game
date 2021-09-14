@@ -710,6 +710,7 @@ bool CResourceManager::_ChangeResourceKey(const tstring& _strOldKey, const tstri
 		return bIsChangedName;
 	}
 	m_bFixed = true;
+	return m_bFixed;
 }
 
 bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType)
