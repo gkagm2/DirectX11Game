@@ -9,7 +9,6 @@ COrthogonalLineScript::COrthogonalLineScript() :
 	m_vZDir{Vector3::Front},
 	m_fLength{3.f}
 {
-		
 }
 
 COrthogonalLineScript::~COrthogonalLineScript()
@@ -43,14 +42,9 @@ void COrthogonalLineScript::Start()
 
 void COrthogonalLineScript::Update()
 {
+	// TODO (Jang) : Line Strip Rendering
 	// Draw Line
-	m_pCloneMtrl->UpdateData();
-
-}
-
-void COrthogonalLineScript::AddLine(vector<VTX>& _vecLineVertex)
-{
-
+	//m_pCloneMtrl->UpdateData();
 
 }
 

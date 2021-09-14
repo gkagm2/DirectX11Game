@@ -20,7 +20,6 @@ public:
 	virtual void Update() override;
 
 public:
-	void AddLine(vector<VTX>& _vecLineVertex);
 	void AddLineVtx(const vector<Vector3>& _vecLineVertex, const Vector4& _vColor);
 
 public:
