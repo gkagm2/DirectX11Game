@@ -59,14 +59,27 @@ Vector3 CTransform::GetScale()
 	return vWorldScale;
 }
 
-void CTransform::_ReUpdate(const Vector3& vParentLocalScale)
+void CTransform::_ReUpdate()
 {
-	Vector3 vLocalScale = m_vLocalScale;
-	Vector3 fDefaultParentScale = vParentLocalScale;
+	Vector3 vLocalScale = GetLocalScale();
+	Vector3 fDefaultWorldScale = Vector3::One;
+	if (GetGameObject()->GetParentObject())
+		fDefaultWorldScale = GetScale();
+	Vector3 vResultLocalScale = (vLocalScale / fDefaultWorldScale) * vLocalScale;
+	SetLocalScale(vResultLocalScale);
+
+	// 월드 좌표를 로컬 좌표로 넣는다.
+	Vector3 vParentWorldPos = GetPosition();
+	Vector3 vParentScalePos = GetGameObject()->GetParentObject()->Transform()->GetScale();
+	Vector3 vChildPos = GetPosition();
 	if (GetGameObject()->GetParentObject()) {
-		fDefaultParentScale = GetScale();
+		vParentWorldPos = GetGameObject()->GetParentObject()->Transform()->GetPosition();
 	}
-	m_vLocalScale = (vLocalScale / fDefaultParentScale) * m_vLocalScale;
+	Vector3 vLocalPosition = vChildPos - vParentWorldPos;
+	vLocalPosition = vLocalPosition / vParentScalePos;
+	SetLocalPosition(vLocalPosition);
+
+	// 월드 회전을 로컬 회전으로 넣는다.
 }
 
 void CTransform::_UnlinkParent(const Vector3& vParentLocalScale)
@@ -84,7 +97,7 @@ void CTransform::_UnlinkParent(const Vector3& vParentLocalScale)
 	SetLocalPosition(vLocalPos);
 
 	// 월드 회전을 로컬 회전으로 넣는다.
-	Vector3 vLocalLotation = GetLocalRotation();
+	Vector3 vLocalRotation = GetLocalRotation();
 }
 
 void CTransform::FinalUpdate()

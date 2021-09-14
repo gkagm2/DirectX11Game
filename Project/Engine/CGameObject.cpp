@@ -304,12 +304,8 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	if (MAX_SIZE_LAYER == _pChildObj->GetLayer())
 		_pChildObj->_SetLayer(GetLayer());
 
-	Vector3 vLocalScale = Vector3::One;
-	if (Transform())
-		vLocalScale = Transform()->GetLocalScale();
-
 	if (_pChildObj->Transform())
-		_pChildObj->Transform()->_ReUpdate(vLocalScale);
+		_pChildObj->Transform()->_ReUpdate();
 }
 
 void CGameObject::_RegisterLayer()

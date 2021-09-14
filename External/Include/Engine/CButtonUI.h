@@ -1,5 +1,15 @@
 #pragma once
 #include "CImageUI.h"
+
+enum class E_ButtonState {
+	Normal,
+	Highlighted,
+	Pressed,
+	Selected,
+	Disable,
+	End
+};
+
 class CButtonUI : public CImageUI
 {
 private:
@@ -9,6 +19,8 @@ private:
 	UINT m_iSelectedColor;
 	UINT m_iDisableColor;
 	float m_fFadeDuration;
+
+	E_ButtonState m_eButtonState;
 
 public:
 	virtual void FinalUpdate() override;
