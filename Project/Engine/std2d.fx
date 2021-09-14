@@ -334,4 +334,45 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
     return vOutColor;
 }
 
+/////////////
+// Line Strip
+#define vLineColor g_vec4_0
+/////////////
+
+
+
+struct LINE_VTX_IN
+{
+	// semantic : input layout쪽에서 작성해놓은 정적 내부 구조 정보를 설명하는 역할
+    float3 vPosition : POSITION; // semantic(layout 연동, 설명)
+    float4 vColor : COLOR;
+};
+
+struct LINE_VTX_OUT
+{
+    float4 vPosition : SV_Position;
+    float4 vColor : COLOR;
+};
+
+LINE_VTX_OUT VS_LineStrip(LINE_VTX_IN _in)
+{
+    LINE_VTX_OUT output = (LINE_VTX_OUT) 0.f; // 초기화
+	
+    // 1.0f -> 이동 파트 적용
+    float4 vProjPos = mul(float4(_in.vPosition, 1.0f), g_matWorldViewProj);
+    
+	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
+    output.vPosition = vProjPos;
+    output.vColor = _in.vColor;
+    return output;
+}
+
+float4 PS_LineStrip(LINE_VTX_OUT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
+    vOutColor = _in.vColor;
+    
+    return vOutColor;
+}
+
 #endif

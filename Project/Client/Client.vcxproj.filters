@@ -194,6 +194,9 @@
     <Filter Include="03. Tools\04. GUI\ToolCameraGUI">
       <UniqueIdentifier>{039c6e91-12c6-4a1a-8346-c555b5bcf5be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\02. ToolObjects\OrthogonalVectorLine">
+      <UniqueIdentifier>{9b280019-8763-4b05-933d-c594d5918b91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -374,6 +377,9 @@
     <ClInclude Include="ToolCameraGUI.h">
       <Filter>03. Tools\04. GUI\ToolCameraGUI</Filter>
     </ClInclude>
+    <ClInclude Include="COrthogonalLineScript.h">
+      <Filter>03. Tools\02. ToolObjects\OrthogonalVectorLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -538,6 +544,9 @@
     </ClCompile>
     <ClCompile Include="ToolCameraGUI.cpp">
       <Filter>03. Tools\04. GUI\ToolCameraGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="COrthogonalLineScript.cpp">
+      <Filter>03. Tools\02. ToolObjects\OrthogonalVectorLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

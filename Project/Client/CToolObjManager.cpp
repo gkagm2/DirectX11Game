@@ -3,6 +3,7 @@
 #include "CGameObjectEx.h"
 #include "CCameraEx.h"
 #include "CToolCameraScript.h"
+#include "COrthogonalLineScript.h"
 #include <Engine\CRenderManager.h>
 
 CToolObjManager::CToolObjManager()
@@ -42,6 +43,16 @@ void CToolObjManager::Init()
 		pToolUICamObj->Camera()->SetSize(1.f);
 		pToolUICamObj->Transform()->SetLocalPosition(Vector3(9999.f, 9999.f, 0.f));
 		_AddGameObjectEx(pToolUICamObj);
+	}
+
+	// Orthogonal AxisCoordinate
+	{
+		CGameObjectEx* pOrthogonalAxisCoordinate = new CGameObjectEx;
+		pOrthogonalAxisCoordinate->SetName(STR_TOOL_OBJ_NAME_ToolOrthogonalAxisCoordinate);
+		pOrthogonalAxisCoordinate->AddComponent<CTransform>();
+		pOrthogonalAxisCoordinate->AddComponent<COrthogonalLineScript>();
+		pOrthogonalAxisCoordinate->AddComponent<CMeshRenderer>();
+		_AddGameObjectEx(pOrthogonalAxisCoordinate);
 	}
 
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)

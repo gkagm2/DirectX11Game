@@ -129,6 +129,24 @@ void CResourceManager::CreateDefaultMesh()
 	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_PointMesh, pMesh);
+
+
+	////////////////////
+	// line strip Mesh 생성
+	vertex = {};
+	vecVtx.clear();
+	vecIdx.clear();
+
+	vertex.vPos = Vector3(0.f, 0.f, 0.f);
+	vertex.vColor = Vector4(0.f, 0.f, 0.f, 1.f);
+	vertex.vUV = Vector2(0.f, 0.f);
+
+	vecVtx.push_back(vertex);
+	vecIdx.push_back(0);
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX)* (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT)* (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+	AddRes(STR_KEY_LineStripMesh, pMesh);
 }
 
 void CResourceManager::CreateDefaultCircle2DMesh()
@@ -292,6 +310,21 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_StdLight2DShader, pShader);
 
 	//----------------------
+	// LineStript 쉐이더 생성
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLineStrip);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLineStrip);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// OM
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Color") });
+
+	AddRes(STR_KEY_StdLineStripShader, pShader);
+
+	//----------------------
 	// Collider2D 쉐이더 생성
 	pShader = new CGraphicsShader(E_RenderPov::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
@@ -415,6 +448,13 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderAlphaBlend);
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl, pMtrl);
+
+	// Line Strip
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderLineStrip = LoadRes<CGraphicsShader>(STR_KEY_StdLineStripShader);
+	pMtrl->SetShader(pShaderLineStrip);
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4{ 1.f,0.f,1.f,1.f });
+	AddRes<CMaterial>(STR_KEY_LineStripMtrl, pMtrl);
 
 	// Light2D 재질 설정
 	pMtrl = new CMaterial(true);

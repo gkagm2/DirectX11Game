@@ -56,6 +56,8 @@
 #define STR_FUNC_NAME_PIXShader "PS_Std2D"
 #define STR_FUNC_NAME_VTXShaderCollider2D "VS_Collider2D"
 #define STR_FUNC_NAME_PIXShaderCollider2D "PS_Collider2D"
+#define STR_FUNC_NAME_VTXShaderLineStrip "VS_LineStrip"
+#define STR_FUNC_NAME_PIXShaderLineStrip "PS_LineStrip"
 #define STR_FUNC_NAME_VTXShaderLight2D "VS_Std2D_Light2D"
 #define STR_FUNC_NAME_PIXShaderLight2D "PS_Std2D_Light2D"
 #define STR_FUNC_NAME_VTXShaderTileMap "VS_TileMap"
@@ -86,10 +88,12 @@
 #define STR_KEY_CubeMesh _T("CubeMesh")
 #define STR_KEY_CircleMesh _T("CircleMesh")
 #define STR_KEY_CircleLineMesh _T("CircleLineMesh")
+#define STR_KEY_LineStripMesh _T("LineStriptMesh")
 
 // Shader
 #define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
 #define STR_KEY_StdAlphaBlendShader _T("StandardShaderAlphaBlend")
+#define STR_KEY_StdLineStripShader _T("LineStripShader")
 #define STR_KEY_StdLight2DShader _T("StandardShaderLight2D")
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
@@ -108,6 +112,7 @@
 // Material
 #define STR_KEY_StdAlphaBlend_CoverageMtrl _T("StandardMaterialAlphaBlendCoverage")
 #define STR_KEY_StdAlphaBlendMtrl _T("StandardMaterialAlphaBlend")
+#define STR_KEY_LineStripMtrl _T("LineStripLMaterial")
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
 #define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
@@ -125,6 +130,7 @@
 // Tool Object name
 #define STR_TOOL_OBJ_NAME_ToolCamera _T("Tool Camera_Engine")
 #define STR_TOOL_OBJ_NAME_ToolUICamera _T("Tool UI Camera_Engine")
+#define STR_TOOL_OBJ_NAME_ToolOrthogonalAxisCoordinate _T("Tool OrthogonalAxisCoordinate")
 
 ///////////////////////
 // GameObject name
