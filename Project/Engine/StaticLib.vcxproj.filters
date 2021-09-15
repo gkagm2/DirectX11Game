@@ -612,5 +612,8 @@
     <FxCompile Include="posteffect.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="LambertCosineLaw.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

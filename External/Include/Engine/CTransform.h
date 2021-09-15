@@ -31,6 +31,8 @@ public:
 	// Radian으로 입력받음
 	void SetLocalRotation(const Vector3& _vRotation) { m_vLocalRotation = _vRotation; }
 	const Vector3& GetLocalRotation() const { return m_vLocalRotation; }
+	Vector3 GetRotation();
+
 	// Degree로 입력받음
 	void SetLocalRotationDegree(const Vector3& _vDegree) {
 		m_vLocalRotation = _vDegree* CMyMath::Deg2Rad();
@@ -38,6 +40,14 @@ public:
 	const Vector3& GetLocalRotationDegree() {
 		return m_vLocalRotation * CMyMath::Rad2Deg();
 	}
+
+	// 회전
+	void RotateLocalXDegree(float _fDegree) { m_vLocalRotation.x += _fDegree * CMyMath::Rad2Deg(); }
+	void RotateLocalYDegree(float _fDegree) { m_vLocalRotation.y += _fDegree * CMyMath::Rad2Deg(); }
+	void RotateLocalZDegree(float _fDegree) { m_vLocalRotation.z += _fDegree * CMyMath::Rad2Deg(); }
+	void RotateLocalX(float _fAngle) { m_vLocalRotation.x += _fAngle; }
+	void RotateLocalY(float _fAngle) { m_vLocalRotation.y += _fAngle; }
+	void RotateLocalZ(float _fAngle) { m_vLocalRotation.z += _fAngle; }
 
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
@@ -73,8 +83,8 @@ public:
 	Vector3 GetLocalScale_RectTR() { return m_vLocalScale_RT; }
 
 public:
-	void _ReUpdate();
-	void _UnlinkParent(const Vector3& vParentLocalScale = Vector3::One);
+	void _LinkParent();
+	void _UnlinkParent(const Vector3& vParentLocalScale, const Vector3& vParentLocalRotation);
 
 public:
 	virtual void FinalUpdate() override;

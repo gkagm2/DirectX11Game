@@ -114,5 +114,10 @@ SamplerState g_sam_1 : register(s1); // Point
 #define Sample_Anisotropic g_sam_0
 #define Sample_Point g_sam_1
 
+// sampler2D : 2D 텍스쳐에서 텍셀 하나를 구해오는데 사용.
+sampler2D DiffuseSampler2D;
+sampler3D DiffuseSampler3D;
+samplerCUBE DiffuseSamplerCube;
+
 #define PI 3.1415926535
 #endif

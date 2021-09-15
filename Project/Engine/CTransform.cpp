@@ -59,14 +59,43 @@ Vector3 CTransform::GetScale()
 	return vWorldScale;
 }
 
-void CTransform::_ReUpdate()
+Vector3 CTransform::GetRotation()
 {
+	Vector3 vWorldRotation = m_vLocalRotation;
+	CGameObject* pGameObj = GetGameObject();
+
+	while (pGameObj->GetParentObject()) {
+		if (pGameObj->GetParentObject()->RectTransform())
+			vWorldRotation += pGameObj->GetParentObject()->RectTransform()->GetLocalRotation();
+		else
+			vWorldRotation += pGameObj->GetParentObject()->Transform()->GetLocalRotation();
+		pGameObj = pGameObj->GetParentObject();
+	}
+	return vWorldRotation;
+}
+
+void CTransform::_LinkParent()
+{
+	// Scale
 	Vector3 vLocalScale = GetLocalScale();
 	Vector3 fDefaultWorldScale = Vector3::One;
 	if (GetGameObject()->GetParentObject())
 		fDefaultWorldScale = GetScale();
 	Vector3 vResultLocalScale = (vLocalScale / fDefaultWorldScale) * vLocalScale;
 	SetLocalScale(vResultLocalScale);
+
+
+	// Rotation
+	Vector3 vRot = GetRotation();
+	Vector3 vParentWorldRot = Vector3::Zero;
+	if (GetGameObject()->GetParentObject())
+		vParentWorldRot = GetGameObject()->GetParentObject()->Transform()->GetRotation();
+	Vector3 vDiffRot = vRot - vParentWorldRot;
+
+	// 부모 포지션을 중점으로부터 회전해야 한다.
+	// TODO (Jang) : 여기서
+	SetLocalRotation(vDiffRot);
+
 
 	// 월드 좌표를 로컬 좌표로 넣는다.
 	Vector3 vParentWorldPos = GetPosition();
@@ -79,10 +108,9 @@ void CTransform::_ReUpdate()
 	vLocalPosition = vLocalPosition / vParentScalePos;
 	SetLocalPosition(vLocalPosition);
 
-	// 월드 회전을 로컬 회전으로 넣는다.
 }
 
-void CTransform::_UnlinkParent(const Vector3& vParentLocalScale)
+void CTransform::_UnlinkParent(const Vector3& vParentLocalScale, const Vector3& vParentLocalRotation)
 {
 	Vector3 vScale;
 	vScale.x = 1.f / vParentLocalScale.x;
@@ -92,12 +120,11 @@ void CTransform::_UnlinkParent(const Vector3& vParentLocalScale)
 
 	// 월드 좌표를 로컬좌표로 넣는다.
 	Vector3 vWorldPos = GetPosition();
-	Vector3 vLocalPos = GetLocalPosition();
-	vLocalPos = vWorldPos;
-	SetLocalPosition(vLocalPos);
+	SetLocalPosition(vWorldPos);
 
 	// 월드 회전을 로컬 회전으로 넣는다.
-	Vector3 vLocalRotation = GetLocalRotation();
+	Vector3 vWorldRot = vParentLocalRotation + GetLocalRotation();
+	SetLocalRotation(vWorldRot);
 }
 
 void CTransform::FinalUpdate()

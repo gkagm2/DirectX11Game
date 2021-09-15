@@ -305,7 +305,7 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 		_pChildObj->_SetLayer(GetLayer());
 
 	if (_pChildObj->Transform())
-		_pChildObj->Transform()->_ReUpdate();
+		_pChildObj->Transform()->_LinkParent();
 }
 
 void CGameObject::_RegisterLayer()
@@ -341,15 +341,19 @@ void CGameObject::_UnlinkParentGameObject()
 			break;
 		}
 	}
-	Vector3 vLocalScale = Vector3::One;
-	if (m_pParentObj->Transform())
-		vLocalScale = m_pParentObj->Transform()->GetLocalScale();
-
+	Vector3 vParentScale = Vector3::One;
+	Vector3 vParentRotation = Vector3::Zero;
+	if (Transform())
+		vParentRotation = Transform()->GetRotation();
+	if (m_pParentObj->Transform()) {
+		vParentScale = m_pParentObj->Transform()->GetScale();
+		vParentRotation = m_pParentObj->Transform()->GetRotation();
+	}
 
 	m_pParentObj = nullptr;
 
 	if (Transform())
-		Transform()->_UnlinkParent(vLocalScale);
+		Transform()->_UnlinkParent(vParentScale, vParentRotation);
 }
 
 bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)
