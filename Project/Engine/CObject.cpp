@@ -21,6 +21,12 @@ CObject::CObject(const CObject& _origin) :
 {
 }
 
+CObject& CObject::operator=(const CObject& _obj)
+{
+    m_strName = _obj.m_strName;
+    m_iID = g_iNextID++;
+}
+
 CObject::~CObject()
 {
 }
