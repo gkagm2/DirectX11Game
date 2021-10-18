@@ -9,7 +9,7 @@ private:
 	bool m_bActive;
 
 protected:
-	E_ComponentType m_eType;
+	const E_ComponentType m_eType;
 
 public:
 	virtual void Awake() override {}
