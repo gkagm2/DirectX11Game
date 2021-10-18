@@ -42,5 +42,8 @@ public:
 	virtual CObject* Clone() = 0;
 	CObject();
 	CObject(const CObject& _origin);
+
+	CObject& operator=(const CObject& _obj);
+
 	virtual ~CObject();
 };

@@ -117,7 +117,7 @@ void CCamera::CalculateViewMatrix()
 	matRevolution._31 = vRight.z; matRevolution._32 = vUp.z; matRevolution._33 = vFront.z;
 
 	// 회전 행렬 구하기
-	m_matView = matTrans * matRevolution;
+	m_matView = matTrans * matRevolution; // 카메라는 원점으로 이동 후 회전시켜야되므로 위치 * 회전임.
 }
 
 void CCamera::CalculateProjectionMatrix()

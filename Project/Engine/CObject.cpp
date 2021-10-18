@@ -25,6 +25,7 @@ CObject& CObject::operator=(const CObject& _obj)
 {
     m_strName = _obj.m_strName;
     m_iID = g_iNextID++;
+    return *this;
 }
 
 CObject::~CObject()
