@@ -12,7 +12,7 @@
 #define InputKeyRelease(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::RELEASE)
 #define MouseScrollDelta CMouseManager::GetInstance()->GetMouseScrollDelta()
 
-#define CLONE(type) type* Clone() { return new type(*this); }
+#define CLONE(type) virtual type* Clone() { return new type(*this); }
 #define CLONE_DISABLE(type) type* Clone() { assert(nullptr); return nullptr; } \
 	type(const type& _origin) = delete;
 
