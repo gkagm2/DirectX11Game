@@ -66,6 +66,13 @@ public:
 	bool operator != (T* _pResource) {
 		return !((*this) == _pResource);
 	}
+
+	bool operator == (SharedPtr<T> _ptr) {
+		return m_pResource == _ptr.Get();
+	}
+	bool operator != (SharedPtr<T> _ptr) {
+		return !(m_pResource == _ptr.Get());
+	}
 };
 
 template<typename T>

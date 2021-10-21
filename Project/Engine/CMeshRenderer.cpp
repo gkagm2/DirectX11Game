@@ -33,7 +33,8 @@ void CMeshRenderer::Render()
 		return;
 
 	// 위치정보 세팅
-	Transform()->UpdateData();
+	if(Transform())
+		Transform()->UpdateData();
 
 	if (Animator2D())
 		Animator2D()->UpdateData();

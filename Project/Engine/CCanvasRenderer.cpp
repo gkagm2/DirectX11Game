@@ -19,10 +19,12 @@ CCanvasRenderer::~CCanvasRenderer()
 void CCanvasRenderer::Render()
 {
 	// 위치정보 세팅
-	/*if (RectTransform())
+	if (RectTransform())
 		RectTransform()->UpdateData();
-	else
-		Transform()->UpdateData();*/
+	else {
+		assert(nullptr);
+		Transform()->UpdateData();
+	}
 
 	if (Animator2D())
 		Animator2D()->UpdateData();
