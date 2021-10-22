@@ -174,8 +174,11 @@ void CResourceManager::CreateDefaultCircle2DMesh()
 		vtx.vPos.x = cosf(fRadian * (float)i) * fRadius;
 		vtx.vPos.y = sinf(fRadian * (float)i) * fRadius;
 		vtx.vColor = vColor;
-		vtx.vUV;
-		
+
+		vtx.vUV.x = (cosf(fRadian * (float)i) + 1.f) * 0.5f;
+		vtx.vUV.y = (sinf(fRadian * (float)i) + 1.f) * 0.5f;
+		vtx.vUV.y = 1.f - vtx.vUV.y;
+
 		vecVtx.push_back(vtx);
 	}
 
