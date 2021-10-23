@@ -434,6 +434,20 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Float_2, _T("Size") });
 	AddRes(STR_KEY_CanvasShader, pShader);
+
+	//----------------------------
+	// Fog2D Shader
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXFog2DShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXFog2DShader);
+
+	// rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// blend
+	pShader->SetBlendState(E_BlendState::One_One);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Fog Texture") });
+	AddRes(STR_KEY_Fog2DShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -510,6 +524,13 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderCanvas);
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes(STR_KEY_CanvasMtrl, pMtrl);
+
+	// Fog 2D 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFog2D = LoadRes<CGraphicsShader>(STR_KEY_Fog2DShader);
+	pMtrl->SetShader(pShaderFog2D);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
+	AddRes(STR_KEY_Fog2DMtrl, pMtrl);
 }
 
 

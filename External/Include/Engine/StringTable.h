@@ -64,6 +64,8 @@
 #define STR_FUNC_NAME_PIXShaderTileMap "PS_TileMap"
 #define STR_FUNC_NAME_VTXCanvasShader "VS_Canvas"
 #define STR_FUNC_NAME_PIXCanvasShader "PS_Canvas"
+#define STR_FUNC_NAME_VTXFog2DShader "VS_Fog2D"
+#define STR_FUNC_NAME_PIXFog2DShader "PS_Fog2D"
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -101,6 +103,7 @@
 #define STR_KEY_DistortionShader _T("DistortionShader")
 #define STR_KEY_FishEyeShader _T("FishEyeShader")
 #define STR_KEY_CanvasShader _T("CanvasShader")
+#define STR_KEY_Fog2DShader _T("Fog2DShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -120,6 +123,7 @@
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 #define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")
 #define STR_KEY_CanvasMtrl _T("CanvasMaterial")
+#define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
@@ -151,3 +155,4 @@
 #define STR_PATH_Enemy3 _T("texture\\Enemy3.png")
 #define STR_PATH_Enemy4 _T("texture\\Enemy4.png")
 #define STR_PATH_Anim _T("texture\\link_0.png")
+#define STR_PATH_Fog2D _T("texture\\Fog2D.png")

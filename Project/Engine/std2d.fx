@@ -311,6 +311,7 @@ VTX_OUT VS_Canvas(VTX_IN _in)
 ///////////////
 float4 PS_Canvas(VTX_OUT _in) : SV_Target
 {
+    // Alpha 0.5 미만일 경우 반투명에서 아예 투명으로 됨.
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
     
     // 애니메이션 타입인 경우
@@ -329,7 +330,7 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
     {
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     }
-    // 색상을 혼합해야 되는데..
+    // 색상 혼합
     vOutColor = vOutColor * vUiColor;
     return vOutColor;
 }
@@ -372,6 +373,34 @@ float4 PS_LineStrip(LINE_VTX_OUT _in) : SV_Target
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
     vOutColor = _in.vColor;
     
+    return vOutColor;
+}
+
+///////////
+// Fog Shader
+
+///////////
+
+VTX_OUT VS_Fog2D(VTX_IN _in)
+{
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+
+    VTX_OUT output;
+    
+    output.vColor = _in.vColor;
+    output.vPosition = vProjPos;
+    output.vUV = _in.vUV;
+    return output;
+}
+
+float4 PS_Fog2D(VTX_OUT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.0f);
+    vOutColor = g_tex_0.Sample(Sample_Anisotropic, _in.vUV);
+    vOutColor.w = 0.5f;
+    // 정점의 색상 곱을 해야되나?
     return vOutColor;
 }
 
