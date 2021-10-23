@@ -176,7 +176,7 @@ enum class E_ComponentType {
 #pragma endregion
 
 	Listener,
-	Audio,
+	AudioSource,
 	End,
 
 	Script,

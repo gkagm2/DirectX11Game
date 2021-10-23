@@ -214,6 +214,9 @@
     <ClInclude Include="CPathFinding.h">
       <Filter>Engine\11. Functions</Filter>
     </ClInclude>
+    <ClInclude Include="CAudioSource.h">
+      <Filter>Engine\07. Component\AudioSource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -411,6 +414,9 @@
     <ClCompile Include="CPathFinding.cpp">
       <Filter>Engine\11. Functions</Filter>
     </ClCompile>
+    <ClCompile Include="CAudioSource.cpp">
+      <Filter>Engine\07. Component\AudioSource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -472,9 +478,6 @@
     </Filter>
     <Filter Include="Engine\07. Component\Animator">
       <UniqueIdentifier>{6886fdc2-e3e6-43ce-9c03-29c826e098d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\07. Component\Audio">
-      <UniqueIdentifier>{ddd92021-5625-46f8-9546-129ad799f2c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\07. Component\Transform">
       <UniqueIdentifier>{ec592a36-98e6-4a34-85a8-8935061961c4}</UniqueIdentifier>
@@ -557,9 +560,6 @@
     <Filter Include="Engine\11. Functions">
       <UniqueIdentifier>{e00cb856-2862-4218-82c2-edbfe05ac8e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\07. Component\Sound">
-      <UniqueIdentifier>{de00c2b9-1464-493a-aa30-ffaee2720395}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\07. Component\Font">
       <UniqueIdentifier>{f395f7b4-7e95-48e9-b546-278c771db015}</UniqueIdentifier>
     </Filter>
@@ -580,6 +580,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Renderer\CanvasRender">
       <UniqueIdentifier>{35d86728-2a65-4b41-98dd-e5c3182abef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\AudioSource">
+      <UniqueIdentifier>{ddd92021-5625-46f8-9546-129ad799f2c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

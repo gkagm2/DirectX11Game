@@ -197,6 +197,9 @@
     <Filter Include="03. Tools\02. ToolObjects\OrthogonalVectorLine">
       <UniqueIdentifier>{9b280019-8763-4b05-933d-c594d5918b91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI">
+      <UniqueIdentifier>{7eca8484-84ea-4e3e-99c5-6b7c0e896891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -380,6 +383,9 @@
     <ClInclude Include="COrthogonalLineScript.h">
       <Filter>03. Tools\02. ToolObjects\OrthogonalVectorLine</Filter>
     </ClInclude>
+    <ClInclude Include="AudioSourceGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -547,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="COrthogonalLineScript.cpp">
       <Filter>03. Tools\02. ToolObjects\OrthogonalVectorLine</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSourceGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,14 +8,6 @@ CComponent::CComponent(E_ComponentType _eType) :
 {
 }
 
-CComponent::CComponent() :
-	m_bActive(true),
-	m_eType(E_ComponentType::End),
-	m_pGameObj(nullptr)
-{
-	assert(nullptr);
-}
-
 CComponent::CComponent(const CComponent& _origin) :
 	CObject(_origin),
 	m_pGameObj(nullptr),

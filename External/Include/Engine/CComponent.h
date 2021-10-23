@@ -38,7 +38,7 @@ public:
 public:
 	virtual CComponent* Clone() = 0;
 	//CComponent() = delete;
-	explicit CComponent();
+	//explicit CComponent();
 	CComponent(const CComponent& _origin);
 	CComponent(E_ComponentType _eType);
 	virtual ~CComponent() override;

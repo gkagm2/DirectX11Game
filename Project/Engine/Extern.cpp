@@ -86,8 +86,8 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Listener:
 		strComponentType = _T("Listener");
 		break;
-	case E_ComponentType::Audio:
-		strComponentType = _T("Audio");
+	case E_ComponentType::AudioSource:
+		strComponentType = _T("AudioSource");
 		break;
 	case E_ComponentType::Script:
 		strComponentType = _T("Script");
