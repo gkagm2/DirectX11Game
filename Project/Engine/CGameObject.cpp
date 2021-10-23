@@ -17,6 +17,7 @@
 #include "CTileMap.h"
 #include "CParticleSystem.h"
 #include "CRigidbody2D.h"
+#include "CAudioSource.h"
 #include "CRectTransform.h"
 #include "CCanvasRenderer.h"
 
@@ -543,6 +544,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Rigidbody2D:
 		pComponent = new CRigidbody2D;
+		break;
+	case E_ComponentType::AudioSource:
+		pComponent = new CAudioSource;
 		break;
 	case E_ComponentType::RectTransform:
 		pComponent = new CRectTransform;

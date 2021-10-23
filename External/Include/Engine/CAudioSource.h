@@ -25,6 +25,16 @@ public:
 	void SetVolume(float _f, int _iChannelIdx); // 0 ~ 1
 
 public:
+	bool IsMute() { return m_bMute; }
+	void SetMute(bool _bMute) { m_bMute = _bMute; }
+
+	bool IsOverlap() { return m_bOverlap; }
+	void SetOverlap(bool _bOverlap) { m_bOverlap = _bOverlap; }
+
+	float GetVolume() { return m_fVolume; }
+	void SetVolume(float _fVolume) { m_fVolume = _fVolume; }
+
+public:
 	CLONE(CAudioSource);
 	CAudioSource();
 	virtual ~CAudioSource() override;

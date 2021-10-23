@@ -53,7 +53,7 @@ void HierachyGUI::_RenewTreeView()
 	// DFS를 이용한 순환
 	list<std::pair<CGameObject*, TreeViewNode*>> stk; // stk : stack
 	for (UINT j = 0; j < vecRootObjs.size(); ++j) {
-		UINT vecSize = vecRootObjs.size();
+		UINT vecSize = (UINT)vecRootObjs.size();
 
 		stk.push_back(std::make_pair(vecRootObjs[j], pTreeViewRoot));
 

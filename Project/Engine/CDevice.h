@@ -72,6 +72,6 @@ private:
 	void CreateRasterizerState();
 
 	// OM stage
-	void CreateBlendState();
 	void CreateDepthStencilState();
+	void CreateBlendState();
 };

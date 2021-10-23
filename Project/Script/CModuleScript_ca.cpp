@@ -111,7 +111,7 @@ const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _v
 			fMinDistance = fDis;
 		}
 	}
-	return vNearestPos;
+	return std::move(vNearestPos);
 }
 
 TModuleConnector_ca& CModuleScript_ca::FindNearestConnector(const Vector3& _vPosition)
@@ -143,7 +143,7 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 			break;
 		}
 	}
-	return vMainPosition;
+	return std::move(vMainPosition);
 }
 
 TModuleConnector_ca& CModuleScript_ca::MainConnector()
@@ -168,7 +168,7 @@ const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()
 			break;
 		}
 	}
-	return vMainLocalPosition;
+	return std::move(vMainLocalPosition);
 }
 
 void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)

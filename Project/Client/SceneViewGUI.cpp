@@ -58,7 +58,7 @@ void SceneViewGUI::_RenewTreeView()
 	vectFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
 
 	vector<string> vecFileNames;
-	UINT fileCnt = vectFileNames.size();
+	UINT fileCnt = (UINT)vectFileNames.size();
 
 	string strFileName;
 	vecFileNames.resize(fileCnt);

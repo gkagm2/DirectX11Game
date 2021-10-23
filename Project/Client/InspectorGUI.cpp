@@ -22,6 +22,7 @@
 #include "Collider2DGUI.h"
 #include "RectTransformGUI.h"
 #include "CanvasRendererGUI.h"
+#include "AudioSourceGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -96,6 +97,11 @@ void InspectorGUI::Init()
 	// TileMap
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;
 	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 0.f));
+
+	// AudioSource
+	m_arrComGUI[(UINT)E_ComponentType::AudioSource] = new AudioSourceGUI;
+	m_arrComGUI[(UINT)E_ComponentType::AudioSource]->SetUISize(ImVec2(0.f, 110.f));
+
 
 // CameraGUI
 m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;

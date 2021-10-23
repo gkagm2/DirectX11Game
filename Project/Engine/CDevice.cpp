@@ -212,19 +212,19 @@ void CDevice::CreateViewport()
 void CDevice::CreateConstBuffer()
 {
 	m_arrCB[(UINT)E_ConstBuffer::Transform] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::Transform]->Create(E_ConstBuffer::Transform, sizeof(TTransform));
+	m_arrCB[(UINT)E_ConstBuffer::Transform]->Create(_T("Transform ConstBuffer"), E_ConstBuffer::Transform, sizeof(TTransform));
 	
 	m_arrCB[(UINT)E_ConstBuffer::Material_Param] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::Material_Param]->Create(E_ConstBuffer::Material_Param, sizeof(TMaterialParam));
+	m_arrCB[(UINT)E_ConstBuffer::Material_Param]->Create(_T("Material ConstBuffer"), E_ConstBuffer::Material_Param, sizeof(TMaterialParam));
 
 	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data]->Create(E_ConstBuffer::Animation2D_Data, sizeof(TAnimation2DData));
+	m_arrCB[(UINT)E_ConstBuffer::Animation2D_Data]->Create(_T("Animation2D Const Buffer"), E_ConstBuffer::Animation2D_Data, sizeof(TAnimation2DData));
 
 	m_arrCB[(UINT)E_ConstBuffer::Global] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::Global]->Create(E_ConstBuffer::Global, sizeof(TGlobalConst));
+	m_arrCB[(UINT)E_ConstBuffer::Global]->Create(_T("Global ConstBuffer"), E_ConstBuffer::Global, sizeof(TGlobalConst));
 
 	m_arrCB[(UINT)E_ConstBuffer::RectTransform] = new CConstBuffer;
-	m_arrCB[(UINT)E_ConstBuffer::RectTransform]->Create(E_ConstBuffer::RectTransform, sizeof(TRectTransform));
+	m_arrCB[(UINT)E_ConstBuffer::RectTransform]->Create(_T("RectTransform ConstBuffer"), E_ConstBuffer::RectTransform, sizeof(TRectTransform));
 }
 
 void CDevice::CreateSampler()
@@ -256,17 +256,22 @@ void CDevice::CreateSampler()
 void CDevice::CreateRasterizerState()
 {
 	// default는 D3D11_CULL_BACK으로 되어있으므로 nullptr로 줌.
+
+	// cull back
 	m_pRasterizerStates[(UINT)E_RasterizerState::CullBack] = nullptr;
 
+	// cull front
 	D3D11_RASTERIZER_DESC tDesc = {};
 	tDesc.FillMode = D3D11_FILL_SOLID;
 	tDesc.CullMode = D3D11_CULL_FRONT;
 	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::CullFront].GetAddressOf());
 	
+	// cull none
 	tDesc.FillMode = D3D11_FILL_SOLID;
 	tDesc.CullMode = D3D11_CULL_NONE;
 	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::CullNone].GetAddressOf());
 
+	// wireframe
 	tDesc.FillMode = D3D11_FILL_WIREFRAME;
 	tDesc.CullMode = D3D11_CULL_NONE;
 	DEVICE->CreateRasterizerState(&tDesc, m_pRasterizerStates[(UINT)E_RasterizerState::Wireframe].GetAddressOf());
@@ -278,7 +283,7 @@ void CDevice::CreateBlendState()
 	tDesc.AlphaToCoverageEnable = false;
 	tDesc.IndependentBlendEnable = false; // false 설정 시 RenderTarget은 [0] 멤버만 설정
 
-	// 0번 인덱스 하나만 설정하면 다 설정됨?
+	// 0번 인덱스 하나만 설정하면 다 설정
 	tDesc.RenderTarget[0].BlendEnable = true;
 
 	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
@@ -293,12 +298,27 @@ void CDevice::CreateBlendState()
 
 	// AlphaBlend
 	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::AlphaBlend].GetAddressOf());
-	CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)E_BlendState::AlphaBlend].Get(), Vector4(0.f,0.f,0.f,0.f), 0xffffffff);
 
 	// AlphaBlend Coverage
 	tDesc.AlphaToCoverageEnable = true;
 	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::AlphaBlend_Coverage].GetAddressOf());
-	CONTEXT->OMSetBlendState(m_pBlendStates[(UINT)E_BlendState::AlphaBlend_Coverage].Get(), Vector4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+	// One One
+	tDesc.AlphaToCoverageEnable = false;
+	tDesc.IndependentBlendEnable = false;
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	
+	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::One_One].GetAddressOf());
 }
 
 void CDevice::CreateDepthStencilState()

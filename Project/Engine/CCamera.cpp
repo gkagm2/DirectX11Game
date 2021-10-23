@@ -62,7 +62,7 @@ const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 
 	vWorldPos.x = vWorldPos.x + vPos.x;
 	vWorldPos.y = vWorldPos.y + vPos.y;
-	return vWorldPos;
+	return std::move(vWorldPos);
 }
 
 const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPosition)
@@ -90,7 +90,7 @@ const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPositio
 
 	Vector2 vFinalScreenPos = vCursorResultPos * vScreenPos;
 
-	return vFinalScreenPos;
+	return std::move(vFinalScreenPos);
 }
 
 float CCamera::GetDistancePerFixel()

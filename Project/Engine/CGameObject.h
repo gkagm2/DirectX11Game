@@ -1,7 +1,6 @@
 #pragma once
 #include "CObject.h"
 #include "Interfaces.h"
-
 class CComponent;
 class CTransform;
 class CMeshRenderer;
@@ -21,6 +20,7 @@ class CImageUI;
 class CButtonUI;
 class CUI;
 class CBehaviour;
+class CAudioSource;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {

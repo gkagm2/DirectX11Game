@@ -55,14 +55,18 @@
 	GET_COMPONENT(TileMap)\
 	GET_COMPONENT(ParticleSystem)\
 	GET_COMPONENT(Rigidbody2D)\
+	GET_COMPONENT(AudioSource)\
 	GET_COMPONENT(RectTransform)\
 	GET_COMPONENT(CanvasRenderer)\
 	GET_COMPONENT(TextUI)\
 	GET_COMPONENT(ImageUI)\
 	GET_COMPONENT(ButtonUI)
 
-// TIP : 추가 할 경우 CGameObject.cpp에 헤더파일과 Load함수에도 추가해줘야 함.
-
+// TIP : 추가 할 경우 
+// CGameObject .cpp,.h에 선언하기. 
+// .cpp에서 CreateComponent 함수에서도 추가하기.
+// external에서 ComponentTypeToStr 함수에서도 추가히기
+// ComponentType도 설정
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
 
@@ -77,6 +81,7 @@
 	GET_OTHER_COMPONENT(TileMap)\
 	GET_OTHER_COMPONENT(ParticleSystem)\
 	GET_OTHER_COMPONENT(Rigidbody2D)\
+	GET_OTHER_COMPONENT(AudioSource)\
 	GET_OTHER_COMPONENT(RectTransform)\
 	GET_OTHER_COMPONENT(CanvasRenderer)\
 	GET_OTHER_COMPONENT(TextUI)\
@@ -226,7 +231,7 @@ enum class E_ProjectionType {
 enum class E_RasterizerState {
 	CullBack,
 	CullFront,
-	CullNone,  //앞면 뒷면 다 컬링 안한다.
+	CullNone,  //앞면 뒷면 다 컬링 안한다. (다 보여줌)
 	Wireframe,
 	End,
 };
@@ -234,8 +239,8 @@ enum class E_RasterizerState {
 enum class E_BlendState {
 	Default,
 	AlphaBlend,
-	AlphaBlend_Coverage,
-	One_One,
+	AlphaBlend_Coverage, // 깊이 정렬 안해도 알아서 alpha처리
+	One_One, // 1대1로 섞음
 	End,
 };
 
@@ -244,7 +249,7 @@ enum class E_DepthStencilState {
 	Less_Equal,
 	Greater,
 	No_Test,
-	No_Write, // 테스트하되 깊이값 저장 X
+	No_Write, // 깊이 판정 검사는 하되, DSTex에 깊이값 저장 X
 	No_Test_No_Write, // 깊이 판정 검사 X 기록 X
 	End
 };

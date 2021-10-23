@@ -193,7 +193,7 @@ void ParamGUI::Make_ComboBoxList(const vector<string>& _inStrList, vector<char>&
 
 bool ParamGUI::Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& _strList)
 {
-	if (ImGui::Combo(_strName.c_str(), &(*_piCurItem), _strList.data(), _strList.size()))
+	if (ImGui::Combo(_strName.c_str(), (&(*_piCurItem)), _strList.data(), _strList.size()))
 		return true;
 	return false;
 }

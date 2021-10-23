@@ -12,8 +12,10 @@ CConstBuffer::~CConstBuffer()
 {
 }
 
-void CConstBuffer::Create(E_ConstBuffer _eType, UINT _iBufferSize)
+void CConstBuffer::Create(const tstring& _strName, E_ConstBuffer _eType, UINT _iBufferSize)
 {
+	SetName(_strName);
+
 	m_eType = _eType;
 	m_tDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	m_tDesc.Usage = D3D11_USAGE_DYNAMIC;
