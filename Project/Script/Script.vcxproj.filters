@@ -61,11 +61,17 @@
     <Filter Include="Games\CaptainForever\Managers">
       <UniqueIdentifier>{6ad62205-88da-4752-aa21-3f560b3dc8a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\NewFilter1">
+      <UniqueIdentifier>{e3772861-ddce-441a-a3f8-87294334fecd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Test">
+      <UniqueIdentifier>{c6bc385e-f995-46a6-b3f1-d5359d22b77b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Useful">
+      <UniqueIdentifier>{c7f3242e-9905-4cbe-bed3-e52be3419b17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CTestLight2DScript.h">
-      <Filter>Games\ShootingGame</Filter>
-    </ClInclude>
     <ClInclude Include="CBulletScript_sh.h">
       <Filter>Games\ShootingGame</Filter>
     </ClInclude>
@@ -115,9 +121,6 @@
     <ClInclude Include="CKeyControllerScript_ca.h">
       <Filter>Games\CaptainForever\KeyController</Filter>
     </ClInclude>
-    <ClInclude Include="CCameraFollowerScript.h">
-      <Filter>Games\CaptainForever\CameraFollower</Filter>
-    </ClInclude>
     <ClInclude Include="CGameManager_ca.h">
       <Filter>Games\CaptainForever\GameManager</Filter>
     </ClInclude>
@@ -134,11 +137,14 @@
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClInclude>
     <ClInclude Include="CLookAtScript.h" />
+    <ClInclude Include="CTestLight2DScript.h">
+      <Filter>Games\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraFollowerScript.h">
+      <Filter>Games\Useful</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CTestLight2DScript.cpp">
-      <Filter>Games\ShootingGame</Filter>
-    </ClCompile>
     <ClCompile Include="CBulletScript_sh.cpp">
       <Filter>Games\ShootingGame</Filter>
     </ClCompile>
@@ -188,9 +194,6 @@
     <ClCompile Include="CKeyControllerScript_ca.cpp">
       <Filter>Games\CaptainForever\KeyController</Filter>
     </ClCompile>
-    <ClCompile Include="CCameraFollowerScript.cpp">
-      <Filter>Games\CaptainForever\CameraFollower</Filter>
-    </ClCompile>
     <ClCompile Include="CGameManager_ca.cpp">
       <Filter>Games\CaptainForever\GameManager</Filter>
     </ClCompile>
@@ -207,5 +210,11 @@
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClCompile>
     <ClCompile Include="CLookAtScript.cpp" />
+    <ClCompile Include="CTestLight2DScript.cpp">
+      <Filter>Games\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraFollowerScript.cpp">
+      <Filter>Games\Useful</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

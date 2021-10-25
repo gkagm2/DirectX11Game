@@ -7,7 +7,7 @@ public:
 
 protected:
 	static void CaptainForever();
-
+	static void Shooting2D();
 
 protected:
 	static void SceneStart();					// Done

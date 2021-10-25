@@ -6,6 +6,10 @@ private:
 	bool bPlay;
 	bool bPause;
 	bool bStop;
+
+private:
+	void _SetSceneModeMenu(E_SceneMode _eMode);
+
 public:
 	virtual void Update() override;
 
@@ -47,4 +51,6 @@ public:
 public:
 	MainMenuGUI();
 	virtual ~MainMenuGUI() override;
+
+	friend class SceneViewGUI;
 };

@@ -6,6 +6,7 @@
 #include "CSceneSaveLoad.h"
 #include "InspectorGUI.h"
 #include "CImGuiManager.h"
+#include "MainMenuGUI.h"
 
 SceneViewGUI::SceneViewGUI()
 {
@@ -76,6 +77,12 @@ void SceneViewGUI::SelectScene(DWORD_PTR _strRelativePath, DWORD_PTR _non)
 	string str = ((string*)_strRelativePath)->c_str();
 	tstring tstrRelativePath;
 	StringToTString(str, tstrRelativePath);
+
+	
+	MainMenuGUI* pMainMenuGUI = (MainMenuGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_MainMenu);
+	if (pMainMenuGUI)
+		pMainMenuGUI->_SetSceneModeMenu(E_SceneMode::Stop);
+
 
 	CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
 	CScene* pNewScene = CSceneSaveLoad::LoadScene(tstrRelativePath, true);

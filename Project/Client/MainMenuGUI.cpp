@@ -224,24 +224,40 @@ void MainMenuGUI::LoadScene()
 void MainMenuGUI::ShowSceneMode()
 {
     if (ImGui::MenuItem("Play", "CTLR+P", false, bPlay)) {
-        bPause = true;
-        bStop = true;
-        bPlay = false;
+        _SetSceneModeMenu(E_SceneMode::Play);
         CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Play);
         CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), STR_FILE_PATH_TempScene);
     }
     if (ImGui::MenuItem("Pause", "CTRL+P", false, bPause)) {
-        bPause = false;
-        bPlay = true;
-        bStop = true;
+        _SetSceneModeMenu(E_SceneMode::Pause);
         CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Pause);
     }
     if (ImGui::MenuItem("Stop", "CTRL+O", false, bStop)) {
+        _SetSceneModeMenu(E_SceneMode::Stop);
+        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
+        CScene* pScene = CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
+        CSceneManager::GetInstance()->ChangeSceneEvt(pScene);
+    }
+}
+
+void MainMenuGUI::_SetSceneModeMenu(E_SceneMode _eMode)
+{
+    switch (_eMode) {
+    case E_SceneMode::Play:
+        bPause = true;
+        bStop = true;
+        bPlay = false;
+        break;
+    case E_SceneMode::Pause:
+        bPause = false;
+        bPlay = true;
+        bStop = true;
+        break;
+    case E_SceneMode::Stop:
         bStop = false;
         bPlay = true;
         bPause = false;
-        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Stop);
-        CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
+        break;
     }
 }
 

@@ -102,7 +102,8 @@ void CTestScene::CreateTestScene()
 	//FishEyePostEffect();
 	//CaptainForever();
 	//SoundTest();
-	Test();
+	//Test();
+	Shooting2D();
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
@@ -256,6 +257,13 @@ void CTestScene::CaptainForever()
 		tstring key1 = iter->second->GetKey();
 		tstring name = iter->second->GetName();
 	}
+}
+
+void CTestScene::Shooting2D()
+{
+	CScene* pNewScene = new CScene;
+
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
 void CTestScene::SceneStart()
