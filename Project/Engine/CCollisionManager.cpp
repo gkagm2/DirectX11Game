@@ -23,7 +23,7 @@ CCollisionManager::~CCollisionManager()
 void CCollisionManager::Update()
 {
 	for (UINT iRow = 0; iRow < MAX_SIZE_LAYER; ++iRow) {
-		for (UINT iCol = 0; iCol < MAX_SIZE_LAYER; ++iCol) {
+		for (UINT iCol = iRow; iCol < MAX_SIZE_LAYER; ++iCol) {
 #pragma region Bit flag version
 			// arrLayerFlag[iRow] & ( 1 << iCol ) => iRow라인에 iCol자리 비트가 1인지 체크  
 #pragma endregion
@@ -44,10 +44,15 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 	for (size_t l = 0; l < vecLeft.size(); ++l) {
 		if (!vecLeft[l]->Collider2D())
 			continue;
-		for (size_t r = 0; r < vecRight.size(); ++r) {
+
+		size_t r = 0;
+		if (_iLayerOneIdx == _iLayerTwoIdx)
+			r = l;
+		for (; r < vecRight.size(); ++r) {
 			if (!vecRight[r]->Collider2D())
 				continue;
-			if (_iLayerOneIdx == _iLayerTwoIdx && l == r)
+			// 자기 자신과의 추돌일 경우
+			if (vecLeft[l] == vecRight[r])
 				continue;
 
 			// 두 충돌체의 고유 아이디를 조합해서 키값을 만들어 냄
@@ -59,7 +64,7 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 				m_unmapCollisionInfo.insert(std::make_pair(id.llID, false));
 				iter = m_unmapCollisionInfo.find(id.llID);
 			}
-#pragma region Active가 없을 경우
+
 			// 충돌 검사
 			if (IsCollision(vecLeft[l]->Collider2D(), vecRight[r]->Collider2D())) { // 충돌했을 경우
 				if (iter->second) { // 이전에도 충돌했을 시
@@ -102,54 +107,6 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 					iter->second = false;
 				}
 			}
-#pragma endregion
-
-#pragma region Active가 있을 경우
-			/*
-			// 충돌 검사
-			if (IsCollision(vecLeft[l]->Collider2D(), vecRight[r]->Collider2D())) { // 충돌했을 경우
-				if (iter->second) { // 이전에도 충돌했을 시
-					// 둘 중 하나라도 삭제 예정 상태일 경우
-					if (vecLeft[l]->IsDead() || vecRight[r]->IsDead()) {
-						// 충돌을 벗어난다.
-						vecLeft[l]->Collider2D()->OnCollisionExit(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionExit(vecLeft[l]->Collider2D());
-						iter->second = false;
-					}
-					else {
-						// 하나라도 active가 false가 된게 있으면
-						if (!vecLeft[l]->Collider2D()->IsActive() || !vecRight[r]->Collider2D()->IsActive()) {
-							// 충돌을 벗어난다.
-							vecLeft[l]->Collider2D()->OnCollisionExit(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionExit(vecLeft[l]->Collider2D());
-							iter->second = false;
-						}
-						else {
-							vecLeft[l]->Collider2D()->OnCollisionStay(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionStay(vecLeft[l]->Collider2D());
-						}
-					}
-				}
-				else {
-					// 둘다 삭제 예정이 아니고 처음 충돌 시 
-					if (!vecLeft[l]->IsDead() && !vecRight[r]->IsDead()) {
-						if (vecLeft[l]->Collider2D()->IsActive() && vecRight[r]->Collider2D()->IsActive()) {
-							vecLeft[l]->Collider2D()->OnCollisionEnter(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionEnter(vecLeft[l]->Collider2D());
-							iter->second = true;
-						}
-					}
-				}
-			}
-			else { // 충돌하지 않았을 경우
-				if (iter->second) { // 이전에 충돌했을 경우
-					vecLeft[l]->Collider2D()->OnCollisionExit(vecRight[r]->Collider2D());
-					vecRight[r]->Collider2D()->OnCollisionExit(vecLeft[l]->Collider2D());
-					iter->second = false;
-				}
-			}
-			*/
-#pragma endregion
 		}
 	}
 }

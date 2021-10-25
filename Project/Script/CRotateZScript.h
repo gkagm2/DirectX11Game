@@ -7,6 +7,11 @@ private:
 public:
 	virtual void Update() override;
 
+	virtual void OnCollisionEnter2D(CCollider2D* _pCol) override;
+	virtual void OnCollisionStay2D(CCollider2D* _pCol) override;
+	virtual void OnCollisionExit2D(CCollider2D* _pCol) override;
+
+
 public:
 	CLONE(CRotateZScript);
 	CRotateZScript();

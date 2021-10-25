@@ -103,7 +103,9 @@ void CTestScene::CreateTestScene()
 	//CaptainForever();
 	//SoundTest();
 	//Test();
-	Shooting2D();
+	//Collision2DTest();
+	Collision2DTest2();
+	//Shooting2D();
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
@@ -262,6 +264,11 @@ void CTestScene::CaptainForever()
 void CTestScene::Shooting2D()
 {
 	CScene* pNewScene = new CScene;
+
+
+
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Bullet, (UINT)E_Layer::Enemy, true);
+
 
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
@@ -1534,6 +1541,72 @@ void CTestScene::Collision2DTest()
 
 	// 레이어 충돌 지정
 	CCollisionManager::GetInstance()->SetOnOffCollision(2, 3, true);
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+#include <Script\CColliderTestScript.h>
+void CTestScene::Collision2DTest2()
+{
+	CScene* pNewScene = new CScene;
+
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	CObject::CreateGameObjectEvn(pCameraObj, 0);
+
+	// 오브젝트 생성
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	CGameObject* pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+	pObj->AddComponent<CCollider2D>();
+	CCollider2D* pColRect = pObj->GetComponent<CCollider2D>();
+
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
+
+	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMesh(pMesh);
+
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+
+	// 임의로 크기 설정
+	pObj->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+
+	// 충돌영역 설정
+	pObj->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
+	pObj->Collider2D()->SetOffsetScale(Vector2(1.f, 1.f));
+	CObject::CreateGameObjectEvn(pObj, 0);
+
+
+	// 다른 오브젝트 생성
+	CGameObject* pObj2 = pObj->Clone();
+
+	pObj2->AddComponent<CRotateZScript>();
+	pObj2->AddComponent<CColliderTestScript>();
+	pObj2->Transform()->SetLocalPosition(Vector3(0.5f, 0.3f, 0.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 45.f));
+	
+	CObject::CreateGameObjectEvn(pObj2, 0);
+
+
+	CCollisionManager::GetInstance()->ClearAllCollisionLayer();
+
+	// 레이어 충돌 지정
+	CCollisionManager::GetInstance()->SetOnOffCollision(0, 0, true);
+	
 
 	// Scene 초기화
 	pNewScene->Awake();

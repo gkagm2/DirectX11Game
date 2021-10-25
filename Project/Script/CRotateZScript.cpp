@@ -17,3 +17,15 @@ void CRotateZScript::Update()
 	vCurRotate.z += DT * m_fSpeed;
 	Transform()->SetLocalRotation(vCurRotate);
 }
+
+void CRotateZScript::OnCollisionEnter2D(CCollider2D* _pCol)
+{
+}
+
+void CRotateZScript::OnCollisionStay2D(CCollider2D* _pCol)
+{
+}
+
+void CRotateZScript::OnCollisionExit2D(CCollider2D* _pCol)
+{
+}

@@ -33,7 +33,7 @@ void HierachyGUI::Update()
 {
 	if (CEventManager::GetInstance()->DidEventHappended())
 		_RenewTreeView();
-
+		
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 	m_treeView.Update();
 	ImGui::End();

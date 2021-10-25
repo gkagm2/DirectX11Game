@@ -139,6 +139,7 @@ m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
 
 void InspectorGUI::Update()
 {
+	// TODO (Jang) : HierachyGUI 내부에서  Focusing된 object. none으로 설정하게끔 해야됨
 	/*if (CEventManager::GetInstance()->DidEventHappended())
 		m_eMode = E_InspectorUIMode::None;*/
 
@@ -169,7 +170,8 @@ void InspectorGUI::UpdateObjectGUI()
 	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
-	TStringToArr(m_pTargetObject->GetName(), strObjName, 255);
+	static tstring strName = m_pTargetObject->GetName();
+	TStringToArr(strName, strObjName, 255);
 	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
 		tstring tname;
 		StringToTString(strObjName, tname);

@@ -10,8 +10,8 @@
 CPlayerScript_sh::CPlayerScript_sh() :
 	CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH),
 	m_fHp(10.f),
-	m_fBulletDamage(4.f),
-	m_fMoveSpeed(600.f)
+	m_fBulletDamage(2.f),
+	m_fMoveSpeed(15.f)
 {
 }
 
@@ -21,6 +21,12 @@ CPlayerScript_sh::~CPlayerScript_sh()
 
 void CPlayerScript_sh::Start()
 {
+	m_fHp = 10.f;
+	m_fBulletDamage = 2.f;
+	m_fMoveSpeed = 15.f;
+
+
+
 	GetGameObject()->SetName(_T("Player"));
 
 	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
@@ -70,7 +76,10 @@ void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 	Vector3 vPlayerScale = Transform()->GetLocalScale();
 	Vector3 vMuzzlePos = vPlayerPos;
 
- 	InstantiateEvn(m_pMissilePrefab, vPlayerPos, 4);
+  	CGameObject* pObj= InstantiateEvn(m_pMissilePrefab, vPlayerPos, (UINT)E_Layer::Bullet);
+	pObj->GetComponent<CBulletScript_sh>()->SetOwnerObject(GetGameObject());
+	pObj->GetComponent<CBulletScript_sh>()->SetDirection(Vector3(0.f, 1.f, 0.f));
+
 	//CGameObject* pBulletObj = new CGameObject;
 	//pBulletObj->AddComponent<CTransform>();
 	//pBulletObj->AddComponent<CMeshRenderer>();
@@ -106,19 +115,19 @@ void CPlayerScript_sh::Move()
 	Vector3 vPosition = Transform()->GetLocalPosition();
 
 	if (InputKeyHold(E_Key::A)) {
-		vDir.x -= 1.f;
+		vDir.x = -1.f;
 	}
 		
 	if (InputKeyHold(E_Key::D)) {
-		vDir.x += 1.f;
+		vDir.x = 1.f;
 	}
 
 	if (InputKeyHold(E_Key::W)) {
-		vDir.y += 1.f;
+		vDir.y = 1.f;
 	}
 
 	if (InputKeyHold(E_Key::S)) {
-		vDir.y -= 1.f;
+		vDir.y = -1.f;
 	}
 
 	

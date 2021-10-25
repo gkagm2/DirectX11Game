@@ -32,11 +32,15 @@ void CEnemyRespawnerScript_sh::Update()
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;
 
-	m_fRespawnCoolTime += DT;
-	if (m_fRespawnCoolTime > m_fRespawnMaxCoolTime) {
+	//m_fRespawnCoolTime += DT;
+	//if (m_fRespawnCoolTime > m_fRespawnMaxCoolTime) {
+	//	CreateEnemy();
+	//	m_fRespawnCoolTime = 0.f;
+	//}
+	if (InputKeyPress(E_Key::T)) {
 		CreateEnemy();
-		m_fRespawnCoolTime = 0.f;
 	}
+
 }
 
 void CEnemyRespawnerScript_sh::CreateEnemy()
@@ -53,15 +57,15 @@ void CEnemyRespawnerScript_sh::CreateEnemy()
 	pEnemy->MeshRenderer()->SetMaterial(pMtrl);
 	pEnemy->MeshRenderer()->SetMesh(pMesh);
 
-	Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
-	float fMiddleX = vResolution.x * 0.5f;
-	float fMiddleY = vResolution.y * 0.5f;
-	m_vRespawnPos.x = fMiddleX - (rand() % (int)vResolution.x);
+	float fMiddleX = 0.f;
+	float fMiddleY = 9.f;
+
+	m_vRespawnPos.x = fMiddleX - (rand() % (int)9.f);
 	m_vRespawnPos.y = fMiddleY;
 
 	pEnemy->Transform()->SetLocalPosition(m_vRespawnPos);
 
-	pEnemy->Transform()->SetLocalScale(Vector3(pTexture->GetDimension().x, pTexture->GetDimension().y, 1.f));
+	pEnemy->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
 
-	CObject::CreateGameObjectEvn(pEnemy, 3);
+	CObject::CreateGameObjectEvn(pEnemy, (UINT)E_Layer::Enemy);
 }

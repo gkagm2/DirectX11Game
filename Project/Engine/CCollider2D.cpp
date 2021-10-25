@@ -112,6 +112,7 @@ void CCollider2D::OnCollisionExit2D(CCollider2D* _pOther)
 	if (0 == m_iCollisionCount) {
 		g_queCollisionMtrl.push(m_pMaterial.Get());
 		m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
+
 	}
 	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
 	for (UINT i = 0; i < vecScripts.size(); ++i)

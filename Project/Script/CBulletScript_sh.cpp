@@ -4,7 +4,7 @@
 
 CBulletScript_sh::CBulletScript_sh() :
 	CScript((UINT)SCRIPT_TYPE::BULLETSCRIPT_SH),
-	m_fSpeed(400.f),
+	m_fSpeed(4.f),
 	m_vDir(Vector3(0.f,-1.f,0.f)),
 	m_eType(E_BulletType_sh::Straight),
 	m_fDeleteMaxTime(4.f),
@@ -27,12 +27,18 @@ void CBulletScript_sh::Update()
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;*/
 
-	m_fDeleteCoolTime += DT;
-	if (m_fDeleteCoolTime > m_fDeleteMaxTime)
-		DestroyGameObjectEvn(GetGameObject());
+	//m_fDeleteCoolTime += DT;
+	//if (m_fDeleteCoolTime > m_fDeleteMaxTime)
+	//	DestroyGameObjectEvn(GetGameObject());
 
 	// Move
 	m_vDir.Normalize();
 	Vector3 vPos = Transform()->GetLocalPosition();
 	Transform()->SetLocalPosition(vPos + m_vDir * m_fSpeed * DT);
+}
+
+void CBulletScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
+{
+	/*if (_pOther)
+		DestroyGameObjectEvn(GetGameObject());*/
 }

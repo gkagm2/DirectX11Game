@@ -386,6 +386,7 @@
     <ClInclude Include="AudioSourceGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\Define.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">

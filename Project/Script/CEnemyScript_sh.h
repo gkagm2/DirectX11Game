@@ -13,14 +13,27 @@ private:
 	SharedPtr<CMaterial> m_pCloneMtrl;
 	int m_iColorFlag = 0;
 
+	Vector3 m_vOriginalScale;
+	float m_fOriginalHp;
+	float m_fBackDistance; // 총알을 맞았을 때 뒤로 물러난 거리
+
 public:
 	virtual void Awake() override;
 	virtual void Start() override;
 	virtual void Update() override;
 
+
+	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override;
+	virtual void OnCollisionStay2D(CCollider2D* _pOther) override;
+	virtual void OnCollisionExit2D(CCollider2D* _pOther) override;
+
+
 public:
 	void Move();
-	void ColorChange();
+	
+public:
+	float GetHP() { return m_fHp; }
+	void SetHp(float _fHp) { m_fHp = _fHp; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

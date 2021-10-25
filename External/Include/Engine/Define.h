@@ -200,6 +200,17 @@ enum class E_ComponentType {
 #define NUM_LAYER_UI 31
 #define NUM_LAYER_TILEMAP 29
 
+#define _SHOOTING2D_GAME
+
+enum class E_Layer {
+	Player,
+	Bullet,
+	Enemy,
+	Manager,
+
+	End = MAX_SIZE_LAYER,
+};
+
 #define _CAPTAIN_FOREVER_GAME
 //
 //enum class E_Layer {

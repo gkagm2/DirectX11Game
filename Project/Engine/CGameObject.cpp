@@ -172,6 +172,8 @@ void CGameObject::LateUpdate()
 
 void CGameObject::FinalUpdate()
 {
+	_RegisterLayer(); // 레이어 등록
+
 	if (IsDead())
 		return;
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
@@ -183,8 +185,6 @@ void CGameObject::FinalUpdate()
 
 	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
 		m_vecChildObj[i]->FinalUpdate();
-
-	_RegisterLayer(); // 레이어 등록
 }
 
 void CGameObject::Render()

@@ -25,23 +25,23 @@ void CEventManager::Update()
 	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
 		m_vecDeadObj[i]->_UnlinkParentGameObject();
 		delete m_vecDeadObj[i];
-
+		m_vecDeadObj[i] = nullptr;
 		m_bEventHappened = true;
 	}
-m_vecDeadObj.clear();
+	m_vecDeadObj.clear();
 
-// 이벤트 처리
-for (UINT i = 0; i < m_vecEvent.size(); ++i)
-	_Excute(m_vecEvent[i]);
-m_vecEvent.clear();
+	// 이벤트 처리
+	for (UINT i = 0; i < m_vecEvent.size(); ++i)
+		_Excute(m_vecEvent[i]);
+	m_vecEvent.clear();
 
-// 생성 예정 오브젝트 정리
-for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
-	m_vecCreateObj[i]->Awake();
-for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
-	m_vecCreateObj[i]->Start();
+	// 생성 예정 오브젝트 정리
+	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
+		m_vecCreateObj[i]->Awake();
+	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
+		m_vecCreateObj[i]->Start();
 
-m_vecCreateObj.clear();
+	m_vecCreateObj.clear();
 }
 
 void CEventManager::_Excute(const TEvent& _event)

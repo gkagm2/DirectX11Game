@@ -143,6 +143,7 @@
     <ClInclude Include="CCameraFollowerScript.h">
       <Filter>Games\Useful</Filter>
     </ClInclude>
+    <ClInclude Include="CColliderTestScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -216,5 +217,6 @@
     <ClCompile Include="CCameraFollowerScript.cpp">
       <Filter>Games\Useful</Filter>
     </ClCompile>
+    <ClCompile Include="CColliderTestScript.cpp" />
   </ItemGroup>
 </Project>

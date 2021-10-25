@@ -52,14 +52,14 @@ void TreeViewNode::Update()
 		// 해당 아이템이 클릭된 경우
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
 			// 현재 아이템이 선택되지 않았으면
-			if (this != m_pOwner->m_pSelectedNode) {
+			//if (this != m_pOwner->m_pSelectedNode) {
 				m_pOwner->_SetSelectedNode(this); // 선택
 
 				// 선택된 인스턴스가 존재하면
 				if (nullptr != m_pOwner->m_pSelectedNode && m_pOwner->m_pSelectInst) {
 					((m_pOwner->m_pSelectInst)->*m_pOwner->m_pSelectFunc)(m_pOwner->m_pSelectedNode);
 				}
-			}
+			//}
 		}
 
 		// 해당 아이템 오른쪽 버튼을 클릭한 경우
