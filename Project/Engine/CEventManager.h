@@ -16,6 +16,8 @@ enum class E_EventType {
 	Change_GameObject_And_Childs_Layer,
 
 	Change_SceneMode, // 현재 씬 모드 변경
+
+	Change_ToolState, // (EngineTool에서 상태가 변경된 경우)
 };
 
 struct TEvent {

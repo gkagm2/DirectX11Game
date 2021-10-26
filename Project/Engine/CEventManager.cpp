@@ -185,6 +185,11 @@ void CEventManager::_Excute(const TEvent& _event)
 		CSceneManager::GetInstance()->_SetSceneMode(eSceneMode);
 	}
 		break;
+	case E_EventType::Change_ToolState: {
+		// ¾øÀ½
+	}
+		break;
+
 	default:
 		assert(nullptr);
 		break;
@@ -205,6 +210,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	case E_EventType::Destroy_Script:
 	//case E_EventType::Change_SceneMode:
 	case E_EventType::Change_GameObject_And_Childs_Layer:
+	case E_EventType::Change_ToolState:
 		m_bEventHappened = true;
 		break;
 	}

@@ -9,7 +9,8 @@ TreeViewNode::TreeViewNode() :
 	m_pParentNode(nullptr),
 	m_dwData(0),
 	m_bUseFrame(false),
-	m_iStyleFlag(0)
+	m_iStyleFlag(0),
+	m_vTextColor{1.f,1.f,1.f,1.f}
 {
 }
 
@@ -39,6 +40,7 @@ void TreeViewNode::Update()
 	if (this == m_pOwner->m_pSelectedNode)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
 
+
 	// Node Update
 	string strName = m_strName;
 	if (strName.empty())
@@ -48,6 +50,8 @@ void TreeViewNode::Update()
 	sprintf(szBuffer, "##%ld", m_dwData);*/
 	strName = strName + "##" + std::to_string(m_dwData);
 
+	ImGui::PushStyleColor(ImGuiCol_Text, m_vTextColor);
+	
 	if (ImGui::TreeNodeEx(strName.c_str(), m_iStyleFlag)) {
 		// 해당 아이템이 클릭된 경우
 		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
@@ -136,6 +140,7 @@ void TreeViewNode::Update()
 			m_vecChildNodes[i]->Update();
 		ImGui::TreePop();
 	}
+	ImGui::PopStyleColor();
 }
 
 

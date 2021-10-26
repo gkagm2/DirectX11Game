@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GUI.h"
 #include <Engine\CResource.h>
+#include <Engine\CEventManager.h>
 
 GUI::GUI() :
 	m_bGUIOpen(true),
@@ -41,4 +42,11 @@ bool GUI::IsMouseInWindowContentRegion()
 		return true;
 	}
 	return false;
+}
+
+void GUI::ChangeStateEvn()
+{
+	TEvent evn = {};
+	evn.eType = E_EventType::Change_ToolState;
+	CEventManager::GetInstance()->AddEvent(evn);
 }

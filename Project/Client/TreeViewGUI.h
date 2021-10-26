@@ -25,6 +25,7 @@ private:
 	bool m_bUseFrame;
 
 	UINT m_iStyleFlag;
+	ImVec4 m_vTextColor;
 
 public:
 	void Update();
@@ -35,6 +36,9 @@ public:
 	void SetData(DWORD_PTR _dwData) { m_dwData = _dwData; }
 	DWORD_PTR GetData() { return m_dwData; }
 	void UseFrame(bool _bUse) { m_bUseFrame = _bUse; }
+	void SetTextColor(const ImVec4 _vColor) { m_vTextColor = _vColor; }
+	const ImVec4& GetTextColor() { return m_vTextColor; }
+
 
 	void AddChild(TreeViewNode* _pChildNode) {
 		m_vecChildNodes.push_back(_pChildNode);

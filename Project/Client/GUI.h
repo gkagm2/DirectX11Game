@@ -24,6 +24,9 @@ public:
 	static void GetResourceName(CResource* _pResource, char* _pOut, int _size);
 
 	static bool IsMouseInWindowContentRegion();
+
+	static void ChangeStateEvn();
+
 public:
 	GUI();
 	virtual ~GUI();

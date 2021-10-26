@@ -203,15 +203,10 @@ void InspectorGUI::UpdateObjectGUI()
 	}
 
 	// 활성화  세팅
-	if (ImGui::Button("Active##Set Actie GameObject")) {
-		bool bIsActive = m_pTargetObject->IsActive();
-		if (bIsActive) {
-
-		}
-		else {
-
-		}
-		
+	bool bActive = m_pTargetObject->IsActive();
+	if (ImGui::Checkbox("Active##Set Actie GameObject", &bActive)) {
+		m_pTargetObject->SetActive(bActive);
+		GUI::ChangeStateEvn(); // UI update
 	}
 
 	ImGui::Separator();
