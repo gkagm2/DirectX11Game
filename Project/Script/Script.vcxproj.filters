@@ -96,7 +96,6 @@
     <ClInclude Include="CScriptMgr.h">
       <Filter>ScriptManager</Filter>
     </ClInclude>
-    <ClInclude Include="CRotateZScript.h" />
     <ClInclude Include="CCharacterScript_ca.h">
       <Filter>Games\CaptainForever\Character</Filter>
     </ClInclude>
@@ -136,14 +135,21 @@
     <ClInclude Include="CModuleCreator_ca.h">
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="CLookAtScript.h" />
     <ClInclude Include="CTestLight2DScript.h">
       <Filter>Games\Test</Filter>
     </ClInclude>
     <ClInclude Include="CCameraFollowerScript.h">
       <Filter>Games\Useful</Filter>
     </ClInclude>
-    <ClInclude Include="CColliderTestScript.h" />
+    <ClInclude Include="CColliderTestScript.h">
+      <Filter>Games\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="CRotateZScript.h">
+      <Filter>Games\Useful</Filter>
+    </ClInclude>
+    <ClInclude Include="CLookAtScript.h">
+      <Filter>Games\Useful</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -170,7 +176,6 @@
     <ClCompile Include="CScriptMgr.cpp">
       <Filter>ScriptManager</Filter>
     </ClCompile>
-    <ClCompile Include="CRotateZScript.cpp" />
     <ClCompile Include="CCharacterScript_ca.cpp">
       <Filter>Games\CaptainForever\Character</Filter>
     </ClCompile>
@@ -210,13 +215,20 @@
     <ClCompile Include="CModuleCreator_ca.cpp">
       <Filter>Games\CaptainForever\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="CLookAtScript.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp">
       <Filter>Games\Test</Filter>
     </ClCompile>
     <ClCompile Include="CCameraFollowerScript.cpp">
       <Filter>Games\Useful</Filter>
     </ClCompile>
-    <ClCompile Include="CColliderTestScript.cpp" />
+    <ClCompile Include="CColliderTestScript.cpp">
+      <Filter>Games\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CLookAtScript.cpp">
+      <Filter>Games\Useful</Filter>
+    </ClCompile>
+    <ClCompile Include="CRotateZScript.cpp">
+      <Filter>Games\Useful</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

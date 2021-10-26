@@ -14,6 +14,7 @@
 #include "GUI.h"
 #include "ListViewGUI.h"
 #include "DebugGUI.h"
+#include "CollisionEditorGUI.h"
 
 
 
@@ -234,6 +235,11 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     ToolCameraGUI* pToolCameraGUI = new ToolCameraGUI;
     pToolCameraGUI->Init();
     AddGUI(pToolCameraGUI->GetName(), pToolCameraGUI);
+
+    // CollsionEditor GUI
+    CollisionEditorGUI* pCollsionEditorGUI = new CollisionEditorGUI;
+    pCollsionEditorGUI->Init();
+    AddGUI(pCollsionEditorGUI->GetName(), pCollsionEditorGUI);
 }
 
 void CImGuiManager::Init_ListViewGUI()

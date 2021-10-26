@@ -200,6 +200,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI">
       <UniqueIdentifier>{7eca8484-84ea-4e3e-99c5-6b7c0e896891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\04. GUI\CollsionEditor">
+      <UniqueIdentifier>{d8a9e65e-a9da-4a54-9bd0-4370b3692eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -387,6 +390,9 @@
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Define.h" />
+    <ClInclude Include="CollisionEditorGUI.h">
+      <Filter>03. Tools\04. GUI\CollsionEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -557,6 +563,9 @@
     </ClCompile>
     <ClCompile Include="AudioSourceGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionEditorGUI.cpp">
+      <Filter>03. Tools\04. GUI\CollsionEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

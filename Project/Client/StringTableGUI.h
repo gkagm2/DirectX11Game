@@ -12,6 +12,8 @@
 // GUI tool names
 #define STR_GUI_TileMapEditor "Tile Map Editor"
 #define STR_GUI_ToolCamera "ToolCamera"
+
+#define STR_GUI_CollisionEditor "Collision Editor"
 // ComponentType
 
 

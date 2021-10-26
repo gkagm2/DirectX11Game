@@ -133,6 +133,17 @@ else
 
 }
 
+bool CCollisionManager::CheckCollisionLayer(UINT _iLayerOne, UINT _iLayerTwo)
+{
+	// Flag의(행렬) 반절만 이용하면 되므로 행을 더 작은값으로 변환
+	UINT iRow = _iLayerOne < _iLayerTwo ? _iLayerOne : _iLayerTwo;
+	UINT iCol = _iLayerOne > _iLayerTwo ? _iLayerOne : _iLayerTwo;
+
+	if (m_bitsetCollisionGroup[iRow].test(iCol))
+		return true;
+	return false;
+}
+
 bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 {
 	{

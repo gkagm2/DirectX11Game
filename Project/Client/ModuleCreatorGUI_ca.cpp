@@ -18,7 +18,6 @@
 ModuleCreatorGUI_ca::ModuleCreatorGUI_ca() :
     m_pModuleCreator(nullptr)
 {
-	SetName(STR_GUI_ModuleCreator);
 }
 
 ModuleCreatorGUI_ca::~ModuleCreatorGUI_ca()
@@ -26,6 +25,8 @@ ModuleCreatorGUI_ca::~ModuleCreatorGUI_ca()
 }
 void ModuleCreatorGUI_ca::Init()
 {
+    SetName(STR_GUI_ModuleCreator);
+
     // 모듈 리스트 이름 세팅
     UINT iCnt = (UINT)E_ModuleType_ca::End;
     for (UINT i = 0; i < iCnt; ++i) {
@@ -57,6 +58,8 @@ void ModuleCreatorGUI_ca::Init()
     for (UINT i = 0; i < vecName.size(); ++i) {
         _tcprintf(_T("Prefab [%s]\n"), vecName[i].c_str());
     }
+
+    SetActive(false);
 }
 
 void ModuleCreatorGUI_ca::Update()

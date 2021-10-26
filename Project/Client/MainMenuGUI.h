@@ -44,6 +44,7 @@ public:
 
 	// Editor
 	void OpenTileMapEditor();
+	void OpenCollisionEditor();
 
 	// CaptainForever
 	void OpenModuleCreatorToolWindows();

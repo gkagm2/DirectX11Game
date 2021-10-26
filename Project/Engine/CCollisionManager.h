@@ -36,6 +36,8 @@ public:
 		for (UINT i = 0; i < MAX_SIZE_LAYER; ++i)
 			m_bitsetCollisionGroup[i].reset();
 	}
+	// 해당 레이어까리 충돌체크가 되어있는지 체크
+	bool CheckCollisionLayer(UINT _iLayerOne, UINT _iLayerTwo);
 
 public:
 	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);

@@ -76,20 +76,20 @@ void CEnemyScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
 		CPlayerScript_sh* pPlayer = pBullet->GetOwnerObject()->GetComponent<CPlayerScript_sh>();
 		if (pPlayer) {
 			CObject::DestroyGameObjectEvn(GetGameObject());
-			/*float fDamage = pPlayer->GetBulletDamage();
+			float fDamage = pPlayer->GetBulletDamage();
 			SetHp(GetHP() - fDamage);
 			float fResultScaleY = (GetHP() / m_fOriginalHp) * m_vOriginalScale.y;
 			Vector3 vScale = Transform()->GetScale();
 			vScale.y = fResultScaleY;
-			Transform()->SetLocalScale(vScale);*/
-			/*Vector3 vPos = Transform()->GetPosition();
+			Transform()->SetLocalScale(vScale);
+			Vector3 vPos = Transform()->GetPosition();
 			vPos.y += m_fBackDistance;
-			Transform()->SetLocalPosition(vPos);*/
+			Transform()->SetLocalPosition(vPos);
 
-			//if (GetHP() <= 0)
-				//CObject::DestroyGameObjectEvn(GetGameObject());
+			if (GetHP() <= 0)
+				CObject::DestroyGameObjectEvn(GetGameObject());
 		}
-		//DestroyGameObjectEvn(pBullet->GetGameObject());
+		DestroyGameObjectEvn(pBullet->GetGameObject());
 	}
 }
 

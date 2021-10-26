@@ -167,6 +167,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CollisionEditorGUI.h" />
     <ClInclude Include="ComponentGUI.h" />
     <ClInclude Include="ContextMenuGUI.h" />
     <ClInclude Include="COrthogonalLineScript.h" />
@@ -258,6 +259,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CollisionEditorGUI.cpp" />
     <ClCompile Include="ComponentGUI.cpp" />
     <ClCompile Include="ContextMenuGUI.cpp" />
     <ClCompile Include="COrthogonalLineScript.cpp" />

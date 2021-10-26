@@ -21,6 +21,7 @@
 #include "CImGuiManager.h"
 
 #include "TileMapEditorGUI.h"
+#include "CollisionEditorGUI.h"
 #include "ToolCameraGUI.h"
 
 // Captain Forever Game
@@ -127,6 +128,9 @@ void MainMenuGUI::Update()
             }
             if (ImGui::MenuItem("Tool Camera")) {
                 OpenToolCameraUI();
+            }
+            if (ImGui::MenuItem("Collision Editor")) {
+                OpenCollisionEditor();
             }
             ImGui::EndMenu();
         }
@@ -489,6 +493,16 @@ void MainMenuGUI::OpenTileMapEditor()
     TileMapEditorGUI* pGUI = dynamic_cast<TileMapEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_TileMapEditor));
     if (!pGUI) {
         assert(nullptr && _T("Tile Map Editor를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenCollisionEditor()
+{
+    CollisionEditorGUI* pGUI = dynamic_cast<CollisionEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_CollisionEditor));
+    if (!pGUI) {
+        assert(nullptr && _T("Collsion Editor를 열 수 없다."));
         return;
     }
     pGUI->SetActive(true);
