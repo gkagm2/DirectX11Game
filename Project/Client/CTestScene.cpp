@@ -104,8 +104,8 @@ void CTestScene::CreateTestScene()
 	//SoundTest();
 	//Test();
 	//Collision2DTest();
-	Collision2DTest2();
-	//Shooting2D();
+	//Collision2DTest2();
+	Shooting2D();
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);

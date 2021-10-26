@@ -23,13 +23,13 @@ void CBulletScript_sh::Start()
 
 void CBulletScript_sh::Update()
 {
-	/*CGameManagerScript_sh* pGameMgr = (CGameManagerScript_sh*)FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CScript>();
+	CGameManagerScript_sh* pGameMgr = FIND_GameObject(STR_OBJ_NAME_GameManager)->GetComponent<CGameManagerScript_sh>();
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
-		return;*/
+		return;
 
-	//m_fDeleteCoolTime += DT;
-	//if (m_fDeleteCoolTime > m_fDeleteMaxTime)
-	//	DestroyGameObjectEvn(GetGameObject());
+	m_fDeleteCoolTime += DT;
+	if (m_fDeleteCoolTime > m_fDeleteMaxTime)
+		DestroyGameObjectEvn(GetGameObject());
 
 	// Move
 	m_vDir.Normalize();
@@ -39,6 +39,4 @@ void CBulletScript_sh::Update()
 
 void CBulletScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
 {
-	/*if (_pOther)
-		DestroyGameObjectEvn(GetGameObject());*/
 }

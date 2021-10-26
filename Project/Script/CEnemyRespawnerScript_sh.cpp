@@ -32,15 +32,11 @@ void CEnemyRespawnerScript_sh::Update()
 	if (E_GameState_sh::GameOver == pGameMgr->GetGameState())
 		return;
 
-	//m_fRespawnCoolTime += DT;
-	//if (m_fRespawnCoolTime > m_fRespawnMaxCoolTime) {
-	//	CreateEnemy();
-	//	m_fRespawnCoolTime = 0.f;
-	//}
-	if (InputKeyPress(E_Key::T)) {
+	m_fRespawnCoolTime += DT;
+	if (m_fRespawnCoolTime > m_fRespawnMaxCoolTime) {
 		CreateEnemy();
+		m_fRespawnCoolTime = 0.f;
 	}
-
 }
 
 void CEnemyRespawnerScript_sh::CreateEnemy()

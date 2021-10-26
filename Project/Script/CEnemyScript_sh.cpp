@@ -51,16 +51,12 @@ void CEnemyScript_sh::Update()
 
 
 	Vector3 vCurPos = Transform()->GetLocalPosition();
-	//if (vCurPos.y < -10.f) {
- //		/*pGameMgr->SetGameState(E_GameState_sh::GameOver);
-	//	MessageBox(nullptr, _T("GameOver"), _T("GameOver"), MB_OK);*/
-	//	DestroyGameObjectEvn(GetGameObject());
-	//	return;
-	//}
-
-
-
-
+	if (vCurPos.y < -10.f) {
+ 		pGameMgr->SetGameState(E_GameState_sh::GameOver);
+		MessageBox(nullptr, _T("GameOver"), _T("GameOver"), MB_OK);
+		DestroyGameObjectEvn(GetGameObject());
+		return;
+	}
 
 	Move();
 }
@@ -75,7 +71,6 @@ void CEnemyScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
 
 		CPlayerScript_sh* pPlayer = pBullet->GetOwnerObject()->GetComponent<CPlayerScript_sh>();
 		if (pPlayer) {
-			CObject::DestroyGameObjectEvn(GetGameObject());
 			float fDamage = pPlayer->GetBulletDamage();
 			SetHp(GetHP() - fDamage);
 			float fResultScaleY = (GetHP() / m_fOriginalHp) * m_vOriginalScale.y;
@@ -85,8 +80,8 @@ void CEnemyScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
 			Vector3 vPos = Transform()->GetPosition();
 			vPos.y += m_fBackDistance;
 			Transform()->SetLocalPosition(vPos);
-
-			if (GetHP() <= 0)
+			float hp = GetHP();
+			if (hp <= 0)
 				CObject::DestroyGameObjectEvn(GetGameObject());
 		}
 		DestroyGameObjectEvn(pBullet->GetGameObject());
