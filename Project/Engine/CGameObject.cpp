@@ -218,6 +218,16 @@ void CGameObject::RegisterAsPrefab(const tstring& _strName)
 	CResourceManager::GetInstance()->AddRes<CPrefab>(strName, pPrefab.Get());
 }
 
+void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
+{
+	m_bActive = _bActive;
+	if(_bWithChilds) {
+		const vector<CGameObject*>& vecChilds = GetChildsObject();
+		for (size_t i = 0; i < vecChilds.size(); ++i)
+			vecChilds[i]->SetActive(_bActive, _bWithChilds);
+	}
+}
+
 CGameObject* CGameObject::FindGameObjectInChilds(const tstring& _strObjName)
 {
 	CGameObject* pFindObject = nullptr;

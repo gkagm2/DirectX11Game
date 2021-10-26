@@ -58,7 +58,7 @@ public:
 	UINT GetTag() { return m_iTag; }
 	bool IsDead() { return m_bDead; }
 
-	void SetActive(bool _bActive) { m_bActive = _bActive; }
+	void SetActive(bool _bActive, bool _bWithChilds = false);
 	bool IsActive() { return m_bActive; }
 
 	CGameObject* GetParentObject() { return m_pParentObj; }

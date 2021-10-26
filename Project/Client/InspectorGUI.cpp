@@ -204,8 +204,14 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// 활성화  세팅
 	bool bActive = m_pTargetObject->IsActive();
-	if (ImGui::Checkbox("Active##Set Actie GameObject", &bActive)) {
+	if (ImGui::Checkbox("Active##Set Active GameObject", &bActive)) {
 		m_pTargetObject->SetActive(bActive);
+		GUI::ChangeStateEvn(); // UI update
+	}
+	ImGui::SameLine();
+	bool bActiveWithChilds = m_pTargetObject->IsActive();
+	if (ImGui::Checkbox("Active(with child)##Set Active GameObject with childs", &bActiveWithChilds)) {
+		m_pTargetObject->SetActive(bActiveWithChilds, true);
 		GUI::ChangeStateEvn(); // UI update
 	}
 
