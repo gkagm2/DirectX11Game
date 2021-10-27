@@ -52,22 +52,22 @@ void CResourceManager::CreateDefaultMesh()
 	// 버퍼 만들기
 	VTX vertex;
 	vertex.vPos = Vector3(-0.5f, 0.5f, 0.f);
-	vertex.vColor = Vector4(0.0f, 0.0f, 0.50f, 1.0f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 0.f);
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(0.5f, 0.5f, 0.f);
-	vertex.vColor = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(1.f, 0.f);
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(0.5f, -0.5f, 0.f);
-	vertex.vColor = Vector4(0.0f, 1.0f, 1.0f, 1.0f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(1.f, 1.f);
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(-0.5f, -0.5f, 0.f);
-	vertex.vColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 1.f);
 	vecVtx.push_back(vertex);
 
@@ -119,7 +119,7 @@ void CResourceManager::CreateDefaultMesh()
 	vecIdx.clear();
 
 	vertex.vPos = Vector3(0.f, 0.f, 0.f);
-	vertex.vColor = Vector4(0.f, 0.f, 0.f, 1.f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 0.f);
 
 	vecVtx.push_back(vertex);
@@ -138,7 +138,7 @@ void CResourceManager::CreateDefaultMesh()
 	vecIdx.clear();
 
 	vertex.vPos = Vector3(0.f, 0.f, 0.f);
-	vertex.vColor = Vector4(0.f, 0.f, 0.f, 1.f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 0.f);
 
 	vecVtx.push_back(vertex);
@@ -337,10 +337,12 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 
 	// Topology
-	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// OM (Output Merge)
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Rect Color") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("Connect Rect Color") });
@@ -355,6 +357,10 @@ void CResourceManager::CreateDefaultShader()
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Blend State
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+
 	// ShaderParam
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("x face count") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("y face count") });
