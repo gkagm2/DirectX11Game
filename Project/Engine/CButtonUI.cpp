@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CButtonUI.h"
 #include "CConstBuffer.h"
+#include "CResourceManager.h"
+#include "CMaterial.h"
 
 CButtonUI::CButtonUI() :
 	CImageUI(E_ComponentType::ButtonUI),
@@ -11,6 +13,8 @@ CButtonUI::CButtonUI() :
 	m_fFadeDuration{ 0.1f},
 	m_eButtonState{E_ButtonState::Normal}
 {
+	m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_ButtonUIMtrl);
+	m_pSharedMtrl = m_pMtrl;
 }
 
 CButtonUI::~CButtonUI()
@@ -19,24 +23,86 @@ CButtonUI::~CButtonUI()
 
 void CButtonUI::FinalUpdate()
 {
-	Vector4 vNormalColorRGBA = ChangeColorUintToVector4(GetColor()); // normal color
-	Vector4 vHighlightedColorRGBA = ChangeColorUintToVector4(m_iHighlightedColor);
+	switch (m_eButtonState) {
+	case E_ButtonState::Normal: {
+		Vector4 vNormalColorRGBA = ChangeColorUintToVector4(GetColor()); // normal color
+		GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, vNormalColorRGBA);
+	}
+		break;
+	case E_ButtonState::Highlighted: {
+		Vector4 vHighlightedColorRGBA = ChangeColorUintToVector4(m_iHighlightedColor);
+		GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, vHighlightedColorRGBA);
+	}
+		break;
+	case E_ButtonState::Pressed: {
+		Vector4 vPressedColorRGBA = ChangeColorUintToVector4(m_iPressedColor);
+		GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, vPressedColorRGBA);
+	}
+		break;
+	case E_ButtonState::Selected: {
+		Vector4 vSelectedColorRGBA = ChangeColorUintToVector4(m_iSelectedColor);
 
-	Vector4 vPressedColorRGBA = ChangeColorUintToVector4(m_iPressedColor);
-	Vector4 vSelectedColorRGBA = ChangeColorUintToVector4(m_iSelectedColor);
+		GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, vSelectedColorRGBA);
+	}
+		break;
+	case E_ButtonState::Disable: {
+		Vector4 vDisableColorRGBA = ChangeColorUintToVector4(m_iDisableColor);
+		GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, vDisableColorRGBA);
+	}
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+}
 
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, &vNormalColorRGBA);
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector4_1, &vHighlightedColorRGBA);
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector4_2, &vPressedColorRGBA);
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector4_3, &vSelectedColorRGBA);
 
-	Vector4 vDisableColorRGBA = ChangeColorUintToVector4(m_iDisableColor);
-	Vector2 vDisableColorRG = Vector2(vDisableColorRGBA.x, vDisableColorRGBA.y);
-	Vector2 vDisableColorBA = Vector2(vDisableColorRGBA.z, vDisableColorRGBA.w);
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector2_0, &vDisableColorRG);
-	GetSharedMaterial()->SetData(E_ShaderParam::Vector2_1, &vDisableColorBA);
+void CButtonUI::SetNormalColor(UINT _iColor) {
+	if (!IsCurMtrlAlreadyClone()) {
+		GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	}
+	SetColor(_iColor);
+}
 
+void CButtonUI::SetHighlightedColor(UINT _iColor) {
+	if (!IsCurMtrlAlreadyClone()) {
+		if (nullptr == m_pCloneMtrl)
+			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	}
+	m_iHighlightedColor = _iColor;
+}
 
+void CButtonUI::SetPressedColor(UINT _iColor) {
+	if (!IsCurMtrlAlreadyClone()) {
+		if (nullptr == m_pCloneMtrl)
+			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	}
+	m_iPressedColor = _iColor;
+}
+
+void CButtonUI::SetSelectedColor(UINT _iColor) { 
+	if (!IsCurMtrlAlreadyClone()) {
+		if (nullptr == m_pCloneMtrl)
+			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	}
+	m_iSelectedColor = _iColor;
+}
+
+void CButtonUI::SetDisableColor(UINT _iColor) {
+	if (!IsCurMtrlAlreadyClone()) {
+		if (nullptr == m_pCloneMtrl)
+			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	}
+	m_iDisableColor = _iColor; 
+}
+
+bool CButtonUI::IsCurMtrlAlreadyClone()
+{
+	// 클론이 존재하며 현재 메터리얼이 클론 메터리얼이면
+	if (m_pMtrl == m_pCloneMtrl) {
+		return true;
+	}
+	return false;
 }
 
 bool CButtonUI::SaveToScene(FILE* _pFile)

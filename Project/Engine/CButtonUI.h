@@ -22,14 +22,15 @@ private:
 	E_ButtonState m_eButtonState;
 
 public:
+	virtual void UpdateData() override {}
 	virtual void FinalUpdate() override;
 
 public:
-	void SetNormalColor(UINT _iColor) { SetColor(_iColor); }
-	void SetHighlightedColor(UINT _iColor) { m_iHighlightedColor = _iColor; }
-	void SetPressedColor(UINT _iColor) { m_iPressedColor = _iColor; }
-	void SetSelectedColor(UINT _iColor) { m_iSelectedColor = _iColor; }
-	void SetDisableColor(UINT _iColor) { m_iDisableColor = _iColor; }
+	void SetNormalColor(UINT _iColor);
+	void SetHighlightedColor(UINT _iColor);
+	void SetPressedColor(UINT _iColor);
+	void SetSelectedColor(UINT _iColor);
+	void SetDisableColor(UINT _iColor);
 	void SetFadeDuration(float _fDuration) { m_fFadeDuration = _fDuration; }
 
 	UINT GetNormalColor() { return GetColor(); }
@@ -38,6 +39,13 @@ public:
 	UINT GetSelectedColor() { return m_iSelectedColor; }
 	UINT GetDisableColor() { return m_iDisableColor; }
 	float GetFadeDuration() { return m_fFadeDuration; }
+
+	// TODO (Jang) : UI의 Click event가 올 때 상태를 바꾸자.
+
+
+private:
+	bool IsCurMtrlAlreadyClone();
+
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

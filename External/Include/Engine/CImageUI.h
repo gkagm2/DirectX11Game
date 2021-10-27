@@ -2,9 +2,11 @@
 #include "CUI.h"
 class CImageUI : public CUI
 {
-private:
+protected:
 	SharedPtr<CMesh> m_pMesh;
-	SharedPtr<CMaterial> m_pMtrl;
+	SharedPtr<CMaterial> m_pMtrl; // 현재 메터리얼
+	SharedPtr<CMaterial> m_pSharedMtrl; // 공유 메터리얼
+	SharedPtr<CMaterial> m_pCloneMtrl;  // 공유 메터리얼의 복사본
 	SharedPtr<CTexture> m_pTexture;
 	UINT m_iColor;
 
@@ -20,7 +22,7 @@ public:
 
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetCloneMaterial();
-	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
+	SharedPtr<CMaterial> GetSharedMaterial();
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

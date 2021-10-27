@@ -436,10 +436,32 @@ void CResourceManager::CreateDefaultShader()
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
 	// Shader Param
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Float_2, _T("Size") });
 	AddRes(STR_KEY_CanvasShader, pShader);
+
+	//----------------------------
+	// ButtonUI Shader
+	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXButtonUIShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXButtonUIShader);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Cur Button State") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Disable RG color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Disable BA color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Normal Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("Highlighted Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_2, _T("Pressed Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_3, _T("Selected Color") });
+
+	AddRes(STR_KEY_ButtonUIShader, pShader);
 
 	//----------------------------
 	// Fog2D Shader
@@ -545,6 +567,13 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderFog2D);
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
 	AddRes(STR_KEY_Fog2DMtrl, pMtrl);
+
+	// ButtonUI 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pButtonUI = LoadRes<CGraphicsShader>(STR_KEY_ButtonUIShader);
+	pMtrl->SetShader(pButtonUI);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+	AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
 }
 
 
