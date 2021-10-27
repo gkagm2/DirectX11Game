@@ -42,6 +42,7 @@ void CLight2D::SetRange(float _fRange)
 
 bool CLight2D::SaveToScene(FILE* _pFile)
 {
+	CComponent::SaveToScene(_pFile);
 	FWrite(m_tInfo, _pFile);
 
 	SaveResourceToFile(m_pMesh, _pFile);
@@ -51,6 +52,7 @@ bool CLight2D::SaveToScene(FILE* _pFile)
 
 bool CLight2D::LoadFromScene(FILE* _pFile)
 {
+	CComponent::LoadFromScene(_pFile);
 	FRead(m_tInfo, _pFile);
 
 	LoadResourceFromFile(m_pMesh, _pFile);

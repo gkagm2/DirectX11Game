@@ -138,7 +138,7 @@ Vector2 CUI::GetMin()
     assert(RectTransform() && _T("RectTransform ¾øÀ½"));
     Vector3 vPos = RectTransform()->GetPosition();
     float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5;
+    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5f;
 
     Vector3 vMin;
     vMin.x = vPos.x - fHalfWidth;

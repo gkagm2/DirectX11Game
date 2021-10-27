@@ -10,7 +10,6 @@ private:
 
 public:
 	virtual void FinalUpdate() override;
-	virtual void UpdateData() override;
 	virtual void Render() override; // FIXED (Jang) :필요 없을수도 있음.
 
 public:

@@ -121,6 +121,7 @@ void CTileMap::SetTile(UINT _iX, UINT _iY, UINT _iIdx)
 
 bool CTileMap::SaveToScene(FILE* _pFile)
 {
+	CComponent::SaveToScene(_pFile);
 	SaveResourceToFile(m_pMesh, _pFile);
 	SaveResourceToFile(m_pMaterial, _pFile);
 
@@ -136,6 +137,7 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 
 bool CTileMap::LoadFromScene(FILE* _pFile)
 {
+	CComponent::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);
 	LoadResourceFromFile(m_pMaterial, _pFile);
 

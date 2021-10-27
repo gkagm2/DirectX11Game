@@ -13,7 +13,6 @@ enum class E_ButtonState {
 class CButtonUI : public CImageUI
 {
 private:
-	UINT m_iNormalColor;
 	UINT m_iHighlightedColor;
 	UINT m_iPressedColor;
 	UINT m_iSelectedColor;
@@ -24,18 +23,16 @@ private:
 
 public:
 	virtual void FinalUpdate() override;
-	virtual void UpdateData() override;
-	virtual void Render() override;
 
 public:
-	void SetNormalColor(UINT _iColor) { m_iNormalColor = _iColor; }
+	void SetNormalColor(UINT _iColor) { SetColor(_iColor); }
 	void SetHighlightedColor(UINT _iColor) { m_iHighlightedColor = _iColor; }
 	void SetPressedColor(UINT _iColor) { m_iPressedColor = _iColor; }
 	void SetSelectedColor(UINT _iColor) { m_iSelectedColor = _iColor; }
 	void SetDisableColor(UINT _iColor) { m_iDisableColor = _iColor; }
 	void SetFadeDuration(float _fDuration) { m_fFadeDuration = _fDuration; }
 
-	UINT GetNormalColor() { return m_iNormalColor; }
+	UINT GetNormalColor() { return GetColor(); }
 	UINT GetHighlightedColor() { return m_iHighlightedColor; }
 	UINT GetPressedColor() { return m_iPressedColor; }
 	UINT GetSelectedColor() { return m_iSelectedColor; }

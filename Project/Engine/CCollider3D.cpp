@@ -25,10 +25,12 @@ void CCollider3D::UpdateData()
 // TODO (Jang) : 3D 데이터 Save,Load 구현
 bool CCollider3D::SaveToScene(FILE* _pFile)
 {
+	CCollider::SaveToScene(_pFile);
 	return true;
 }
 
 bool CCollider3D::LoadFromScene(FILE* _pFile)
 {
+	CCollider::LoadFromScene(_pFile);
 	return true;
 }

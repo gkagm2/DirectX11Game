@@ -18,7 +18,7 @@ private:
 	float m_fFriction; // 마찰력
 	bool m_bIsFrictionActive; // 마찰력 유무
 
-	Vector3 m_vGracityAccel; // 중력 가속도
+	Vector3 m_vGravityAccel; // 중력 가속도
 	bool m_bUseGravity; // 중력 사용 플래그
 	bool m_bIsKinematic; // 물리 효과 없애기 플래그
 
@@ -44,7 +44,7 @@ public:
 	float GetSpeed() { return m_fSpeed; }
 	// inline void SetAngularDrag(float _fAngularDrag); // 회전값에 대한 저항
 	void UseGravity(bool _bUseGravity) { m_bUseGravity = _bUseGravity; } // 중력 사용 여부 설정
-	bool IsOnGracity() const { return m_bUseGravity; }
+	bool IsOnGravity() const { return m_bUseGravity; }
 	void IsKinematic(bool _bIsKinematic) { m_bIsKinematic = _bIsKinematic; } // 물리 효과 없애기
 	bool IsOnKinematic() const { return m_bIsKinematic; }
 

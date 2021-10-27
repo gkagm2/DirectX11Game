@@ -416,6 +416,16 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 			}
 		}
 	}
+	
+	if (E_ComponentType::Rigidbody2D == _pComponent->GetComponentType()) {
+		if (nullptr == GetComponent<CCollider2D>())
+			AddComponent(new CCollider2D);
+	}
+	if (E_ComponentType::Rigidbody3D == _pComponent->GetComponentType()) {
+		if (nullptr == GetComponent<CCollider3D>())
+			AddComponent(new CCollider3D);
+	}
+
 
 	m_arrComponent[(UINT)_pComponent->GetComponentType()] = _pComponent;
 	_pComponent->m_pGameObj = this;

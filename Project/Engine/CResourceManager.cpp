@@ -490,7 +490,7 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
 	pMtrl->SetShader(pShaderCollider2D);
-	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // green
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
 	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
 	AddRes(STR_KEY_Collider2DNoneColliedMtrl, pMtrl);
 
@@ -498,7 +498,7 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderCollider2D);
 	int iCollision = 1;
 	pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
-	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // green
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
 	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
 	AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
 
@@ -851,7 +851,7 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 
 void CResourceManager::GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut)
 {
-	_vecOut.empty();
+	_vecOut.clear();
 	for (const auto& pair : m_umapResource[(UINT)_eType])
 		_vecOut.push_back(pair.first);
 }

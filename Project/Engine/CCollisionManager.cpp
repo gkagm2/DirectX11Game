@@ -11,6 +11,7 @@
 #include "CLayer.h"
 #include "CScript.h"
 
+#include "CRigidbody2D.h"
 
 CCollisionManager::CCollisionManager()
 {
@@ -55,46 +56,65 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 			if (vecLeft[l] == vecRight[r])
 				continue;
 
+			CCollider2D* pLeftCol = vecLeft[l]->Collider2D();
+			CCollider2D* pRightCol = vecRight[r]->Collider2D();
+
+
 			// 두 충돌체의 고유 아이디를 조합해서 키값을 만들어 냄
 			COLLIDER_ID id = {};
-			id.iLeft = vecLeft[l]->Collider2D()->GetID();
-			id.iRight = vecRight[r]->Collider2D()->GetID();
+			id.iLeft = pLeftCol->GetID();
+			id.iRight = pRightCol->GetID();
 			unordered_map<LONGLONG, bIsCollision>::iterator iter = m_unmapCollisionInfo.find(id.llID);
 			if (iter == m_unmapCollisionInfo.end()) {
 				m_unmapCollisionInfo.insert(std::make_pair(id.llID, false));
 				iter = m_unmapCollisionInfo.find(id.llID);
 			}
 
+			bool bIsPushIntersection = false;
+			TRigidCollisionInfo info = {};
+			// Rigidbody가 존재하며 두 충돌체 모두 통과 Trigger가 false면 밀어내기 기능 실행
+			if (vecLeft[l]->Rigidbody2D() && vecRight[r]->Rigidbody2D() &&
+				!pLeftCol->IsTrigger() && !pRightCol->IsTrigger()) {
+				bIsPushIntersection = true;
+			}
+
 			// 충돌 검사
-			if (IsCollision(vecLeft[l]->Collider2D(), vecRight[r]->Collider2D())) { // 충돌했을 경우
+			if (IsCollision(pLeftCol, pRightCol, bIsPushIntersection, &info)) { // 충돌했을 경우
 				if (iter->second) { // 이전에도 충돌했을 시
 					// 둘 중 하나라도 삭제 예정 상태일 경우
 					if (vecLeft[l]->IsDead() || vecRight[r]->IsDead()) {
 						// 충돌을 벗어난다.
-						vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
-						vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
+						pLeftCol->OnCollisionExit2D(pRightCol);
+						pRightCol->OnCollisionExit2D(pLeftCol);
 						iter->second = false;
 					}
 					else {
 						// 하나라도 active가 된게 있으면
-						if (!vecLeft[l]->Collider2D()->IsActive() || !vecRight[r]->Collider2D()->IsActive()) {
+						if (!pLeftCol->IsActive() || !pRightCol->IsActive()) {
 							// 충돌을 벗어난다.
-							vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
+							pLeftCol->OnCollisionExit2D(pRightCol);
+							pRightCol->OnCollisionExit2D(pLeftCol);
 							iter->second = false;
 						}
 						else {
-							vecLeft[l]->Collider2D()->OnCollisionStay2D(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionStay2D(vecLeft[l]->Collider2D());
+							// 밀어내기 실행 시 
+							if (bIsPushIntersection) {
+								pLeftCol->OnCollisionStay2D(pRightCol, &info);
+								pRightCol->OnCollisionStay2D(pLeftCol, &info);
+							}
+							else {
+								pLeftCol->OnCollisionStay2D(pRightCol);
+								pRightCol->OnCollisionStay2D(pLeftCol);
+							}
 						}
 					}
 				}
 				else {
 					// 둘다 삭제 예정이 아니고 처음 충돌 시 
 					if (!vecLeft[l]->IsDead() && !vecRight[r]->IsDead()) {
-						if (vecLeft[l]->Collider2D()->IsActive() && vecRight[r]->Collider2D()->IsActive()) {
-							vecLeft[l]->Collider2D()->OnCollisionEnter2D(vecRight[r]->Collider2D());
-							vecRight[r]->Collider2D()->OnCollisionEnter2D(vecLeft[l]->Collider2D());
+						if (pLeftCol->IsActive() && pRightCol->IsActive()) {
+							pLeftCol->OnCollisionEnter2D(pRightCol);
+							pRightCol->OnCollisionEnter2D(pLeftCol);
 							iter->second = true;
 						}
 					}
@@ -102,8 +122,8 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 			}
 			else { // 충돌하지 않았을 경우
 				if (iter->second) { // 이전에 충돌했을 경우
-					vecLeft[l]->Collider2D()->OnCollisionExit2D(vecRight[r]->Collider2D());
-					vecRight[r]->Collider2D()->OnCollisionExit2D(vecLeft[l]->Collider2D());
+					pLeftCol->OnCollisionExit2D(pRightCol);
+					pRightCol->OnCollisionExit2D(pLeftCol);
 					iter->second = false;
 				}
 			}
@@ -144,18 +164,20 @@ bool CCollisionManager::CheckCollisionLayer(UINT _iLayerOne, UINT _iLayerTwo)
 	return false;
 }
 
-bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
+bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, bool m_bPushIntersection, TRigidCollisionInfo* _pPushIntersectionInfo)
 {
 	{
 		// FIXED : Collider2D에서 Rect로만 되어있는데 나중에 추가되면 타입에 따라 분기할 수 있도록 하기
-		return _IsCollision(_pLeft, _pRight);
-	}
 
+		if(m_bPushIntersection)
+			return _IsCollision(_pLeft, _pRight, &(*_pPushIntersectionInfo));
+		return _IsCollision(_pLeft, _pRight, nullptr);
+	}
 	return false;
 }
 
 // OBB Check
-bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
+bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo)
 {
 	// 로컬 좌표
 	/*
@@ -223,9 +245,37 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight)
 
 		float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
 
-		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f)
+		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
 			return false;
+		}
+		else {
+			if (_tRigidColInfo) {
+				float fLMass = _pLeft->Rigidbody2D()->GetMass();
+				float fRMass = _pRight->Rigidbody2D()->GetMass();
+				Vector3 vForceDir;
+				if (fLMass < fRMass) {
+					vForceDir = vCenterPosLeftCollider - vCenterPosRightCollider;
+					_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
+				}
+				else {
+					vForceDir = vCenterPosRightCollider - vCenterPosLeftCollider;
+					_tRigidColInfo->pGameObject = _pRight->GetGameObject();
+				}
+				vForceDir.Normalize();
+
+				_tRigidColInfo->vDir = vForceDir;
+				_tRigidColInfo->fDistance += fabsf((fProjTwoBoxesDis * 0.5f) - fProjCenterDis);
+			}
+
+			// 가깝다면
+			// rigidbody에서 weight값을 이용하여 fHalf - fCenterDis 의 길이만큼
+			// weight이 작은 오브젝트의 center위치 - weight이 큰 오브젝트의 center위치를 구해서 normalize해주면 weight이 작은 오브젝트의 방향을 구할 수 있다.
+			// 구한 값으로 fHalf - fCenterDis길이만큼 오브젝트를 이동시킨다.
+			// 그렇다면 fHalf- fCenterDis와 작은 weight의 방향값을 체크할 때 리턴시켜야한다. 
+		}
 	}
+	if (_tRigidColInfo)
+		_tRigidColInfo->fDistance = _tRigidColInfo->fDistance / 4.f;
 
 	return true;
 }

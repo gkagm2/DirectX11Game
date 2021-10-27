@@ -159,6 +159,7 @@ UINT CParticleSystem::_CalculateSpawnCount()
 
 bool CParticleSystem::SaveToScene(FILE* _pFile)
 {
+	CComponent::SaveToScene(_pFile);
 	UINT iTexCount = (UINT)m_vecParticleTex.size();
 	FWrite(iTexCount, _pFile);
 
@@ -184,6 +185,7 @@ bool CParticleSystem::SaveToScene(FILE* _pFile)
 
 bool CParticleSystem::LoadFromScene(FILE* _pFile)
 {
+	CComponent::LoadFromScene(_pFile);
 	UINT iTexCount = 0;
 	FRead(iTexCount, _pFile);
 

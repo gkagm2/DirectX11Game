@@ -6,6 +6,7 @@
 #include "CTransform.h"
 #include "CScript.h"
 #include "CConfigurationManager.h"
+#include "CCollisionManager.h"
 
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
@@ -104,9 +105,22 @@ void CCollider2D::OnCollisionExit2D(CCollider2D* _pOther)
 	for (UINT i = 0; i < vecScripts.size(); ++i)
 		vecScripts[i]->OnCollisionExit2D(_pOther);
 }
+void CCollider2D::OnCollisionStay2D(CCollider2D* _pOther, TRigidCollisionInfo* _pInfo)
+{
+	// Rigidbody에 따른 값을 리턴시켜야될것같은데 혹은 여기서 처리해야되나?
+	// 일단 밀려내보자고 가장 높은 부모의 위치를 옮겨야됨
+	CGameObject* pObj = _pInfo->pGameObject;
+	Vector3 vObjPos = pObj->Transform()->GetPosition();
+	Vector3 vMoveOffPos = _pInfo->vDir * _pInfo->fDistance;
+	pObj->Transform()->SetLocalPosition(vObjPos + vMoveOffPos);
+
+	OnCollisionStay2D(_pOther);
+}
 
 bool CCollider2D::SaveToScene(FILE* _pFile)
 {
+	CCollider::SaveToScene(_pFile);
+
 	FWrite(m_vOffsetPosition, _pFile);
 	FWrite(m_vOffsetScale, _pFile);
 
@@ -118,6 +132,7 @@ bool CCollider2D::SaveToScene(FILE* _pFile)
 
 bool CCollider2D::LoadFromScene(FILE* _pFile)
 {
+	CCollider::LoadFromScene(_pFile);
 	FRead(m_vOffsetPosition, _pFile);
 	FRead(m_vOffsetScale, _pFile);
 

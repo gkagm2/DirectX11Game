@@ -7,7 +7,7 @@ CAudioSource::CAudioSource() :
 	m_bOverlap(false),
 	m_fVolume(0.5f),
 	m_bLoop(true),
-	m_iLoopCnt(1.f)
+	m_iLoopCnt(1)
 
 {
 }

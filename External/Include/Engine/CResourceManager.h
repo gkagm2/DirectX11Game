@@ -186,7 +186,8 @@ inline bool CResourceManager::IsExistRes(const tstring& _strKey)
 
 	if (eResourceType == E_ResourceType::End) {
 		assert(nullptr && _T("Resource의 타입을 지정하지 않음"));
-		return isExist = false;
+		isExist = false;
+		return isExist;
 	}
 	auto iter = m_umapResource[(UINT)eResourceType].find(_strKey);
 	auto endIter = m_umapResource[(UINT)eResourceType].end();

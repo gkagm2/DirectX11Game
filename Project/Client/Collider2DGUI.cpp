@@ -55,5 +55,11 @@ void Collider2DGUI::Update()
 	pCol->SetOffsetPosition(vOffPosition);
 	pCol->SetOffsetScale(vOffScale);
 
+
+	// Æ®¸®°Å
+	bool bTrigger = pCol->IsTrigger();
+	if (ImGui::Checkbox("Trigger", &bTrigger))
+		pCol->SetTrigger(bTrigger);
+
 	End();
 }

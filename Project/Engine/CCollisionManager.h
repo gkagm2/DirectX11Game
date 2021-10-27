@@ -12,6 +12,14 @@ union COLLIDER_ID
 	LONGLONG llID;
 };
 
+// 충돌 시 리턴 시킬 데이터를 가지는 구조체
+struct TRigidCollisionInfo {
+	Vector3 vDir; // 밀려나갈 방향
+	float fDistance; // 밀려나갈 거리
+	CGameObject* pGameObject; // 밀려나갈 오브젝트
+	TRigidCollisionInfo() : vDir{}, fDistance{}, pGameObject{ nullptr }{}
+};
+
 class CCollisionManager : public CSingleton<CCollisionManager>
 {
 	SINGLETON(CCollisionManager)
@@ -40,8 +48,9 @@ public:
 	bool CheckCollisionLayer(UINT _iLayerOne, UINT _iLayerTwo);
 
 public:
-	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);
+	/// <param name="m_bPushIntersection">밀어내기 여부</param>
+	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, bool m_bPushIntersection, TRigidCollisionInfo* _pPushIntersectionInfo = nullptr);
 
 private:
-	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight);
+	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo);
 };

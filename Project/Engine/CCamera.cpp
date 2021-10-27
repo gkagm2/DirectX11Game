@@ -137,6 +137,7 @@ void CCamera::CalculateProjectionMatrix()
 
 bool CCamera::SaveToScene(FILE* _pFile)
 {
+	CComponent::SaveToScene(_pFile);
 	FWrite(m_eProjectionType, _pFile);
 	FWrite(m_tFOVAxis, _pFile);
 	FWrite(m_fSize, _pFile);
@@ -149,6 +150,7 @@ bool CCamera::SaveToScene(FILE* _pFile)
 
 bool CCamera::LoadFromScene(FILE* _pFile)
 {
+	CComponent::LoadFromScene(_pFile);
 	FRead(m_eProjectionType, _pFile);
 	FRead(m_tFOVAxis, _pFile);
 	FRead(m_fSize, _pFile);

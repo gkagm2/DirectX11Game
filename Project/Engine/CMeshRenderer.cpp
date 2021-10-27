@@ -70,6 +70,7 @@ const Vector2& CMeshRenderer::GetTexSize()
 
 bool CMeshRenderer::SaveToScene(FILE* _pFile)
 {
+	CRenderer::SaveToScene(_pFile);
 	SaveResourceToFile(m_pMesh, _pFile);
 	SaveResourceToFile(m_pMtrl, _pFile);
 	FWrite(m_iColor, _pFile);
@@ -78,6 +79,7 @@ bool CMeshRenderer::SaveToScene(FILE* _pFile)
 
 bool CMeshRenderer::LoadFromScene(FILE* _pFile)
 {
+	CRenderer::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);
 	LoadResourceFromFile(m_pMtrl, _pFile);
 	FRead(m_iColor, _pFile);

@@ -36,10 +36,6 @@ void CImageUI::FinalUpdate()
 	m_pMtrl->SetData(E_ShaderParam::Vector4_0, vColorRGBA);
 }
 
-void CImageUI::UpdateData()
-{
-}
-
 void CImageUI::Render()
 {
 	if (nullptr == m_pMesh || nullptr == m_pMtrl)
@@ -80,7 +76,7 @@ SharedPtr<CMaterial> CImageUI::GetCloneMaterial()
 bool CImageUI::SaveToScene(FILE* _pFile)
 {
 	// CanvasRenderer에서 기본 material과 mesh를 가져왔으면 그려야지
-
+	CUI::SaveToScene(_pFile);
 	SaveResourceToFile(m_pTexture, _pFile);
 	SaveResourceToFile(m_pMtrl, _pFile);
 	SaveResourceToFile(m_pMesh, _pFile);
@@ -90,6 +86,7 @@ bool CImageUI::SaveToScene(FILE* _pFile)
 
 bool CImageUI::LoadFromScene(FILE* _pFile)
 {
+	CUI::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pTexture, _pFile);
 	LoadResourceFromFile(m_pMtrl, _pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);

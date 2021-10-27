@@ -9,14 +9,14 @@ CRigidbody::CRigidbody(E_ComponentType _eType) :
 	CComponent(_eType),
 	m_vForce{},
 	m_vAccel{},
-	m_fMass(0.f),
+	m_fMass(0.1f),
 	m_vVelocity{},
-	m_fDrag(0.f),
+	m_fDrag(0.4f),
 	m_fSpeed(0.f),
 	m_fMaxSpeed(1000.0f),
 	m_fFriction(0.f),
 	m_bIsFrictionActive(true),
-	m_vGracityAccel(0.0f, 9.80665f, 0.0f),
+	m_vGravityAccel(0.0f, 0.98066f * 0.5f, 0.0f), // default (0.0f, 9.80665f, 0.0f)
 	m_bUseGravity(false),
 	m_bIsKinematic(false)
 {
@@ -33,7 +33,7 @@ CRigidbody::CRigidbody(const CRigidbody& _other) :
 	m_fMaxSpeed( _other.m_fMaxSpeed),
 	m_fFriction( _other.m_fFriction),
 	m_bIsFrictionActive( _other.m_fFriction),
-	m_vGracityAccel{ _other.m_vGracityAccel },
+	m_vGravityAccel{ _other.m_vGravityAccel },
 	m_bUseGravity( _other.m_bUseGravity),
 	m_bIsKinematic( _other.m_bIsKinematic)
 {
@@ -71,7 +71,7 @@ void CRigidbody::LateUpdate()
 
 		// 중력
 	if (m_bUseGravity) { // f = m a = m 중력 가속도
-		Vector3 vGravityAccel = m_vGracityAccel;
+		Vector3 vGravityAccel = m_vGravityAccel;
 		vGravityAccel.y *= -1;
 		m_vAccel -= vGravityAccel;
 	}
@@ -109,7 +109,7 @@ bool CRigidbody::SaveToScene(FILE* _pFile)
 	FWrite(m_fMaxSpeed, _pFile);
 	FWrite(m_fFriction, _pFile);
 	FWrite(m_bIsFrictionActive, _pFile);
-	FWrite(m_vGracityAccel, _pFile);
+	FWrite(m_vGravityAccel, _pFile);
 	FWrite(m_bUseGravity, _pFile);
 	FWrite(m_bIsKinematic, _pFile);
 
@@ -119,14 +119,13 @@ bool CRigidbody::SaveToScene(FILE* _pFile)
 bool CRigidbody::LoadFromScene(FILE* _pFile)
 {
 	CComponent::LoadFromScene(_pFile);
-
 	FRead(m_vForce, _pFile);
 	FRead(m_fMass, _pFile);
 	FRead(m_fDrag, _pFile);
 	FRead(m_fMaxSpeed, _pFile);
 	FRead(m_fFriction, _pFile);
 	FRead(m_bIsFrictionActive, _pFile);
-	FRead(m_vGracityAccel, _pFile);
+	FRead(m_vGravityAccel, _pFile);
 	FRead(m_bUseGravity, _pFile);
 	FRead(m_bIsKinematic, _pFile);
 
