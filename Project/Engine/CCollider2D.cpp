@@ -7,8 +7,6 @@
 #include "CScript.h"
 #include "CConfigurationManager.h"
 
-queue<CMaterial*> g_queCollisionMtrl; // 충돌 시 생성된 메터리얼을 담을 곳
-
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
 	m_vOffsetPosition{},
@@ -18,7 +16,9 @@ CCollider2D::CCollider2D() :
 	m_pMaterial(nullptr)
 {
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectLineMesh);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
+
+	SharedPtr<CMaterial> pMtrl = m_pNonColliedMaterial;
+
 	SetMesh(pMesh);
 	SetMaterial(pMtrl);
 }
@@ -79,20 +79,8 @@ void CCollider2D::UpdateData()
 
 void CCollider2D::OnCollisionEnter2D(CCollider2D* _pOther)
 {
-	// 카운트가 0인 상태면
-	if (m_iCollisionCount == 0) {
-		// 메터리얼을 하나 만들어야되겠지
-		if (g_queCollisionMtrl.empty()) {
-			// 충돌 메터리얼이 없으면 새로 생성해서 que에다가 넣기?
-			g_queCollisionMtrl.push(m_pMaterial->Clone());
-		}
-		m_pMaterial = g_queCollisionMtrl.front();
-		g_queCollisionMtrl.pop();
-
-		int iConnectColor = 1;// 1 or 0
-		m_pMaterial->SetData(E_ShaderParam::Int_0, &iConnectColor);
-	}
 	IncreaseCollisionCnt();
+	m_pMaterial = m_pCollisionMaterial;
 
 	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
 	for (UINT i = 0; i < vecScripts.size(); ++i)
@@ -109,11 +97,9 @@ void CCollider2D::OnCollisionStay2D(CCollider2D* _pOther)
 void CCollider2D::OnCollisionExit2D(CCollider2D* _pOther)
 {
 	DecreaseCollisionCnt();
-	if (0 == m_iCollisionCount) {
-		g_queCollisionMtrl.push(m_pMaterial.Get());
-		m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
+	if (0 == m_iCollisionCount)
+		m_pMaterial = m_pNonColliedMaterial;
 
-	}
 	vector<CScript*>& vecScripts = GetGameObject()->_GetScripts();
 	for (UINT i = 0; i < vecScripts.size(); ++i)
 		vecScripts[i]->OnCollisionExit2D(_pOther);

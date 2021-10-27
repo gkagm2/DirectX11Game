@@ -8,7 +8,7 @@ CLight2D::CLight2D() :
 	CComponent(E_ComponentType::Light2D)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
-	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DMtrl);
+	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DNoneColliedMtrl);
 	m_tInfo.eLightType = E_LightType::Point;
 }
 

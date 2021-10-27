@@ -21,7 +21,7 @@ CUI::CUI(E_ComponentType _eComponentType) :
     m_vOffsetScale(Vector3(1.f,1.f,1.f))
 {
     m_pColMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectLineMesh);
-    m_pColMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DMtrl);
+    m_pColMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DNoneColliedMtrl);
     assert(m_pColMesh.Get());
     assert(m_pColMtrl.Get());
 }

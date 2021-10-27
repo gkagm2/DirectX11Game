@@ -486,7 +486,15 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderCollider2D);
 	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // green
 	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
-	AddRes(STR_KEY_Collider2DMtrl, pMtrl);
+	AddRes(STR_KEY_Collider2DNoneColliedMtrl, pMtrl);
+
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(pShaderCollider2D);
+	int iCollision = 1;
+	pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2, 1.f)); // green
+	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
+	AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
 
 	// 타일맵 재질 생성
 	pMtrl = new CMaterial(true);

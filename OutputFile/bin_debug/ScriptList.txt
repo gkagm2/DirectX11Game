@@ -20,4 +20,5 @@ CObjectDragAndDropScript_ca
 CPlayerScript_ca
 CPlayerScript_sh
 CRotateZScript
+CScriptManager
 CTestLight2DScript

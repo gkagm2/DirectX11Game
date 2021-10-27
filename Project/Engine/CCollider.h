@@ -9,7 +9,10 @@ class CCollider : public CComponent
 {
 protected:
 	int m_iCollisionCount;		  // 이 객체가 다른 충돌체와 충돌한 횟수
-	
+
+	SharedPtr<CMaterial> m_pCollisionMaterial;
+	SharedPtr<CMaterial> m_pNonColliedMaterial;
+
 protected:
 	void IncreaseCollisionCnt() { ++m_iCollisionCount; }
 	void DecreaseCollisionCnt() { --m_iCollisionCount; }

@@ -117,7 +117,8 @@
 #define STR_KEY_StdAlphaBlendMtrl _T("StandardMaterialAlphaBlend")
 #define STR_KEY_LineStripMtrl _T("LineStripLMaterial")
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
-#define STR_KEY_Collider2DMtrl _T("Collider2DMaterial")
+#define STR_KEY_Collider2DNoneColliedMtrl _T("Collider2DNonColliedMaterial") // 충돌되지 않았을 시 나타내는 메터리얼
+#define STR_KEY_Collider2DCollisionMtrl _T("Collider2DCollisionMaterial") // 충돌 시 나타내는 메터리얼 
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
