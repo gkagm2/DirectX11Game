@@ -105,7 +105,8 @@ void CTestScene::CreateTestScene()
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
-	Shooting2D();
+	Light2DTest();
+	//Shooting2D();
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
@@ -1258,6 +1259,7 @@ void CTestScene::Light2DTest()
 
 	// 카메라 오브젝트 생성
 	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->SetName(_T("Camera"));
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
@@ -1268,6 +1270,7 @@ void CTestScene::Light2DTest()
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
 
 	CGameObject* pPlayer = new CGameObject;
+	pPlayer->SetName(_T("Player"));
 	pPlayer->AddComponent<CPlayerScript_sh>();
 	pPlayer->AddComponent<CAnimator2D>();
 	pPlayer->AddComponent<CMeshRenderer>();

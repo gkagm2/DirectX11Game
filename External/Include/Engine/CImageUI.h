@@ -17,20 +17,25 @@ public:
 public:
 	void SetImageTex(SharedPtr<CTexture> _pTexture);
 	SharedPtr<CTexture> GetImageTex();
-	void SetColor(UINT _iColor) { m_iColor = _iColor; }
+	void SetColor(UINT _iColor);
 	UINT GetColor() { return m_iColor; }
 
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetCloneMaterial();
 	SharedPtr<CMaterial> GetSharedMaterial();
+	SharedPtr<CMaterial> GetCurMateial() { return m_pMtrl; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
+protected:
+	bool IsCurMtrlAlreadyClone();
+
 public:
 	CLONE(CImageUI);
 	CImageUI();
+	CImageUI(const CImageUI& _other);
 	CImageUI(E_ComponentType _eType);
 	virtual ~CImageUI() override;
 };

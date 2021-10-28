@@ -14,6 +14,7 @@ class CTileMap;
 class CParticleSystem;
 class CRigidbody2D;
 class CRectTransform;
+class CSpriteRenderer;
 class CCanvasRenderer;
 class CTextUI;
 class CImageUI;

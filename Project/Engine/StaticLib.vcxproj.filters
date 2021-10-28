@@ -217,6 +217,9 @@
     <ClInclude Include="CAudioSource.h">
       <Filter>Engine\07. Component\AudioSource</Filter>
     </ClInclude>
+    <ClInclude Include="CSpriteRenderer.h">
+      <Filter>Engine\07. Component\Renderer\SripteRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -417,6 +420,9 @@
     <ClCompile Include="CAudioSource.cpp">
       <Filter>Engine\07. Component\AudioSource</Filter>
     </ClCompile>
+    <ClCompile Include="CSpriteRenderer.cpp">
+      <Filter>Engine\07. Component\Renderer\SripteRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -583,6 +589,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\AudioSource">
       <UniqueIdentifier>{ddd92021-5625-46f8-9546-129ad799f2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Renderer\SripteRenderer">
+      <UniqueIdentifier>{ded05676-1051-4ce3-9f05-35fc655569f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

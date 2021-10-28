@@ -453,13 +453,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Cur Button State") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Disable RG color") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Disable BA color") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Normal Color") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("Highlighted Color") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_2, _T("Pressed Color") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_3, _T("Selected Color") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Cur Color") });
 
 	AddRes(STR_KEY_ButtonUIShader, pShader);
 

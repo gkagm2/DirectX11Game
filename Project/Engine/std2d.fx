@@ -407,15 +407,8 @@ float4 PS_Fog2D(VTX_OUT _in) : SV_Target
 /////////////
 // Button UI
 /////////////
-#define iButtonState g_int_0
-#define vNormalColor g_vec4_0
-#define vHighlightedColor g_vec4_1
-#define vPressedColor g_vec4_2
-#define vSelectedColor g_vec4_3
-#define vDisableColorRG g_vec2_0
-#define vDisableColorBA g_Vec2_1
-
-// vPos, vColor를 입력받아서 처리해주는 함수
+#define vUIColor g_vec4_0
+// vColor를 입력받아서 처리해주는 함수
 VTX_OUT VS_ButtonUI(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f; // 초기화
@@ -435,56 +428,9 @@ float4 PS_ButtonUI(VTX_OUT _in) : SV_Target
 {
     // Alpha 0.5 미만일 경우 반투명에서 아예 투명으로 됨.
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
-    
-    // 애니메이션 타입인 경우
-    if (bIsAnimating2D)
-    {
-        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
-        float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
-                
-        if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
-            && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
-        else
-            clip(-1);
-    }
-    else if (bTex_0)
-    {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-    }
+    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     // 색상 혼합
-    
-    // normal
-    if (0 == iButtonState)
-    {
-        
-    }
-    // highlighted
-    else if (1 == iButtonState)
-    {
-    }
-    // pressed
-    else if (1 == iButtonState)
-    {
-    }
-    // selected
-    else if (1 == iButtonState)
-    {
-    }
-    // disable
-    else if (1 == iButtonState)
-    {
-    }
-    else if (1 == iButtonState)
-    {
-    }
-    else if (1 == iButtonState)
-    {
-    }
-    
-    
-    
-        vOutColor = vOutColor * vUiColor;
+    vOutColor = vOutColor * vUIColor;
     return vOutColor;
 }
 

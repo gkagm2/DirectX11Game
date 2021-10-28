@@ -13,6 +13,7 @@ enum class E_ButtonState {
 class CButtonUI : public CImageUI
 {
 private:
+	UINT m_iNormalColor;
 	UINT m_iHighlightedColor;
 	UINT m_iPressedColor;
 	UINT m_iSelectedColor;
@@ -41,11 +42,7 @@ public:
 	float GetFadeDuration() { return m_fFadeDuration; }
 
 	// TODO (Jang) : UI의 Click event가 올 때 상태를 바꾸자.
-
-
-private:
-	bool IsCurMtrlAlreadyClone();
-
+	void ChangeButtonState(E_ButtonState _eState) { m_eButtonState = _eState; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

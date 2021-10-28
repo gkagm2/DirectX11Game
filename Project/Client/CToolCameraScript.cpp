@@ -26,7 +26,7 @@ CToolCameraScript::~CToolCameraScript()
 
 void CToolCameraScript::Start()
 {
-	GetGameObject()->Transform()->SetLocalPosition(Vector3{});
+	GetGameObject()->Transform()->SetLocalPosition(Vector3{0, 0, -500.f});
 }
 
 void CToolCameraScript::Update()

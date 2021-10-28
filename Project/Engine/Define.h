@@ -57,6 +57,7 @@
 	GET_COMPONENT(Rigidbody2D)\
 	GET_COMPONENT(AudioSource)\
 	GET_COMPONENT(RectTransform)\
+	GET_COMPONENT(SpriteRenderer)\
 	GET_COMPONENT(CanvasRenderer)\
 	GET_COMPONENT(TextUI)\
 	GET_COMPONENT(ImageUI)\
@@ -83,6 +84,7 @@
 	GET_OTHER_COMPONENT(Rigidbody2D)\
 	GET_OTHER_COMPONENT(AudioSource)\
 	GET_OTHER_COMPONENT(RectTransform)\
+	GET_OTHER_COMPONENT(SpriteRenderer)\
 	GET_OTHER_COMPONENT(CanvasRenderer)\
 	GET_OTHER_COMPONENT(TextUI)\
 	GET_OTHER_COMPONENT(ImageUI)\
@@ -169,6 +171,7 @@ enum class E_ComponentType {
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
 	MeshRenderer,
+	SpriteRenderer,
 	ParticleSystem,
 	TileMap,
 #pragma endregion

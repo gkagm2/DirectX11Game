@@ -103,45 +103,45 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::AudioSource]->SetUISize(ImVec2(0.f, 110.f));
 
 
-// CameraGUI
-m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
-m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+	// CameraGUI
+	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
 
-// UI
-// TextUI
-m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
-m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 100.f));
+	// UI
+	// TextUI
+	m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 100.f));
 
-// ImageUI
-m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
-m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
+	// ImageUI
+	m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
 
-// ButtonUI
-m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
-m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
+	// ButtonUI
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
 
 
-// Script GUI
-m_pScriptGUI = new ScriptGUI;
-m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
+	// Script GUI
+	m_pScriptGUI = new ScriptGUI;
+	m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
 
-//////////// Resources
+	//////////// Resources
 
-m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
-m_arrResGUI[(UINT)E_ResourceType::Material]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrResGUI[(UINT)E_ResourceType::Material] = new MaterialGUI;
+	m_arrResGUI[(UINT)E_ResourceType::Material]->SetUISize(ImVec2(0.f, 0.f));
 
-m_arrResGUI[(UINT)E_ResourceType::Texture] = new TextureGUI;
-m_arrResGUI[(UINT)E_ResourceType::Texture]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrResGUI[(UINT)E_ResourceType::Texture] = new TextureGUI;
+	m_arrResGUI[(UINT)E_ResourceType::Texture]->SetUISize(ImVec2(0.f, 0.f));
 
-m_arrResGUI[(UINT)E_ResourceType::Prefab] = new PrefabGUI;
-m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrResGUI[(UINT)E_ResourceType::Prefab] = new PrefabGUI;
+	m_arrResGUI[(UINT)E_ResourceType::Prefab]->SetUISize(ImVec2(0.f, 0.f));
 }
 
 void InspectorGUI::Update()
 {
 	// TODO (Jang) : HierachyGUI 내부에서  Focusing된 object. none으로 설정하게끔 해야됨
-	/*if (CEventManager::GetInstance()->DidEventHappended())
-		m_eMode = E_InspectorUIMode::None;*/
+	//if (CEventManager::GetInstance()->DidEventHappended())
+	//	m_eMode = E_InspectorUIMode::None;
 
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 
@@ -170,7 +170,7 @@ void InspectorGUI::UpdateObjectGUI()
 	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
-	static tstring strName = m_pTargetObject->GetName();
+	tstring strName = m_pTargetObject->GetName();
 	TStringToArr(strName, strObjName, 255);
 	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
 		tstring tname;

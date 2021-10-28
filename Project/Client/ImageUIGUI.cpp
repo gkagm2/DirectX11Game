@@ -48,8 +48,8 @@ void ImageUIGUI::Update()
 	ImGui::Spacing();
 	ImGui::Text("Color");
 	UINT iColor = pImageUI->GetColor();
-	ParamGUI::Render_Color("Color##ImageUI", &iColor);
-	pImageUI->SetColor(iColor);
+	if(ParamGUI::Render_Color("Color##ImageUI", &iColor))
+		pImageUI->SetColor(iColor);
 
 	// 컴포넌트 추가 버튼
 	//if (ImGui::Button("Add Component##ComponentAdd")) {

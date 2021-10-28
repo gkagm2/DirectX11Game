@@ -18,6 +18,7 @@ public:
 	void SetMesh(SharedPtr<CMesh> _pMesh) { m_pMesh = _pMesh; }
 	void SetMaterial(SharedPtr<CMaterial> _pMtrl) { m_pMtrl = _pMtrl; }
 
+
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetCloneMaterial();
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }

@@ -20,6 +20,7 @@
 #include "CAudioSource.h"
 #include "CRectTransform.h"
 #include "CCanvasRenderer.h"
+#include "CSpriteRenderer.h"
 
 #include "CTextUI.h"
 #include "CButtonUI.h"
@@ -191,6 +192,9 @@ void CGameObject::Render()
 {
 	if (MeshRenderer() && MeshRenderer()->IsActive())		// ¸Þ½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
+
+	if (SpriteRenderer() && SpriteRenderer()->IsActive())
+		SpriteRenderer()->Render();
 
 	if (CanvasRenderer() && CanvasRenderer()->IsActive())
 		CanvasRenderer()->Render();
@@ -570,6 +574,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::RectTransform:
 		pComponent = new CRectTransform;
+		break;
+	case E_ComponentType::SpriteRenderer:
+		pComponent = new CSpriteRenderer;
 		break;
 	case E_ComponentType::CanvasRenderer:
 		pComponent = new CCanvasRenderer;
