@@ -214,6 +214,7 @@
     </ClInclude>
     <ClInclude Include="InspectorGUI.h" />
     <ClInclude Include="InspectorViewGUI.h" />
+    <ClInclude Include="LayerCheckGUI.h" />
     <ClInclude Include="Light2DGUI.h" />
     <ClInclude Include="LightGUI.h" />
     <ClInclude Include="ListViewGUI.h" />
@@ -301,6 +302,7 @@
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp" />
     <ClCompile Include="InspectorViewGUI.cpp" />
+    <ClCompile Include="LayerCheckGUI.cpp" />
     <ClCompile Include="Light2DGUI.cpp" />
     <ClCompile Include="LightGUI.cpp" />
     <ClCompile Include="ListViewGUI.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
 #include "ComponentGUI.h"
+
+class LayerCheckGUI;
 class CameraGUI : public ComponentGUI
 {
 private:

@@ -9,6 +9,8 @@
 #define STR_GUI_ResourceView "Resource"
 #define STR_GUI_SceneView "Scene"
 
+#define STR_GUI_LayerCheck "Layer Check"
+
 // GUI tool names
 #define STR_GUI_TileMapEditor "Tile Map Editor"
 #define STR_GUI_ToolCamera "ToolCamera"

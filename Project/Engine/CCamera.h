@@ -84,6 +84,12 @@ public:
 	}
 	void SetLayerCheckAll() { m_iLayerCheck = 0xffffffff; } // 모든 레이어 렌더링
 	void SetLayerCheckAllUnActive() { m_iLayerCheck = 0; }	// 모든 레이어 렌더링 해제
+
+	bool IsLayerChecked(int _iLayerIdx) {
+		if (m_iLayerCheck & (1 << _iLayerIdx))
+			return true;
+		return false;
+	}
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();

@@ -3,6 +3,8 @@
 #include <Engine\CCamera.h>
 #include <Engine\CGameObject.h>
 #include "ParamGUI.h"
+#include "LayerCheckGUI.h"
+#include "CImGuiManager.h"
 
 CameraGUI::CameraGUI() :
 	ComponentGUI(E_ComponentType::Camera)
@@ -37,6 +39,13 @@ void CameraGUI::Update()
 
 	pCam->SetProjectionType(eCamType);
 
+	if(ImGui::Button("Layer Setting")) {
+		LayerCheckGUI* pLayerCheck = (LayerCheckGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_LayerCheck);
+		if (pLayerCheck) {
+			pLayerCheck->SetCamera(pCam, this);
+			pLayerCheck->SetActive(true);
+		}
+	}
 
 	switch(eCamType) {
 	case E_ProjectionType::Orthographic: {

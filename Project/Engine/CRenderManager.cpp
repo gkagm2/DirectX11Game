@@ -63,6 +63,7 @@ void CRenderManager::_RenderInGame()
 {
 	// In Game Scene의 카메라 기준 렌더링
 	for (UINT i = 0; i < m_vecCam.size(); ++i) {
+
 		m_vecCam[i]->_SortObjects();
 		m_vecCam[i]->_RenderForward();
 		m_vecCam[i]->_RenderParticle();

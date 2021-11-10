@@ -151,6 +151,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "TileMapEditorGUI.h"
 #include "ToolCameraGUI.h"
 
+#include "LayerCheckGUI.h"
 
 #include "ModuleCreatorGUI_ca.h"
 void CImGuiManager::InitCaptainForeverGUI()
@@ -240,6 +241,11 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     CollisionEditorGUI* pCollsionEditorGUI = new CollisionEditorGUI;
     pCollsionEditorGUI->Init();
     AddGUI(pCollsionEditorGUI->GetName(), pCollsionEditorGUI);
+
+    LayerCheckGUI* pLayerCheckGUI = new LayerCheckGUI();
+    pLayerCheckGUI->Init();
+    AddGUI(pLayerCheckGUI->GetName(), pLayerCheckGUI);
+
 }
 
 void CImGuiManager::Init_ListViewGUI()

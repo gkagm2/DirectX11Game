@@ -14,8 +14,8 @@ private:
 	ScratchImage m_Image;
 	ComPtr<ID3D11Texture2D>             m_pTex2D;
 
-	ComPtr<ID3D11ShaderResourceView>    m_pSRV;
-	ComPtr<ID3D11UnorderedAccessView>	m_pUAV;
+	ComPtr<ID3D11ShaderResourceView>    m_pSRV; // t register
+	ComPtr<ID3D11UnorderedAccessView>	m_pUAV; // u register
 	ComPtr<ID3D11RenderTargetView>		m_pRTV;
 
 	ComPtr<ID3D11DepthStencilView>		m_pDSV;
