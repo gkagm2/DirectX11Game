@@ -35,7 +35,7 @@ public:
 	void InitSound();
 	
 public:
-	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
+	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag); // param(_iBindFlag) : D3D11_BIND_FLAG
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, ComPtr<ID3D11Texture2D> _pTexture2D);
 
 	// strRelativePath값이 없으면 strKey값을 RelativePath값과 동일 시 함.

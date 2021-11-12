@@ -206,6 +206,9 @@
     <Filter Include="02. GUI\Module\LayerCheckGUI">
       <UniqueIdentifier>{a4087260-7ecc-45c4-93be-31269ef747a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI">
+      <UniqueIdentifier>{079f3260-c574-43b5-b5e9-b322618e09cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -399,6 +402,9 @@
     <ClInclude Include="LayerCheckGUI.h">
       <Filter>02. GUI\Module\LayerCheckGUI</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystemGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -575,6 +581,9 @@
     </ClCompile>
     <ClCompile Include="LayerCheckGUI.cpp">
       <Filter>02. GUI\Module\LayerCheckGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

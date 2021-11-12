@@ -449,7 +449,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXButtonUIShader);
 
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
-	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	pShader->SetBlendState(E_BlendState::AlphaBlend);
 	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
@@ -466,7 +466,7 @@ void CResourceManager::CreateDefaultShader()
 	// rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 	// blend
-	pShader->SetBlendState(E_BlendState::One_One);
+	pShader->SetBlendState(E_BlendState::One_One); // TODO (Jang) : AlphaBlend여야 하지 않나..
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Fog Texture") });
 	AddRes(STR_KEY_Fog2DShader, pShader);
@@ -511,63 +511,63 @@ void CResourceManager::CreateDefaultMaterial()
 	AddRes(STR_KEY_Collider2DNoneColliedMtrl, pMtrl);
 
 	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(pShaderCollider2D);
-	int iCollision = 1;
-	pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
-	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
-	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
-	AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
+pMtrl->SetShader(pShaderCollider2D);
+int iCollision = 1;
+pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
+pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
+pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
+AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
 
-	// 타일맵 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
-	pMtrl->SetShader(pShaderTileMap);
-	AddRes(STR_KEY_TileMapMtrl, pMtrl);
+// 타일맵 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
+pMtrl->SetShader(pShaderTileMap);
+AddRes(STR_KEY_TileMapMtrl, pMtrl);
 
-	// 파티클 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
-	pMtrl->SetShader(pShaderParticle);
-	AddRes(STR_KEY_ParticleMtrl, pMtrl);
+// 파티클 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
+pMtrl->SetShader(pShaderParticle);
+AddRes(STR_KEY_ParticleMtrl, pMtrl);
 
-	// 왜곡(Distortion) 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
-	pMtrl->SetShader(pShaderDistortion);
+// 왜곡(Distortion) 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
+pMtrl->SetShader(pShaderDistortion);
 
-	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-	AddRes(STR_KEY_DistortionMtrl, pMtrl);
+SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+AddRes(STR_KEY_DistortionMtrl, pMtrl);
 
-	// FishEye 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
-	pMtrl->SetShader(pShaderFishEye);
+// FishEye 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
+pMtrl->SetShader(pShaderFishEye);
 
-	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
+pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+AddRes(STR_KEY_FishEyeMtrl, pMtrl);
 
-	// Canvas 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderCanvas = LoadRes<CGraphicsShader>(STR_KEY_CanvasShader);
-	pMtrl->SetShader(pShaderCanvas);
-	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
-	AddRes(STR_KEY_CanvasMtrl, pMtrl);
+// Canvas 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderCanvas = LoadRes<CGraphicsShader>(STR_KEY_CanvasShader);
+pMtrl->SetShader(pShaderCanvas);
+pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+AddRes(STR_KEY_CanvasMtrl, pMtrl);
 
-	// Fog 2D 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderFog2D = LoadRes<CGraphicsShader>(STR_KEY_Fog2DShader);
-	pMtrl->SetShader(pShaderFog2D);
-	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
-	AddRes(STR_KEY_Fog2DMtrl, pMtrl);
+// Fog 2D 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pShaderFog2D = LoadRes<CGraphicsShader>(STR_KEY_Fog2DShader);
+pMtrl->SetShader(pShaderFog2D);
+pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
+AddRes(STR_KEY_Fog2DMtrl, pMtrl);
 
-	// ButtonUI 재질 생성
-	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pButtonUI = LoadRes<CGraphicsShader>(STR_KEY_ButtonUIShader);
-	pMtrl->SetShader(pButtonUI);
-	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
-	AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
+// ButtonUI 재질 생성
+pMtrl = new CMaterial(true);
+SharedPtr<CGraphicsShader> pButtonUI = LoadRes<CGraphicsShader>(STR_KEY_ButtonUIShader);
+pMtrl->SetShader(pButtonUI);
+pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
 }
 
 
@@ -611,22 +611,30 @@ void CResourceManager::CreateDefaultTexture()
 // param(_iBindFlag) : D3D11_BIND_FLAG
 SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag)
 {
-	assert(nullptr == FindRes<CTexture>(_strKey));
+	SharedPtr<CTexture> pTexture = FindRes<CTexture>(_strKey);
+	if (nullptr != pTexture) {
+		assert(nullptr && _T("텍스쳐 생성 실패"));
+		return pTexture;
+	}
 
-	CTexture* pTexture = new CTexture;
+	pTexture = new CTexture;
 	pTexture->Create(_iWidth, _iHeight, _eFormat, _iBindFlag);
-	AddRes<CTexture>(_strKey, pTexture);
+	AddRes<CTexture>(_strKey, pTexture.Get());
 	m_bFixed = true;
 	return pTexture;
 }
 
 SharedPtr<CTexture> CResourceManager::CreateTexture(const tstring& _strKey, ComPtr<ID3D11Texture2D> _pTexture2D)
 {
-	assert(nullptr == FindRes<CTexture>(_strKey));
+	SharedPtr<CTexture> pTexture = FindRes<CTexture>(_strKey);
+	if (nullptr != pTexture) {
+		assert(nullptr && _T("텍스쳐 생성 실패"));
+		return pTexture;
+	}
 
-	CTexture* pTexture = new CTexture;
+	pTexture = new CTexture;
 	pTexture->Create(_pTexture2D);
-	AddRes<CTexture>(_strKey, pTexture);
+	AddRes<CTexture>(_strKey, pTexture.Get());
 	m_bFixed = true;
 	return pTexture;
 }

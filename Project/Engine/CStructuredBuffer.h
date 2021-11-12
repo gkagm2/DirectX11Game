@@ -29,6 +29,7 @@ public:
 	void Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pSysData = nullptr);
 
 	void SetData(void* _pSysMem, UINT _iElementCount) const; // system memory -> buffer gpu
+	void GetData(void* _pDest, UINT _iElementCount);
 	void UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage = E_ShaderStage::All); // gpu data -> gpu register binding
 	void UpdateDataRW(UINT _iRegisterNum);
 

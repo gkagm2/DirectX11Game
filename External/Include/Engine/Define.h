@@ -132,6 +132,7 @@ enum class E_ConstBuffer {
 	End,
 };
 
+// Pipeline Stage
 enum class E_ShaderStage {
 	Vertex = 0x01, // 1
 	Hull = 0x02, // 2

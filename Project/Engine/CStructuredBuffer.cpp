@@ -140,6 +140,11 @@ void CStructuredBuffer::SetData(void* _pSysMem, UINT _iElementCount) const
 		CONTEXT->CopyResource(m_pSB_RW.Get(), m_pSB_R.Get());
 }
 
+void CStructuredBuffer::GetData(void* _pDest, UINT _iElementCount)
+{
+	// TODO (Jang) : Get Data ¸¸µé±â
+}
+
 void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 {
 	m_iRecentRegisterNum = _iRegisterNum;

@@ -23,6 +23,7 @@
 #include "RectTransformGUI.h"
 #include "CanvasRendererGUI.h"
 #include "AudioSourceGUI.h"
+#include "ParticleSystemGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -106,6 +107,10 @@ void InspectorGUI::Init()
 	// CameraGUI
 	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+
+	// ParticleSystemGUI
+	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem] = new ParticleSystemGUI;
+	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem]->SetUISize(ImVec2(0.f, 310.f));
 
 	// UI
 	// TextUI

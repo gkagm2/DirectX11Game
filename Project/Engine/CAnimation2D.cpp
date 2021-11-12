@@ -23,6 +23,7 @@ CAnimation2D::~CAnimation2D()
 
 void CAnimation2D::LateUpdate()
 {
+	// (jang) :  실행할때만 Animation이 돌아가도록 만들기 위하여 FinalUpdate가 아닌 LateUpdate에서 설정함.
 	if (m_bFinish)
 		return;
 

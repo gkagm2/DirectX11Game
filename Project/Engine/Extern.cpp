@@ -80,6 +80,9 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::ParticleSystem:
 		strComponentType = _T("ParticleSystem");
 		break;
+	case E_ComponentType::SpriteRenderer:
+		strComponentType = _T("SpriteRenderer");
+		break;
 	case E_ComponentType::TileMap:
 		strComponentType = _T("TileMap");
 		break;

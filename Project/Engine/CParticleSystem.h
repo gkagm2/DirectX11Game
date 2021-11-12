@@ -40,6 +40,34 @@ public:
 	virtual void LateUpdate() override;
 	virtual void Render() override;
 
+public:
+	void SetStartColor(const Vector4 _vColor) { m_vStartColor = _vColor; }
+	void SetEndColor(const Vector4 _vColor) { m_vEndColor = _vColor; }
+	void SetStartScale(const Vector3 _vScale) {
+		m_vStartScale = Vector4(_vScale.x, _vScale.y, _vScale.z, 1.f);
+	}
+	void SetEndScale(const Vector3 _vScale) {
+		m_vEndScale = Vector4(_vScale.x, _vScale.y, _vScale.z, 1.f);
+	}
+	void SetMinLifeTime(float _fTime) { m_fMinLifeTime = _fTime; }
+	void SetMaxLifeTime(float _fTime) { m_fMaxLifeTime = _fTime; }
+	void SetSpawnCntPerSec(UINT _iParticleCnt) { m_iSpawnCntPerSec = _iParticleCnt; }
+	void SetMaxParticleCount(UINT _iParticleCnt) { m_iMaxParticleCount; }
+
+	void SetRadius(const Vector3 _vRadius) { m_vRadius - _vRadius; }
+
+	const Vector4& GetStartColor() { return m_vStartColor; }
+	const Vector4& GetEndColor() { return m_vEndColor; }
+	const Vector3& GetStartScale() { return m_vStartScale; }
+	const Vector3& GetEndScale() { return m_vEndScale; }
+	float GetMinLifeTime() { return m_fMinLifeTime; }
+	float GetMaxLifeTime() { return m_fMaxLifeTime; }
+	UINT GetSapwnCntPerSec() { return m_iSpawnCntPerSec; }
+	UINT GetMaxParticleCount() { return m_iMaxParticleCount; }
+	const Vector3& GetRadius() { return m_vRadius; }
+
+	UINT GetParticleTexCnt() { return m_vecParticleTex.size(); }
+	void SetParticleTexIdx(UINT _idx);
 private:
 	UINT _CalculateSpawnCount(); // 파티클 생성가능한 갯수 구하기
 

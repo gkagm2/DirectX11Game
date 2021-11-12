@@ -105,6 +105,7 @@ void CParticleSystem::Update()
 
 void CParticleSystem::LateUpdate()
 {
+	// (jang) : 실행 시 보여주기 위해 FinalUpdate에서 하지 않고 LateUpdate에 넣음.
 	m_pUpdateShader->SetParticleBuffer(m_pParticleBuffer.get());
 	UINT iSpawnCount = _CalculateSpawnCount();
 	m_pUpdateShader->SetSpawnCount(iSpawnCount);
@@ -120,6 +121,7 @@ void CParticleSystem::LateUpdate()
 void CParticleSystem::Render()
 {
 	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_vecParticleTex[m_iTexIdx].Get());
+
 	m_pMaterial->SetData(E_ShaderParam::Vector4_0, &m_vStartColor);
 	m_pMaterial->SetData(E_ShaderParam::Vector4_1, &m_vEndColor);
 	m_pMaterial->SetData(E_ShaderParam::Vector4_2, &m_vStartScale);
@@ -134,6 +136,14 @@ void CParticleSystem::Render()
 
 	m_pMaterial->Clear();
 	m_pParticleBuffer->Clear(E_ShaderStage::All);
+}
+
+void CParticleSystem::SetParticleTexIdx(UINT _idx)
+{
+	if (_idx >= m_vecParticleTex.size())
+		_idx = 0;
+	else
+		m_iTexIdx = _idx;
 }
 
 UINT CParticleSystem::_CalculateSpawnCount()
