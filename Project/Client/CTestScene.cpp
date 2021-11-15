@@ -105,7 +105,8 @@ void CTestScene::CreateTestScene()
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
-	Light2DTest();
+	ParticleSystemTest2();
+	//Light2DTest();
 	//Shooting2D();
 	//FontRendering();
 	//Collision2DTest();
@@ -1485,6 +1486,48 @@ void CTestScene::ParticleSystemTest()
 	pParticleObj = pParticleObj->Clone();
 	pParticleObj->Transform()->SetLocalPosition(Vector3(-100.f, 0.f, 100.f));
 	CObject::CreateGameObjectEvn(pParticleObj, 0);
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::ParticleSystemTest2()
+{
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->SetName(_T("Camera"));
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pCameraObj->Camera()->SetSize(1.f);
+
+	CObject::CreateGameObjectEvn(pCameraObj, 0);
+
+	// Particle System Example
+	CGameObject* pParticleObj = new CGameObject();
+	pParticleObj->SetName(_T("particle object"));
+	pParticleObj->AddComponent<CTransform>();
+	pParticleObj->AddComponent<CParticleSystem>();
+
+	pParticleObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+	pParticleObj->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
+	CObject::CreateGameObjectEvn(pParticleObj, 0);
+
+	pParticleObj->ParticleSystem()->SetShape(E_ParticleShape::Cone_Spread);
+	pParticleObj->ParticleSystem()->SetGravityEnable(true);
+	pParticleObj->ParticleSystem()->SetMaxParticleCount(20.f);
+	pParticleObj->ParticleSystem()->SetSpawnCntPerSec(100.f);
+	pParticleObj->ParticleSystem()->SetMinLifeTime(0.5f);
+	pParticleObj->ParticleSystem()->SetMaxLifeTime(1.f);
+	pParticleObj->ParticleSystem()->SetStartColor(Vector4(0.f, 0.f, 0.5f, 1.f));
+	pParticleObj->ParticleSystem()->SetEndColor(Vector4(0.f, 0.f, 1.f, 1.f));
+
+	
 
 	// Scene 초기화
 	pNewScene->Awake();

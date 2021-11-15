@@ -317,3 +317,13 @@ enum class E_LightType {
 	End, // 사용하지 않음
 };
 tstring LightTypeToStr(E_LightType _eType);
+
+
+// TIP : 추가 시 particle_update.fx 파일에 조건문 추가하기
+enum class E_ParticleShape {
+	Circle_Spread,
+	Circle_Combine,
+	Cone_Spread,
+	Edge,
+	Sphere, // 3d
+};

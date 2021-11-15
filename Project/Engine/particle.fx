@@ -14,7 +14,6 @@
 #define vEndScale   g_vec4_3.xyz
 
 #define particleTex g_tex_0
-
 // --------------------
 
 StructuredBuffer<TParticle> g_particle : register(t12);

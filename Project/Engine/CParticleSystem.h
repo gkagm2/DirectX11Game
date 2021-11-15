@@ -5,6 +5,7 @@
 #include "CTexture.h"
 #include "CParticleUpdateShader.h"
 
+
 class CStructuredBuffer;
 class CParticleSystem : public CComponent
 {
@@ -33,6 +34,10 @@ private:
 	UINT	m_iMaxParticleCount; // 파티클 최대 개수
 	Vector3 m_vRadius;			 // 파티클 생성 범위
 	float	m_fAccTime;			 // 누적시간
+
+	bool	m_bGravityEnable;	 // 중력 적용
+
+	E_ParticleShape m_eShape;
 
 public:
 	virtual void Start() override;
@@ -68,6 +73,13 @@ public:
 
 	UINT GetParticleTexCnt() { return m_vecParticleTex.size(); }
 	void SetParticleTexIdx(UINT _idx);
+
+	void SetShape(E_ParticleShape _eShape) { m_eShape = _eShape; }
+	E_ParticleShape GetShape() { return m_eShape; }
+
+	void SetGravityEnable(bool _bGravityEnable) { m_bGravityEnable = _bGravityEnable; }
+	bool IsGravityEnable() { return m_bGravityEnable; }
+
 private:
 	UINT _CalculateSpawnCount(); // 파티클 생성가능한 갯수 구하기
 

@@ -23,6 +23,9 @@ private:
 	float m_fMaxLifeTime;
 	UINT  m_iSpawnCount; // 이번 프레임에 파티클을 생성 할 개수
 
+	E_ParticleShape m_eShape; // 파티클 모양
+	bool m_bGravityEnable;
+
 public:
 	virtual void UpdateData() override;
 	virtual void Clear() override;
@@ -37,6 +40,10 @@ public:
 	void SetSpawnCount(UINT _iSpawnCount) { m_iSpawnCount = _iSpawnCount; }
 	void SetRadius(const Vector3& _vRadius) { m_vRadius = _vRadius; }
 	void SetWorldPos(const Vector3& _vPos) { m_vObjectPos = _vPos; }
+
+	void SetShape(E_ParticleShape _eShape) { m_eShape; }
+
+	void SetGravityEnable(bool _bGravityEnable) { m_bGravityEnable = _bGravityEnable; }
 
 public:
 	CParticleUpdateShader();

@@ -11,7 +11,9 @@ CParticleUpdateShader::CParticleUpdateShader() :
 	m_fEndSpeed(0.f),
 	m_fMinLifeTime(1.f),
 	m_fMaxLifeTime(4.f),
-	m_iSpawnCount(0)
+	m_iSpawnCount(0),
+	m_eShape(E_ParticleShape::Circle_Combine),
+	m_bGravityEnable(false)
 {
 	m_pSharedBuffer = make_unique<CStructuredBuffer>();
 	m_pSharedBuffer->Create(E_StructuredBufferType::Dual, sizeof(TSharedParticleData), 1);
@@ -38,6 +40,8 @@ void CParticleUpdateShader::UpdateData()
 
 
 	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount(); // 파티클의 최대 개수
+	m_tInfo.iArr[1] = (int)m_eShape;
+	m_tInfo.iArr[2] = (int)m_bGravityEnable;
 
 	m_tInfo.fArr[0] = m_fStartSpeed;
 	m_tInfo.fArr[1] = m_fEndSpeed;

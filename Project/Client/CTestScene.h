@@ -19,6 +19,7 @@ protected:
 	static void Light2DTest();					// Done
 	static void TileMapTest();					// Done
 	static void ParticleSystemTest();			// Done
+	static void ParticleSystemTest2();			
 	static void PrefabRegisterTest();			// Done
 	static void FileSaveLoadTest();				// Done
 	static void SceneSaveLoadTest();			// Done

@@ -22,7 +22,9 @@ CParticleSystem::CParticleSystem() :
 	m_iSpawnCntPerSec(100),
 	m_iMaxParticleCount(100),
 	m_fAccTime(0.f),
-	m_vRadius(50.f, 50.f, 0.f)
+	m_vRadius(50.f, 50.f, 0.f),
+	m_eShape(E_ParticleShape::Circle_Spread),
+	m_bGravityEnable(false)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_PointMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_ParticleMtrl);
@@ -65,7 +67,9 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _origin) :
 	m_iSpawnCntPerSec(_origin.m_iSpawnCntPerSec),
 	m_iMaxParticleCount(_origin.m_iMaxParticleCount),
 	m_fAccTime(_origin.m_fAccTime),
-	m_vRadius(_origin.m_vRadius)
+	m_vRadius(_origin.m_vRadius),
+	m_eShape(_origin.m_eShape),
+	m_bGravityEnable(_origin.m_bGravityEnable)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_PointMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_ParticleMtrl);
@@ -115,6 +119,8 @@ void CParticleSystem::LateUpdate()
 	m_pUpdateShader->SetMaxLifeTime(m_fMaxLifeTime);
 	m_pUpdateShader->SetRadius(m_vRadius);
 	m_pUpdateShader->SetWorldPos(Transform()->GetPosition());
+	m_pUpdateShader->SetShape(m_eShape);
+	m_pUpdateShader->SetGravityEnable(m_bGravityEnable);
 	m_pUpdateShader->Excute();
 }
 
@@ -189,6 +195,8 @@ bool CParticleSystem::SaveToScene(FILE* _pFile)
 	FWrite(m_iSpawnCntPerSec, _pFile);
 	FWrite(m_iMaxParticleCount, _pFile);
 	FWrite(m_vRadius, _pFile);
+	FWrite(m_eShape, _pFile);
+	FWrite(m_bGravityEnable, _pFile);
 
 	return true;
 }
@@ -219,6 +227,8 @@ bool CParticleSystem::LoadFromScene(FILE* _pFile)
 	FRead(m_iSpawnCntPerSec, _pFile);
 	FRead(m_iMaxParticleCount, _pFile);
 	FRead(m_vRadius, _pFile);
+	FRead(m_eShape, _pFile);
+	FRead(m_bGravityEnable, _pFile);
 
 	if (m_iMaxParticleCount != m_pParticleBuffer->GetElementCount()) {
 		m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, nullptr);
