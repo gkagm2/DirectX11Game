@@ -150,6 +150,7 @@
     <ClInclude Include="CLookAtScript.h">
       <Filter>Games\Useful</Filter>
     </ClInclude>
+    <ClInclude Include="CPostProcessingScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -230,5 +231,6 @@
     <ClCompile Include="CRotateZScript.cpp">
       <Filter>Games\Useful</Filter>
     </ClCompile>
+    <ClCompile Include="CPostProcessingScript.cpp" />
   </ItemGroup>
 </Project>

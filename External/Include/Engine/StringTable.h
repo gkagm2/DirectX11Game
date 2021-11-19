@@ -83,6 +83,8 @@
 #define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
 #define STR_FUNC_NAME_VTX_FishEye "VS_FishEye"
 #define STR_FUNC_NAME_PIX_FishEye "PS_FishEye"
+#define STR_FUNC_NAME_VTX_Blur "VS_Blur"
+#define STR_FUNC_NAME_PIX_Blur "PS_Blur"
 
 
 ////////// Resource Key ///////////////
@@ -105,6 +107,7 @@
 #define STR_KEY_ParticleShader _T("ParticleShader")
 #define STR_KEY_DistortionShader _T("DistortionShader")
 #define STR_KEY_FishEyeShader _T("FishEyeShader")
+#define STR_KEY_BlurShader _T("BlurShader")
 #define STR_KEY_CanvasShader _T("CanvasShader")
 #define STR_KEY_Fog2DShader _T("Fog2DShader")
 #define STR_KEY_ButtonUIShader _T("ButtonUIShader")
@@ -127,6 +130,8 @@
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 #define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")
+#define STR_KEY_BlurMtrl _T("BlurMaterial")
+#define STR_KEY_PaperBurnMtrl _T("PaperBurnMaterial")
 #define STR_KEY_CanvasMtrl _T("CanvasMaterial")
 #define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
 #define STR_KEY_ButtonUIMtrl _T("ButtonUIMaterial")

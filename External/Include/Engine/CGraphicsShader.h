@@ -17,7 +17,7 @@ private:
 
 	ComPtr<ID3D11InputLayout>		m_pLayout; // 입력 어셈블러 단계에 대한 입력 버퍼 데이터를 설명하는 입력 레이어웃 개체를 만든다.(GPU에 전달할 버텍스가 어떤 구성요소인지 알려주는 역할)
 
-	E_RenderPov						m_eRenderPov; // 렌더링 시점
+	E_RenderTimePoint						m_eRenderTimePoint; // 렌더링 시점
 	D3D11_PRIMITIVE_TOPOLOGY		m_eTopology; 
 	E_RasterizerState				m_eRSState; // Rasterizer의 상태
 	E_BlendState					m_eBlendState;
@@ -32,7 +32,7 @@ public:
 	void SetBlendState(E_BlendState _eBlendState) { m_eBlendState = _eBlendState; }
 	void SetDepthStencilState(E_DepthStencilState _eDepthStencilState) { m_eDepthStencilState = _eDepthStencilState; }
 
-	E_RenderPov GetRenderPov() { return m_eRenderPov; }
+	E_RenderTimePoint GetRenderTimePosition() { return m_eRenderTimePoint; }
 
 public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);
@@ -52,6 +52,6 @@ private:
 
 public:
 	CGraphicsShader();
-	CGraphicsShader(E_RenderPov _ePov);
+	CGraphicsShader(E_RenderTimePoint _eTimePoint);
 	virtual ~CGraphicsShader() override;
 };

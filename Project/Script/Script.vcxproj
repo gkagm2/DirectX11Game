@@ -190,6 +190,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CModuleScript_ca.h" />
     <ClInclude Include="CPlayerScript_ca.h" />
     <ClInclude Include="CPlayerScript_sh.h" />
+    <ClInclude Include="CPostProcessingScript.h" />
     <ClInclude Include="CRotateZScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CTestLight2DScript.h" />
@@ -218,6 +219,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CModuleScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_ca.cpp" />
     <ClCompile Include="CPlayerScript_sh.cpp" />
+    <ClCompile Include="CPostProcessingScript.cpp" />
     <ClCompile Include="CRotateZScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp" />

@@ -97,7 +97,9 @@ void CMesh::Render()
 	//UINT iVertexCnt = 3;
 	//UINT iStartVertexLocation = 0;
 	// CONTEXT->Draw(iVertexCnt, iStartVertexLocation); 
-
+	
+	// 메쉬 세팅
+	UpdateData();
 	// 인덱스 버퍼를 사용
 	UINT iStartIndexLocation = 0;
 	UINT iBaseVertexLocation = 0;
@@ -106,6 +108,7 @@ void CMesh::Render()
 
 void CMesh::Render_Particle(UINT _iCount)
 {
+	UpdateData();
 	CONTEXT->DrawIndexedInstanced(m_iIdxCount, _iCount, 0, 0, 0);
 }
 

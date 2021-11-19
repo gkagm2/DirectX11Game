@@ -27,6 +27,8 @@ protected:
 	static void ImGuiTest();					// 하는중
 	static void DistortionObject();				// PostEffect를 이용
 	static void FishEyePostEffect();			// PostEffect
+	static void BlurEffect();
+	static void PaperBurnPostEffect();			// 미완성
 	static void SoundTest();					// Done
 	static void FontRendering();				// Done
 

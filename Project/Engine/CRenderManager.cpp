@@ -156,10 +156,10 @@ void CRenderManager::_RenderInit_Light2D()
 {
 	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
 
-	// 컨스트 버퍼에 올려서 GPU에 넣자.
-	static const CConstBuffer* pLight2DBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Global);
-	pLight2DBuffer->SetData(&g_globalConst);
-	pLight2DBuffer->UpdateData();
+	// 글로벌 컨스트 버퍼에 올려서 GPU에 넣자.
+	static const CConstBuffer* pGlobalCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Global);
+	pGlobalCB->SetData(&g_globalConst);
+	pGlobalCB->UpdateData();
 
 
 	UINT iLightSize = (UINT)m_vecLight2D.size();

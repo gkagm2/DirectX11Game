@@ -17,6 +17,8 @@ CResourceManager::~CResourceManager()
 
 	for (UINT i = 0; i < (UINT)E_ResourceType::End; ++i)
 		Safe_Delete_UnorderedMap(m_umapResource[i]);
+
+	Safe_Delete_UnorderedMap(m_umapDefaultTex);
 }
 
 void CResourceManager::Init()
@@ -264,7 +266,7 @@ void CResourceManager::CreateDefaultShader()
 {
 	// --------------------------
 	// 기본 쉐이더 생성 (AlphaBlend Coveratge)
-	CGraphicsShader* pShader = new CGraphicsShader(E_RenderPov::Forward);
+	CGraphicsShader* pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
@@ -277,7 +279,7 @@ void CResourceManager::CreateDefaultShader()
 
 	// -----------------------
 	// 기본 쉐이더 생성 (AlphaBlend)
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShader);
 
@@ -299,7 +301,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// Light2D 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLight2D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLight2D);
 
@@ -314,7 +316,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// LineStript 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLineStrip);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLineStrip);
 
@@ -329,7 +331,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// Collider2D 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderCollider2D);
 
@@ -351,7 +353,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-----------------------
 	// 타일맵 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderTileMap);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderTileMap);
 
@@ -373,7 +375,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-------------------------
 	// 파티클 렌더 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::Particle);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Particle);
 	pShader->CreateVertexShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_VTX_Particle);
 	pShader->CreateGeometryShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_GEO_Particle);
 	pShader->CreatePixelShader(STR_FILE_PATH_ParticleShader, STR_FUNC_NAME_PIX_Particle);
@@ -401,7 +403,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//-------------------------
 	// Distortion(왜곡) 쉐이더 생성
-	pShader = new CGraphicsShader(E_RenderPov::PostEffect);
+	pShader = new CGraphicsShader(E_RenderTimePoint::PostEffect);
 	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_Distortion);
 	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_Distortion);
 
@@ -415,7 +417,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//---------------------------
 	// FishEye Shader
-	pShader = new CGraphicsShader(E_RenderPov::PostEffect);
+	pShader = new CGraphicsShader(E_RenderTimePoint::PostEffect);
 	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_FishEye);
 	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_FishEye);
 
@@ -428,8 +430,19 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_FishEyeShader, pShader);
 
 	//----------------------------
+	// Blur Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::PostEffect);
+	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_Blur);
+	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_Blur);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
+	AddRes(STR_KEY_BlurShader, pShader);
+
+	//----------------------------
 	// Canvas Shader
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXCanvasShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXCanvasShader);
 
@@ -444,7 +457,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------------
 	// ButtonUI Shader
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXButtonUIShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXButtonUIShader);
 
@@ -459,7 +472,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------------
 	// Fog2D Shader
-	pShader = new CGraphicsShader(E_RenderPov::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXFog2DShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXFog2DShader);
 
@@ -511,63 +524,71 @@ void CResourceManager::CreateDefaultMaterial()
 	AddRes(STR_KEY_Collider2DNoneColliedMtrl, pMtrl);
 
 	pMtrl = new CMaterial(true);
-pMtrl->SetShader(pShaderCollider2D);
-int iCollision = 1;
-pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
-pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
-pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
-AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
+	pMtrl->SetShader(pShaderCollider2D);
+	int iCollision = 1;
+	pMtrl->SetData(E_ShaderParam::Int_0, &iCollision);
+	pMtrl->SetData(E_ShaderParam::Vector4_0, Vector4(0.2f, 0.9f, 0.2f, 1.f)); // green
+	pMtrl->SetData(E_ShaderParam::Vector4_1, Vector4(0.9f, 0.2f, 0.2f, 1.f)); // red
+	AddRes(STR_KEY_Collider2DCollisionMtrl, pMtrl);
 
-// 타일맵 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
-pMtrl->SetShader(pShaderTileMap);
-AddRes(STR_KEY_TileMapMtrl, pMtrl);
+	// 타일맵 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
+	pMtrl->SetShader(pShaderTileMap);
+	AddRes(STR_KEY_TileMapMtrl, pMtrl);
 
-// 파티클 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
-pMtrl->SetShader(pShaderParticle);
-AddRes(STR_KEY_ParticleMtrl, pMtrl);
+	// 파티클 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderParticle = LoadRes<CGraphicsShader>(STR_KEY_ParticleShader);
+	pMtrl->SetShader(pShaderParticle);
+	AddRes(STR_KEY_ParticleMtrl, pMtrl);
 
-// 왜곡(Distortion) 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
-pMtrl->SetShader(pShaderDistortion);
+	// 왜곡(Distortion) 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDistortion = LoadRes<CGraphicsShader>(STR_KEY_DistortionShader);
+	pMtrl->SetShader(pShaderDistortion);
 
-SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-AddRes(STR_KEY_DistortionMtrl, pMtrl);
+	SharedPtr<CTexture> pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_DistortionMtrl, pMtrl);
 
-// FishEye 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
-pMtrl->SetShader(pShaderFishEye);
+	// FishEye 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFishEye = LoadRes<CGraphicsShader>(STR_KEY_FishEyeShader);
+	pMtrl->SetShader(pShaderFishEye);
 
-pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
-pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
-AddRes(STR_KEY_FishEyeMtrl, pMtrl);
+	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_FishEyeMtrl, pMtrl);
 
-// Canvas 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderCanvas = LoadRes<CGraphicsShader>(STR_KEY_CanvasShader);
-pMtrl->SetShader(pShaderCanvas);
-pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
-AddRes(STR_KEY_CanvasMtrl, pMtrl);
+	// Blur 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderBlur = LoadRes<CGraphicsShader>(STR_KEY_BlurShader);
+	pMtrl->SetShader(pShaderBlur);
+	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	AddRes(STR_KEY_BlurMtrl, pMtrl);
 
-// Fog 2D 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pShaderFog2D = LoadRes<CGraphicsShader>(STR_KEY_Fog2DShader);
-pMtrl->SetShader(pShaderFog2D);
-pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
-AddRes(STR_KEY_Fog2DMtrl, pMtrl);
+	// Canvas 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderCanvas = LoadRes<CGraphicsShader>(STR_KEY_CanvasShader);
+	pMtrl->SetShader(pShaderCanvas);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+	AddRes(STR_KEY_CanvasMtrl, pMtrl);
 
-// ButtonUI 재질 생성
-pMtrl = new CMaterial(true);
-SharedPtr<CGraphicsShader> pButtonUI = LoadRes<CGraphicsShader>(STR_KEY_ButtonUIShader);
-pMtrl->SetShader(pButtonUI);
-pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
-AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
+	// Fog 2D 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFog2D = LoadRes<CGraphicsShader>(STR_KEY_Fog2DShader);
+	pMtrl->SetShader(pShaderFog2D);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Fog2D).Get());
+	AddRes(STR_KEY_Fog2DMtrl, pMtrl);
+
+	// ButtonUI 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pButtonUI = LoadRes<CGraphicsShader>(STR_KEY_ButtonUIShader);
+	pMtrl->SetShader(pButtonUI);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+	AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
 }
 
 
@@ -600,12 +621,32 @@ void CResourceManager::InitSound()
 
 void CResourceManager::CreateDefaultTexture()
 {
-	SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
-	CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture2);
+	tstring strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += STR_FILE_PATH_NoiseTexture1;
+	CTexture* pNoiseTex = new CTexture();
+	pNoiseTex->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_NoiseTexture1, pNoiseTex));
 
-	pTexture->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
+	strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += STR_FILE_PATH_NoiseTexture2;
 
-	g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
+	CTexture* pNoiseTex2 = new CTexture();
+	pNoiseTex2->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_NoiseTexture2, pNoiseTex2));
+
+
+
+	pNoiseTex->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
+	
+	g_globalConst.vNoiseResolution = Vector2((float)pNoiseTex->GetDimension().x, (float)pNoiseTex->GetDimension().y);
+
+	//  2021 11 19 fixed
+	//SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
+	//CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture2);
+
+	//pTexture->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
+
+	//g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
 }
 
 // param(_iBindFlag) : D3D11_BIND_FLAG

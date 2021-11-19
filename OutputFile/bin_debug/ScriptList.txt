@@ -19,5 +19,6 @@ CModuleScript_ca
 CObjectDragAndDropScript_ca
 CPlayerScript_ca
 CPlayerScript_sh
+CPostProcessingScript
 CRotateZScript
 CTestLight2DScript

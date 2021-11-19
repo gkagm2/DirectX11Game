@@ -42,6 +42,7 @@
 
 // GameContents
 #include "Script\CGameManagerScript_sh.h"
+#include "Script\CPostProcessingScript.h"
 
 #include "Script\CPlayerScript_sh.h"
 #include "Script\CBulletScript_sh.h"
@@ -105,7 +106,10 @@ void CTestScene::CreateTestScene()
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
-	ParticleSystemTest2();
+	//ParticleSystemTest2();
+	//DistortionObject();
+	BlurEffect();
+	//PaperBurnPostEffect();
 	//Light2DTest();
 	//Shooting2D();
 	//FontRendering();
@@ -934,6 +938,158 @@ void CTestScene::FishEyePostEffect()
 	pSpotLight->SetName(_T("SpotLight2D"));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+
+void CTestScene::BlurEffect()
+{
+	// 씬 생성
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetSize(1.f);
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->Camera()->SetLayerCheckAll();
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pCameraObj->SetName(_T("Camera"));
+
+	CObject::CreateGameObjectEvn(pCameraObj, 0);
+
+	// BackGround 오브젝트 생성
+	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background1"), _T("texture\\Background.png"));
+	CGameObject* pBGObj = new CGameObject;
+	pBGObj->SetName(_T("BackGround1"));
+	pBGObj->AddComponent<CTransform>();
+	pBGObj->AddComponent<CMeshRenderer>();
+	Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
+	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x, vResolution.x, 1.f));
+	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
+	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
+	pBGObj->MeshRenderer()->SetMaterial(mtrl);
+	pBGObj->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
+
+	CObject::CreateGameObjectEvn(pBGObj, 0);
+
+	//////////////////////
+	/// Test PostEffect Shader 오브젝트 생성
+	CGameObject* pBlurObj = new CGameObject;
+	pBlurObj->SetName(_T("Blur"));
+	pBlurObj->AddComponent<CTransform>();
+	pBlurObj->AddComponent<CMeshRenderer>();
+	pBlurObj->AddComponent<CPostProcessingScript>();
+
+	/*pBlurObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
+	pBlurObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_BlurMtrl));*/
+
+	pBlurObj->Transform()->SetLocalScale(Vector3(300.f, 300.f, 1.f));
+	CObject::CreateGameObjectEvn(pBlurObj, 0);
+
+
+	//// 플레이어란 이름을 가진 오브젝트 생성
+	//SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	//SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	//SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	//CGameObject* pObj = new CGameObject();
+	//pObj->AddComponent<CTransform>();
+	//pObj->AddComponent<CMeshRenderer>();
+
+	//pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
+
+	//pObj->MeshRenderer()->SetMaterial(pMtrl);
+	//pObj->MeshRenderer()->SetMesh(pMesh);
+
+	//pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+
+	//// 임의로 크기 설정
+	//pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
+	//pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	//pObj->SetName(_T("Player"));
+
+	//CObject::CreateGameObjectEvn(pObj, 0);
+
+	// Scene 초기화
+	pNewScene->Awake();
+	pNewScene->Start();
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+void CTestScene::PaperBurnPostEffect()
+{
+	// 씬 생성
+	CScene* pNewScene = new CScene;
+
+	// 카메라 오브젝트 생성
+	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->AddComponent<CTransform>();
+	pCameraObj->AddComponent<CCamera>();
+	pCameraObj->Camera()->SetSize(1.f);
+	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->Camera()->SetLayerCheckAll();
+	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
+	pCameraObj->SetName(_T("Camera"));
+	
+	CObject::CreateGameObjectEvn(pCameraObj, 0);
+
+	// BackGround 오브젝트 생성
+	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background"), _T("texture\\\grid.png"));
+	CGameObject* pBGObj = new CGameObject;
+	pBGObj->SetName(_T("BackGround"));
+	pBGObj->AddComponent<CTransform>();
+	pBGObj->AddComponent<CMeshRenderer>();
+	Vector2 vResolution = CCore::GetInstance()->GetWindowResolution();
+	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x, vResolution.x, 1.f));
+	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
+	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
+	pBGObj->MeshRenderer()->SetMaterial(mtrl);
+	pBGObj->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
+
+	CObject::CreateGameObjectEvn(pBGObj, 0);
+
+	//////////////////////
+	/// Test PostEffect Shader 오브젝트 생성
+	CGameObject* pPaperBurnObj = new CGameObject;
+	pPaperBurnObj->SetName(_T("PaperBurn"));
+	pPaperBurnObj->AddComponent<CTransform>();
+	pPaperBurnObj->AddComponent<CMeshRenderer>();
+
+	pPaperBurnObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
+	pPaperBurnObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PaperBurnMtrl));
+
+	pPaperBurnObj->Transform()->SetLocalScale(Vector3(300.f, 300.f, 1.f));
+	CObject::CreateGameObjectEvn(pPaperBurnObj, 0);
+
+
+	// 플레이어란 이름을 가진 오브젝트 생성
+	SharedPtr<CTexture> pBoxTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
+
+	CGameObject* pObj = new CGameObject();
+	pObj->AddComponent<CTransform>();
+	pObj->AddComponent<CMeshRenderer>();
+
+	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
+
+	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMesh(pMesh);
+
+	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
+
+	// 임의로 크기 설정
+	pObj->Transform()->SetLocalScale(Vector3(100.f, 100.f, 1.f));
+	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
+	pObj->SetName(_T("Player"));
+
+	CObject::CreateGameObjectEvn(pObj, 0);
 
 	// Scene 초기화
 	pNewScene->Awake();

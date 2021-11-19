@@ -137,7 +137,6 @@ void CParticleSystem::Render()
 	Transform()->UpdateData();
 	m_pParticleBuffer->UpdateData(REGISTER_NUM_Particle, E_ShaderStage::All);
 
-	m_pMesh->UpdateData();
 	m_pMesh->Render_Particle(m_iMaxParticleCount);
 
 	m_pMaterial->Clear();

@@ -22,6 +22,7 @@
 #include "CObjectDragAndDropScript_ca.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
+#include "CPostProcessingScript.h"
 #include "CRotateZScript.h"
 #include "CTestLight2DScript.h"
 
@@ -48,6 +49,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
+	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CTestLight2DScript");
 }
@@ -96,6 +98,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript_ca;
 	if (L"CPlayerScript_sh" == _strScriptName)
 		return new CPlayerScript_sh;
+	if (L"CPostProcessingScript" == _strScriptName)
+		return new CPostProcessingScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
 	if (L"CTestLight2DScript" == _strScriptName)
@@ -169,6 +173,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH:
 		return new CPlayerScript_sh;
+		break;
+	case (UINT)SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
+		return new CPostProcessingScript;
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
@@ -266,6 +273,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PLAYERSCRIPT_SH:
 		return L"CPlayerScript_sh";
+		break;
+
+	case SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
+		return L"CPostProcessingScript";
 		break;
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:

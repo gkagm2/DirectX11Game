@@ -1,6 +1,7 @@
 #ifndef _POSTEFFECT
 #define _POSTEFFECT
 #include "value.fx"
+#include "function.fx"
 
 //=====================
 // Distortion Shader
@@ -35,10 +36,10 @@ float4 PS_Distortion(VTX_OUT _in) : SV_Target
     
     vScreenUV.x += sin(vScreenUV.y * 20.f + (g_fAccTime * 12.56)) * 0.05f;
     
-    float4 vColor = g_tex_0.Sample(Sample_Anisotropic, vScreenUV);
+    float4 vColor = CloneTex.Sample(Sample_Anisotropic, vScreenUV);
     return vColor;
 }
-
+    
 
 //=====================
 // FishEye Shader
@@ -112,6 +113,63 @@ float4 PS_FishEye(VTX_FISHEYE_OUT _in) : SV_Target
     }
     
     vColor = CloneTex.Sample(g_sam_0, uv);
+    return vColor;
+}
+
+//=====================
+// Blur Shader
+// Mesh : Rect Mesh
+#define CloneTex g_tex_0
+#define WidthOrHeight g_int_0 // 가로 or 세로 flag
+#define Amplitude   g_float_0 // 진폭
+#define Compression g_float_1 // 압축 길이
+#define ScreenScale g_float_2 // 화면 크기 스케일
+#define Speed       g_float_3 // 출렁이는 속도
+//=====================
+
+struct VTX_IN_BLUR
+{
+    float3 vPosition : POSITION;
+    float2 vUV : TEXCOORD;
+};
+
+struct VTX_OUT_BLUR
+{
+    float4 vPosition : SV_Position;
+    float2 vUV : TEXCOORD;
+};
+
+VTX_OUT_BLUR VS_Blur(VTX_IN_BLUR _in)
+{
+    VTX_OUT_BLUR output = (VTX_OUT_BLUR) 0.f;
+    
+    float4 vProjPos = mul(float4(_in.vPosition, 1.f), g_matWorldViewProj);
+    output.vPosition = vProjPos;
+    float fScale = ScreenScale;
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+float4 PS_Blur(VTX_OUT_BLUR _in) : SV_Target
+{
+    float2 vScreenUV = _in.vPosition.xy / g_vResolution;
+    
+    
+    if (0 == WidthOrHeight) // 가로
+    {
+        vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    }
+    if (1 == WidthOrHeight) // 세로
+    {
+        vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    }
+    if (2 == WidthOrHeight) // 양쪽 다
+    {
+        vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+        vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    }
+    float4 vColor = CloneTex.Sample(Sample_Anisotropic, vScreenUV);
     return vColor;
 }
 

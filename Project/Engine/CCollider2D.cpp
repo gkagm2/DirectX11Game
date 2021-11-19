@@ -36,9 +36,6 @@ void CCollider2D::Render()
 	// 충돌체 위치 정보 업데이트
 	UpdateData();
 
-	// 메쉬 세팅
-	m_pMesh->UpdateData();
-
 	// 재질 세팅
 	m_pMaterial->UpdateData();
 

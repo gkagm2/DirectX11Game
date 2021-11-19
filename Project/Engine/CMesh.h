@@ -22,7 +22,9 @@ private:
 	
 public:
 	virtual void Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage);
+private:
 	virtual void UpdateData();
+public:
 	void Render();
 	void Render_Particle(UINT _iCount);
 	void Reset();

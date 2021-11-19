@@ -9,17 +9,17 @@ CGraphicsShader::CGraphicsShader() :
 	m_eRSState(E_RasterizerState::CullBack),
 	m_eBlendState(E_BlendState::Default),
 	m_eDepthStencilState(E_DepthStencilState::Less),
-	m_eRenderPov(E_RenderPov::Forward)
+	m_eRenderTimePoint(E_RenderTimePoint::Forward)
 {
 }
 
-CGraphicsShader::CGraphicsShader(E_RenderPov _ePov) :
+CGraphicsShader::CGraphicsShader(E_RenderTimePoint _eTimePoint) :
 	CShader(E_ResourceType::GraphicsShader),
 	m_eTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
 	m_eRSState(E_RasterizerState::CullBack),
 	m_eBlendState(E_BlendState::Default),
 	m_eDepthStencilState(E_DepthStencilState::Less),
-	m_eRenderPov(_ePov)
+	m_eRenderTimePoint(_eTimePoint)
 {
 }
 

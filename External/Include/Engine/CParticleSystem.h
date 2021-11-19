@@ -71,7 +71,7 @@ public:
 	UINT GetMaxParticleCount() { return m_iMaxParticleCount; }
 	const Vector3& GetRadius() { return m_vRadius; }
 
-	UINT GetParticleTexCnt() { return m_vecParticleTex.size(); }
+	UINT GetParticleTexCnt() { return (UINT)m_vecParticleTex.size(); }
 	void SetParticleTexIdx(UINT _idx);
 
 	void SetShape(E_ParticleShape _eShape) { m_eShape = _eShape; }

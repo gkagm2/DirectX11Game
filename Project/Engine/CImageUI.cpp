@@ -64,7 +64,6 @@ void CImageUI::Render()
 	// 위치정보 세팅
 	RectTransform()->UpdateData();
 
-	m_pMesh->UpdateData();   // 메쉬 세팅
 	m_pMtrl->UpdateData();	 // 메터리얼 세팅
 	m_pMesh->Render();		 // 렌더링
 

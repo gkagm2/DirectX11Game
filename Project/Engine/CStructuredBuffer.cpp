@@ -78,6 +78,7 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		DEVICE->CreateUnorderedAccessView(m_pSB_RW.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
 		assert(m_pUAV.Get());
 	}
+
 	else if (E_StructuredBufferType::Dual == _eType) {
 		// (m_pSB_R, m_pSB_RW 둘다 할당)
 		// Read 용 버퍼
@@ -164,6 +165,11 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 
 void CStructuredBuffer::UpdateDataRW(UINT _iRegisterNum)
 {
+	// FIXED(Jang) : ??
+	//// u 레지스터 바인딩이 불가능한 구조화버퍼인 경우
+	//if ((UINT)E_StructuredBufferType::Read_Write == _iRegisterNum)
+	//	assert(nullptr);
+
 	m_iRecentRegisterNum = _iRegisterNum;
 	UINT iInitialzedCnt = -1;
 	UINT iNumUAVs = 1;

@@ -52,7 +52,6 @@ void CTileMap::Render()
 	m_pMaterial->SetData(E_ShaderParam::Int_1, &m_iTileRow);
 
 	Transform()->UpdateData();
-	m_pMesh->UpdateData();
 	m_pMaterial->UpdateData();
 	m_pMesh->Render();
 	m_pMaterial->Clear();

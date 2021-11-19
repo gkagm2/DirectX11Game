@@ -46,6 +46,7 @@ struct TParticle
     float fFallTime;
     float fFallStartY;
     float fSpeed; // gravity speed
+    int3 particle_padding;
 };
 
 struct TSharedParticleData

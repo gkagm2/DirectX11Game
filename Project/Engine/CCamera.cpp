@@ -189,11 +189,11 @@ void CCamera::_SortObjects()
 					pObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get()) {
 					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial()->GetShader();
 
-					switch (pShader->GetRenderPov()) {
-					case E_RenderPov::Forward:
+					switch (pShader->GetRenderTimePosition()) {
+					case E_RenderTimePoint::Forward:
 						m_vecForward.push_back(pObj);
 						break;
-					case E_RenderPov::PostEffect:
+					case E_RenderTimePoint::PostEffect:
 						m_vecPostEffect.push_back(pObj);
 						break;
 					default:

@@ -30,13 +30,21 @@ public:
 
 	void SetData(void* _pSysMem, UINT _iElementCount) const; // system memory -> buffer gpu
 	void GetData(void* _pDest, UINT _iElementCount);
-	void UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage = E_ShaderStage::All); // gpu data -> gpu register binding
+
+
+	// gpu data -> gpu register binding
+	// Shader Resource Binding (t register)
+	void UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage = E_ShaderStage::All); 
+	// Unordered Access Binding (u register)
 	void UpdateDataRW(UINT _iRegisterNum);
 
 	UINT GetElementCount() { return m_iElementCount; }
 	UINT GetElementSize() { return m_iElementSize; }
 
+	//Shader Resource Clear
 	void Clear(E_ShaderStage _eStage = E_ShaderStage::All);
+
+	// Unordered Access Clear
 	void ClearRW();	
 
 	void Release();

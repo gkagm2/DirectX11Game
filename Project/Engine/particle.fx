@@ -38,7 +38,8 @@ VS_OUT VS_Particle(VS_IN _in)
     
     float3 vWorldPos = g_particle[_in.iInstID].vWorldPos;
     output.vViewPos = mul(float4(vWorldPos, 1.f), g_matView).xyz;
-
+    // TODO (Jang) : Rot, Scale 완성하기
+    
     output.vUV = _in.vUV;
     output.fInstID = _in.iInstID;
     
@@ -55,12 +56,11 @@ struct GS_OUT
 [maxvertexcount(6)]
 void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _outputStream)
 {
-    GS_OUT output[4] =
-    {
-        (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f
-    };
     if (0 == g_particle[(int) _in[0].fInstID].iAlive)
         return;
+    
+    GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
+    
     
     float fRatio = g_particle[(int)_in[0].fInstID].fCurTime / g_particle[(int)_in[0].fInstID].fMaxTime;
     float3 fCurScale = (vStartScale + (vEndScale - vStartScale) * fRatio) * 0.5f;

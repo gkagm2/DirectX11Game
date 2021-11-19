@@ -27,7 +27,6 @@ void CLight2D::Render()
 {
 	Transform()->UpdateData();
 
-	m_pMesh->UpdateData();
 	m_pMtrl->UpdateData();
 
 	m_pMesh->Render();

@@ -148,7 +148,7 @@ enum class E_ShaderStage {
 	All = Vertex | Hull | Domain | Geometry | Pixel | Compute,
 };
 
-enum class E_RenderPov {
+enum class E_RenderTimePoint {
 	Forward,
 	Particle,
 	PostEffect,
