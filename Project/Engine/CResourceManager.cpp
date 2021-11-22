@@ -331,7 +331,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------
 	// Collider2D ½¦ÀÌ´õ »ý¼º
-	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Collider);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderCollider2D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderCollider2D);
 
@@ -442,7 +442,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------------
 	// Canvas Shader
-	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Canvas);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXCanvasShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXCanvasShader);
 
@@ -457,7 +457,7 @@ void CResourceManager::CreateDefaultShader()
 
 	//----------------------------
 	// ButtonUI Shader
-	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader = new CGraphicsShader(E_RenderTimePoint::Canvas);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXButtonUIShader);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXButtonUIShader);
 

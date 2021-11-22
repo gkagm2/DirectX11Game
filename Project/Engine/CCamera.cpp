@@ -8,6 +8,7 @@
 #include "CScene.h"
 #include "CLayer.h"
 #include "CMeshRenderer.h"
+#include "CSpriteRenderer.h"
 #include "CCanvasRenderer.h"
 #include "CCore.h"
 
@@ -184,31 +185,59 @@ void CCamera::_SortObjects()
 				if (!pObj->IsActive())
 					continue;
 
+				E_RenderTimePoint eRenderTimePoint = E_RenderTimePoint::None;
+
+				//MeshRenderer 
 				if (pObj->MeshRenderer() &&
 					pObj->MeshRenderer()->GetSharedMaterial().Get() &&
 					pObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get()) {
 					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial()->GetShader();
 
-					switch (pShader->GetRenderTimePosition()) {
-					case E_RenderTimePoint::Forward:
-						m_vecForward.push_back(pObj);
-						break;
-					case E_RenderTimePoint::PostEffect:
-						m_vecPostEffect.push_back(pObj);
-						break;
-					default:
-						assert(nullptr);
-						break;
-					}
+					// forward or posteffect
+					eRenderTimePoint = pShader->GetRenderTimePosition();
+				}
+				// SpriteRenderer
+				else if (pObj->SpriteRenderer() &&
+						pObj->SpriteRenderer()->GetSharedMaterial().Get() &&
+						pObj->SpriteRenderer()->GetSharedMaterial()->GetShader().Get()) {
+					SharedPtr<CGraphicsShader> pShader = pObj->SpriteRenderer()->GetSharedMaterial()->GetShader();
+					
+					// forward or posteffect
+					eRenderTimePoint = pShader->GetRenderTimePosition();
 				}
 				else if (pObj->CanvasRenderer()) {
-					m_vecCanvas.push_back(pObj);
+					// FIXED(Jang) : RenderTimePoint를 가져올 부분에 대해 설계해봐야 될 듯
+					eRenderTimePoint = E_RenderTimePoint::Canvas;
 				}
 				else if (pObj->ParticleSystem()) {
-					m_vecParticle.push_back(pObj);
+					eRenderTimePoint = E_RenderTimePoint::Particle;
 				}
 				else if (pObj->Collider2D()) {
+					eRenderTimePoint = E_RenderTimePoint::Collider;
+				}
+				else {
+					//assert(nullptr);
+				}
+				
+				switch (eRenderTimePoint) {
+				case E_RenderTimePoint::Forward:
+					m_vecForward.push_back(pObj);
+					break;
+				case E_RenderTimePoint::Canvas:
+					m_vecCanvas.push_back(pObj);
+					break;
+				case E_RenderTimePoint::Collider:
 					m_vecCollider2D.push_back(pObj);
+					break;
+				case E_RenderTimePoint::Particle:
+					m_vecParticle.push_back(pObj);
+					break;
+				case E_RenderTimePoint::PostEffect:
+					m_vecPostEffect.push_back(pObj);
+					break;
+				default:
+					//assert(nullptr);
+					break;
 				}
 			}
 		}
