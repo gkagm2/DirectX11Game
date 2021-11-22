@@ -5,6 +5,7 @@
 
 CParticleUpdateShader::CParticleUpdateShader() :
 	CComputeShader(1024, 1, 1),
+//	m_tParticleData{},
 	m_pParticleBuffer(nullptr),
 	m_pSharedBuffer(nullptr),
 	m_fStartSpeed(0.f),
@@ -17,6 +18,13 @@ CParticleUpdateShader::CParticleUpdateShader() :
 {
 	m_pSharedBuffer = make_unique<CStructuredBuffer>();
 	m_pSharedBuffer->Create(E_StructuredBufferType::Dual, sizeof(TSharedParticleData), 1);
+
+	//m_tParticleData.fStartSpeed(0.f);
+	//m_tParticleData.fEndSpeed(0.f);
+	//m_tParticleData.fMinLifeTime(1.f);
+	//m_tParticleData.fMaxLifeTime(4.f);
+	//m_tParticleData.iSpawnCntPerSec
+
 }
 
 CParticleUpdateShader::~CParticleUpdateShader()

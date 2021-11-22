@@ -129,6 +129,7 @@ enum class E_ConstBuffer {
 	Animation2D_Data,// b2
 	Global,			 // b3
 	RectTransform,	 // b4
+	Particle,		 // b5
 	End,
 };
 
@@ -152,6 +153,9 @@ enum class E_RenderTimePoint {
 	Forward,
 	Particle,
 	PostEffect,
+	Collider,
+	Canvas,
+	None,
 };
 
 enum class E_ComponentType {

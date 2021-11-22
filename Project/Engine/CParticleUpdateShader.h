@@ -14,6 +14,8 @@ private:
 	
 	unique_ptr<CStructuredBuffer> m_pSharedBuffer;	// 파티클 컴퓨트 쉐이더가 자체적으로 보유한 모든 파티클들이 공유하는 자원 (sys mem과 gpu mem - compute shader와 소통 가능)
 
+	//TParticleData m_tParticleData;
+
 	Vector4 m_vObjectPos;
 	Vector3 m_vRadius;
 
@@ -21,10 +23,12 @@ private:
 	float m_fEndSpeed;
 	float m_fMinLifeTime;
 	float m_fMaxLifeTime;
+	bool m_bGravityEnable;
+
+
 	UINT  m_iSpawnCount; // 이번 프레임에 파티클을 생성 할 개수
 
 	E_ParticleShape m_eShape; // 파티클 모양
-	bool m_bGravityEnable;
 
 public:
 	virtual void UpdateData() override;

@@ -225,6 +225,9 @@ void CDevice::CreateConstBuffer()
 
 	m_arrCB[(UINT)E_ConstBuffer::RectTransform] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::RectTransform]->Create(_T("RectTransform ConstBuffer"), E_ConstBuffer::RectTransform, sizeof(TRectTransform));
+
+	m_arrCB[(UINT)E_ConstBuffer::Particle] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Particle]->Create(_T("Particle ConstBuffer"), E_ConstBuffer::Particle, sizeof(TParticleData));
 }
 
 void CDevice::CreateSampler()

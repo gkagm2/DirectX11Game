@@ -50,6 +50,9 @@ struct TParticle {
 };
 
 
+
+
+
 //////////////////////////////
 // Const Buffer Usage
 
@@ -83,6 +86,30 @@ struct TMaterialParam {
 	Matrix matArr[4];
 
 	int bTexArr[(UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0];
+};
+
+struct TParticleData {
+	Vector3 vWorldPos;
+	Vector4 vStartColor;
+	Vector4 vEndColor;
+	Vector4 vStartScale;
+	Vector4 vEndScale;
+	
+	float fStartSpeed;
+	float fEndSpeed;
+	
+	float fMinLifeTime;
+	float fMaxLifeTime;
+
+	UINT iSpawnCntPerSec;
+	UINT iMaxParticleCount;
+	Vector3 vRadius;
+	float fAccTime;
+
+	int iGravityEnable;
+	int iShapeType;
+
+	int padding;
 };
 
 struct TAnimation2DData {
