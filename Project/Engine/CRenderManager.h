@@ -48,7 +48,7 @@ public:
 	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }
 
 private:
-	void _CopyBackBuffer();
+	void _CopyBackBufferToPostEffectBuffer();
 
 private:
 	

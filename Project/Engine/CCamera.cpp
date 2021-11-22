@@ -268,7 +268,7 @@ void CCamera::_RenderPostEffect()
 	g_transform.matProjection = m_matProjection;
 
 	for (UINT i = 0; i < m_vecPostEffect.size(); ++i) {
-		CRenderManager::GetInstance()->_CopyBackBuffer();
+		CRenderManager::GetInstance()->_CopyBackBufferToPostEffectBuffer();
 		m_vecPostEffect[i]->Render();
 	}
 }

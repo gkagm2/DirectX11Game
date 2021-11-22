@@ -24,6 +24,7 @@ void CRenderManager::Init()
 	const UINT iDefaultElementCnt = 5;
 	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt);
 
+	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 }
@@ -146,7 +147,7 @@ CCamera* CRenderManager::GetToolUICamera(const tstring& _strObjName)
 	return pToolCam;
 }
 
-void CRenderManager::_CopyBackBuffer()
+void CRenderManager::_CopyBackBufferToPostEffectBuffer()
 {
 	SharedPtr<CTexture> pRenderTargetTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_RTTexture);
 	CONTEXT->CopyResource(m_pPostEffectTargetTex->GetTex2D().Get(), pRenderTargetTex->GetTex2D().Get());
