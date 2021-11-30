@@ -7,14 +7,16 @@
 CAnimator2D::CAnimator2D() :
 	CComponent(E_ComponentType::Animator2D),
 	m_pCurAnimation(nullptr),
-	m_eAnimationState(E_AnimationState::Once)
+	m_eAnimationState(E_AnimationState::Once),
+	m_bPlayOnSceneStart(false)
 {
 }
 
 CAnimator2D::CAnimator2D(const CAnimator2D& _origin) :
 	CComponent(_origin),
 	m_pCurAnimation(nullptr),
-	m_eAnimationState(_origin.m_eAnimationState)
+	m_eAnimationState(_origin.m_eAnimationState),
+	m_bPlayOnSceneStart(_origin.m_bPlayOnSceneStart)
 {
 	for (auto& pair : _origin.m_unmapAnim)
 		m_unmapAnim.insert(std::make_pair(pair.first, pair.second->Clone()));
@@ -30,7 +32,19 @@ CAnimator2D::~CAnimator2D()
 	Safe_Delete_UnorderedMap(m_unmapAnim);
 }
 
-void CAnimator2D::LateUpdate()
+void CAnimator2D::Start()
+{
+	if (nullptr == m_pCurAnimation)
+		return;
+
+	m_pCurAnimation->Reset();
+	if (m_bPlayOnSceneStart)
+		m_pCurAnimation->_Play();
+	else
+		m_pCurAnimation->_Stop();
+}
+
+void CAnimator2D::FinalUpdate()
 {
 	// (jang) :  실행할때만 Animation이 돌아가도록 만들기 위하여 FinalUpdate가 아닌 LateUpdate에서 설정함.
 	if (nullptr == m_pCurAnimation)
@@ -38,7 +52,7 @@ void CAnimator2D::LateUpdate()
 
 	if (E_AnimationState::Loop == GetAnimationState() && m_pCurAnimation->IsFinished())
 		m_pCurAnimation->Reset();
-	m_pCurAnimation->LateUpdate();
+	m_pCurAnimation->FinalUpdate();
 }
 
 void CAnimator2D::UpdateData()
@@ -70,6 +84,15 @@ CAnimation2D* CAnimator2D::FindAnimation(const tstring& _strName)
 	return iter->second;
 }
 
+void CAnimator2D::DeleteAnimation(const tstring& _strName)
+{
+	auto iter = m_unmapAnim.find(_strName);
+	if (iter == m_unmapAnim.end())
+		return;
+
+	m_unmapAnim.erase(iter);
+}
+
 void CAnimator2D::CreateAnimation(TAnimation2DDesc& _tAnimation2DDesc)
 {
 	CAnimation2D* pAnim = FindAnimation(_tAnimation2DDesc.strName);
@@ -89,6 +112,13 @@ void CAnimator2D::Clear()
 	TAnimation2DData tData = {};
 	pBuffer->SetData(&tData);
 	pBuffer->UpdateData();
+}
+
+void CAnimator2D::GetAnimationNamesFromList(vector<tstring>& _vecNameList_out)
+{
+	_vecNameList_out.clear();
+	for (auto& t : m_unmapAnim)
+		_vecNameList_out.push_back(t.first);
 }
 
 bool CAnimator2D::SaveToScene(FILE* _pFile)
@@ -113,6 +143,7 @@ bool CAnimator2D::SaveToScene(FILE* _pFile)
 	}
 
 	FWrite(m_eAnimationState, _pFile);
+	FWrite(m_bPlayOnSceneStart, _pFile);
 
 	return true;
 }
@@ -141,6 +172,7 @@ bool CAnimator2D::LoadFromScene(FILE* _pFile)
 	}
 
 	FRead(m_eAnimationState, _pFile);
+	FRead(m_bPlayOnSceneStart, _pFile);
 
 	return true;
 }

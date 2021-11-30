@@ -17,6 +17,26 @@ void LoadStringFromFile(tstring& _str, FILE* _pFile)
 	_str = szBuffer;
 }
 
+void StringToTStringVec(const vector<string>& _in, vector<tstring>& _out)
+{
+	_out.clear();
+	for (size_t i = 0; i < _in.size(); ++i) {
+		tstring str;
+		StringToTString(_in[i], str);
+		_out.push_back(str);
+	}
+}
+
+void TStringToStringVec(const vector<tstring>& _in, vector<string>& _out)
+{
+	_out.clear();
+	for (size_t i = 0; i < _in.size(); ++i) {
+		string str;
+		TStringToString(_in[i], str);
+		_out.push_back(str);
+	}
+}
+
 void StringToArr(const string& _in, char* _out, int _iSize)
 {
 	strcpy_s(_out, _iSize, _in.c_str());

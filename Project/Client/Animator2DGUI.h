@@ -2,7 +2,9 @@
 #include "AnimatorGUI.h"
 class Animator2DGUI : public AnimatorGUI
 {
+private:
 	vector<char> m_strList;
+
 public:
 	virtual void Update() override;
 

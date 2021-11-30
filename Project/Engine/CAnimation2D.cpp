@@ -21,10 +21,10 @@ CAnimation2D::~CAnimation2D()
 {
 }
 
-void CAnimation2D::LateUpdate()
+void CAnimation2D::FinalUpdate()
 {
 	// (jang) :  실행할때만 Animation이 돌아가도록 만들기 위하여 FinalUpdate가 아닌 LateUpdate에서 설정함.
-	if (m_bFinish)
+	if (IsFinished())
 		return;
 
 	m_fAccTime += DT;
@@ -36,7 +36,7 @@ void CAnimation2D::LateUpdate()
 		// 최대 프레임에 도달하게 되면, 애니메이션 재생을 완료상태로 둠
 		if (m_iCurFrameIdx == m_vecAnimFrame.size()) {
 			--m_iCurFrameIdx;
-			m_bFinish = true;
+			_Play();
 			break;
 		}
 	}
@@ -50,10 +50,10 @@ void CAnimation2D::UpdateData()
 	static const CConstBuffer* pBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Animation2D_Data);
 
 	TAnimation2DData tData = {
-		m_vecAnimFrame[m_iCurFrameIdx].vLeftTop,
-		m_vecAnimFrame[m_iCurFrameIdx].vFrameSize,
-		m_vecAnimFrame[m_iCurFrameIdx].vOffsetPos,
-		m_vecAnimFrame[m_iCurFrameIdx].vBaseSize,
+		m_vecAnimFrame[m_iCurFrameIdx].vLeftTopUV,
+		m_vecAnimFrame[m_iCurFrameIdx].vFrameSizeUV,
+		m_vecAnimFrame[m_iCurFrameIdx].vOffsetPosUV,
+		m_vecAnimFrame[m_iCurFrameIdx].vBaseSizeUV,
 		true // Is Animating 2D
 	};
 	pBuffer->SetData(&tData);
@@ -69,12 +69,13 @@ void CAnimation2D::Create(TAnimation2DDesc& _tAnimation2DDesc)
 	
 	// Atlas형태의 Texture 좌표를 UV좌표로 변환 후 넣어줌
 	Vector2 vUVLeftTopPos = _tAnimation2DDesc.vLeftTop / m_pTexture->GetDimension();
-	tAnimFrm.vFrameSize = _tAnimation2DDesc.vFrameSize / m_pTexture->GetDimension();
-	tAnimFrm.vBaseSize = _tAnimation2DDesc.vBaseSize / m_pTexture->GetDimension();
+	tAnimFrm.vFrameSizeUV = _tAnimation2DDesc.vFrameSize / m_pTexture->GetDimension();
+	tAnimFrm.vBaseSizeUV = _tAnimation2DDesc.vBaseSize / m_pTexture->GetDimension();
 	tAnimFrm.fDuration = _tAnimation2DDesc.fDuration;
+	tAnimFrm.vOffsetPosUV = _tAnimation2DDesc.vOffsetPos / m_pTexture->GetDimension();
 	// 프레임 생성
 	for (int i = 0; i < _tAnimation2DDesc.iFrameCount; ++i) {
-		tAnimFrm.vLeftTop = Vector2(vUVLeftTopPos.x + (float)i * tAnimFrm.vFrameSize.x, vUVLeftTopPos.y);
+		tAnimFrm.vLeftTopUV = Vector2(vUVLeftTopPos.x + (float)i * tAnimFrm.vFrameSizeUV.x, vUVLeftTopPos.y);
 		m_vecAnimFrame.push_back(tAnimFrm);
 	}
 }
@@ -96,16 +97,16 @@ void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _str
 
 	for (int i = 0; i < m_vecAnimFrame.size(); ++i) {
 		_ftprintf(pFile, _T("Left_Top\n"));
-		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vLeftTop.x, m_vecAnimFrame[i].vLeftTop.y);
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vLeftTopUV.x, m_vecAnimFrame[i].vLeftTopUV.y);
 
 		_ftprintf(pFile, _T("Frame_Size\n"));
-		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vFrameSize.x, m_vecAnimFrame[i].vFrameSize.y);
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vFrameSizeUV.x, m_vecAnimFrame[i].vFrameSizeUV.y);
 
 		_ftprintf(pFile, _T("Offset\n"));
-		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vOffsetPos.x, m_vecAnimFrame[i].vOffsetPos.y);
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vOffsetPosUV.x, m_vecAnimFrame[i].vOffsetPosUV.y);
 
 		_ftprintf(pFile, _T("Base_Size\n"));
-		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vBaseSize.x, m_vecAnimFrame[i].vBaseSize.y);
+		_ftprintf(pFile, _T("%f %f\n"), m_vecAnimFrame[i].vBaseSizeUV.x, m_vecAnimFrame[i].vBaseSizeUV.y);
 
 		_ftprintf(pFile, _T("Duration\n"));
 		_ftprintf(pFile, _T("%f\n"), m_vecAnimFrame[i].fDuration);
@@ -151,19 +152,19 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 	for (int i = 0; i < iFrameCount; ++i) {
 		// Left Top
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vLeftTop.x, &tAnimFrame.vLeftTop.y);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vLeftTopUV.x, &tAnimFrame.vLeftTopUV.y);
 
 		// Frame Size
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vFrameSize.x, &tAnimFrame.vFrameSize.y);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vFrameSizeUV.x, &tAnimFrame.vFrameSizeUV.y);
 
 		// Offset
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vOffsetPos.x, &tAnimFrame.vOffsetPos.y);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vOffsetPosUV.x, &tAnimFrame.vOffsetPosUV.y);
 
 		// Base Sizes
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vBaseSize.x, &tAnimFrame.vBaseSize.y);
+		_ftscanf_s(pFile, _T("%f%f"), &tAnimFrame.vBaseSizeUV.x, &tAnimFrame.vBaseSizeUV.y);
 
 		// Durations
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);

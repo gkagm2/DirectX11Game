@@ -67,23 +67,19 @@ bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut)
 }
 
 // ButtonOn을 false로 할 경우 pInst와 pFunc는 nullptr로 한다.
-bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn)
+// texture에 대해 상세한 설정 필요 시 _tTextureInfo를 이용하여 설정 가능
+bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn, TTextureInfo _tTextureInfo)
 {
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
 
 	ListViewGUI* pListGUI = (ListViewGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView);
 
-	ImVec2 uv_min = ImVec2(0.f, 0.f); // top left
-	ImVec2 uv_max = ImVec2(1.f, 1.f); // bottom right
-	ImVec4 tint_col = ImVec4(1.f, 1.f, 1.f, 1.f); // no tint
-	ImVec4 border_col = ImVec4(1.f, 1.f, 1.f, 0.5f); // 50% opaque white
-
 	ImTextureID tex_id = 0;
 	if (nullptr != _pTex)
 		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
 
-	ImGui::Image(tex_id, ImVec2(150.f, 150.f), uv_min, uv_max, tint_col, border_col);
+	ImGui::Image(tex_id, ImVec2(150.f, 150.f), _tTextureInfo.uv_min, _tTextureInfo.uv_max, _tTextureInfo.tint_col, _tTextureInfo.border_col);
 	ImGui::SameLine();
 
 	string strLabel = "Select##";

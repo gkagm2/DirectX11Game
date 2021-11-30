@@ -115,7 +115,7 @@ struct TParticleData {
 struct TAnimation2DData {
 	Vector2 vLeftTopUV;
 	Vector2 vFrameSizeUV;
-	Vector2 vOffsetSizeUV;
+	Vector2 vOffsetPosUV;
 	Vector2 vBaseSizeUV;
 	int bIsAnimating2D;
 	int padding[3];

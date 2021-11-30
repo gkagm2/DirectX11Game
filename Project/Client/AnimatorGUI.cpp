@@ -12,3 +12,12 @@ AnimatorGUI::AnimatorGUI(E_ComponentType _eType) :
 AnimatorGUI::~AnimatorGUI()
 {
 }
+
+void AnimatorGUI::Update()
+{
+	if (!Start())
+		return;
+
+
+	End();
+}

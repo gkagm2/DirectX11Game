@@ -104,21 +104,43 @@ float CCamera::GetDistancePerFixel()
 
 void CCamera::CalculateViewMatrix()
 {
+	// dept(RotMat) * LocalRotMat * OtherRotMat = IdentityMat
+	// same
+	// transpose(RotMat) * LocalRotMat * OtherRotMat = IdentityMat
+
 	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
 
 	Matrix matTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
 
 	Vector3 vRight = Transform()->GetRightVector();
-	Vector3 vUp = Transform()->GetUpVector();
+	Vector3 vUp =	 Transform()->GetUpVector();
 	Vector3 vFront = Transform()->GetFrontVector();
 
 	Matrix matRevolution = XMMatrixIdentity(); // 공전 (회전 량)
+
+	// 전치된 행렬임 (역행렬 역할을 함. 서로 직교인 벡터이기 때문에 전치 이용함)
 	matRevolution._11 = vRight.x; matRevolution._12 = vUp.x; matRevolution._13 = vFront.x;
 	matRevolution._21 = vRight.y; matRevolution._22 = vUp.y; matRevolution._23 = vFront.y;
 	matRevolution._31 = vRight.z; matRevolution._32 = vUp.z; matRevolution._33 = vFront.z;
 
 	// 회전 행렬 구하기
 	m_matView = matTrans * matRevolution; // 카메라는 원점으로 이동 후 회전시켜야되므로 위치 * 회전임.
+
+	/*
+#pragma region 똑같은 기능의 다른 버전
+	Vector3 vPos = Transform()->GetLocalPosition();
+	m_matView = XMMatrixIdentity();
+	Vector3 vRight = Transform()->GetRightVector();
+	Vector3 vUp = Transform()->GetUpVector();
+	Vector3 vFront = Transform()->GetFrontVector();
+
+	// Translation 과 Rotation을 한꺼번에 넣어줌.
+	m_matView._11 = vRight.x;			m_matView._12 = vUp.x;			m_matView._13 = vFront.x;
+	m_matView._21 = vRight.y;			m_matView._22 = vUp.y;			m_matView._23 = vFront.y;
+	m_matView._31 = vRight.z;			m_matView._32 = vUp.z;			m_matView._33 = vFront.z;
+	m_matView._41 = -vPos.Dot(vRight);  m_matView._42 = -vPos.Dot(vUp); m_matView._43 = -vPos.Dot(vFront);
+#pragma endregion
+	*/
 }
 
 void CCamera::CalculateProjectionMatrix()

@@ -89,7 +89,7 @@ void InspectorGUI::Init()
 
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 110.f));
+	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 510.f));
 
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
@@ -175,13 +175,19 @@ void InspectorGUI::UpdateObjectGUI()
 	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
-	tstring strName = m_pTargetObject->GetName();
-	TStringToArr(strName, strObjName, 255);
-	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
-		tstring tname;
-		StringToTString(strObjName, tname);
-		m_pTargetObject->SetName(tname);
-		CObject::ChangeStateEvn();
+	try {
+		tstring strName = m_pTargetObject->GetName();
+		TStringToArr(strName, strObjName, 255);
+		if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
+			tstring tname;
+			StringToTString(strObjName, tname);
+			m_pTargetObject->SetName(tname);
+			CObject::ChangeStateEvn();
+		}
+	}
+	catch (std::exception e) {
+		//assert(nullptr);
+		int i = 0;
 	}
 
 	// 삭제

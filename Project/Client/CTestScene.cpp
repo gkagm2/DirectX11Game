@@ -103,12 +103,13 @@ void CTestScene::CreateTestScene()
 	//FishEyePostEffect();
 	//CaptainForever();
 	//SoundTest();
+	RenderingAnimationTexture();
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
 	//ParticleSystemTest2();
 	//DistortionObject();
-	BlurEffect();
+	//BlurEffect();
 	//PaperBurnPostEffect();
 	//Light2DTest();
 	//Shooting2D();
@@ -360,6 +361,7 @@ void CTestScene::RenderingAnimationTexture()
 
 	// 카메라 오브젝트 생성
 	CGameObject* pCameraObj = new CGameObject();
+	pCameraObj->SetName(_T("Camera"));
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
@@ -368,13 +370,12 @@ void CTestScene::RenderingAnimationTexture()
 
 
 	// 플레이어 오브젝트 생성
-	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
+	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_PlayerAnim);
 	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl);
 
-
-
 	CGameObject* pPlayer = new CGameObject();
+	pPlayer->SetName(_T("Player_Anim"));
 	pPlayer->AddComponent<CTransform>();
 	pPlayer->AddComponent<CMeshRenderer>();
 	//pPlayer->AddComponent<CPlayerScript_sh>();
@@ -400,7 +401,7 @@ void CTestScene::RenderingAnimationTexture()
 	pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
 	CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
 
-	//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+	pAnim2D->Save(STR_DIR_PATH_Anim, _T("Player_Walk.anim"));
 
 	/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 	pPlayer->Animator2D()->Play(_T("Player_Walk"));*/
@@ -413,10 +414,6 @@ void CTestScene::RenderingAnimationTexture()
 	pPlayer->Collider2D()->SetOffsetPosition(Vector2(0.f, 0.f));
 	CObject::CreateGameObjectEvn(pPlayer, 2);
 
-
-	// Scene 초기화
-	pNewScene->Awake();
-	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

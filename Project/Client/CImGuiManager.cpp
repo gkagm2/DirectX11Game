@@ -149,6 +149,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "MainMenuGUI.h"
 #include "SceneViewGUI.h"
 #include "TileMapEditorGUI.h"
+#include "Animator2DEditorGUI.h"
 #include "ToolCameraGUI.h"
 
 #include "LayerCheckGUI.h"
@@ -231,6 +232,11 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     TileMapEditorGUI* pTileMapEditorGUI = new TileMapEditorGUI;
     pTileMapEditorGUI->Init();
     AddGUI(pTileMapEditorGUI->GetName(), pTileMapEditorGUI);
+
+    // Animator2d Editor GUI
+    Animator2DEditorGUI* pAnimator2DEditorGUI = new Animator2DEditorGUI;
+    pAnimator2DEditorGUI->Init();
+    AddGUI(pAnimator2DEditorGUI->GetName(), pAnimator2DEditorGUI);
 
     // Tool Camera GUI
     ToolCameraGUI* pToolCameraGUI = new ToolCameraGUI;

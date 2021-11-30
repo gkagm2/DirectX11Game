@@ -40,9 +40,6 @@
     <ClInclude Include="CDevice.h">
       <Filter>Engine\03. Device</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h">
-      <Filter>Engine\Support</Filter>
-    </ClInclude>
     <ClInclude Include="Struct.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
@@ -219,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="CSpriteRenderer.h">
       <Filter>Engine\07. Component\Renderer\SripteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>Engine\Support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,11 +595,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl">
-      <Filter>Engine\Support</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="std2d.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
@@ -627,5 +622,10 @@
     <FxCompile Include="LambertCosineLaw.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>Engine\Support</Filter>
+    </None>
   </ItemGroup>
 </Project>

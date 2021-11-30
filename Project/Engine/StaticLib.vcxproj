@@ -175,7 +175,6 @@ call EngineCopy.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.h" />
     <ClInclude Include="CAudioSource.h" />
     <ClInclude Include="CAnimation2D.h" />
     <ClInclude Include="CAnimator2D.h" />
@@ -245,6 +244,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Ptr.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="CSpriteRenderer.h" />
+    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="StringTable.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Tools.h" />
@@ -322,9 +322,6 @@ call EngineCopy.bat</Command>
     <ClCompile Include="StaticLib.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="Tools.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\AssortrockDx2D\Project\Engine\SimpleMath.inl" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="function.fx">
@@ -413,6 +410,9 @@ call EngineCopy.bat</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -78,10 +78,6 @@ void MeshRendererGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
 
 void MeshRendererGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
 {
-	string strKey = (const char*)_dw1;
-	tstring tstrKey;
-	StringToTString(strKey, tstrKey);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
-	assert(pMtrl.Get());
-	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
+
+
 }

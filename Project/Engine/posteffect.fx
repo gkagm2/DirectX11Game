@@ -127,6 +127,21 @@ float4 PS_FishEye(VTX_FISHEYE_OUT _in) : SV_Target
 #define Speed       g_float_3 // 출렁이는 속도
 //=====================
 
+
+
+float hash(in float2 uv)
+{
+    float seed = dot(uv, float2(Rand(g_fDeltaTime), g_fDeltaTime + 0.1f));
+    return frac(38351.43f * sin(14.13f * seed));
+}
+
+void mainImage(out float4 fragColor, in float2 fragCoord)
+{
+    float2 uv = fragCoord / g_vResolution.xy;
+    fragColor = float4(float3(hash(uv), hash(uv), hash(uv)), 1.0);
+}
+
+
 struct VTX_IN_BLUR
 {
     float3 vPosition : POSITION;
@@ -153,24 +168,89 @@ VTX_OUT_BLUR VS_Blur(VTX_IN_BLUR _in)
 
 float4 PS_Blur(VTX_OUT_BLUR _in) : SV_Target
 {
+    
     float2 vScreenUV = _in.vPosition.xy / g_vResolution;
     
-    
-    if (0 == WidthOrHeight) // 가로
-    {
-        vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
-    }
-    if (1 == WidthOrHeight) // 세로
-    {
-        vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
-    }
-    if (2 == WidthOrHeight) // 양쪽 다
-    {
-        vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
-        vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
-    }
+    //if (0 == WidthOrHeight) // 가로
+    //{
+    //    vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    //}
+    //if (1 == WidthOrHeight) // 세로
+    //{
+    //    vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    //}
+    //if (2 == WidthOrHeight) // 양쪽 다
+    //{
+    //    vScreenUV.x += sin(vScreenUV.y * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    //    vScreenUV.y += sin(vScreenUV.x * Amplitude + (g_fAccTime * 12.56f)) * Speed;
+    //}
     float4 vColor = CloneTex.Sample(Sample_Anisotropic, vScreenUV);
+    
+    if (vColor.x > 0.f && vColor.x < 0.2f)
+    {
+        vColor.x = 0.f;
+    }
+    if (vColor.x > 0.2f && vColor.x < 0.4f)
+    {
+        vColor.x = 0.2f;
+    }
+    if (vColor.x > 0.4f && vColor.x < 0.6f)
+    {
+        vColor.x = 0.4f;
+    }
+    if (vColor.x > 0.6f && vColor.x < 0.8f)
+    {
+        vColor.x = 0.6f;
+    }
+    if (vColor.x > 0.8f && vColor.x < 1.f)
+    {
+        vColor.x = 0.8f;
+    }
+    
+    if (vColor.y > 0.f && vColor.y < 0.2f)
+    {
+        vColor.y = 0.f;
+    }
+    if (vColor.y > 0.2f && vColor.y < 0.4f)
+    {
+        vColor.y = 0.2f;
+    }
+    if (vColor.y > 0.4f && vColor.y < 0.6f)
+    {
+        vColor.y = 0.4f;
+    }
+    if (vColor.y > 0.6f && vColor.y < 0.8f)
+    {
+        vColor.y = 0.6f;
+    }
+    if (vColor.y > 0.8f && vColor.y < 1.f)
+    {
+        vColor.y = 0.8f;
+    }
+    
+    if (vColor.z > 0.f && vColor.z< 0.2f)
+    {
+        vColor.z = 0.f;
+    }
+    if (vColor.z > 0.2f && vColor.z < 0.4f)
+    {
+        vColor.z = 0.2f;
+    }
+    if (vColor.z > 0.4f && vColor.z < 0.6f)
+    {
+        vColor.z = 0.4f;
+    }
+    if (vColor.z > 0.6f && vColor.z < 0.8f)
+    {
+        vColor.z = 0.6f;
+    }
+    if (vColor.z > 0.8f && vColor.z < 1.f)
+    {
+        vColor.z = 0.8f;
+    }
+    
     return vColor;
 }
+
 
 #endif

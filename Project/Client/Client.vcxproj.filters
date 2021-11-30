@@ -209,6 +209,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI">
       <UniqueIdentifier>{079f3260-c574-43b5-b5e9-b322618e09cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\04. GUI\Animator2DEditor">
+      <UniqueIdentifier>{ea2c3750-719d-4a41-b9c9-1bdb8e38ad46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -405,6 +408,9 @@
     <ClInclude Include="ParticleSystemGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Animator2DEditorGUI.h">
+      <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -584,6 +590,9 @@
     </ClCompile>
     <ClCompile Include="ParticleSystemGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ParticleSystemGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator2DEditorGUI.cpp">
+      <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -51,6 +51,10 @@
 
 #define STR_DIR_PATH_Config _T("config\\") // 엔진 환경
 
+
+// Extension
+#define STR_EXTENSION_Anim _T(".anim")
+
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"
 #define STR_FUNC_NAME_PIXShader "PS_Std2D"
@@ -160,6 +164,7 @@
 
 #define STR_PATH_Box _T("texture\\Box.png")
 #define STR_PATH_Player _T("texture\\Player.png")
+#define STR_PATH_PlayerAnim _T("texture\\Player_Anim.png")
 #define STR_PATH_Monster _T("texture\\Monster.bmp")
 #define STR_PATH_Enemy1 _T("texture\\Enemy1.png")
 #define STR_PATH_Enemy2 _T("texture\\Enemy2.png")

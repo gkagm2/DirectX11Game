@@ -63,7 +63,7 @@ cbuffer ANIMATION2D_DATA : register(b2)
 {
     float2  vLeftTopUV;
     float2  vFrameSizeUV;
-    float2  vOffsetSizeUV;
+    float2  vOffsetPosUV;
     float2  vBaseSizeUV;
     int     bIsAnimating2D;
     int3    anim2Dpadding;

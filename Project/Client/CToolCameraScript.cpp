@@ -118,6 +118,7 @@ void CToolCameraScript::UpdatePerspective(CCamera* _pCamera)
 	Vector3 vRot = Transform()->GetLocalRotation();
 	CCamera* pToolCam = _pCamera;
 
+	
 	// 마우스를 이용한 회전
 	static Vector2 vPrevMousePos;
 	static Vector3 vPrevCamRot;
@@ -133,39 +134,34 @@ void CToolCameraScript::UpdatePerspective(CCamera* _pCamera)
 		Vector2 offset = (vPrevMousePos - vCurMousePos) * 0.01f;
 		Vector3 vResultRot = { vPrevCamRot.x - offset.y, vPrevCamRot.y - offset.x, vPrevCamRot.z };
 
-		if (InputKeyHold(E_Key::Q)) {
-			vPrevCamRot.z += XM_PI * DT;
-		}
-		else if (InputKeyHold(E_Key::E)) {
-			vPrevCamRot.z -= XM_PI * DT;
-		}
+		//if (InputKeyHold(E_Key::Q)) {
+		//	vPrevCamRot.z += XM_PI * DT;
+		//}
+		//else if (InputKeyHold(E_Key::E)) {
+		//	vPrevCamRot.z -= XM_PI * DT;
+		//}
 
 		Transform()->SetLocalRotation(vResultRot);
 	}
+	
 
-	// World Space로 변환해서 가야 함
+	// 움직임
 	float fMoveSpeed = 30.f * DT;
-	Vector3 vWorldRot = Transform()->GetLocalRotation();
-
-
-	if (InputKeyHold(E_Key::Q)) {
-		vRot.z += XM_PI * DT;
+	if (InputKeyHold(E_Key::LShift)) {
+		fMoveSpeed *= 30.f;
 	}
-	else if (InputKeyHold(E_Key::E)) {
-		vRot.z -= XM_PI * DT;
-	}
-	else if (InputKeyHold(E_Key::A)) {
-		vPos.x -= 30.f * DT;
-	}
-	else if (InputKeyHold(E_Key::D)) {
-		vPos.x += 30.f * DT;
-	}
-	else if (InputKeyHold(E_Key::W)) {
-		vPos.z += 30.f * DT;
-	}
-	else if (InputKeyHold(E_Key::S)) {
-		vPos.z -= 30.f * DT;
-	}
+	if (InputKeyHold(E_Key::Q))
+		vPos += Transform()->GetLocalUpVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::E))
+		vPos += -Transform()->GetLocalUpVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::A))
+		vPos += -Transform()->GetLocalRightVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::D))
+		vPos += Transform()->GetLocalRightVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::W))
+		vPos += Transform()->GetLocalFrontVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::S))
+		vPos += -Transform()->GetLocalFrontVector() * fMoveSpeed;
 	Transform()->SetLocalPosition(vPos);
 	//Transform()->SetLocalPosition(vPos);
 	//Transform()->SetLocalRotation(vRot);

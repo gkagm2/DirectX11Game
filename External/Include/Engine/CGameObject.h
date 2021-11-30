@@ -112,7 +112,7 @@ public:
 	TYPE* GetComponent();
 	CComponent* GetComponent(E_ComponentType _eType);
 
-	const vector<CScript*>& GetScripts() { return m_vecScript; };// 추가되어있는 스크립트 컴포넌트들을 가져온다.
+	const vector<CScript*>& GetScripts() { return m_vecScript; }// 추가되어있는 스크립트 컴포넌트들을 가져온다.
 private:
 	vector<CScript*>& _GetScripts() { return m_vecScript; }
 

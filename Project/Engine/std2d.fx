@@ -48,7 +48,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target {
     // 애니메이션 타입인 경우
     if (bIsAnimating2D)
     {
-        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetPosUV;
         float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
@@ -100,7 +100,7 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
     // 애니메이션 타입인 경우
     if (bIsAnimating2D)
     {
-        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetPosUV;
         float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
@@ -317,7 +317,7 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
     // 애니메이션 타입인 경우
     if (bIsAnimating2D)
     {
-        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetSizeUV;
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetPosUV;
         float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x

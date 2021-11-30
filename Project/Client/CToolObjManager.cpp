@@ -24,7 +24,7 @@ void CToolObjManager::Init()
 		pToolCamObj->AddComponent<CCameraEx>();
 		pToolCamObj->AddComponent<CToolCameraScript>();
 
-		pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+		pToolCamObj->Camera()->SetProjectionType(E_ProjectionType::Perspective);
 		pToolCamObj->Camera()->SetLayerCheckAll();
 		pToolCamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, false);
 		pToolCamObj->Camera()->SetSize(0.02f);

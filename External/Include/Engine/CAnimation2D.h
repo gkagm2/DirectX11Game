@@ -4,10 +4,10 @@
 #include "CAnimator2D.h"
 
 struct TAnimationFrame { // Animation Frame
-	Vector2 vLeftTop;	// 애니메이션 이미지의 좌-상단 시작점
-	Vector2 vFrameSize;	// 좌-상단 기준으로부터 Width, Height
-	Vector2 vOffsetPos; //오프셋 좌표
-	Vector2 vBaseSize;	// 애니메이션 이미지의 오프셋을 이동해도 보여주기 위한 영역의 최대 사이즈 (UV)
+	Vector2 vLeftTopUV;	// 애니메이션 이미지의 좌-상단 시작점
+	Vector2 vFrameSizeUV;	// 좌-상단 기준으로부터 Width, Height
+	Vector2 vOffsetPosUV; //오프셋 좌표
+	Vector2 vBaseSizeUV;	// 애니메이션 이미지의 오프셋을 이동해도 보여주기 위한 영역의 최대 사이즈 (UV)
 	float fDuration;	// Frame의 유지 시간
 };
 
@@ -27,14 +27,14 @@ private:
 	void _SetAnimator(CAnimator2D* _pAnimator2D) { m_pAnimator = _pAnimator2D; }
 
 public:
-	void LateUpdate();
+	void FinalUpdate();
 	virtual void UpdateData() override;
 	void Create(TAnimation2DDesc& _tAnimation2DDesc);
 
 	void Reset() {
 		m_iCurFrameIdx = 0;
 		m_fAccTime = 0.f;
-		m_bFinish = false;
+		_Stop();
 	}
 
 	bool IsFinished() { return m_bFinish; }
@@ -43,6 +43,13 @@ public:
 	void Load(const tstring& _strRelativeFilePath);
 
 	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
+	const TAnimationFrame& GetCurAnimationFrame() { return m_vecAnimFrame[m_iCurFrameIdx]; }
+	SharedPtr<CTexture> GetTexture() { return m_pTexture; }
+	int GetCurFrameIdx() { return m_iCurFrameIdx; }
+
+private:
+	void _Play() { m_bFinish = true; }
+	void _Stop() { m_bFinish = false; }
 	
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

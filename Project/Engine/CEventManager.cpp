@@ -36,10 +36,12 @@ void CEventManager::Update()
 	m_vecEvent.clear();
 
 	// 생성 예정 오브젝트 정리
-	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
-		m_vecCreateObj[i]->Awake();
-	for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
-		m_vecCreateObj[i]->Start();
+	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
+		for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
+			m_vecCreateObj[i]->Awake();
+		for (UINT i = 0; i < m_vecCreateObj.size(); ++i)
+			m_vecCreateObj[i]->Start();
+	}
 
 	m_vecCreateObj.clear();
 }

@@ -127,6 +127,9 @@ inline void StringToTString(const string& _in, tstring& _out) {
 #endif
 }
 
+void StringToTStringVec(const vector<string>& _in, vector<tstring>& _out);
+void TStringToStringVec(const vector<tstring>& _in, vector<string>& _out);
+
 void StringToArr(const string& _in, char* _out, int _iSize);
 void TStringToArr(const tstring& _in, char* _out, int _iSize);
 
