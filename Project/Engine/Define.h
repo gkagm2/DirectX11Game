@@ -37,6 +37,10 @@
 // Math
 #define PI 3.14159265f
 
+
+#define FLOAT_MIN (std::numeric_limits<float>::min)();
+#define FLOAT_MAX (std::numeric_limits<float>::max)();
+
 // Make String
 //#define stringfiy(name) # name // FIXED (Jang) : tchar 타입은 어떻게하지
 

@@ -74,6 +74,8 @@ private:
 	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
 	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
 
+	void _DrawingFixedTextureList(CAnimator2D* _pAnimator2D, int _iIdx);
+
 private:
 	void _Clear();
 
