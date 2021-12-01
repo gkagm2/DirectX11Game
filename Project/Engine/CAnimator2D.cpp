@@ -106,6 +106,21 @@ void CAnimator2D::CreateAnimation(TAnimation2DDesc& _tAnimation2DDesc)
 	m_unmapAnim.insert(std::make_pair(_tAnimation2DDesc.strName, pAnim));
 }
 
+void CAnimator2D::CreateAnimation(const vector<TAnimation2DDesc>& _vecAnimation2DDesc)
+{
+	if (0 == _vecAnimation2DDesc.size())
+		return;
+	CAnimation2D* pAnim = FindAnimation(_vecAnimation2DDesc[0].strName);
+	assert(!pAnim && _T("애니메이션이 이미 존재함"));
+
+	pAnim = new CAnimation2D;
+	pAnim->SetName(_vecAnimation2DDesc[0].strName);
+	pAnim->Create(_vecAnimation2DDesc);
+	pAnim->_SetAnimator(this);
+
+	m_unmapAnim.insert(std::make_pair(_vecAnimation2DDesc[0].strName, pAnim));
+}
+
 void CAnimator2D::Clear()
 {
 	static const CConstBuffer* pBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Animation2D_Data);

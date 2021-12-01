@@ -8,6 +8,9 @@ private:
 	map<string, GUI*> m_mapGUI;
 	bool m_bDemoGUIOpen;
 
+	UINT m_iID; // 중복 방지용
+
+
 public:
 	void Init();
 	void Progress();
@@ -23,6 +26,10 @@ public:
 
 public:
 	void InitCaptainForeverGUI();
+	UINT GetWidgetID() { return ++m_iID; } 
+
+private:
+	void _InitFrame() { m_iID = 0; }
 
 private:
 	// Test Codes

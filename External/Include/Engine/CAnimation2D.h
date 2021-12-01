@@ -16,6 +16,7 @@ class CAnimation2D : public CObject
 {
 private:
 	CAnimator2D*			m_pAnimator;
+	vector<SharedPtr<CTexture>> m_vecTex;
 	SharedPtr<CTexture>		m_pTexture;
 	vector<TAnimationFrame> m_vecAnimFrame;
 
@@ -30,6 +31,7 @@ public:
 	void FinalUpdate();
 	virtual void UpdateData() override;
 	void Create(TAnimation2DDesc& _tAnimation2DDesc);
+	void Create(const vector<TAnimation2DDesc>& _vecAnimation2DDesc);
 
 	void Reset() {
 		m_iCurFrameIdx = 0;
@@ -44,8 +46,11 @@ public:
 
 	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
 	const TAnimationFrame& GetCurAnimationFrame() { return m_vecAnimFrame[m_iCurFrameIdx]; }
-	SharedPtr<CTexture> GetTexture() { return m_pTexture; }
+	SharedPtr<CTexture> GetCurTexture() { return m_vecTex[m_iCurFrameIdx]; }
+	vector<SharedPtr<CTexture>>& GetTextures() { return m_vecTex; }
 	int GetCurFrameIdx() { return m_iCurFrameIdx; }
+
+
 
 private:
 	void _Play() { m_bFinish = true; }

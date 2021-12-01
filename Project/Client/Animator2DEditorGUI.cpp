@@ -12,17 +12,23 @@
 
 Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_pTargetObject(nullptr),
-	m_tDescAnim{},
-	m_nameBuff{}
+	m_nameBuff{},
+	m_queResultTexList{},
+	m_tSelectedTexInfo{},
+	m_iSelectedIdx{ -1 }
 
 {
 }
 
+
 void Animator2DEditorGUI::_Clear()
 {
 	SetTargetObject(nullptr);
-	m_tDescAnim = {};
+	m_tSelectedTexInfo = {};
+	m_iSelectedIdx = -1;
 	ZeroMemory(m_nameBuff, sizeof(m_nameBuff));
+	m_queMinorTexList.clear();
+	m_queResultTexList.clear();
 }
 
 Animator2DEditorGUI::~Animator2DEditorGUI()
@@ -49,7 +55,7 @@ void Animator2DEditorGUI::_RenderAltasTexture()
 	TTextureInfo tTexInfo = {};
 	tTexInfo.vImageSize = ImVec2(400.f, 400.f);
 
-	ParamGUI::Render_Texture("atlas texture##animator2D", m_tDescAnim.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
+	ParamGUI::Render_Texture("atlas texture##animator2D", m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
 }
 
 
@@ -86,7 +92,7 @@ void Animator2DEditorGUI::Update()
 			}
 
 			if (ImGui::BeginTabItem("Canvas##Animator2D")) {
-				_CanvasDrawPanel();
+				_CanvasDrawPanel(pAnimator2D);
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();
@@ -98,12 +104,12 @@ void Animator2DEditorGUI::Update()
 
 inline void Animator2DEditorGUI::SetAtlasTexture(CTexture* _pTex)
 {
-	m_tDescAnim.pAtlas = _pTex;
+	m_tSelectedTexInfo.tAnim2DDesc.pAtlas = _pTex;
 }
 
 inline CTexture* Animator2DEditorGUI::GetAtlasTexture()
 {
-	return m_tDescAnim.pAtlas.Get();
+	return m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get();
 }
 
 void Animator2DEditorGUI::_SetAtlasTexture(DWORD_PTR _dw1, DWORD_PTR _dw)
@@ -118,17 +124,17 @@ void Animator2DEditorGUI::_SetAtlasTexture(DWORD_PTR _dw1, DWORD_PTR _dw)
 
 void Animator2DEditorGUI::_CreateAnimation(CAnimator2D* _pAnimator2D)
 {
-	if (m_tDescAnim.strName.empty())
+	if (m_tSelectedTexInfo.tAnim2DDesc.strName.empty())
 		return;
-	CAnimation2D* pAnim = _pAnimator2D->FindAnimation(m_tDescAnim.strName);
+	CAnimation2D* pAnim = _pAnimator2D->FindAnimation(m_tSelectedTexInfo.tAnim2DDesc.strName);
 	if (!pAnim)
-		_pAnimator2D->CreateAnimation(m_tDescAnim);
+		_pAnimator2D->CreateAnimation(m_tSelectedTexInfo.tAnim2DDesc);
 }
 
 void Animator2DEditorGUI::_SaveAnimation(CAnimator2D* _pAnimator2D)
 {
-	CAnimation2D* pAnim2D = _pAnimator2D->FindAnimation(m_tDescAnim.strName);
-	tstring strAnimFileName = m_tDescAnim.strName + STR_EXTENSION_Anim;
+	CAnimation2D* pAnim2D = _pAnimator2D->FindAnimation(m_tSelectedTexInfo.tAnim2DDesc.strName);
+	tstring strAnimFileName = m_tSelectedTexInfo.tAnim2DDesc.strName + STR_EXTENSION_Anim;
 	pAnim2D->Save(STR_DIR_PATH_Anim, strAnimFileName);
 }
 
@@ -163,22 +169,16 @@ void Animator2DEditorGUI::_SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 
 	CTexture* pImageTexture = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
 	assert(pImageTexture);
-	m_tDescAnim.pAtlas = pImageTexture;
+	m_tSelectedTexInfo.tAnim2DDesc.pAtlas = pImageTexture;
 }
 
-void Animator2DEditorGUI::_CanvasDrawPanel()
+void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 {
 	Vector2 vAtlasSize = Vector2(500.f, 500.f);
-	if (m_tDescAnim.pAtlas.Get())
-		vAtlasSize = m_tDescAnim.pAtlas->GetDimension();
+	if (m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get())
+		vAtlasSize = m_tSelectedTexInfo.tAnim2DDesc.pAtlas->GetDimension();
 
 	static int grids[2] = { 1.f, 1.f };
-
-
-
-
-	static vector<TSelectTexInfo> queMinorTexList; // 추가 할 텍스쳐 리스트
-
 
 	// Left Panel
 	{
@@ -246,8 +246,8 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 #pragma endregion
 
 			ImTextureID tex_id = 0;
-			if (m_tDescAnim.pAtlas.Get()) {
-				tex_id = (ImTextureID)(m_tDescAnim.pAtlas->GetSRV().Get());
+			if (m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get()) {
+				tex_id = (ImTextureID)(m_tSelectedTexInfo.tAnim2DDesc.pAtlas->GetSRV().Get());
 				draw_list->AddImage(tex_id, canvas_p0, canvas_p1);
 			}
 
@@ -264,14 +264,21 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 			// 왼쪽 마우스를 클릭했을 때 클릭했으면
 			if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 				// 클릭한 곳의 위치값을 인덱스값으로 변환하여 위치값을 알아내기.
-				tSelTexInfo = _FindMinorTexIdx(mouse_pos_in_canvas, canvas_sz, grids[0], grids[1]);
+				tSelTexInfo = _FindMinorTexIdx(mouse_pos_in_canvas, canvas_sz, grids[0], grids[1], canvas_sz);
+
+				tSelTexInfo.tAnim2DDesc = m_tSelectedTexInfo.tAnim2DDesc;
+
+				// 자잘한것들 초기화
+				tSelTexInfo.tAnim2DDesc.vBaseSize = Vector2(fGridStepWidth, fGridStepHeight);
+				tSelTexInfo.tAnim2DDesc.vFrameSize = Vector2(fGridStepWidth, fGridStepHeight);
+				tSelTexInfo.tAnim2DDesc.vLeftTop = Vector2(tSelTexInfo.rect.lt.x, tSelTexInfo.rect.lt.y);
 				bSelectArea = true;
 			}
 
 			// 마우스를 뗐을 때
 			if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
 				if (bSelectArea)
-					queMinorTexList.push_back(tSelTexInfo);
+					m_queMinorTexList.push_back(tSelTexInfo);
 				bSelectArea = false;
 			}
 
@@ -329,11 +336,12 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 			draw_list->PopClipRect();
 
 			// 선택한 영역 draw하기
-			for (int i = 0; i < queMinorTexList.size(); ++i) {
-				TSelectTexInfo info = queMinorTexList[i];
+			for (int i = 0; i < m_queMinorTexList.size(); ++i) {
+				TSelectTexInfo info = m_queMinorTexList[i];
 				// 선택 영역 rectfill로 채우기
 				
-				TRect tRect = _GetMinMaxRectFromColRow(fGridStepWidth, fGridStepHeight, info.col, info.row);
+				TRect tRect = m_queMinorTexList[i].rect;
+
 				tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
 				tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
 				draw_list->AddRectFilled(tRect.lt, tRect.rb, IM_COL32(50, 50, 50, 100));
@@ -356,19 +364,134 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 		{
 			ImGui::InputInt2("Divide Grid##animator2d", grids);
 
-			// 애니메이션 텍스쳐를 추가하기
+
+			if (ImGui::Button("Selected Image Clear##Animator2DSelect")) {
+				m_queMinorTexList.clear();
+				m_iSelectedIdx = -1;
+			}
+
+			// 선택된 애니메이션 텍스쳐를 추가하기
 			if (ImGui::Button("Add Animation Texture")) {
+
+				m_queResultTexList.clear();
+				// 순서대로 텍스쳐를 보여 주기
+				for (int i = 0; i < m_queMinorTexList.size(); ++i)
+					m_queResultTexList.push_back(m_queMinorTexList[i]);
 			}
 		}
-		
 
 		ImGui::EndChild();
 
 
 		ImGui::BeginChild("Texture setting", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
+
 		ImGui::Text("texture setting");
 		ImGui::EndChild();
 		ImGui::EndGroup();
+	}
+
+
+	
+	// Bottom
+	bool bImageBtnSelect = false;
+	{
+		TSelectTexInfo tSelTexInfo = {};
+		// canvas setting 일단 이미지로 해본다.
+		for (int i = 0; i < m_queResultTexList.size(); ++i) {
+			string strNum = std::to_string(i) + "##animation2DImageBtn";
+			TTextureBtnInfo tTexInfo = {};
+			tTexInfo.bg_col = ImVec4(1.0f, 0.f, 1.0f, 1.0f);
+			tTexInfo.uv_min = m_queResultTexList[i].rect.ltUV;
+			tTexInfo.uv_max = m_queResultTexList[i].rect.rbUV;
+			tTexInfo.vImageSize = ImVec2(100.f, 100.f);
+			ImGui::SameLine();
+			if (ParamGUI::Render_TextureBtn(strNum.c_str(), m_queResultTexList[i].tAnim2DDesc.pAtlas.Get(), tTexInfo)) {
+				m_iSelectedIdx = i;
+				bImageBtnSelect = true;
+				tSelTexInfo = m_queResultTexList[i];
+			}
+		}
+		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+
+		if(m_iSelectedIdx >= 0 )
+			ImGui::Text("==[selected %d image]==", m_iSelectedIdx);
+
+		// 선택 했으면
+		if (bImageBtnSelect) {
+			m_tSelectedTexInfo = tSelTexInfo;
+		}
+	}
+
+	{
+		// 애니메이션 만들기 위한 설정 넣기
+		if (m_iSelectedIdx >= 0) {
+
+			// name (공통)
+			if (ImGui::InputText("name##animator2D", m_nameBuff, 255)) {
+				// 이름 바꾸기
+				tstring strName;
+				StringToTString(m_nameBuff, strName);
+				for (int i = 0; i < m_queResultTexList.size(); ++i)
+					m_queResultTexList[i].tAnim2DDesc.strName = strName;
+			}
+
+
+			int iFrameCount = m_queResultTexList.size();
+			for (int i = 0; i < m_queResultTexList.size(); ++i)
+				m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.iFrameCount = iFrameCount;
+
+			// frame count (공통)
+			ImGui::Text("animation frame count %d##animator2D", iFrameCount);
+
+
+			ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+
+			// duration
+			ImGui::InputFloat("speed##animator2D", &m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration);
+
+			// base size
+			ImGui::InputFloat2("base size##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize);
+
+			// frame size
+			ImGui::InputFloat2("frame size##aniator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vFrameSize);
+
+			// left top
+			ImGui::InputFloat2("left top##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vLeftTop);
+
+			// offset position
+			ImGui::InputFloat2("Offset##anmiator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos);
+
+
+			// uv 값을 구해보자고
+			if (_pAnimator2D && nullptr != &m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas) {
+
+				// PreView Texture가 있어야 될 듯
+				TTextureInfo tTexInfo = {};
+
+				TAnimationFrame tAnimFrame = {};
+				tAnimFrame.fDuration = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration;
+				tAnimFrame.vFrameSizeUV = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vFrameSize / m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas->GetDimension();
+				tAnimFrame.vBaseSizeUV = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize / m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas->GetDimension();
+				tAnimFrame.fDuration = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration;
+				tAnimFrame.vLeftTopUV = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vLeftTop / m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas->GetDimension();
+				tAnimFrame.vOffsetPosUV = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos / m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas->GetDimension();
+
+				/*	CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
+					const TAnimationFrame& tAnimFrame = pCurAnim->GetCurAnimationFrame();*/
+
+				Vector2 vFinalLT_Vec = tAnimFrame.vLeftTopUV - ((tAnimFrame.vBaseSizeUV * 0.5f) - (tAnimFrame.vFrameSizeUV * 0.5f)) - tAnimFrame.vOffsetPosUV;
+
+				tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
+				tTexInfo.uv_max = ImVec2(vFinalLT_Vec.x + tAnimFrame.vBaseSizeUV.x, vFinalLT_Vec.y + tAnimFrame.vBaseSizeUV.y);
+
+				ParamGUI::Render_Texture("PreView", m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
+			}
+		}
+
+		
+		if (ImGui::Button("Create##animation2d")) {
+
+		}
 	}
 }
 
@@ -409,8 +532,8 @@ void Animator2DEditorGUI::_TextureModifyPanel(CAnimator2D* _pAnimator2D)
 
 	// 아틀라스 텍스쳐 전체 사이즈
 	Vector2 vTexSize = {};
-	if (m_tDescAnim.pAtlas.Get())
-		vTexSize = m_tDescAnim.pAtlas.Get()->GetDimension();
+	if (m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get())
+		vTexSize = m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get()->GetDimension();
 	ImGui::Text("Atlas Texture Size [%.2f, %.2f]", vTexSize.x, vTexSize.y);
 
 	// 계산하기
@@ -443,58 +566,58 @@ void Animator2DEditorGUI::_TextureModifyPanel(CAnimator2D* _pAnimator2D)
 	ImGui::Spacing();
 	ImGui::Spacing();
 
-	// 애니메이션 만들기 위한 설정 넣기
+	//// 애니메이션 만들기 위한 설정 넣기
 
-	// name 
-	ImGui::InputText("name##animator2D", m_nameBuff, 255);
-	StringToTString(m_nameBuff, m_tDescAnim.strName);
+	//// name 
+	//ImGui::InputText("name##animator2D", m_nameBuff, 255);
+	//StringToTString(m_nameBuff, m_tDescAnim.strName);
 
-	// duration
-	ImGui::InputFloat("speed##animator2D", &m_tDescAnim.fDuration);
+	//// duration
+	//ImGui::InputFloat("speed##animator2D", &m_tDescAnim.fDuration);
 
-	// frame count
-	ImGui::InputInt("animation count##animator2D", &m_tDescAnim.iFrameCount);
+	//// frame count
+	//ImGui::InputInt("animation count##animator2D", &m_tDescAnim.iFrameCount);
 
-	// texture
-	m_tDescAnim.pAtlas = m_tDescAnim.pAtlas.Get();
+	//// texture
+	//m_tDescAnim.pAtlas = m_tDescAnim.pAtlas.Get();
 
-	// base size
-	ImGui::InputFloat2("base size##animator2D", (float*)&m_tDescAnim.vBaseSize);
+	//// base size
+	//ImGui::InputFloat2("base size##animator2D", (float*)&m_tDescAnim.vBaseSize);
 
-	// frame size
-	ImGui::InputFloat2("frame size##aniator2D", (float*)&m_tDescAnim.vFrameSize);
+	//// frame size
+	//ImGui::InputFloat2("frame size##aniator2D", (float*)&m_tDescAnim.vFrameSize);
 
-	// left top
-	ImGui::InputFloat2("left top##animator2D", (float*)&m_tDescAnim.vLeftTop);
+	//// left top
+	//ImGui::InputFloat2("left top##animator2D", (float*)&m_tDescAnim.vLeftTop);
 
-	// offset position
-	ImGui::InputFloat2("Offset##anmiator2D", (float*)&m_tDescAnim.vOffsetPos);
+	//// offset position
+	//ImGui::InputFloat2("Offset##anmiator2D", (float*)&m_tDescAnim.vOffsetPos);
 
 
-	// uv 값을 구해보자고
-	if (_pAnimator2D && nullptr != m_tDescAnim.pAtlas) {
+	//// uv 값을 구해보자고
+	//if (_pAnimator2D && nullptr != m_tDescAnim.pAtlas) {
 
-		// PreView Texture가 있어야 될 듯
-		TTextureInfo tTexInfo = {};
+	//	// PreView Texture가 있어야 될 듯
+	//	TTextureInfo tTexInfo = {};
 
-		TAnimationFrame tAnimFrame = {};
-		tAnimFrame.fDuration = m_tDescAnim.fDuration;
-		tAnimFrame.vFrameSizeUV = m_tDescAnim.vFrameSize / m_tDescAnim.pAtlas->GetDimension();
-		tAnimFrame.vBaseSizeUV = m_tDescAnim.vBaseSize / m_tDescAnim.pAtlas->GetDimension();
-		tAnimFrame.fDuration = m_tDescAnim.fDuration;
-		tAnimFrame.vLeftTopUV = m_tDescAnim.vLeftTop / m_tDescAnim.pAtlas->GetDimension();
-		tAnimFrame.vOffsetPosUV = m_tDescAnim.vOffsetPos / m_tDescAnim.pAtlas->GetDimension();
+	//	TAnimationFrame tAnimFrame = {};
+	//	tAnimFrame.fDuration = m_tDescAnim.fDuration;
+	//	tAnimFrame.vFrameSizeUV = m_tDescAnim.vFrameSize / m_tDescAnim.pAtlas->GetDimension();
+	//	tAnimFrame.vBaseSizeUV = m_tDescAnim.vBaseSize / m_tDescAnim.pAtlas->GetDimension();
+	//	tAnimFrame.fDuration = m_tDescAnim.fDuration;
+	//	tAnimFrame.vLeftTopUV = m_tDescAnim.vLeftTop / m_tDescAnim.pAtlas->GetDimension();
+	//	tAnimFrame.vOffsetPosUV = m_tDescAnim.vOffsetPos / m_tDescAnim.pAtlas->GetDimension();
 
-		/*	CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
-			const TAnimationFrame& tAnimFrame = pCurAnim->GetCurAnimationFrame();*/
+	//	/*	CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
+	//		const TAnimationFrame& tAnimFrame = pCurAnim->GetCurAnimationFrame();*/
 
-		Vector2 vFinalLT_Vec = tAnimFrame.vLeftTopUV - ((tAnimFrame.vBaseSizeUV * 0.5f) - (tAnimFrame.vFrameSizeUV * 0.5f)) - tAnimFrame.vOffsetPosUV;
+	//	Vector2 vFinalLT_Vec = tAnimFrame.vLeftTopUV - ((tAnimFrame.vBaseSizeUV * 0.5f) - (tAnimFrame.vFrameSizeUV * 0.5f)) - tAnimFrame.vOffsetPosUV;
 
-		tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
-		tTexInfo.uv_max = ImVec2(vFinalLT_Vec.x + tAnimFrame.vBaseSizeUV.x, vFinalLT_Vec.y + tAnimFrame.vBaseSizeUV.y);
+	//	tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
+	//	tTexInfo.uv_max = ImVec2(vFinalLT_Vec.x + tAnimFrame.vBaseSizeUV.x, vFinalLT_Vec.y + tAnimFrame.vBaseSizeUV.y);
 
-		ParamGUI::Render_Texture("PreView", m_tDescAnim.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
-	}
+	//	ParamGUI::Render_Texture("PreView", m_tDescAnim.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
+	//}
 
 	// animation create button
 	if (ImGui::Button("Create Animation##animator2D")) {
@@ -520,7 +643,7 @@ void Animator2DEditorGUI::_TextureModifyPanel(CAnimator2D* _pAnimator2D)
 }
 
 
-TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow)
+TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize)
 {
 	float fGridStepWidth = _canvasSize.x / iCol;
 	float fGridStepHeight = _canvasSize.y / iRow;
@@ -531,15 +654,31 @@ TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _ca
 	TSelectTexInfo tSelInfo = {};
 	tSelInfo.col = selCol;
 	tSelInfo.row = selRow;
+
+	tSelInfo.rect = _GetMinMaxRectFromColRow(fGridStepWidth, fGridStepHeight, tSelInfo.col, tSelInfo.row, _vImageSize);
+
 	return tSelInfo;
 }
 
-TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow)
+TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize)
 {
 	TRect tRect = {};
 	tRect.rb = ImVec2((iCol + 1) * _gridStepWidth, (iRow + 1) * _gridStepHeight);
 	tRect.rt = ImVec2(tRect.rb.x, tRect.rb.y - _gridStepHeight);
 	tRect.lb = ImVec2(tRect.rb.x - _gridStepWidth, tRect.rb.y);
 	tRect.lt = ImVec2(tRect.lb.x, tRect.rt.y);
+
+	tRect.rbUV.x = tRect.rb.x / _vImageSize.x;
+	tRect.rbUV.y = tRect.rb.y / _vImageSize.y;
+
+	tRect.rtUV.x = tRect.rt.x / _vImageSize.x;
+	tRect.rtUV.y = tRect.rt.y / _vImageSize.y;
+
+	tRect.lbUV.x = tRect.lb.x / _vImageSize.x;
+	tRect.lbUV.y = tRect.lb.y / _vImageSize.y;
+
+	tRect.ltUV.x = tRect.lt.x / _vImageSize.x;
+	tRect.ltUV.y = tRect.lt.y / _vImageSize.y;
+
 	return tRect;
 }

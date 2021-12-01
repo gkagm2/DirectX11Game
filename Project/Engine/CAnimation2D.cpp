@@ -45,7 +45,7 @@ void CAnimation2D::FinalUpdate()
 void CAnimation2D::UpdateData()
 {
 	static const UINT iRegisterNum = 50;
-	m_pTexture->UpdateData(E_ShaderStage::Pixel, iRegisterNum);
+	m_vecTex[m_iCurFrameIdx]->UpdateData(E_ShaderStage::Pixel, iRegisterNum);
 
 	static const CConstBuffer* pBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Animation2D_Data);
 
@@ -63,21 +63,38 @@ void CAnimation2D::UpdateData()
 void CAnimation2D::Create(TAnimation2DDesc& _tAnimation2DDesc)
 {
 	//assert(_tAnimation2DDesc.pAtlas.Get() && _T("애니메이션을 표현 할 텍스쳐가 null임"));
-	m_pTexture = _tAnimation2DDesc.pAtlas;
+	m_vecTex.clear();
+	for (int i = 0; i < _tAnimation2DDesc.iFrameCount; ++i)
+		m_vecTex.push_back(_tAnimation2DDesc.pAtlas);
 
 	TAnimationFrame tAnimFrm= {};
 	
 	// Atlas형태의 Texture 좌표를 UV좌표로 변환 후 넣어줌
-	Vector2 vUVLeftTopPos = _tAnimation2DDesc.vLeftTop / m_pTexture->GetDimension();
-	tAnimFrm.vFrameSizeUV = _tAnimation2DDesc.vFrameSize / m_pTexture->GetDimension();
-	tAnimFrm.vBaseSizeUV = _tAnimation2DDesc.vBaseSize / m_pTexture->GetDimension();
+	Vector2 vUVLeftTopPos = _tAnimation2DDesc.vLeftTop / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
+	tAnimFrm.vFrameSizeUV = _tAnimation2DDesc.vFrameSize / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
+	tAnimFrm.vBaseSizeUV = _tAnimation2DDesc.vBaseSize / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
 	tAnimFrm.fDuration = _tAnimation2DDesc.fDuration;
-	tAnimFrm.vOffsetPosUV = _tAnimation2DDesc.vOffsetPos / m_pTexture->GetDimension();
+	tAnimFrm.vOffsetPosUV = _tAnimation2DDesc.vOffsetPos / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
 	// 프레임 생성
 	for (int i = 0; i < _tAnimation2DDesc.iFrameCount; ++i) {
 		tAnimFrm.vLeftTopUV = Vector2(vUVLeftTopPos.x + (float)i * tAnimFrm.vFrameSizeUV.x, vUVLeftTopPos.y);
 		m_vecAnimFrame.push_back(tAnimFrm);
 	}
+}
+
+void CAnimation2D::Create(const vector<TAnimation2DDesc>& _vecAnimation2DDesc)
+{
+	for (int i = 0; i < _vecAnimation2DDesc.size(); ++i) {
+		TAnimationFrame tAnimFrm = {};
+		// Atlas형태의 Texture 좌표를 UV좌표로 변환 후 넣어줌
+		Vector2 vUVLeftTopPos = _vecAnimation2DDesc[i].vLeftTop / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vFrameSizeUV = _vecAnimation2DDesc[i].vFrameSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vBaseSizeUV = _vecAnimation2DDesc[i].vBaseSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.fDuration = _vecAnimation2DDesc[i].fDuration;
+		tAnimFrm.vOffsetPosUV = _vecAnimation2DDesc[i].vOffsetPos / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+
+	}
+	//m_pTexture = TAnimation2DDesc
 }
 
 void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _strFileName)
@@ -112,15 +129,25 @@ void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _str
 		_ftprintf(pFile, _T("%f\n"), m_vecAnimFrame[i].fDuration);
 		_ftprintf(pFile, _T("\n"));
 	}
-	 
-	// 참조하고 있는 텍스쳐 정보
-	_ftprintf(pFile, _T("Textrue_Name\n"));
-	_ftprintf(pFile, m_pTexture->GetKey().c_str());
-	_ftprintf(pFile, _T("\n"));
 
-	_ftprintf(pFile, _T("Texture_Path\n"));
-	_ftprintf(pFile, m_pTexture->GetRelativePath().c_str());
-	_ftprintf(pFile, _T("\n"));
+	//// 참조하고 있는 텍스쳐 정보
+	//_ftprintf(pFile, _T("Textrue_Name\n"));
+	//_ftprintf(pFile, m_pTexture->GetKey().c_str());
+	//_ftprintf(pFile, _T("\n"));
+
+	//_ftprintf(pFile, _T("Texture_Path\n"));
+	//_ftprintf(pFile, m_pTexture->GetRelativePath().c_str());
+	//_ftprintf(pFile, _T("\n"));
+
+	for (size_t i = 0; i < m_vecTex.size(); ++i) {
+		_ftprintf(pFile, _T("Texture_Name %d\n"), (int)i);
+		_ftprintf(pFile, m_vecTex[i]->GetKey().c_str());
+		_ftprintf(pFile, _T("\n"));
+
+		_ftprintf(pFile, _T("Texture_Path %d\n"), (int)i);
+		_ftprintf(pFile, m_vecTex[i]->GetRelativePath().c_str());
+		_ftprintf(pFile, _T("\n"));
+	}
 
 	fclose(pFile);
 }
@@ -174,17 +201,35 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 
 	// 참조하고 있는 텍스쳐 정보
 
-	// 텍스쳐 이름
-	_ftscanf_s(pFile, _T("%s"), szBuffer,iBufferSize);
-	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-	m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(szBuffer);
-	wstring strKey = szBuffer;
+	//// 텍스쳐 이름
+	//_ftscanf_s(pFile, _T("%s"), szBuffer,iBufferSize);
+	//_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	//m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(szBuffer);
+	//tstring strKey = szBuffer;
 
-	// 텍스쳐 경로
-	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
-	if (nullptr == m_pTexture)
-		m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
+	//// 텍스쳐 경로
+	//_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	//_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+	//if (nullptr == m_pTexture)
+	//	m_pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
+
+	m_vecTex.clear();
+	for (size_t i = 0; i < iFrameCount; ++i) {
+		// 텍스쳐 이름
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		SharedPtr<CTexture> pTex = nullptr;
+		pTex = CResourceManager::GetInstance()->LoadRes<CTexture>(szBuffer);
+		m_vecTex.push_back(pTex);
+		tstring strKey = szBuffer;
+
+		// 텍스쳐 경로
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		if (nullptr == m_vecTex[i]) {
+			m_vecTex[i] = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
+		}
+	}
 
 	fclose(pFile);
 }

@@ -20,7 +20,8 @@
 
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
-    m_iTestCodeType(1)
+    m_iTestCodeType(1),
+    m_iID(0)
 {
 }
 
@@ -76,6 +77,7 @@ void CImGuiManager::Init()
 
 void CImGuiManager::Progress()
 {
+    _InitFrame();
     Update();
     Render();
 }

@@ -13,6 +13,7 @@ private:
 
 public:
 	T* Get() { return m_pResource; }
+	T* Get() const { return m_pResource; }
 	T** GetAddress() { return &m_pResource; }
 
 public:

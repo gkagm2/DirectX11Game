@@ -98,7 +98,7 @@ void Animator2DGUI::Update()
 		tTexInfo.uv_max = ImVec2(vFinalRB_Vec.x, vFinalRB_Vec.y);
 
 
-		ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetTexture().Get(), nullptr, nullptr, false, tTexInfo);
+		ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetCurTexture().Get(), nullptr, nullptr, false, tTexInfo);
 	}
 
 

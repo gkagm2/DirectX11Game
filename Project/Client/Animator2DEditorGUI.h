@@ -3,25 +3,40 @@
 #include <Engine/CAnimator2D.h>
 class CGameObject;
 
+struct TRect {
+	ImVec2 lt;
+	ImVec2 ltUV;
+	ImVec2 rt;
+	ImVec2 rtUV;
+	ImVec2 lb;
+	ImVec2 lbUV;
+	ImVec2 rb;
+	ImVec2 rbUV;
+};
+
 struct TSelectTexInfo {
 	int col;
 	int row;
-};
-
-struct TRect {
-	ImVec2 lt;
-	ImVec2 rt;
-	ImVec2 lb;
-	ImVec2 rb;
+	TRect rect;
+	TAnimation2DDesc tAnim2DDesc;
 };
 
 class Animator2DEditorGUI : public GUI
 {
+private:
 	CGameObject* m_pTargetObject;
-	TAnimation2DDesc m_tDescAnim;
 
 	// temp
 	char m_nameBuff[255];
+
+
+private:
+	vector<TSelectTexInfo> m_queMinorTexList; // 추가 할 텍스쳐 리스트
+
+	TSelectTexInfo m_tSelectedTexInfo; // 선택한 텍스쳐 (편집할 아틀라스 텍스쳐)
+	int m_iSelectedIdx; // 추가 할 것들중에 선택 한 인덱스 번호
+
+	vector<TSelectTexInfo> m_queResultTexList; // 수정까지 마친 텍스쳐 리스트
 
 public:
 	virtual void Init();
@@ -54,11 +69,10 @@ private:
 
 private:
 	// Panel
-	void _CanvasDrawPanel();
+	void _CanvasDrawPanel(CAnimator2D* _pAnimator2D);
 
-	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow);
-	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow);
-	
+	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
+	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
 
 private:
 	void _Clear();

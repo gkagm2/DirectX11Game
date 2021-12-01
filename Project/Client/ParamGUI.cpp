@@ -71,7 +71,8 @@ bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut)
 bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn, TTextureInfo _tTextureInfo)
 {
 	string strText = _strName.substr(0, _strName.find("##"));
-	ImGui::Text(strText.c_str());
+	if (0 != strText.size())
+		ImGui::Text(strText.c_str());
 
 	ListViewGUI* pListGUI = (ListViewGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView);
 
@@ -87,6 +88,7 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 
 	tstring titleName = _T("Texture");
 
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (_bIsButtonOn) {
 		if (ImGui::Button(strLabel.c_str())) {
 			// 목록 전달
@@ -95,14 +97,38 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 			pListGUI->SetList(vecName, titleName);
 			pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
 			pListGUI->SetActive(true);
+			ImGui::PopID();
 			return true;
 		}
 	}
+	ImGui::PopID();
+
 	if (!_bIsButtonOn)
 		return true;
 	
 	return false;
 }
+
+bool ParamGUI::Render_TextureBtn(const string& _strName, CTexture* _pTex, TTextureBtnInfo _tTexBtnInfo) {
+	string strText = _strName.substr(0, _strName.find("##"));
+	if (0 != strText.size())
+		ImGui::Text(strText.c_str());
+
+	ImTextureID tex_id = 0;
+	if (nullptr != _pTex)
+		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
+
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (
+		ImGui::ImageButton(tex_id, _tTexBtnInfo.vImageSize, _tTexBtnInfo.uv_min, _tTexBtnInfo.uv_max, _tTexBtnInfo.iFramePadding, _tTexBtnInfo.bg_col, _tTexBtnInfo.tint_col)) {
+		ImGui::SameLine();
+		ImGui::PopID();
+		return true;
+	}
+	ImGui::PopID();
+	return false;
+}
+
 
 bool ParamGUI::Render_Matrix(const string& _strName, Matrix* _pOut)
 {
@@ -168,11 +194,13 @@ bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
 	Vector4 colf = ChangeColorUintToVector4(iColor);
 
 	bool bIsFixed = false;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::ColorEdit4(_strName.c_str(), &colf.x, ImGuiColorEditFlags_InputRGB)) {
 		iColor = ChangeColorVector4ToUint(&colf.x);
 		bIsFixed = true;
 		*_iColorInOut = iColor;
 	}
+	ImGui::PopID();
 	
 	return bIsFixed;
 }
