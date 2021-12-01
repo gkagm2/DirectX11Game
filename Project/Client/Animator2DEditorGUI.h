@@ -2,6 +2,19 @@
 #include "GUI.h"
 #include <Engine/CAnimator2D.h>
 class CGameObject;
+
+struct TSelectTexInfo {
+	int col;
+	int row;
+};
+
+struct TRect {
+	ImVec2 lt;
+	ImVec2 rt;
+	ImVec2 lb;
+	ImVec2 rb;
+};
+
 class Animator2DEditorGUI : public GUI
 {
 	CGameObject* m_pTargetObject;
@@ -27,11 +40,29 @@ private:
 
 
 private:
+	// function
 	void _CreateAnimation(CAnimator2D* _pAnimator2D);
 	void _SaveAnimation(CAnimator2D* _pAnimator2D);
 	void _DeleteAnimation(CAnimator2D* _pAnimator2D);
 
+	// Panel
+	void _TextureModifyPanel(CAnimator2D* _pAnimator2D);
+
+	// minor panel
+	void _OnSelectAtlasTexture();
+	void _RenderAltasTexture();
+
+private:
+	// Panel
+	void _CanvasDrawPanel();
+
+	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow);
+	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow);
+	
+
+private:
 	void _Clear();
+
 public:
 	Animator2DEditorGUI();
 	virtual ~Animator2DEditorGUI() override;

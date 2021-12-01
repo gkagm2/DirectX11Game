@@ -79,7 +79,7 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 	if (nullptr != _pTex)
 		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
 
-	ImGui::Image(tex_id, ImVec2(150.f, 150.f), _tTextureInfo.uv_min, _tTextureInfo.uv_max, _tTextureInfo.tint_col, _tTextureInfo.border_col);
+	ImGui::Image(tex_id, _tTextureInfo.vImageSize, _tTextureInfo.uv_min, _tTextureInfo.uv_max, _tTextureInfo.tint_col, _tTextureInfo.border_col);
 	ImGui::SameLine();
 
 	string strLabel = "Select##";

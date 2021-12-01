@@ -7,11 +7,14 @@ struct TTextureInfo {
 	ImVec2 uv_max; // bottom right
 	ImVec4 tint_col; // no tint
 	ImVec4 border_col; // 50% opaque white
+
+	ImVec2 vImageSize;
 	TTextureInfo() :
 		uv_min{ ImVec2(0.f, 0.f) },
 		uv_max{ ImVec2(1.f, 1.f) },
 		tint_col{ ImVec4(1.f, 1.f, 1.f, 1.f) },
-		border_col{ ImVec4(1.f, 1.f, 1.f, 0.5f) }{}
+		border_col{ ImVec4(1.f, 1.f, 1.f, 0.5f) },
+		vImageSize{ ImVec2(150.f,150.f) } {}
 };
 
 class CTexture;
