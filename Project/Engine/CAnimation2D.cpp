@@ -56,6 +56,7 @@ void CAnimation2D::UpdateData()
 		m_vecAnimFrame[m_iCurFrameIdx].vBaseSizeUV,
 		true // Is Animating 2D
 	};
+	_tcprintf(_T("%d"), m_iCurFrameIdx); // Using
 	pBuffer->SetData(&tData);
 	pBuffer->UpdateData();
 }
@@ -87,14 +88,15 @@ void CAnimation2D::Create(const vector<TAnimation2DDesc>& _vecAnimation2DDesc)
 	for (int i = 0; i < _vecAnimation2DDesc.size(); ++i) {
 		TAnimationFrame tAnimFrm = {};
 		// AtlasÇüÅÂÀÇ Texture ÁÂÇ¥¸¦ UVÁÂÇ¥·Î º¯È¯ ÈÄ ³Ö¾îÁÜ
-		Vector2 vUVLeftTopPos = _vecAnimation2DDesc[i].vLeftTop / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
-		tAnimFrm.vFrameSizeUV = _vecAnimation2DDesc[i].vFrameSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vLeftTopUV = _vecAnimation2DDesc[i].vLeftTop / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
 		tAnimFrm.vBaseSizeUV = _vecAnimation2DDesc[i].vBaseSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
 		tAnimFrm.fDuration = _vecAnimation2DDesc[i].fDuration;
 		tAnimFrm.vOffsetPosUV = _vecAnimation2DDesc[i].vOffsetPos / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vFrameSizeUV = _vecAnimation2DDesc[i].vFrameSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
 
+		m_vecAnimFrame.push_back(tAnimFrm);
+		m_vecTex.push_back(_vecAnimation2DDesc[i].pAtlas);
 	}
-	//m_pTexture = TAnimation2DDesc
 }
 
 void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _strFileName)

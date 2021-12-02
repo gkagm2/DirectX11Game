@@ -81,6 +81,7 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
 
 	ImGui::Image(tex_id, _tTextureInfo.vImageSize, _tTextureInfo.uv_min, _tTextureInfo.uv_max, _tTextureInfo.tint_col, _tTextureInfo.border_col);
+
 	ImGui::SameLine();
 
 	string strLabel = "Select##";
@@ -88,8 +89,9 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 
 	tstring titleName = _T("Texture");
 
-	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (_bIsButtonOn) {
+		bool bButtonClick = false;
+		ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 		if (ImGui::Button(strLabel.c_str())) {
 			// 목록 전달
 			vector<tstring> vecName;
@@ -97,11 +99,13 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 			pListGUI->SetList(vecName, titleName);
 			pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
 			pListGUI->SetActive(true);
-			ImGui::PopID();
-			return true;
+			bButtonClick = true;
 		}
+		ImGui::PopID();
+
+		if (bButtonClick)
+			return true;
 	}
-	ImGui::PopID();
 
 	if (!_bIsButtonOn)
 		return true;
@@ -118,9 +122,9 @@ bool ParamGUI::Render_TextureBtn(const string& _strName, CTexture* _pTex, TTextu
 	if (nullptr != _pTex)
 		tex_id = (ImTextureID)(_pTex->GetSRV().Get());
 
+
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
-	if (
-		ImGui::ImageButton(tex_id, _tTexBtnInfo.vImageSize, _tTexBtnInfo.uv_min, _tTexBtnInfo.uv_max, _tTexBtnInfo.iFramePadding, _tTexBtnInfo.bg_col, _tTexBtnInfo.tint_col)) {
+	if (ImGui::ImageButton(tex_id, _tTexBtnInfo.vImageSize, _tTexBtnInfo.uv_min, _tTexBtnInfo.uv_max, _tTexBtnInfo.iFramePadding, _tTexBtnInfo.bg_col, _tTexBtnInfo.tint_col)) {
 		ImGui::SameLine();
 		ImGui::PopID();
 		return true;

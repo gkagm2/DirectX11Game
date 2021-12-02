@@ -24,6 +24,7 @@
 /////////////// Path ///////////////
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+#define STR_FILE_PATH_TileMapShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 #define STR_FILE_PATH_Material _T("material\\")

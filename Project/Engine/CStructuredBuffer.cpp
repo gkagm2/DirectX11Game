@@ -15,7 +15,7 @@ CStructuredBuffer::~CStructuredBuffer()
 {
 }
 
-void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pSysData)
+void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pInitialSysData)
 {
 	Release();
 	m_iElementSize = _iElementSize;
@@ -38,11 +38,11 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		m_tDesc.Usage = D3D11_USAGE_DYNAMIC;
 		m_tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		if (nullptr == _pSysData)
+		if (nullptr == _pInitialSysData)
 			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_R.GetAddressOf());
 		else {
 			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pSysData;
+			tSub.pSysMem = _pInitialSysData;
 			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_R.GetAddressOf());
 		}
 		assert(m_pSB_R.Get());
@@ -57,11 +57,11 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		m_tDesc.Usage = D3D11_USAGE_DEFAULT;
 		m_tDesc.CPUAccessFlags = 0;
 
-		if (nullptr == _pSysData)
+		if (nullptr == _pInitialSysData)
 			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_RW.GetAddressOf());
 		else {
 			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pSysData;
+			tSub.pSysMem = _pInitialSysData;
 			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_RW.GetAddressOf());
 		}
 		assert(m_pSB_RW.Get());
@@ -86,11 +86,11 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		m_tDesc.Usage = D3D11_USAGE_DYNAMIC;
 		m_tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		if (nullptr == _pSysData)
+		if (nullptr == _pInitialSysData)
 			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_R.GetAddressOf());
 		else {
 			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pSysData;
+			tSub.pSysMem = _pInitialSysData;
 			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_R.GetAddressOf());
 		}
 		assert(m_pSB_R.Get());
@@ -101,11 +101,11 @@ void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize
 		m_tDesc.Usage = D3D11_USAGE_DEFAULT;
 		m_tDesc.CPUAccessFlags = 0;
 
-		if (nullptr == _pSysData)
+		if (nullptr == _pInitialSysData)
 			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_RW.GetAddressOf());
 		else {
 			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pSysData;
+			tSub.pSysMem = _pInitialSysData;
 			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_RW.GetAddressOf());
 		}
 		assert(m_pSB_RW.Get());

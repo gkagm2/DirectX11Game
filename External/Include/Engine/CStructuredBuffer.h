@@ -26,7 +26,7 @@ private:
 	E_StructuredBufferType m_eType;
 
 public:
-	void Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pSysData = nullptr);
+	void Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pInitialSysData = nullptr);
 
 	void SetData(void* _pSysMem, UINT _iElementCount) const; // system memory -> buffer gpu
 	void GetData(void* _pDest, UINT _iElementCount);

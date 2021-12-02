@@ -354,8 +354,8 @@ void CResourceManager::CreateDefaultShader()
 	//-----------------------
 	// Å¸ÀÏ¸Ê ½¦ÀÌ´õ »ý¼º
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
-	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderTileMap);
-	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderTileMap);
+	pShader->CreateVertexShader(STR_FILE_PATH_TileMapShader, STR_FUNC_NAME_VTXShaderTileMap);
+	pShader->CreatePixelShader(STR_FILE_PATH_TileMapShader, STR_FUNC_NAME_PIXShaderTileMap);
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);

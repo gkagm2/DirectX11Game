@@ -18,15 +18,29 @@ CTileMap::CTileMap() :
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_TileMapMtrl);
 
-	m_pTileMapBuffer = new CStructuredBuffer;
+	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
 	const UINT iDefaultTileMapElementCnt = m_iDefaultElementCountCol * m_iDefaultElementCountRow;
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
 }
 
+CTileMap::CTileMap(const CTileMap& _origin) :
+	CComponent(E_ComponentType::TileMap),
+	m_pTileMapBuffer(nullptr),
+	m_iAtlasTileCol(_origin.m_iAtlasTileCol),
+	m_iAtlasTileRow(_origin.m_iAtlasTileRow),
+	m_iTileCol(_origin.m_iTileCol),
+	m_iTileRow(_origin.m_iTileRow),
+	m_iDefaultElementCountCol(_origin.m_iDefaultElementCountCol),
+	m_iDefaultElementCountRow(_origin.m_iDefaultElementCountRow)
+{
+	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
+	const UINT iDefaultTileMapElementCnt = m_iDefaultElementCountCol * m_iDefaultElementCountRow;
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
+
+}
+
 CTileMap::~CTileMap()
 {
-	if (m_pTileMapBuffer)
-		delete m_pTileMapBuffer;
 }
 
 void CTileMap::FinalUpdate()

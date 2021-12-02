@@ -622,6 +622,9 @@
     <FxCompile Include="LambertCosineLaw.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="tilemap.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
