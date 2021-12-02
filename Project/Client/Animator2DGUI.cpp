@@ -89,20 +89,21 @@ void Animator2DGUI::Update()
 		TTextureInfo tTexInfo = {};
 
 		CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
-		const TAnimationFrame& curFrame = pCurAnim->GetCurAnimationFrame();
+		if (pCurAnim) {
+			const TAnimationFrame& curFrame = pCurAnim->GetCurAnimationFrame();
 
-		Vector2 vFinalLT_Vec = curFrame.vLeftTopUV -curFrame.vOffsetPosUV;
-		Vector2 vFinalRB_Vec = curFrame.vLeftTopUV + curFrame.vFrameSizeUV - curFrame.vOffsetPosUV;
+			Vector2 vFinalLT_Vec = curFrame.vLeftTopUV - curFrame.vOffsetPosUV;
+			Vector2 vFinalRB_Vec = curFrame.vLeftTopUV + curFrame.vFrameSizeUV - curFrame.vOffsetPosUV;
 
-		tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
-		tTexInfo.uv_max = ImVec2(vFinalRB_Vec.x, vFinalRB_Vec.y);
+			tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
+			tTexInfo.uv_max = ImVec2(vFinalRB_Vec.x, vFinalRB_Vec.y);
 
 
-		ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetCurTexture().Get(), nullptr, nullptr, false, tTexInfo);
+			ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetCurTexture().Get(), nullptr, nullptr, false, tTexInfo);
+		}
+		else
+			assert(nullptr);
 	}
-
-
-
 
 	End();
 }

@@ -15,12 +15,11 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_nameBuff{},
 	m_queResultTexList{},
 	m_tSelectedTexInfo{},
-	m_iSelectedIdx{ -1 }
-
+	m_iSelectedIdx{ -1 },
+	m_bolorRectColor{ IM_COL_WHITE },
+	m_eEditMode{E_EditMode::Normal}
 {
 }
-
-
 
 void Animator2DEditorGUI::_Clear()
 {
@@ -31,12 +30,11 @@ void Animator2DEditorGUI::_Clear()
 	m_queMinorTexList.clear();
 	m_queResultTexList.clear();
 }
-
 Animator2DEditorGUI::~Animator2DEditorGUI()
 {
 }
 
-void Animator2DEditorGUI::_OnSelectAtlasTexture()
+void Animator2DEditorGUI::_OnLoadAtlasTexture()
 {
 	// 리스트 뷰를 보여준다.
 	ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
@@ -73,26 +71,17 @@ void Animator2DEditorGUI::Update()
 		return;
 	}
 
-	if (!m_pTargetObject)
-		return;
+	CAnimator2D* pAnimator2D = nullptr;
+	if (m_pTargetObject)
+		pAnimator2D = m_pTargetObject->Animator2D();
 
-	CAnimator2D* pAnimator2D = m_pTargetObject->Animator2D();
-	if (!pAnimator2D) {
-		assert(nullptr);
-		return;
-	}
 
-	ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 	if (ImGui::Begin(STR_GUI_Animator2DEditor, &m_bGUIOpen))
 	{
 		if (ImGui::BeginTabBar("##Animator2DTabBar"))
 		{
-			if (ImGui::BeginTabItem("Modify##Animator2D")) {
-				_TextureModifyPanel(pAnimator2D);
-				ImGui::EndTabItem();
-			}
-
-			if (ImGui::BeginTabItem("Canvas##Animator2D")) {
+			if (ImGui::BeginTabItem("Animator2D##Animator2D")) {
 				_CanvasDrawPanel(pAnimator2D);
 				ImGui::EndTabItem();
 			}
@@ -184,81 +173,64 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 	// Left Panel
 	{
 		{
-			ImGui::Text("Left Panel");
-			ImGui::BeginChild("canvas panel", ImVec2(vAtlasSize.x, vAtlasSize.y), true, ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar);
+			ImGui::Text("Texture Border");
+			_CanvasTopPanel(); // Top Panel 
+		
 
+			// Texture canvas
+			ImGui::BeginChild("texture canvas panel", ImVec2(450, 450), true);
+
+			//  opeiton
 			static ImVector<ImVec2> points;
 			static ImVec2 scrolling(0.0f, 0.0f);
 			static bool opt_enable_grid = true;
 			static bool opt_enable_context_menu = true;
-			static bool adding_line = false;
 
-			ImGui::Checkbox("Enable grid", &opt_enable_grid);
-			ImGui::Checkbox("Enable context menu", &opt_enable_context_menu);
-			ImGui::Text("Mouse Left: drag to add lines,\nMouse Right: drag to scroll, click for context menu.");
+			//ImGui::Text("Mouse Left: drag to add lines,\nMouse Right: drag to scroll, click for context menu.");
 
-			// Typically you would use a BeginChild()/EndChild() pair to benefit from a clipping region + own scrolling.
-			// Here we demonstrate that this can be replaced by simple offsetting + custom drawing + PushClipRect/PopClipRect() calls.
-			// To use a child window instead we could use, e.g:
-			//      ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));      // Disable padding
-			//      ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(50, 50, 50, 255));  // Set a background color
-			//      ImGui::BeginChild("canvas", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_NoMove);
-			//      ImGui::PopStyleColor();
-			//      ImGui::PopStyleVar();
-			//      [...]
-			//      ImGui::EndChild();
-
-			// Using InvisibleButton() as a convenience 1) it will advance the layout cursor and 2) allows us to use IsItemHovered()/IsItemActive()
 			ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
-			ImVec2 canvas_sz; //= ImGui::GetContentRegionAvail();   // Resize canvas to what's available
+			ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
 
 			canvas_sz = ImVec2(vAtlasSize.x, vAtlasSize.y);
 			if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 			if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 			ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
+			// ---------------- grid 요소
 			const float GRID_STEP = 0.f;
-			float fGridStepWidth = canvas_sz.x / grids[0];
-			float fGridStepHeight = canvas_sz.y / grids[1];
+			float fGridStepWidth = vAtlasSize.x / grids[0];
+			float fGridStepHeight = vAtlasSize.y / grids[1];
+			// ---------------------------
 
 			ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 
 			// Draw border and background color
 			ImGuiIO& io = ImGui::GetIO();
 			ImDrawList* draw_list = ImGui::GetWindowDrawList();
-			draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(255, 50, 255, 255));
-			draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(255, 255, 255, 255));
-			draw_list->AddText(canvas_p0, IM_COL32(0, 0, 0, 255), "Hello WOrld");
+			draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(20, 20, 20, 255));
+			draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(10, 10, 10, 255));
 
 
-			// Test code
-
-#pragma region Draw Middlef line
-			ImVec2 p3 = ImVec2(canvas_p0.x + canvas_p1.x, canvas_p0.y + canvas_p1.y);
-			ImVec2 midle = p3;
-			ImVec2 wp1 = ImVec2(canvas_p0.x, midle.y);
-			ImVec2 wp2 = ImVec2(canvas_p1.x, midle.y);
-
-			ImVec2 hp1 = ImVec2(midle.x, canvas_p0.y);
-			ImVec2 hp2 = ImVec2(midle.x, canvas_p1.y);
-
-			draw_list->AddLine(wp1, wp2, IM_COL32(255, 0, 0, 255));
-			draw_list->AddLine(hp1, hp2, IM_COL32(0, 0, 255, 255));
-#pragma endregion
+			// Drawing Cross
+			_DrawCross(canvas_p0, canvas_p1, draw_list);
 
 			ImTextureID tex_id = 0;
 			if (m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get()) {
 				tex_id = (ImTextureID)(m_tSelectedTexInfo.tAnim2DDesc.pAtlas->GetSRV().Get());
-				draw_list->AddImage(tex_id, canvas_p0, canvas_p1);
+
+				ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
+				ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
+				draw_list->AddImage(tex_id, can0, can1);
 			}
 
 			// canvs에서 
-			// This will catch our interactions
+			// 마우스 왼쪽과 오른쪽 버튼을 canvas에서 사용 할 것임.
 			ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
 			const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 			const bool is_active = ImGui::IsItemActive();   // Held
 			const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 			const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+
 
 			static bool bSelectArea = false;
 			static TSelectTexInfo tSelTexInfo = {};
@@ -274,6 +246,10 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 				tSelTexInfo.tAnim2DDesc.vFrameSize = Vector2(fGridStepWidth, fGridStepHeight);
 				tSelTexInfo.tAnim2DDesc.vLeftTop = Vector2(tSelTexInfo.rect.lt.x, tSelTexInfo.rect.lt.y);
 				bSelectArea = true;
+			}
+
+			if (is_hovered && ImGui::IsMouseDragging(ImGuiButtonFlags_MouseButtonMiddle)) {
+
 			}
 
 			// 마우스를 뗐을 때
@@ -300,12 +276,12 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 			// Pan (we use a zero mouse threshold when there's no context menu)
 			// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
 
-			/*const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
+			const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
 			if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
 			{
 				scrolling.x += io.MouseDelta.x;
 				scrolling.y += io.MouseDelta.y;
-			}*/
+			}
 
 			// Context menu (under default mouse threshold)
 			/*ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
@@ -314,12 +290,12 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 
 			if (ImGui::BeginPopup("context"))
 			{
-				if (adding_line)
+				/*if (adding_line)
 					points.resize(points.size() - 2);
 				adding_line = false;
 				if (ImGui::MenuItem("Remove one", NULL, false, points.Size > 0)) { points.resize(points.size() - 2); }
 				if (ImGui::MenuItem("Remove all", NULL, false, points.Size > 0)) { points.clear(); }
-				ImGui::EndPopup();
+				ImGui::EndPopup();*/
 			}
 
 			// Draw grid + all lines in the canvas
@@ -345,11 +321,12 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 
 				tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
 				tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
-				draw_list->AddRectFilled(tRect.lt, tRect.rb, IM_COL32(50, 50, 50, 100));
+				draw_list->AddRectFilled(
+					ImVec2(tRect.lt.x + scrolling.x, tRect.lt.y + scrolling.y), ImVec2(tRect.rb.x + scrolling.x, tRect.rb.y + scrolling.y), IM_COL32(50, 50, 50, 100));
 				ImVec2 vMiddle = ImVec2((tRect.lt.x + tRect.rb.x) * 0.5f, (tRect.lt.y + tRect.rb.y) * 0.5f);
 				string strNum = std::to_string(i);
 				ImFont* font_current = ImGui::GetFont();
-				draw_list->AddText(font_current, 20, vMiddle, IM_COL32(20, 240, 20, 240), strNum.c_str(),0);
+				draw_list->AddText(font_current, 20, vMiddle, IM_COL32(240, 50, 50, 240), strNum.c_str(),0);
 			}
 		}
 		
@@ -472,9 +449,7 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 
 			// offset position
 
-			ImGui::DragFloat2("Offset##anmiator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos, 0.1f, -100.f, 100.f, "%.2f", ImGuiSliderFlags_None);
-			
-			(std::numeric_limits<float>::min)();
+			ImGui::DragFloat2("Offset##anmiator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos, 0.1f, FLOAT_MIN, FLOAT_MIN, "%.2f", ImGuiSliderFlags_None);
 
 			_DrawingFixedTextureList(_pAnimator2D, m_iSelectedIdx);
 			
@@ -487,156 +462,34 @@ void Animator2DEditorGUI::_CanvasDrawPanel(CAnimator2D* _pAnimator2D)
 		ImGui::Separator();
 
 		if (ImGui::Button("Create##animation2d")) {
+			vector<TAnimation2DDesc> vecAnim2DDesc;
+			for (int i = 0; i < m_queResultTexList.size(); ++i)
+				vecAnim2DDesc.push_back(m_queResultTexList[i].tAnim2DDesc);
+			_pAnimator2D->CreateAnimation(vecAnim2DDesc);
 		}
 	}
 }
 
-
-void Animator2DEditorGUI::_TextureModifyPanel(CAnimator2D* _pAnimator2D)
+void Animator2DEditorGUI::_CanvasTopPanel()
 {
-	// 아틀라스 텍스쳐 선택 버튼
-	if (ImGui::Button("Select Texture##AtlasTexture"))
-		_OnSelectAtlasTexture();
-
-	// Left Panel
-	{
-		ImGui::Text("Left Panel");
-		ImGui::BeginChild("left pane", ImVec2(400.f, 400.f), true);
-
-		// Rendering AltasTexture
-		_RenderAltasTexture();
-
-		ImGui::EndChild();
-		ImGui::BeginChild("left2 pane", ImVec2(250, 0), true);
-
-		ImGui::EndChild();
+	// Text Border tab buttons
+	if (ImGui::Button("Load Texture##animator2DEditor")) {
+		_OnLoadAtlasTexture();
 	}
 	ImGui::SameLine();
-
-	// Right Panel
-	{
-		ImGui::BeginGroup();
-		ImGui::BeginChild("Atlas Texture view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-		ImGui::Text("atlas texture view ");
-		ImGui::EndChild();
-
-		ImGui::BeginChild("Texture setting", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-		ImGui::Text("texture setting");
-		ImGui::EndChild();
-		ImGui::EndGroup();
+	if (ImGui::Button("Slice Sprite Grid##animator2DEditor")) {
+		m_eEditMode = E_EditMode::SliceSprite_Grid;
 	}
-
-	// 아틀라스 텍스쳐 전체 사이즈
-	Vector2 vTexSize = {};
-	if (m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get())
-		vTexSize = m_tSelectedTexInfo.tAnim2DDesc.pAtlas.Get()->GetDimension();
-	ImGui::Text("Atlas Texture Size [%.2f, %.2f]", vTexSize.x, vTexSize.y);
-
-	// 계산하기
-	ImGui::Text("--Calculate Animation Size--");
-
-
-	static int arrMaxFrameColRowCnt[2] = {};
-	ImGui::InputInt2("Max Frame Col, Row Count", arrMaxFrameColRowCnt);
-
-
-	// 프레임 사이즈 계산하기
-	static int vFrameSize[2] = {};
-	vFrameSize[0] = arrMaxFrameColRowCnt[0] == 0 ? 0 : (int)(vTexSize.x / arrMaxFrameColRowCnt[0]);
-	vFrameSize[1] = arrMaxFrameColRowCnt[1] == 0 ? 0 : (int)(vTexSize.y / arrMaxFrameColRowCnt[1]);
-	ImGui::Text("Frame Size [%d, %d] ", vFrameSize[0], vFrameSize[1]);
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-
-	// 좌상단 좌표 계산하기
-	ImGui::Text("--Get Left Top Pixel--");
-	static int arrColRow[2];
-	ImGui::InputInt2("Input Col, Row", arrColRow);
-	int arrLeftTop[2] = {};
-	arrLeftTop[0] = (arrColRow[0] - 1) * vFrameSize[0];
-	arrLeftTop[1] = (arrColRow[1] - 1) * vFrameSize[1];
-	ImGui::Text("Found Left Top pixel pos : [%d, %d] ", arrLeftTop[0], arrLeftTop[1]);
-
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-
-	//// 애니메이션 만들기 위한 설정 넣기
-
-	//// name 
-	//ImGui::InputText("name##animator2D", m_nameBuff, 255);
-	//StringToTString(m_nameBuff, m_tDescAnim.strName);
-
-	//// duration
-	//ImGui::InputFloat("speed##animator2D", &m_tDescAnim.fDuration);
-
-	//// frame count
-	//ImGui::InputInt("animation count##animator2D", &m_tDescAnim.iFrameCount);
-
-	//// texture
-	//m_tDescAnim.pAtlas = m_tDescAnim.pAtlas.Get();
-
-	//// base size
-	//ImGui::InputFloat2("base size##animator2D", (float*)&m_tDescAnim.vBaseSize);
-
-	//// frame size
-	//ImGui::InputFloat2("frame size##aniator2D", (float*)&m_tDescAnim.vFrameSize);
-
-	//// left top
-	//ImGui::InputFloat2("left top##animator2D", (float*)&m_tDescAnim.vLeftTop);
-
-	//// offset position
-	//ImGui::InputFloat2("Offset##anmiator2D", (float*)&m_tDescAnim.vOffsetPos);
-
-
-	//// uv 값을 구해보자고
-	//if (_pAnimator2D && nullptr != m_tDescAnim.pAtlas) {
-
-	//	// PreView Texture가 있어야 될 듯
-	//	TTextureInfo tTexInfo = {};
-
-	//	TAnimationFrame tAnimFrame = {};
-	//	tAnimFrame.fDuration = m_tDescAnim.fDuration;
-	//	tAnimFrame.vFrameSizeUV = m_tDescAnim.vFrameSize / m_tDescAnim.pAtlas->GetDimension();
-	//	tAnimFrame.vBaseSizeUV = m_tDescAnim.vBaseSize / m_tDescAnim.pAtlas->GetDimension();
-	//	tAnimFrame.fDuration = m_tDescAnim.fDuration;
-	//	tAnimFrame.vLeftTopUV = m_tDescAnim.vLeftTop / m_tDescAnim.pAtlas->GetDimension();
-	//	tAnimFrame.vOffsetPosUV = m_tDescAnim.vOffsetPos / m_tDescAnim.pAtlas->GetDimension();
-
-	//	/*	CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
-	//		const TAnimationFrame& tAnimFrame = pCurAnim->GetCurAnimationFrame();*/
-
-	//	Vector2 vFinalLT_Vec = tAnimFrame.vLeftTopUV - ((tAnimFrame.vBaseSizeUV * 0.5f) - (tAnimFrame.vFrameSizeUV * 0.5f)) - tAnimFrame.vOffsetPosUV;
-
-	//	tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
-	//	tTexInfo.uv_max = ImVec2(vFinalLT_Vec.x + tAnimFrame.vBaseSizeUV.x, vFinalLT_Vec.y + tAnimFrame.vBaseSizeUV.y);
-
-	//	ParamGUI::Render_Texture("PreView", m_tDescAnim.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
-	//}
-
-	// animation create button
-	if (ImGui::Button("Create Animation##animator2D")) {
-		_CreateAnimation(_pAnimator2D);
+	ImGui::SameLine();
+	if (ImGui::Button("Slice Sprite##animator2DEditor")) {
+		m_eEditMode = E_EditMode::SliceSprite;
 	}
-
-	// save animation in GameObject
-	if (ImGui::Button("Save Animation")) {
-		_CreateAnimation(_pAnimator2D);
-		_SaveAnimation(_pAnimator2D);
+	ImGui::SameLine();
+	if (ImGui::Button("Trim Slice##animator2DEditor")) {
+		m_eEditMode = E_EditMode::TrimSlice;
 	}
-
-	// load animation
-	if (ImGui::Button("Load Animation")) {
-		// TODO (Jang) : 애니메이션 로딩
-	}
-
-
-	// 애니메이션 리스트 나타내기
-
-	// 만들었던 애니메이션 삭제하기
-	_DeleteAnimation(_pAnimator2D);
 }
+
 
 
 TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize)
@@ -706,4 +559,18 @@ void Animator2DEditorGUI::_DrawingFixedTextureList(CAnimator2D* _pAnimator2D, in
 
 		ParamGUI::Render_Texture("", m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas.Get(), nullptr, nullptr, false, tTexInfo);
 	}
+}
+
+void Animator2DEditorGUI::_DrawCross(const ImVec2& _vLTPos, const ImVec2& _vRBPos, ImDrawList* _draw_list)
+{
+	ImVec2 p3 = ImVec2(_vLTPos.x + _vRBPos.x, _vLTPos.y + _vRBPos.y);
+	ImVec2 midle = p3;
+	ImVec2 wp1 = ImVec2(_vLTPos.x, midle.y);
+	ImVec2 wp2 = ImVec2(_vRBPos.x, midle.y);
+
+	ImVec2 hp1 = ImVec2(midle.x, _vLTPos.y);
+	ImVec2 hp2 = ImVec2(midle.x, _vRBPos.y);
+
+	_draw_list->AddLine(wp1, wp2, IM_COL32(255, 0, 0, 255));
+	_draw_list->AddLine(hp1, hp2, IM_COL32(0, 0, 255, 255));
 }

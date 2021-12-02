@@ -1,7 +1,12 @@
 #pragma once
 #include "GUI.h"
 #include <Engine/CAnimator2D.h>
+
+#define IM_COL_WHITE IM_COL32(255,255,255,255)
+
 class CGameObject;
+class CCanvasGUI;
+class CAnimator2DCanvasGUI;
 
 struct TRect {
 	ImVec2 lt;
@@ -29,7 +34,6 @@ private:
 	// temp
 	char m_nameBuff[255];
 
-
 private:
 	vector<TSelectTexInfo> m_queMinorTexList; // 추가 할 텍스쳐 리스트
 
@@ -37,6 +41,21 @@ private:
 	int m_iSelectedIdx; // 추가 할 것들중에 선택 한 인덱스 번호
 
 	vector<TSelectTexInfo> m_queResultTexList; // 수정까지 마친 텍스쳐 리스트
+
+	CAnimator2DCanvasGUI* m_pCanvasGUI;
+
+private:
+	ImU32 m_bolorRectColor;
+
+	enum class E_EditMode {
+		Normal,
+		SliceSprite_Grid,
+		SliceSprite,
+		TrimSlice,
+	};
+
+	E_EditMode m_eEditMode;
+
 
 public:
 	virtual void Init();
@@ -60,21 +79,29 @@ private:
 	void _SaveAnimation(CAnimator2D* _pAnimator2D);
 	void _DeleteAnimation(CAnimator2D* _pAnimator2D);
 
-	// Panel
-	void _TextureModifyPanel(CAnimator2D* _pAnimator2D);
-
 	// minor panel
-	void _OnSelectAtlasTexture();
+	void _OnLoadAtlasTexture(); // 아틀
 	void _RenderAltasTexture();
 
 private:
 	// Panel
 	void _CanvasDrawPanel(CAnimator2D* _pAnimator2D);
 
+	void _CanvasTopPanel();
+
+
+
+
+
 	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
 	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
 
 	void _DrawingFixedTextureList(CAnimator2D* _pAnimator2D, int _iIdx);
+
+	void _DrawCross(const ImVec2& _vLTPos, const ImVec2& _vRBPos, ImDrawList* _draw_list);
+
+	void _CanvasGridSliceMode();
+
 
 private:
 	void _Clear();

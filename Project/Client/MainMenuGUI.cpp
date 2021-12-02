@@ -22,6 +22,7 @@
 
 #include "TileMapEditorGUI.h"
 #include "CollisionEditorGUI.h"
+#include "Animator2DEditorGUI.h"
 #include "ToolCameraGUI.h"
 
 // Captain Forever Game
@@ -128,6 +129,9 @@ void MainMenuGUI::Update()
             }
             if (ImGui::MenuItem("Tool Camera")) {
                 OpenToolCameraUI();
+            }
+            if (ImGui::MenuItem("Animator2D Editor")) {
+                OpenAnimator2DEditor();
             }
             if (ImGui::MenuItem("Collision Editor")) {
                 OpenCollisionEditor();
@@ -503,6 +507,16 @@ void MainMenuGUI::OpenCollisionEditor()
     CollisionEditorGUI* pGUI = dynamic_cast<CollisionEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_CollisionEditor));
     if (!pGUI) {
         assert(nullptr && _T("Collsion Editor를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenAnimator2DEditor()
+{
+    Animator2DEditorGUI* pGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
+    if (!pGUI) {
+        assert(nullptr && _T("Animator2D Editor를 열 수 없다."));
         return;
     }
     pGUI->SetActive(true);
