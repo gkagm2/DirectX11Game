@@ -18,7 +18,6 @@ Animator2DGUI::~Animator2DGUI()
 {
 }
 
-
 void Animator2DGUI::Update()
 {
 	if (false == Start())

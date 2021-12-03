@@ -19,9 +19,21 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_iSelectedIdx{ -1 },
 	m_bolorRectColor{ IM_COL_WHITE },
 	m_eEditMode{E_EditMode::SliceSprite_Grid},
-	m_bShowModifyPanel(false)
+	m_bShowModifyPanel(false),
+
+	// canvas properties
+	vAtlasSize{ 500.f, 500.f },
+	points{},
+	opt_enable_grid{ true },
+	opt_enable_context_menu{ true },
+	canvas_p0{},
+	canvas_sz{},
+	canvas_p1{},
+	draw_list{ nullptr }
 {
 }
+
+
 
 void Animator2DEditorGUI::_Clear()
 {
@@ -200,6 +212,46 @@ TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gri
 	tRect.ltUV.x = tRect.lt.x / _vImageSize.x;
 	tRect.ltUV.y = tRect.lt.y / _vImageSize.y;
 
+	return tRect;
+}
+
+TRect Animator2DEditorGUI::_GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _vPos2, const ImVec2& _vImageSize)
+{
+	if (_vPos1.x < 0 || _vPos1.y < 0 || _vPos2.x < 0 || _vPos2.y < 0 ||
+		_vPos1.x >_vImageSize.x || _vPos1.y > _vImageSize.y ||
+		_vPos2.x >_vImageSize.x || _vPos1.y > _vImageSize.y) {
+		//assert(nullptr);
+	}
+
+	ImVec2 vLTPos = _vPos1;
+	ImVec2 vRBPos = _vPos2;
+
+	if (vRBPos.x < vLTPos.x && vRBPos.y < vLTPos.y) {
+		ImVec2 vTempPos = vLTPos;
+		vLTPos = vRBPos;
+		vRBPos = vTempPos;
+	}
+
+	TRect tRect = {};
+	tRect.rb = vRBPos;
+	tRect.lt = vLTPos;
+	tRect.rt = ImVec2(tRect.rb.x, tRect.rb.y);
+	tRect.lb = ImVec2(tRect.lt.x, tRect.rb.y);
+
+	if (_vImageSize.x > 0.f && _vImageSize.y > 0.f) {
+		tRect.rbUV.x = tRect.rb.x / _vImageSize.x;
+		tRect.rbUV.y = tRect.rb.y / _vImageSize.y;
+
+		tRect.rtUV.x = tRect.rt.x / _vImageSize.x;
+		tRect.rtUV.y = tRect.rt.y / _vImageSize.y;
+
+		tRect.lbUV.x = tRect.lb.x / _vImageSize.x;
+		tRect.lbUV.y = tRect.lb.y / _vImageSize.y;
+
+		tRect.ltUV.x = tRect.lt.x / _vImageSize.x;
+		tRect.ltUV.y = tRect.lt.y / _vImageSize.y;
+	}
+	
 	return tRect;
 }
 
@@ -431,28 +483,23 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 }
 
 void Animator2DEditorGUI::_CanvasGridSliceMode() {
-	Vector2 vAtlasSize = Vector2(500.f, 500.f);
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetDimension();
 
 	static int grids[2] = { 1.f, 1.f };
+
 	// Texture canvas
 	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {
 		//  opeiton
-		static ImVector<ImVec2> points;
-		static ImVec2 scrolling(0.0f, 0.0f);
-		static bool opt_enable_grid = true;
-		static bool opt_enable_context_menu = true;
 
-		//ImGui::Text("Mouse Left: drag to add lines,\nMouse Right: drag to scroll, click for context menu.");
 
-		ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
-		ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
+		canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
+		canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
 
 		canvas_sz = ImVec2(vAtlasSize.x, vAtlasSize.y);
 		if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 		if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
-		ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
+		canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
 		// ---------------- grid 요소
 		const float GRID_STEP = 0.f;
@@ -464,22 +511,15 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 		// Draw border and background color
 		ImGuiIO& io = ImGui::GetIO();
-		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+		draw_list = ImGui::GetWindowDrawList();
 		draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(20, 20, 20, 255));
 		draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(10, 10, 10, 255));
 
 
-		// Drawing Cross
-		_DrawCross(canvas_p0, canvas_p1, draw_list);
-
 		// image drawing
-		ImTextureID tex_id = 0;
-		if (m_pLoadedAtlasTexture) {
-			tex_id = (ImTextureID)(m_pLoadedAtlasTexture->GetSRV().Get());
-			ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
-			ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
-			draw_list->AddImage(tex_id, can0, can1);
-		}
+		ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
+		ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
+		_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, can0, can1);
 
 		// canvs에서 
 		// 마우스 왼쪽과 오른쪽 버튼을 canvas에서 사용 할 것임.
@@ -562,10 +602,7 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 		if (opt_enable_grid)
 		{
-			for (float x = fmodf(scrolling.x, fGridStepWidth); x < canvas_sz.x; x += fGridStepWidth)
-				draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, canvas_p1.y), IM_COL32(25, 200, 25, 180));
-			for (float y = fmodf(scrolling.y, fGridStepHeight); y < canvas_sz.y; y += fGridStepHeight)
-				draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(25, 200, 25, 180));
+			_DrawAtlasOutline(canvas_p0, canvas_p1, fGridStepWidth, fGridStepHeight);
 		}
 		/*for (int n = 0; n < points.Size; n += 2)
 			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
@@ -616,7 +653,200 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 void Animator2DEditorGUI::_CanvasSliceMode()
 {
+	Vector2 vAtlasSize = Vector2(500.f, 500.f);
+	if (m_pLoadedAtlasTexture)
+		vAtlasSize = m_pLoadedAtlasTexture->GetDimension();
 
+	// Texture canvas
+	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {
+
+		ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
+		ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
+
+		canvas_sz = ImVec2(vAtlasSize.x, vAtlasSize.y);
+		if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
+		if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
+		ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
+
+		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+
+		// Draw border and background color
+		ImGuiIO& io = ImGui::GetIO();
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+		draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(20, 20, 20, 255));
+		draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(10, 10, 10, 255));
+
+
+		// Drawing Cross
+		_DrawCross(canvas_p0, canvas_p1, draw_list);
+
+		// image drawing
+		ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
+		ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
+		_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, can0, can1);
+
+		// canvs에서 
+		// 마우스 왼쪽과 오른쪽 버튼을 canvas에서 사용 할 것임.
+		ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
+		const bool is_hovered = ImGui::IsItemHovered(); // Hovered
+		const bool is_active = ImGui::IsItemActive();   // Held
+		const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
+		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+		const ImVec2 mouse_pos = io.MousePos;
+		ImGui::Text("mouse pos : %.2f %.2f", mouse_pos.x, mouse_pos.y);
+
+		
+		//// Add first and second point
+		//if (is_hovered && !adding_line && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		//{
+		//	points.push_back(mouse_pos_in_canvas);
+		//	points.push_back(mouse_pos_in_canvas);
+		//	adding_line = true;
+		//}
+		//if (adding_line)
+		//{
+		//	points.back() = mouse_pos_in_canvas;
+		//	if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+		//		adding_line = false;
+		//}
+
+		// Pan (we use a zero mouse threshold when there's no context menu)
+		// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
+
+		// Context menu (under default mouse threshold)
+		/*ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
+		if (opt_enable_context_menu && ImGui::IsMouseReleased(ImGuiMouseButton_Right) && drag_delta.x == 0.0f && drag_delta.y == 0.0f)
+			ImGui::OpenPopupOnItemClick("context");*/
+
+		if (ImGui::BeginPopup("context"))
+		{
+			/*if (adding_line)
+				points.resize(points.size() - 2);
+			adding_line = false;
+			if (ImGui::MenuItem("Remove one", NULL, false, points.Size > 0)) { points.resize(points.size() - 2); }
+			if (ImGui::MenuItem("Remove all", NULL, false, points.Size > 0)) { points.clear(); }
+			*/
+			ImGui::EndPopup();
+		}
+
+		static TSelectTexInfo tSelTexInfo = {};
+		static ImVec2 vFirstClickedPosInCanavas = {};
+		static ImVec2 vFirstMousePos = {};
+
+		static bool bDrag = false;
+		// 왼쪽 마우스를 클릭했을 때 클릭했으면
+		if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+			// 클릭한 곳의 위치값을 인덱스값으로 변환하여 위치값을 알아내기.
+			vFirstClickedPosInCanavas = mouse_pos_in_canvas;
+			vFirstMousePos = ImVec2(mouse_pos.x + scrolling.x, mouse_pos.y + scrolling.y);
+			// 자잘한것들 초기화
+			bDrag = true;
+		}
+
+		ImVec2 vFClickedPos = {};
+		ImVec2 vSClickedPos = {};
+		// 마우스 드래그를 했을 때.
+		if (bDrag) {
+			//if (is_hovered && ImGui::IsMouseDragging(ImGuiButtonFlags_MouseButtonLeft)) {
+				// 선을 보여준다.
+			vFClickedPos = ImVec2(vFirstMousePos.x - scrolling.x, vFirstMousePos.y - scrolling.y);
+			vSClickedPos = ImVec2(mouse_pos.x, mouse_pos.y);
+
+			draw_list->AddRect(vFClickedPos, vSClickedPos, IM_COL32(0, 255, 0, 255), 0.f, 0, 2.f);
+		}
+
+		// 마우스를 뗐을 때
+		if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+			TRect tRect = _GetRectFromPos(vFirstClickedPosInCanavas, mouse_pos_in_canvas, ImVec2(vAtlasSize.x, vAtlasSize.y));
+			tSelTexInfo.rect = tRect;
+
+			tSelTexInfo.tAnim2DDesc = {};
+			tSelTexInfo.tAnim2DDesc.pAtlas = m_pLoadedAtlasTexture;
+
+
+			Vector2 vRectSize = Vector2(tRect.rb.x - tRect.lt.x, tRect.rb.y - tRect.lt.y);
+			tSelTexInfo.tAnim2DDesc.vBaseSize = vRectSize;
+			tSelTexInfo.tAnim2DDesc.vFrameSize = vRectSize;
+			tSelTexInfo.tAnim2DDesc.vLeftTop = Vector2(tSelTexInfo.rect.lt.x, tSelTexInfo.rect.lt.y);
+			m_queMinorTexList.push_back(tSelTexInfo);
+			bDrag = false;
+		}
+
+
+		const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
+
+		if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
+		{
+			if (false == bDrag) {
+				scrolling.x += io.MouseDelta.x;
+				scrolling.y += io.MouseDelta.y;
+			}
+		}
+
+
+
+		// Draw grid + all lines in the canvas
+		draw_list->PushClipRect(canvas_p0, canvas_p1, true);
+
+		if (opt_enable_grid)
+		{
+			float fGridStepWidth = vAtlasSize.x / 1.f;
+			float fGridStepHeight = vAtlasSize.y / 1.f;
+			_DrawAtlasOutline(canvas_p0, canvas_p1, fGridStepWidth, fGridStepHeight);
+
+		}
+		/*for (int n = 0; n < points.Size; n += 2)
+			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
+		draw_list->PopClipRect();
+
+		// 선택한 영역 draw하기
+		for (int i = 0; i < m_queMinorTexList.size(); ++i) {
+			TSelectTexInfo info = m_queMinorTexList[i];
+			// 선택 영역 rectfill로 채우기
+
+			TRect tRect = m_queMinorTexList[i].rect;
+
+			tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
+			tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
+			draw_list->AddRectFilled(
+				ImVec2(tRect.lt.x + scrolling.x, tRect.lt.y + scrolling.y), ImVec2(tRect.rb.x + scrolling.x, tRect.rb.y + scrolling.y), IM_COL32(50, 50, 50, 100));
+			ImVec2 vMiddle = ImVec2((tRect.lt.x + tRect.rb.x) * 0.5f, (tRect.lt.y + tRect.rb.y) * 0.5f);
+			vMiddle = ImVec2(vMiddle.x + scrolling.x, vMiddle.y + scrolling.y);
+			string strNum = std::to_string(i);
+			ImFont* font_current = ImGui::GetFont();
+			draw_list->AddText(font_current, 20, vMiddle, IM_COL32(240, 50, 50, 240), strNum.c_str(), 0);
+		}
+		ImGui::EndChild();
+	}
+
+	ImGui::SameLine();
+	// Right Panel
+	if (ImGui::BeginChild("Atlas Texture view", ImVec2(300, 500))) { // Leave room for 1 line below us
+		{
+			if (ImGui::Button("Clear##Animator2DSelectImage")) {
+				m_queMinorTexList.clear();
+				m_iSelectedIdx = -1;
+			}
+
+			// 선택된 애니메이션 텍스쳐를 추가하기
+			if (ImGui::Button("Add Animations##animation2DEditor")) {
+				m_queResultTexList.clear();
+				// 순서대로 텍스쳐를 보여 주기
+				for (int i = 0; i < m_queMinorTexList.size(); ++i)
+					m_queResultTexList.push_back(m_queMinorTexList[i]);
+			}
+		}
+		ImGui::EndChild();
+	}
+}
+
+void Animator2DEditorGUI::_Canvas_DrawImage(ImDrawList* _pDrawList, CTexture* _pTexture, const ImVec2& _vLTPos, const ImVec2& _vRBPos)
+{
+	ImTextureID tex_id = 0;
+	if (m_pLoadedAtlasTexture) {
+		tex_id = (ImTextureID)(m_pLoadedAtlasTexture->GetSRV().Get());
+		_pDrawList->AddImage(tex_id, _vLTPos, _vRBPos);
+	}
 }
 
 
@@ -638,4 +868,12 @@ void Animator2DEditorGUI::_OnSaveAnimation()
 {
 	// TODO (Jang) : 저장하기	
 	// 원도우 창을 띄워서 저장하게 하자.
+}
+
+void Animator2DEditorGUI::_DrawAtlasOutline(const ImVec2& _canvas_p0, const ImVec2& _canvas_p1, float _fGridStepWidth, float _fGridStepHeight)
+{
+	for (float x = fmodf(scrolling.x, _fGridStepWidth); x < canvas_sz.x; x += _fGridStepWidth)
+		draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, _canvas_p1.y), IM_COL32(25, 200, 25, 180));
+	for (float y = fmodf(scrolling.y, _fGridStepHeight); y < canvas_sz.y; y += _fGridStepHeight)
+		draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(_canvas_p1.x, canvas_p0.y + y), IM_COL32(25, 200, 25, 180));
 }
