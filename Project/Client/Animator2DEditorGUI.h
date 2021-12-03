@@ -114,10 +114,6 @@ private:
 	// 캔바스 내에 공통된 기능
 	void _Canvas_DrawImage(ImDrawList* _pDrawList, CTexture* _pTexture, const ImVec2& _vLTPos, const ImVec2& _vRBPos);
 
-
-
-
-
 	void _ShowSplitedSprite();
 	void _ModifyAniationPanel();
 	bool _FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo& _tTexBtnInfo_out, const ImVec2& _vImageSize = ImVec2(100.f,100.f));
@@ -131,7 +127,7 @@ private:
 	void _DrawCross(const ImVec2& _vLTPos, const ImVec2& _vRBPos, ImDrawList* _draw_list);
 	void _DrawAtlasOutline(const ImVec2& _canvas_p0, const ImVec2& _canvas_p1, float _fGridStepWidth, float _fGridStepHeight);
 
-
+	void _DrawSelectedRect(); // canvas에서 선택된 영역 그리기
 private:
 	void _Clear();
 

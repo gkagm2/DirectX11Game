@@ -33,8 +33,6 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 {
 }
 
-
-
 void Animator2DEditorGUI::_Clear()
 {
 	SetTargetObject(nullptr);
@@ -608,23 +606,9 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
 		draw_list->PopClipRect();
 
-		// 선택한 영역 draw하기
-		for (int i = 0; i < m_queMinorTexList.size(); ++i) {
-			TSelectTexInfo info = m_queMinorTexList[i];
-			// 선택 영역 rectfill로 채우기
+		// 선택 영역 rect draw하기
+		_DrawSelectedRect();
 
-			TRect tRect = m_queMinorTexList[i].rect;
-
-			tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
-			tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
-			draw_list->AddRectFilled(
-				ImVec2(tRect.lt.x + scrolling.x, tRect.lt.y + scrolling.y), ImVec2(tRect.rb.x + scrolling.x, tRect.rb.y + scrolling.y), IM_COL32(50, 50, 50, 100));
-			ImVec2 vMiddle = ImVec2((tRect.lt.x + tRect.rb.x) * 0.5f, (tRect.lt.y + tRect.rb.y) * 0.5f);
-			vMiddle = ImVec2(vMiddle.x + scrolling.x, vMiddle.y + scrolling.y);
-			string strNum = std::to_string(i);
-			ImFont* font_current = ImGui::GetFont();
-			draw_list->AddText(font_current, 20, vMiddle, IM_COL32(240, 50, 50, 240), strNum.c_str(), 0);
-		}
 		ImGui::EndChild();
 	}
 
@@ -799,23 +783,9 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
 		draw_list->PopClipRect();
 
-		// 선택한 영역 draw하기
-		for (int i = 0; i < m_queMinorTexList.size(); ++i) {
-			TSelectTexInfo info = m_queMinorTexList[i];
-			// 선택 영역 rectfill로 채우기
+		// 선택 영역 rect draw하기
+		_DrawSelectedRect();
 
-			TRect tRect = m_queMinorTexList[i].rect;
-
-			tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
-			tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
-			draw_list->AddRectFilled(
-				ImVec2(tRect.lt.x + scrolling.x, tRect.lt.y + scrolling.y), ImVec2(tRect.rb.x + scrolling.x, tRect.rb.y + scrolling.y), IM_COL32(50, 50, 50, 100));
-			ImVec2 vMiddle = ImVec2((tRect.lt.x + tRect.rb.x) * 0.5f, (tRect.lt.y + tRect.rb.y) * 0.5f);
-			vMiddle = ImVec2(vMiddle.x + scrolling.x, vMiddle.y + scrolling.y);
-			string strNum = std::to_string(i);
-			ImFont* font_current = ImGui::GetFont();
-			draw_list->AddText(font_current, 20, vMiddle, IM_COL32(240, 50, 50, 240), strNum.c_str(), 0);
-		}
 		ImGui::EndChild();
 	}
 
@@ -876,4 +846,37 @@ void Animator2DEditorGUI::_DrawAtlasOutline(const ImVec2& _canvas_p0, const ImVe
 		draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, _canvas_p1.y), IM_COL32(25, 200, 25, 180));
 	for (float y = fmodf(scrolling.y, _fGridStepHeight); y < canvas_sz.y; y += _fGridStepHeight)
 		draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(_canvas_p1.x, canvas_p0.y + y), IM_COL32(25, 200, 25, 180));
+}
+
+void Animator2DEditorGUI::_DrawSelectedRect()
+{
+	ImU32 iRectFillColor = IM_COL32(50, 50, 50, 100);
+	ImU32 iTextColor = IM_COL32(240, 50, 50, 240);
+	ImU32 iRectOutlineColor = IM_COL32(0, 255, 0, 255);
+
+	// 선택한 영역 draw하기
+	for (int i = 0; i < m_queMinorTexList.size(); ++i) {
+		TSelectTexInfo info = m_queMinorTexList[i];
+		// 선택 영역 rectfill로 채우기
+
+		TRect tRect = m_queMinorTexList[i].rect;
+
+		tRect.lt = ImVec2(tRect.lt.x + canvas_p0.x, tRect.lt.y + canvas_p0.y);
+		tRect.rb = ImVec2(tRect.rb.x + canvas_p0.x, tRect.rb.y + canvas_p0.y);
+
+		ImVec2 vResultLT = ImVec2(tRect.lt.x + scrolling.x, tRect.lt.y + scrolling.y);
+		ImVec2 vResultRB = ImVec2(tRect.rb.x + scrolling.x, tRect.rb.y + scrolling.y);
+
+		draw_list->AddRectFilled(
+			vResultLT, vResultRB, iRectFillColor);
+		ImVec2 vMiddle = ImVec2((tRect.lt.x + tRect.rb.x) * 0.5f, (tRect.lt.y + tRect.rb.y) * 0.5f);
+		vMiddle = ImVec2(vMiddle.x + scrolling.x, vMiddle.y + scrolling.y);
+		string strNum = std::to_string(i);
+		ImFont* font_current = ImGui::GetFont();
+		draw_list->AddText(font_current, 20, vMiddle, iTextColor, strNum.c_str(), 0);
+
+
+		draw_list->AddRect(vResultLT, vResultRB, iRectOutlineColor);
+
+	}
 }
