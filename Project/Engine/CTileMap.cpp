@@ -96,20 +96,9 @@ void CTileMap::Render()
 	m_pMaterial->Clear();
 }
 
-void CTileMap::SetTileFaceSize(int _iCol, int _iRow)
-{
-	m_iTileXCnt = _iCol;
-	m_iTileYCnt = _iRow;
-}
-
-void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture)
-{
-	m_pAtlasTexture = _pAtlasTexture;
-}
-
 void CTileMap::_InsertTileInfoToBuffer()
 {
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
 }
 
 bool CTileMap::SaveToScene(FILE* _pFile)

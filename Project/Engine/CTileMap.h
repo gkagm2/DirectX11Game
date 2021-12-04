@@ -32,8 +32,6 @@ public:
 	virtual void Render() override;
 
 public:
-	void SetTileFaceSize(int _iCol, int _iRow);
-
 	int GetCol() { return m_iTileXCnt; }
 	int GetRow() { return m_iTileYCnt; }
 
@@ -42,8 +40,7 @@ public:
 	void SetMesh(SharedPtr<CMesh> _pMesh) { m_pMesh = _pMesh; }
 	void SetMaterial(SharedPtr<CMaterial>_pMaterial) { m_pMaterial = _pMaterial; }
 
-	void SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture);
-
+	void SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture) { m_pAtlasTexture = _pAtlasTexture; }
 	SharedPtr<CTexture> GetAtlasTexture() {	return m_pAtlasTexture;	}
 
 private:
