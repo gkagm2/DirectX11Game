@@ -23,7 +23,7 @@ public:
 public:
 	void SetShader(SharedPtr<CGraphicsShader>& _pShader);
 	SharedPtr<CGraphicsShader> GetShader() { return m_pShader; }
-	void SetData(E_ShaderParam _eParam, void* _pData);
+	void SetData(E_ShaderParam _eParam, const void* _pData);
 	void GetData(E_ShaderParam _eParam, void* _pOut);
 
 	bool IsDefaultMaterial() { return m_bIsDefaultMtrl; }

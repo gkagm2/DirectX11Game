@@ -116,18 +116,22 @@ private:
 
 	void _ShowSplitedSprite();
 	void _ModifyAniationPanel();
-	bool _FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo& _tTexBtnInfo_out, const ImVec2& _vImageSize = ImVec2(100.f,100.f));
+	bool _FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo& _tTexBtnInfo_out, const ImVec2& _vImageSize = ImVec2(100.f, 100.f));
 
 	// etc
 	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
 	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
-	TRect _GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _vPos2, const ImVec2& _vImageSize = ImVec2(0.f,0.f));
+	TRect _GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _vPos2, const ImVec2& _vImageSize = ImVec2(0.f, 0.f));
 
 
 	void _DrawCross(const ImVec2& _vLTPos, const ImVec2& _vRBPos, ImDrawList* _draw_list);
 	void _DrawAtlasOutline(const ImVec2& _canvas_p0, const ImVec2& _canvas_p1, float _fGridStepWidth, float _fGridStepHeight);
 
 	void _DrawSelectedRect(); // canvas에서 선택된 영역 그리기
+	void _DrawImageDeleteInResultQue(DWORD_PTR idx);
+
+private:
+
 private:
 	void _Clear();
 

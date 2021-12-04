@@ -60,7 +60,7 @@ void CMaterial::SetShader(SharedPtr<CGraphicsShader>& _pShader) {
 
 // Example :
 // SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
-void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
+void CMaterial::SetData(E_ShaderParam _eParam, const void* _pData)
 {
 	switch (_eParam) {
 	case E_ShaderParam::Int_0:
@@ -123,7 +123,7 @@ void CMaterial::SetData(E_ShaderParam _eParam, void* _pData)
 		Save(GetRelativePath());
 }
 
-// Example : 
+// Example : 1
 // CTexture* pTex = nullptr;
 // GetData(E_ShaderParam::Texture_0, &pTex);
 void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)

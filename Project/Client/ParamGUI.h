@@ -2,6 +2,18 @@
 
 #include "ListViewGUI.h"
 
+typedef void(GUI::* GUI_CT_CALLBACK)(DWORD_PTR);  // CT : Context
+
+struct TContextInfo {
+	GUI* pInst; // 최상위 부모
+	GUI_CT_CALLBACK callback_func; // GUI를 상속받고 있는 클래스의 멤버 함수.
+	string strName; // 이름
+TContextInfo() :
+	pInst(nullptr),
+		callback_func(nullptr)
+	{}
+};
+
 struct TTexture_ImGUIInfo {
 	ImVec2 uv_min; // top left
 	ImVec2 uv_max; // bottom right
@@ -31,7 +43,6 @@ struct TTextureBtnInfo : public TTexture_ImGUIInfo {
 	{}
 };
 
-
 class CTexture;
 class ParamGUI 
 {
@@ -49,6 +60,9 @@ public:
 
 	static void Make_ComboBoxList(const vector<string>& _inStrList, vector<char>& _outStrList);
 	static bool Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& m_strList);
+
+	static bool Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectNum_out);
+
 public:
 	ParamGUI();
 	virtual ~ParamGUI();

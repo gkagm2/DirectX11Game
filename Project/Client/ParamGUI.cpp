@@ -225,3 +225,46 @@ bool ParamGUI::Render_ComboBox(const string& _strName, int* _piCurItem, const ve
 		return true;
 	return false;
 }
+
+
+
+// FIXED (Jang) : 팝업 형태로 안뜸. 
+/*
+    //사용 예시
+	// context Menu setting
+	vector<TContextInfo> _vecContextMenuList;
+	TContextInfo tContextInfo;
+	tContextInfo.callback_func = (GUI_CT_CALLBACK)&Animator2DEditorGUI::_DrawImageDeleteInResultQue;
+	tContextInfo.pInst = this;
+	tContextInfo.strName = "delete";
+	_vecContextMenuList.push_back(tContextInfo);
+
+	int iSelectNum = 0;
+	ParamGUI::Render_ContextMenu(_vecContextMenuList, &iSelectNum);
+*/
+/// <param name="_vecInfo"></param>
+/// <param name="iSelectNum">선택 할 경우의 해당 인덱스 번호를 가져옴</param>
+/// <returns>선택 됐을 경우 true return</returns>
+bool ParamGUI::Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectNum_out)
+{
+	*_iSelectNum_out = -1;
+	bool bResult = false;
+	for (size_t i = 0; i < _vecInfo.size(); ++i) {
+		string strName = _vecInfo[i].strName + "##ContextMenuName";
+		ImGui::Selectable(strName.c_str());
+		if (ImGui::BeginPopupContextItem()) {
+
+			if (ImGui::Button(strName.c_str())) {
+				*_iSelectNum_out = i;
+				GUI* pInst = _vecInfo[i].pInst;
+				GUI_CT_CALLBACK callbackFunc = _vecInfo[i].callback_func;
+				if (callbackFunc && pInst)
+					((*pInst).*callbackFunc)((DWORD_PTR)*_iSelectNum_out); // 콜백 함수 호출
+				bResult = true;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+	}
+	return bResult;
+}

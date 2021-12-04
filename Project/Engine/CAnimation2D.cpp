@@ -56,7 +56,6 @@ void CAnimation2D::UpdateData()
 		m_vecAnimFrame[m_iCurFrameIdx].vBaseSizeUV,
 		true // Is Animating 2D
 	};
-	_tcprintf(_T("%d"), m_iCurFrameIdx); // Using
 	pBuffer->SetData(&tData);
 	pBuffer->UpdateData();
 }

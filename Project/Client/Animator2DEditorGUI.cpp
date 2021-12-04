@@ -61,6 +61,7 @@ void Animator2DEditorGUI::_OnLoadAtlasTexture()
 void Animator2DEditorGUI::Init()
 {
 	SetName(STR_GUI_Animator2DEditor);
+	SetActive(false);
 }
 
 void Animator2DEditorGUI::Update()
@@ -404,80 +405,79 @@ void Animator2DEditorGUI::_ShowSplitedSprite()
 
 void Animator2DEditorGUI::_ModifyAniationPanel()
 {
-	{
-		// 애니메이션 만들기 위한 설정 넣기
-		if (m_iSelectedIdx >= 0) {
-			// name (공통)
-			if (ImGui::InputText("name##animator2D", m_nameBuff, 255)) {
-				// 이름 바꾸기
-				tstring strName;
-				StringToTString(m_nameBuff, strName);
-				for (int i = 0; i < m_queResultTexList.size(); ++i)
-					m_queResultTexList[i].tAnim2DDesc.strName = strName;
-			}
+	// 애니메이션 만들기 위한 설정 넣기
 
-
-			int iFrameCount = m_queResultTexList.size();
-			for (int i = 0; i < m_queResultTexList.size(); ++i)
-				m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.iFrameCount = iFrameCount;
-
-			// frame count (공통)
-			ImGui::Text("animation frame count %d", iFrameCount);
-
-			ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
-
-			// duration
-			ImGui::InputFloat("speed##animator2D", &m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration);
-			ImGui::SameLine();
-			if (ImGui::Button("common apply##animator2Dspeed")) {
-				for (int i = 0; i < m_queResultTexList.size(); ++i) {
-					m_queResultTexList[i].tAnim2DDesc.fDuration = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration;
-				}
-			}
-
-			// base size
-			ImGui::InputFloat2("base size##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize);
-			ImGui::SameLine();
-			if (ImGui::Button("common apply##animator2DbaseSize")) {
-				for (int i = 0; i < m_queResultTexList.size(); ++i) {
-					m_queResultTexList[i].tAnim2DDesc.vBaseSize = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize;
-				}
-			}
-
-			// frame size
-			ImGui::InputFloat2("frame size##aniator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vFrameSize);
-
-			// left top
-			ImGui::InputFloat2("left top##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vLeftTop);
-
-			// offset position
-
-			ImGui::DragFloat2("Offset##anmiator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos, 0.1f, FLOAT_MIN, FLOAT_MIN, "%.2f", ImGuiSliderFlags_None);
-
-			// drawing
-			TTextureBtnInfo tTexBtnInfo = {};
-			if (_FixedTextureEleToUVInList(m_iSelectedIdx, tTexBtnInfo)) {
-				ParamGUI::Render_TextureBtn("", m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas.Get(), tTexBtnInfo);
-			}
+	if (0 <= m_iSelectedIdx) {
+		if (ImGui::Button("Delete##Animation2DEditor Image Delete")) {
+			_DrawImageDeleteInResultQue((DWORD_PTR)m_iSelectedIdx);
+			m_iSelectedIdx = -1;
 		}
-		ImGui::Separator();
-
-		// 현재 수정하고있는 텍스쳐를 그리기
-		if (0 <= m_iSelectedIdx) {
-			TTextureBtnInfo tTexBtnInfo = {};
-
-			if (_FixedTextureEleToUVInList(m_iSelectedIdx, tTexBtnInfo, ImVec2(150.f, 150.f))) {
-				ParamGUI::Render_TextureBtn("", m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas.Get(), tTexBtnInfo);
-			}
-		}
-
-
-		if (ImGui::Button("Create##animation2d"))
-			_OnCreateAnimation();
-
-		if (ImGui::Button("Save##animation2d"))
-			_OnSaveAnimation();
 	}
+
+	if (0 <= m_iSelectedIdx) {
+		// name (공통)
+		if (ImGui::InputText("name##animator2D", m_nameBuff, 255)) {
+			// 이름 바꾸기
+			tstring strName;
+			StringToTString(m_nameBuff, strName);
+			for (int i = 0; i < m_queResultTexList.size(); ++i)
+				m_queResultTexList[i].tAnim2DDesc.strName = strName;
+		}
+
+
+		int iFrameCount = m_queResultTexList.size();
+		for (int i = 0; i < m_queResultTexList.size(); ++i)
+			m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.iFrameCount = iFrameCount;
+
+		// frame count (공통)
+		ImGui::Text("animation frame count %d", iFrameCount);
+
+		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+
+		// duration
+		ImGui::InputFloat("speed##animator2D", &m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration);
+		ImGui::SameLine();
+		if (ImGui::Button("common apply##animator2Dspeed")) {
+			for (int i = 0; i < m_queResultTexList.size(); ++i) {
+				m_queResultTexList[i].tAnim2DDesc.fDuration = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.fDuration;
+			}
+		}
+
+		// base size
+		ImGui::InputFloat2("base size##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize);
+		ImGui::SameLine();
+		if (ImGui::Button("common apply##animator2DbaseSize")) {
+			for (int i = 0; i < m_queResultTexList.size(); ++i) {
+				m_queResultTexList[i].tAnim2DDesc.vBaseSize = m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vBaseSize;
+			}
+		}
+
+		// frame size
+		ImGui::InputFloat2("frame size##aniator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vFrameSize);
+
+		// left top
+		ImGui::InputFloat2("left top##animator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vLeftTop);
+
+		// offset position
+
+		ImGui::DragFloat2("Offset##anmiator2D", (float*)&m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.vOffsetPos, 0.1f, FLOAT_MIN, FLOAT_MIN, "%.2f", ImGuiSliderFlags_None);
+	}
+	ImGui::Separator();
+
+	// 현재 수정하고있는 텍스쳐를 그리기
+	if (0 <= m_iSelectedIdx) {
+		TTextureBtnInfo tTexBtnInfo = {};
+
+		if (_FixedTextureEleToUVInList(m_iSelectedIdx, tTexBtnInfo, ImVec2(150.f, 150.f))) {
+			ParamGUI::Render_TextureBtn("", m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas.Get(), tTexBtnInfo);
+		}
+	}
+
+	if (ImGui::Button("Create##animation2d"))
+		_OnCreateAnimation();
+
+	if (ImGui::Button("Save##animation2d"))
+		_OnSaveAnimation();
 }
 
 void Animator2DEditorGUI::_CanvasGridSliceMode() {
@@ -875,8 +875,23 @@ void Animator2DEditorGUI::_DrawSelectedRect()
 		ImFont* font_current = ImGui::GetFont();
 		draw_list->AddText(font_current, 20, vMiddle, iTextColor, strNum.c_str(), 0);
 
-
 		draw_list->AddRect(vResultLT, vResultRB, iRectOutlineColor);
-
 	}
+}
+
+void Animator2DEditorGUI::_DrawImageDeleteInResultQue(DWORD_PTR idx)
+{
+	int i = (int)idx;
+	auto iter = m_queResultTexList.begin();
+	int iterIdx = 0;
+	for (iter; iter != m_queResultTexList.end();) {
+		if (iterIdx == i) {
+			break;
+		}
+		else {
+			++iter;
+		}
+		++iterIdx;
+	}
+	m_queResultTexList.erase(iter);
 }
