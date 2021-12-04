@@ -284,7 +284,6 @@ bool Animator2DEditorGUI::_FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo&
 	return false;
 }
 
-
 void Animator2DEditorGUI::_DrawCross(const ImVec2& _vLTPos, const ImVec2& _vRBPos, ImDrawList* _draw_list)
 {
 	ImVec2 p3 = ImVec2(_vLTPos.x + _vRBPos.x, _vLTPos.y + _vRBPos.y);

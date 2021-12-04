@@ -55,11 +55,7 @@ private:
 	};
 
 	E_EditMode m_eEditMode;
-
-
-
 	bool m_bShowModifyPanel;
-
 
 public:
 	virtual void Init();
@@ -78,9 +74,7 @@ private:
 	void _SetAtlasTexture(DWORD_PTR _dw1, DWORD_PTR _dw);
 	void _SelectLoadedAtlasTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
 
-
 private:
-
 	// function
 	void _OnCreateAnimation();
 	void _OnSaveAnimation();
