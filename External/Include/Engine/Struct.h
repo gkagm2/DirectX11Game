@@ -13,13 +13,10 @@ struct VTX { // Vertex
 // Strctured Buffer Usage
 
 struct TTileInfo {
-	Vector2 vLeftTop;
-	Vector2 vRightBottom;
-	Vector2 vTileSize;
-	Vector2 vLeftTopUV;	// 타일의 좌상단 좌표 UV
-	Vector2 vRightBottomUV; // 타일의 우하단좌표 UV
-	Vector2 vTileSizeUV;
+	int idx;
+	int iTilePadding[3];
 };
+
 
 // 추가시 GUI쪽도 추가해주기.
 struct TLightColor {

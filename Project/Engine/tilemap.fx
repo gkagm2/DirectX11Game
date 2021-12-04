@@ -6,8 +6,18 @@
 ///////////////////////////////////////////////////
 /////////////////// Tile Map //////////////////////
 
-///////////////////////////////////////////////////
+// 렌더링시 생성할 타일의 개수
+#define TileXCount      g_int_0 // 타일맵의 타일 가로 개수
+#define TileYCount      g_int_1 // 타일맵의 세로 개수
 
+//#define TileIdx         g_int_2 // 이미지 인덱스
+
+#define AtlasTex        g_tex_0 // 아틀라스 텍스쳐
+#define AtlasResolution g_vec2_0 // 아틀라스 텍스쳐의 사이즈
+#define AtlasTileUVSize g_vec2_1 // 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
+
+///////////////////////////////////////////////////
+// using g_TileBuffer
 struct VTX_TILEMAP_IN
 {
     float3 vPosition : POSITION;
@@ -28,36 +38,33 @@ VTX_TILEMAP_OUT VS_TileMap(VTX_TILEMAP_IN _in)
     return output;
 }
 
-// 렌더링 시 생성할 타일의 개수
-#define iXCnt g_int_0 
-#define iYCnt g_int_1
+
 float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
 {
-    float2 vLTUV = g_vec2_0; // 렌더링 하고싶은 LeftTop UV
-    float2 vTileUVSize = g_vec2_1; // 렌더링 할 타일 하나의 UV 사이즈
+    float4 vOutColor = (float4) 0.f;
     
-    // 타일이 2x2일 경우 사이즈를 2x2로 만들어준다. 이것을 vOriginUV가 가지고 있다.
-    float2 vOriginUV = float2(_in.vUV.x * (float) iXCnt, _in.vUV.y * (float) iYCnt);
+    // 구조화 버퍼에 접근하기 위한 인덱스 구하기
+    float2 vExUV = _in.vUV * float2(TileXCount, TileYCount); // 각 타일 크기를 0~1사이로 크기를 크게 함.
+    int2 iBufferIdx = floor(vExUV); // 정수만 빼서 행열을 구함.
     
-    int idx = floor(vOriginUV.y) * g_int_0 + floor(vOriginUV.x);
-    vLTUV = g_TileBuffer[idx].vLeftTopUV;
-    float2 vUV = vLTUV + float2(frac(vOriginUV.x) * vTileUVSize.x, frac(vOriginUV.y) * vTileUVSize.y);
-    //vUV.x = vUV.x / (float) iXCnt;
-    //vUV.y = vUV.y / (float) iYCnt;
-    float4 vOutColor = g_tex_0.Sample(g_sam_1, vUV);
+    uint iImageIdx = g_TileBuffer[TileXCount * iBufferIdx.y + iBufferIdx.x].iTileIdx; // 이미지의 인덱스를 구함.
+    
+    uint iTileWidthCount = 1.f / AtlasTileUVSize.x;
+    
+    uint iCol = iImageIdx % iTileWidthCount;
+    uint iRow = iImageIdx / iTileWidthCount;
+    
+    // n x m 으로 타일맵을 표현하기 위해서 입력으로 들어온 uv 값을 각 칸의 픽셀들이 0~1 기준으로 값을 가져가게 한다.
+    float2 vTileUV = _in.vUV * float2(TileXCount, TileYCount);
+    vTileUV = frac(vTileUV);
+    
+    // 타일 사이즈 1개로 맵핑
+    vTileUV *= AtlasTileUVSize;
+    
+    // 타일 인덱스로 얻은 행, 열 위치로 이동 
+    vTileUV = AtlasTileUVSize * float2(iCol, iRow) + vTileUV;
+    
+    vOutColor = AtlasTex.Sample(Sample_Point, vTileUV);
     return vOutColor;
-    
-    /*
-    //int idx = floor(vOriginUV.y) * iXCnt + floor(vOriginUV.x);
-    g_TileBuffer[wnatIndex].vLeftTopUV - g_TileBuffer[wnatIndex].vTileSizeUV;
-    
-    // vLT는 원본 텍스쳐의 LT여야 함.
-    float2 vUV = vLTUV + float2(frac(vOriginUV.x) * g_TileBuffer[wnatIndex].vLeftTopUV.x, frac(vOriginUV.y) * g_TileBuffer[wnatIndex].vLeftTopUV.y);
-    float4 vOutColor = g_tex_0.Sample(g_sam_1, vUV);
-    //float4 vOutColor = g_tex_0.Sample(g_sam_1, _in.vUV);
-    return vOutColor;
-*/
 }
-
-
 #endif

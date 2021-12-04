@@ -8,35 +8,44 @@
 CTileMap::CTileMap() :
 	CComponent(E_ComponentType::TileMap),
 	m_pTileMapBuffer(nullptr),
-	m_iAtlasTileCol(0),
-	m_iAtlasTileRow(0),
-	m_iTileCol(4),
-	m_iTileRow(4),
-	m_iDefaultElementCountCol(10),
-	m_iDefaultElementCountRow(10)
+	m_iAtlasTileXCnt(5),
+	m_iAtlasTileYCnt(5),
+	m_iTileXCnt(2),
+	m_iTileYCnt(2),
+	m_iDefaultTileColCnt(2),
+	m_iDefaultTileRowCnt(2)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_TileMapMtrl);
 
+	m_vecTileInfo.resize(m_iDefaultTileColCnt * m_iDefaultTileRowCnt);
+	for (int i = 0; i < m_vecTileInfo.size(); ++i)
+		m_vecTileInfo[i].idx = 1;
+
+
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
-	const UINT iDefaultTileMapElementCnt = m_iDefaultElementCountCol * m_iDefaultElementCountRow;
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size());
 }
 
 CTileMap::CTileMap(const CTileMap& _origin) :
 	CComponent(E_ComponentType::TileMap),
 	m_pTileMapBuffer(nullptr),
-	m_iAtlasTileCol(_origin.m_iAtlasTileCol),
-	m_iAtlasTileRow(_origin.m_iAtlasTileRow),
-	m_iTileCol(_origin.m_iTileCol),
-	m_iTileRow(_origin.m_iTileRow),
-	m_iDefaultElementCountCol(_origin.m_iDefaultElementCountCol),
-	m_iDefaultElementCountRow(_origin.m_iDefaultElementCountRow)
+	m_iAtlasTileXCnt(_origin.m_iAtlasTileXCnt),
+	m_iAtlasTileYCnt(_origin.m_iAtlasTileYCnt),
+	m_iTileXCnt(_origin.m_iTileXCnt),
+	m_iTileYCnt(_origin.m_iTileYCnt),
+	m_iDefaultTileColCnt(_origin.m_iDefaultTileColCnt),
+	m_iDefaultTileRowCnt(_origin.m_iDefaultTileRowCnt),
+	m_pMesh(_origin.m_pMesh),
+	m_pMaterial(_origin.m_pMaterial)
 {
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
-	const UINT iDefaultTileMapElementCnt = m_iDefaultElementCountCol * m_iDefaultElementCountRow;
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), iDefaultTileMapElementCnt);
 
+	m_vecTileInfo.resize(m_iDefaultTileColCnt * m_iDefaultTileRowCnt);
+	for (int i = 0; i < m_vecTileInfo.size(); ++i)
+		m_vecTileInfo[i].idx = _origin.m_vecTileInfo[i].idx;
+
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
 }
 
 CTileMap::~CTileMap()
@@ -48,88 +57,59 @@ void CTileMap::FinalUpdate()
 	CRenderManager::GetInstance()->RegisterTileMap(this);
 }
 
-void CTileMap::Render()
+void CTileMap::UpdateData()
 {
-	_RenderInit();
+	// -- 생성할 타일의 개수 세팅
+	m_pMaterial->SetData(E_ShaderParam::Int_0, &m_iTileXCnt);
+	m_pMaterial->SetData(E_ShaderParam::Int_1, &m_iTileYCnt);
 
-	Vector2 vLT = { 0.f / m_iAtlasTileCol, 1.f / m_iAtlasTileRow };
-	m_pMaterial->SetData(E_ShaderParam::Vector2_0, &vLT); // 렌더링할 LeftTop
+	// -- 아틀라스 텍스쳐 세팅
+	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pAtlasTexture.Get());
 
-	Vector2 vSizeUV;
-	vSizeUV.x = 1.f / m_iAtlasTileCol;
-	vSizeUV.y = 1.f / m_iAtlasTileRow;
-	m_pMaterial->SetData(E_ShaderParam::Vector2_1, &vSizeUV); // Tile 하나의 사이즈
+	// -- 아틀라스 텍스쳐의 사이즈
+	Vector2 vAtlasResolution = m_pAtlasTexture->GetDimension();
+	m_pMaterial->SetData(E_ShaderParam::Vector2_0, &vAtlasResolution);
 
-
-	// 생성할 타일의 개수 세팅
-	m_pMaterial->SetData(E_ShaderParam::Int_0, &m_iTileCol);
-	m_pMaterial->SetData(E_ShaderParam::Int_1, &m_iTileRow);
+	// -- 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
+	Vector2 vAtlasTileSize = {};
+	try {
+		vAtlasTileSize = vAtlasResolution / Vector2(m_iAtlasTileXCnt, m_iAtlasTileYCnt);
+	}
+	catch (std::exception e) {
+		vAtlasTileSize = Vector2(0.f, 0.f);
+	}
+	Vector2 vAtlasTileUVSize = vAtlasTileSize / vAtlasResolution;
+	m_pMaterial->SetData(E_ShaderParam::Vector2_1, &vAtlasTileUVSize);
 
 	Transform()->UpdateData();
 	m_pMaterial->UpdateData();
+
+	m_pTileMapBuffer->SetData(m_vecTileInfo.data(), (UINT)m_vecTileInfo.size());
+	m_pTileMapBuffer->UpdateData(REGISTER_NUM_TileMapBuffer, E_ShaderStage::Pixel);
+}
+
+void CTileMap::Render()
+{
+	UpdateData();
+
 	m_pMesh->Render();
 	m_pMaterial->Clear();
 }
 
-void CTileMap::_RenderInit()
-{
-	m_pTileMapBuffer->SetData(m_vecTilesInfo.data(), (UINT)m_vecTilesInfo.size());
-	m_pTileMapBuffer->UpdateData(REGISTER_NUM_TileMapBuffer);
-}
-
-void CTileMap::SaperateTile()
-{
-	Vector2 vAtlasTexSize = m_pAtlasTexture.Get()->GetDimension();
-	Vector2 vEachAtlasTexSize;
-	vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
-	vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
-
-	m_vecTilesInfo.clear();
-	for (int y = 0; y < m_iAtlasTileRow; ++y) {
-		for (int x = 0; x < m_iAtlasTileCol; ++x) {
-			TTileInfo tTileInfo = {};
-			tTileInfo.vLeftTop = Vector2(x * vEachAtlasTexSize.x, y * vEachAtlasTexSize.y);
-			tTileInfo.vLeftTopUV = Vector2(x * vEachAtlasTexSize.x / vAtlasTexSize.x, y * vEachAtlasTexSize.y / vAtlasTexSize.y);
-			tTileInfo.vRightBottom = Vector2((x * vEachAtlasTexSize.x + vEachAtlasTexSize.x), (y * vEachAtlasTexSize.y + vEachAtlasTexSize.y));
-			tTileInfo.vRightBottomUV = Vector2((x * vEachAtlasTexSize.x + vEachAtlasTexSize.x) / vAtlasTexSize.x, (y * vEachAtlasTexSize.y + vEachAtlasTexSize.y) / vAtlasTexSize.y);
-			tTileInfo.vTileSize = Vector2(vEachAtlasTexSize);
-			tTileInfo.vTileSizeUV = Vector2(vEachAtlasTexSize / vAtlasTexSize);
-			m_vecTilesInfo.push_back(tTileInfo);
-		}
-	}
-
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTilesInfo.size());
-}
-
 void CTileMap::SetTileFaceSize(int _iCol, int _iRow)
 {
-	m_iTileCol = _iCol;
-	m_iTileRow = _iRow;
+	m_iTileXCnt = _iCol;
+	m_iTileYCnt = _iRow;
 }
 
 void CTileMap::SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture)
 {
 	m_pAtlasTexture = _pAtlasTexture;
-	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pAtlasTexture.Get());
 }
 
-void CTileMap::SetTile(UINT _iX, UINT _iY, UINT _iIdx)
+void CTileMap::_InsertTileInfoToBuffer()
 {
-	Vector2 vAtlasTexSize = m_pAtlasTexture.Get()->GetDimension();
-	Vector2 vEachAtlasTexSize;
-	vEachAtlasTexSize.x = vAtlasTexSize.x / m_iAtlasTileCol;
-	vEachAtlasTexSize.y = vAtlasTexSize.y / m_iAtlasTileRow;
-
-
-	TTileInfo tTileInfo = {};
-	tTileInfo.vLeftTop = Vector2(_iX * vEachAtlasTexSize.x, _iY * vEachAtlasTexSize.y);
-	tTileInfo.vLeftTopUV = Vector2(_iX * vEachAtlasTexSize.x / vAtlasTexSize.x, _iY * vEachAtlasTexSize.y / vAtlasTexSize.y);
-	tTileInfo.vRightBottom = Vector2((_iX * vEachAtlasTexSize.x + vEachAtlasTexSize.x), (_iY * vEachAtlasTexSize.y + vEachAtlasTexSize.y));
-	tTileInfo.vRightBottomUV = Vector2((_iX * vEachAtlasTexSize.x + vEachAtlasTexSize.x) / vAtlasTexSize.x, (_iY * vEachAtlasTexSize.y + vEachAtlasTexSize.y) / vAtlasTexSize.y);
-	tTileInfo.vTileSize = Vector2(vEachAtlasTexSize);
-	tTileInfo.vTileSizeUV = Vector2(vEachAtlasTexSize / vAtlasTexSize);
-
-	m_vecTilesInfo.push_back(tTileInfo);
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size());
 }
 
 bool CTileMap::SaveToScene(FILE* _pFile)
@@ -137,13 +117,17 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	CComponent::SaveToScene(_pFile);
 	SaveResourceToFile(m_pMesh, _pFile);
 	SaveResourceToFile(m_pMaterial, _pFile);
-
 	SaveResourceToFile(m_pAtlasTexture, _pFile);
 
-	FWrite(m_iTileCol, _pFile);
-	FWrite(m_iTileRow, _pFile);
-	FWrite(m_iAtlasTileCol, _pFile);
-	FWrite(m_iAtlasTileRow, _pFile);
+	size_t iTileInfoCnt = m_vecTileInfo.size();
+	FWrite(iTileInfoCnt, _pFile);
+	for (UINT i = 0; i < iTileInfoCnt; ++i)
+		FWrite(m_vecTileInfo[i], _pFile);
+
+	FWrite(m_iTileXCnt, _pFile);
+	FWrite(m_iTileYCnt, _pFile);
+	FWrite(m_iAtlasTileXCnt, _pFile);
+	FWrite(m_iAtlasTileYCnt, _pFile);
 
 	return true;
 }
@@ -153,18 +137,20 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	CComponent::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);
 	LoadResourceFromFile(m_pMaterial, _pFile);
-
 	LoadResourceFromFile(m_pAtlasTexture, _pFile);
 
-	FRead(m_iTileCol, _pFile);
-	FRead(m_iTileRow, _pFile);
-	FRead(m_iAtlasTileCol, _pFile);
-	FRead(m_iAtlasTileRow, _pFile);
+	size_t iTileInfoCnt = 0;
+	FRead(iTileInfoCnt, _pFile);
+	m_vecTileInfo.clear();
+	m_vecTileInfo.resize(iTileInfoCnt);
+	for (UINT i = 0; i < iTileInfoCnt; ++i)
+		FRead(m_vecTileInfo[i], _pFile);
 
-	SetTileAtlas(m_pAtlasTexture);
-	
-	// 타일 분리
-	SaperateTile();
+	FRead(m_iTileXCnt, _pFile);
+	FRead(m_iTileYCnt, _pFile);
+	FRead(m_iAtlasTileXCnt, _pFile);
+	FRead(m_iAtlasTileYCnt, _pFile);
 
+	_InsertTileInfoToBuffer();
 	return true;
 }

@@ -103,7 +103,8 @@ void CTestScene::CreateTestScene()
 	//FishEyePostEffect();
 	//CaptainForever();
 	//SoundTest();
-	RenderingAnimationTexture();
+	//RenderingAnimationTexture();
+	TileMapTest();
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
@@ -1499,8 +1500,10 @@ void CTestScene::TileMapTest()
 	pCameraObj->AddComponent<CTransform>();
 	pCameraObj->AddComponent<CCamera>();
 	pCameraObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	pCameraObj->Camera()->SetSize(1.f);
 	pCameraObj->GetComponent<CTransform>()->SetLocalPosition(Vector3(0.f, 0.f, -100.f));
 	pCameraObj->SetName(_T("Camera"));
+	
 	CObject::CreateGameObjectEvn(pCameraObj, 0);
 
 	// TileMap 1 
@@ -1511,17 +1514,15 @@ void CTestScene::TileMapTest()
 	pTileMap->Transform()->SetLocalScale(Vector3(500.f, 500.f, 1.f));
 	pTileMap->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
-	// 생성 할 타일 사이즈를 설정
-	pTileMap->TileMap()->SetTileFaceSize(20, 20);
+	//// 생성 할 타일 사이즈를 설정
+	//pTileMap->TileMap()->SetTileFaceSize(20, 20);
 
 	SharedPtr<CTexture> pAtlasTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp"));
-	// 아틀라스 텍스쳐 설정
+	//// 아틀라스 텍스쳐 설정
 	pTileMap->TileMap()->SetTileAtlas(pAtlasTexture);
 
-	pTileMap->TileMap()->SetAtlasTileColRowSize(5, 5);
-
-	// 타일 분리
-	pTileMap->TileMap()->SaperateTile();
+	//// 타일 분리
+	//pTileMap->TileMap()->SaperateTile();
 
 	CObject::CreateGameObjectEvn(pTileMap, 0);
 
