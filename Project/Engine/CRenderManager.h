@@ -11,7 +11,6 @@ class CRenderManager : public CSingleton<CRenderManager>
 private:
 	vector<CCamera*> m_vecCam;
 	vector<CLight2D*> m_vecLight2D;
-	vector<CTileMap*> m_vecTileMap;
 
 	vector<CCamera*> m_vecToolCam; // Tool용 카메라
 
@@ -31,14 +30,15 @@ public:
 	void UnRegisterCamera() { m_vecCam.clear(); }
 	
 
-	void RegisterLight2D(CLight2D* _pLight2D) { m_vecLight2D.push_back(_pLight2D); }
-	void RegisterTileMap(CTileMap* _pTileMap) { m_vecTileMap.push_back(_pTileMap); }
+	int RegisterLight2D(CLight2D* _pLight2D) { 
+		m_vecLight2D.push_back(_pLight2D);
+		return m_vecLight2D.size() - 1;
+	}
 
 	// Tool Camera
 	void RegisterToolCamera(CCamera* _pCamera) { m_vecToolCam.push_back(_pCamera); }
 	void UnRegisterToolCamera() { m_vecToolCam.clear(); }
 
-	//
 	CCamera* GetMainCamera();
 	CCamera* GetUICamera();
 
@@ -52,7 +52,7 @@ private:
 
 private:
 	
-	void _RenderInit_Light2D();
+	void _UpdateData_Light2D();
 	void _RenderClear();
 
 	friend void CCamera::_RenderPostEffect();

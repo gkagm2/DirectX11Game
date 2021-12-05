@@ -20,17 +20,7 @@ void CLight2D::FinalUpdate()
 {
 	m_tInfo.vLightPos = Transform()->GetPosition();
 	m_tInfo.vLightDir = Transform()->GetUpVector();
-	CRenderManager::GetInstance()->RegisterLight2D(this);
-}
-
-void CLight2D::Render()
-{
-	Transform()->UpdateData();
-
-	m_pMtrl->UpdateData();
-
-	m_pMesh->Render();
-	m_pMtrl->Clear();
+	m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight2D(this);
 }
 
 void CLight2D::SetRange(float _fRange)

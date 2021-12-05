@@ -237,6 +237,9 @@ void CCamera::_SortObjects()
 				else if (pObj->Collider2D()) {
 					eRenderTimePoint = E_RenderTimePoint::Collider;
 				}
+				else if (pObj->TileMap()) {
+					eRenderTimePoint = E_RenderTimePoint::Forward;
+				}
 				else {
 					//assert(nullptr);
 				}

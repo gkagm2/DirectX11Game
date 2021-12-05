@@ -26,6 +26,7 @@ struct TLightColor {
 };
 
 struct TLightInfo {
+	int idx; // 고유 번호
 	TLightColor tColor;
 
 	Vector4 vLightPos;
@@ -33,7 +34,6 @@ struct TLightInfo {
 	E_LightType eLightType;
 	float fRange;
 	float fAngle;
-	int iPad;
 };
 
 struct TParticle {

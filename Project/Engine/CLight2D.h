@@ -12,7 +12,6 @@ private:
 
 public:
 	virtual void FinalUpdate() override;
-	virtual void Render() override;
 
 public:
 	void SetLightType(E_LightType _eType) { m_tInfo.eLightType = _eType; }

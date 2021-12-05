@@ -1522,28 +1522,17 @@ void CTestScene::TileMapTest()
 
 	pTileMap->TileMap()->SetTileAtlasTexture(pAtlasTexture);
 
-	pTileMap->TileMap()->CreateTile(10, 10);
 	pTileMap->TileMap()->SetAtlasTileCnt(pAtlasTileCnt[0], pAtlasTileCnt[1]);
+	pTileMap->TileMap()->CreateTile(10, 10);
 
 	
 	CObject::CreateGameObjectEvn(pTileMap, 0);
 
 	// TileMap 2
-	CGameObject* pTileMap2 = new CGameObject();
-	pTileMap2->SetName(_T("TileMap"));
-	pTileMap2->AddComponent<CTransform>();
-	pTileMap2->AddComponent<CTileMap>();
-	pTileMap2->Transform()->SetLocalScale(Vector3(500.f, 500.f, 1.f));
-	pTileMap2->Transform()->SetLocalPosition(Vector3(400.f, 0.f, 0.f));
-
-	pTileMap2->TileMap()->CreateTile(5, 5);
-	pTileMap2->TileMap()->SetAtlasTileCnt(pAtlasTileCnt[0], pAtlasTileCnt[1]);
+	CGameObject* pTileMap2 = pTileMap->Clone();	
+	pTileMap2->SetName(_T("TileMap2"));
 	CObject::CreateGameObjectEvn(pTileMap2, 0);
 
-
-	// Scene ÃÊ±âÈ­
-	pNewScene->Awake();
-	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

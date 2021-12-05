@@ -31,7 +31,7 @@ void CRenderManager::Init()
 
 void CRenderManager::Render()
 {
-	_RenderInit_Light2D();
+	_UpdateData_Light2D();
 	// Render
 	// 1. ≈∏∞Ÿ ≈¨∏ÆæÓ
 	CDevice::GetInstance()->ClearTarget();
@@ -51,13 +51,7 @@ void CRenderManager::Render()
 		assert(nullptr);
 		break;
 	}
-
-	// ≈∏¿œ∏  ∑ª¥ı∏µ
-	for (UINT i = 0; i < m_vecTileMap.size(); ++i)
-		m_vecTileMap[i]->Render();
-
 	_RenderClear();
-	
 }
 
 void CRenderManager::_RenderInGame()
@@ -153,7 +147,7 @@ void CRenderManager::_CopyBackBufferToPostEffectBuffer()
 	CONTEXT->CopyResource(m_pPostEffectTargetTex->GetTex2D().Get(), pRenderTargetTex->GetTex2D().Get());
 }
 
-void CRenderManager::_RenderInit_Light2D()
+void CRenderManager::_UpdateData_Light2D()
 {
 	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
 
@@ -182,5 +176,4 @@ void CRenderManager::_RenderInit_Light2D()
 void CRenderManager::_RenderClear()
 {
 	m_vecLight2D.clear();
-	m_vecTileMap.clear();
 }

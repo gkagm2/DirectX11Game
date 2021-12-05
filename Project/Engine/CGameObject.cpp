@@ -192,21 +192,14 @@ void CGameObject::Render()
 {
 	if (MeshRenderer() && MeshRenderer()->IsActive())		// ¸Þ½¬ ·»´õ¸µ
 		MeshRenderer()->Render();
-
-	if (SpriteRenderer() && SpriteRenderer()->IsActive())
+	else if (SpriteRenderer() && SpriteRenderer()->IsActive())
 		SpriteRenderer()->Render();
-
-	if (CanvasRenderer() && CanvasRenderer()->IsActive())
+	else if (CanvasRenderer() && CanvasRenderer()->IsActive())
 		CanvasRenderer()->Render();
-
-	if (TileMap() && TileMap()->IsActive())			// Å¸ÀÏ¸Ê ·»´õ¸µ
+	else if (TileMap() && TileMap()->IsActive())			// Å¸ÀÏ¸Ê ·»´õ¸µ
 		TileMap()->Render();
-
-	if (ParticleSystem() && ParticleSystem()->IsActive())	// ÆÄÆ¼Å¬ ½Ã½ºÅÛ ·»´õ¸µ
+	else if (ParticleSystem() && ParticleSystem()->IsActive())	// ÆÄÆ¼Å¬ ½Ã½ºÅÛ ·»´õ¸µ
 		ParticleSystem()->Render();
-
-	if (Light2D() && Light2D()->IsActive())			// ±¤¿ø ·»´õ¸µ
-		Light2D()->Render();
 
 	if (Collider2D() && Collider2D()->IsActive())		// Ãæµ¹Ã¼ ·»´õ¸µ
 		Collider2D()->Render();

@@ -10,6 +10,7 @@ struct TLightColor
 
 struct TLightInfo
 {
+    int iIdx;
     TLightColor color;
     
     float4  vLightPos;
@@ -17,7 +18,6 @@ struct TLightInfo
     int     iLightType;
     float   fRange;
     float   fAngle;
-    int     iPad;
 };
 
 struct TTileInfo

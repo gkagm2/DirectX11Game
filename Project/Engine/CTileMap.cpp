@@ -29,19 +29,20 @@ CTileMap::CTileMap() :
 
 CTileMap::CTileMap(const CTileMap& _origin) :
 	CComponent(E_ComponentType::TileMap),
+	m_pMesh(_origin.m_pMesh),
+	m_pMaterial(_origin.m_pMaterial),
+	m_pAtlasTexture(_origin.m_pAtlasTexture),
 	m_pTileMapBuffer(nullptr),
 	m_iAtlasTileXCnt(_origin.m_iAtlasTileXCnt),
 	m_iAtlasTileYCnt(_origin.m_iAtlasTileYCnt),
 	m_iTileXCnt(_origin.m_iTileXCnt),
 	m_iTileYCnt(_origin.m_iTileYCnt),
 	m_iDefaultTileColCnt(_origin.m_iDefaultTileColCnt),
-	m_iDefaultTileRowCnt(_origin.m_iDefaultTileRowCnt),
-	m_pMesh(_origin.m_pMesh),
-	m_pMaterial(_origin.m_pMaterial)
+	m_iDefaultTileRowCnt(_origin.m_iDefaultTileRowCnt)
 {
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
 
-	m_vecTileInfo.resize(m_iDefaultTileColCnt * m_iDefaultTileRowCnt);
+	m_vecTileInfo.resize(m_iTileXCnt * m_iTileYCnt);
 	for (int i = 0; i < m_vecTileInfo.size(); ++i)
 		m_vecTileInfo[i].idx = _origin.m_vecTileInfo[i].idx;
 
@@ -54,7 +55,6 @@ CTileMap::~CTileMap()
 
 void CTileMap::FinalUpdate()
 {
-	CRenderManager::GetInstance()->RegisterTileMap(this);
 }
 
 void CTileMap::UpdateData()
