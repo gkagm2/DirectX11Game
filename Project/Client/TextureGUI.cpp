@@ -30,7 +30,7 @@ void TextureGUI::Update()
 	string strKey;
 	TStringToString(pTexture->GetKey(), strKey);
 	ImGui::PushID(strKey.c_str());
-	/*m_vUvMax = ImVec2(m_vSize.x / pTexture->GetDimension().x, m_vSize.y / pTexture->GetDimension().y);*/
+	/*m_vUvMax = ImVec2(m_vSize.x / pTexture->GetResolution().x, m_vSize.y / pTexture->GetResolution().y);*/
 	m_vUvMax = ImVec2(1.f, 1.f);
 	ImTextureID texId = (ImTextureID)pTexture->GetSRV().Get();
 
@@ -56,8 +56,8 @@ void TextureGUI::Update()
 		{
 			ImGuiIO& io = ImGui::GetIO();
 			ImVec2 pos = ImGui::GetCursorScreenPos();
-			float my_tex_w = pTexture->GetDimension().x;
-			float my_tex_h = pTexture->GetDimension().y;
+			float my_tex_w = pTexture->GetResolution().x;
+			float my_tex_h = pTexture->GetResolution().y;
 
 			ImGui::Text("%.0fx%.0f", my_tex_w, my_tex_h);
 

@@ -411,6 +411,9 @@
     <ClInclude Include="Animator2DEditorGUI.h">
       <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Struct_Client.h">
+      <Filter>00. Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">

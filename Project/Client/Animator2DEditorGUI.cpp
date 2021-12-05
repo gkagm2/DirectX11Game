@@ -129,7 +129,7 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 {
 	Vector2 vAtlasSize = Vector2(500.f, 500.f);
 	if (m_pLoadedAtlasTexture)
-		vAtlasSize = m_pLoadedAtlasTexture->GetDimension();
+		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 
 	static int grids[2] = { 1.f, 1.f };
 
@@ -268,11 +268,11 @@ bool Animator2DEditorGUI::_FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo&
 		// PreView Texture가 있어야 될 듯
 		TAnimationFrame tAnimFrame = {};
 		tAnimFrame.fDuration = m_queResultTexList[_iIdx].tAnim2DDesc.fDuration;
-		tAnimFrame.vFrameSizeUV = m_queResultTexList[_iIdx].tAnim2DDesc.vFrameSize / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetDimension();
-		tAnimFrame.vBaseSizeUV = m_queResultTexList[_iIdx].tAnim2DDesc.vBaseSize / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetDimension();
+		tAnimFrame.vFrameSizeUV = m_queResultTexList[_iIdx].tAnim2DDesc.vFrameSize / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetResolution();
+		tAnimFrame.vBaseSizeUV = m_queResultTexList[_iIdx].tAnim2DDesc.vBaseSize / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetResolution();
 		tAnimFrame.fDuration = m_queResultTexList[_iIdx].tAnim2DDesc.fDuration;
-		tAnimFrame.vLeftTopUV = m_queResultTexList[_iIdx].tAnim2DDesc.vLeftTop / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetDimension();
-		tAnimFrame.vOffsetPosUV = m_queResultTexList[_iIdx].tAnim2DDesc.vOffsetPos / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetDimension();
+		tAnimFrame.vLeftTopUV = m_queResultTexList[_iIdx].tAnim2DDesc.vLeftTop / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetResolution();
+		tAnimFrame.vOffsetPosUV = m_queResultTexList[_iIdx].tAnim2DDesc.vOffsetPos / m_queResultTexList[_iIdx].tAnim2DDesc.pAtlas->GetResolution();
 
 		Vector2 vFinalLT_Vec = tAnimFrame.vLeftTopUV - ((tAnimFrame.vBaseSizeUV * 0.5f) - (tAnimFrame.vFrameSizeUV * 0.5f)) - tAnimFrame.vOffsetPosUV;
 
@@ -481,7 +481,7 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 
 void Animator2DEditorGUI::_CanvasGridSliceMode() {
 	if (m_pLoadedAtlasTexture)
-		vAtlasSize = m_pLoadedAtlasTexture->GetDimension();
+		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 
 	static int grids[2] = { 1.f, 1.f };
 
@@ -638,7 +638,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 {
 	Vector2 vAtlasSize = Vector2(500.f, 500.f);
 	if (m_pLoadedAtlasTexture)
-		vAtlasSize = m_pLoadedAtlasTexture->GetDimension();
+		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 
 	// Texture canvas
 	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {

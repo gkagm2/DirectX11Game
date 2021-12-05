@@ -16,8 +16,8 @@ void CTestShader::UpdateData()
 {
 	assert(m_pTexture.Get());
 
-	m_tInfo.iArr[0] = (int)m_pTexture->GetDimension().x;
-	m_tInfo.iArr[1] = (int)m_pTexture->GetDimension().y;
+	m_tInfo.iArr[0] = (int)m_pTexture->GetResolution().x;
+	m_tInfo.iArr[1] = (int)m_pTexture->GetResolution().y;
 	m_tInfo.v4Arr[0] = m_vSetColor;
 
 	g_pMtrlBuffer->SetData(&m_tInfo);
@@ -36,7 +36,7 @@ void CTestShader::Clear()
 
 void CTestShader::Excute()
 {
-	UINT iGroupX = ((UINT)m_pTexture->GetDimension().x / GetThreadX()) + 1;
-	UINT iGroupY = ((UINT)m_pTexture->GetDimension().y / GetThreadY()) + 1;
+	UINT iGroupX = ((UINT)m_pTexture->GetResolution().x / GetThreadX()) + 1;
+	UINT iGroupY = ((UINT)m_pTexture->GetResolution().y / GetThreadY()) + 1;
 	Dispatch(iGroupX, iGroupY, 1);
 }

@@ -361,7 +361,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
 
 	// Blend State
-	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	pShader->SetBlendState(E_BlendState::AlphaBlend);
 
 	// ShaderParam
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Tile x cnt") });
@@ -639,7 +639,7 @@ void CResourceManager::CreateDefaultTexture()
 
 	pNoiseTex->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
 	
-	g_globalConst.vNoiseResolution = Vector2((float)pNoiseTex->GetDimension().x, (float)pNoiseTex->GetDimension().y);
+	g_globalConst.vNoiseResolution = Vector2((float)pNoiseTex->GetResolution().x, (float)pNoiseTex->GetResolution().y);
 
 	//  2021 11 19 fixed
 	//SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
@@ -647,7 +647,7 @@ void CResourceManager::CreateDefaultTexture()
 
 	//pTexture->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
 
-	//g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetDimension().x, (float)pTexture->GetDimension().y);
+	//g_globalConst.vNoiseResolution = Vector2((float)pTexture->GetResolution().x, (float)pTexture->GetResolution().y);
 }
 
 // param(_iBindFlag) : D3D11_BIND_FLAG

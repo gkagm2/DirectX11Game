@@ -47,7 +47,15 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
     float2 vExUV = _in.vUV * float2(TileXCount, TileYCount); // 각 타일 크기를 0~1사이로 크기를 크게 함.
     int2 iBufferIdx = floor(vExUV); // 정수만 빼서 행열을 구함.
     
-    uint iImageIdx = g_TileBuffer[TileXCount * iBufferIdx.y + iBufferIdx.x].iTileIdx; // 이미지의 인덱스를 구함.
+    int idx = TileXCount * iBufferIdx.y + iBufferIdx.x;
+    
+    if (idx < 0)
+    {
+        vOutColor = float4(1.f, 1.f, 1.f, 1.f);
+        return vOutColor;
+    }
+    
+    uint iImageIdx = g_TileBuffer[idx].iTileIdx; // 이미지의 인덱스를 구함.
     
     uint iTileWidthCount = 1.f / AtlasTileUVSize.x;
     

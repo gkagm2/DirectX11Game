@@ -28,6 +28,10 @@ void CToolObjManager::Init()
 		pToolCamObj->Camera()->SetLayerCheckAll();
 		pToolCamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, false);
 		pToolCamObj->Camera()->SetSize(0.02f);
+		TClippingPlanes tCP = {};
+		tCP.fFar = 99999.f;
+		tCP.fNear = 1.f;
+		pToolCamObj->Camera()->SetClippingPlanes(tCP);
 		_AddGameObjectEx(pToolCamObj);
 	}
 	

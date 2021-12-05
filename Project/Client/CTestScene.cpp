@@ -79,7 +79,7 @@ CGameObject* TestCreateObj() {
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
-	Vector2 vTexSize = pBoxTexture->GetDimension();
+	Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));
 	pObj->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
 
@@ -341,7 +341,7 @@ void CTestScene::RenderingBoxObject()
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	// Texture 사이즈로 크기로 설정
-	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	/*Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
 
 	// 임의로 크기 설정
@@ -547,7 +547,7 @@ void CTestScene::ImGuiTest()
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	// Texture 사이즈로 크기로 설정
-	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	/*Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
 
 	// 임의로 크기 설정
@@ -697,7 +697,7 @@ void CTestScene::DistortionObject()
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	// Texture 사이즈로 크기로 설정
-	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	/*Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
 
 	// 임의로 크기 설정
@@ -852,7 +852,7 @@ void CTestScene::FishEyePostEffect()
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	// Texture 사이즈로 크기로 설정
-	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	/*Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
 
 	// 임의로 크기 설정
@@ -1169,7 +1169,7 @@ void CTestScene::MaterialCreateTest()
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 
 	// Texture 사이즈로 크기로 설정
-	/*Vector2 vTexSize = pBoxTexture->GetDimension();
+	/*Vector2 vTexSize = pBoxTexture->GetResolution();
 	pObj->Transform()->SetLocalScale(Vector3(vTexSize.x, vTexSize.y, 1.f));*/
 
 	// 임의로 크기 설정
@@ -1524,6 +1524,11 @@ void CTestScene::TileMapTest()
 
 	pTileMap->TileMap()->SetAtlasTileCnt(pAtlasTileCnt[0], pAtlasTileCnt[1]);
 	pTileMap->TileMap()->CreateTile(10, 10);
+
+	auto& vec = pTileMap->TileMap()->GetTilesInfo();
+	for (int i = 0; i < vec.size(); ++i) {
+		vec[i].idx = -1;
+	}
 
 	
 	CObject::CreateGameObjectEvn(pTileMap, 0);

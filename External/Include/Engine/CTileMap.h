@@ -52,14 +52,20 @@ public:
 		m_iAtlasTileYCnt = _iRow; }
 
 	vector<TTileInfo>& GetTilesInfo() { return m_vecTileInfo; }
-	
 
+	// 아틀라스의 타일 1개의 픽셀 사이즈
+	Vector2 GetAtlasTilePixelSize() {
+		Vector2 vAtlasTileSize = {};
+		try { vAtlasTileSize = m_pAtlasTexture->GetResolution() / Vector2(m_iAtlasTileXCnt, m_iAtlasTileYCnt); }
+		catch (std::exception e) { vAtlasTileSize = Vector2{}; }
+		return vAtlasTileSize;
+	}
 
 private:
 	void _InsertTileInfoToBuffer();
 
 public:
-	bool CreateTile(UINT _iCol, UINT _iRow);
+	bool CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit = true);
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

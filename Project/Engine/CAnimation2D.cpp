@@ -70,11 +70,11 @@ void CAnimation2D::Create(TAnimation2DDesc& _tAnimation2DDesc)
 	TAnimationFrame tAnimFrm= {};
 	
 	// Atlas형태의 Texture 좌표를 UV좌표로 변환 후 넣어줌
-	Vector2 vUVLeftTopPos = _tAnimation2DDesc.vLeftTop / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
-	tAnimFrm.vFrameSizeUV = _tAnimation2DDesc.vFrameSize / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
-	tAnimFrm.vBaseSizeUV = _tAnimation2DDesc.vBaseSize / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
+	Vector2 vUVLeftTopPos = _tAnimation2DDesc.vLeftTop / _tAnimation2DDesc.pAtlas.Get()->GetResolution();
+	tAnimFrm.vFrameSizeUV = _tAnimation2DDesc.vFrameSize / _tAnimation2DDesc.pAtlas.Get()->GetResolution();
+	tAnimFrm.vBaseSizeUV = _tAnimation2DDesc.vBaseSize / _tAnimation2DDesc.pAtlas.Get()->GetResolution();
 	tAnimFrm.fDuration = _tAnimation2DDesc.fDuration;
-	tAnimFrm.vOffsetPosUV = _tAnimation2DDesc.vOffsetPos / _tAnimation2DDesc.pAtlas.Get()->GetDimension();
+	tAnimFrm.vOffsetPosUV = _tAnimation2DDesc.vOffsetPos / _tAnimation2DDesc.pAtlas.Get()->GetResolution();
 	// 프레임 생성
 	for (int i = 0; i < _tAnimation2DDesc.iFrameCount; ++i) {
 		tAnimFrm.vLeftTopUV = Vector2(vUVLeftTopPos.x + (float)i * tAnimFrm.vFrameSizeUV.x, vUVLeftTopPos.y);
@@ -87,11 +87,11 @@ void CAnimation2D::Create(const vector<TAnimation2DDesc>& _vecAnimation2DDesc)
 	for (int i = 0; i < _vecAnimation2DDesc.size(); ++i) {
 		TAnimationFrame tAnimFrm = {};
 		// Atlas형태의 Texture 좌표를 UV좌표로 변환 후 넣어줌
-		tAnimFrm.vLeftTopUV = _vecAnimation2DDesc[i].vLeftTop / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
-		tAnimFrm.vBaseSizeUV = _vecAnimation2DDesc[i].vBaseSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vLeftTopUV = _vecAnimation2DDesc[i].vLeftTop / _vecAnimation2DDesc[i].pAtlas.Get()->GetResolution();
+		tAnimFrm.vBaseSizeUV = _vecAnimation2DDesc[i].vBaseSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetResolution();
 		tAnimFrm.fDuration = _vecAnimation2DDesc[i].fDuration;
-		tAnimFrm.vOffsetPosUV = _vecAnimation2DDesc[i].vOffsetPos / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
-		tAnimFrm.vFrameSizeUV = _vecAnimation2DDesc[i].vFrameSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetDimension();
+		tAnimFrm.vOffsetPosUV = _vecAnimation2DDesc[i].vOffsetPos / _vecAnimation2DDesc[i].pAtlas.Get()->GetResolution();
+		tAnimFrm.vFrameSizeUV = _vecAnimation2DDesc[i].vFrameSize / _vecAnimation2DDesc[i].pAtlas.Get()->GetResolution();
 
 		m_vecAnimFrame.push_back(tAnimFrm);
 		m_vecTex.push_back(_vecAnimation2DDesc[i].pAtlas);

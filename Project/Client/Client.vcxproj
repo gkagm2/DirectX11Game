@@ -238,6 +238,7 @@
     <ClInclude Include="SceneViewGUI.h" />
     <ClInclude Include="ScriptGUI.h" />
     <ClInclude Include="StringTableGUI.h" />
+    <ClInclude Include="Struct_Client.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextUIGUI.h" />
     <ClInclude Include="TextureGUI.h" />

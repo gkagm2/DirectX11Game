@@ -64,7 +64,7 @@ const Vector2& CMeshRenderer::GetTexSize()
 {
 	SharedPtr<CTexture> pTexture = nullptr;
 	m_pMtrl->GetData(E_ShaderParam::Texture_0, pTexture.GetAddress());
-	return pTexture->GetDimension();
+	return pTexture->GetResolution();
 }
 
 bool CMeshRenderer::SaveToScene(FILE* _pFile)

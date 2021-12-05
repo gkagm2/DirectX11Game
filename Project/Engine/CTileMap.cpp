@@ -69,7 +69,7 @@ void CTileMap::UpdateData()
 	// -- 아틀라스 텍스쳐의 사이즈
 	Vector2 vAtlasResolution = {};
 	if (nullptr != m_pAtlasTexture)
-		vAtlasResolution = m_pAtlasTexture->GetDimension();
+		vAtlasResolution = m_pAtlasTexture->GetResolution();
 	m_pMaterial->SetData(E_ShaderParam::Vector2_0, &vAtlasResolution);
 
 	// -- 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
@@ -110,7 +110,7 @@ void CTileMap::_InsertTileInfoToBuffer()
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
 }
 
-bool CTileMap::CreateTile(UINT _iCol, UINT _iRow)
+bool CTileMap::CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit)
 {
 	if (0 == _iCol || 0 == _iRow)
 		return false;
@@ -122,10 +122,20 @@ bool CTileMap::CreateTile(UINT _iCol, UINT _iRow)
 	UINT iAtlasTileCnt = m_iAtlasTileXCnt * m_iAtlasTileYCnt;
 	m_vecTileInfo.clear();
 	m_vecTileInfo.resize(iTileCnt);
-	for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
-		m_vecTileInfo[i].idx = i % (iAtlasTileCnt);
+
+
+	if (_bIsBlankInit)
+		for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
+			m_vecTileInfo[i].idx = -1;
+	else
+		for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
+			m_vecTileInfo[i].idx = i % (iAtlasTileCnt);
 
 	_InsertTileInfoToBuffer();
+
+	// 흠.. scale을 키워야되나..
+	Transform()->SetLocalScale(Vector3(m_iTileXCnt, m_iTileYCnt, 1));
+
 	return true;
 }
 

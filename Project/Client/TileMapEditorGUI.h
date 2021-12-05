@@ -7,11 +7,17 @@ class TileMapEditorGUI : public GUI
 private:
 	CGameObject* m_pTargetObject;
 	CTileMap* m_pTileMap;
+	CTexture* m_pAtlasTileTex;
 
 
 	int m_arrFaceTileCnt[2];
 	int m_arrAtlasTileCnt[2];
-	float fTileBtnSize;
+
+private:
+	int m_iSelectedTileIdx; // 선택한 타일의 인덱스
+
+private:
+	// Tile Canvas를 위한 멤버 변수
 
 public:
 	virtual void Init();
@@ -22,10 +28,10 @@ public:
 	CGameObject* GetTargetObject() { return m_pTargetObject; }
 
 private:
+	void _RenderCanvas();
+
+private:
 	void _SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE);
-	bool _RenderTileMap(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, TTileInfo& _tTileInfo);
-
-
 	void _SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE);
 	void _Clear();
 public:

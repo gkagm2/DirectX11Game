@@ -36,7 +36,7 @@ public:
 	void UpdateRWData(UINT _iUAVRegisterNum);
 
 public:
-	Vector2 GetDimension() { return std::move(Vector2((float)m_tDesc.Width, (float)m_tDesc.Height)); }
+	Vector2 GetResolution() { return std::move(Vector2((float)m_tDesc.Width, (float)m_tDesc.Height)); }
 
 public:
 	static void Clear(UINT _iRegisterNum);
