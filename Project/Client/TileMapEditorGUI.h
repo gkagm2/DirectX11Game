@@ -5,13 +5,13 @@ class CTileMap;
 class TileMapEditorGUI : public GUI
 {
 private:
-	int m_iFaceSize[2];
-	int m_iAtlasTileColRowSize[2];
-
 	CGameObject* m_pTargetObject;
+	CTileMap* m_pTileMap;
 
-private:
-	float m_fTileSize;
+
+	int m_arrFaceTileCnt[2];
+	int m_arrAtlasTileCnt[2];
+	float fTileBtnSize;
 
 public:
 	virtual void Init();

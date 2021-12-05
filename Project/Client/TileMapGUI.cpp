@@ -106,7 +106,6 @@ void TileMapGUI::ShowMeshRenderer()
 	}
 }
 
-
 void TileMapGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	// 선택한 텍스쳐를 알아낸다.
@@ -117,7 +116,7 @@ void TileMapGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 
 	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
 	assert(pTex);
-	GetTargetObject()->TileMap()->SetTileAtlas(pTex);
+	GetTargetObject()->TileMap()->SetTileAtlasTexture(pTex);
 }
 
 void TileMapGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)

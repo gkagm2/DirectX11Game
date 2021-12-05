@@ -35,16 +35,31 @@ public:
 	int GetCol() { return m_iTileXCnt; }
 	int GetRow() { return m_iTileYCnt; }
 
+	int GetAtlasTileCol() { return m_iAtlasTileXCnt; }
+	int GetAtlasTileRow() { return m_iAtlasTileYCnt; }
+
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetMaterial() { return m_pMaterial; }
 	void SetMesh(SharedPtr<CMesh> _pMesh) { m_pMesh = _pMesh; }
 	void SetMaterial(SharedPtr<CMaterial>_pMaterial) { m_pMaterial = _pMaterial; }
 
-	void SetTileAtlas(SharedPtr<CTexture> _pAtlasTexture) { m_pAtlasTexture = _pAtlasTexture; }
+	void SetTileAtlasTexture(SharedPtr<CTexture> _pAtlasTexture) { m_pAtlasTexture = _pAtlasTexture; }
 	SharedPtr<CTexture> GetAtlasTexture() {	return m_pAtlasTexture;	}
+
+	// 아틀라스 텍스쳐의 타일의 개수
+	void SetAtlasTileCnt(UINT _iCol, UINT _iRow) {
+		m_iAtlasTileXCnt = _iCol;
+		m_iAtlasTileYCnt = _iRow; }
+
+	vector<TTileInfo>& GetTilesInfo() { return m_vecTileInfo; }
+	
+
 
 private:
 	void _InsertTileInfoToBuffer();
+
+public:
+	bool CreateTile(UINT _iCol, UINT _iRow);
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

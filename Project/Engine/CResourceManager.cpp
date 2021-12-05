@@ -364,12 +364,13 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 
 	// ShaderParam
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("x face count") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("y face count") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Tile UV LeftTop size") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Tile UV Size") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Tile x cnt") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("Tile y cnt") });
+
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Atlas Texture") });
-	
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Atlas Resolution") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Atlas Tile UV Size") });
 
 	AddRes(STR_KEY_TileMapShader, pShader);
 

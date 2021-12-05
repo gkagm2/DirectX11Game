@@ -67,7 +67,9 @@ void CTileMap::UpdateData()
 	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pAtlasTexture.Get());
 
 	// -- 아틀라스 텍스쳐의 사이즈
-	Vector2 vAtlasResolution = m_pAtlasTexture->GetDimension();
+	Vector2 vAtlasResolution = {};
+	if (nullptr != m_pAtlasTexture)
+		vAtlasResolution = m_pAtlasTexture->GetDimension();
 	m_pMaterial->SetData(E_ShaderParam::Vector2_0, &vAtlasResolution);
 
 	// -- 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
@@ -78,7 +80,14 @@ void CTileMap::UpdateData()
 	catch (std::exception e) {
 		vAtlasTileSize = Vector2(0.f, 0.f);
 	}
-	Vector2 vAtlasTileUVSize = vAtlasTileSize / vAtlasResolution;
+
+	Vector2 vAtlasTileUVSize = {};
+	try {
+		vAtlasTileUVSize = vAtlasTileSize / vAtlasResolution;
+	}
+	catch (std::exception e) {
+		vAtlasTileUVSize = Vector2{0.f, 0.f};
+	}
 	m_pMaterial->SetData(E_ShaderParam::Vector2_1, &vAtlasTileUVSize);
 
 	Transform()->UpdateData();
@@ -101,6 +110,25 @@ void CTileMap::_InsertTileInfoToBuffer()
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
 }
 
+bool CTileMap::CreateTile(UINT _iCol, UINT _iRow)
+{
+	if (0 == _iCol || 0 == _iRow)
+		return false;
+
+	m_iTileXCnt = _iCol;
+	m_iTileYCnt = _iRow;
+
+	UINT iTileCnt = m_iTileXCnt * m_iTileYCnt;
+	UINT iAtlasTileCnt = m_iAtlasTileXCnt * m_iAtlasTileYCnt;
+	m_vecTileInfo.clear();
+	m_vecTileInfo.resize(iTileCnt);
+	for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
+		m_vecTileInfo[i].idx = i % (iAtlasTileCnt);
+
+	_InsertTileInfoToBuffer();
+	return true;
+}
+
 bool CTileMap::SaveToScene(FILE* _pFile)
 {
 	CComponent::SaveToScene(_pFile);
@@ -117,7 +145,6 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	FWrite(m_iTileYCnt, _pFile);
 	FWrite(m_iAtlasTileXCnt, _pFile);
 	FWrite(m_iAtlasTileYCnt, _pFile);
-
 	return true;
 }
 
