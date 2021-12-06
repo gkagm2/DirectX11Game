@@ -47,10 +47,8 @@ void TileMapEditorGUI::Update()
 	
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(STR_GUI_TileMapEditor, &m_bGUIOpen))
-    {
-
+	{
 		ImGui::Text("Tile Face Size: %d %d", m_pTileMap->GetCol(), m_pTileMap->GetRow());
-
 
 		ImGui::InputInt2("##Tile Map Size", m_arrFaceTileCnt);
 		m_arrFaceTileCnt[0] = CMyMath::Clamp(m_arrFaceTileCnt[0], 0, INT_MAX);
@@ -117,47 +115,48 @@ void TileMapEditorGUI::Update()
 			assert(pToolCam);
 		}
 		else {
-			// TODO (Jang) : 여기서부터
-			Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
+			if (!ImGui::IsWindowFocused()) {
+				// TODO (Jang) : 여기서부터
+				Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
 
-			Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();
-			Vector3 vHalfScale = Vector3(GetTargetObject()->Transform()->GetScale() * 0.5f);
-			Vector3 vLTWorldPos = {};
-			vLTWorldPos.x = vObjWorldPos.x - vHalfScale.x;
-			vLTWorldPos.y = vObjWorldPos.y + vHalfScale.y;
+				Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();
+				Vector3 vHalfScale = Vector3(GetTargetObject()->Transform()->GetScale() * 0.5f);
+				Vector3 vLTWorldPos = {};
+				vLTWorldPos.x = vObjWorldPos.x - vHalfScale.x;
+				vLTWorldPos.y = vObjWorldPos.y + vHalfScale.y;
 
-			Vector3 vOriginLTPos = {};
-			vOriginLTPos.x = vObjWorldPos.x - vLTWorldPos.x;
-			vOriginLTPos.y = vObjWorldPos.y + vLTWorldPos.y;
+				Vector3 vOriginLTPos = {};
+				vOriginLTPos.x = vObjWorldPos.x - vLTWorldPos.x;
+				vOriginLTPos.y = vObjWorldPos.y + vLTWorldPos.y;
 
-			Vector3 vRBPos = {};
-			vRBPos.x = vLTWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
-			vRBPos.y = vLTWorldPos.y - GetTargetObject()->Transform()->GetScale().y;
+				Vector3 vRBPos = {};
+				vRBPos.x = vLTWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
+				vRBPos.y = vLTWorldPos.y - GetTargetObject()->Transform()->GetScale().y;
 
+				// 마우스를 타일 내부에 클릭했는가?
+				bool bIsTileClicked = false;
 
-			// 마우스를 타일 내부에 클릭했는가?
-			bool bIsTileClicked = false;
-
-			if (InputKeyPress(E_Key::LBUTTON)) {
-				if (vLTWorldPos.x < vMouseWorldPos.x && vRBPos.x > vMouseWorldPos.x &&
-					vLTWorldPos.y > vMouseWorldPos.y && vRBPos.y < vMouseWorldPos.y) {
-					bIsTileClicked = true;
+				if (InputKeyPress(E_Key::LBUTTON)) {
+					if (vLTWorldPos.x < vMouseWorldPos.x && vRBPos.x > vMouseWorldPos.x &&
+						vLTWorldPos.y > vMouseWorldPos.y && vRBPos.y < vMouseWorldPos.y) {
+						bIsTileClicked = true;
+					}
 				}
-			}
 
-			// 클릭했을 경우
-			if (bIsTileClicked) {
-				vector<TTileInfo>& vecTiles = m_pTileMap->GetTilesInfo();
-				Vector2 vOriginMousePos = {};
-				vOriginMousePos.x = vMouseWorldPos.x - vLTWorldPos.x;
-				vOriginMousePos .y = vLTWorldPos.y - vMouseWorldPos.y;
-				int iClickX = (int)vOriginMousePos.x;
-				int iClickY = (int)vOriginMousePos.y;
+				// 클릭했을 경우
+				if (bIsTileClicked) {
+					vector<TTileInfo>& vecTiles = m_pTileMap->GetTilesInfo();
+					Vector2 vOriginMousePos = {};
+					vOriginMousePos.x = vMouseWorldPos.x - vLTWorldPos.x;
+					vOriginMousePos.y = vLTWorldPos.y - vMouseWorldPos.y;
+					int iClickX = (int)vOriginMousePos.x;
+					int iClickY = (int)vOriginMousePos.y;
 
-				int idx = iClickY * m_pTileMap->GetCol() + iClickX;
+					int idx = iClickY * m_pTileMap->GetCol() + iClickX;
 
-				vecTiles[idx].idx = m_iSelectedTileIdx;
-				DBug->Debug("clickX,Y, idx[%d, %d %d]", iClickX, iClickY, idx);
+					vecTiles[idx].idx = m_iSelectedTileIdx;
+					DBug->Debug("clickX,Y, idx[%d, %d %d]", iClickX, iClickY, idx);
+				}
 			}
 		}
 		ImGui::End();
@@ -170,7 +169,6 @@ void TileMapEditorGUI::_SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE)
 
 void TileMapEditorGUI::_RenderCanvas()
 {
-	static ImVector<ImVec2> points;
 	static ImVec2 scrolling(0.0f, 0.0f);
 	static bool opt_enable_grid = true;
 	static bool opt_enable_context_menu = true;
@@ -211,20 +209,6 @@ void TileMapEditorGUI::_RenderCanvas()
 	const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
-	// Add first and second point
-	if (is_hovered && !adding_line && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-	{
-		points.push_back(mouse_pos_in_canvas);
-		points.push_back(mouse_pos_in_canvas);
-		adding_line = true;
-	}
-	if (adding_line)
-	{
-		points.back() = mouse_pos_in_canvas;
-		if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-			adding_line = false;
-	}
-
 	// 왼쪽 버튼을 클릭했으면
 	if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		// 타일의 위치 값 계산 후 선택한 타일의 인덱스를 가져온다.
@@ -261,20 +245,6 @@ void TileMapEditorGUI::_RenderCanvas()
 		scrolling.y += io.MouseDelta.y;
 	}
 
-	// Context menu (under default mouse threshold)
-	ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
-	if (opt_enable_context_menu && ImGui::IsMouseReleased(ImGuiMouseButton_Right) && drag_delta.x == 0.0f && drag_delta.y == 0.0f)
-		ImGui::OpenPopupOnItemClick("context");
-	if (ImGui::BeginPopup("context"))
-	{
-		if (adding_line)
-			points.resize(points.size() - 2);
-		adding_line = false;
-		if (ImGui::MenuItem("Remove one", NULL, false, points.Size > 0)) { points.resize(points.size() - 2); }
-		if (ImGui::MenuItem("Remove all", NULL, false, points.Size > 0)) { points.clear(); }
-		ImGui::EndPopup();
-	}
-
 	// Draw grid + all lines in the canvas
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 	if (opt_enable_grid)
@@ -285,8 +255,6 @@ void TileMapEditorGUI::_RenderCanvas()
 		for (float y = fmodf(scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
 			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
 	}
-	for (int n = 0; n < points.Size; n += 2)
-		draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);
 
 	// Draw Atlas Texture
 	if (m_pAtlasTileTex) {

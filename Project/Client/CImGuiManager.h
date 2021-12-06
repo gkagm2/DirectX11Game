@@ -31,6 +31,10 @@ public:
 private:
 	void _InitFrame() { m_iID = 0; }
 
+
+public:
+	void SetToolInteractionActive(bool _bActive); // 상호작용
+
 private:
 	// Test Codes
 	int m_iTestCodeType;

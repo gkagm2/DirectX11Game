@@ -16,7 +16,8 @@ CToolCameraScript::CToolCameraScript() :
 	m_fMouseScrollSpeed(0.8f),
 	m_fDragSpeed(0.02f),
 	m_fPrefSize{},
-	m_vPrevToolCamPos{}
+	m_vPrevToolCamPos{},
+	m_bMovementActive{true}
 {
 }
 
@@ -36,6 +37,9 @@ void CToolCameraScript::Update()
 	
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
 	if (!pToolCam)
+		return;
+	
+	if (!IsMovementActive())
 		return;
 
 	// Orthographic일 경우
@@ -131,7 +135,7 @@ void CToolCameraScript::UpdatePerspective(CCamera* _pCamera)
 		// curPos - prevPos의 x차이가 양수이면 오른쪽으로 이동함 -> cam y축 -방향 회전
 		// curPos - prevPos의 y차이가 양수이면 위로 이동함 -> cam z축 +방향 회전
 		Vector2 vCurMousePos = MousePosition;
-		Vector2 offset = (vPrevMousePos - vCurMousePos) * 0.01f;
+		Vector2 offset = (vPrevMousePos - vCurMousePos) * 0.005f;
 		Vector3 vResultRot = { vPrevCamRot.x - offset.y, vPrevCamRot.y - offset.x, vPrevCamRot.z };
 
 		//if (InputKeyHold(E_Key::Q)) {

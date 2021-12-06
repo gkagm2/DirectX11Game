@@ -75,7 +75,6 @@ void Animator2DEditorGUI::Update()
 	if (m_pTargetObject)
 		m_pAnimator2D = m_pTargetObject->Animator2D();
 
-
 	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 	if (ImGui::Begin(STR_GUI_Animator2DEditor, &m_bGUIOpen))
 	{

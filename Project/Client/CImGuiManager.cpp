@@ -166,6 +166,20 @@ void CImGuiManager::InitCaptainForeverGUI()
     AddGUI(pModuleCreatorGUI->GetName(), pModuleCreatorGUI);
 }
 
+#include "CToolCameraScript.h"
+#include <Engine\CRenderManager.h>
+void CImGuiManager::SetToolInteractionActive(bool _bActive)
+{
+    // Tool camera movement 작동 여부
+    CCamera* pCamera = CRenderManager::GetInstance()->GetToolCamera();
+    CToolCameraScript* pToolCamScript = nullptr;
+    if (pCamera) {
+        pToolCamScript = pCamera->GetGameObject()->GetComponent<CToolCameraScript>();
+        if (pToolCamScript)
+            pToolCamScript->SetMovementActive(_bActive);
+    }
+}
+
 
 void CImGuiManager::ImGuiInitTestCode()
 {
