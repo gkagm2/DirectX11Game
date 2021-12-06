@@ -29,27 +29,27 @@ void ButtonUIGUI::Update()
 
 	char szBuff[255] = {};
 
-	sprintf_s(szBuff, 255, "Normal Color###NormalColor%x", &pButton);
+	sprintf_s(szBuff, 255, "Normal Color##NormalColor");
 	if (ParamGUI::Render_Color(szBuff, &iNormalColor))
 		pButton->SetNormalColor(iNormalColor);
 
-	sprintf_s(szBuff, 255, "Highlighted Color##HighlightedColor%x", &pButton);
+	sprintf_s(szBuff, 255, "Highlighted Color##HighlightedColor");
 	if (ParamGUI::Render_Color(szBuff, &iHighlightedColor))
 		pButton->SetHighlightedColor(iHighlightedColor);
 
-	sprintf_s(szBuff, 255, "Pressed Color##PressedColor%x", &pButton);
+	sprintf_s(szBuff, 255, "Pressed Color##PressedColor");
 	if (ParamGUI::Render_Color(szBuff, &iPressedColor))
 		pButton->SetPressedColor(iPressedColor);
 
-	sprintf_s(szBuff, 255, "Selected Color##SelectedColor%x", &pButton);
+	sprintf_s(szBuff, 255, "Selected Color##SelectedColor");
 	if (ParamGUI::Render_Color(szBuff, &iSelectedColor))
 		pButton->SetSelectedColor(iSelectedColor);
 
-	sprintf_s(szBuff, 255, "Disable Color##DisableColor%x", &pButton);
+	sprintf_s(szBuff, 255, "Disable Color##DisableColor");
 	if (ParamGUI::Render_Color(szBuff, &iDisableColor))
 		pButton->SetDisableColor(iDisableColor);
 
-	sprintf_s(szBuff, 255, "Fade Duration##FadeDuration%x", &pButton);
+	sprintf_s(szBuff, 255, "Fade Duration##FadeDuration");
 	if (ParamGUI::Render_Float(szBuff, &fFadeDuration))
 		pButton->SetFadeDuration(fFadeDuration);
 

@@ -10,6 +10,7 @@
 #include <Engine\CCamera2D.h>
 #include "DebugGUI.h"
 #include <Engine\CKeyManager.h>
+#include <Engine\CTransform.h>
 
 TileMapEditorGUI::TileMapEditorGUI() :
 	m_pTargetObject(nullptr),
@@ -117,12 +118,48 @@ void TileMapEditorGUI::Update()
 		}
 		else {
 			// TODO (Jang) : 여기서부터
-			Vector3 vWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
-			DBug->Debug("%.2f %.2f", vWorldPos.x, vWorldPos.y);
+			Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
+
+			Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();
+			Vector3 vHalfScale = Vector3(GetTargetObject()->Transform()->GetScale() * 0.5f);
+			Vector3 vLTWorldPos = {};
+			vLTWorldPos.x = vObjWorldPos.x - vHalfScale.x;
+			vLTWorldPos.y = vObjWorldPos.y + vHalfScale.y;
+
+			Vector3 vOriginLTPos = {};
+			vOriginLTPos.x = vObjWorldPos.x - vLTWorldPos.x;
+			vOriginLTPos.y = vObjWorldPos.y + vLTWorldPos.y;
+
+			Vector3 vRBPos = {};
+			vRBPos.x = vLTWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
+			vRBPos.y = vLTWorldPos.y - GetTargetObject()->Transform()->GetScale().y;
+
+
+			// 마우스를 타일 내부에 클릭했는가?
+			bool bIsTileClicked = false;
+
+			if (InputKeyPress(E_Key::LBUTTON)) {
+				if (vLTWorldPos.x < vMouseWorldPos.x && vRBPos.x > vMouseWorldPos.x &&
+					vLTWorldPos.y > vMouseWorldPos.y && vRBPos.y < vMouseWorldPos.y) {
+					bIsTileClicked = true;
+				}
+			}
+
+			// 클릭했을 경우
+			if (bIsTileClicked) {
+				vector<TTileInfo>& vecTiles = m_pTileMap->GetTilesInfo();
+				Vector2 vOriginMousePos = {};
+				vOriginMousePos.x = vMouseWorldPos.x - vLTWorldPos.x;
+				vOriginMousePos .y = vLTWorldPos.y - vMouseWorldPos.y;
+				int iClickX = (int)vOriginMousePos.x;
+				int iClickY = (int)vOriginMousePos.y;
+
+				int idx = iClickY * m_pTileMap->GetCol() + iClickX;
+
+				vecTiles[idx].idx = m_iSelectedTileIdx;
+				DBug->Debug("clickX,Y, idx[%d, %d %d]", iClickX, iClickY, idx);
+			}
 		}
-
-
-
 		ImGui::End();
     }
 }

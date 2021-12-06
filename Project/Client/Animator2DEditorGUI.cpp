@@ -131,7 +131,7 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 
-	static int grids[2] = { 1.f, 1.f };
+	static int grids[2] = { 1, 1 };
 
 	// Left Top Menu
 	ImGui::Text("Texture Border");
@@ -483,7 +483,7 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 
-	static int grids[2] = { 1.f, 1.f };
+	static int grids[2] = { 1, 1 };
 
 	// Texture canvas
 	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {

@@ -32,7 +32,7 @@ public:
 
 	int RegisterLight2D(CLight2D* _pLight2D) { 
 		m_vecLight2D.push_back(_pLight2D);
-		return m_vecLight2D.size() - 1;
+		return (int)(m_vecLight2D.size() - 1);
 	}
 
 	// Tool Camera

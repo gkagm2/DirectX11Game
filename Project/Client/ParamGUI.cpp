@@ -255,7 +255,7 @@ bool ParamGUI::Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectN
 		if (ImGui::BeginPopupContextItem()) {
 
 			if (ImGui::Button(strName.c_str())) {
-				*_iSelectNum_out = i;
+				*_iSelectNum_out = (int)i;
 				GUI* pInst = _vecInfo[i].pInst;
 				GUI_CT_CALLBACK callbackFunc = _vecInfo[i].callback_func;
 				if (callbackFunc && pInst)

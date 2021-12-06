@@ -804,7 +804,7 @@ void CTestScene::FishEyePostEffect()
 	CObject::CreateGameObjectEvn(pCameraObj, 0);
 
 	// BackGround 오브젝트 생성
-	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background"), _T("texture\\\grid.png"));
+	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background"), _T("texture\\grid.png"));
 	CGameObject* pBGObj = new CGameObject;
 	pBGObj->SetName(_T("BackGround"));
 	pBGObj->AddComponent<CTransform>();
@@ -1038,7 +1038,7 @@ void CTestScene::PaperBurnPostEffect()
 	CObject::CreateGameObjectEvn(pCameraObj, 0);
 
 	// BackGround 오브젝트 생성
-	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background"), _T("texture\\\grid.png"));
+	SharedPtr<CTexture> pBGTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Background"), _T("texture\\grid.png"));
 	CGameObject* pBGObj = new CGameObject;
 	pBGObj->SetName(_T("BackGround"));
 	pBGObj->AddComponent<CTransform>();

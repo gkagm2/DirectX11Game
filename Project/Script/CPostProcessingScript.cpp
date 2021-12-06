@@ -9,11 +9,6 @@ CPostProcessingScript::CPostProcessingScript() :
 	m_fSpeed{12.56f},
 	m_iPostProcessingType{}
 {
-	float m_fScreenScale; // default 2 
-	float m_fAmplitude; // 진폭
-	float m_fCompression; // 압축 길이
-
-	int type;
 }
 
 CPostProcessingScript::~CPostProcessingScript()
