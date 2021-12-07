@@ -2,6 +2,10 @@
 #include "GUI.h"
 class CGameObject;
 class CTileMap;
+
+#define IMGUI_COLOR_GREEN IM_COL32(10, 240, 10, 128)
+#define IMGUI_COLOR_RED IM_COL32(240, 10, 10, 128)
+
 class TileMapEditorGUI : public GUI
 {
 private:
@@ -15,6 +19,10 @@ private:
 
 private:
 	int m_iSelectedTileIdx; // 선택한 타일의 인덱스
+
+private:
+	int m_iGridColor;
+
 
 private:
 	// Tile Canvas를 위한 멤버 변수

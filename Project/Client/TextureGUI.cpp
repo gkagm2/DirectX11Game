@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "TextureGUI.h"
 #include <Engine\CTexture.h>
+#include "CImGuiManager.h"
 
 TextureGUI::TextureGUI() :
 	ResourceGUI(E_ResourceType::Texture),
@@ -27,9 +28,7 @@ void TextureGUI::Update()
 
 	CTexture* pTexture = (CTexture*)GetTargetResource();
 
-	string strKey;
-	TStringToString(pTexture->GetKey(), strKey);
-	ImGui::PushID(strKey.c_str());
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	/*m_vUvMax = ImVec2(m_vSize.x / pTexture->GetResolution().x, m_vSize.y / pTexture->GetResolution().y);*/
 	m_vUvMax = ImVec2(1.f, 1.f);
 	ImTextureID texId = (ImTextureID)pTexture->GetSRV().Get();

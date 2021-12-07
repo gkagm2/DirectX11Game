@@ -19,7 +19,10 @@ TileMapEditorGUI::TileMapEditorGUI() :
 	m_arrFaceTileCnt{ 0,0 },
 	m_vAtlasTilePixelSize{ 0, 0},
 
-	m_iSelectedTileIdx(-1)
+	m_iSelectedTileIdx(-1),
+
+	// canvas
+	m_iGridColor(IMGUI_COLOR_GREEN) // green
 {
 }
 
@@ -214,7 +217,6 @@ void TileMapEditorGUI::_RenderCanvas()
 		// 타일의 위치 값 계산 후 선택한 타일의 인덱스를 가져온다.
 		Vector2 vAtlasSize = m_pTileMap->GetAtlasTexture()->GetResolution();
 		Vector2 vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
-		Vector2 vTileIdx = Vector2(m_pTileMap->GetAtlasTileXCnt(), m_pTileMap->GetAtlasTileYCnt()) / vAtlasSize;
 
 		// 타일을 클릭했는가?
 		bool isTileClick = false;
@@ -235,7 +237,6 @@ void TileMapEditorGUI::_RenderCanvas()
 		}
 	}
 	
-
 	// Pan (we use a zero mouse threshold when there's no context menu)
 	// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
 	const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
@@ -249,14 +250,11 @@ void TileMapEditorGUI::_RenderCanvas()
 	draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 	if (opt_enable_grid)
 	{
-		// TODO 여기서 하기
-
-
-		const float GRID_STEP = 64.0f;
-		for (float x = fmodf(scrolling.x, GRID_STEP); x < canvas_sz.x; x += GRID_STEP)
-			draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, canvas_p1.y), IM_COL32(200, 200, 200, 40));
-		for (float y = fmodf(scrolling.y, GRID_STEP); y < canvas_sz.y; y += GRID_STEP)
-			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), IM_COL32(200, 200, 200, 40));
+		Vector2 vGridSize = m_pTileMap->GetAtlasTilePixelSize();
+		for (float x = fmodf(scrolling.x, vGridSize.x); x < canvas_sz.x; x += vGridSize.x)
+			draw_list->AddLine(ImVec2(canvas_p0.x + x, canvas_p0.y), ImVec2(canvas_p0.x + x, canvas_p1.y), m_iGridColor);
+		for (float y = fmodf(scrolling.y, vGridSize.y); y < canvas_sz.y; y += vGridSize.y)
+			draw_list->AddLine(ImVec2(canvas_p0.x, canvas_p0.y + y), ImVec2(canvas_p1.x, canvas_p0.y + y), m_iGridColor);
 	}
 
 	// Draw Atlas Texture
@@ -264,6 +262,28 @@ void TileMapEditorGUI::_RenderCanvas()
 		TTextureBtnInfo tTexBtnInfo = { };
 		ImVec2 vAtlasTexResolution = ImVec2(origin.x + m_pAtlasTileTex->GetResolution().x, origin.y + m_pAtlasTileTex->GetResolution().y);
 		draw_list->AddImage(m_pAtlasTileTex->GetSRV().Get(), origin, vAtlasTexResolution);
+	}
+
+	// 타일이 선택 되었으면
+	if (0 <= m_iSelectedTileIdx) {
+		// tile idx to uv position
+		// get tile idx
+		int iIdx = m_iSelectedTileIdx;
+
+		// translation col, row
+		Vector2 vAtlasResol = m_pTileMap->GetAtlasTexture()->GetResolution();
+		Vector2 vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
+		int iAtlasColCnt = m_pTileMap->GetAtlasTileXCnt();
+
+		int iRow = iIdx / iAtlasColCnt;
+		int iCol = iIdx % iAtlasColCnt;
+
+		ImVec2 vLTPos = ImVec2(iCol * vAtlasTileSize.x, iRow * vAtlasTileSize.y);
+		ImVec2  vRBPos = ImVec2((iCol + 1) * vAtlasTileSize.x, (iRow + 1) * vAtlasTileSize.y);
+
+		vLTPos = ImVec2(vLTPos.x + origin.x, vLTPos.y + origin.y);
+		vRBPos = ImVec2(vRBPos.x + origin.x, vRBPos.y + origin.y);
+		draw_list->AddRect(vLTPos, vRBPos, IMGUI_COLOR_RED, 0.f, 0, 2.f);
 	}
 
 	draw_list->PopClipRect();
