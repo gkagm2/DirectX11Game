@@ -5,7 +5,8 @@
 ListViewGUI::ListViewGUI() :
     m_bPopUp(false),
     m_pDBCCallBack(nullptr),
-    m_pInst(nullptr)
+    m_pInst(nullptr),
+    m_dwSecondData(0)
 {
     SetName("ListView");
     SetActive(false);
@@ -71,10 +72,10 @@ void ListViewGUI::Update()
                 {
                     // 콜백 함수를 호출
                     if (m_pInst && m_pDBCCallBack)
-                        ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[i], 0);
+                        ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[i], m_dwSecondData);
 
                     if (m_pGDBCCallBack)
-                        m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[i], 0);
+                        m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[i], m_dwSecondData);
                     memset(filter, 0, 255);
                     ImGui::CloseCurrentPopup();
                     

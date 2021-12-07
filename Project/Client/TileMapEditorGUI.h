@@ -11,7 +11,7 @@ private:
 
 
 	int m_arrFaceTileCnt[2];
-	int m_arrAtlasTileCnt[2];
+	int m_vAtlasTilePixelSize[2];
 
 private:
 	int m_iSelectedTileIdx; // 선택한 타일의 인덱스
@@ -34,6 +34,7 @@ private:
 	void _SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE);
 	void _SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE);
 	void _Clear();
+
 public:
 	TileMapEditorGUI();
 	virtual ~TileMapEditorGUI() override;

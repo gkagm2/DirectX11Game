@@ -8,8 +8,8 @@
 CTileMap::CTileMap() :
 	CComponent(E_ComponentType::TileMap),
 	m_pTileMapBuffer(nullptr),
-	m_iAtlasTileXCnt(5),
-	m_iAtlasTileYCnt(5),
+	m_iAtlasTileXPixelSize(0),
+	m_iAtlasTileYPixelSize(0),
 	m_iTileXCnt(2),
 	m_iTileYCnt(2),
 	m_iDefaultTileColCnt(2),
@@ -33,8 +33,8 @@ CTileMap::CTileMap(const CTileMap& _origin) :
 	m_pMaterial(_origin.m_pMaterial),
 	m_pAtlasTexture(_origin.m_pAtlasTexture),
 	m_pTileMapBuffer(nullptr),
-	m_iAtlasTileXCnt(_origin.m_iAtlasTileXCnt),
-	m_iAtlasTileYCnt(_origin.m_iAtlasTileYCnt),
+	m_iAtlasTileXPixelSize(_origin.m_iAtlasTileXPixelSize),
+	m_iAtlasTileYPixelSize(_origin.m_iAtlasTileYPixelSize),
 	m_iTileXCnt(_origin.m_iTileXCnt),
 	m_iTileYCnt(_origin.m_iTileYCnt),
 	m_iDefaultTileColCnt(_origin.m_iDefaultTileColCnt),
@@ -75,12 +75,11 @@ void CTileMap::UpdateData()
 	// -- 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
 	Vector2 vAtlasTileSize = {};
 	try {
-		vAtlasTileSize = vAtlasResolution / Vector2(m_iAtlasTileXCnt, m_iAtlasTileYCnt);
+		vAtlasTileSize = Vector2(m_iAtlasTileXPixelSize, m_iAtlasTileYPixelSize);
 	}
 	catch (std::exception e) {
 		vAtlasTileSize = Vector2(0.f, 0.f);
 	}
-
 	Vector2 vAtlasTileUVSize = {};
 	try {
 		vAtlasTileUVSize = vAtlasTileSize / vAtlasResolution;
@@ -119,10 +118,13 @@ bool CTileMap::CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit)
 	m_iTileYCnt = _iRow;
 
 	UINT iTileCnt = m_iTileXCnt * m_iTileYCnt;
-	UINT iAtlasTileCnt = m_iAtlasTileXCnt * m_iAtlasTileYCnt;
 	m_vecTileInfo.clear();
 	m_vecTileInfo.resize(iTileCnt);
 
+
+	int ix = GetAtlasTileXCnt();
+	int iy = GetAtlasTileYCnt();
+	UINT iAtlasTileCnt = GetAtlasTileXCnt() * GetAtlasTileYCnt();
 
 	if (_bIsBlankInit)
 		for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
@@ -153,8 +155,8 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 
 	FWrite(m_iTileXCnt, _pFile);
 	FWrite(m_iTileYCnt, _pFile);
-	FWrite(m_iAtlasTileXCnt, _pFile);
-	FWrite(m_iAtlasTileYCnt, _pFile);
+	FWrite(m_iAtlasTileXPixelSize, _pFile);
+	FWrite(m_iAtlasTileYPixelSize, _pFile);
 	return true;
 }
 
@@ -174,8 +176,8 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 
 	FRead(m_iTileXCnt, _pFile);
 	FRead(m_iTileYCnt, _pFile);
-	FRead(m_iAtlasTileXCnt, _pFile);
-	FRead(m_iAtlasTileYCnt, _pFile);
+	FRead(m_iAtlasTileXPixelSize, _pFile);
+	FRead(m_iAtlasTileYPixelSize, _pFile);
 
 	_InsertTileInfoToBuffer();
 	return true;

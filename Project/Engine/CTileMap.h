@@ -20,8 +20,8 @@ private:
 	int m_iTileYCnt;
 
 	// 아틀라스 텍스쳐 Tile의 개수
-	int m_iAtlasTileXCnt;
-	int m_iAtlasTileYCnt;
+	int m_iAtlasTileXPixelSize;
+	int m_iAtlasTileYPixelSize;
 
 	int m_iDefaultTileColCnt; // 기본으로 세팅 할 타일맵의 Column 크기
 	int m_iDefaultTileRowCnt; // 기본으로 세팅 할 타일맵의 Row 크기
@@ -35,8 +35,8 @@ public:
 	int GetCol() { return m_iTileXCnt; }
 	int GetRow() { return m_iTileYCnt; }
 
-	int GetAtlasTileCol() { return m_iAtlasTileXCnt; }
-	int GetAtlasTileRow() { return m_iAtlasTileYCnt; }
+	int GetAtlasTileXSize() { return m_iAtlasTileXPixelSize; }
+	int GetAtlasTileYSize() { return m_iAtlasTileYPixelSize; }
 
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetMaterial() { return m_pMaterial; }
@@ -47,18 +47,22 @@ public:
 	SharedPtr<CTexture> GetAtlasTexture() {	return m_pAtlasTexture;	}
 
 	// 아틀라스 텍스쳐의 타일의 개수
-	void SetAtlasTileCnt(UINT _iCol, UINT _iRow) {
-		m_iAtlasTileXCnt = _iCol;
-		m_iAtlasTileYCnt = _iRow; }
+	void SetAtlasTilePixelSize(UINT _iX, UINT _iY) {
+		m_iAtlasTileXPixelSize= _iX;
+		m_iAtlasTileYPixelSize = _iY; }
 
 	vector<TTileInfo>& GetTilesInfo() { return m_vecTileInfo; }
 
 	// 아틀라스의 타일 1개의 픽셀 사이즈
-	Vector2 GetAtlasTilePixelSize() {
-		Vector2 vAtlasTileSize = {};
-		try { vAtlasTileSize = m_pAtlasTexture->GetResolution() / Vector2(m_iAtlasTileXCnt, m_iAtlasTileYCnt); }
-		catch (std::exception e) { vAtlasTileSize = Vector2{}; }
-		return vAtlasTileSize;
+	int GetAtlasTileXPixelSize() { return m_iAtlasTileXPixelSize; }
+	int GetAtlasTileYPixelSize() { return m_iAtlasTileYPixelSize; }
+	Vector2 GetAtlasTilePixelSize() { return Vector2(GetAtlasTileXPixelSize(), GetAtlasTileYPixelSize()); }
+
+	int GetAtlasTileXCnt() {
+		return GetAtlasTexture()->GetResolution().x / m_iAtlasTileXPixelSize;
+	}
+	int GetAtlasTileYCnt() {
+		return GetAtlasTexture()->GetResolution().y / m_iAtlasTileYPixelSize;
 	}
 
 private:

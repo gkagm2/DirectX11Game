@@ -1518,17 +1518,11 @@ void CTestScene::TileMapTest()
 	SharedPtr<CTexture> pAtlasTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\WallTile64.bmp"));
 	//// 아틀라스 텍스쳐 설정
 
-	int pAtlasTileCnt[2] = { 5,5 };
 
 	pTileMap->TileMap()->SetTileAtlasTexture(pAtlasTexture);
 
-	pTileMap->TileMap()->SetAtlasTileCnt(pAtlasTileCnt[0], pAtlasTileCnt[1]);
-	pTileMap->TileMap()->CreateTile(10, 10);
-
-	auto& vec = pTileMap->TileMap()->GetTilesInfo();
-	for (int i = 0; i < vec.size(); ++i) {
-		vec[i].idx = -1;
-	}
+	pTileMap->TileMap()->SetAtlasTilePixelSize(64, 64);
+	pTileMap->TileMap()->CreateTile(5, 5, false);
 
 	
 	CObject::CreateGameObjectEvn(pTileMap, 0);

@@ -17,6 +17,8 @@ private:
 	GUI* m_pInst;
 
 	GLOBAL_CALLBACK m_pGDBCCallBack; // GDBC : global double click
+
+	DWORD_PTR m_dwSecondData;
 	
 public:
 	virtual void Update() override;
@@ -31,6 +33,7 @@ public:
 	void SetDoubleClickCallBack(GLOBAL_CALLBACK _pFunc) {
 		m_pGDBCCallBack = _pFunc;
 	}
+	void SetSecondData(DWORD_PTR _dwSecondData) { m_dwSecondData = _dwSecondData; }
 
 private:
 	void _SetActivePopup(bool _bIsActive) { m_bPopUp = _bIsActive; }
