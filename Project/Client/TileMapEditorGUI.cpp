@@ -265,18 +265,13 @@ void TileMapEditorGUI::_RenderCanvas()
 	}
 
 	// 타일이 선택 되었으면
-	if (0 <= m_iSelectedTileIdx) {
-		// tile idx to uv position
-		// get tile idx
-		int iIdx = m_iSelectedTileIdx;
-
-		// translation col, row
+	if (_IsTileSelectedInCanvas()) {
 		Vector2 vAtlasResol = m_pTileMap->GetAtlasTexture()->GetResolution();
 		Vector2 vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
 		int iAtlasColCnt = m_pTileMap->GetAtlasTileXCnt();
 
-		int iRow = iIdx / iAtlasColCnt;
-		int iCol = iIdx % iAtlasColCnt;
+		int iRow = m_iSelectedTileIdx / iAtlasColCnt;
+		int iCol = m_iSelectedTileIdx % iAtlasColCnt;
 
 		ImVec2 vLTPos = ImVec2(iCol * vAtlasTileSize.x, iRow * vAtlasTileSize.y);
 		ImVec2  vRBPos = ImVec2((iCol + 1) * vAtlasTileSize.x, (iRow + 1) * vAtlasTileSize.y);

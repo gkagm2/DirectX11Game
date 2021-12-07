@@ -35,8 +35,10 @@ public:
 	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObject = _pTargetObj; }
 	CGameObject* GetTargetObject() { return m_pTargetObject; }
 
+
 private:
 	void _RenderCanvas();
+	bool _IsTileSelectedInCanvas() { return m_iSelectedTileIdx < 0 ? false : true; }
 
 private:
 	void _SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE);
