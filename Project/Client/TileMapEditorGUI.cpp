@@ -121,7 +121,6 @@ void TileMapEditorGUI::Update()
 		}
 		else {
 			if (!ImGui::IsWindowFocused()) {
-				// TODO (Jang) : 여기서부터
 				Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
 
 				Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();

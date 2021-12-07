@@ -29,6 +29,7 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	canvas_p0{},
 	canvas_sz{},
 	canvas_p1{},
+	origin{},
 	draw_list{ nullptr }
 {
 }
@@ -498,7 +499,6 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 		canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
 		// ---------------- grid 요소
-		const float GRID_STEP = 0.f;
 		float fGridStepWidth = vAtlasSize.x / grids[0];
 		float fGridStepHeight = vAtlasSize.y / grids[1];
 		// ---------------------------
@@ -522,7 +522,7 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 		ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
 		const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 		const bool is_active = ImGui::IsItemActive();   // Held
-		const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
+		origin = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 
 
@@ -542,10 +542,6 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 			bSelectArea = true;
 		}
 
-		if (is_hovered && ImGui::IsMouseDragging(ImGuiButtonFlags_MouseButtonMiddle)) {
-
-		}
-
 		// 마우스를 뗐을 때
 		if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
 			if (bSelectArea)
@@ -553,44 +549,11 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 			bSelectArea = false;
 		}
 
-		//// Add first and second point
-		//if (is_hovered && !adding_line && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		//{
-		//	points.push_back(mouse_pos_in_canvas);
-		//	points.push_back(mouse_pos_in_canvas);
-		//	adding_line = true;
-		//}
-		//if (adding_line)
-		//{
-		//	points.back() = mouse_pos_in_canvas;
-		//	if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-		//		adding_line = false;
-		//}
-
-		// Pan (we use a zero mouse threshold when there's no context menu)
-		// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
-
 		const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
 		if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
 		{
 			scrolling.x += io.MouseDelta.x;
 			scrolling.y += io.MouseDelta.y;
-		}
-
-		// Context menu (under default mouse threshold)
-		/*ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
-		if (opt_enable_context_menu && ImGui::IsMouseReleased(ImGuiMouseButton_Right) && drag_delta.x == 0.0f && drag_delta.y == 0.0f)
-			ImGui::OpenPopupOnItemClick("context");*/
-
-		if (ImGui::BeginPopup("context"))
-		{
-			/*if (adding_line)
-				points.resize(points.size() - 2);
-			adding_line = false;
-			if (ImGui::MenuItem("Remove one", NULL, false, points.Size > 0)) { points.resize(points.size() - 2); }
-			if (ImGui::MenuItem("Remove all", NULL, false, points.Size > 0)) { points.clear(); }
-			*/
-			ImGui::EndPopup();
 		}
 
 		// Draw grid + all lines in the canvas
@@ -600,8 +563,7 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 		{
 			_DrawAtlasOutline(canvas_p0, canvas_p1, fGridStepWidth, fGridStepHeight);
 		}
-		/*for (int n = 0; n < points.Size; n += 2)
-			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
+		
 		draw_list->PopClipRect();
 
 		// 선택 영역 rect draw하기
@@ -672,45 +634,10 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
 		const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 		const bool is_active = ImGui::IsItemActive();   // Held
-		const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
+		origin = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
 		const ImVec2 mouse_pos = io.MousePos;
-		ImGui::Text("mouse pos : %.2f %.2f", mouse_pos.x, mouse_pos.y);
-
 		
-		//// Add first and second point
-		//if (is_hovered && !adding_line && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-		//{
-		//	points.push_back(mouse_pos_in_canvas);
-		//	points.push_back(mouse_pos_in_canvas);
-		//	adding_line = true;
-		//}
-		//if (adding_line)
-		//{
-		//	points.back() = mouse_pos_in_canvas;
-		//	if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
-		//		adding_line = false;
-		//}
-
-		// Pan (we use a zero mouse threshold when there's no context menu)
-		// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
-
-		// Context menu (under default mouse threshold)
-		/*ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
-		if (opt_enable_context_menu && ImGui::IsMouseReleased(ImGuiMouseButton_Right) && drag_delta.x == 0.0f && drag_delta.y == 0.0f)
-			ImGui::OpenPopupOnItemClick("context");*/
-
-		if (ImGui::BeginPopup("context"))
-		{
-			/*if (adding_line)
-				points.resize(points.size() - 2);
-			adding_line = false;
-			if (ImGui::MenuItem("Remove one", NULL, false, points.Size > 0)) { points.resize(points.size() - 2); }
-			if (ImGui::MenuItem("Remove all", NULL, false, points.Size > 0)) { points.clear(); }
-			*/
-			ImGui::EndPopup();
-		}
-
 		static TSelectTexInfo tSelTexInfo = {};
 		static ImVec2 vFirstClickedPosInCanavas = {};
 		static ImVec2 vFirstMousePos = {};
@@ -765,8 +692,6 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 			}
 		}
 
-
-
 		// Draw grid + all lines in the canvas
 		draw_list->PushClipRect(canvas_p0, canvas_p1, true);
 
@@ -777,8 +702,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 			_DrawAtlasOutline(canvas_p0, canvas_p1, fGridStepWidth, fGridStepHeight);
 
 		}
-		/*for (int n = 0; n < points.Size; n += 2)
-			draw_list->AddLine(ImVec2(origin.x + points[n].x, origin.y + points[n].y), ImVec2(origin.x + points[n + 1].x, origin.y + points[n + 1].y), IM_COL32(255, 255, 0, 255), 2.0f);*/
+		
 		draw_list->PopClipRect();
 
 		// 선택 영역 rect draw하기

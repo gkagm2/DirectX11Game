@@ -81,7 +81,7 @@ private: // canvas properties
 	ImVec2 canvas_sz;
 	ImVec2 canvas_p1;
 	ImDrawList* draw_list;
-
+	ImVec2 origin;
 	Vector2 vAtlasSize;
 
 private:
