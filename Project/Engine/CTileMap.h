@@ -9,6 +9,7 @@ class CTileMap : public CComponent
 private:
 	SharedPtr<CMesh> m_pMesh;
 	SharedPtr<CMaterial> m_pMaterial;
+
 	SharedPtr<CTexture> m_pAtlasTexture; // 아틀라스 텍스쳐
 
 	unique_ptr<CStructuredBuffer> m_pTileMapBuffer;

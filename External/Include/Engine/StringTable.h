@@ -73,6 +73,8 @@
 #define STR_FUNC_NAME_PIXFog2DShader "PS_Fog2D"
 #define STR_FUNC_NAME_VTXButtonUIShader "VS_ButtonUI"
 #define STR_FUNC_NAME_PIXButtonUIShader "PS_ButtonUI"
+#define STR_FUNC_NAME_VTXLineRectShader "VS_LineRect"
+#define STR_FUNC_NAME_PIXLineRectShader "PS_LineRect"
 
 
 // particle.fx functions name
@@ -116,6 +118,7 @@
 #define STR_KEY_CanvasShader _T("CanvasShader")
 #define STR_KEY_Fog2DShader _T("Fog2DShader")
 #define STR_KEY_ButtonUIShader _T("ButtonUIShader")
+#define STR_KEY_LineRectShader _T("LineRectShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -140,6 +143,7 @@
 #define STR_KEY_CanvasMtrl _T("CanvasMaterial")
 #define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
 #define STR_KEY_ButtonUIMtrl _T("ButtonUIMaterial")
+#define STR_KEY_LineRectMtrl _T("LineRectMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")

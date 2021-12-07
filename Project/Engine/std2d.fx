@@ -378,4 +378,33 @@ float4 PS_ButtonUI(VTX_OUT _in) : SV_Target
     return vOutColor;
 }
 
+///////////// Line Rect ///////////
+#define vDefaultRectColor g_vec4_0;
+/////////////
+
+////////////////
+// LineRect vertex shader
+////////////////
+VTX_OUT VS_LineRect(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f; // √ ±‚»≠
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+	
+    output.vPosition = vProjPos;
+    output.vUV = _in.vUV;
+    return output;
+}
+
+
+///////////////
+// LineRect pixel shader
+///////////////
+float4 PS_LineRect(VTX_OUT _in) : SV_Target
+{
+    return vDefaultRectColor; // green color
+}
+
 #endif

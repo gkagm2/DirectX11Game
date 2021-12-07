@@ -741,8 +741,6 @@ void Animator2DEditorGUI::_Canvas_DrawImage(ImDrawList* _pDrawList, CTexture* _p
 	}
 }
 
-
-
 void Animator2DEditorGUI::_OnCreateAnimation()
 {
 	if (!m_pAnimator2D) {

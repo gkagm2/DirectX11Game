@@ -18,6 +18,7 @@ CTileMap::CTileMap() :
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_TileMapMtrl);
 
+
 	m_vecTileInfo.resize(m_iDefaultTileColCnt * m_iDefaultTileRowCnt);
 	for (int i = 0; i < m_vecTileInfo.size(); ++i)
 		m_vecTileInfo[i].idx = 1;
@@ -85,7 +86,7 @@ void CTileMap::UpdateData()
 		vAtlasTileUVSize = vAtlasTileSize / vAtlasResolution;
 	}
 	catch (std::exception e) {
-		vAtlasTileUVSize = Vector2{0.f, 0.f};
+		vAtlasTileUVSize = Vector2{ 0.f, 0.f };
 	}
 	m_pMaterial->SetData(E_ShaderParam::Vector2_1, &vAtlasTileUVSize);
 
@@ -99,7 +100,6 @@ void CTileMap::UpdateData()
 void CTileMap::Render()
 {
 	UpdateData();
-
 	m_pMesh->Render();
 	m_pMaterial->Clear();
 }

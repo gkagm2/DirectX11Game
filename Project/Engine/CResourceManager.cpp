@@ -484,6 +484,25 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Fog Texture") });
 	AddRes(STR_KEY_Fog2DShader, pShader);
+
+	//----------------------
+	// LineRect 쉐이더 생성
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXLineRectShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXLineRectShader);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Topology
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	// OM (Output Merge)
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default RectColor") });
+
+	AddRes(STR_KEY_LineRectShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -590,6 +609,14 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pButtonUI);
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
+
+	// LineRect 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderLineRect = LoadRes<CGraphicsShader>(STR_KEY_LineRectShader);
+	pMtrl->SetShader(pShaderLineRect);
+	Vector4 vDefaultColor = Vector4(1.f, 1.f, 1.f, 1.f); // white
+	pMtrl->SetData(E_ShaderParam::Vector4_0, vDefaultColor);
+	AddRes(STR_KEY_LineRectMtrl, pMtrl);
 }
 
 

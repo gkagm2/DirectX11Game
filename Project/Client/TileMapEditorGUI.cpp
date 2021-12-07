@@ -124,25 +124,27 @@ void TileMapEditorGUI::Update()
 				Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
 
 				Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();
-				Vector3 vHalfScale = Vector3(GetTargetObject()->Transform()->GetScale() * 0.5f);
-				Vector3 vLTWorldPos = {};
-				vLTWorldPos.x = vObjWorldPos.x - vHalfScale.x;
-				vLTWorldPos.y = vObjWorldPos.y + vHalfScale.y;
+				Vector3 vScale = GetTargetObject()->Transform()->GetScale();
+				Vector3 vHalfScale = vScale * 0.5f;
+				vHalfScale.x = fabsf(vHalfScale.x);
+				vHalfScale.y = fabsf(vHalfScale.y);
 
-				Vector3 vOriginLTPos = {};
-				vOriginLTPos.x = vObjWorldPos.x - vLTWorldPos.x;
-				vOriginLTPos.y = vObjWorldPos.y + vLTWorldPos.y;
+				Vector3 vLBWorldPos = {};
+				vLBWorldPos.x = vObjWorldPos.x - vHalfScale.x;
+				vLBWorldPos.y = vObjWorldPos.y - vHalfScale.y;
 
-				Vector3 vRBPos = {};
-				vRBPos.x = vLTWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
-				vRBPos.y = vLTWorldPos.y - GetTargetObject()->Transform()->GetScale().y;
+				Vector2 vOffsetLB = -Vector2(vLBWorldPos.x, vLBWorldPos.y);
+				
+				Vector3 vRTWorldPos = {};
+				vRTWorldPos.x = vLBWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
+				vRTWorldPos.y = vLBWorldPos.y + GetTargetObject()->Transform()->GetScale().y;
 
 				// 마우스를 타일 내부에 클릭했는가?
 				bool bIsTileClicked = false;
 
 				if (InputKeyHold(E_Key::LBUTTON)) {
-					if (vLTWorldPos.x < vMouseWorldPos.x && vRBPos.x > vMouseWorldPos.x &&
-						vLTWorldPos.y > vMouseWorldPos.y && vRBPos.y < vMouseWorldPos.y) {
+					if (vLBWorldPos.x < vMouseWorldPos.x && vRTWorldPos.x > vMouseWorldPos.x &&
+						vLBWorldPos.y < vMouseWorldPos.y && vRTWorldPos.y > vMouseWorldPos.y) {
 						bIsTileClicked = true;
 					}
 				}
@@ -150,16 +152,18 @@ void TileMapEditorGUI::Update()
 				// 클릭했을 경우
 				if (bIsTileClicked) {
 					vector<TTileInfo>& vecTiles = m_pTileMap->GetTilesInfo();
-					Vector2 vOriginMousePos = {};
-					vOriginMousePos.x = vMouseWorldPos.x - vLTWorldPos.x;
-					vOriginMousePos.y = vLTWorldPos.y - vMouseWorldPos.y;
+					Vector2 vOriginMousePos = Vector2(vMouseWorldPos.x + vOffsetLB.x, vScale.y - (vMouseWorldPos.y + vOffsetLB.y));
+
+					Vector2 vOffsetScale = Vector2(m_pTileMap->GetCol() / vScale.x, m_pTileMap->GetRow() / vScale.y);
+
+					vOriginMousePos *= vOffsetScale;
+
 					int iClickX = (int)vOriginMousePos.x;
 					int iClickY = (int)vOriginMousePos.y;
 
 					int idx = iClickY * m_pTileMap->GetCol() + iClickX;
 
 					vecTiles[idx].idx = m_iSelectedTileIdx;
-					DBug->Debug("clickX,Y, idx[%d, %d %d]", iClickX, iClickY, idx);
 				}
 			}
 		}
@@ -180,18 +184,6 @@ void TileMapEditorGUI::_RenderCanvas()
 	
 	static int arrGrid[2] = { 5.f, 5.f };
 
-	// Typically you would use a BeginChild()/EndChild() pair to benefit from a clipping region + own scrolling.
-	// Here we demonstrate that this can be replaced by simple offsetting + custom drawing + PushClipRect/PopClipRect() calls.
-	// To use a child window instead we could use, e.g:
-	//      ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));      // Disable padding
-	//      ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(50, 50, 50, 255));  // Set a background color
-	//      ImGui::BeginChild("canvas", ImVec2(0.0f, 0.0f), true, ImGuiWindowFlags_NoMove);
-	//      ImGui::PopStyleColor();
-	//      ImGui::PopStyleVar();
-	//      [...]
-	//      ImGui::EndChild();
-
-	// Using InvisibleButton() as a convenience 1) it will advance the layout cursor and 2) allows us to use IsItemHovered()/IsItemActive()
 	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
 	ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
 	if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
@@ -236,8 +228,6 @@ void TileMapEditorGUI::_RenderCanvas()
 		}
 	}
 	
-	// Pan (we use a zero mouse threshold when there's no context menu)
-	// You may decide to make that threshold dynamic based on whether the mouse is hovering something etc.
 	const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
 	if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
 	{
