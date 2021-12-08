@@ -158,7 +158,10 @@ TreeViewGUI::TreeViewGUI() :
 	m_pSelectFunc{ nullptr },
 	m_pSelectInst(nullptr),
 	m_pDragDropFunc{ nullptr },
-	m_pDragDropInst(nullptr)
+	m_pDragDropInst(nullptr),
+	m_pDBCallBack{ nullptr },
+	m_pDBCInst{ nullptr },
+	m_pGDBCCallBack{ nullptr }
 {
 }
 
