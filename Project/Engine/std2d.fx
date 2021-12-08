@@ -378,14 +378,24 @@ float4 PS_ButtonUI(VTX_OUT _in) : SV_Target
     return vOutColor;
 }
 
-///////////// Line Rect ///////////
-#define vDefaultRectColor g_vec4_0;
+//////////////////////////////
+///////////// Grid ///////////
+#define TileXCount      g_int_0 // 타일맵의 타일 가로 개수
+#define TileYCount      g_int_1 // 타일맵의 세로 개수
+
+//#define TileIdx         g_int_2 // 이미지 인덱스
+
+#define AtlasTex        g_tex_0 // 아틀라스 텍스쳐
+#define AtlasResolution g_vec2_0 // 아틀라스 텍스쳐의 사이즈
+#define AtlasTileUVSize g_vec2_1 // 아틀라스 텍스쳐에서 타일 하나의 UV 사이즈
+
+#define vDefaultRectColor g_vec4_0; // 기본 색상
 /////////////
 
 ////////////////
-// LineRect vertex shader
+// Grid (frame) vertex shader
 ////////////////
-VTX_OUT VS_LineRect(VTX_IN _in)
+VTX_OUT VS_Grid(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f; // 초기화
 	
@@ -400,11 +410,49 @@ VTX_OUT VS_LineRect(VTX_IN _in)
 
 
 ///////////////
-// LineRect pixel shader
+// Grid (frame) pixel shader
 ///////////////
-float4 PS_LineRect(VTX_OUT _in) : SV_Target
+float4 PS_Grid(VTX_OUT _in) : SV_Target
 {
-    return vDefaultRectColor; // green color
+    return vDefaultRectColor;
 }
+
+
+struct VTX_IN_LINE
+{
+    float3 vPosition : POSITION;
+    float4 vColor : COLOR;
+};
+struct VTX_OUT_LINE
+{
+    float4 vPosition : SV_Position;
+    float4 vColor : COLOR;
+};
+////////////////
+// Grid (frame) vertex shader
+////////////////
+VTX_OUT VS_Line(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f; // 초기화
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+	
+    output.vPosition = vProjPos;
+    output.vColor = _in.vColor;
+    return output;
+}
+
+
+///////////////
+// Grid (frame) pixel shader
+///////////////
+float4 PS_Line(VTX_OUT _in) : SV_Target
+{
+    return float4(1.f, 1.f, 1.f, 1.f);
+}
+
+
 
 #endif

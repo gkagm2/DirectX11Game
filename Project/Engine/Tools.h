@@ -394,6 +394,16 @@ public:
 		return _fFrom * (1.f - _fAlpha) + _fTo * _fAlpha;
 	}
 
+	static float InvLerp(const float _fFrom, const float _fTo, float _fValue) {
+		return (_fValue - _fFrom) / (_fTo - _fFrom);
+	}
+
+	static float Remap(const float _fMin, const float _fMax, float& _fMin_out, float& _fMax_out, const float _fValue) {
+		float t = InvLerp(_fMin, _fMax, _fValue);
+		return Lerp(_fMin_out, _fMax_out, t);
+	}
+
+
 	template<typename TYPE>
 	static TYPE Clamp(TYPE _fValue, TYPE _fMin, TYPE _fMax) {
 		_fValue = max(_fValue, _fMin);

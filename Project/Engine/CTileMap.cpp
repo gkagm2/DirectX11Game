@@ -26,6 +26,8 @@ CTileMap::CTileMap() :
 
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size());
+
+	m_pGrid = make_unique<CGrid>(GetGameObject()); //Test
 }
 
 CTileMap::CTileMap(const CTileMap& _origin) :
@@ -48,6 +50,8 @@ CTileMap::CTileMap(const CTileMap& _origin) :
 		m_vecTileInfo[i].idx = _origin.m_vecTileInfo[i].idx;
 
 	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
+
+	m_pGrid = make_unique<CGrid>(GetGameObject());
 }
 
 CTileMap::~CTileMap()
@@ -99,8 +103,11 @@ void CTileMap::UpdateData()
 
 void CTileMap::Render()
 {
+	m_pGrid->UpdateData();
+
 	UpdateData();
 	m_pMesh->Render();
+	
 	m_pMaterial->Clear();
 }
 

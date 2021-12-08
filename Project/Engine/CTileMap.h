@@ -2,6 +2,7 @@
 #include "CComponent.h"
 #include "CMesh.h"
 #include "CMaterial.h"
+#include "CGrid.h"
 
 class CStructuredBuffer;
 class CTileMap : public CComponent
@@ -26,6 +27,12 @@ private:
 
 	int m_iDefaultTileColCnt; // 기본으로 세팅 할 타일맵의 Column 크기
 	int m_iDefaultTileRowCnt; // 기본으로 세팅 할 타일맵의 Row 크기
+
+private:
+	// Grid frame
+	unique_ptr<CGrid> m_pGrid;
+	SharedPtr<CMesh> m_pGridMesh;
+	SharedPtr<CMaterial> m_pGridMtrl;
 
 public:
 	virtual void FinalUpdate() override;

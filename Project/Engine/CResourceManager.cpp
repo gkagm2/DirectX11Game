@@ -76,9 +76,9 @@ void CResourceManager::CreateDefaultMesh()
 	// create index buffer
 	vecIdx.push_back(0);
 	vecIdx.push_back(1);
-	vecIdx.push_back(2); 
-	vecIdx.push_back(0); 
-	vecIdx.push_back(2); 
+	vecIdx.push_back(2);
+	vecIdx.push_back(0);
+	vecIdx.push_back(2);
 	vecIdx.push_back(3);
 	/*
 	0-------1
@@ -146,9 +146,31 @@ void CResourceManager::CreateDefaultMesh()
 	vecVtx.push_back(vertex);
 	vecIdx.push_back(0);
 	pMesh = new CMesh;
-	pMesh->Create(vecVtx.data(), sizeof(VTX)* (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT)* (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_LineStripMesh, pMesh);
+
+	////////////////////
+	// line list Mesh 积己
+	vertex = {};
+	vecVtx.clear();
+	vecIdx.clear();
+
+	vertex.vPos = Vector3(0.f, 0.f, 0.f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertex.vUV = Vector2(0.5, 0.5f);
+	vecVtx.push_back(vertex);
+	vertex.vPos = Vector3(200.f, 200.f, 0.f);
+	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertex.vUV = Vector2(0.5, 0.5f);
+	vecVtx.push_back(vertex);
+
+	vecIdx.push_back(0); 
+	vecIdx.push_back(1);
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), sizeof(VTX)* (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT)* (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+	AddRes(STR_KEY_LineListMesh, pMesh);
 }
 
 void CResourceManager::CreateDefaultCircle2DMesh()
@@ -486,10 +508,10 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_Fog2DShader, pShader);
 
 	//----------------------
-	// LineRect 溅捞歹 积己
+	// Grid 溅捞歹 积己
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
-	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXLineRectShader);
-	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXLineRectShader);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXGridShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXGridShader);
 
 	// Rasterizer
 	pShader->SetRasterizerState(E_RasterizerState::CullNone);
@@ -500,9 +522,27 @@ void CResourceManager::CreateDefaultShader()
 	// OM (Output Merge)
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->SetBlendState(E_BlendState::Default);
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default RectColor") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Grid Color") });
 
-	AddRes(STR_KEY_LineRectShader, pShader);
+	AddRes(STR_KEY_GridShader, pShader);
+
+
+	// Line List 溅捞歹 积己
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXLineShader);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXLineShader);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Topology
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	// OM (Output Merge)
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+	
+	AddRes(STR_KEY_LineListShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -610,15 +650,20 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes(STR_KEY_ButtonUIMtrl, pMtrl);
 
-	// LineRect 犁龙 积己
+	// Grid frame 犁龙 积己
 	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderLineRect = LoadRes<CGraphicsShader>(STR_KEY_LineRectShader);
+	SharedPtr<CGraphicsShader> pShaderLineRect = LoadRes<CGraphicsShader>(STR_KEY_GridShader);
 	pMtrl->SetShader(pShaderLineRect);
 	Vector4 vDefaultColor = Vector4(1.f, 1.f, 1.f, 1.f); // white
 	pMtrl->SetData(E_ShaderParam::Vector4_0, vDefaultColor);
-	AddRes(STR_KEY_LineRectMtrl, pMtrl);
-}
+	AddRes(STR_KEY_GridMtrl, pMtrl);
 
+	// Line List 犁龙 积己
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderLineList = LoadRes<CGraphicsShader>(STR_KEY_LineListShader);
+	pMtrl->SetShader(pShaderLineList);
+	AddRes(STR_KEY_LineListMtrl, pMtrl);
+}
 
 #include "CTestShader.h"
 #include "CParticleUpdateShader.h"

@@ -73,8 +73,10 @@
 #define STR_FUNC_NAME_PIXFog2DShader "PS_Fog2D"
 #define STR_FUNC_NAME_VTXButtonUIShader "VS_ButtonUI"
 #define STR_FUNC_NAME_PIXButtonUIShader "PS_ButtonUI"
-#define STR_FUNC_NAME_VTXLineRectShader "VS_LineRect"
-#define STR_FUNC_NAME_PIXLineRectShader "PS_LineRect"
+#define STR_FUNC_NAME_VTXGridShader "VS_Grid"
+#define STR_FUNC_NAME_PIXGridShader "PS_Grid"
+#define STR_FUNC_NAME_VTXLineShader "VS_Line"
+#define STR_FUNC_NAME_PIXLineShader "PS_Line"
 
 
 // particle.fx functions name
@@ -103,6 +105,7 @@
 #define STR_KEY_CircleMesh _T("CircleMesh")
 #define STR_KEY_CircleLineMesh _T("CircleLineMesh")
 #define STR_KEY_LineStripMesh _T("LineStriptMesh")
+#define STR_KEY_LineListMesh _T("LineListMesh")
 
 // Shader
 #define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
@@ -118,7 +121,8 @@
 #define STR_KEY_CanvasShader _T("CanvasShader")
 #define STR_KEY_Fog2DShader _T("Fog2DShader")
 #define STR_KEY_ButtonUIShader _T("ButtonUIShader")
-#define STR_KEY_LineRectShader _T("LineRectShader")
+#define STR_KEY_GridShader _T("GridShader")
+#define STR_KEY_LineListShader _T("LineListShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -131,6 +135,7 @@
 #define STR_KEY_StdAlphaBlend_CoverageMtrl _T("StandardMaterialAlphaBlendCoverage")
 #define STR_KEY_StdAlphaBlendMtrl _T("StandardMaterialAlphaBlend")
 #define STR_KEY_LineStripMtrl _T("LineStripLMaterial")
+#define STR_KEY_LineListMtrl _T("LineListMaterial")
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
 #define STR_KEY_Collider2DNoneColliedMtrl _T("Collider2DNonColliedMaterial") // 충돌되지 않았을 시 나타내는 메터리얼
 #define STR_KEY_Collider2DCollisionMtrl _T("Collider2DCollisionMaterial") // 충돌 시 나타내는 메터리얼 
@@ -143,7 +148,7 @@
 #define STR_KEY_CanvasMtrl _T("CanvasMaterial")
 #define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
 #define STR_KEY_ButtonUIMtrl _T("ButtonUIMaterial")
-#define STR_KEY_LineRectMtrl _T("LineRectMaterial")
+#define STR_KEY_GridMtrl _T("GridMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")

@@ -49,29 +49,41 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
     
     int idx = TileXCount * iBufferIdx.y + iBufferIdx.x;
     
-    if (idx < 0)
-    {
-        vOutColor = float4(1.f, 1.f, 1.f, 1.f);
-        return vOutColor;
-    }
-    
-    uint iImageIdx = g_TileBuffer[idx].iTileIdx; // 이미지의 인덱스를 구함.
+    int iImageIdx = g_TileBuffer[idx].iTileIdx; // 이미지의 인덱스를 구함.
     
     uint iTileWidthCount = 1.f / AtlasTileUVSize.x;
     
-    uint iCol = iImageIdx % iTileWidthCount;
-    uint iRow = iImageIdx / iTileWidthCount;
+    uint iCol = (uint)iImageIdx % iTileWidthCount;
+    uint iRow = (uint)iImageIdx / iTileWidthCount;
     
     // n x m 으로 타일맵을 표현하기 위해서 입력으로 들어온 uv 값을 각 칸의 픽셀들이 0~1 기준으로 값을 가져가게 한다.
-    float2 vTileUV = _in.vUV * float2(TileXCount, TileYCount);
-    vTileUV = frac(vTileUV);
+    float2 vTileUV = _in.vUV * float2(TileXCount, TileYCount); // 타일 크기를 0~1사이로 크기 크게 함.
+    vTileUV = frac(vTileUV); // 소수부분만 구함.
+    
+    if (iImageIdx < 0)
+    {
+        vTileUV *= AtlasTileUVSize; // 타일 사이즈 1개로 맵핑.
+        float2 vMinUV = vTileUV * float2(iBufferIdx.x, iBufferIdx.y);
+        float2 vMaxUV = vTileUV * float2(iBufferIdx.x + 1, iBufferIdx.y + 1);
+        
+        if (vMinUV.x == vTileUV.x || vMaxUV.x == vTileUV.x || vMinUV.y == vTileUV.y || vMaxUV.y == vTileUV.y)
+        {
+            return float4(1.f, 1.f, 1.f, 1.f);
+        }
+        else
+        {
+            clip(-1);
+        }
+    }
+    
     
     // 타일 사이즈 1개로 맵핑
     vTileUV *= AtlasTileUVSize;
     
     // 타일 인덱스로 얻은 행, 열 위치로 이동 
     vTileUV = AtlasTileUVSize * float2(iCol, iRow) + vTileUV;
-    
+
+ 
     vOutColor = AtlasTex.Sample(Sample_Point, vTileUV);
     return vOutColor;
 }

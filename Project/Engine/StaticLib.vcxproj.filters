@@ -220,6 +220,9 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>Engine\Support</Filter>
     </ClInclude>
+    <ClInclude Include="CGrid.h">
+      <Filter>Engine\07. Component\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -423,6 +426,9 @@
     <ClCompile Include="CSpriteRenderer.cpp">
       <Filter>Engine\07. Component\Renderer\SripteRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="CGrid.cpp">
+      <Filter>Engine\07. Component\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -592,6 +598,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Renderer\SripteRenderer">
       <UniqueIdentifier>{ded05676-1051-4ce3-9f05-35fc655569f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Grid">
+      <UniqueIdentifier>{deedc14b-1f01-41f0-beee-dcdc306f40f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
