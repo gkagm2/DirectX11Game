@@ -173,6 +173,54 @@ bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, b
 			return _IsCollision(_pLeft, _pRight, &(*_pPushIntersectionInfo));
 		return _IsCollision(_pLeft, _pRight, nullptr);
 	}
+
+	return false;
+}
+
+// 2D Box, Point
+bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
+{
+	static Vector3 arrLocal[4] = {
+	Vector3(-0.5f, 0.5f, 0.f),
+	Vector3(0.5f, 0.5f, 0.f),
+	Vector3(0.5f,-0.5f, 0.f),
+	Vector3(-0.5f,-0.5f, 0.f)
+	};
+
+	// 각 vertex의 world좌표
+	Vector3 vLT = XMVector3TransformCoord(arrLocal[0], _pCol->GetWorldMatrix());
+	Vector3 vRT = XMVector3TransformCoord(arrLocal[1], _pCol->GetWorldMatrix());
+	Vector3 vRB = XMVector3TransformCoord(arrLocal[2], _pCol->GetWorldMatrix());
+	Vector3 vLB = XMVector3TransformCoord(arrLocal[3], _pCol->GetWorldMatrix());
+	Vector3 vCenter = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pCol->GetWorldMatrix());
+	vLT.z = vRT.z = vRB.z = vLB.z = vCenter.z = 0.f;
+
+	// 투영 축
+	Vector3 vProjRight = _pCol->Transform()->GetLocalRightVector();
+	Vector3 vProjUp = _pCol->Transform()->GetLocalUpVector();
+	
+	const int iAxisCnt = 2;
+	Vector3 vPoint = Vector3(_vPoint.x, _vPoint.y, 0.f);
+
+	Vector3 vPointToCenter = vCenter - vPoint;
+	Vector3 vToRight = vRT - vLT;
+	Vector3 vToUp = vLT - vLB;
+
+	bool bIsMouseInBox1 = false;
+	bool bIsMouseInBox2 = false;
+
+	float fLength = fabsf(vProjRight.Dot(vPointToCenter));
+	float fRectLength = fabsf(vProjRight.Dot(vToRight));
+	if (fLength <= fRectLength)
+		bIsMouseInBox1 = true;
+
+	fLength = fabsf(vProjUp.Dot(vPointToCenter));
+	fRectLength = fabsf(vProjUp.Dot(vToUp));
+	if (fLength <= fRectLength)
+		bIsMouseInBox2 = true;
+
+	if (bIsMouseInBox1 && bIsMouseInBox2)
+		return true;
 	return false;
 }
 
@@ -211,7 +259,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 	v3.z = 0.f;
 	
 	// 투영축 계산
-	Vector3 vToLeft1 = v1 - v0;
+	Vector3 vToRight1 = v1 - v0;
 	Vector3 vToDown1 = v3 - v0;
 
 	// 다른 사각형의 투영 축 구하기
@@ -223,11 +271,11 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 	v3.z = 0.f;
 
 	// 투영축 계산
-	Vector3 vToLeft2 = v1 - v0;
+	Vector3 vToRight2 = v1 - v0;
 	Vector3 vToDown2 = v3 - v0;
 
 	// 각 투영축을 모두 검사하기 위해 배열에 넣어줌
-	Vector3 arrProjAxis[4] = { vToLeft1 , vToDown1 , vToLeft2 , vToDown2 };
+	Vector3 arrProjAxis[4] = { vToRight1 , vToDown1 , vToRight2 , vToDown2 };
 
 	Vector3 vCenterPosLeftCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pLeft->GetWorldMatrix());
 	Vector3 vCenterPosRightCollider = XMVector3TransformCoord(Vector3(0.f, 0.f, 0.f), _pRight->GetWorldMatrix());
