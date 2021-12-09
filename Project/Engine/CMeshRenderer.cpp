@@ -56,17 +56,6 @@ SharedPtr<CMaterial> CMeshRenderer::GetCloneMaterial()
 	return m_pMtrl;
 }
 
-void CMeshRenderer::SetTexSize(const Vector2& _vSize)
-{
-}
-
-const Vector2& CMeshRenderer::GetTexSize()
-{
-	SharedPtr<CTexture> pTexture = nullptr;
-	m_pMtrl->GetData(E_ShaderParam::Texture_0, pTexture.GetAddress());
-	return pTexture->GetResolution();
-}
-
 bool CMeshRenderer::SaveToScene(FILE* _pFile)
 {
 	CRenderer::SaveToScene(_pFile);

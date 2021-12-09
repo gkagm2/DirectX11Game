@@ -541,6 +541,7 @@ void CResourceManager::CreateDefaultShader()
 	// OM (Output Merge)
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->SetBlendState(E_BlendState::Default);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Line Color") });
 	
 	AddRes(STR_KEY_LineListShader, pShader);
 }

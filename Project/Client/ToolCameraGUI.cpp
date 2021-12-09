@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ToolCameraGUI.h"
+#include "CToolCameraScript.h"
 #include <Engine\CSceneManager.h>
 #include <Engine\CRenderManager.h>
 #include <Engine\CTransform.h>
@@ -47,7 +48,9 @@ void ToolCameraGUI::Update()
 		static int iCurItem = (int)eProjType;
 		if (ParamGUI::Render_ComboBox("Camera Type", &iCurItem, m_strList)) {
 			eProjType = (E_ProjectionType)iCurItem;
-			pToolCam->SetProjectionType(eProjType);
+			CToolCameraScript* pToolCamScript = pToolCam->GetGameObject()->GetComponent< CToolCameraScript>();
+			if (pToolCamScript)
+				pToolCamScript->ChangeProjectionType(eProjType);
 		}
 
 		ImGui::Separator();

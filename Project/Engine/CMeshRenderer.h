@@ -23,9 +23,6 @@ public:
 	SharedPtr<CMaterial> GetCloneMaterial();
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
 
-	void SetTexSize(const Vector2& _vSize);
-	const Vector2& GetTexSize();
-
 	void SetColor(BYTE _r, BYTE _g, BYTE _b, BYTE _a) {
 		m_iColor = COLOR_RGBA(_r, _g, _b, _a);
 	}

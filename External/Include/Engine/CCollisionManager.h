@@ -51,6 +51,9 @@ public:
 	/// <param name="m_bPushIntersection">밀어내기 여부</param>
 	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, bool m_bPushIntersection, TRigidCollisionInfo* _pPushIntersectionInfo = nullptr);
 
+	// BoxCollider, WorldPoint 2d
+	bool IsCollision(CCollider2D* _pCol, const Vector3& _vPoint); // 2d collsion
+
 private:
 	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo);
 };

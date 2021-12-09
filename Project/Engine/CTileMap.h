@@ -2,9 +2,9 @@
 #include "CComponent.h"
 #include "CMesh.h"
 #include "CMaterial.h"
-#include "CGrid.h"
 
 class CStructuredBuffer;
+class CTileMapGrid;
 class CTileMap : public CComponent
 {
 private:
@@ -16,6 +16,8 @@ private:
 	unique_ptr<CStructuredBuffer> m_pTileMapBuffer;
 
 	vector<TTileInfo> m_vecTileInfo; // 타일 정보
+
+	bool m_bFrameVisible;
 
 	// 생성할 Tile의 개수
 	int m_iTileXCnt;
@@ -30,7 +32,7 @@ private:
 
 private:
 	// Grid frame
-	unique_ptr<CGrid> m_pGrid;
+	CTileMapGrid* m_pGrid;
 	SharedPtr<CMesh> m_pGridMesh;
 	SharedPtr<CMaterial> m_pGridMtrl;
 
@@ -67,11 +69,14 @@ public:
 	Vector2 GetAtlasTilePixelSize() { return Vector2(GetAtlasTileXPixelSize(), GetAtlasTileYPixelSize()); }
 
 	int GetAtlasTileXCnt() {
-		return GetAtlasTexture()->GetResolution().x / m_iAtlasTileXPixelSize;
+		return (int)(GetAtlasTexture()->GetResolution().x / m_iAtlasTileXPixelSize);
 	}
 	int GetAtlasTileYCnt() {
-		return GetAtlasTexture()->GetResolution().y / m_iAtlasTileYPixelSize;
+		return int(GetAtlasTexture()->GetResolution().y / m_iAtlasTileYPixelSize);
 	}
+
+	void SetFrameVisible(bool _bVisible) { m_bFrameVisible = _bVisible; }
+	bool GetFrameVisible() { return m_bFrameVisible; }
 
 private:
 	void _InsertTileInfoToBuffer();

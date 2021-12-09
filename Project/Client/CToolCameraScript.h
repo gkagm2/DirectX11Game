@@ -14,14 +14,25 @@ private:
 
 	bool m_bMovementActive;
 
+
+	Vector3 m_vRotOrtho;
+	Vector3 m_vRotPerspec;
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;
 
-	void UpdateOrthographic(CCamera* _pCamera);
-	void UpdatePerspective(CCamera* _pCamera);
+private:
+	void _UpdateOrthographic(CCamera* _pCamera);
+	void _UpdatePerspective(CCamera* _pCamera);
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
+public:
+	void ChangeProjectionType(E_ProjectionType _eType);
+
 	void SetMovementActive(bool _vMovementActive) { m_bMovementActive = _vMovementActive; }
 	bool IsMovementActive() { return m_bMovementActive; }
 

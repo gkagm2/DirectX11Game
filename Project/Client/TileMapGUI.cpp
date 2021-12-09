@@ -32,6 +32,13 @@ void TileMapGUI::Update()
 	static ImVec4 m_vtintColor;
 	static ImVec4 m_v4BorderColor;
 
+	bool iFrameVisible = pTileMap->GetFrameVisible();
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::Checkbox("Show Frame##TileMapGUI", &iFrameVisible))
+		pTileMap->SetFrameVisible(iFrameVisible);
+	ImGui::PopID();
+
+
 	CTexture* pTex = pTileMap->GetAtlasTexture().Get();
 	if (pTex) {
 		string strKey;

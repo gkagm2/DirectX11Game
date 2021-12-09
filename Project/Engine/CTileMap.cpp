@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CTileMap.h"
+#include "CTileMapGrid.h"
 #include "CResourceManager.h"
 #include "CTransform.h"
 #include "CStructuredBuffer.h"
@@ -12,8 +13,10 @@ CTileMap::CTileMap() :
 	m_iAtlasTileYPixelSize(0),
 	m_iTileXCnt(2),
 	m_iTileYCnt(2),
+	m_bFrameVisible(false),
 	m_iDefaultTileColCnt(2),
-	m_iDefaultTileRowCnt(2)
+	m_iDefaultTileRowCnt(2),
+	m_pGrid(nullptr)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh);
 	m_pMaterial = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_TileMapMtrl);
@@ -23,11 +26,8 @@ CTileMap::CTileMap() :
 	for (int i = 0; i < m_vecTileInfo.size(); ++i)
 		m_vecTileInfo[i].idx = 1;
 
-
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size());
-
-	m_pGrid = make_unique<CGrid>(GetGameObject()); //Test
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTileInfo.size());
 }
 
 CTileMap::CTileMap(const CTileMap& _origin) :
@@ -40,6 +40,7 @@ CTileMap::CTileMap(const CTileMap& _origin) :
 	m_iAtlasTileYPixelSize(_origin.m_iAtlasTileYPixelSize),
 	m_iTileXCnt(_origin.m_iTileXCnt),
 	m_iTileYCnt(_origin.m_iTileYCnt),
+	m_bFrameVisible(_origin.m_bFrameVisible),
 	m_iDefaultTileColCnt(_origin.m_iDefaultTileColCnt),
 	m_iDefaultTileRowCnt(_origin.m_iDefaultTileRowCnt)
 {
@@ -49,13 +50,19 @@ CTileMap::CTileMap(const CTileMap& _origin) :
 	for (int i = 0; i < m_vecTileInfo.size(); ++i)
 		m_vecTileInfo[i].idx = _origin.m_vecTileInfo[i].idx;
 
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTileInfo.size(), m_vecTileInfo.data());
 
-	m_pGrid = make_unique<CGrid>(GetGameObject());
+	if (!m_pGrid)
+		m_pGrid = new CTileMapGrid(this);
+	m_pGrid->Init();
 }
 
 CTileMap::~CTileMap()
 {
+	if (m_pGrid) {
+		delete m_pGrid;
+		m_pGrid = nullptr;
+	}
 }
 
 void CTileMap::FinalUpdate()
@@ -103,17 +110,20 @@ void CTileMap::UpdateData()
 
 void CTileMap::Render()
 {
-	m_pGrid->UpdateData();
-
 	UpdateData();
 	m_pMesh->Render();
+
+	if (!m_pGrid->DidInit())
+		m_pGrid->Init();
+	if (m_bFrameVisible && m_pGrid)
+		m_pGrid->UpdateData();
 	
 	m_pMaterial->Clear();
 }
 
 void CTileMap::_InsertTileInfoToBuffer()
 {
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), m_vecTileInfo.size(), m_vecTileInfo.data());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTileInfo.size(), m_vecTileInfo.data());
 }
 
 bool CTileMap::CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit)
@@ -145,6 +155,10 @@ bool CTileMap::CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit)
 	// 흠.. scale을 키워야되나..
 	Transform()->SetLocalScale(Vector3(m_iTileXCnt, m_iTileYCnt, 1));
 
+	if(!m_pGrid)
+		m_pGrid = new CTileMapGrid(this); //Test
+	m_pGrid->Init();
+
 	return true;
 }
 
@@ -159,7 +173,7 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	FWrite(iTileInfoCnt, _pFile);
 	for (UINT i = 0; i < iTileInfoCnt; ++i)
 		FWrite(m_vecTileInfo[i], _pFile);
-
+	FWrite(m_bFrameVisible, _pFile);
 	FWrite(m_iTileXCnt, _pFile);
 	FWrite(m_iTileYCnt, _pFile);
 	FWrite(m_iAtlasTileXPixelSize, _pFile);
@@ -180,7 +194,7 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	m_vecTileInfo.resize(iTileInfoCnt);
 	for (UINT i = 0; i < iTileInfoCnt; ++i)
 		FRead(m_vecTileInfo[i], _pFile);
-
+	FRead(m_bFrameVisible, _pFile);
 	FRead(m_iTileXCnt, _pFile);
 	FRead(m_iTileYCnt, _pFile);
 	FRead(m_iAtlasTileXPixelSize, _pFile);

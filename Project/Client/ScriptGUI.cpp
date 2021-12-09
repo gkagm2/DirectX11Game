@@ -39,7 +39,7 @@ bool ScriptGUI::Start()
 
 	// Delete Component Button
 	/*if (ImGui::Button("Del")) {
-		CComponent* pComponent = m_pTargetObj->GetComponent(m_eComponentType);
+		CComponent* pComponent = m_pTargetTileMap->GetComponent(m_eComponentType);
 		CObject::DestroyObjectEvn(pComponent);
 	}*/
 

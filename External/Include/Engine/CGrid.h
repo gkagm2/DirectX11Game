@@ -4,29 +4,30 @@ class CGameObject;
 class CGrid
 {
 private:
-	CGameObject* pTargetObj;
+	CGameObject* m_pTargetObj;
+
 private:
-	int m_iHeight;
-	int m_iWidth;
-
-	int m_iVtxCnt;
-	int m_iIdxCnt;
-
 	vector<VTX> m_vecVtx; // ¡§¡°
 	vector<int> m_vecIdx; // ¿Œµ¶Ω∫
 
-	vector< SharedPtr<CMesh>> m_vecMesh;
+	vector<SharedPtr<CMesh>> m_vecMesh; // Line Mesh
 	SharedPtr<CMesh> m_pMesh;
 	SharedPtr<CMaterial> m_pMtrl;
 
+	Vector4 m_vGridColor;
+
 public:
-	void Init(int ,int);
-	void InitBuffer();
+	void Init();
+	void AddBuffer(const Vector3& _vPos1, const Vector3& _vPos2);
+	void Clear();
 	
 public:
 	void UpdateData();
+	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObj = _pTargetObj; }
 
 public:
+	CLONE(CGrid);
 	CGrid(CGameObject* _pTargetObj);
+	CGrid(const CGrid& _Owner);
 	virtual ~CGrid();
 };

@@ -418,6 +418,10 @@ float4 PS_Grid(VTX_OUT _in) : SV_Target
 }
 
 
+////////////////
+// Line
+#define LineColor g_vec4_0
+////////////////
 struct VTX_IN_LINE
 {
     float3 vPosition : POSITION;
@@ -428,8 +432,9 @@ struct VTX_OUT_LINE
     float4 vPosition : SV_Position;
     float4 vColor : COLOR;
 };
+
 ////////////////
-// Grid (frame) vertex shader
+// Line vertex shader
 ////////////////
 VTX_OUT VS_Line(VTX_IN _in)
 {
@@ -444,15 +449,11 @@ VTX_OUT VS_Line(VTX_IN _in)
     return output;
 }
 
-
 ///////////////
-// Grid (frame) pixel shader
+// Line pixel shader
 ///////////////
 float4 PS_Line(VTX_OUT _in) : SV_Target
 {
-    return float4(1.f, 1.f, 1.f, 1.f);
+    return LineColor;
 }
-
-
-
 #endif

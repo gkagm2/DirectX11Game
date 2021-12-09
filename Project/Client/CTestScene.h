@@ -16,6 +16,7 @@ protected:
 	static void RenderingAnimationTexture();	// Done
 	static void Collision2DTest();				// Done
 	static void Collision2DTest2();				// Done
+	static void Collision2DMouseAndRect();
 	static void Light2DTest();					// Done
 	static void TileMapTest();					// Done
 	static void ParticleSystemTest();			// Done

@@ -220,8 +220,8 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>Engine\Support</Filter>
     </ClInclude>
-    <ClInclude Include="CGrid.h">
-      <Filter>Engine\07. Component\Grid</Filter>
+    <ClInclude Include="CTileMapGrid.h">
+      <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -426,8 +426,8 @@
     <ClCompile Include="CSpriteRenderer.cpp">
       <Filter>Engine\07. Component\Renderer\SripteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="CGrid.cpp">
-      <Filter>Engine\07. Component\Grid</Filter>
+    <ClCompile Include="CTileMapGrid.cpp">
+      <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +601,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Grid">
       <UniqueIdentifier>{deedc14b-1f01-41f0-beee-dcdc306f40f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Transform\InnerClass">
+      <UniqueIdentifier>{abca915f-fe42-49b9-beec-5abb1fccd045}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

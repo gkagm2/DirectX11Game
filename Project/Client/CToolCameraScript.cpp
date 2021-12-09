@@ -17,7 +17,9 @@ CToolCameraScript::CToolCameraScript() :
 	m_fDragSpeed(0.02f),
 	m_fPrefSize{},
 	m_vPrevToolCamPos{},
-	m_bMovementActive{true}
+	m_bMovementActive{true},
+	m_vRotOrtho{},
+	m_vRotPerspec{}
 {
 }
 
@@ -44,15 +46,15 @@ void CToolCameraScript::Update()
 
 	// Orthographic老 版快
 	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType()) {
-		UpdateOrthographic(pToolCam);
+		_UpdateOrthographic(pToolCam);
 	}
 	// Perspective老 版快
 	else if (E_ProjectionType::Perspective == pToolCam->GetProjectionType()) {
-		UpdatePerspective(pToolCam);
+		_UpdatePerspective(pToolCam);
 	}
 }
 
-void CToolCameraScript::UpdateOrthographic(CCamera* _pCamera)
+void CToolCameraScript::_UpdateOrthographic(CCamera* _pCamera)
 {
 	Vector3 vPos = Transform()->GetLocalPosition();
 	CCamera* pToolCam = _pCamera;
@@ -116,7 +118,7 @@ void CToolCameraScript::UpdateOrthographic(CCamera* _pCamera)
 	}
 }
 
-void CToolCameraScript::UpdatePerspective(CCamera* _pCamera)
+void CToolCameraScript::_UpdatePerspective(CCamera* _pCamera)
 {
 	Vector3 vPos = Transform()->GetLocalPosition();
 	Vector3 vRot = Transform()->GetLocalRotation();
@@ -169,4 +171,43 @@ void CToolCameraScript::UpdatePerspective(CCamera* _pCamera)
 	Transform()->SetLocalPosition(vPos);
 	//Transform()->SetLocalPosition(vPos);
 	//Transform()->SetLocalRotation(vRot);
+}
+
+bool CToolCameraScript::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_vRotOrtho, _pFile);
+	FWrite(m_vRotPerspec, _pFile);
+	return true;
+}
+
+bool CToolCameraScript::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_vRotOrtho, _pFile);
+	FRead(m_vRotPerspec, _pFile);
+	return true;
+}
+
+void CToolCameraScript::ChangeProjectionType(E_ProjectionType _eType)
+{
+	E_ProjectionType eCurType = Camera()->GetProjectionType();
+	if (E_ProjectionType::Orthographic == eCurType) {
+		m_vRotOrtho = Transform()->GetLocalRotation();
+	}
+	else if (E_ProjectionType::Perspective == eCurType) {
+		m_vRotPerspec = Transform()->GetLocalRotation();
+	}
+	else
+		assert(nullptr);
+
+	if (E_ProjectionType::Orthographic == _eType) {
+		Camera()->SetProjectionType(_eType);
+		Transform()->SetLocalRotation(m_vRotOrtho);
+	}
+
+	else if (E_ProjectionType::Perspective == _eType) {
+		Camera()->SetProjectionType(_eType);
+		Transform()->SetLocalRotation(m_vRotPerspec);
+	}
+	else
+		assert(nullptr);
 }
