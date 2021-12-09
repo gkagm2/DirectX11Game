@@ -51,8 +51,11 @@ void CCamera::FinalUpdate()
 const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 {
 	// orthographic일경우에만 사용 가능 
-	if (E_ProjectionType::Perspective == GetProjectionType())
-		assert(nullptr &&_T("Perspectie type임"));
+	if (E_ProjectionType::Perspective == GetProjectionType()) {
+		assert(nullptr && _T("Perspectie type임"));
+		return std::move(Vector3(0.f, 0.f, 0.f));
+	}
+		
 
 	Vector3 vWorldPos = Transform()->GetPosition();
 	Vector2 vScreenHalfSize = CCore::GetInstance()->GetWindowResolution();

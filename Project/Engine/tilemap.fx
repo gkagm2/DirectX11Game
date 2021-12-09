@@ -62,18 +62,19 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
     
     if (iImageIdx < 0)
     {
-        vTileUV *= AtlasTileUVSize; // 타일 사이즈 1개로 맵핑.
-        float2 vMinUV = vTileUV * float2(iBufferIdx.x, iBufferIdx.y);
-        float2 vMaxUV = vTileUV * float2(iBufferIdx.x + 1, iBufferIdx.y + 1);
+        clip(-1);
+        //vTileUV *= AtlasTileUVSize; // 타일 사이즈 1개로 맵핑.
+        //float2 vMinUV = vTileUV * float2(iBufferIdx.x, iBufferIdx.y);
+        //float2 vMaxUV = vTileUV * float2(iBufferIdx.x + 1, iBufferIdx.y + 1);
         
-        if (vMinUV.x == vTileUV.x || vMaxUV.x == vTileUV.x || vMinUV.y == vTileUV.y || vMaxUV.y == vTileUV.y)
-        {
-            return float4(1.f, 1.f, 1.f, 1.f);
-        }
-        else
-        {
-            clip(-1);
-        }
+        //if (vMinUV.x == vTileUV.x || vMaxUV.x == vTileUV.x || vMinUV.y == vTileUV.y || vMaxUV.y == vTileUV.y)
+        //{
+        //    return float4(1.f, 1.f, 1.f, 1.f);
+        //}
+        //else
+        //{
+        //    clip(-1);
+        //}
     }
     
     

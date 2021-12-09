@@ -90,7 +90,7 @@ void CTileMapGrid::AddBuffer(const Vector3& _vPos1, const Vector3& _vPos2)
 
 void CTileMapGrid::Clear()
 {
-	m_vecMesh.clear();
+	Safe_Delete_Vector(m_vecMesh);
 }
 
 void CTileMapGrid::UpdateData()
