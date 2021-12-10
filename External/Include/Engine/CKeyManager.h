@@ -1,5 +1,4 @@
 #pragma once
-
 // 현재 지원하는 키
 enum class E_Key {
 	LEFT,
@@ -45,6 +44,7 @@ enum class E_Key {
 	NUM7,
 	NUM8,
 	NUM9,
+
 	LCtrl,
 	LAlt,
 	LShift,
@@ -52,6 +52,13 @@ enum class E_Key {
 	RBUTTON,
 	MBUTTON,
 	Enter,
+	
+	Insert,
+	Delete,
+	PgUp,
+	PgDn,
+	Home,
+
 	F1,
 	F2,
 	F3,

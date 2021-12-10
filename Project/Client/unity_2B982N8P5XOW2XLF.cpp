@@ -59,7 +59,7 @@
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Client\GUI.cpp"
 
 
-#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Client\HierachyGUI.cpp"
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Client\HierarchyGUI.cpp"
 
 
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Client\ImageUIGUI.cpp"

@@ -278,7 +278,7 @@
     <ClInclude Include="ListViewGUI.h">
       <Filter>02. GUI\Module\ListViewGUI</Filter>
     </ClInclude>
-    <ClInclude Include="HierachyGUI.h">
+    <ClInclude Include="HierarchyGUI.h">
       <Filter>02. GUI\HierachyGUI</Filter>
     </ClInclude>
     <ClInclude Include="ResourceGUI.h">
@@ -468,7 +468,7 @@
     <ClCompile Include="ListViewGUI.cpp">
       <Filter>02. GUI\Module\ListViewGUI</Filter>
     </ClCompile>
-    <ClCompile Include="HierachyGUI.cpp">
+    <ClCompile Include="HierarchyGUI.cpp">
       <Filter>02. GUI\HierachyGUI</Filter>
     </ClCompile>
     <ClCompile Include="ResourceGUI.cpp">

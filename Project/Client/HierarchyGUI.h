@@ -3,7 +3,7 @@
 #include "TreeViewGUI.h"
 
 class CGameObject;
-class HierachyGUI : public GUI
+class HierarchyGUI : public GUI
 {
 private:
 	TreeViewGUI m_treeView;
@@ -20,6 +20,6 @@ public:
 	void DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode);
 
 public:
-	HierachyGUI();
-	virtual ~HierachyGUI() override;
+	HierarchyGUI();
+	virtual ~HierarchyGUI() override;
 };

@@ -143,7 +143,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "TransformGUI.h"
 #include "MeshRendererGUI.h"
 #include "InspectorGUI.h"
-#include "HierachyGUI.h"
+#include "HierarchyGUI.h"
 #include "ResourceGUI.h"
 #include "Collider2DGUI.h"
 #include "ResourceViewGUI.h"
@@ -216,9 +216,9 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     
 
     // Hierachy GUI
-    HierachyGUI* pHierachyGUI = new HierachyGUI;
-    pHierachyGUI->Init();
-    AddGUI(pHierachyGUI->GetName(), pHierachyGUI);
+    HierarchyGUI* pHierarchyGUI = new HierarchyGUI;
+    pHierarchyGUI->Init();
+    AddGUI(pHierarchyGUI->GetName(), pHierarchyGUI);
 
     // Component들을 보여주는 GUI
     InspectorGUI* pInspectorGUI = new InspectorGUI;

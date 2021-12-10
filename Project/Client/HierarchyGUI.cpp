@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "HierachyGUI.h"
+#include "HierarchyGUI.h"
 #include "TreeViewGUI.h"
 
 #include <Engine\CEventManager.h>
@@ -11,25 +11,25 @@
 #include "CImGuiManager.h"
 #include "InspectorGUI.h"
 
-HierachyGUI::HierachyGUI()
+HierarchyGUI::HierarchyGUI()
 {
-	SetName(STR_GUI_Hierachy);
+	SetName(STR_GUI_Hierarchy);
 }
 
-HierachyGUI::~HierachyGUI()
+HierarchyGUI::~HierarchyGUI()
 {
 }
 
-void HierachyGUI::Init()
+void HierarchyGUI::Init()
 {
 	_RenewTreeView();
 	m_treeView.SetFrameRender(false);
 	m_treeView.SetFrameOnlyParent(false);
-	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&HierachyGUI::SelectGameObject);
-	m_treeView.SetDragDropCallBack(this, (DRAG_DROP_CALLBACK)&HierachyGUI::DragDrop);
+	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&HierarchyGUI::SelectGameObject);
+	m_treeView.SetDragDropCallBack(this, (DRAG_DROP_CALLBACK)&HierarchyGUI::DragDrop);
 }
 
-void HierachyGUI::Update()
+void HierarchyGUI::Update()
 {
 	if (CEventManager::GetInstance()->DidEventHappended())
 		_RenewTreeView();
@@ -39,7 +39,7 @@ void HierachyGUI::Update()
 	ImGui::End();
 }
 
-void HierachyGUI::_RenewTreeView()
+void HierarchyGUI::_RenewTreeView()
 {
 	m_treeView.Clear();
 	TreeViewNode* pTreeViewRoot = m_treeView.AddItem("RootHierachy", 0, nullptr);
@@ -109,7 +109,7 @@ void HierachyGUI::_RenewTreeView()
 	//}
 }
 
-void HierachyGUI::SelectGameObject(TreeViewNode* _pNode)
+void HierarchyGUI::SelectGameObject(TreeViewNode* _pNode)
 {
 	CGameObject* pTargetObj = (CGameObject*)_pNode->GetData();
 	InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
@@ -117,7 +117,7 @@ void HierachyGUI::SelectGameObject(TreeViewNode* _pNode)
 	pInspectorGUI->SetTargetObject(pTargetObj);
 }
 
-void HierachyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode)
+void HierarchyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode)
 {
 	CGameObject* pDragStartNode = (CGameObject*)_pDragStartNode->GetData();
 	CGameObject* pDropTargetNode = nullptr;

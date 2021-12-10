@@ -179,7 +179,7 @@
     <ClInclude Include="DebugGUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
-    <ClInclude Include="HierachyGUI.h" />
+    <ClInclude Include="HierarchyGUI.h" />
     <ClInclude Include="ImageUIGUI.h" />
     <ClInclude Include="imconfig.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -274,7 +274,7 @@
     <ClCompile Include="CToolObjManager.cpp" />
     <ClCompile Include="DebugGUI.cpp" />
     <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="HierachyGUI.cpp" />
+    <ClCompile Include="HierarchyGUI.cpp" />
     <ClCompile Include="ImageUIGUI.cpp" />
     <ClCompile Include="imgui.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
