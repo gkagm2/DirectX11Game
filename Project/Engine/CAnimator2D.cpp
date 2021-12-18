@@ -123,14 +123,6 @@ void CAnimator2D::CreateAnimation(const vector<TAnimation2DDesc>& _vecAnimation2
 	m_unmapAnim.insert(std::make_pair(_vecAnimation2DDesc[0].strName, pAnim));
 }
 
-void CAnimator2D::Clear()
-{
-	static const CConstBuffer* pBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Animation2D_Data);
-	TAnimation2DData tData = {};
-	pBuffer->SetData(&tData);
-	pBuffer->UpdateData();
-}
-
 void CAnimator2D::GetAnimationNamesFromList(vector<tstring>& _vecNameList_out)
 {
 	_vecNameList_out.clear();

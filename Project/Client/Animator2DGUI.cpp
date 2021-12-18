@@ -100,8 +100,6 @@ void Animator2DGUI::Update()
 
 			ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetCurTexture().Get(), nullptr, nullptr, false, tTexInfo);
 		}
-		else
-			assert(nullptr);
 	}
 
 	End();

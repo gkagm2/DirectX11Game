@@ -11,6 +11,7 @@
 #include "CTransform.h"
 #include "CRectTransform.h"
 #include "CAnimator2D.h"
+#include "CAnimation2D.h"
 
 
 CMeshRenderer::CMeshRenderer() :
@@ -39,7 +40,7 @@ void CMeshRenderer::Render()
 	if (Animator2D())
 		Animator2D()->UpdateData();
 	else
-		CAnimator2D::Clear();
+		CAnimation2D::Clear();
 
 
 	m_pMtrl->UpdateData();	 // 메터리얼 세팅

@@ -6,6 +6,7 @@
 #include "CImageUI.h"
 #include "CRectTransform.h"
 #include "CAnimator2D.h"
+#include "CAnimation2D.h"
 
 CCanvasRenderer::CCanvasRenderer() :
 	CRenderer(E_ComponentType::CanvasRenderer)
@@ -29,7 +30,7 @@ void CCanvasRenderer::Render()
 	if (Animator2D())
 		Animator2D()->UpdateData();
 	else
-		CAnimator2D::Clear();
+		CAnimation2D::Clear();
 
 	CRenderer::Render();
 	if (TextUI() && TextUI()->IsActive())

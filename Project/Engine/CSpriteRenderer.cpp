@@ -3,6 +3,7 @@
 #include "CResourceManager.h"
 #include "CTransform.h"
 #include "CAnimation2D.h"
+#include "CAnimation2D.h"
 
 CSpriteRenderer::CSpriteRenderer() :
 	CRenderer(E_ComponentType::SpriteRenderer)
@@ -40,7 +41,7 @@ void CSpriteRenderer::Render()
 	if (Animator2D())
 		Animator2D()->UpdateData();
 	else
-		CAnimator2D::Clear();
+		CAnimation2D::Clear();
 
 
 	m_pMtrl->UpdateData();	 // 메터리얼 세팅

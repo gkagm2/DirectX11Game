@@ -28,6 +28,7 @@ private:
 	void _SetAnimator(CAnimator2D* _pAnimator2D) { m_pAnimator = _pAnimator2D; }
 
 public:
+	static void Clear();
 	void FinalUpdate();
 	virtual void UpdateData() override;
 	void Create(TAnimation2DDesc& _tAnimation2DDesc);

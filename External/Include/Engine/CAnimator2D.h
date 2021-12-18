@@ -68,8 +68,6 @@ public:
 	void CreateAnimation(TAnimation2DDesc& _tAnimation2DDesc);
 	void CreateAnimation(const vector <TAnimation2DDesc>& _vecAnimation2DDesc); // 다른 종류의 텍스쳐를 설정 할 경우
 	
-	static void Clear();
-
 public:
 	void SetAnimationState(E_AnimationState _eState) { m_eAnimationState = _eState; }
 	E_AnimationState GetAnimationState() { return m_eAnimationState; }

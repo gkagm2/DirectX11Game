@@ -60,6 +60,16 @@ void CAnimation2D::UpdateData()
 	pBuffer->UpdateData();
 }
 
+void CAnimation2D::Clear()
+{
+	static const CConstBuffer* pBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Animation2D_Data);
+	// FIXED(Jang) : 삭제 예정
+	/*TAnimation2DData tData = {};
+	pBuffer->SetData(&tData);
+	pBuffer->UpdateData();*/
+	pBuffer->Clear();
+}
+
 void CAnimation2D::Create(TAnimation2DDesc& _tAnimation2DDesc)
 {
 	//assert(_tAnimation2DDesc.pAtlas.Get() && _T("애니메이션을 표현 할 텍스쳐가 null임"));
