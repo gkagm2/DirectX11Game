@@ -43,7 +43,11 @@ struct TParticle {
 	float fCurTime;
 	float fMaxTime;
 	int iAlive;
-	int iPadding[3];
+
+	float fFallTime;
+	float fFallStartY;
+	float fSpeed;
+	int iPadding[2];
 };
 
 

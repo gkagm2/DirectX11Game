@@ -173,18 +173,19 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	SaveResourceToFile(m_pMaterial, _pFile);
 	SaveResourceToFile(m_pAtlasTexture, _pFile);
 
-	// 밑에 테스트용때문에 임시 주석
-	/*size_t iTileInfoCnt = m_vecTileInfo.size();
+#pragma region StructuedBuffer Save
+	size_t iTileInfoCnt = m_vecTileInfo.size();
 	FWrite(iTileInfoCnt, _pFile);
 	for (size_t i = 0; i < iTileInfoCnt; ++i)
-		FWrite(m_vecTileInfo[i], _pFile);*/
-
-	UINT iElementCnt = m_pTileMapBuffer->GetElementCount();
+		FWrite(m_vecTileInfo[i], _pFile);
+	// 다른 버전 (메모리 릭 이슈)
+	/*UINT iElementCnt = m_pTileMapBuffer->GetElementCount();
 	UINT iDataSize = m_pTileMapBuffer->GetElementSize() * iElementCnt;
 	FWrite(iDataSize, _pFile);
 	void* pData = malloc(iDataSize);
 	m_pTileMapBuffer->GetData(pData, iElementCnt);
-	fwrite(pData, iDataSize, 1, _pFile);
+	fwrite(pData, iDataSize, 1, _pFile);*/
+#pragma endregion
 
 	FWrite(m_bFrameVisible, _pFile);
 	FWrite(m_iTileXCnt, _pFile);
@@ -205,19 +206,19 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	LoadResourceFromFile(m_pMaterial, _pFile);
 	LoadResourceFromFile(m_pAtlasTexture, _pFile);
 
-	
-	/*size_t iTileInfoCnt = 0;
+#pragma region StructuedBuffer 불러오기
+	size_t iTileInfoCnt = 0;
 	FRead(iTileInfoCnt, _pFile);
 	m_vecTileInfo.clear();
 	m_vecTileInfo.resize(iTileInfoCnt);
 	for (UINT i = 0; i < iTileInfoCnt; ++i)
-		FRead(m_vecTileInfo[i], _pFile);*/
-
-	UINT iDataSize = 0;
+		FRead(m_vecTileInfo[i], _pFile);
+	// 다른 버전
+	/*UINT iDataSize = 0;
 	FRead(iDataSize, _pFile);
 	void* pData = malloc(iDataSize);
-	fread(pData, iDataSize, 1, _pFile);
-
+	fread(pData, iDataSize, 1, _pFile);*/
+#pragma endregion
 
 	FRead(m_bFrameVisible, _pFile);
 	FRead(m_iTileXCnt, _pFile);

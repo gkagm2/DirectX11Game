@@ -35,11 +35,10 @@ struct TParticle
     float fMaxTime;
     int iAlive;
     
-    int iGravitiyEnable;
     float fFallTime;
     float fFallStartY;
     float fSpeed; // gravity speed
-    int3 particle_padding;
+    int2 particle_padding;
 };
 
 struct TSharedParticleData
