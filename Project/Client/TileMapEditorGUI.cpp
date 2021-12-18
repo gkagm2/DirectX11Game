@@ -7,10 +7,11 @@
 #include <Engine\CResourceManager.h>
 #include "ParamGUI.h"
 #include <Engine\CRenderManager.h>
-#include <Engine\CCamera2D.h>
+#include <Engine\CCamera.h>
 #include "DebugGUI.h"
 #include <Engine\CKeyManager.h>
 #include <Engine\CTransform.h>
+#include <Engine\CRenderManager.h>
 
 TileMapEditorGUI::TileMapEditorGUI() :
 	m_pTargetObject(nullptr),
@@ -46,13 +47,21 @@ void TileMapEditorGUI::Update()
 	m_pTileMap = m_pTargetObject->TileMap();
 	m_pAtlasTileTex = m_pTileMap->GetAtlasTexture().Get();
 
+
+
 	// 창을 하나 연다
     if (!m_bGUIOpen)
         return;
-	
+
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(STR_GUI_TileMapEditor, &m_bGUIOpen))
 	{
+		CCamera* pToolCamera = CRenderManager::GetInstance()->GetToolCamera();
+		if (pToolCamera) {
+			if (E_ProjectionType::Perspective == pToolCamera->GetProjectionType())
+				pToolCamera->SetProjectionType(E_ProjectionType::Orthographic);
+		}
+
 		ImVec2 vAtlasTexResol = {};
 		if (m_pTileMap->GetAtlasTexture().Get()) {
 			ImVec2((int)m_pTileMap->GetAtlasTexture()->GetResolution().x, (int)m_pTileMap->GetAtlasTexture()->GetResolution().y);

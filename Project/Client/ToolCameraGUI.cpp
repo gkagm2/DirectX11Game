@@ -44,8 +44,11 @@ void ToolCameraGUI::Update()
 
 		E_ProjectionType eProjType = pToolCam->GetProjectionType();
 
+		
 		// 콤보로 표현하기
 		static int iCurItem = (int)eProjType;
+		if (iCurItem != (int)eProjType)
+			iCurItem = (int)eProjType;
 		if (ParamGUI::Render_ComboBox("Camera Type", &iCurItem, m_strList)) {
 			eProjType = (E_ProjectionType)iCurItem;
 			CToolCameraScript* pToolCamScript = pToolCam->GetGameObject()->GetComponent< CToolCameraScript>();
