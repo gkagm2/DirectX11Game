@@ -32,7 +32,9 @@ public:
 public:
 	virtual CMaterial* Clone() override;
 	virtual CMaterial* Clone_NoAddInResMgr();
+	
 	CMaterial();
+	CMaterial(const CMaterial& _origin);
 	CMaterial(bool _bIsDefaultMaterial);
 	virtual ~CMaterial() override;
 };

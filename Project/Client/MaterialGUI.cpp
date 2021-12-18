@@ -9,6 +9,8 @@
 #include <Engine\CMaterial.h>
 #include <Engine\CShader.h>
 #include <Engine\CGraphicsShader.h>
+#include <Engine\Ptr.h>
+#include <Engine\CSceneManager.h>
 
 MaterialGUI::MaterialGUI() :
 	ResourceGUI(E_ResourceType::Material),
@@ -27,7 +29,6 @@ void MaterialGUI::Update()
 
 	CMaterial* pMtrl = (CMaterial*)GetTargetResource();
 	CShader* pShader = pMtrl->GetShader().Get();
-
 
 	// Material이 참조하는 Shader 출력
 	// 이름 바꾸기
@@ -62,6 +63,11 @@ void MaterialGUI::Update()
 				pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
 			}
 		}
+	}
+
+	// 메터리얼 복사
+	if (ImGui::Button("Clone##ResourceClone")) {
+		CopyMaterial(pMtrl);
 	}
 
 	char strShaderName[255] = "";
@@ -210,4 +216,55 @@ void MaterialGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 
 	CMaterial* pMtrl = (CMaterial*)GetTargetResource();
 	pMtrl->SetData(m_eSelectedTexParam, pTex);
+}
+
+void MaterialGUI::CopyMaterial(CMaterial* _pMtrl)
+{
+	//Resource 복사
+	CMaterial* cloneMtrl = _pMtrl->Clone_NoAddInResMgr();
+	tstring strOriginKey = _pMtrl->GetKey();
+	tstring strKey;
+	//  못찾았으면 
+	int FindStartIdx = strOriginKey.find_last_of(_T("\\"));
+	int FindLastIdx = strOriginKey.find_last_of(_T("."));
+	if (tstring::npos == FindStartIdx)
+		strKey = strOriginKey;
+	if (tstring::npos == FindLastIdx)
+		FindLastIdx = 0;
+	else { // 찾았으면
+		FindStartIdx += 1;
+		int iSize = strOriginKey.size();
+		int iCnt = 0;
+		if (FindLastIdx)
+			iCnt = (iSize - FindStartIdx) - (iSize - FindLastIdx);
+		else
+			iCnt = (iSize - FindStartIdx);
+		strKey = strOriginKey.substr(FindStartIdx, iCnt);
+	}
+
+	// 고유 이름값 생성하기
+	UINT iTempNum = 1;
+	constexpr int iBuffSize = 255;
+	TCHAR szBuff[iBuffSize] = _T("");
+
+	tstring strRelativePath = STR_FILE_PATH_Material;
+	tstring strExtension = STR_EXTENSION_Mtrl;
+
+
+	while (true) {
+		_stprintf_s(szBuff, iBuffSize, _T("%s%s %d.mtrl"), strRelativePath.c_str(), strKey.c_str(), iTempNum++);
+		CMaterial* pExistMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(szBuff).Get();
+		if (nullptr == pExistMtrl)
+			break;
+	}
+
+	tstring strNewKey = szBuff;
+	strRelativePath = szBuff;
+	cloneMtrl->SetKey(strNewKey);
+	cloneMtrl->SetRelativePath(strRelativePath);
+
+	CResourceManager::GetInstance()->AddRes<CMaterial>(strNewKey, cloneMtrl);
+
+	if (!cloneMtrl->IsDefaultMaterial() && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
+		cloneMtrl->Save(strRelativePath);
 }

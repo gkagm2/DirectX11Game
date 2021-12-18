@@ -275,10 +275,11 @@ void MainMenuGUI::CreateEmptyMaterial()
     TCHAR szBuff[iBuffSize]= _T("");
 
     tstring strRelativePath = STR_FILE_PATH_Material;
-
+    tstring strExtension = STR_EXTENSION_Mtrl;
     // 고유 이름값 생성
     while (true) {
-        _stprintf_s(szBuff, iBuffSize, _T("%sMaterial %d.mtrl"), strRelativePath.c_str(), g_iMtrlID++);
+        
+        _stprintf_s(szBuff, iBuffSize, _T("%sMaterial %d%s"), strRelativePath.c_str(), g_iMtrlID++, strExtension.c_str());
         CMaterial* pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(szBuff).Get();
         if (nullptr == pMtrl)
             break;

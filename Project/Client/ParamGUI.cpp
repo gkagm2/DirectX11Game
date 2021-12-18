@@ -30,7 +30,8 @@ bool ParamGUI::Render_Int(const string& _strName, int* _pOut, float* _pHeightOut
 	if (ImGui::InputInt(strLabel.c_str(), _pOut, 1))
 		bChanged = true;
 	fHeight += ImGui::GetItemRectSize().y;
-	*_pHeightOut = fHeight;
+	if(_pHeightOut)
+		*_pHeightOut = fHeight;
 	return bChanged;
 }
 
@@ -48,7 +49,8 @@ bool ParamGUI::Render_Float(const string& _strName, float* _pOut, float* _pHeigh
 	if (ImGui::InputFloat(strLabel.c_str(), _pOut, 1))
 		bChanged = true;
 	fHeight += ImGui::GetItemRectSize().y;
-	*_pHeightOut = fHeight;
+	if (_pHeightOut)
+		*_pHeightOut = fHeight;
 	return bChanged;
 }
 
@@ -65,7 +67,8 @@ bool ParamGUI::Render_Vector2(const string& _strName, Vector2* _pOut, float* _pH
 	if (ImGui::InputFloat2(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
 	fHeight += ImGui::GetItemRectSize().y;
-	*_pHeightOut = fHeight;
+	if (_pHeightOut)
+		*_pHeightOut = fHeight;
 	return bChanged;
 }
 
@@ -82,7 +85,8 @@ bool ParamGUI::Render_Vector3(const string& _strName, Vector3* _pOut, float* _pH
 	if (ImGui::InputFloat3(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
 	fHeight += ImGui::GetItemRectSize().y;
-	*_pHeightOut = fHeight;
+	if (_pHeightOut)
+		*_pHeightOut = fHeight;
 	return bChanged;
 }
 
@@ -99,7 +103,8 @@ bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut, float* _pH
 	if (ImGui::InputFloat4(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
 	fHeight += ImGui::GetItemRectSize().y;
-	*_pHeightOut = fHeight;
+	if (_pHeightOut)
+		*_pHeightOut = fHeight;
 	return bChanged;
 }
 
