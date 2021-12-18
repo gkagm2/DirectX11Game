@@ -6,7 +6,8 @@ bool InspectorViewGUI::Start()
 	return false;
 }
 
-InspectorViewGUI::InspectorViewGUI()
+InspectorViewGUI::InspectorViewGUI() :
+	m_vSize{0.f,0.f}
 {
 }
 

@@ -3,6 +3,9 @@
 class CPlayerScript_ca : public CScript
 {
 public:
+	float m_fSpeed;
+	Vector3 m_vTempVec;
+public:
 	virtual void Start() override;
 	virtual void Update() override;
 

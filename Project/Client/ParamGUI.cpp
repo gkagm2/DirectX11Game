@@ -16,59 +16,96 @@ ParamGUI::~ParamGUI()
 {
 }
 
-bool ParamGUI::Render_Int(const string& _strName, int* _pOut)
+bool ParamGUI::Render_Int(const string& _strName, int* _pOut, float* _pHeightOut)
 {
+	float fHeight = 0.f;
+	bool bChanged = false;
 	// ##기준으로 나눔
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
+	fHeight += ImGui::GetItemRectSize().y;
 
 	string strLabel = "##";
 	strLabel += strText;
 	if (ImGui::InputInt(strLabel.c_str(), _pOut, 1))
-		return true;
-	return false;
+		bChanged = true;
+	fHeight += ImGui::GetItemRectSize().y;
+	*_pHeightOut = fHeight;
+	return bChanged;
 }
 
-bool ParamGUI::Render_Float(const string& _strName, float* _pOut)
+bool ParamGUI::Render_Float(const string& _strName, float* _pOut, float* _pHeightOut)
 {
+	float fHeight = 0.f;
+	bool bChanged = false;
 	// ##기준으로 나눔
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
+	fHeight += ImGui::GetItemRectSize().y;
 
 	string strLabel = "##";
 	strLabel += strText;
 	if (ImGui::InputFloat(strLabel.c_str(), _pOut, 1))
-		return true;
-	return false;
+		bChanged = true;
+	fHeight += ImGui::GetItemRectSize().y;
+	*_pHeightOut = fHeight;
+	return bChanged;
 }
 
-bool ParamGUI::Render_Vector2(const string& _strName, Vector2* _pOut)
+bool ParamGUI::Render_Vector2(const string& _strName, Vector2* _pOut, float* _pHeightOut)
 {
+	float fHeight = 0.f;
+	bool bChanged = false;
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
+	fHeight += ImGui::GetItemRectSize().y;
 
 	string strLabel = "##";
 	strLabel += strText;
 	if (ImGui::InputFloat2(strLabel.c_str(), (float*)_pOut, "%.2f"))
-		return true;
-	return false;
+		bChanged = true;
+	fHeight += ImGui::GetItemRectSize().y;
+	*_pHeightOut = fHeight;
+	return bChanged;
 }
 
-bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut)
+bool ParamGUI::Render_Vector3(const string& _strName, Vector3* _pOut, float* _pHeightOut)
 {
+	float fHeight = 0.f;
+	bool bChanged = false;
 	string strText = _strName.substr(0, _strName.find("##"));
 	ImGui::Text(strText.c_str());
+	fHeight += ImGui::GetItemRectSize().y;
+
+	string strLabel = "##";
+	strLabel += strText;
+	if (ImGui::InputFloat3(strLabel.c_str(), (float*)_pOut, "%.2f"))
+		bChanged = true;
+	fHeight += ImGui::GetItemRectSize().y;
+	*_pHeightOut = fHeight;
+	return bChanged;
+}
+
+bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut, float* _pHeightOut)
+{
+	float fHeight = 0.f;
+	bool bChanged = false;
+	string strText = _strName.substr(0, _strName.find("##"));
+	ImGui::Text(strText.c_str());
+	fHeight += ImGui::GetItemRectSize().y;
 
 	string strLabel = "##";
 	strLabel += strText;
 	if (ImGui::InputFloat4(strLabel.c_str(), (float*)_pOut, "%.2f"))
-		return true;
-	return false;
+		bChanged = true;
+	fHeight += ImGui::GetItemRectSize().y;
+	*_pHeightOut = fHeight;
+	return bChanged;
 }
 
 // ButtonOn을 false로 할 경우 pInst와 pFunc는 nullptr로 한다.
 // texture에 대해 상세한 설정 필요 시 _tTextureInfo를 이용하여 설정 가능
-bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn, TTextureInfo _tTextureInfo)
+bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn, TTextureInfo _tTextureInfo, float _fHeight)
 {
 	string strText = _strName.substr(0, _strName.find("##"));
 	if (0 != strText.size())

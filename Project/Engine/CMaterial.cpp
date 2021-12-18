@@ -241,7 +241,7 @@ CMaterial* CMaterial::Clone()
 	return pMtrl.Get();
 }
 
-CMaterial* CMaterial::CloneDeep()
+CMaterial* CMaterial::Clone_NoAddInResMgr()
 {
 	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
 	return pMtrl.Get();

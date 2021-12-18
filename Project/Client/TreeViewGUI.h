@@ -4,14 +4,9 @@
 class TreeViewGUI;
 class TreeViewNode;
 
-
 // SEL_CHANGE : Select Change (선택된게 변경되었을 경우의 콜백 함수)
 typedef void (GUI::* SEL_CHANGE_CALLBACK)(TreeViewNode* _pNode);
 typedef void (GUI::* DRAG_DROP_CALLBACK)(TreeViewNode* _pDragedItem, TreeViewNode* _pDropedItem);
-
-// 더블 클릭 시 콜백
-typedef void (GUI::* GUI_CALLBACK)(DWORD_PTR, DWORD_PTR);
-typedef void (*GLOBAL_CALLBACK)(DWORD_PTR, DWORD_PTR);
 
 class TreeViewNode
 {

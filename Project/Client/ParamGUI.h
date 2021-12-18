@@ -47,11 +47,12 @@ class CTexture;
 class ParamGUI 
 {
 public:
-	static bool Render_Int(const string& _strName, int* _pOut);
-	static bool Render_Float(const string& _strName, float* _pOut);
-	static bool Render_Vector2(const string& _strName, Vector2* _pOut);
-	static bool Render_Vector4(const string& _strName, Vector4* _pOut);
-	static bool Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn = true, TTextureInfo _tTextureInfo = TTextureInfo{});
+	static bool Render_Int(const string& _strName, int* _pOut, float* _pHeightOut = nullptr);
+	static bool Render_Float(const string& _strName, float* _pOut, float* _pHeightOut = nullptr);
+	static bool Render_Vector2(const string& _strName, Vector2* _pOut, float* _pHeightOut = nullptr);
+	static bool Render_Vector3(const string& _strName, Vector3* _pOut, float* _pHeightOut = nullptr);
+	static bool Render_Vector4(const string& _strName, Vector4* _pOut, float* _pHeightOut = nullptr);
+	static bool Render_Texture(const string& _strName, CTexture* _pTex, GUI* pInst, GUI_CALLBACK _pFunc, bool _bIsButtonOn = true, TTextureInfo _tTextureInfo = TTextureInfo{}, float _fHeight = 0.f);
 	static bool Render_TextureBtn(const string& _strName, CTexture* _pTex, TTextureBtnInfo _tTexBtnInfo = TTextureBtnInfo{});
 
 	static bool Render_Matrix(const string	& _strName, Matrix* _pOut);

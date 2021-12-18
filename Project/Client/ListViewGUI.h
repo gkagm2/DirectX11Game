@@ -1,8 +1,6 @@
 #pragma once
 #include "GUI.h"
 
-typedef void (GUI::* GUI_CALLBACK)(DWORD_PTR, DWORD_PTR);
-typedef void (*GLOBAL_CALLBACK)(DWORD_PTR, DWORD_PTR);
 class ListViewGUI : public GUI
 {
 private:

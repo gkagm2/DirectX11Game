@@ -21,17 +21,7 @@ TreeViewNode::~TreeViewNode()
 
 void TreeViewNode::Update()
 {
-
-
 	m_iStyleFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
-
-	/*if (m_pOwner) {
-		if (!m_pOwner->IsFrameRender() ||
-			m_pOwner->IsRootRender() && !m_pParentNode ||
-			m_pOwner->IsRootRender() && m_pParentNode == m_pOwner->GetRootNode()) {
-			m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
-		}
-	}*/
 
 	if (m_bUseFrame)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
@@ -167,8 +157,7 @@ TreeViewGUI::TreeViewGUI() :
 
 TreeViewGUI::~TreeViewGUI()
 {
-	if (m_pRootNode)
-		delete m_pRootNode;
+	Clear();
 }
 
 void TreeViewGUI::Init()
@@ -211,4 +200,17 @@ void TreeViewGUI::Clear()
 	if (m_pRootNode)
 		delete m_pRootNode;
 	m_pRootNode = nullptr;
+
+	//m_pSelectedNode = nullptr;
+	//m_pDraggedNode = nullptr;
+	//m_pDropTargetNode = nullptr;
+
+	//m_pSelectFunc = nullptr;
+	//m_pSelectInst = nullptr;
+	//m_pDragDropFunc = nullptr;
+	//m_pDragDropInst = nullptr;
+
+	//m_pDBCallBack = nullptr;
+	//m_pDBCInst = nullptr;
+	//m_pGDBCCallBack = nullptr;
 }

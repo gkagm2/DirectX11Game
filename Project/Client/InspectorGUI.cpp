@@ -38,11 +38,11 @@
 #include "ScriptGUI.h"
 
 #include <Script\CScriptMgr.h>
+#include <Engine\CScript.h>
 
 
 InspectorGUI::InspectorGUI() :
 	m_arrComGUI{},
-	m_pScriptGUI{},
 	m_pTargetObject{nullptr},
 	m_arrResGUI{},
 	m_pTargetResource{ nullptr },
@@ -54,9 +54,8 @@ InspectorGUI::InspectorGUI() :
 InspectorGUI::~InspectorGUI()
 {
 	Safe_Delete_Array(m_arrComGUI);
-	if (m_pScriptGUI)
-		delete m_pScriptGUI;
 	Safe_Delete_Array(m_arrResGUI);
+	Safe_Delete_Vector(m_vecScriptGUI);
 }
 
 void InspectorGUI::Init()
@@ -124,11 +123,6 @@ void InspectorGUI::Init()
 	// ButtonUI
 	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
 	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
-
-
-	// Script GUI
-	m_pScriptGUI = new ScriptGUI;
-	m_pScriptGUI->SetUISize(ImVec2(0.f, 150.f));
 
 	//////////// Resources
 
@@ -257,18 +251,30 @@ void InspectorGUI::UpdateObjectGUI()
 		iSetTag = 0;
 	}
 
-
+	// ComponentGUI 보여주기
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])
 			continue;
-
 		m_arrComGUI[i]->Update();
 	}
-	if (m_pScriptGUI)
-		m_pScriptGUI->Update();
+
+	// 스크립트 GUI 보여주기
+	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();
+	size_t iSize = vecScript.size();
+	size_t iGUISize = m_vecScriptGUI.size();
+	if (iSize > iGUISize) {
+		size_t iIdx = vecScript.size() - 1;
+		if (iIdx >= 0)
+			m_vecScriptGUI.push_back(new ScriptGUI);
+	}
+	for (int i = 0; i < (int)vecScript.size(); ++i) {
+		ScriptGUI* pScriptGUI = m_vecScriptGUI[i];
+		pScriptGUI->SetTargetObject(m_pTargetObject);
+		pScriptGUI->SetScript(vecScript[i]);
+		pScriptGUI->Update();
+	}
 
 	ImGui::EndChild();
-
 
 	// 컴포넌트 추가 버튼
 	if (ImGui::Button("Add Component##ComponentAdd")) {
@@ -341,6 +347,7 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 	m_eMode = E_InspectorUIMode::GameObject;
 	m_pTargetObject = _pTargetObj;
 	
+	// 컴포넌트 GUI 설정
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		// FIXED : TODO (Jang) : 모든 컴포넌트를 다 만들면 필요없음.
 		if (nullptr == m_arrComGUI[i])
@@ -348,8 +355,14 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 
 		m_arrComGUI[i]->SetTargetObject(_pTargetObj);
 	}
-	if (m_pScriptGUI)
-		m_pScriptGUI->SetTargetObject(_pTargetObj);
+
+	// 스크립트 GUI 설정
+	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();
+	for (int i = 0; i < (int)vecScript.size(); ++i) {
+		ScriptGUI* pScriptGUI = m_vecScriptGUI[i];
+		pScriptGUI->SetTargetObject(m_pTargetObject);
+		pScriptGUI->SetScript(vecScript[i]);
+	}
 }
 
 void InspectorGUI::SetTargetResource(CResource* _pTargetResource)

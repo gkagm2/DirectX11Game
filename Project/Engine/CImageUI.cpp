@@ -26,7 +26,7 @@ CImageUI::CImageUI(const CImageUI& _other) :
 	m_pMesh = _other.m_pMesh;
 	m_pSharedMtrl = _other.m_pSharedMtrl;
 	m_pMtrl = _other.m_pMtrl;
-	m_pMtrl = m_pMtrl.Get()->CloneDeep();
+	m_pMtrl = m_pMtrl.Get()->Clone_NoAddInResMgr();
 	m_pCloneMtrl = m_pMtrl;
 }
 
@@ -102,11 +102,11 @@ SharedPtr<CMaterial> CImageUI::GetCloneMaterial()
 	if (nullptr == m_pSharedMtrl)
 		return nullptr;
 	if(nullptr == m_pCloneMtrl) {
-		m_pCloneMtrl = m_pSharedMtrl->CloneDeep();
+		m_pCloneMtrl = m_pSharedMtrl->Clone_NoAddInResMgr();
 		m_pMtrl = m_pCloneMtrl;
 	}
 	else {
-		m_pMtrl = m_pCloneMtrl->CloneDeep();
+		m_pMtrl = m_pCloneMtrl->Clone_NoAddInResMgr();
 		delete m_pCloneMtrl.Get();
 		m_pCloneMtrl = nullptr;
 		m_pCloneMtrl = m_pMtrl;
