@@ -26,25 +26,25 @@ class CCamera : public CComponent
 private:
 	E_ProjectionType m_eProjectionType;	// 투영 방식
 	
-	// 원근투영 (Perspective)
-	TFOVAxis		 m_tFOVAxis;				// field of view axis
+	////// 원근투영 (Perspective)  //////
+	TFOVAxis		 m_tFOVAxis;		// field of view axis
 
-	// 직교투영 (Orthographic)
-	float			 m_fSize;						// 투영 사이즈 screen size;
+	////// 직교투영 (Orthographic) //////
+	float			 m_fSize;			// 투영 사이즈 screen size;
 
-	TClippingPlanes  m_tClippingPlanes;  // near far 조절
-	TViewportRect	 m_tViewportRect;		// 뷰포트 조절
-
+	TClippingPlanes  m_tClippingPlanes; // near far 조절
+	TViewportRect	 m_tViewportRect;	// 뷰포트 조절
 	////////////////////////////////////////
-	Matrix			 m_matView;					// View 행렬
-	Matrix			 m_matProjection;				// Prjection 행렬
-
-	UINT			 m_iLayerCheck;					// 렌더링 할 레이어 비트
+	UINT			 m_iLayerCheck;		// 렌더링 할 레이어 비트
+	////////////////////////////////////////
+	Matrix			 m_matView;			// View 행렬
+	Matrix			 m_matProjection;	// Prjection 행렬
+	////////////////////////////////////////
 
 	// 렌더링 시점별로 분류된 오브젝트들
 	vector<CGameObject*> m_vecForward;
 	vector<CGameObject*> m_vecParticle;
-	vector<CGameObject*> m_vecCanvas; // UI
+	vector<CGameObject*> m_vecCanvas;	// UI
 	vector<CGameObject*> m_vecPostEffect;
 	vector<CGameObject*> m_vecCollider2D;
 

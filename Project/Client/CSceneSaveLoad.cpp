@@ -16,7 +16,7 @@ HANDLE CSceneSaveLoad::g_hLoadStartEvent = nullptr;
 HANDLE CSceneSaveLoad::g_hLoadExitEvent = nullptr;
 tstring CSceneSaveLoad::g_strRelativePath = _T("");
 
-// TODO (Jang) : 이해하기
+// TODO (Jang) : 까먹었다.. 다시 보기
 UINT WINAPI Load_Thread(LPVOID _lparam) {
 	CScene* &pNextScene = *((CScene**)_lparam);
 

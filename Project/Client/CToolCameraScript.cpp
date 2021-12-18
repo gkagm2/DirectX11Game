@@ -173,20 +173,6 @@ void CToolCameraScript::_UpdatePerspective(CCamera* _pCamera)
 	//Transform()->SetLocalRotation(vRot);
 }
 
-bool CToolCameraScript::SaveToScene(FILE* _pFile)
-{
-	FWrite(m_vRotOrtho, _pFile);
-	FWrite(m_vRotPerspec, _pFile);
-	return true;
-}
-
-bool CToolCameraScript::LoadFromScene(FILE* _pFile)
-{
-	FRead(m_vRotOrtho, _pFile);
-	FRead(m_vRotPerspec, _pFile);
-	return true;
-}
-
 void CToolCameraScript::ChangeProjectionType(E_ProjectionType _eType)
 {
 	E_ProjectionType eCurType = Camera()->GetProjectionType();

@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CTileMap.cpp"
-
-
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CUI.cpp"
 
 
@@ -22,4 +19,7 @@
 
 
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CObject.cpp"
+
+
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CPathManager.cpp"
 

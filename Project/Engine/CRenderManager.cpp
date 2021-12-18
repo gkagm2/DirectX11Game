@@ -22,7 +22,7 @@ void CRenderManager::Init()
 {
 	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
 	const UINT iDefaultElementCnt = 5;
-	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt);
+	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt, true);
 
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
@@ -162,14 +162,14 @@ void CRenderManager::_UpdateData_Light2D()
 
 	// 광원 개수가 광원의 정보를 담을 구조화 버퍼 개수보다 크면 사이즈를 늘려줌
 	if (m_pLight2DBuffer->GetElementCount() < iLightSize) {
-		m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iElementCnt);
+		m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iElementCnt, true);
 	}
 
 	vector<TLightInfo> vecLightInfo;
 	for (UINT i = 0; i < iLightSize; ++i)
 		vecLightInfo.push_back(m_vecLight2D[i]->GetLightInfo());
 
-	m_pLight2DBuffer->SetData(vecLightInfo.data(), (UINT)vecLightInfo.size());
+	m_pLight2DBuffer->SetData(vecLightInfo.data(), sizeof(TLightInfo) * (UINT)vecLightInfo.size());
 	m_pLight2DBuffer->UpdateData(REGISTER_NUM_Light2DBuffer);
 }
 

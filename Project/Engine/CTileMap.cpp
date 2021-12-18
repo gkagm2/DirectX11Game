@@ -27,7 +27,11 @@ CTileMap::CTileMap() :
 		m_vecTileInfo[i].idx = 1;
 
 	m_pTileMapBuffer = make_unique<CStructuredBuffer>();
-	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTileInfo.size());
+	m_pTileMapBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TTileInfo), (UINT)m_vecTileInfo.size(), true);
+
+	if (!m_pGrid)
+		m_pGrid = new CTileMapGrid(this);
+	m_pGrid->Init();
 }
 
 CTileMap::CTileMap(const CTileMap& _origin) :
@@ -104,7 +108,7 @@ void CTileMap::UpdateData()
 	Transform()->UpdateData();
 	m_pMaterial->UpdateData();
 
-	m_pTileMapBuffer->SetData(m_vecTileInfo.data(), (UINT)m_vecTileInfo.size());
+	m_pTileMapBuffer->SetData(m_vecTileInfo.data(), sizeof(TTileInfo) * (UINT)m_vecTileInfo.size());
 	m_pTileMapBuffer->UpdateData(REGISTER_NUM_TileMapBuffer, E_ShaderStage::Pixel);
 }
 
@@ -169,15 +173,28 @@ bool CTileMap::SaveToScene(FILE* _pFile)
 	SaveResourceToFile(m_pMaterial, _pFile);
 	SaveResourceToFile(m_pAtlasTexture, _pFile);
 
-	size_t iTileInfoCnt = m_vecTileInfo.size();
+	// 밑에 테스트용때문에 임시 주석
+	/*size_t iTileInfoCnt = m_vecTileInfo.size();
 	FWrite(iTileInfoCnt, _pFile);
-	for (UINT i = 0; i < iTileInfoCnt; ++i)
-		FWrite(m_vecTileInfo[i], _pFile);
+	for (size_t i = 0; i < iTileInfoCnt; ++i)
+		FWrite(m_vecTileInfo[i], _pFile);*/
+
+	UINT iElementCnt = m_pTileMapBuffer->GetElementCount();
+	UINT iDataSize = m_pTileMapBuffer->GetElementSize() * iElementCnt;
+	FWrite(iDataSize, _pFile);
+	void* pData = malloc(iDataSize);
+	m_pTileMapBuffer->GetData(pData, iElementCnt);
+	fwrite(pData, iDataSize, 1, _pFile);
+
 	FWrite(m_bFrameVisible, _pFile);
 	FWrite(m_iTileXCnt, _pFile);
 	FWrite(m_iTileYCnt, _pFile);
 	FWrite(m_iAtlasTileXPixelSize, _pFile);
 	FWrite(m_iAtlasTileYPixelSize, _pFile);
+
+	bool bIsGridExist = nullptr == m_pGrid ? false : true;
+	FWrite(bIsGridExist, _pFile);
+
 	return true;
 }
 
@@ -188,12 +205,20 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	LoadResourceFromFile(m_pMaterial, _pFile);
 	LoadResourceFromFile(m_pAtlasTexture, _pFile);
 
-	size_t iTileInfoCnt = 0;
+	
+	/*size_t iTileInfoCnt = 0;
 	FRead(iTileInfoCnt, _pFile);
 	m_vecTileInfo.clear();
 	m_vecTileInfo.resize(iTileInfoCnt);
 	for (UINT i = 0; i < iTileInfoCnt; ++i)
-		FRead(m_vecTileInfo[i], _pFile);
+		FRead(m_vecTileInfo[i], _pFile);*/
+
+	UINT iDataSize = 0;
+	FRead(iDataSize, _pFile);
+	void* pData = malloc(iDataSize);
+	fread(pData, iDataSize, 1, _pFile);
+
+
 	FRead(m_bFrameVisible, _pFile);
 	FRead(m_iTileXCnt, _pFile);
 	FRead(m_iTileYCnt, _pFile);
@@ -201,5 +226,15 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	FRead(m_iAtlasTileYPixelSize, _pFile);
 
 	_InsertTileInfoToBuffer();
+
+	bool bIsGridExist = false;
+	FRead(bIsGridExist, _pFile);
+	if (bIsGridExist) {
+		if (m_pGrid)
+			delete m_pGrid;
+		m_pGrid = new CTileMapGrid(this);
+		m_pGrid->Init();
+	}
+	
 	return true;
 }

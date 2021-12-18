@@ -23,7 +23,7 @@ enum class E_ScriptParam {
 	VEC4,
 	TEX,
 	PREFAB,
-	OBJ,
+	GAMEOBJ, // game object
 	END,
 };
 

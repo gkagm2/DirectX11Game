@@ -3,11 +3,16 @@
 #include "CDevice.h"
 
 CStructuredBuffer::CStructuredBuffer() :
-	m_tDesc{},
+	m_desc{},
 	m_iElementSize(0),
 	m_iElementCount(0),
+	m_eType(E_StructuredBufferType::ReadOnly),
+	m_desc_cpu_read{},
+	m_desc_cpu_write{},
+	m_bCpuAccess{false},
+	m_eRecentPipelineStage{E_ShaderStage::All},
 	m_iRecentRegisterNum(0),
-	m_eType(E_StructuredBufferType::ReadOnly)
+	m_iRecentRegisterNumRW(0)
 {
 }
 
@@ -15,155 +20,129 @@ CStructuredBuffer::~CStructuredBuffer()
 {
 }
 
-void CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, void* _pInitialSysData)
+HRESULT CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementSize, UINT _iElementCount, bool _bUseSysIO, void* _pInitial)
 {
+	HRESULT bResult = E_FAIL;
+
+	// 기존에 사용중이던 구조화 버펴였다면, 참조 카운트를 감소시켜 버퍼 전부 해제
 	Release();
+	
+	// 버퍼를 생성한다.
 	m_iElementSize = _iElementSize;
 	m_iElementCount = _iElementCount;
 	m_eType = _eType;
+	m_bCpuAccess = _bUseSysIO;
 
-	m_tDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	m_tDesc.StructureByteStride = _iElementSize;
-	m_tDesc.ByteWidth = _iElementSize * _iElementCount;
+	// 구조화 정보
+	m_desc.ByteWidth = m_iElementSize * _iElementCount;
 
-	// Shader Resource View Description
+	if (E_StructuredBufferType::ReadOnly == m_eType)
+		m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	else if (E_StructuredBufferType::Read_Write == m_eType)
+		m_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+
+	m_desc.Usage = D3D11_USAGE_DEFAULT;
+	m_desc.CPUAccessFlags = 0;
+
+	m_desc.StructureByteStride = m_iElementSize;
+	m_desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	
+	
+	if (_pInitial) {
+		D3D11_SUBRESOURCE_DATA tSub = {};
+		bResult = DEVICE->CreateBuffer(&m_desc, &tSub, m_SB.GetAddressOf());
+	}
+	else
+		bResult = DEVICE->CreateBuffer(&m_desc, nullptr, m_SB.GetAddressOf());
+	if (FAILED(bResult)) return E_FAIL;
+
+	// SRV 생성
 	D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
-	tSRVDesc.Format = DXGI_FORMAT_UNKNOWN;
 	tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
-	tSRVDesc.BufferEx.NumElements = _iElementCount;
+	tSRVDesc.BufferEx.NumElements = m_iElementCount;
 
-	if (E_StructuredBufferType::ReadOnly == _eType) {
-		// (m_pSB_R에만 할당)
-		m_tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		m_tDesc.Usage = D3D11_USAGE_DYNAMIC;
-		m_tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bResult = DEVICE->CreateShaderResourceView(m_SB.Get(), &tSRVDesc, m_SRV.GetAddressOf());
+	if (FAILED(bResult)) return E_FAIL;
 
-		if (nullptr == _pInitialSysData)
-			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_R.GetAddressOf());
-		else {
-			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pInitialSysData;
-			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_R.GetAddressOf());
-		}
-		assert(m_pSB_R.Get());
 
-		// Shader Resource View 생성
-		DEVICE->CreateShaderResourceView(m_pSB_R.Get(), &tSRVDesc, m_pSRV.GetAddressOf());
-		assert(m_pSRV.Get());
-	}
-	else if (E_StructuredBufferType::Read_Write == _eType) {
-		// (m_pSB_RW에만 할당)
-		m_tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-		m_tDesc.Usage = D3D11_USAGE_DEFAULT;
-		m_tDesc.CPUAccessFlags = 0;
-
-		if (nullptr == _pInitialSysData)
-			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_RW.GetAddressOf());
-		else {
-			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pInitialSysData;
-			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_RW.GetAddressOf());
-		}
-		assert(m_pSB_RW.Get());
-
-		// Shader Resource View 생성
-		DEVICE->CreateShaderResourceView(m_pSB_RW.Get(), &tSRVDesc, m_pSRV.GetAddressOf());
-		assert(m_pSRV.Get());
-
-		// Unorder Access View 생성
+	// UAV 생성
+	if (E_StructuredBufferType::Read_Write == m_eType) {
 		D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-		tUAVDesc.Format = DXGI_FORMAT_UNKNOWN;
 		tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-		tUAVDesc.Buffer.NumElements = _iElementCount;
-		DEVICE->CreateUnorderedAccessView(m_pSB_RW.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
-		assert(m_pUAV.Get());
+		tUAVDesc.Buffer.NumElements = m_iElementCount;
+		bResult = DEVICE->CreateUnorderedAccessView(m_SB.Get(), &tUAVDesc, m_UAV.GetAddressOf());
+		if (FAILED(bResult)) return E_FAIL;
 	}
 
-	else if (E_StructuredBufferType::Dual == _eType) {
-		// (m_pSB_R, m_pSB_RW 둘다 할당)
-		// Read 용 버퍼
-		m_tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		m_tDesc.Usage = D3D11_USAGE_DYNAMIC;
-		m_tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	if (m_bCpuAccess) {
+		// CPU Read
+		m_desc_cpu_read.ByteWidth = m_iElementCount * m_iElementSize;
+		m_desc_cpu_read.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		m_desc_cpu_read.Usage = D3D11_USAGE_DEFAULT;
+		m_desc_cpu_read.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+		m_desc_cpu_read.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		m_desc_cpu_read.StructureByteStride = m_iElementSize;
 
-		if (nullptr == _pInitialSysData)
-			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_R.GetAddressOf());
-		else {
-			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pInitialSysData;
-			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_R.GetAddressOf());
-		}
-		assert(m_pSB_R.Get());
+		bResult = DEVICE->CreateBuffer(&m_desc_cpu_read, nullptr, m_SB_CPU_Read.GetAddressOf());
+		if (FAILED(bResult)) return E_FAIL;
 
+		// CPU Write
+		m_desc_cpu_write.ByteWidth = m_iElementCount * m_iElementSize;
+		m_desc_cpu_write.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		m_desc_cpu_write.Usage = D3D11_USAGE_DYNAMIC;
+		m_desc_cpu_write.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		m_desc_cpu_write.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		m_desc_cpu_write.StructureByteStride = m_iElementSize;
 
-		// Read-Write 용 버퍼
-		m_tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-		m_tDesc.Usage = D3D11_USAGE_DEFAULT;
-		m_tDesc.CPUAccessFlags = 0;
-
-		if (nullptr == _pInitialSysData)
-			DEVICE->CreateBuffer(&m_tDesc, nullptr, m_pSB_RW.GetAddressOf());
-		else {
-			D3D11_SUBRESOURCE_DATA tSub = { };
-			tSub.pSysMem = _pInitialSysData;
-			DEVICE->CreateBuffer(&m_tDesc, &tSub, m_pSB_RW.GetAddressOf());
-		}
-		assert(m_pSB_RW.Get());
-
-		// Shader Resource View 생성
-		DEVICE->CreateShaderResourceView(m_pSB_RW.Get(), &tSRVDesc, m_pSRV.GetAddressOf());
-		assert(m_pSRV.Get());
-
-		// Unorder Access View 생성
-		D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-		tUAVDesc.Format = DXGI_FORMAT_UNKNOWN;
-		tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-		tUAVDesc.Buffer.NumElements = _iElementCount;
-		DEVICE->CreateUnorderedAccessView(m_pSB_RW.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
-		assert(m_pUAV.Get());
+		bResult = DEVICE->CreateBuffer(&m_desc_cpu_write, nullptr, m_SB_CPU_Write.GetAddressOf());
+		if (FAILED(bResult)) return E_FAIL;
 	}
+
+	return S_OK;
 }
 
-void CStructuredBuffer::SetData(void* _pSysMem, UINT _iElementCount) const
+void CStructuredBuffer::SetData(void* _pSysMem, UINT _iSize) const
 {
-	assert(E_StructuredBufferType::Read_Write != m_eType && _T("Read_Write로 데이터 설정 불가능"));
-
-	int iSize = m_iElementSize * _iElementCount;
-
+	// system -> m_sb_cpu_write
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
+	CONTEXT->Map(m_SB_CPU_Write.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+	memcpy(tSub.pData, _pSysMem, (size_t)_iSize);
+	CONTEXT->Unmap(m_SB_CPU_Write.Get(), 0);
 
-	CONTEXT->Map(m_pSB_R.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-	memcpy(tSub.pData, _pSysMem, iSize);
-	CONTEXT->Unmap(m_pSB_R.Get(), 0);
-
-	// Dual일 경우 m_pSB_R에서 m_pSB->RW로 버퍼 복사
-	if (E_StructuredBufferType::Dual == m_eType)
-		CONTEXT->CopyResource(m_pSB_RW.Get(), m_pSB_R.Get());
+	// m_sb_cpu_write -> m_SB(copyresource)
+	CONTEXT->CopyResource(m_SB.Get(), m_SB_CPU_Write.Get());
 }
 
-void CStructuredBuffer::GetData(void* _pDest, UINT _iElementCount)
+void CStructuredBuffer::GetData(void* _pDest, UINT _iSize)
 {
-	// TODO (Jang) : Get Data 만들기
+	// m_sb -> m_sb_cpu_read
+	CONTEXT->CopyResource(m_SB_CPU_Read.Get(), m_SB.Get());
+
+	// m_sb_cpu_read -> system mem
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+	CONTEXT->Map(m_SB_CPU_Read.Get(), 0, D3D11_MAP_READ, 0, &tSub);
+	memcpy(_pDest, tSub.pData, (size_t)_iSize);
+	CONTEXT->Unmap(m_SB_CPU_Read.Get(), 0);
 }
 
 void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 {
 	m_iRecentRegisterNum = _iRegisterNum;
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Vertex)
-		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Hull)
-		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Domain)
-		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Geometry)
-		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Pixel)
-		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Compute)
-		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_pSRV.GetAddressOf());
+		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
 }
 
-void CStructuredBuffer::UpdateDataRW(UINT _iRegisterNum)
+void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 {
 	// FIXED(Jang) : ??
 	//// u 레지스터 바인딩이 불가능한 구조화버퍼인 경우
@@ -173,7 +152,7 @@ void CStructuredBuffer::UpdateDataRW(UINT _iRegisterNum)
 	m_iRecentRegisterNum = _iRegisterNum;
 	UINT iInitialzedCnt = -1;
 	UINT iNumUAVs = 1;
-	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, iNumUAVs, m_pUAV.GetAddressOf(), &iInitialzedCnt);
+	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, iNumUAVs, m_UAV.GetAddressOf(), &iInitialzedCnt);
 }
 
 void CStructuredBuffer::Clear(E_ShaderStage _eStage)
@@ -203,12 +182,20 @@ void CStructuredBuffer::ClearRW()
 
 void CStructuredBuffer::Release()
 {
-	if (m_pSB_R)
-		m_pSB_R = nullptr; // ComPtr이므로 nullptr로
-	if (m_pSRV)
-		m_pSRV = nullptr;
-	if (m_pSB_R)
-		m_pSB_R = nullptr;
-	if (m_pSB_RW)
-		m_pSB_RW = nullptr;
+	if (m_SB)
+		m_SB = nullptr; // ComPtr이므로 nullptr로
+	if (m_SRV)
+		m_SRV = nullptr;
+	if (m_UAV)
+		m_UAV = nullptr;
+	if (m_SB_CPU_Read)
+		m_SB_CPU_Read = nullptr;
+	if (m_SB_CPU_Write)
+		m_SB_CPU_Write = nullptr;
+	if (m_SB_CPU_Write)
+		m_SB_CPU_Write = nullptr;
+
+	m_desc = D3D11_BUFFER_DESC{};
+	m_desc_cpu_read = D3D11_BUFFER_DESC{};
+	m_desc_cpu_write = D3D11_BUFFER_DESC{};
 }

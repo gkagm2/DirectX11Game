@@ -79,7 +79,8 @@ void ScriptGUI::Update()
 		case E_ScriptParam::FLOAT:
 			ParamGUI::Render_Float(strParamName, (float*)vecParams[i].pData, &fHeight);
 			break;
-		case E_ScriptParam::OBJ:
+		case E_ScriptParam::GAMEOBJ:
+			// drag and drop panel
 			assert(nullptr);
 			break;
 		case E_ScriptParam::PREFAB:

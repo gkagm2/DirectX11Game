@@ -163,25 +163,24 @@ void InspectorGUI::Update()
 
 void InspectorGUI::UpdateObjectGUI()
 {
+	if (m_pTargetObject->IsDead()) {
+		m_pTargetObject = nullptr;
+		return;
+	}
+
 	ImGui::BeginChild("Object view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
 	ImGui::Separator();
 
 	// 이름 바꾸기
 	ImGui::Text("Name"); ImGui::SameLine();
 	char strObjName[255] = "";
-	try {
-		tstring strName = m_pTargetObject->GetName();
-		TStringToArr(strName, strObjName, 255);
-		if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
-			tstring tname;
-			StringToTString(strObjName, tname);
-			m_pTargetObject->SetName(tname);
-			CObject::ChangeStateEvn();
-		}
-	}
-	catch (std::exception e) {
-		//assert(nullptr);
-		int i = 0;
+	tstring strName = m_pTargetObject->GetName();
+	TStringToArr(strName, strObjName, 255);
+	if (ImGui::InputText("##GameObjectName", strObjName, 255)) {
+		tstring tname;
+		StringToTString(strObjName, tname);
+		m_pTargetObject->SetName(tname);
+		CObject::ChangeStateEvn();
 	}
 
 	// 삭제

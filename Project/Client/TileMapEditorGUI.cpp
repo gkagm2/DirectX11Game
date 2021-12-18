@@ -39,6 +39,8 @@ void TileMapEditorGUI::Update()
 {
 	if (!m_pTargetObject)
 		return;
+	if (m_pTargetObject->IsDead())
+		return;
 	if (!m_pTargetObject->TileMap())
 		return;
 	m_pTileMap = m_pTargetObject->TileMap();
@@ -51,7 +53,11 @@ void TileMapEditorGUI::Update()
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(STR_GUI_TileMapEditor, &m_bGUIOpen))
 	{
-		ImGui::Text("Atlas Texture Resolution [%d,%d]", (int)m_pTileMap->GetAtlasTexture()->GetResolution().x, (int)m_pTileMap->GetAtlasTexture()->GetResolution().y);
+		ImVec2 vAtlasTexResol = {};
+		if (m_pTileMap->GetAtlasTexture().Get()) {
+			ImVec2((int)m_pTileMap->GetAtlasTexture()->GetResolution().x, (int)m_pTileMap->GetAtlasTexture()->GetResolution().y);
+		}
+		ImGui::Text("Atlas Texture Resolution [%d,%d]", vAtlasTexResol.x, vAtlasTexResol.x);
 
 		ImGui::Text("Tile Face Size: %d %d", m_pTileMap->GetCol(), m_pTileMap->GetRow());
 

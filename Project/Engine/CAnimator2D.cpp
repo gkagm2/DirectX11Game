@@ -149,15 +149,10 @@ bool CAnimator2D::SaveToScene(FILE* _pFile)
 	for (; iter != m_unmapAnim.end(); ++iter)
 		iter->second->SaveToScene(_pFile);
 
-	UINT iCurAnim = 0;
-
-	if(nullptr == m_pCurAnimation)
-		FWrite(iCurAnim, _pFile);
-	else {
-		iCurAnim = 1;
-		FWrite(iCurAnim, _pFile);
+	UINT iCurAnim = nullptr == m_pCurAnimation ? 0 : 1;
+	FWrite(iCurAnim, _pFile);
+	if(iCurAnim)
 		SaveStringToFile(m_pCurAnimation->GetName(), _pFile);
-	}
 
 	FWrite(m_eAnimationState, _pFile);
 	FWrite(m_bPlayOnSceneStart, _pFile);

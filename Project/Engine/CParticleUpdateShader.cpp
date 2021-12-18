@@ -17,15 +17,8 @@ CParticleUpdateShader::CParticleUpdateShader() :
 	m_bGravityEnable(false)
 {
 	m_pSharedBuffer = make_unique<CStructuredBuffer>();
-	m_pSharedBuffer->Create(E_StructuredBufferType::Dual, sizeof(TSharedParticleData), 1);
-
-	//m_tParticleData.fStartSpeed(0.f);
-	//m_tParticleData.fEndSpeed(0.f);
-	//m_tParticleData.fMinLifeTime(1.f);
-	//m_tParticleData.fMaxLifeTime(4.f);
-	//m_tParticleData.iSpawnCntPerSec
-
-}
+	m_pSharedBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TSharedParticleData), 1, true, nullptr);
+	}
 
 CParticleUpdateShader::~CParticleUpdateShader()
 {
@@ -35,7 +28,7 @@ void CParticleUpdateShader::UpdateData()
 {
 	// 파티클 정보 바인딩
 	UINT iRegisterNum = 0;
-	m_pParticleBuffer->UpdateDataRW(iRegisterNum);
+	m_pParticleBuffer->UpdateDataCS(iRegisterNum);
 
 	// 공유 파티클 정보 바인딩
 	TSharedParticleData tSharedData = {};
@@ -43,8 +36,8 @@ void CParticleUpdateShader::UpdateData()
 	//tSharedData.m_iCurActivedCount = 
 
 	UINT iElementCnt = 1, iSharedBuffRegisterNum = 1;
-	m_pSharedBuffer->SetData(&tSharedData, iElementCnt);
-	m_pSharedBuffer->UpdateDataRW(iSharedBuffRegisterNum);
+	m_pSharedBuffer->SetData(&tSharedData, sizeof(TSharedParticleData) * iElementCnt);
+	m_pSharedBuffer->UpdateDataCS(iSharedBuffRegisterNum);
 
 
 	m_tInfo.iArr[0] = m_pParticleBuffer->GetElementCount(); // 파티클의 최대 개수

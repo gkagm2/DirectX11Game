@@ -35,7 +35,7 @@ CParticleSystem::CParticleSystem() :
 	assert(m_pUpdateShader.Get());
 
 	m_pParticleBuffer = make_unique<CStructuredBuffer>();
-	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, nullptr);
+	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, false, nullptr);
 
 	// 파티클용 텍스쳐 로딩
 	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle1"), _T("texture\\particle\\AlphaCircle.png")));
@@ -80,7 +80,7 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _origin) :
 	assert(m_pUpdateShader.Get());
 
 	m_pParticleBuffer = make_unique<CStructuredBuffer>();
-	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, nullptr);
+	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, false, nullptr);
 
 	// 파티클용 텍스쳐 로딩
 	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle1"), _T("texture\\particle\\AlphaCircle.png")));
@@ -230,7 +230,7 @@ bool CParticleSystem::LoadFromScene(FILE* _pFile)
 	FRead(m_bGravityEnable, _pFile);
 
 	if (m_iMaxParticleCount != m_pParticleBuffer->GetElementCount()) {
-		m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, nullptr);
+		m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, false, nullptr);
 	}
 
 	return true;

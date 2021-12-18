@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCore.cpp"
-
-
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CDevice.cpp"
 
 
@@ -22,4 +19,7 @@
 
 
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CImageUI.cpp"
+
+
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CKeyManager.cpp"
 

@@ -26,9 +26,9 @@ private:
 	void _UpdateOrthographic(CCamera* _pCamera);
 	void _UpdatePerspective(CCamera* _pCamera);
 
-public:
-	virtual bool SaveToScene(FILE* _pFile) override;
-	virtual bool LoadFromScene(FILE* _pFile) override;
+//public:
+	//virtual bool SaveToScene(FILE* _pFile) override; // 작동 안됨. 쓸 이유도 없음.
+	//virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	void ChangeProjectionType(E_ProjectionType _eType);

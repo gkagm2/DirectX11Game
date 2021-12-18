@@ -64,11 +64,7 @@ size_t FRead(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
 class CResource;
 template<typename T>
 void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {
-	UINT iCheck = 0;
-
-	if (nullptr != _pRes)
-		iCheck = 1;
-
+	UINT iCheck = nullptr == _pRes ? 0 : 1;
 	FWrite(iCheck, _pFile);
 
 	if (nullptr != _pRes) {
@@ -78,7 +74,7 @@ void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {
 }
 
 template<typename T>
-void LoadResourceFromFile(SharedPtr<T>& _pRes, FILE* _pFile) {
+void LoadResourceFromFile(SharedPtr<T>& _pResOut, FILE* _pFile) {
 	UINT iCheck = 0;
 
 	FRead(iCheck, _pFile);
@@ -87,10 +83,10 @@ void LoadResourceFromFile(SharedPtr<T>& _pRes, FILE* _pFile) {
 		LoadStringFromFile(strKey, _pFile);
 		LoadStringFromFile(strRelativePath, _pFile);
 
-		_pRes = CResourceManager::GetInstance()->LoadRes<T>(strKey, strRelativePath);
+		_pResOut = CResourceManager::GetInstance()->LoadRes<T>(strKey, strRelativePath);
 	}
 	else
-		_pRes = nullptr;
+		_pResOut = nullptr;
 }
 
 // 멀티바이트 -> 유니코드
