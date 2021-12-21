@@ -23,7 +23,7 @@ CMaterial::CMaterial(const CMaterial& _origin) :
 	m_arrTexture{},
 	m_bIsDefaultMtrl(false)
 {	
-	memcpy(m_arrTexture, _origin.m_arrTexture, sizeof(m_arrTexture));
+	memcpy(m_arrTexture, _origin.m_arrTexture, sizeof(_origin.m_arrTexture));
 }
 
 CMaterial::CMaterial(bool _bIsDefaultMaterial) :
