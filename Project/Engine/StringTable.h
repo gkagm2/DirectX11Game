@@ -56,6 +56,7 @@
 // Extension
 #define STR_EXTENSION_Anim _T(".anim")
 #define STR_EXTENSION_Mtrl _T(".mtrl")
+#define STR_EXTENSION_Prefab _T(".pref")
 
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"

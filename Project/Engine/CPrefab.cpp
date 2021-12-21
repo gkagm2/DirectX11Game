@@ -34,6 +34,9 @@ bool CPrefab::Save(const tstring& _strRelativePath)
 	if (err)
 		return false;
 
+	SaveStringToFile(GetKey(), pFile);
+	SaveStringToFile(GetRelativePath(), pFile);
+
 	m_pProtoObj->SaveToScene(pFile);
 	fclose(pFile);
 
@@ -48,6 +51,13 @@ int CPrefab::Load(const tstring& _strFilePath)
 	assert(pFile);
 	if (err)
 		return 0;
+
+	tstring strKey, strRelativePath;
+	LoadStringFromFile(strKey, pFile);
+	LoadStringFromFile(strRelativePath, pFile);
+	SetKey(strKey);
+	SetRelativePath(strRelativePath);
+
 
 	m_pProtoObj = new CGameObject;
 	m_pProtoObj->LoadFromScene(pFile, 0);

@@ -24,5 +24,4 @@ public:
 
 	static bool TestSave();
 	static bool TestLoad();
-
 };

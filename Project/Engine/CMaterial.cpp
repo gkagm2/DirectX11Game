@@ -50,6 +50,7 @@ void CMaterial::UpdateData()
 			m_tParam.bTexArr[i] = true;
 		}
 		else {
+			CTexture::Clear(i); // texture register number == idx
 			m_tParam.bTexArr[i] = false;
 		}
 	}

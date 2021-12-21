@@ -212,7 +212,11 @@ void CGameObject::RegisterAsPrefab(const tstring& _strName)
 		strName = GetName();
 
 	SharedPtr<CPrefab> pPrefab = new CPrefab(this->Clone());
+
 	CResourceManager::GetInstance()->AddRes<CPrefab>(strName, pPrefab.Get());
+	tstring strRelativePath = STR_FILE_PATH_Prefab + strName + STR_EXTENSION_Prefab;
+	pPrefab->SetRelativePath(strRelativePath);
+	pPrefab->Save(strRelativePath);
 }
 
 void CGameObject::SetActive(bool _bActive, bool _bWithChilds)

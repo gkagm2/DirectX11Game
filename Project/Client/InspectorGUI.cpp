@@ -192,12 +192,7 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// 프리펩으로 만들기
 	if (ImGui::Button("Make Prefab##Make Prefab")) {
-		tstring strPrefabName = STR_FILE_PATH_Prefab + m_pTargetObject->GetName() + _T(".pref");
-		m_pTargetObject->RegisterAsPrefab(strPrefabName);
-		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(strPrefabName);
-		pPrefab->SetRelativePath(strPrefabName);
-		tstring strRelativePath = strPrefabName;
-		pPrefab->Save(strRelativePath);
+		m_pTargetObject->RegisterAsPrefab(m_pTargetObject->GetName());
 	}
 
 	// 복사
