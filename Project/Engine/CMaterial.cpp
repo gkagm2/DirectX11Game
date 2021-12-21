@@ -23,12 +23,7 @@ CMaterial::CMaterial(const CMaterial& _origin) :
 	m_arrTexture{},
 	m_bIsDefaultMtrl(false)
 {	
-	// TODO(Jang) : 메터리얼을 복사하는거면 새롭게 만들어야될까?
-	for (int i = 0; i < (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0; ++i) {
-		if (_origin.m_arrTexture[i].Get()) {
-			m_arrTexture[i] = _origin.m_arrTexture[i].Get();
-		}
-	}
+	memcpy(m_arrTexture, _origin.m_arrTexture, sizeof(m_arrTexture));
 }
 
 CMaterial::CMaterial(bool _bIsDefaultMaterial) :
