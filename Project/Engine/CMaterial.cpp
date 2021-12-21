@@ -213,6 +213,8 @@ bool CMaterial::Save(const tstring& _strRelativePath)
 	for (UINT i = 0; i < iMaxTex; ++i)
 		SaveResourceToFile(m_arrTexture[i], pFile);
 
+	FWrite(m_bIsDefaultMtrl, pFile);
+
 	fclose(pFile);
 	return true;
 }
@@ -232,6 +234,8 @@ int CMaterial::Load(const tstring& _strFilePath)
 	UINT iMaxTex = (UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0;
 	for (UINT i = 0; i < iMaxTex; ++i)
 		LoadResourceFromFile(m_arrTexture[i], pFile);
+
+	FRead(m_bIsDefaultMtrl, pFile);
 
 	fclose(pFile);
 	return S_OK;
