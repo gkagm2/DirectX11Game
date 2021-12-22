@@ -25,9 +25,9 @@ CImageUI::CImageUI(const CImageUI& _other) :
 {
 	m_pMesh = _other.m_pMesh;
 	m_pSharedMtrl = _other.m_pSharedMtrl;
-	m_pMtrl = _other.m_pMtrl;
-	m_pMtrl = m_pMtrl.Get()->Clone_NoAddInResMgr();
-	m_pCloneMtrl = m_pMtrl;
+	SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+	m_pMtrl = pNewMtrl;
+	m_pTexture = _other.m_pTexture;
 }
 
 CImageUI::CImageUI(E_ComponentType _eType) :
@@ -74,21 +74,20 @@ void CImageUI::Render()
 
 void CImageUI::SetImageTex(SharedPtr<CTexture> _pTexture)
 {
-	if (nullptr != m_pCloneMtrl) {
-		delete m_pCloneMtrl.Get();
-		m_pCloneMtrl = nullptr;
+	if (!IsCurMtrlAlreadyClone()) {
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
-	if (nullptr == _pTexture)
-		m_pMtrl = m_pSharedMtrl;
-
-	m_pCloneMtrl = GetCloneMaterial();
-	m_pMtrl = m_pCloneMtrl;
 	m_pTexture = _pTexture;
 }
 
 void CImageUI::SetColor(UINT _iColor)
 {
-	GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+	if (!IsCurMtrlAlreadyClone()) {
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		m_pMtrl = pNewMtrl;
+	}
+		
 	m_iColor = _iColor;
 }
 
@@ -100,18 +99,13 @@ SharedPtr<CTexture> CImageUI::GetImageTex()
 SharedPtr<CMaterial> CImageUI::GetCloneMaterial()
 {
 	if (nullptr == m_pSharedMtrl)
-		return nullptr;
-	if(nullptr == m_pCloneMtrl) {
+		assert(nullptr);
+	if(nullptr == m_pCloneMtrl)
 		m_pCloneMtrl = m_pSharedMtrl->Clone_NoAddInResMgr();
-		m_pMtrl = m_pCloneMtrl;
-	}
 	else {
-		m_pMtrl = m_pCloneMtrl->Clone_NoAddInResMgr();
-		delete m_pCloneMtrl.Get();
-		m_pCloneMtrl = nullptr;
-		m_pCloneMtrl = m_pMtrl;
+		m_pCloneMtrl = m_pCloneMtrl->Clone_NoAddInResMgr();
 	}
-	return m_pMtrl;
+	return m_pCloneMtrl;
 }
 
 SharedPtr<CMaterial> CImageUI::GetSharedMaterial() {
@@ -124,9 +118,7 @@ bool CImageUI::SaveToScene(FILE* _pFile)
 	// CanvasRenderer에서 기본 material과 mesh를 가져왔으면 그려야지
 	CUI::SaveToScene(_pFile);
 	SaveResourceToFile(m_pTexture, _pFile);
-	SaveResourceToFile(m_pMtrl, _pFile);
 	SaveResourceToFile(m_pMesh, _pFile);
-	SaveResourceToFile(m_pCloneMtrl, _pFile);
 	SaveResourceToFile(m_pSharedMtrl, _pFile);
 	FWrite(m_iColor, _pFile);
 	return true;
@@ -136,9 +128,7 @@ bool CImageUI::LoadFromScene(FILE* _pFile)
 {
 	CUI::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pTexture, _pFile);
-	LoadResourceFromFile(m_pMtrl, _pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);
-	LoadResourceFromFile(m_pCloneMtrl, _pFile);
 	LoadResourceFromFile(m_pSharedMtrl, _pFile);
 	FRead(m_iColor, _pFile);
 	SetImageTex(m_pTexture);

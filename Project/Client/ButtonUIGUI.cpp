@@ -3,6 +3,9 @@
 #include "ParamGUI.h"
 #include <Engine\CButtonUI.h>
 #include <Engine\CFontManager.h>
+#include <Engine\CResourceManager.h>
+#include "CImGuiManager.h"
+
 
 ButtonUIGUI::ButtonUIGUI() :
 	ComponentGUI(E_ComponentType::ButtonUI)
@@ -18,8 +21,33 @@ void ButtonUIGUI::Update()
 	if (false == Start())
 		return;
 
-
 	CButtonUI* pButton = GetTargetObject()->ButtonUI();
+
+	// 이미지 변경 버튼
+	ImGui::Text("Texture ");
+	if (ImGui::Button("Change")) {
+		ListViewGUI* pListView = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+		assert(pListView);
+		if (pListView) {
+			// Texture Names
+			vector<tstring> vecNames;
+			CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecNames);
+			pListView->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Texture));
+			pListView->SetDoubleClickCallBack(this, (GUI_CALLBACK)&ButtonUIGUI::SelectTexture);
+			pListView->SetActive(true);
+		}
+	}
+
+	CTexture* pImageTexture = pButton->GetImageTex().Get();
+	if (pImageTexture) {
+		string strKey;
+		TStringToString(pImageTexture->GetKey().c_str(), strKey);
+		if (ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, nullptr, nullptr, false)) {
+		}
+	}
+
+
+
 	UINT iNormalColor = pButton->GetNormalColor();
 	UINT iHighlightedColor = pButton->GetHighlightedColor();
 	UINT iPressedColor = pButton->GetPressedColor();
@@ -54,4 +82,16 @@ void ButtonUIGUI::Update()
 		pButton->SetFadeDuration(fFadeDuration);
 
 	End();
+}
+
+void ButtonUIGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+{
+	const char* pStrKey = (const char*)_pStr;
+	string strKey = pStrKey;
+	tstring tStrKey;
+	StringToTString(strKey, tStrKey);
+
+	CTexture* pImageTexture = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
+	assert(pImageTexture);
+	GetTargetObject()->ButtonUI()->SetImageTex(pImageTexture);
 }

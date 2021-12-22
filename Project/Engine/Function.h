@@ -133,3 +133,11 @@ namespace StringTool {
 	void StringToLower(string& _str);
 	void StringToUpper(string& _str);
 }
+
+#ifdef UNICODE
+template<class T>
+tstring to_tstring(const T& x) { return std::to_wstring(x); }
+#elif
+template<class T>
+tstring to_tstring(const T& x) { return std::to_string(x); }
+#endif

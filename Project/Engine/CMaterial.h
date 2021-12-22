@@ -11,6 +11,7 @@ private:
 	TMaterialParam m_tParam;
 	SharedPtr<CTexture> m_arrTexture[(UINT)E_ShaderParam::Texture_End - (UINT)E_ShaderParam::Texture_0];
 	bool m_bIsDefaultMtrl; // 엔진에서 제공하는 기본 메터리얼
+	bool m_bIsCloneMtrlInnerEngine; // Default Material은 아니지만 Save, Load가 필요 없을 경우.
 
 public:
 	virtual bool Save(const tstring& _strRelativePath) override;
@@ -28,6 +29,9 @@ public:
 
 	bool IsDefaultMaterial() { return m_bIsDefaultMtrl; }
 	static void Clear();
+
+private:
+	void _SetCloneMtrlInnerEngineFlag() { m_bIsCloneMtrlInnerEngine = true; }
 	
 public:
 	virtual CMaterial* Clone() override;

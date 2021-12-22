@@ -161,6 +161,7 @@ CScript* CSceneSaveLoad::LoadScript(FILE* _pFile)
 
 bool CSceneSaveLoad::TestSave()
 {
+	assert(nullptr);
 	tstring strFilePath = _T("N:/testFile.test");
 
 	struct TestDataType {
@@ -196,6 +197,7 @@ bool CSceneSaveLoad::TestSave()
 
 bool CSceneSaveLoad::TestLoad()
 {
+	assert(nullptr);
 	tstring strFilePath = _T("N:/testFile.test");
 	struct TestDataType {
 		int a;

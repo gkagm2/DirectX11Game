@@ -51,5 +51,6 @@ public:
 public:
 	CLONE(CButtonUI);
 	CButtonUI();
+	CButtonUI(const CButtonUI& _origin);
 	virtual ~CButtonUI() override;
 };

@@ -1,4 +1,5 @@
 #pragma once
+
 class CConfigurationManager : public CSingleton<CConfigurationManager>
 {
 	SINGLETON(CConfigurationManager)

@@ -61,9 +61,6 @@
     <ClInclude Include="Extern.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CResourceManager.h">
-      <Filter>Engine\04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CConstBuffer.h">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
     <ClInclude Include="CTileMapGrid.h">
       <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClInclude>
+    <ClInclude Include="CResourceManager.h">
+      <Filter>Engine\04. Manager\ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -266,9 +266,6 @@
     </ClCompile>
     <ClCompile Include="Extern.cpp">
       <Filter>Engine\01. Header</Filter>
-    </ClCompile>
-    <ClCompile Include="CResourceManager.cpp">
-      <Filter>Engine\04. Manager</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>Engine\03. Device\ConstBuffer</Filter>
@@ -422,6 +419,9 @@
     </ClCompile>
     <ClCompile Include="CTileMapGrid.cpp">
       <Filter>Engine\07. Component\Transform\InnerClass</Filter>
+    </ClCompile>
+    <ClCompile Include="CResourceManager.cpp">
+      <Filter>Engine\04. Manager\ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +595,12 @@
     </Filter>
     <Filter Include="Engine\07. Component\Transform\InnerClass">
       <UniqueIdentifier>{abca915f-fe42-49b9-beec-5abb1fccd045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Manager\ResourceManager">
+      <UniqueIdentifier>{bfdb650e-797a-4fe3-8dc9-e399d1bf7c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Manager\ResourceManager\ResourceSaveLoad">
+      <UniqueIdentifier>{fff08e91-7c01-4400-aebc-0090fd40452c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

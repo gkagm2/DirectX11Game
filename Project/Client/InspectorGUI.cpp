@@ -163,6 +163,9 @@ void InspectorGUI::Update()
 
 void InspectorGUI::UpdateObjectGUI()
 {
+	if (nullptr == m_pTargetObject)
+		return;
+		
 	if (m_pTargetObject->IsDead()) {
 		m_pTargetObject = nullptr;
 		return;
@@ -310,6 +313,8 @@ void InspectorGUI::UpdateObjectGUI()
 
 void InspectorGUI::UpdateResourceGUI()
 {
+	if (nullptr == m_pTargetResource)
+		return;
 	ImGui::Separator();
 
 	// 이름 바꾸기

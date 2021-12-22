@@ -12,7 +12,8 @@ CMaterial::CMaterial() :
 	m_pShader(nullptr),
 	m_tParam{},
 	m_arrTexture{},
-	m_bIsDefaultMtrl(false)
+	m_bIsDefaultMtrl(false),
+	m_bIsCloneMtrlInnerEngine(false)
 {
 }
 
@@ -21,7 +22,8 @@ CMaterial::CMaterial(const CMaterial& _origin) :
 	m_pShader(_origin.m_pShader),
 	m_tParam{_origin.m_tParam},
 	m_arrTexture{},
-	m_bIsDefaultMtrl(false)
+	m_bIsDefaultMtrl(false),
+	m_bIsCloneMtrlInnerEngine(_origin.m_bIsCloneMtrlInnerEngine)
 {	
 	memcpy(m_arrTexture, _origin.m_arrTexture, sizeof(_origin.m_arrTexture));
 }
@@ -31,7 +33,8 @@ CMaterial::CMaterial(bool _bIsDefaultMaterial) :
 	m_pShader(nullptr),
 	m_tParam{},
 	m_arrTexture{},
-	m_bIsDefaultMtrl(_bIsDefaultMaterial)
+	m_bIsDefaultMtrl(_bIsDefaultMaterial),
+	m_bIsCloneMtrlInnerEngine(false)
 {
 }
 
@@ -65,8 +68,10 @@ void CMaterial::UpdateData()
 void CMaterial::SetShader(SharedPtr<CGraphicsShader>& _pShader) {
 	m_pShader = _pShader;
 	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
-	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
-		Save(GetRelativePath());
+	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode()) {
+		if(false == m_bIsCloneMtrlInnerEngine)
+			Save(GetRelativePath());
+	}
 }
 
 // Example :
@@ -130,8 +135,11 @@ void CMaterial::SetData(E_ShaderParam _eParam, const void* _pData)
 	}
 
 	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
-	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode())
-		Save(GetRelativePath());
+	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode()) {
+		if(false == m_bIsCloneMtrlInnerEngine)
+			Save(GetRelativePath());
+	}
+		
 }
 
 // Example : 1
@@ -215,6 +223,7 @@ bool CMaterial::Save(const tstring& _strRelativePath)
 		SaveResourceToFile(m_arrTexture[i], pFile);
 
 	FWrite(m_bIsDefaultMtrl, pFile);
+	FWrite(m_bIsCloneMtrlInnerEngine, pFile);
 
 	fclose(pFile);
 	return true;
@@ -237,6 +246,7 @@ int CMaterial::Load(const tstring& _strFilePath)
 		LoadResourceFromFile(m_arrTexture[i], pFile);
 
 	FRead(m_bIsDefaultMtrl, pFile);
+	FRead(m_bIsCloneMtrlInnerEngine, pFile);
 
 	fclose(pFile);
 	return S_OK;
@@ -259,5 +269,10 @@ CMaterial* CMaterial::Clone()
 CMaterial* CMaterial::Clone_NoAddInResMgr()
 {
 	SharedPtr<CMaterial> pMtrl = new CMaterial(*this);
+	pMtrl->_SetCloneMtrlInnerEngineFlag();
+	static int i = 0;
+	tstring strKey = _T("MtrlClone") + to_tstring(i++) + _T(".mtrl");
+	pMtrl->SetKey(strKey);
+	pMtrl->SetRelativePath(strKey);
 	return pMtrl.Get();
 }

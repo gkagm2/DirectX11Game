@@ -4,6 +4,7 @@
 
 class CLayer;
 class CGameObject;
+
 class CScene : public CObject, ILifeCycleInterface
 {
 private:

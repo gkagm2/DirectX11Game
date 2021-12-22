@@ -46,7 +46,6 @@ void ImageUIGUI::Update()
 	}
 
 	ImGui::Spacing();
-	ImGui::Text("Color");
 	UINT iColor = pImageUI->GetColor();
 	if(ParamGUI::Render_Color("Color##ImageUI", &iColor))
 		pImageUI->SetColor(iColor);

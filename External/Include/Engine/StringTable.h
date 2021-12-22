@@ -52,11 +52,11 @@
 
 #define STR_DIR_PATH_Config _T("config\\") // 엔진 환경
 
-
 // Extension
 #define STR_EXTENSION_Anim _T(".anim")
 #define STR_EXTENSION_Mtrl _T(".mtrl")
 #define STR_EXTENSION_Prefab _T(".pref")
+#define STR_EXTENSION_SceneData _T(".sdata")
 
 // std2.fx functions name
 #define STR_FUNC_NAME_VTXShader "VS_Std2D"

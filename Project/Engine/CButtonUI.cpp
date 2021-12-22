@@ -16,7 +16,25 @@ CButtonUI::CButtonUI() :
 {
 	m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_ButtonUIMtrl);
 	m_pSharedMtrl = m_pMtrl;
+	assert(m_pMtrl.Get());
+	assert(m_pSharedMtrl.Get());
 
+	ChangeButtonState(m_eButtonState);
+}
+
+CButtonUI::CButtonUI(const CButtonUI& _origin) :
+	CImageUI(E_ComponentType::ButtonUI),
+	m_iNormalColor{ _origin.m_iNormalColor},
+	m_iHighlightedColor{ _origin.m_iHighlightedColor},
+	m_iPressedColor{ _origin.m_iPressedColor},
+	m_iSelectedColor{ _origin. m_iSelectedColor},
+	m_iDisableColor{ _origin. m_iDisableColor},
+	m_fFadeDuration{ _origin.m_fFadeDuration },
+	m_eButtonState{ _origin.m_eButtonState }
+{
+	SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+	m_pMtrl = pNewMtrl;
+	m_pTexture = _origin.m_pTexture;
 	ChangeButtonState(m_eButtonState);
 }
 
@@ -65,45 +83,47 @@ void CButtonUI::FinalUpdate()
 
 	Vector4 vCurColor = ChangeColorUintToVector4(GetColor());
 	m_pMtrl->SetData(E_ShaderParam::Vector4_0, vCurColor);
+	if (nullptr != m_pTexture.Get())
+		m_pMtrl->SetData(E_ShaderParam::Texture_0, m_pTexture.Get());
 }
 
 
 void CButtonUI::SetNormalColor(UINT _iColor) {
 	if (!IsCurMtrlAlreadyClone()) {
-		if (nullptr == m_pCloneMtrl)
-			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
 	m_iNormalColor = _iColor;
 }
 
 void CButtonUI::SetHighlightedColor(UINT _iColor) {
 	if (!IsCurMtrlAlreadyClone()) {
-		if (nullptr == m_pCloneMtrl)
-			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
 	m_iHighlightedColor = _iColor;
 }
 
 void CButtonUI::SetPressedColor(UINT _iColor) {
 	if (!IsCurMtrlAlreadyClone()) {
-		if (nullptr == m_pCloneMtrl)
-			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
 	m_iPressedColor = _iColor;
 }
 
 void CButtonUI::SetSelectedColor(UINT _iColor) { 
 	if (!IsCurMtrlAlreadyClone()) {
-		if (nullptr == m_pCloneMtrl)
-			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
 	m_iSelectedColor = _iColor;
 }
 
 void CButtonUI::SetDisableColor(UINT _iColor) {
 	if (!IsCurMtrlAlreadyClone()) {
-		if (nullptr == m_pCloneMtrl)
-			GetCloneMaterial(); // 내부적으로 clone된 재질을 현재 재질로 넣어줌
+		SharedPtr<CMaterial> pNewMtrl = GetCloneMaterial();
+		m_pMtrl = pNewMtrl;
 	}
 	m_iDisableColor = _iColor; 
 }
