@@ -67,9 +67,13 @@ public:
 	const Vector3& GetEndScale() { return m_vEndScale; }
 	float GetMinLifeTime() { return m_fMinLifeTime; }
 	float GetMaxLifeTime() { return m_fMaxLifeTime; }
-	UINT GetSapwnCntPerSec() { return m_iSpawnCntPerSec; }
+	UINT GetSpawnCntPerSec() { return m_iSpawnCntPerSec; }
 	UINT GetMaxParticleCount() { return m_iMaxParticleCount; }
 	const Vector3& GetRadius() { return m_vRadius; }
+	void SetStartSpeed(float _fSpeed) { m_fStartSpeed = _fSpeed; }
+	float GetStartSpeed() { return m_fStartSpeed; }
+	void SetEndSpeed(float _fSpeed) { m_fEndSpeed = _fSpeed; }
+	float GetEndSpeed() { return m_fEndSpeed; }
 
 	UINT GetParticleTexCnt() { return (UINT)m_vecParticleTex.size(); }
 	void SetParticleTexIdx(UINT _idx);

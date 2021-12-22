@@ -191,7 +191,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Engine\CButtonUI.cpp" />
     <ClCompile Include="MFCDialog.cpp" />
     <ClCompile Include="MFCDialogDlg.cpp" />
     <ClCompile Include="pch.cpp">
