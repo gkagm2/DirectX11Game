@@ -46,6 +46,8 @@ private:
 	E_EditMode m_eEditMode;
 	bool m_bShowModifyPanel;
 
+	float m_fPreviewAnimSpeed;
+
 public:
 	virtual void Init();
 	virtual void Update() override;

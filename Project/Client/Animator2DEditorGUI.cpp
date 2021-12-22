@@ -9,6 +9,7 @@
 #include "ParamGUI.h"
 #include "TextureGUI.h"
 #include <Engine\CMeshRenderer.h>
+#include <Engine\CTimeManager.h>
 
 Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_pTargetObject(nullptr),
@@ -30,7 +31,9 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	canvas_sz{},
 	canvas_p1{},
 	origin{},
-	draw_list{ nullptr }
+	draw_list{ nullptr },
+
+	m_fPreviewAnimSpeed(1.f)
 {
 }
 
@@ -41,6 +44,8 @@ void Animator2DEditorGUI::_Clear()
 	ZeroMemory(m_nameBuff, sizeof(m_nameBuff));
 	m_queMinorTexList.clear();
 	m_queResultTexList.clear();
+
+	m_fPreviewAnimSpeed = 1.f;
 }
 Animator2DEditorGUI::~Animator2DEditorGUI()
 {
@@ -152,6 +157,7 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 	// 애니메이션 이미지 수정하기
 	if (m_bShowModifyPanel)
 		_ModifyAniationPanel();
+
 }
 
 void Animator2DEditorGUI::_CanvasTopPanel()
@@ -471,6 +477,49 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 			ParamGUI::Render_TextureBtn("", m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.pAtlas.Get(), tTexBtnInfo);
 		}
 	}
+
+
+	// Animation Preview (애니메이션 미리보기
+	static float m_fAccTime = 0.f;
+	static int m_iCurFrameIdx = 0;
+	static bool m_iAnimFinish = false;
+	m_fAccTime += DT;
+	if (m_iCurFrameIdx < 0) {
+		if (0 <= m_queResultTexList.size())
+			m_iCurFrameIdx = 0;
+	}
+	else if (m_iCurFrameIdx >= m_queResultTexList.size()) {
+		if (m_queResultTexList.size() == 0) // 존재하지 않으면
+			m_iCurFrameIdx = -1; // -1로 바꿈.
+		else if (m_iCurFrameIdx > 0) m_iCurFrameIdx = 0; // 넘치면 0부터 다시 시작
+	}
+	else {
+		if (m_iAnimFinish) {
+			m_iAnimFinish = false;
+			m_iCurFrameIdx = 0;
+		}
+		while (m_fAccTime > m_queResultTexList[m_iCurFrameIdx].tAnim2DDesc.fDuration) {
+			// 누적시간이 현재 프레임 유지시간을 초과한 양을 구함
+			m_fAccTime = m_fAccTime - m_queResultTexList[m_iCurFrameIdx].tAnim2DDesc.fDuration;
+			++m_iCurFrameIdx;
+
+			// 최대 프레임에 도달하게 되면, 애니메이션 재생상태를 완료로 둠.
+			if (m_iCurFrameIdx == m_queResultTexList.size()) {
+				--m_iCurFrameIdx;
+
+				
+				m_iAnimFinish = true;
+				break;
+			}
+		}
+		ImGui::Text("curIdx %d", m_iCurFrameIdx);
+		TTextureInfo tTextureInfo = {};
+		tTextureInfo.uv_min = m_queResultTexList[m_iCurFrameIdx].rect.ltUV;
+		tTextureInfo.uv_max = m_queResultTexList[m_iCurFrameIdx].rect.rbUV;
+		ParamGUI::Render_Texture("", m_queResultTexList[m_iCurFrameIdx].tAnim2DDesc.pAtlas.Get(), nullptr, nullptr, false, tTextureInfo);
+	}
+
+	ImGui::Spacing();
 
 	if (ImGui::Button("Create##animation2d"))
 		_OnCreateAnimation();

@@ -166,13 +166,13 @@ bool ParamGUI::Render_TextureBtn(const string& _strName, CTexture* _pTex, TTextu
 
 
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	bool isClick = false;
 	if (ImGui::ImageButton(tex_id, _tTexBtnInfo.vImageSize, _tTexBtnInfo.uv_min, _tTexBtnInfo.uv_max, _tTexBtnInfo.iFramePadding, _tTexBtnInfo.bg_col, _tTexBtnInfo.tint_col)) {
 		ImGui::SameLine();
-		ImGui::PopID();
-		return true;
+		isClick = true;
 	}
 	ImGui::PopID();
-	return false;
+	return isClick;
 }
 
 
