@@ -13,8 +13,7 @@ private:
 	SharedPtr<CMesh> m_pMesh;
 	SharedPtr<CMaterial> m_pMaterial;
 
-	vector<SharedPtr<CTexture>> m_vecParticleTex;
-	UINT m_iTexIdx;
+	SharedPtr<CTexture> m_pParticleTex;
 	
 	unique_ptr<CStructuredBuffer> m_pParticleBuffer; // 파티클 정보가 저장되어있는 버퍼(GPU)
 	SharedPtr<CParticleUpdateShader> m_pUpdateShader; // 파티클 Update용 Compute Shader
@@ -24,8 +23,8 @@ private:
 	Vector4 m_vStartScale;		 // 파티클 시작 크기
 	Vector4 m_vEndScale;		 // 파티클 최종 크기
 								 
-	float	m_fStartSpeed;		 // 파티클 시작 속도>>
-	float	m_fEndSpeed;			 // 파티클 최종 속도
+	float	m_fStartSpeed;		 // 파티클 시작 속도
+	float	m_fEndSpeed;		 // 파티클 최종 속도
 
 	float	m_fMinLifeTime;		 // 파티클 최소 Life
 	float	m_fMaxLifeTime;		 // 파티클 최대 Life
@@ -75,8 +74,8 @@ public:
 	void SetEndSpeed(float _fSpeed) { m_fEndSpeed = _fSpeed; }
 	float GetEndSpeed() { return m_fEndSpeed; }
 
-	UINT GetParticleTexCnt() { return (UINT)m_vecParticleTex.size(); }
-	void SetParticleTexIdx(UINT _idx);
+	SharedPtr<CTexture> GetParticleTexture() { return m_pParticleTex; }
+	void SetParticleTexture(SharedPtr<CTexture> _pTexture) { m_pParticleTex = _pTexture; }
 
 	void SetShape(E_ParticleShape _eShape) { m_eShape = _eShape; }
 	E_ParticleShape GetShape() { return m_eShape; }

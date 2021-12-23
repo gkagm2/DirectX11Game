@@ -26,6 +26,9 @@ void ResourceViewGUI::Init()
 
 void ResourceViewGUI::Update()
 {
+	if (!m_bGUIOpen)
+		return;
+
 	_RenewResource();
 
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);

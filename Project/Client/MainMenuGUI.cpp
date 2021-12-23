@@ -9,6 +9,7 @@
 #include <Engine\CRenderManager.h>
 #include <Engine\CCamera.h>
 #include <Engine\CTransform.h>
+#include <Engine\CParticleSystem.h>
 
 #include <Engine\CCanvasRenderer.h>
 #include <Engine\CRectTransform.h>
@@ -19,6 +20,11 @@
 #include "CSceneSaveLoad.h"
 #include "InspectorGUI.h"
 #include "CImGuiManager.h"
+
+#include "HierarchyGUI.h"
+#include "ResourceViewGUI.h"
+#include "SceneViewGUI.h"
+#include "DebugGUI.h"
 
 #include "TileMapEditorGUI.h"
 #include "CollisionEditorGUI.h"
@@ -33,6 +39,7 @@ UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
 UINT g_iEmpty2DCameraGameObjectID = 0;
 UINT g_iEmptyRect2DGameObjectID = 0;
+UINT g_iEmptyParticleSystemGameObjectID = 0;
 
 
 UINT g_iTextUIGameObjectID = 0;
@@ -101,6 +108,9 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Material")) {
                 CreateEmptyMaterial();
             }
+            if (ImGui::MenuItem("Create ParticleSystem")) {
+                CreateParticleSystemGameObject();
+            }
             if (ImGui::BeginMenu("Create UI")) {
                 if (ImGui::MenuItem("Button UI")) {
                     CreateButtonUI();
@@ -127,18 +137,32 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Tile Map Editor")) {
                 OpenTileMapEditor();
             }
-            if (ImGui::MenuItem("Tool Camera")) {
-                OpenToolCameraUI();
-            }
             if (ImGui::MenuItem("Animator2D Editor")) {
                 OpenAnimator2DEditor();
             }
             if (ImGui::MenuItem("Collision Editor")) {
                 OpenCollisionEditor();
             }
+            if (ImGui::BeginMenu("Engine Tools")) {
+                if (ImGui::MenuItem("Tool Camera")) {
+                    OpenToolCameraUI();
+                }
+                if (ImGui::MenuItem("Hierarchy")) {
+                    OpenHierarchyUI();
+                }
+                if (ImGui::MenuItem("Resource")) {
+                    OpenResourceViewUI();
+                }
+                if (ImGui::MenuItem("Scene")) {
+                    OpenSceneViewUI();
+                }
+                if (ImGui::MenuItem("Debug")) {
+                    OpenDebugUI();
+                }
+                ImGui::EndMenu();
+            }
             ImGui::EndMenu();
         }
-
         ImGui::EndMainMenuBar();
     }
 }
@@ -337,6 +361,17 @@ void MainMenuGUI::CreateCamera2DGameObject()
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
 }
 
+void MainMenuGUI::CreateParticleSystemGameObject()
+{
+    tstring strObjName = _CreateObjectName(_T("Particle"), g_iEmptyParticleSystemGameObjectID);
+
+    CGameObject* pNewGameObject = new CGameObject;
+    pNewGameObject->SetName(strObjName);
+    pNewGameObject->AddComponent<CTransform>();
+    pNewGameObject->AddComponent<CParticleSystem>();
+    CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
 void MainMenuGUI::Create2DRectGameObjet()
 {
     tstring strObjName = _CreateObjectName(_T("Rect GameObject"), g_iEmptyRect2DGameObjectID);
@@ -482,6 +517,57 @@ void MainMenuGUI::OpenToolCameraUI()
     pGUI->SetActive(true);
 }
 
+void MainMenuGUI::OpenHierarchyUI()
+{
+    HierarchyGUI* pGUI = dynamic_cast<HierarchyGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Hierarchy));
+    if (!pGUI) {
+        assert(nullptr && _T("Hierarchy GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenInspectorUI()
+{
+    InspectorGUI* pGUI = dynamic_cast<InspectorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector));
+    if (!pGUI) {
+        assert(nullptr && _T("Inspector GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenResourceViewUI()
+{
+    ResourceViewGUI* pGUI = dynamic_cast<ResourceViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ResourceView));
+    if (!pGUI) {
+        assert(nullptr && _T("Resource View GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+
+void MainMenuGUI::OpenSceneViewUI()
+{
+    SceneViewGUI* pGUI = dynamic_cast<SceneViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_SceneView));
+    if (!pGUI) {
+        assert(nullptr && _T("Scene View GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenDebugUI()
+{
+    DebugGUI* pGUI = dynamic_cast<DebugGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Debug));
+    if (!pGUI) {
+        assert(nullptr && _T("Debug GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
 void MainMenuGUI::OpenModuleCreatorToolWindows()
 {
     ModuleCreatorGUI_ca* pGUI = dynamic_cast<ModuleCreatorGUI_ca*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ModuleCreator));
@@ -489,7 +575,6 @@ void MainMenuGUI::OpenModuleCreatorToolWindows()
         assert(nullptr && _T("Module Creator를 열 수 없다."));
         return;
     }
-
     pGUI->SetActive(true);
 }
 

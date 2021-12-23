@@ -9,8 +9,8 @@
 
 CParticleSystem::CParticleSystem() :
 	CComponent(E_ComponentType::ParticleSystem),
-	m_iTexIdx(6),
 	m_pParticleBuffer(nullptr),
+	m_pParticleTex(nullptr),
 	m_vStartScale(50.f, 50.f, 0.f, 0.f),
 	m_vEndScale(20.f, 20, 0.f, 0.f),
 	m_vStartColor(1.f, 0.0f, 0.0f, 1.f),
@@ -39,16 +39,7 @@ CParticleSystem::CParticleSystem() :
 		assert(nullptr);
 
 	// 파티클용 텍스쳐 로딩
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle1"), _T("texture\\particle\\AlphaCircle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle2"), _T("texture\\particle\\Bubbles50px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle3"), _T("texture\\particle\\Bubbles99px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle4"), _T("texture\\particle\\CartoonSmoke.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle5"), _T("texture\\particle\\HardCircle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle6"), _T("texture\\particle\\HardRain.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle7"), _T("texture\\particle\\smokeparticle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle8"), _T("texture\\particle\\Snow50px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle9"), _T("texture\\particle\\Sparks.png")));
-
+	m_pParticleTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle1"), _T("texture\\particle\\AlphaCircle.png"));
 }
 
 CParticleSystem::CParticleSystem(const CParticleSystem& _origin) :
@@ -84,16 +75,7 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _origin) :
 	m_pParticleBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TParticle), m_iMaxParticleCount, false);
 
 	// 파티클용 텍스쳐 로딩
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle1"), _T("texture\\particle\\AlphaCircle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle2"), _T("texture\\particle\\Bubbles50px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle3"), _T("texture\\particle\\Bubbles99px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle4"), _T("texture\\particle\\CartoonSmoke.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle5"), _T("texture\\particle\\HardCircle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle6"), _T("texture\\particle\\HardRain.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle7"), _T("texture\\particle\\smokeparticle.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle8"), _T("texture\\particle\\Snow50px.png")));
-	m_vecParticleTex.push_back(CResourceManager::GetInstance()->LoadRes<CTexture>(_T("Particle9"), _T("texture\\particle\\Sparks.png")));
-
+	m_pParticleTex = _origin.m_pParticleTex;
 }
 
 CParticleSystem::~CParticleSystem()
@@ -127,7 +109,7 @@ void CParticleSystem::LateUpdate()
 
 void CParticleSystem::Render()
 {
-	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_vecParticleTex[m_iTexIdx].Get());
+	m_pMaterial->SetData(E_ShaderParam::Texture_0, m_pParticleTex.Get());
 
 	m_pMaterial->SetData(E_ShaderParam::Vector4_0, &m_vStartColor);
 	m_pMaterial->SetData(E_ShaderParam::Vector4_1, &m_vEndColor);
@@ -142,14 +124,6 @@ void CParticleSystem::Render()
 
 	m_pMaterial->Clear();
 	m_pParticleBuffer->Clear(E_ShaderStage::All);
-}
-
-void CParticleSystem::SetParticleTexIdx(UINT _idx)
-{
-	if (_idx >= m_vecParticleTex.size())
-		_idx = 0;
-	else
-		m_iTexIdx = _idx;
 }
 
 UINT CParticleSystem::_CalculateSpawnCount()
@@ -176,13 +150,8 @@ UINT CParticleSystem::_CalculateSpawnCount()
 bool CParticleSystem::SaveToScene(FILE* _pFile)
 {
 	CComponent::SaveToScene(_pFile);
-	UINT iTexCount = (UINT)m_vecParticleTex.size();
-	FWrite(iTexCount, _pFile);
 
-	for (UINT i = 0; i < iTexCount; ++i)
-		SaveResourceToFile(m_vecParticleTex[i], _pFile);
-
-	FWrite(m_iTexIdx, _pFile);
+	SaveResourceToFile(m_pParticleTex, _pFile);
 
 	FWrite(m_vStartColor, _pFile);
 	FWrite(m_vEndColor, _pFile);
@@ -204,17 +173,8 @@ bool CParticleSystem::SaveToScene(FILE* _pFile)
 bool CParticleSystem::LoadFromScene(FILE* _pFile)
 {
 	CComponent::LoadFromScene(_pFile);
-	UINT iTexCount = 0;
-	FRead(iTexCount, _pFile);
-
-	m_vecParticleTex.clear();
-	for (UINT i = 0; i < iTexCount; ++i) {
-		SharedPtr<CTexture> pTexture = nullptr;
-		LoadResourceFromFile(pTexture, _pFile);
-		m_vecParticleTex.push_back(pTexture);
-	}
-
-	FRead(m_iTexIdx, _pFile);
+	
+	LoadResourceFromFile(m_pParticleTex, _pFile);
 
 	FRead(m_vStartColor, _pFile);
 	FRead(m_vEndColor, _pFile);

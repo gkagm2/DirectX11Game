@@ -2,12 +2,13 @@
 #include "ParticleSystemGUI.h"
 #include <Engine\CParticleSystem.h>
 #include <Engine\CParticleUpdateShader.h>
+#include <Engine\CResourceManager.h>
 #include "ParamGUI.h"
 
 ParticleSystemGUI::ParticleSystemGUI() :
 	ComponentGUI(E_ComponentType::ParticleSystem)
 {
-
+	_ResetShapeComboBoxStr(m_vecStrShape);
 }
 
 ParticleSystemGUI::~ParticleSystemGUI()
@@ -37,6 +38,9 @@ void ParticleSystemGUI::Update()
 	int iSpawnCntPerSec = (int)pPS->GetSpawnCntPerSec();
 	E_ParticleShape eShape = pPS->GetShape();
 
+	static int iCurComboItem = 0;
+	if (ParamGUI::Render_ComboBox("Shape##ParticleSystemGUI", &iCurComboItem, m_vecStrShape))
+		pPS->SetShape(E_ParticleShape(iCurComboItem));
 
 	if (ImGui::DragFloat4("Start Color##ParticleSystemGUI", (float*)vStartColor, 0.01f, 0.f, 1.f, "%.2f", 0))
 		pPS->SetStartColor(vStartColor);
@@ -64,7 +68,39 @@ void ParticleSystemGUI::Update()
 	if (ImGui::Checkbox("Gravity##ParticleSystem", &isGravityEnable))
 		pPS->SetGravityEnable(isGravityEnable);
 
-	// Particle Texture 세팅하기.
+	CTexture* pParticleTex = nullptr;
+	if (nullptr != pPS->GetParticleTexture())
+		pParticleTex = pPS->GetParticleTexture().Get();
+	ParamGUI::Render_Texture("Texture##ParticleSystemGUI", pParticleTex, this, (GUI_CALLBACK)&ParticleSystemGUI::_SelectParticleTexture);
+
+
 
 	End();
+}
+
+void ParticleSystemGUI::_ResetShapeComboBoxStr(vector<char>& _vecStrShape_out)
+{
+	_vecStrShape_out.clear();
+
+	vector<tstring> vectShape;
+	for (size_t i = 0; i < (size_t)E_ParticleShape::End; ++i)
+		vectShape.push_back(ParticleShapeToStr((E_ParticleShape)i));
+
+	vector <string> vecShape;
+	TStringToStringVec(vectShape, vecShape);
+
+	ParamGUI::Make_ComboBoxList(vecShape, _vecStrShape_out);
+}
+
+void ParticleSystemGUI::_SelectParticleTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)
+{
+	const char* pStrKey = (const char*)_strKey;
+	string strKey = pStrKey;
+	tstring tStrKey;
+	StringToTString(strKey, tStrKey);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
+	assert(pTex);
+
+	GetTargetObject()->ParticleSystem()->SetParticleTexture(pTex);
 }

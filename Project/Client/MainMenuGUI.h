@@ -23,6 +23,7 @@ public:
 	void CreateEmptyMaterial();
 	CGameObject* CreateEmptyGameObject();
 	void CreateCamera2DGameObject();
+	void CreateParticleSystemGameObject();
 
 	// 2D
 	void Create2DRectGameObjet();
@@ -41,6 +42,11 @@ public:
 
 	// Engine
 	void OpenToolCameraUI();
+	void OpenHierarchyUI();
+	void OpenInspectorUI();
+	void OpenResourceViewUI();
+	void OpenSceneViewUI();
+	void OpenDebugUI();
 
 	// Editor
 	void OpenTileMapEditor();

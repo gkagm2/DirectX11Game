@@ -333,4 +333,6 @@ enum class E_ParticleShape {
 	Cone_Spread,
 	Edge,
 	Sphere, // 3d
+	End, // 사용하지 않음
 };
+tstring ParticleShapeToStr(E_ParticleShape _eType);

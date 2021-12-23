@@ -109,7 +109,7 @@ void InspectorGUI::Init()
 
 	// ParticleSystemGUI
 	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem] = new ParticleSystemGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem]->SetUISize(ImVec2(0.f, 310.f));
+	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem]->SetUISize(ImVec2(0.f, 480.f));
 
 	// UI
 	// TextUI

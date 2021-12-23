@@ -31,6 +31,9 @@ void HierarchyGUI::Init()
 
 void HierarchyGUI::Update()
 {
+	if (!m_bGUIOpen)
+		return;
+
 	if (CEventManager::GetInstance()->DidEventHappended())
 		_RenewTreeView();
 		

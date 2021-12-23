@@ -12,6 +12,9 @@ DebugGUI::~DebugGUI()
 
 void DebugGUI::Update()
 {
+    if (!m_bGUIOpen)
+        return;
+
     _ShowDebug(&m_bGUIOpen);
 }
 

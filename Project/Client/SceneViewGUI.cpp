@@ -30,6 +30,9 @@ void SceneViewGUI::Init()
 
 void SceneViewGUI::Update()
 {
+	if (!m_bGUIOpen)
+		return;
+
 	_RenewScene();
 
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);

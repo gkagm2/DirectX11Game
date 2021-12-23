@@ -19,3 +19,29 @@ tstring LightTypeToStr(E_LightType _eType)
 	}
 	return strLightType;
 }
+
+tstring ParticleShapeToStr(E_ParticleShape _eType)
+{
+	tstring strShape = _T("");
+	switch (_eType) {
+	case E_ParticleShape::Circle_Combine:
+		strShape = _T("Circle_Combine");
+		break;
+	case E_ParticleShape::Circle_Spread:
+		strShape = _T("Circle_Spread");
+		break;
+	case E_ParticleShape::Cone_Spread:
+		strShape = _T("Cone_Spread");
+		break;
+	case E_ParticleShape::Edge:
+		strShape = _T("Edge");
+		break;
+	case E_ParticleShape::Sphere:
+		strShape = _T("Sphere");
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	return strShape;
+}
