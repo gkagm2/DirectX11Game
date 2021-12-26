@@ -420,12 +420,6 @@
     <ClInclude Include="Struct_Client.h">
       <Filter>00. Default</Filter>
     </ClInclude>
-    <ClInclude Include="ClientManager.h">
-      <Filter>01. Client\Manager\ClientManager</Filter>
-    </ClInclude>
-    <ClInclude Include="CCursor.h">
-      <Filter>03. Tools\03. Scripts\Cursor</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -608,12 +602,6 @@
     </ClCompile>
     <ClCompile Include="Animator2DEditorGUI.cpp">
       <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientManager.cpp">
-      <Filter>01. Client\Manager\ClientManager</Filter>
-    </ClCompile>
-    <ClCompile Include="CCursor.cpp">
-      <Filter>03. Tools\03. Scripts\Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

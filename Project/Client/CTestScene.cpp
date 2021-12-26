@@ -272,7 +272,7 @@ void CTestScene::CaptainForever()
 	}
 }
 #endif
-
+#include <Engine\CCursor.h>
 void CTestScene::Butcher()
 {
 	CScene* pNewScene = new CScene;
@@ -280,6 +280,8 @@ void CTestScene::Butcher()
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::Character, true);
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::TileMap, true);
 
+	SharedPtr<CTexture> tex = nullptr;
+	CCursor::SetCursor(tex, Vector2{});
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

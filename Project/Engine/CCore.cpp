@@ -13,6 +13,7 @@
 #include "CConfigurationManager.h"
 #include "CSound.h"
 #include "CUIManager.h"
+#include "CCursor.h"
 
 HWND CCore::g_Wnd = 0;
 HDC CCore::g_hDC = 0;
@@ -78,6 +79,7 @@ void CCore::Progress()
 	CRenderManager::GetInstance()->Render();
 	
 	CTimeManager::GetInstance()->Render();
+	CCursor::Update();
 
 	// Event ผ๖วเ
 	CEventManager::GetInstance()->Update();

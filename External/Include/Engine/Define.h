@@ -158,6 +158,7 @@ enum class E_RenderTimePoint {
 	PostEffect,
 	Collider,
 	Canvas,
+	After,
 	None,
 };
 
