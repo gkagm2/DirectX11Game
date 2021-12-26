@@ -95,6 +95,7 @@ void TreeViewNode::_DragDrop()
 	//// 해당 아이템이 드래그 시작한 경우
 	// 드래그 시작
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+		string name = m_pOwner->GetName();
 		ImGui::SetDragDropPayload(m_pOwner->GetName().c_str(), &m_dwData, sizeof(DWORD_PTR));
 		ImGui::Text(GetName().c_str());
 		ImGui::EndDragDropSource();
@@ -171,8 +172,8 @@ void TreeViewGUI::_ExcuteClickedCallBack(TreeViewNode* _pClickedItem)
 // ------------
 // TreeViewGUI 
 // ------------
+#include "GUI.h"
 TreeViewGUI::TreeViewGUI(const string& _strName) :
-	m_strName(_strName),
 	m_pRootNode(nullptr),
 	m_pSelectedNode(nullptr),
 	m_pDragStartNode(nullptr),
@@ -188,6 +189,7 @@ TreeViewGUI::TreeViewGUI(const string& _strName) :
 	m_pDBCInst{ nullptr },
 	m_pGDBCCallBack{ nullptr }
 {
+	SetName(_strName);
 }
 
 TreeViewGUI::~TreeViewGUI()

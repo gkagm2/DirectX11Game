@@ -55,7 +55,8 @@ public:
 protected:
 	void AddParam(const TScriptParam& _tParam) { m_vecParam.push_back(_tParam); }
 public:
-	const vector<TScriptParam>& GetParams() { return m_vecParam; }
+	const vector<TScriptParam>& GetParams_Cst() { return m_vecParam; }
+	vector<TScriptParam>& GetParams() { return m_vecParam; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override { return true; }

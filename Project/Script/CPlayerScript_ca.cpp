@@ -19,8 +19,34 @@ CPlayerScript_ca::~CPlayerScript_ca()
 
 void CPlayerScript_ca::Start()
 {
+	if (pTargetObj) {
+		tstring pName = pTargetObj->GetName();
+	}
 }
 
 void CPlayerScript_ca::Update()
 {
+}
+
+bool CPlayerScript_ca::SaveToScene(FILE* _pFile)
+{
+	FWrite(m_fSpeed, _pFile);
+	FWrite(m_vTempVec, _pFile);
+
+	UINT iLayer = pTargetObj->GetLayer();
+	FWrite(iLayer, _pFile);
+	pTargetObj->SaveToScene(_pFile);
+	return true;
+}
+
+bool CPlayerScript_ca::LoadFromScene(FILE* _pFile)
+{
+	FRead(m_fSpeed, _pFile);
+	FRead(m_vTempVec, _pFile);
+
+	UINT iLayer = 0;
+	FRead(iLayer, _pFile);
+	pTargetObj->LoadFromScene(_pFile,iLayer);
+
+	return true;
 }

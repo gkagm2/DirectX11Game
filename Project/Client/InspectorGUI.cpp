@@ -96,7 +96,7 @@ void InspectorGUI::Init()
 
 	// TileMap
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;
-	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::TileMap]->SetUISize(ImVec2(0.f, 300.f));
 
 	// AudioSource
 	m_arrComGUI[(UINT)E_ComponentType::AudioSource] = new AudioSourceGUI;

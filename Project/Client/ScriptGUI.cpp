@@ -66,7 +66,7 @@ void ScriptGUI::Update()
 		return;
 
 	// 입력 데이터 출력
-	const vector<TScriptParam>& vecParams = m_pScript->GetParams();
+	vector<TScriptParam>& vecParams = m_pScript->GetParams();
 	for (size_t i = 0; i < vecParams.size(); ++i) {
 		float fHeight = 0.f;
 		string strParamName;
@@ -80,25 +80,9 @@ void ScriptGUI::Update()
 			ParamGUI::Render_Float(strParamName, (float*)vecParams[i].pData, &fHeight);
 			break;
 		case E_ScriptParam::GAMEOBJ: {
-			ParamGUI::Render_GameObjectLink(strParamName, (CGameObject*)vecParams[i].pData, &fHeight);
-
-			static int i = 0;
-			ImGui::InputInt("Asdf##asdf", &i);
-			// drag and drop으로 인한 payload 가져오기
-			// 드랍 된 경우
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (ImGui::AcceptDragDropPayload("DraggedNode"))
-				{
-					/*DWORD_PTR dwData = *((DWORD_PTR*)ImGui::GetDragDropPayload()->Data);
-					if (((CRes*)dwData)->GetResType() == RES_TYPE::GRAPHICS_SHADER)
-					{
-						m_pTargetRes->SetShader(((CGraphicsShader*)dwData));
-					}*/
-				}
-
-				ImGui::EndDragDropTarget();
-			}
+			CGameObject* pObj = (CGameObject*)vecParams[i].pData;
+			ParamGUI::Render_GameObjectLink(strParamName, &pObj, &fHeight);
+			vecParams[i].pData = (void*)pObj;
 		}
 			break;
 		case E_ScriptParam::PREFAB:

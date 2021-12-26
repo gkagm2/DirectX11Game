@@ -65,8 +65,6 @@ public:
 class TreeViewGUI : public GUI
 {
 private:
-	string m_strName;
-
 	TreeViewNode* m_pRootNode;		// 최상위 노드
 	TreeViewNode* m_pSelectedNode;	// 선택한 노드
 

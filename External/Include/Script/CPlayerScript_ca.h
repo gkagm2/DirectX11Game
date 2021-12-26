@@ -12,6 +12,8 @@ public:
 	virtual void Update() override;
 
 public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	CLONE(CPlayerScript_ca);

@@ -312,22 +312,24 @@ bool ParamGUI::Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectN
 	return bResult;
 }
 
-bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject* _pObj, float* _pHeightOut)
+bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject** _pObj, float* _pHeightOut)
 {
 	float fHeight = 0.f;
 
 	ImGui::Text("GameObject");
+	fHeight += ImGui::GetItemRectSize().y;
 	tstring tstrName = _T("");
 	string strName = "NULL";
-	if (_pObj) {
-		tstrName = _pObj->GetName();
+	if (*_pObj) {
+		tstrName = (*_pObj)->GetName();
 		TStringToString(tstrName, strName);
 	}
 
 	char szName[255] = {};
-		StringToArr(strName, szName, 255);
+	StringToArr(strName, szName, 255);
 	
 	ImGui::InputText("", szName, ImGuiInputTextFlags_ReadOnly);
+	fHeight += ImGui::GetItemRectSize().y;
 	fHeight += ImGui::GetItemRectSize().y;
 
 	// 드랍 된 경우
@@ -338,23 +340,14 @@ bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject* _pObj,
 			DWORD_PTR dwData = *((DWORD_PTR*)ImGui::GetDragDropPayload()->Data);
 			CGameObject* pObj = (CGameObject*)dwData;
 			assert(pObj);
-			InspectorGUI* pGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
-			if (pGUI)
-				pGUI->SetTargetObject(pObj);
+			*_pObj = pObj;
 		}
 
 		ImGui::EndDragDropTarget();
 	}
 
-	ImGui::SameLine();
-	ImGui::SetNextItemWidth(10);
-
-
 	if (_pHeightOut)
 		*_pHeightOut = fHeight; 
 
-
-
-
-	return true;
+	return _pObj;
 }

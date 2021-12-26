@@ -44,6 +44,8 @@ struct TTextureBtnInfo : public TTexture_ImGUIInfo {
 };
 
 class CTexture;
+class CGameObject;
+
 class ParamGUI 
 {
 public:
@@ -64,7 +66,7 @@ public:
 
 	static bool Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectNum_out);
 
-	static bool Render_GameObjectLink(const string& _strName, CGameObject* _pObj, float* _pHeightOut = nullptr);
+	static bool Render_GameObjectLink(const string& _strName, CGameObject** _pObj, float* _pHeightOut = nullptr);
 
 public:
 	ParamGUI();
