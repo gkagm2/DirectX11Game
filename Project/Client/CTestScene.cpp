@@ -104,7 +104,7 @@ void CTestScene::CreateTestScene()
 	//CaptainForever();
 	//SoundTest();
 	//RenderingAnimationTexture();
-	TileMapTest();
+	//TileMapTest();
 	//Test();
 	//Collision2DTest();
 	//Collision2DTest2();
@@ -117,6 +117,8 @@ void CTestScene::CreateTestScene()
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
+
+	Butcher();
 	return;
 	// TODO (Jang) : Test code
 	// ¾À »ý¼º
@@ -252,6 +254,7 @@ void CTestScene::CreateTestScene()
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
+#ifdef _CAPTAIN_FOREVER_GAME
 void CTestScene::CaptainForever()
 {
 	CScene* pNewScene = new CScene;
@@ -268,7 +271,19 @@ void CTestScene::CaptainForever()
 		tstring name = iter->second->GetName();
 	}
 }
+#endif
 
+void CTestScene::Butcher()
+{
+	CScene* pNewScene = new CScene;
+
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::Character, true);
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::TileMap, true);
+
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
+#ifdef _SHOOTING2D_GAME
 void CTestScene::Shooting2D()
 {
 	CScene* pNewScene = new CScene;
@@ -280,6 +295,7 @@ void CTestScene::Shooting2D()
 
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
+#endif
 
 void CTestScene::SceneStart()
 {

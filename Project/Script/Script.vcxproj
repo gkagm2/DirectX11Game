@@ -176,6 +176,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCharacterScript_ca.h" />
     <ClInclude Include="CColliderTestScript.h" />
     <ClInclude Include="CCommandModuleScript_ca.h" />
+    <ClInclude Include="CCursorScript.h" />
+    <ClInclude Include="CCursor_bu.h" />
     <ClInclude Include="CEnemyRespawnerScript_sh.h" />
     <ClInclude Include="CEnemyScript_sh.h" />
     <ClInclude Include="CGameManagerScript_sh.h" />
@@ -205,6 +207,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCharacterScript_ca.cpp" />
     <ClCompile Include="CColliderTestScript.cpp" />
     <ClCompile Include="CCommandModuleScript_ca.cpp" />
+    <ClCompile Include="CCursorScript.cpp" />
+    <ClCompile Include="CCursor_bu.cpp" />
     <ClCompile Include="CEnemyRespawnerScript_sh.cpp" />
     <ClCompile Include="CEnemyScript_sh.cpp" />
     <ClCompile Include="CGameManagerScript_sh.cpp" />

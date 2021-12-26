@@ -51,6 +51,7 @@ void CRenderManager::Render()
 		assert(nullptr);
 		break;
 	}
+
 	_RenderClear();
 }
 
@@ -70,15 +71,15 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	// Tool ±‚¡ÿ ∑ª¥ı∏µ
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
-		m_vecToolCam[i]->_SortObjects();
-		m_vecToolCam[i]->_RenderForward();
-		m_vecToolCam[i]->_RenderParticle();
-		m_vecToolCam[i]->_RenderCollider2D();
-		m_vecToolCam[i]->_RenderPostEffect();
-		m_vecToolCam[i]->_RenderCanvas(); // UI Render
-	}
+	//// Tool ±‚¡ÿ ∑ª¥ı∏µ
+	//for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+	//	m_vecToolCam[i]->_SortObjects();
+	//	m_vecToolCam[i]->_RenderForward();
+	//	m_vecToolCam[i]->_RenderParticle();
+	//	m_vecToolCam[i]->_RenderCollider2D();
+	//	m_vecToolCam[i]->_RenderPostEffect();
+	//	m_vecToolCam[i]->_RenderCanvas(); // UI Render
+	//}
 }
 
 CCamera* CRenderManager::GetMainCamera()

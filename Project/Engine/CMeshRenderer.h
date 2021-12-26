@@ -21,6 +21,7 @@ public:
 
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetCloneMaterial();
+	SharedPtr<CMaterial> GetClone_NoSave();
 	SharedPtr<CMaterial> GetSharedMaterial() { return m_pMtrl; }
 
 	void SetColor(BYTE _r, BYTE _g, BYTE _b, BYTE _a) {

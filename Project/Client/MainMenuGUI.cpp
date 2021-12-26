@@ -333,7 +333,10 @@ CGameObject* MainMenuGUI::CreateEmptyGameObject()
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
     
+    
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+        vWorldPos.z = 0.f;
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
 
@@ -387,6 +390,8 @@ void MainMenuGUI::Create2DRectGameObjet()
     // Tool Camera가 바라보고 있는 위치에 생성
     CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
     Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+    if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+        vWorldPos.z = 0.f;
     pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
 }
@@ -410,7 +415,7 @@ CGameObject* MainMenuGUI::_CreateCanvas()
 
 CGameObject* MainMenuGUI::_CreateDefaultUICamera()
 {
-    tstring strObjName = STR_OBJ_NAME_UICamera;
+    tstring strObjName = STR_OBJ_NAME_UICamera  ;
 
     // 새 게임 오브젝트 생성
     CGameObject* pUICameraObj = new CGameObject;

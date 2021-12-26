@@ -15,8 +15,21 @@ CTexture::~CTexture()
 int CTexture::Load(const tstring& _strFilePath)
 {
 	TCHAR strBuff[250] = {};
-	_tsplitpath_s(_strFilePath.c_str(), 0, 0, 0, 0, 0, 0, strBuff, 250);
-	tstring strExt = strBuff;
+	
+	// _tsplitpath_s(_strFilePath.c_str(), 0, 0, 0, 0, 0, 0, strBuff, 250);
+	
+	// GetExtension
+	int iDotIdx = 0; 
+	int size = _strFilePath.size();
+	for (int i = size - 1; i >= 0; --i) {
+		if (_strFilePath[i] == _T('.')) {
+			iDotIdx = i;
+			break;
+		}
+	}
+
+	int extLen = size - iDotIdx + 1;
+	tstring strExt = _strFilePath.substr(iDotIdx, extLen);
 
 	HRESULT hRet = S_OK;
 	if (strExt == _T(".dds") || strExt == _T(".DDS")) {

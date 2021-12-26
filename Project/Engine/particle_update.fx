@@ -86,7 +86,7 @@ _iThreadID)
         float fLifeRatio = g_particle[_iThreadID.x].fCurTime / g_particle[_iThreadID.x].fMaxTime;
         float fCurSpeed = (fEndSpeed - fStartSpeed) * fLifeRatio + fStartSpeed;
     
-        g_particle[_iThreadID.x].vWorldPos += g_particle[_iThreadID.x].vWorldDir * fCurSpeed * g_fDeltaTime;
+        g_particle[_iThreadID.x].vWorldPos += -g_particle[_iThreadID.x].vWorldDir * fCurSpeed * g_fDeltaTime;
     }
         // 1 : Circle_Combine
     if (iParticleShape == 1)

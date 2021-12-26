@@ -162,12 +162,14 @@
     <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CanvasRendererGUI.h" />
     <ClInclude Include="CCameraEx.h" />
+    <ClInclude Include="CCursor.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientManager.h" />
     <ClInclude Include="CollisionEditorGUI.h" />
     <ClInclude Include="ComponentGUI.h" />
     <ClInclude Include="ContextMenuGUI.h" />
@@ -258,12 +260,14 @@
     <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CanvasRendererGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
+    <ClCompile Include="CCursor.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CollisionEditorGUI.cpp" />
     <ClCompile Include="ComponentGUI.cpp" />
     <ClCompile Include="ContextMenuGUI.cpp" />

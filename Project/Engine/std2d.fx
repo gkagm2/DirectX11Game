@@ -53,12 +53,12 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target {
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
             && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+            vOutColor = g_TexAnimAtlas.Sample(Sample_Point, vAnimUV);
         else
             clip(-1);
     }
     else if(bTex_0)
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor = g_tex_0.Sample(Sample_Point, _in.vUV);
     
     return vOutColor;
 }
@@ -105,12 +105,12 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
             && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+            vOutColor = g_TexAnimAtlas.Sample(g_sam_1, vAnimUV);
         else
             clip(-1);
     }
     else if (bTex_0)
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor = g_tex_0.Sample(Sample_Point, _in.vUV);
     
 
     
@@ -266,13 +266,13 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
             && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            vOutColor = g_TexAnimAtlas.Sample(g_sam_0, vAnimUV);
+            vOutColor = g_TexAnimAtlas.Sample(Sample_Anisotropic, vAnimUV);
         else
             clip(-1);
     }
     else if (bTex_0)
     {
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor = g_tex_0.Sample(Sample_Anisotropic, _in.vUV);
     }
     // 색상 혼합
     vOutColor = vOutColor * vUiColor;
@@ -372,7 +372,7 @@ float4 PS_ButtonUI(VTX_OUT _in) : SV_Target
 {
     // Alpha 0.5 미만일 경우 반투명에서 아예 투명으로 됨.
     float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
-    vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    vOutColor = g_tex_0.Sample(Sample_Anisotropic, _in.vUV);
     // 색상 혼합
     vOutColor = vOutColor * vUIColor;
     return vOutColor;

@@ -63,5 +63,5 @@ void CEnemyRespawnerScript_sh::CreateEnemy()
 
 	pEnemy->Transform()->SetLocalScale(Vector3(1.f, 1.f, 1.f));
 
-	CObject::CreateGameObjectEvn(pEnemy, (UINT)E_Layer::Enemy);
+	CObject::CreateGameObjectEvn(pEnemy, 2); // enemy
 }

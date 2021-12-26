@@ -19,6 +19,9 @@ void AudioSourceGUI::Update()
 
 	CAudioSource* pAudioSource = GetTargetObject()->AudioSource();
 
+	if (ImGui::Button("Play##AudioSource")) {
+		pAudioSource->Play();
+	}
 	// Check box
 	//static bool no_border = pAudioSource->;
 	//ImGui::Checkbox("ImGuiColorEditFlags_NoBorder", &no_border);

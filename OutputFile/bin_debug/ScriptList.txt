@@ -4,6 +4,8 @@ CCameraFollowerScript
 CCharacterScript_ca
 CColliderTestScript
 CCommandModuleScript_ca
+CCursorScript
+CCursor_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh

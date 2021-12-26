@@ -6,8 +6,18 @@ public:
 
 
 protected:
+
+#ifdef _CAPTAIN_FOREVER_GAME
 	static void CaptainForever();
+#endif
+
+#ifdef _BUTCHER_GAME
+	static void Butcher();
+#endif
+
+#ifdef _SHOOTING2D_GAME
 	static void Shooting2D();
+#endif
 
 protected:
 	static void SceneStart();					// Done

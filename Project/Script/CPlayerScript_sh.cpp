@@ -76,7 +76,7 @@ void CPlayerScript_sh::Shoot(const Vector2& _vTargetPos)
 	Vector3 vPlayerScale = Transform()->GetLocalScale();
 	Vector3 vMuzzlePos = vPlayerPos;
 	if (m_pMissilePrefab.Get()) {
-		CGameObject* pObj = InstantiateEvn(m_pMissilePrefab, vPlayerPos, (UINT)E_Layer::Bullet);
+		CGameObject* pObj = InstantiateEvn(m_pMissilePrefab, vPlayerPos, 1); // bullet
 		pObj->GetComponent<CBulletScript_sh>()->SetOwnerObject(GetGameObject());
 		pObj->GetComponent<CBulletScript_sh>()->SetDirection(Vector3(0.f, 1.f, 0.f));
 

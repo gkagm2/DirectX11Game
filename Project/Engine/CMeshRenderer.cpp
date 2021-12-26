@@ -57,6 +57,14 @@ SharedPtr<CMaterial> CMeshRenderer::GetCloneMaterial()
 	return m_pMtrl;
 }
 
+SharedPtr<CMaterial> CMeshRenderer::GetClone_NoSave()
+{
+	if (nullptr == m_pMtrl)
+		return nullptr;
+	m_pMtrl = m_pMtrl->Clone_NoAddInResMgr(); 
+	return m_pMtrl;
+}
+
 bool CMeshRenderer::SaveToScene(FILE* _pFile)
 {
 	CRenderer::SaveToScene(_pFile);

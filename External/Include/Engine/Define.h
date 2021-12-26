@@ -208,11 +208,15 @@ enum class E_ComponentType {
 
 // TODO (Jang) : 환경설정 파일을 따로 만들어볼까
 
-#define NUM_LAYER_UI 31
 #define NUM_LAYER_TILEMAP 29
+#define NUM_LAYER_UI 30
+#define NUM_LAYER_CLIENT 31
 
-#define _SHOOTING2D_GAME
+//#define _SHOOTING2D_GAME
+//#define _CAPTAIN_FOREVER_GAME
+#define _BUTCHER_GAME
 
+#ifdef _SHOOTING2D_GAME
 enum class E_Layer {
 	Player,
 	Bullet,
@@ -221,9 +225,8 @@ enum class E_Layer {
 
 	End = MAX_SIZE_LAYER,
 };
-
-#define _CAPTAIN_FOREVER_GAME
-//
+#endif
+#ifdef _CAPTAIN_FOREVER_GAME
 //enum class E_Layer {
 //	Default,
 //#if defined(_SHOOTING_GAME)
@@ -240,6 +243,27 @@ enum class E_Layer {
 //	UI,//31
 //	End = MAX_SIZE_LAYER,
 //};
+#endif
+#ifdef _BUTCHER_GAME
+enum class E_Layer {
+	Default,
+	Character,
+	BackgroundMap,
+	TileMap = NUM_LAYER_TILEMAP,
+	UI = NUM_LAYER_UI,
+	CLIENT = NUM_LAYER_CLIENT,
+	End = MAX_SIZE_LAYER,
+};
+
+enum class E_Tag {
+	Player,
+	Bullet,
+	Enemy,
+	Item,
+};
+tstring TagToString(E_Tag _eTag);
+
+#endif
 
 
 

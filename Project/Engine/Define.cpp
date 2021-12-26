@@ -1,5 +1,36 @@
 #include "pch.h"
 
+#ifdef _BUTCHER_GAME
+
+
+
+tstring TagToString(E_Tag _eTag)
+{
+	tstring tagName = {};
+	switch (_eTag) {
+	case E_Tag::Bullet:
+		tagName = _T("Bullet");
+		break;
+	case E_Tag::Enemy:
+		tagName = _T("Enemy");
+		break;
+	case E_Tag::Item:
+		tagName = _T("Item");
+		break;
+	case E_Tag::Player:
+		tagName = _T("Player");
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	return tagName;
+}
+#endif
+
+
+
+
 tstring LightTypeToStr(E_LightType _eType)
 {
 	tstring strLightType = _T("");

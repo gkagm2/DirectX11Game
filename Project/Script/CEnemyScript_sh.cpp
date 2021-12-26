@@ -66,7 +66,7 @@ void CEnemyScript_sh::OnCollisionEnter2D(CCollider2D* _pOther)
 	static int cnt = 0;
 	_tcprintf(_T("%d\n"), cnt++);
 	UINT iLayer = _pOther->GetGameObject()->GetLayer();
-	if (iLayer == (UINT)E_Layer::Bullet) {
+	if (iLayer == 1) {  // bullet
 		CBulletScript_sh* pBullet = _pOther->GetGameObject()->GetComponent<CBulletScript_sh>();
 
 		CPlayerScript_sh* pPlayer = pBullet->GetOwnerObject()->GetComponent<CPlayerScript_sh>();
