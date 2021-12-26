@@ -10,6 +10,12 @@ CLight2D::CLight2D() :
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DNoneColliedMtrl);
 	m_tInfo.eLightType = E_LightType::Point;
+
+	m_tInfo.fAngle_Radian = PI * 0.5f;
+	m_tInfo.fRange = 2.f;
+	m_tInfo.tColor.vDiffuse = Vector4(0.8f, 0.8f, 0.8f, 1.f);
+	m_tInfo.tColor.vEmbient = Vector4(0.8f, 0.8f, 0.8f, 1.f);
+	m_tInfo.tColor.vSpecular = Vector4(0.8f, 0.8f, 0.8f, 1.f);
 }
 
 CLight2D::~CLight2D()

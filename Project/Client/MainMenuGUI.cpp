@@ -40,6 +40,7 @@ UINT g_iEmptyGameObjectID = 0;
 UINT g_iEmpty2DCameraGameObjectID = 0;
 UINT g_iEmptyRect2DGameObjectID = 0;
 UINT g_iEmptyParticleSystemGameObjectID = 0;
+UINT g_iEmptyLight2DID = 0;
 
 
 UINT g_iTextUIGameObjectID = 0;
@@ -110,6 +111,9 @@ void MainMenuGUI::Update()
             }
             if (ImGui::MenuItem("Create ParticleSystem")) {
                 CreateParticleSystemGameObject();
+            }
+            if (ImGui::MenuItem("Create Light2D")) {
+                CreateLight2D();
             }
             if (ImGui::BeginMenu("Create UI")) {
                 if (ImGui::MenuItem("Button UI")) {
@@ -372,6 +376,17 @@ void MainMenuGUI::CreateParticleSystemGameObject()
     pNewGameObject->SetName(strObjName);
     pNewGameObject->AddComponent<CTransform>();
     pNewGameObject->AddComponent<CParticleSystem>();
+    CObject::CreateGameObjectEvn(pNewGameObject, 0);
+}
+
+void MainMenuGUI::CreateLight2D()
+{
+    tstring strObjName = _CreateObjectName(_T("Light2D"), g_iEmptyLight2DID);
+
+    CGameObject* pNewGameObject = new CGameObject;
+    pNewGameObject->SetName(strObjName);
+    pNewGameObject->AddComponent<CTransform>();
+    pNewGameObject->AddComponent<CLight2D>();
     CObject::CreateGameObjectEvn(pNewGameObject, 0);
 }
 

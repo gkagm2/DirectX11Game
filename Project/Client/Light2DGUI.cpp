@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "Light2DGUI.h"
 #include <Engine\CLight2D.h>
+#include "ParamGUI.h"
 
 Light2DGUI::Light2DGUI() :
-	LightGUI(E_ComponentType::Light2D)
+	LightGUI(E_ComponentType::Light2D),
+	m_pLight(nullptr)
 {
 	_InitComboBoxList();
 }
@@ -18,12 +20,10 @@ void Light2DGUI::Update()
 		return;
 
 	CGameObject* pTargetObj = GetTargetObject();
-	CLight2D* pLight = pTargetObj->Light2D();
+	m_pLight = pTargetObj->Light2D();
 
-	TLightInfo& tLightInfoRef = pLight->GetLightInfoRef();
+	TLightInfo& tLightInfoRef = m_pLight->GetLightInfoRef();
 	
-	ImGui::InputFloat("Angle##Light2D ", &tLightInfoRef.fAngle, 0.f, 0.f, "%.2f");
-	ImGui::InputFloat("Range##Light2D ", &tLightInfoRef.fRange, 0.f, 0.f, "%.2f");
 
 	// lightType 
 	string strLightType;
@@ -33,15 +33,24 @@ void Light2DGUI::Update()
 	ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), m_vecStrLigthTypeList.size());
 	tLightInfoRef.eLightType = (E_LightType)iCurLightType;
 
-	/*Vector4* pDir = &tLightInfoRef.vLightDir;
-	ImGui::InputFloat4("Light Direction ##Light2D", *pDir, "%.2f");*/
+	switch (tLightInfoRef.eLightType) {
+	case E_LightType::Direction:
+		_RenderDirection(tLightInfoRef);
+		break;
+	case E_LightType::Point:
+		_RenderPoint(tLightInfoRef);
+		break;
+	case E_LightType::Spot:
+		_RenderSpot(tLightInfoRef);
+		break;
+	default:
+		assert(nullptr && _T("light 타입 부족"));
+		break;
+	}
 
-	ImGui::InputFloat4("Light Direction ##Light2D", tLightInfoRef.vLightDir, "%.2f");
-	ImGui::InputFloat4("Light Position  ##Light2D", tLightInfoRef.vLightPos, "%.2f");
-
-	ImGui::InputFloat4("Diffuse##Light2D  ", tLightInfoRef.tColor.vDiffuse, "%.2f");
-	ImGui::InputFloat4("Embient##Light2D  ", tLightInfoRef.tColor.vEmbient, "%.2f");
-	ImGui::InputFloat4("Specular##Light2D ", tLightInfoRef.tColor.vSpecular, "%.2f");
+	ParamGUI::Render_Color("Diffuse##Light2D", &tLightInfoRef.tColor.vDiffuse);
+	ParamGUI::Render_Color("Embient##Light2D", &tLightInfoRef.tColor.vEmbient);
+	ParamGUI::Render_Color("Specular##Light2D", &tLightInfoRef.tColor.vSpecular);
 
 	End();
 }
@@ -56,4 +65,28 @@ void Light2DGUI::_InitComboBoxList()
 		m_vecStrLigthTypeList.push_back('\0');
 	}
 	m_vecStrLigthTypeList.push_back('\0');
+}
+
+void Light2DGUI::_RenderDirection(TLightInfo& tLightInfoRef)
+{
+}
+
+void Light2DGUI::_RenderSpot(TLightInfo& _tLightInfoRef)
+{
+	float fDegree = m_pLight->GetAngle();
+	ImGui::DragFloat("Degree##Light2D ", &fDegree, 0.1f, FLOAT_MIN, FLOAT_MAX, "%.2f");
+		m_pLight->SetAngle(fDegree);
+
+	_RenderParam_Range(_tLightInfoRef);
+
+}
+
+void Light2DGUI::_RenderPoint(TLightInfo& _tLightInfoRef)
+{
+	_RenderParam_Range(_tLightInfoRef);
+}
+
+void Light2DGUI::_RenderParam_Range(TLightInfo& _tLightInfoRef)
+{
+	ImGui::DragFloat("Range##Light2D ", &_tLightInfoRef.fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f");
 }

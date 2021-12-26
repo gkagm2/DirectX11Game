@@ -158,6 +158,7 @@
       <Filter>Games\Useful</Filter>
     </ClInclude>
     <ClInclude Include="CCursor_bu.h" />
+    <ClInclude Include="CCharacter_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -243,5 +244,6 @@
       <Filter>Games\Useful</Filter>
     </ClCompile>
     <ClCompile Include="CCursor_bu.cpp" />
+    <ClCompile Include="CCharacter_bu.cpp" />
   </ItemGroup>
 </Project>

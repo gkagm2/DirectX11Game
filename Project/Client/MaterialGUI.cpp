@@ -221,7 +221,7 @@ void MaterialGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 void MaterialGUI::CopyMaterial(CMaterial* _pMtrl)
 {
 	//Resource 복사
-	CMaterial* cloneMtrl = _pMtrl->Clone_NoAddInResMgr();
+	CMaterial* cloneMtrl = _pMtrl->Clone();
 	tstring strOriginKey = _pMtrl->GetKey();
 	tstring strKey;
 	//  못찾았으면 

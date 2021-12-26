@@ -158,9 +158,9 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
             //vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
             }
         }
-        else
+        else if(g_Light2DBuffer[i].iLightType == directType)
         {
-            
+            finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse;
         }
     }
     vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;

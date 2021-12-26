@@ -5,6 +5,7 @@
 #include "CBulletScript_sh.h"
 #include "CCameraFollowerScript.h"
 #include "CCharacterScript_ca.h"
+#include "CCharacter_bu.h"
 #include "CColliderTestScript.h"
 #include "CCommandModuleScript_ca.h"
 #include "CCursorScript.h"
@@ -34,6 +35,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBulletScript_sh");
 	_vec.push_back(L"CCameraFollowerScript");
 	_vec.push_back(L"CCharacterScript_ca");
+	_vec.push_back(L"CCharacter_bu");
 	_vec.push_back(L"CColliderTestScript");
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CCursorScript");
@@ -68,6 +70,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCameraFollowerScript;
 	if (L"CCharacterScript_ca" == _strScriptName)
 		return new CCharacterScript_ca;
+	if (L"CCharacter_bu" == _strScriptName)
+		return new CCharacter_bu;
 	if (L"CColliderTestScript" == _strScriptName)
 		return new CColliderTestScript;
 	if (L"CCommandModuleScript_ca" == _strScriptName)
@@ -130,6 +134,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CHARACTERSCRIPT_CA:
 		return new CCharacterScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::CHARACTER_BU:
+		return new CCharacter_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::COLLIDERTESTSCRIPT:
 		return new CColliderTestScript;
@@ -219,6 +226,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CHARACTERSCRIPT_CA:
 		return L"CCharacterScript_ca";
+		break;
+
+	case SCRIPT_TYPE::CHARACTER_BU:
+		return L"CCharacter_bu";
 		break;
 
 	case SCRIPT_TYPE::COLLIDERTESTSCRIPT:

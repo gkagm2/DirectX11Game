@@ -33,7 +33,7 @@ struct TLightInfo {
 	Vector4 vLightDir;
 	E_LightType eLightType;
 	float fRange;
-	float fAngle;
+	float fAngle_Radian; // 라디안 단위의 각도
 };
 
 struct TParticle {

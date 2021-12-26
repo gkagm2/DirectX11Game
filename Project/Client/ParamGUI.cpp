@@ -229,6 +229,7 @@ bool ParamGUI::Render_Matrix(const string& _strName, Matrix* _pOut)
 	return bFixed;
 }
 
+
 bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
 {
 	string strText = _strName.substr(0, _strName.find("##"));
@@ -249,6 +250,24 @@ bool ParamGUI::Render_Color(const string& _strName, UINT* _iColorInOut)
 	}
 	ImGui::PopID();
 	
+	return bIsFixed;
+}
+
+bool ParamGUI::Render_Color(const string& _strName, Vector4* _pOut)
+{
+	string strText = _strName.substr(0, _strName.find("##"));
+	ImGui::Text(strText.c_str());
+
+	string strLabel = "##";
+	strLabel += strText;
+
+	bool bIsFixed = false;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::ColorEdit4(_strName.c_str(), &(_pOut->x), ImGuiColorEditFlags_InputRGB)) {
+		bIsFixed = true;
+	}
+	ImGui::PopID();
+
 	return bIsFixed;
 }
 

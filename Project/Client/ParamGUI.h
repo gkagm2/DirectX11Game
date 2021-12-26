@@ -60,6 +60,7 @@ public:
 	static bool Render_Matrix(const string	& _strName, Matrix* _pOut);
 
 	static bool Render_Color(const string& _strName, UINT* _iColorInOut);
+	static bool Render_Color(const string& _strName, Vector4* _pOut);
 
 	static void Make_ComboBoxList(const vector<string>& _inStrList, vector<char>& _outStrList);
 	static bool Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& m_strList);

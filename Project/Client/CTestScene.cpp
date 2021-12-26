@@ -117,7 +117,7 @@ void CTestScene::CreateTestScene()
 	//FontRendering();
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
-
+	//Light2DTest();
 	Butcher();
 	return;
 	// TODO (Jang) : Test code
@@ -645,7 +645,6 @@ void CTestScene::ImGuiTest()
 	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
 	pSpotLight->Light2D()->SetRange(400.f);
 	pSpotLight->Light2D()->SetAngle(60.f);
-	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 	pSpotLight->SetName(_T("SpotLight2D"));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
@@ -795,7 +794,6 @@ void CTestScene::DistortionObject()
 	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
 	pSpotLight->Light2D()->SetRange(400.f);
 	pSpotLight->Light2D()->SetAngle(60.f);
-	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 	pSpotLight->SetName(_T("SpotLight2D"));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
@@ -950,7 +948,6 @@ void CTestScene::FishEyePostEffect()
 	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
 	pSpotLight->Light2D()->SetRange(400.f);
 	pSpotLight->Light2D()->SetAngle(60.f);
-	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 	pSpotLight->SetName(_T("SpotLight2D"));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
@@ -1267,7 +1264,6 @@ void CTestScene::MaterialCreateTest()
 	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
 	pSpotLight->Light2D()->SetRange(400.f);
 	pSpotLight->Light2D()->SetAngle(60.f);
-	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 	pSpotLight->SetName(_T("SpotLight2D"));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
@@ -1476,7 +1472,7 @@ void CTestScene::Light2DTest()
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalRotation(Vector3(0.f, 0.f, 0.f));
-	pPlayer->Transform()->SetLocalScale(Vector3(200.f, 200.f, 1.f));
+	pPlayer->Transform()->SetLocalScale(Vector3(1000.f, 1000.f, 1.f));
 	CObject::CreateGameObjectEvn(pPlayer, 2);
 
 	// Spot Light 생성
@@ -1490,7 +1486,6 @@ void CTestScene::Light2DTest()
 	pSpotLight->Light2D()->SetDiffColor(Vector3(0.0f, 0.0f, 1.0f));
 	pSpotLight->Light2D()->SetRange(400.f);
 	pSpotLight->Light2D()->SetAngle(60.f);
-	pSpotLight->Light2D()->SetLightDir(Vector3(1.f, 0.f, 0.f));
 
 	CObject::CreateGameObjectEvn(pSpotLight, 0);
 
@@ -1501,10 +1496,6 @@ void CTestScene::Light2DTest()
 	pPointLight->Light2D()->SetDiffColor(Vector3(1.0f, 0.0f, 0.0f));
 	CObject::CreateGameObjectEvn(pPointLight, 0);
 
-
-	// Scene 초기화
-	pNewScene->Awake();
-	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

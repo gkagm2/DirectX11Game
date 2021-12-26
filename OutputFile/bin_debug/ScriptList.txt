@@ -2,6 +2,7 @@ CBoosterScript_ca
 CBulletScript_sh
 CCameraFollowerScript
 CCharacterScript_ca
+CCharacter_bu
 CColliderTestScript
 CCommandModuleScript_ca
 CCursorScript

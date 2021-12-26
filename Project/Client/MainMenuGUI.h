@@ -24,6 +24,7 @@ public:
 	CGameObject* CreateEmptyGameObject();
 	void CreateCamera2DGameObject();
 	void CreateParticleSystemGameObject();
+	void CreateLight2D();
 
 	// 2D
 	void Create2DRectGameObjet();
