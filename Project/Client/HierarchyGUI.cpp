@@ -10,8 +10,11 @@
 
 #include "CImGuiManager.h"
 #include "InspectorGUI.h"
+#include "ResourceViewGUI.h"
+#include "TreeViewGUI.h"
 
-HierarchyGUI::HierarchyGUI()
+HierarchyGUI::HierarchyGUI() :
+	m_treeView(STR_GUI_HierarchyTree)
 {
 	SetName(STR_GUI_Hierarchy);
 }
@@ -25,8 +28,6 @@ void HierarchyGUI::Init()
 	_RenewTreeView();
 	m_treeView.SetFrameRender(false);
 	m_treeView.SetFrameOnlyParent(false);
-	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&HierarchyGUI::SelectGameObject);
-	m_treeView.SetDragDropCallBack(this, (DRAG_DROP_CALLBACK)&HierarchyGUI::DragDrop);
 }
 
 void HierarchyGUI::Update()
@@ -80,6 +81,9 @@ void HierarchyGUI::_RenewTreeView()
 		}
 	}
 
+	m_treeView.SetClickCallBack(this, TREE_CALLBACK(&HierarchyGUI::_ClickedGameObject));
+	m_treeView.SetDragDropCallBack(this, (DRAG_DROP_CALLBACK)&HierarchyGUI::DragDrop);
+
 	//// 오브젝트 추가
 	//for (UINT i = 0; i < MAX_SIZE_LAYER; ++i) {
 	//	CLayer* pLayer = pCurScene->GetLayer(i);
@@ -112,14 +116,6 @@ void HierarchyGUI::_RenewTreeView()
 	//}
 }
 
-void HierarchyGUI::SelectGameObject(TreeViewNode* _pNode)
-{
-	CGameObject* pTargetObj = (CGameObject*)_pNode->GetData();
-	InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
-	
-	pInspectorGUI->SetTargetObject(pTargetObj);
-}
-
 void HierarchyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode)
 {
 	CGameObject* pDragStartNode = (CGameObject*)_pDragStartNode->GetData();
@@ -139,4 +135,18 @@ void HierarchyGUI::DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropT
 	else {
 		CObject::AddChildGameObjectEvn(pDropTargetNode, pDragStartNode);
 	}
+}
+
+void HierarchyGUI::_ClickedGameObject(DWORD_PTR _dwItem, DWORD_PTR _dwData)
+{
+	TreeViewNode* pSelectedItem = (TreeViewNode*)_dwItem;
+	CGameObject* pSelectedObj = (CGameObject*)_dwData;
+
+	// InspectorGUI 에 해당 오브젝트의 정보를 요청한다.
+	InspectorGUI* pInspector = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
+	pInspector->SetTargetObject(pSelectedObj);
+
+	// Hierachy 에 선택된 아이템 해제
+	ResourceViewGUI* pResView = (ResourceViewGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_ResourceView);
+	pResView->ReleaseSelectNode();
 }

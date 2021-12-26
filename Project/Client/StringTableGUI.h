@@ -20,5 +20,11 @@
 // ComponentType
 
 
+#define STR_GUI_HierarchyTree "Hierarchy_Tree"
+#define STR_GUI_ResourceViewTree "ResourceView_Tree"
+#define STR_GUI_SceneViewTree "SceneView_Tree"
+
+
+
 // CaptainForever
 #define STR_GUI_ModuleCreator "ModuleCreator"

@@ -5,6 +5,8 @@ class CPlayerScript_ca : public CScript
 public:
 	float m_fSpeed;
 	Vector3 m_vTempVec;
+
+	CGameObject* pTargetObj;
 public:
 	virtual void Start() override;
 	virtual void Update() override;

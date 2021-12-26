@@ -16,6 +16,8 @@ private:
 
 public:
 	void SelectResource(TreeViewNode* _pNode);
+	void ReleaseSelectNode() { m_treeView.ReleaseSelectedNode(); }
+
 
 public:
 	ResourceViewGUI();

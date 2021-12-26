@@ -2,9 +2,11 @@
 #include "ResourceViewGUI.h"
 #include <Engine\CResourceManager.h>
 #include "InspectorGUI.h"
+#include "HierarchyGUI.h"
 #include "CImGuiManager.h"
 
-ResourceViewGUI::ResourceViewGUI()
+ResourceViewGUI::ResourceViewGUI() :
+	m_treeView(STR_GUI_ResourceViewTree)
 {
 	SetName(STR_GUI_ResourceView);
 }
@@ -18,8 +20,6 @@ void ResourceViewGUI::Init()
 	m_treeView.SetFrameRender(true);
 	m_treeView.SetFrameOnlyParent(true);
 	m_treeView.SetRootRender(false);
-
-	m_treeView.SetSelectCallBack(this, (SEL_CHANGE_CALLBACK)&ResourceViewGUI::SelectResource);
 
 	_RenewTreeView();
 }
@@ -64,6 +64,8 @@ void ResourceViewGUI::_RenewTreeView()
 			m_treeView.AddItem(strKey, (DWORD_PTR)pair.second, pNode);
 		}
 	}
+
+	m_treeView.SetClickCallBack(this, (TREE_CALLBACK)&ResourceViewGUI::SelectResource);
 }
 
 void ResourceViewGUI::SelectResource(TreeViewNode* _pNode)
@@ -74,4 +76,8 @@ void ResourceViewGUI::SelectResource(TreeViewNode* _pNode)
 	// InspectorGUI에 선택된 리소스를 알린다.
 	InspectorGUI* pInspector = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
 	pInspector->SetTargetResource((CResource*)_pNode->GetData());
+
+	// Hierachy 에 선택된 아이템 해제
+	HierarchyGUI* pHierarchy = (HierarchyGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Hierarchy);
+	pHierarchy->ReleaseSelectNode();
 }

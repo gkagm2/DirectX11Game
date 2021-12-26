@@ -7,6 +7,7 @@ class TreeViewNode;
 // SEL_CHANGE : Select Change (선택된게 변경되었을 경우의 콜백 함수)
 typedef void (GUI::* SEL_CHANGE_CALLBACK)(TreeViewNode* _pNode);
 typedef void (GUI::* DRAG_DROP_CALLBACK)(TreeViewNode* _pDragedItem, TreeViewNode* _pDropedItem);
+typedef void (GUI::* TREE_CALLBACK)(DWORD_PTR, DWORD_PTR);
 
 class TreeViewNode
 {
@@ -21,6 +22,9 @@ private:
 
 	UINT m_iStyleFlag;
 	ImVec4 m_vTextColor;
+
+	bool m_bOpen;
+	bool m_bMouseLBtnPress;
 
 public:
 	void Update();
@@ -45,6 +49,12 @@ private:
 	void _SetParent(TreeViewNode* _pParentNode) { m_pParentNode = _pParentNode; }
 	void _SetOwner(TreeViewGUI* _pOwner) { m_pOwner = _pOwner; }
 
+	void _DragDrop();
+	void _DoubleClick();
+private:
+	bool _IsLeftClick();
+	
+
 public:
 	TreeViewNode();
 	virtual ~TreeViewNode();
@@ -55,28 +65,35 @@ public:
 class TreeViewGUI : public GUI
 {
 private:
+	string m_strName;
+
 	TreeViewNode* m_pRootNode;		// 최상위 노드
 	TreeViewNode* m_pSelectedNode;	// 선택한 노드
 
-	TreeViewNode* m_pDraggedNode;	// 드래그 시작한 노드
+	TreeViewNode* m_pDragStartNode;	// 드래그 시작한 노드
 	TreeViewNode* m_pDropTargetNode;// 드래그 목적지 노드
 
 	bool m_bRootRender;		// 최상위 부모를 렌더링하는지 여부
 	bool m_bFrameUse;		// Frame 사용 여부
 	bool m_bFrameOnlyParent;// Parent만 Frame을 사용할 것인지 여부
 
+
+
+
+
 	// 콜백함수
+	// 
 	// 클릭 시 콜백
-	SEL_CHANGE_CALLBACK		m_pSelectFunc;
-	GUI*					m_pSelectInst;
+	TREE_CALLBACK	m_pClickedFunc;
+	GUI* m_pClickedInst;
 
 	// 드래그 앤 드롭시 콜백
 	DRAG_DROP_CALLBACK		m_pDragDropFunc;
-	GUI*					m_pDragDropInst;
+	GUI* m_pDragDropInst;
 
 	// 더블 클릭 시 콜백
 	GUI_CALLBACK	m_pDBCallBack; // DBC :: Double Click
-	GUI*			m_pDBCInst;
+	GUI* m_pDBCInst;
 	GLOBAL_CALLBACK m_pGDBCCallBack; // GDBC : global double click
 
 public:
@@ -99,10 +116,6 @@ public:
 	void Clear();
 
 public:
-	void SetSelectCallBack(GUI* _pInst, SEL_CHANGE_CALLBACK _pMemFunc) {
-		m_pSelectInst = _pInst;
-		m_pSelectFunc = _pMemFunc;
-	}
 	void SetDragDropCallBack(GUI* _pInst, DRAG_DROP_CALLBACK _pMemFunc) {
 		m_pDragDropInst = _pInst;
 		m_pDragDropFunc = _pMemFunc;
@@ -114,14 +127,26 @@ public:
 	void SetDoubleClickCallBack(GLOBAL_CALLBACK _pFunc) {
 		m_pGDBCCallBack = _pFunc;
 	}
+	void SetClickCallBack(GUI* _pGUI, TREE_CALLBACK _pFunc) {
+		m_pClickedInst = _pGUI;
+		m_pClickedFunc = _pFunc;
+	}
 
 private:
 	void _SetSelectedNode(TreeViewNode* _pNode) { m_pSelectedNode = _pNode; }
-	void _SetDragStartNode(TreeViewNode* _pNode) { m_pDraggedNode = _pNode; }
+	void _SetDragStartNode(TreeViewNode* _pNode) { m_pDragStartNode = _pNode; }
 	void _SetDropTargetNode(TreeViewNode* _pNode) { m_pDropTargetNode = _pNode; }
+	void _ExcuteClickedCallBack(TreeViewNode* _pClickedItem);
+
+private:
+	TreeViewNode* _GetSelectdItem() { return m_pSelectedNode; }
+	TreeViewNode* _GetDragStartItem() { return m_pDragStartNode; }
 
 public:
-	TreeViewGUI();
+	void ReleaseSelectedNode() { m_pSelectedNode = nullptr; }
+
+public:
+	TreeViewGUI(const string& _strName);
 	virtual ~TreeViewGUI() override;
 
 	friend class TreeViewNode;

@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "TreeViewGUI.h"
+#include <Engine\CKeyManager.h>
+#include "DebugGUI.h"
+#include "CImGuiManager.h"
+#include <Engine\CGameObject.h>
 
 // ------------
 // TreeViewNode 
@@ -10,7 +14,9 @@ TreeViewNode::TreeViewNode() :
 	m_dwData(0),
 	m_bUseFrame(false),
 	m_iStyleFlag(0),
-	m_vTextColor{1.f,1.f,1.f,1.f}
+	m_vTextColor{1.f,1.f,1.f,1.f},
+	m_bOpen{ false },
+	m_bMouseLBtnPress(false)
 {
 }
 
@@ -21,15 +27,19 @@ TreeViewNode::~TreeViewNode()
 
 void TreeViewNode::Update()
 {
-	m_iStyleFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
+	int m_iStyleFlag = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (m_bUseFrame)
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Framed;
-	if (m_vecChildNodes.empty()) // 자식이 없는 경우 화살표 표시 X
+	if (m_vecChildNodes.empty() && !m_bUseFrame) // 자식이 없는 경우 화살표 표시 X
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Leaf;
-	if (this == m_pOwner->m_pSelectedNode)
+	if (this == m_pOwner->_GetSelectdItem())
+		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
+	if (this == m_pOwner->_GetDragStartItem())
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
 
+
+	bool bLeftClicked = false;
 
 	// Node Update
 	string strName = m_strName;
@@ -41,112 +51,137 @@ void TreeViewNode::Update()
 	strName = strName + "##" + std::to_string(m_dwData);
 
 	ImGui::PushStyleColor(ImGuiCol_Text, m_vTextColor);
+
 	
+	if (m_bOpen) {
+		ImGui::SetNextItemOpen(m_bOpen);
+		m_bOpen = false;
+	}
+
+	// Node가 열려있을 경우
 	if (ImGui::TreeNodeEx(strName.c_str(), m_iStyleFlag)) {
-		// 해당 아이템이 클릭된 경우
-		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
-			// 현재 아이템이 선택되지 않았으면
-			//if (this != m_pOwner->m_pSelectedNode) {
-				m_pOwner->_SetSelectedNode(this); // 선택
+		bLeftClicked = _IsLeftClick();
+		_DragDrop();
+		_DoubleClick();
 
-				// 선택된 인스턴스가 존재하면
-				if (nullptr != m_pOwner->m_pSelectedNode && m_pOwner->m_pSelectInst) {
-					((m_pOwner->m_pSelectInst)->*m_pOwner->m_pSelectFunc)(m_pOwner->m_pSelectedNode);
-				}
-			//}
-		}
-
-		// 해당 아이템 오른쪽 버튼을 클릭한 경우
-		//if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(2)) {
-		//	// 현재 아이템이 선택되지 않았으면
-		//	if (this != m_pOwner->m_pSelectedNode) {
-		//		m_pOwner->_SetSelectedNode(this);
-
-		//		// 선택된 인스턴스가 존재하면
-		//		if (nullptr != m_pOwner->m_pSelectedNode && m_pOwner->m_pSelectInst) {
-		//			((m_pOwner->m_pSelectInst)->*m_pOwner->m_pSelectFunc)(m_pOwner->m_pSelectedNode);
-
-		//			// ContextMenu Open
-		//			
-		//		}
-		//	}
-		//}
-		
-		// 아이템을 더블클릭 했을 경우
-		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
-		{
-			if (m_pOwner->m_pDBCInst && m_pOwner->m_pDBCallBack) {
-				string name = GetName();
-				std::shared_ptr<string> pName = std::make_shared<string>(name);
-				(m_pOwner->m_pDBCInst->*m_pOwner->m_pDBCallBack)((DWORD_PTR)pName.get(), 0);
-			}
-		}
-
-		// 해당 아이템이 드래그 시작한 경우
-		if (ImGui::BeginDragDropSource()) {
-			// 자신이 드래그 시작 노드를 알림
-			m_pOwner->_SetDragStartNode(this);
-			ImGui::SetDragDropPayload("DraggedNode", this, sizeof(TreeViewNode));
-			ImGui::Text("This is a drag and drop source");
-			ImGui::EndDragDropSource();
-		}
-		
-		
-
-		// 해당 아이템이 드롭한 경우
-		if (ImGui::BeginDragDropTarget()) {
-			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DraggedNode");
-
-			if (payload) {
-				// 자신이 드래그 목적지를 알림
-				m_pOwner->_SetDropTargetNode(this);
-
-				// drag 시작한 트리노드의 정보를 가져옴
-				TreeViewNode* pDragNode = (TreeViewNode*)payload->Data;
-				// drag drop callback 호출
-				((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(pDragNode, this);
-
-				// tree의 drag시작, 타겟 정보 초기화
-				m_pOwner->_SetDragStartNode(nullptr);
-				m_pOwner->_SetDropTargetNode(nullptr);
-			}
-
-			ImGui::EndDragDropTarget();
-		}
-		// 아이템을 드롭했는데 비어있는 창이면
-		else if (ImGui::IsMouseReleased(0) && m_pOwner->m_pDraggedNode && !m_pOwner->m_pDropTargetNode) {
-			if (m_pOwner->m_pDragDropInst && m_pOwner->m_pDragDropFunc) {
-				if (GUI::IsMouseInWindowContentRegion()) {
-					// drag 시작한 트리노드의 정보를 가져옴
-					m_pOwner->_SetDropTargetNode(this);
-					((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(m_pOwner->m_pDraggedNode, nullptr);
-					m_pOwner->_SetDragStartNode(nullptr);
-					m_pOwner->_SetDropTargetNode(nullptr);
-				}
-			}
-		}
-
-		for (UINT i = 0; i < m_vecChildNodes.size(); ++i)
+		// 자식 노드 업데이트
+		for (size_t i = 0; i < m_vecChildNodes.size(); ++i)
 			m_vecChildNodes[i]->Update();
+
 		ImGui::TreePop();
 	}
+	else { // Node가 닫혀있을 경우
+		// 왼쪽 클릭 체크
+		bLeftClicked = _IsLeftClick();
+		// 드래그 드랍 체크
+		_DragDrop();
+		_DoubleClick();
+	}
+
+	// 이벤트 처리
+	if (bLeftClicked)
+		m_pOwner->_ExcuteClickedCallBack(this);
+
+	// 마우스 뗐을 때 눌린 상태 되돌려 놓기
+	if (InputKeyRelease(E_Key::LBUTTON))
+		m_bMouseLBtnPress = false;
+
 	ImGui::PopStyleColor();
 }
 
 
+void TreeViewNode::_DragDrop()
+{
+	//// 해당 아이템이 드래그 시작한 경우
+	// 드래그 시작
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+		ImGui::SetDragDropPayload(m_pOwner->GetName().c_str(), &m_dwData, sizeof(DWORD_PTR));
+		ImGui::Text(GetName().c_str());
+		ImGui::EndDragDropSource();
+		m_pOwner->_SetDragStartNode(this);
+	}
+
+
+	// 마우스가 drop 타겟으로 이동했으면 실행
+	if (ImGui::BeginDragDropTarget()) {
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_pOwner->GetName().c_str());
+		// 해당 아이템이 드롭한 경우
+		if (payload) {
+			m_pOwner->_SetDropTargetNode(this);
+			// Drag Drop 발생
+			if (m_pOwner->m_pDragStartNode && m_pOwner->m_pDropTargetNode)
+			{
+				((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(m_pOwner->m_pDragStartNode, m_pOwner->m_pDropTargetNode);
+
+				m_pOwner->_SetDragStartNode(nullptr);
+				m_pOwner->_SetDropTargetNode(nullptr);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	// 아이템을 드롭했는데 비어있는 창이면
+	if (InputKeyRelease(E_Key::LBUTTON) &&
+		nullptr != m_pOwner->m_pDragStartNode &&
+		nullptr == m_pOwner->m_pDropTargetNode &&
+		nullptr != m_pOwner->m_pDragDropInst &&
+		nullptr != m_pOwner->m_pDragDropFunc &&
+		true == GUI::IsMouseInWindowContentRegion()) {
+		// drag 시작한 트리노드의 정보를 가져옴
+		m_pOwner->_SetDropTargetNode(this);
+		((m_pOwner->m_pDragDropInst)->*m_pOwner->m_pDragDropFunc)(m_pOwner->m_pDragStartNode, nullptr);
+
+		// FIXED(Jang) : BeginDragDropTarget 타이밍이 안맞음... 일단 주석처리
+		m_pOwner->_SetDragStartNode(nullptr);
+		m_pOwner->_SetDropTargetNode(nullptr);
+	}
+}
+
+void TreeViewNode::_DoubleClick()
+{
+	// 아이템을 더블클릭 했을 경우
+	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0)) {
+		if (m_pOwner->m_pDBCInst && m_pOwner->m_pDBCallBack) {
+			string name = GetName();
+			std::shared_ptr<string> pName = std::make_shared<string>(name);
+			(m_pOwner->m_pDBCInst->*m_pOwner->m_pDBCallBack)((DWORD_PTR)pName.get(), 0);
+		}
+	}
+}
+
+bool TreeViewNode::_IsLeftClick()
+{
+	// 아이템 왼쪽 클릭 된 경우
+	if (ImGui::IsItemHovered(ImGuiHoveredFlags_None) && InputKeyPress(E_Key::LBUTTON)) {
+		m_bMouseLBtnPress = true;
+		return false;
+	}
+	else if (m_bMouseLBtnPress && ImGui::IsItemHovered(ImGuiHoveredFlags_None) && InputKeyRelease(E_Key::LBUTTON))
+		return true;
+	return false;
+}
+
+void TreeViewGUI::_ExcuteClickedCallBack(TreeViewNode* _pClickedItem)
+{
+	m_pSelectedNode = _pClickedItem;
+	if(m_pClickedInst && m_pClickedInst)
+		(m_pClickedInst->*m_pClickedFunc)((DWORD_PTR)_pClickedItem, _pClickedItem->m_dwData);
+}
+
 // ------------
 // TreeViewGUI 
 // ------------
-TreeViewGUI::TreeViewGUI() :
+TreeViewGUI::TreeViewGUI(const string& _strName) :
+	m_strName(_strName),
 	m_pRootNode(nullptr),
 	m_pSelectedNode(nullptr),
-	m_pDraggedNode(nullptr),
+	m_pDragStartNode(nullptr),
 	m_pDropTargetNode(nullptr),
 	m_bRootRender(false),
 	m_bFrameUse(false),
 	m_bFrameOnlyParent(false),
-	m_pSelectFunc{ nullptr },
-	m_pSelectInst(nullptr),
+	m_pClickedFunc{ nullptr },
+	m_pClickedInst{ nullptr },
 	m_pDragDropFunc{ nullptr },
 	m_pDragDropInst(nullptr),
 	m_pDBCallBack{ nullptr },
@@ -176,6 +211,9 @@ void TreeViewGUI::Update()
 		for (UINT i = 0; i < vecChildNodes.size(); ++i)
 			vecChildNodes[i]->Update();
 	}
+
+	if (InputKeyRelease(E_Key::LBUTTON))
+		m_pDragStartNode = nullptr;
 }
 
 TreeViewNode* TreeViewGUI::AddItem(const string& _str, DWORD_PTR _dwData, TreeViewNode* _pParent)
@@ -201,16 +239,15 @@ void TreeViewGUI::Clear()
 		delete m_pRootNode;
 	m_pRootNode = nullptr;
 
-	//m_pSelectedNode = nullptr;
-	//m_pDraggedNode = nullptr;
-	//m_pDropTargetNode = nullptr;
+	m_pSelectedNode = nullptr;
 
-	//m_pSelectFunc = nullptr;
-	//m_pSelectInst = nullptr;
-	//m_pDragDropFunc = nullptr;
-	//m_pDragDropInst = nullptr;
+	m_pClickedFunc = nullptr;
+	m_pClickedInst = nullptr;
 
-	//m_pDBCallBack = nullptr;
-	//m_pDBCInst = nullptr;
-	//m_pGDBCCallBack = nullptr;
+	m_pDragDropFunc = nullptr;
+	m_pDragDropInst = nullptr;
+
+	m_pDBCallBack = nullptr;
+	m_pDBCInst = nullptr;
+	m_pGDBCCallBack = nullptr;
 }

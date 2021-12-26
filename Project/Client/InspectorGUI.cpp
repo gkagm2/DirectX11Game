@@ -362,6 +362,7 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 		pScriptGUI->SetTargetObject(m_pTargetObject);
 		pScriptGUI->SetScript(vecScript[i]);
 	}
+	m_pTargetResource = nullptr;
 }
 
 void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
@@ -378,6 +379,7 @@ void InspectorGUI::SetTargetResource(CResource* _pTargetResource)
 	}
 
 	m_arrResGUI[(UINT)eType]->SetTargetResource(_pTargetResource);
+	m_pTargetObject = nullptr;
 }
 
 void InspectorGUI::_AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2)

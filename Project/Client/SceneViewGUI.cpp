@@ -8,7 +8,8 @@
 #include "CImGuiManager.h"
 #include "MainMenuGUI.h"
 
-SceneViewGUI::SceneViewGUI()
+SceneViewGUI::SceneViewGUI() :
+	m_treeView(STR_GUI_SceneViewTree)
 {
 	SetName(STR_GUI_SceneView);
 }
@@ -22,9 +23,6 @@ void SceneViewGUI::Init()
 	m_treeView.SetFrameRender(true);
 	m_treeView.SetFrameOnlyParent(true);
 	m_treeView.SetRootRender(false);
-
-	m_treeView.SetDoubleClickCallBack(this, (GUI_CALLBACK)&SceneViewGUI::SelectScene);
-
 	_RenewTreeView();
 }
 
@@ -73,6 +71,7 @@ void SceneViewGUI::_RenewTreeView()
 	for (UINT i = 0; i < vecFileNames.size(); ++i) {
 		TreeViewNode* pNode = m_treeView.AddItem(vecFileNames[i].c_str(), 0, pRoot);
 	}
+	m_treeView.SetDoubleClickCallBack(this, (GUI_CALLBACK)&SceneViewGUI::SelectScene);
 }
 
 void SceneViewGUI::SelectScene(DWORD_PTR _strRelativePath, DWORD_PTR _non)

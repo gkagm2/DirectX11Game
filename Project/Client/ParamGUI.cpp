@@ -8,6 +8,7 @@
 
 #include <Engine\CTexture.h>
 #include <Engine\CResourceManager.h>
+#include "InspectorGUI.h"
 ParamGUI::ParamGUI()
 {
 }
@@ -309,4 +310,51 @@ bool ParamGUI::Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectN
 		}
 	}
 	return bResult;
+}
+
+bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject* _pObj, float* _pHeightOut)
+{
+	float fHeight = 0.f;
+
+	ImGui::Text("GameObject");
+	tstring tstrName = _T("");
+	string strName = "NULL";
+	if (_pObj) {
+		tstrName = _pObj->GetName();
+		TStringToString(tstrName, strName);
+	}
+
+	char szName[255] = {};
+		StringToArr(strName, szName, 255);
+	
+	ImGui::InputText("", szName, ImGuiInputTextFlags_ReadOnly);
+	fHeight += ImGui::GetItemRectSize().y;
+
+	// 드랍 된 경우
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (ImGui::AcceptDragDropPayload(STR_GUI_HierarchyTree))
+		{
+			DWORD_PTR dwData = *((DWORD_PTR*)ImGui::GetDragDropPayload()->Data);
+			CGameObject* pObj = (CGameObject*)dwData;
+			assert(pObj);
+			InspectorGUI* pGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
+			if (pGUI)
+				pGUI->SetTargetObject(pObj);
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(10);
+
+
+	if (_pHeightOut)
+		*_pHeightOut = fHeight; 
+
+
+
+
+	return true;
 }

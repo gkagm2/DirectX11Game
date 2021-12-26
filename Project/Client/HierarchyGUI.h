@@ -15,9 +15,13 @@ public:
 private:
 	void _RenewTreeView();
 
-public:
+private:
 	void SelectGameObject(TreeViewNode* _pNode);
 	void DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode);
+private:
+	void _ClickedGameObject(DWORD_PTR _dwItem, DWORD_PTR _dwData);
+public:
+	void ReleaseSelectNode() { m_treeView.ReleaseSelectedNode(); }
 
 public:
 	HierarchyGUI();
