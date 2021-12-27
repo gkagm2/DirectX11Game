@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCollider2D.cpp"
-
-
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCollider3D.cpp"
 
 
@@ -22,4 +19,10 @@
 
 
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCore.cpp"
+
+
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCursor.cpp"
+
+
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CDevice.cpp"
 

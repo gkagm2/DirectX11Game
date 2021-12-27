@@ -23,3 +23,6 @@
 
 #include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCollider.cpp"
 
+
+#include "N:\Project\DirectX2019Game\DirectX11Game\Project\Engine\CCollider2D.cpp"
+

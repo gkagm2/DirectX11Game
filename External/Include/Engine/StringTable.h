@@ -168,6 +168,8 @@
 #define STR_OBJ_NAME_UICamera _T("UI Camera")
 #define STR_OBJ_NAME_UICanvas _T("UI Canvas")
 
+#define STR_OBJ_NAME_Cursor _T("__Cursor")
+
 ////////// Shooting Game //////////
 // GameObject name
 #define STR_OBJ_NAME_GameManager _T("ShootingGameManager")

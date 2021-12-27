@@ -8,12 +8,19 @@
 #include "CTimeManager.h"
 #include "CMouseManager.h"
 #include "CMouseEvent.h"
+#include "CRenderManager.h"
 
 #include "CMeshRenderer.h"
 #include "CTransform.h"
+
 #include "CCamera.h"
 #include "CLight2D.h"
 #include "CGameObject.h"
+#include "CCursor.h"
+
+// UI
+#include "CCanvasRenderer.h"
+#include "CRectTransform.h"
 
 enum class E_ScriptParam {
 	INT,

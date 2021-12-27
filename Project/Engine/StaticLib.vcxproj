@@ -197,6 +197,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CFontManager.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
+    <ClInclude Include="CObjectManager.h" />
     <ClInclude Include="CTileMapGrid.h" />
     <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -273,6 +274,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CFontManager.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
+    <ClCompile Include="CObjectManager.cpp" />
     <ClCompile Include="CTileMapGrid.cpp" />
     <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />

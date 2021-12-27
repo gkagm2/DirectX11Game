@@ -202,6 +202,8 @@ void InspectorGUI::UpdateObjectGUI()
 	if (ImGui::Button("Clone##Clone GameObject")) {
 		CGameObject* pCloneObj = m_pTargetObject->Clone();
 		CObject::CreateGameObjectEvn(pCloneObj, m_pTargetObject->GetLayer());
+		if (m_pTargetObject->GetParentObject())
+			CObject::AddChildGameObjectEvn(m_pTargetObject->GetParentObject(), pCloneObj);
 	}
 
 	// 활성화  세팅

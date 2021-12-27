@@ -13,8 +13,6 @@ private:
 public:
 	virtual void Update() override;
 
-	tstring _CreateObjectName( const tstring& _strObjDefaultName, UINT& id);
-
 
 	void SaveScene();
 	void LoadScene();
@@ -27,16 +25,11 @@ public:
 	void CreateLight2D();
 
 	// 2D
-	void Create2DRectGameObjet();
+	void Create2DRectGameObject();
 
-	// 3D
-
+	// 3D 
+	
 	// UI
-private:
-	CGameObject* _CreateUIGameObject();
-	CGameObject* _CreateCanvas();
-	CGameObject* _CreateDefaultUICamera();
-public:
 	void CreateTextUI();
 	void CreateImageUI();
 	void CreateButtonUI();

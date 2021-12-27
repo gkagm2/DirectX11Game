@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CCursorScript.h"
-#include <Engine\CRenderManager.h>
+#include <Engine\CObjectManager.h>
 
 CCursorScript::CCursorScript() :
 	CScript((UINT)SCRIPT_TYPE::CURSORSCRIPT),
@@ -21,10 +21,24 @@ CCursorScript::~CCursorScript()
 
 void CCursorScript::Awake()
 {
-	if (!MeshRenderer()) {
-		GetGameObject()->AddComponent<CMeshRenderer>();
+	if (!CanvasRenderer()) {
+		GetGameObject()->AddComponent<CCanvasRenderer>();
 	}
-	m_pCursorMtrl = MeshRenderer()->GetClone_NoSave();
+	
+	// 자식 오브젝트로 넣기
+	CGameObject* pImageUI = CObjectManager::GetInstance()->CreateImageUI();
+
+	//CGameObject* pUICamera = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(STR_OBJ_NAME_UICamera, NUM_LAYER_UI);
+
+	//// UI 카메라가 없으면 새로 생성한다.
+	//if (!pUICamera)
+	//	pUICamera = _CreateDefaultUICamera();
+
+	//CGameObject* pUICanvas = FIND_GameObject_Layer(STR_OBJ_NAME_UICanvas, NUM_LAYER_UI);
+	//if (!pUICanvas)
+	//	pUICanvas = _CreateCanvas();
+	//CObject::CreateGameObjectEvn(pImageUI, NUM_LAYER_UI);
+	//CObject::AddChildGameObjectEvn(pUICanvas, pImageUI);
 }
 
 void CCursorScript::LateUpdate()
@@ -36,7 +50,8 @@ void CCursorScript::LateUpdate()
 		const Vector2& vMousePos = MousePosition;
 		Vector3 vWorldPos = pCam->GetScreenToWorld2DPosition(vMousePos);
 		vWorldPos.z += 10.f;
-		Transform()->SetLocalPosition(vWorldPos);
+
+		RectTransform()->SetLocalPosition(vWorldPos);
 	}
 }
 

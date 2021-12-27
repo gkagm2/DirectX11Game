@@ -77,7 +77,5 @@ void CCursor_bu::Start()
 	info.vScale = Vector3(40.f, 40.f, 1.f);
 	AddCursor(info);
 
-	SetCurCursor(0);
-
 #endif
 }
