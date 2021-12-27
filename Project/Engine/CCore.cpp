@@ -56,6 +56,7 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CResourceManager::GetInstance()->Init();
 	CSceneManager::GetInstance()->Init();
 	CUIManager::GetInstance()->Init();
+	CCursor::_Init();
 	// Sound Test
 	/*SharedPtr<CSound> pSound = CResourceManager ::GetInstance()->LoadRes<CSound>(L"Sound", L"sound\\BGM_Stage1.wav");
 	int iChannel = pSound->Play(0);
@@ -71,15 +72,16 @@ void CCore::Progress()
 	CKeyManager::GetInstance()->Update();
 	CMouseManager::GetInstance()->Update();
 	CResourceManager::GetInstance()->Update();
-	CUIManager::GetInstance()->Update();
 	CSound::g_pFMOD->update();
+	CUIManager::GetInstance()->Update();
+	
 
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();
 	
 	CTimeManager::GetInstance()->Render();
-	CCursor::Update();
+	CCursor::_Update();
 
 	// Event ผ๖วเ
 	CEventManager::GetInstance()->Update();

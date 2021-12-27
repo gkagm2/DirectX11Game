@@ -20,6 +20,7 @@
 #include "Engine\CCore.h"
 
 #include "Engine\CTestShader.h"
+#include "Engine\CCursor.h"
 
 // component
 #include "Engine\CTransform.h"
@@ -280,8 +281,12 @@ void CTestScene::Butcher()
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::Character, true);
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::TileMap, true);
 
-	SharedPtr<CTexture> tex = nullptr;
+
+	tstring path = _T("texture\\Butcher\\Mouse\\Cursor.png");
+	SharedPtr<CTexture> tex = CResourceManager::GetInstance()->LoadRes<CTexture>(path);
 	CCursor::SetCursor(tex, Vector2{});
+	CCursor::SetCursorInScreen(true);
+
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

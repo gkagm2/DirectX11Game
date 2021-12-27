@@ -3,46 +3,95 @@
 #include "dxgi.h"
 #include "CTexture.h"
 #include "CCore.h"
+#include "CKeyManager.h"
+#include "CObject.h"
+
+bool CCursor::m_bVisible = true;
+bool CCursor::m_bCursorLock = false;
+bool CCursor::m_bCursorOnlyInScreen = false;
+
+LONG CCursor::m_tClientScreenRectL =0;
+LONG CCursor::m_tClientScreenRectR =0;
+LONG CCursor::m_tClientScreenRectT =0;
+LONG CCursor::m_tClientScreenRectB =0;
+CGameObject* CCursor::m_pCursorObj = nullptr;
+
+void CCursor::SetVisible(bool _bVisible)
+{
+    if (_bVisible && !m_bVisible) {
+        ShowCursor(_bVisible);
+        m_bVisible = _bVisible;
+    }
+    else if (!_bVisible && m_bVisible) {
+        ShowCursor(_bVisible);
+        m_bVisible = _bVisible;
+    }
+}
+
 
 void CCursor::SetCursor(SharedPtr<CTexture> _pTexture, const Vector2 _vOffset)
 {
-    
 }
 
-void CCursor::Update()
+void CCursor::_Init()
 {
-    tagCURSORINFO lCursorInfo{};
-    lCursorInfo.cbSize = sizeof(lCursorInfo);
+    m_bVisible = true;
+    ShowCursor(m_bVisible);
+    m_bCursorLock = false;
+    m_bCursorOnlyInScreen = false;
+}
 
-    auto lBoolres = GetCursorInfo(&lCursorInfo);
+void CCursor::_Update()
+{
+    HWND hWnd = GetFocus();
+    if (nullptr == hWnd)
+        return;
 
-    if (lBoolres == TRUE)
-    {
-        if (lCursorInfo.flags == CURSOR_SHOWING)
-        {
-            // currently lCursorInfo.hCursor has the shape of actual cursor that is coming to your system to modify it you can use the below line
+    // FIXED(Jang) : 윈도우 사이즈 변경 이벤트 발생 시 실행하게 만드는게 설능상 좋을 것임.
+    { // Client Screen 영역 계산.
+        static RECT rc2{};
+        static POINT p1{}, p2{};
 
-            std::string path = "N:\\Project\\DirectX2019Game\\DirectX11Game\\OutputFile\\bin\\content\\texture\\Monster.bmp"; // this is path to the file where .cur file available in your system
-            lCursorInfo.hCursor = LoadCursorFromFileA(path.c_str());
-            // You can refer https://docs.microsoft.com/en-us/windows/win32/menurc/using-cursors for creating your own cursor
+        GetClientRect(CCore::GetInstance()->GetWndHandle(), &rc2);
 
-            auto lCursorPosition = lCursorInfo.ptScreenPos;
-            auto lCursorSize = lCursorInfo.cbSize;
-            HDC  lHDC = CCore::g_hDC;
-            //lIDXGISurface1->GetDC(FALSE, &lHDC); // getting handle to draw the cursor
-            // Draw the cursor
-            DrawIconEx(
-                lHDC,
-                lCursorPosition.x,
-                lCursorPosition.y,
-                lCursorInfo.hCursor,
-                30,
-                30,
-                0,
-                0,
-                DI_NORMAL | DI_DEFAULTSIZE);
-            // Release the handle
-            //lIDXGISurface1->ReleaseDC(nullptr);
-        }
+        // 클라이언트 크기를 좌표로 변환
+        p1.x = rc2.left;
+        p1.y = rc2.top;
+        p2.x = rc2.right;
+        p2.y = rc2.bottom;
+
+        // 클라이언트 크기를 스크린 크기로 변환
+        ClientToScreen(CCore::GetInstance()->GetWndHandle(), &p1);
+        ClientToScreen(CCore::GetInstance()->GetWndHandle(), &p2);
+
+        m_tClientScreenRectL = p1.x;
+        m_tClientScreenRectT = p1.y;
+        m_tClientScreenRectR = p2.x;
+        m_tClientScreenRectB = p2.y;
+    }
+
+    _UpdateCursorInScreen();
+    _UpdateCursorLock();
+}
+
+void CCursor::_UpdateCursorLock()
+{
+    if (m_bCursorLock) {
+        POINT middle{};
+        middle.x = m_tClientScreenRectR - m_tClientScreenRectL;
+        middle.y = m_tClientScreenRectB - m_tClientScreenRectT;
+        static RECT rc{};
+        rc.left = rc.right = middle.x;
+        rc.top = rc.bottom = middle.y;
+        ClipCursor(&rc);
+    }
+}
+
+void CCursor::_UpdateCursorInScreen()
+{
+    if (m_bCursorOnlyInScreen) {
+        RECT rt = { m_tClientScreenRectL, m_tClientScreenRectT,m_tClientScreenRectR, m_tClientScreenRectB };
+        // 해당 좌표를 기준으로 커서를 고정
+        ClipCursor(&rt);
     }
 }

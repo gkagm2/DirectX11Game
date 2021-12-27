@@ -223,6 +223,9 @@
     <ClInclude Include="CCursor.h">
       <Filter>Engine\Widget</Filter>
     </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -429,6 +432,9 @@
     <ClCompile Include="CCursor.cpp">
       <Filter>Engine\Widget</Filter>
     </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -604,9 +610,6 @@
     </Filter>
     <Filter Include="Engine\04. Manager\ResourceManager">
       <UniqueIdentifier>{bfdb650e-797a-4fe3-8dc9-e399d1bf7c7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\04. Manager\ResourceManager\ResourceSaveLoad">
-      <UniqueIdentifier>{fff08e91-7c01-4400-aebc-0090fd40452c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Widget">
       <UniqueIdentifier>{694e123c-76d1-4770-9fc5-468d2f68ab0e}</UniqueIdentifier>
