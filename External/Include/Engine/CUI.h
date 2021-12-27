@@ -13,7 +13,7 @@ private:
 	Vector2 m_vOffsetScale;
 
 	Matrix m_matColWorld;
-
+	bool m_bActiveClickEvent;
 protected:
 	bool m_bIsOn;
 	bool m_bIsDown; // 마우스를 눌렀는가
@@ -37,9 +37,16 @@ public:
 
 	bool IsPointerOn(const Vector2& _vPointerPosition);
 
+	void ActiveClickEvent(bool _bActive) { m_bActiveClickEvent = _bActive; }
+	bool IsActiveClickEvent() { return m_bActiveClickEvent; }
+
 public:
 	virtual Vector2 GetMin(); // Screen 좌표로 구함
 	virtual Vector2 GetMax(); // Screen 좌표로 구함
+
+
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	virtual CUI* Clone() = 0;

@@ -15,6 +15,7 @@
 
 CUI::CUI(E_ComponentType _eComponentType) :
     CBehaviour(_eComponentType),
+    m_bActiveClickEvent(true),
     m_bIsOn(false),
     m_bIsDown(false),
     m_vOffsetPosition{Vector3(0.f,0.f,0.f)},
@@ -168,4 +169,18 @@ Vector2 CUI::GetMax()
     Vector2 vScreenMax = pUICam->GetWorldToScreen2DPosition(vMax);
 
     return vScreenMax;
+}
+
+bool CUI::SaveToScene(FILE* _pFile)
+{
+    CBehaviour::SaveToScene(_pFile);
+    FWrite(m_bActiveClickEvent, _pFile);
+    return true;
+}
+
+bool CUI::LoadFromScene(FILE* _pFile)
+{
+    CBehaviour::LoadFromScene(_pFile);
+    FRead(m_bActiveClickEvent, _pFile);
+    return true;
 }

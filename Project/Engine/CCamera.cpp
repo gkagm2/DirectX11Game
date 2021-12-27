@@ -25,7 +25,7 @@ CCamera::CCamera() :
 	m_eProjectionType(E_ProjectionType::Perspective),
 	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45µµ 60µµ
 	m_fSize{ 0.02f },
-	m_tClippingPlanes{ 1.f, 1000.f },
+	m_tClippingPlanes{ 1.f, 999999.f},
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
 	m_matProjection{},

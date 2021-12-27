@@ -55,10 +55,12 @@ void CUIManager::Update()
 		// Pointer가 On인 상태에서 Press키를 눌렀을 경우
 		CUI* pUI = vecUIObjs[i]->GetComponent<CUI>();
 		if (pUI) {
-			if ((pUI->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS)) {
-				// 현재 포커싱된 UI의오브젝트를 담는다.
-				m_pCurFocusedUI = pUI;
-				break;
+			if (pUI->IsActiveClickEvent()) {
+				if ((pUI->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS)) {
+					// 현재 포커싱된 UI의오브젝트를 담는다.
+					m_pCurFocusedUI = pUI;
+					break;
+				}
 			}
 		}
 	}

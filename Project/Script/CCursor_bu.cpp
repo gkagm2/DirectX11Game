@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CCursor_bu.h"
+#include "CCursorScript.h"
 
 CCursor_bu::CCursor_bu() :
 	CScript((UINT)SCRIPT_TYPE::CURSOR_BU)
@@ -8,6 +9,19 @@ CCursor_bu::CCursor_bu() :
 
 CCursor_bu::~CCursor_bu()
 {
+}
+
+void CCursor_bu::SetCursor(int _idx, const Vector2 _vHotSpotOffset)
+{
+	CCursorScript* pCursor = m_pCursor->GetComponent<CCursorScript>();
+	pCursor->SetCurCursor(m_vecCursorInfo[_idx].pCursorTex, _vHotSpotOffset);
+	pCursor->SetPivotPos(CCursorScript::E_Pivot::Middle);
+}
+
+void CCursor_bu::Awake()
+{
+	m_pCursor = FIND_GameObject_Layer(STR_OBJ_NAME_Cursor, NUM_LAYER_UI);
+	assert(m_pCursor);
 }
 
 void CCursor_bu::Start()
