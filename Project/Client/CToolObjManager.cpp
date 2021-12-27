@@ -45,7 +45,7 @@ void CToolObjManager::Init()
 		pToolUICamObj->Camera()->SetLayerCheckAllUnActive();
 		pToolUICamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
 		pToolUICamObj->Camera()->SetSize(1.f);
-		pToolUICamObj->Transform()->SetLocalPosition(Vector3(9999.f, 9999.f, 0.f));
+		pToolUICamObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
 		_AddGameObjectEx(pToolUICamObj);
 	}
 

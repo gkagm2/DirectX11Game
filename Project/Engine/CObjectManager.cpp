@@ -206,7 +206,7 @@ CGameObject* CObjectManager::_CreateDefaultUICamera()
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
 	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	pUICameraObj->Transform()->SetLocalPosition(Vector3(9999.f, 9999.f, 0.f));
+	pUICameraObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
 	CObject::CreateGameObjectEvn(pUICameraObj, NUM_LAYER_UI);
 	return pUICameraObj;
 }

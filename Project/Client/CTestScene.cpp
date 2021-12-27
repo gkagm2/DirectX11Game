@@ -14,6 +14,7 @@
 #include "Engine\CCollisionManager.h"
 #include "Engine\CFontManager.h"
 #include "Engine\CSound.h"
+#include <Engine\CCursor.h>
 
 #include "Engine\CGameObject.h"
 
@@ -273,7 +274,7 @@ void CTestScene::CaptainForever()
 	}
 }
 #endif
-#include <Engine\CCursor.h>
+
 void CTestScene::Butcher()
 {
 	CScene* pNewScene = new CScene;
@@ -283,9 +284,6 @@ void CTestScene::Butcher()
 
 
 	tstring path = _T("texture\\Butcher\\Mouse\\Cursor.png");
-	SharedPtr<CTexture> tex = CResourceManager::GetInstance()->LoadRes<CTexture>(path);
-	CCursor::SetCursor(tex, Vector2{});
-	CCursor::SetCursorInScreen(true);
 
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }

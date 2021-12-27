@@ -2,7 +2,7 @@
 #include "CCursor_bu.h"
 
 CCursor_bu::CCursor_bu() :
-	CCursorScript(SCRIPT_TYPE::CURSOR_BU)
+	CScript((UINT)SCRIPT_TYPE::CURSOR_BU)
 {
 }
 

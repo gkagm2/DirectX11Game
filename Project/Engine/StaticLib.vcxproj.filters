@@ -220,12 +220,10 @@
     <ClInclude Include="CResourceManager.h">
       <Filter>Engine\04. Manager\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="CCursor.h">
-      <Filter>Engine\Widget</Filter>
-    </ClInclude>
     <ClInclude Include="CObjectManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CCursor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -429,12 +427,10 @@
     <ClCompile Include="CResourceManager.cpp">
       <Filter>Engine\04. Manager\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="CCursor.cpp">
-      <Filter>Engine\Widget</Filter>
-    </ClCompile>
     <ClCompile Include="CObjectManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CCursor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

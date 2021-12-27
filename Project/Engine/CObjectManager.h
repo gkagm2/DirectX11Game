@@ -13,7 +13,6 @@ public:
 	CGameObject* CreateLight2D(UINT _iLayer = 0);
 	CGameObject* Create2DRectGameObject(UINT _iLayer = 0);
 
-
 public:
 	CGameObject* CreateTextUI();
 	CGameObject* CreateImageUI();

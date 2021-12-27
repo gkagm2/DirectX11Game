@@ -34,6 +34,8 @@ public:
 	void CreateImageUI();
 	void CreateButtonUI();
 
+	void CreateCursorUI();
+
 	// Engine
 	void OpenToolCameraUI();
 	void OpenHierarchyUI();

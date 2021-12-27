@@ -218,6 +218,9 @@
     <Filter Include="03. Tools\03. Scripts\Cursor">
       <UniqueIdentifier>{55dddcd7-192c-4599-899f-9094d126d2cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Client\Widget">
+      <UniqueIdentifier>{e5cdc179-bb9b-4493-8f26-608c3ddfefa1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">

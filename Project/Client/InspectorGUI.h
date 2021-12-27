@@ -42,6 +42,9 @@ private:
 	void _AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
 	void _AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
 
+private:
+	void _ResizeScriptGUICnt();
+
 public:
 	InspectorGUI();
 	virtual ~InspectorGUI() override;

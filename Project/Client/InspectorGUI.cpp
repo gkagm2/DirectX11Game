@@ -259,13 +259,7 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// 스크립트 GUI 보여주기
 	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();
-	size_t iSize = vecScript.size();
-	size_t iGUISize = m_vecScriptGUI.size();
-	if (iSize > iGUISize) {
-		size_t iIdx = vecScript.size() - 1;
-		if (iIdx >= 0)
-			m_vecScriptGUI.push_back(new ScriptGUI);
-	}
+	_ResizeScriptGUICnt();
 	for (int i = 0; i < (int)vecScript.size(); ++i) {
 		ScriptGUI* pScriptGUI = m_vecScriptGUI[i];
 		pScriptGUI->SetTargetObject(m_pTargetObject);
@@ -358,7 +352,8 @@ void InspectorGUI::SetTargetObject(CGameObject* _pTargetObj)
 	}
 
 	// 스크립트 GUI 설정
-	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();
+	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();	
+	_ResizeScriptGUICnt();
 	for (int i = 0; i < (int)vecScript.size(); ++i) {
 		ScriptGUI* pScriptGUI = m_vecScriptGUI[i];
 		pScriptGUI->SetTargetObject(m_pTargetObject);
@@ -402,4 +397,16 @@ void InspectorGUI::_AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2)
 	StringToTString(strComponent, tstrComponent);
 	CComponent* pScriptComponent = (CComponent*)CScriptMgr::GetScript(tstrComponent);
 	m_pTargetObject->AddComponent(pScriptComponent);
+}
+
+void InspectorGUI::_ResizeScriptGUICnt()
+{
+	const vector<CScript*>& vecScript = m_pTargetObject->GetScripts();
+	size_t iSize = vecScript.size();
+	size_t iGUISize = m_vecScriptGUI.size();
+	if (iSize > iGUISize) {
+		size_t iNeedCnt = iSize -iGUISize;
+		for (size_t i = 0; i < iNeedCnt; ++i)
+			m_vecScriptGUI.push_back(new ScriptGUI);
+	}
 }

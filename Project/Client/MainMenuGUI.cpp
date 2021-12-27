@@ -90,6 +90,9 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Light2D")) {
                 CreateLight2D();
             }
+            if (ImGui::MenuItem("Create Cursor")) {
+                CreateCursorUI();
+            }
             if (ImGui::BeginMenu("Create UI")) {
                 if (ImGui::MenuItem("Button UI")) {
                     CreateButtonUI();
@@ -300,6 +303,17 @@ void MainMenuGUI::CreateImageUI()
 void MainMenuGUI::CreateButtonUI()
 {
     CObjectManager::GetInstance()->CreateButtonUI();
+}
+
+#include <Script\CCursorScript.h>
+void MainMenuGUI::CreateCursorUI()
+{
+    CGameObject* pCursor = CObjectManager::GetInstance()->CreateImageUI();
+    Vector3 vPos = pCursor->RectTransform()->GetLocalPosition();
+    vPos.y += 9999.f; // È­¸é ¹ÛÀ¸·Î ¼û±è
+    pCursor->RectTransform()->SetLocalPosition(vPos);
+    pCursor->SetName(STR_OBJ_NAME_Cursor);
+    pCursor->AddComponent<CCursorScript>();
 }
 
 void MainMenuGUI::OpenToolCameraUI()

@@ -10,11 +10,10 @@ bool CCursor::m_bVisible = true;
 bool CCursor::m_bCursorLock = false;
 bool CCursor::m_bCursorOnlyInScreen = false;
 
-LONG CCursor::m_tClientScreenRectL =0;
-LONG CCursor::m_tClientScreenRectR =0;
-LONG CCursor::m_tClientScreenRectT =0;
-LONG CCursor::m_tClientScreenRectB =0;
-CGameObject* CCursor::m_pCursorObj = nullptr;
+LONG CCursor::m_tClientScreenRectL = 0;
+LONG CCursor::m_tClientScreenRectR = 0;
+LONG CCursor::m_tClientScreenRectT = 0;
+LONG CCursor::m_tClientScreenRectB = 0;
 
 void CCursor::SetVisible(bool _bVisible)
 {
@@ -26,11 +25,6 @@ void CCursor::SetVisible(bool _bVisible)
         ShowCursor(_bVisible);
         m_bVisible = _bVisible;
     }
-}
-
-
-void CCursor::SetCursor(SharedPtr<CTexture> _pTexture, const Vector2 _vOffset)
-{
 }
 
 void CCursor::_Init()

@@ -73,6 +73,9 @@
     <Filter Include="Games\Butcher">
       <UniqueIdentifier>{046c575a-8515-4f12-a38c-7e2b9dc19808}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cursor">
+      <UniqueIdentifier>{27f17699-f737-44bc-9d21-380190e51a52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">

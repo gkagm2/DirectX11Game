@@ -40,6 +40,9 @@
 #define FLOAT_MIN (std::numeric_limits<float>::min)()
 #define FLOAT_MAX (std::numeric_limits<float>::max)()
 
+
+#define DEFAULT_UI_CAM_POS Vector3(9999.f,9999.f, -9999.f)
+
 // Make String
 //#define stringfiy(name) # name // FIXED (Jang) : tchar 타입은 어떻게하지
 
