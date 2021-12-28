@@ -96,7 +96,7 @@ void CRigidbody::LateUpdate()
 		m_vVelocity = m_vVelocity * m_fMaxSpeed * DT;
 	}
 
-	Vector3 vObjPos = GetGameObject()->Transform()->GetPosition();
+	Vector3 vObjPos = GetGameObject()->Transform()->GetLocalPosition();
 	GetGameObject()->Transform()->SetLocalPosition(vObjPos - m_vVelocity);
 }
 
