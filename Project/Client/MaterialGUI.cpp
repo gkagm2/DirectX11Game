@@ -14,7 +14,8 @@
 
 MaterialGUI::MaterialGUI() :
 	ResourceGUI(E_ResourceType::Material),
-	m_eSelectedTexParam{}
+	m_eSelectedTexParam{},
+	strResourceName{}
 {
 }
 
@@ -35,7 +36,11 @@ void MaterialGUI::Update()
 	if (!pMtrl->IsDefaultMaterial()) {
 		
 		ImGui::Text("Name"); ImGui::SameLine();
-		static char strResourceName[255] = "";
+		tstring tstrKey = pMtrl->GetKey();
+		string strKey;
+		TStringToString(tstrKey, strKey);
+		ImGui::Text("%s", strKey.c_str());
+		
 		ImGui::InputText("##MaterialName", strResourceName, 255);
 		ImGui::SameLine();
 

@@ -4,6 +4,7 @@ class MaterialGUI : public ResourceGUI
 {
 private:
 	E_ShaderParam m_eSelectedTexParam;
+	char strResourceName[255];
 
 public:
 	virtual void Update() override;
