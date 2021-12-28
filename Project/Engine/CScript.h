@@ -12,6 +12,8 @@
 
 #include "CMeshRenderer.h"
 #include "CTransform.h"
+#include "CRectTransform.h"
+#include "CRigidbody2D.h"
 
 #include "CCamera.h"
 #include "CLight2D.h"

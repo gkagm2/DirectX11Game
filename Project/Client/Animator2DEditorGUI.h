@@ -85,6 +85,8 @@ private: // canvas properties
 	ImDrawList* draw_list;
 	ImVec2 origin;
 	Vector2 vAtlasSize;
+	ImVec2 m_vCanvsaSize;
+	float fCanvasScale;
 
 private:
 	// Panel
@@ -105,7 +107,7 @@ private:
 
 	// etc
 	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
-	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
+	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize, const ImVec2& _vCanvasSize);
 	TRect _GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _vPos2, const ImVec2& _vImageSize = ImVec2(0.f, 0.f));
 
 

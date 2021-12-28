@@ -42,8 +42,8 @@ public:
 
 	bool IsFinished() { return m_bFinish; }
 
-	void Save(const tstring& _strRelativeFilePath, const wstring& _strFileName);
-	void Load(const tstring& _strRelativeFilePath);
+	bool Save(const tstring& _strRelativeFilePath, const wstring& _strFileName);
+	bool Load(const tstring& _strRelativeFilePath);
 
 	vector<TAnimationFrame>& GetAnimationFrame() { return m_vecAnimFrame; }
 	const TAnimationFrame& GetCurAnimationFrame() { return m_vecAnimFrame[m_iCurFrameIdx]; }

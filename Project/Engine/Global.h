@@ -29,6 +29,9 @@ using std::set;
 #include <bitset>
 using std::bitset;
 
+#include <functional>
+using std::function;
+
 #include <memory>
 using std::unique_ptr;
 using std::make_unique;

@@ -7,6 +7,7 @@
 #include "Animator2DEditorGUI.h"
 #include "CImGuiManager.h"
 #include "ParamGUI.h"
+#include <Engine\CCore.h>
 
 Animator2DGUI::Animator2DGUI() :
 	AnimatorGUI(E_ComponentType::Animator2D)
@@ -30,8 +31,12 @@ void Animator2DGUI::Update()
 	CAnimation2D* pAnimation = pAnimator2D->GetCurAnimation();
 
 	// 현재 애니메이션 이름
-	if (pAnimation)
-		ImGui::Text("Animation Name : %s", pAnimation->GetName().c_str());
+	if (pAnimation) {
+		string strName{};
+		TStringToString(pAnimation->GetName().c_str(), strName);
+		ImGui::Text("Animation Name : %s", strName.c_str());
+	}
+		
 
 	// 애니메이션 상태
 	string strAnimState = "";
@@ -59,6 +64,23 @@ void Animator2DGUI::Update()
 		pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
 	}
 
+	if (ImGui::Button("Load Anmiation##Animator2D")) {
+		OPENFILENAME ofn;
+		wchar_t strMaxPath[MAX_PATH] = L"";
+		memset(&ofn, 0, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+		ofn.lpstrFilter = _T(".anim");
+		ofn.lpstrFile = strMaxPath;
+		ofn.nMaxFile = MAX_PATH;
+
+		if (0 != GetOpenFileName(&ofn)) {
+			tstring path = ofn.lpstrFile; // 파일을 가져옴.
+			int find = path.find(STR_DIR_PATH_Anim);
+			tstring fileName = path.substr(find, path.size() - find);
+			pAnimator2D->LoadAnimation(fileName);
+		}
+	}
 
 	ImGui::Spacing();
 	ImGui::Spacing();

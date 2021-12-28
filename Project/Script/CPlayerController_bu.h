@@ -11,6 +11,14 @@ public:
 	virtual void Update() override;
 
 public:
+	virtual void Interaction() {}
+	virtual void Attack();
+	virtual void Jump();
+	virtual void Move();
+
+
+
+public:
 	CLONE(CPlayerController_bu);
 	CPlayerController_bu();
 	virtual ~CPlayerController_bu() override;

@@ -10,6 +10,8 @@
 #include "TextureGUI.h"
 #include <Engine\CMeshRenderer.h>
 #include <Engine\CTimeManager.h>
+#include "DebugGUI.h"
+#include <Engine\CCore.h>
 
 Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_pTargetObject(nullptr),
@@ -32,6 +34,8 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	canvas_p1{},
 	origin{},
 	draw_list{ nullptr },
+	m_vCanvsaSize{450.f,450.f},
+	fCanvasScale{1.f},
 
 	m_fPreviewAnimSpeed(1.f)
 {
@@ -81,9 +85,10 @@ void Animator2DEditorGUI::Update()
 	if (m_pTargetObject)
 		m_pAnimator2D = m_pTargetObject->Animator2D();
 
-	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(550, 550), ImGuiCond_FirstUseEver);
 	if (ImGui::Begin(STR_GUI_Animator2DEditor, &m_bGUIOpen))
 	{
+		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 		if (ImGui::BeginTabBar("##Animator2DTabBar"))
 		{
 			if (ImGui::BeginTabItem("Animator2D##Animator2D")) {
@@ -132,12 +137,6 @@ void Animator2DEditorGUI::_SelectLoadedAtlasTexture(DWORD_PTR _pStr, DWORD_PTR _
 
 void Animator2DEditorGUI::_CanvasDrawPanel()
 {
-	Vector2 vAtlasSize = Vector2(500.f, 500.f);
-	if (m_pLoadedAtlasTexture)
-		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
-
-	static int grids[2] = { 1, 1 };
-
 	// Left Top Menu
 	ImGui::Text("Texture Border");
 	_CanvasTopPanel(); // Top Panel 
@@ -145,9 +144,23 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 	//ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
 	if (E_EditMode::SliceSprite_Grid == m_eEditMode) {
 		_CanvasGridSliceMode();
+		if (ImGui::Button("Scale up##AnimEditor")) {
+			fCanvasScale += 1.f;
+		}
+		if (ImGui::Button("Scale down##AnimEditor")) {
+			fCanvasScale -= 1.f;
+			fCanvasScale = max(1.f, fCanvasScale);
+		}
 	}
 	else if (E_EditMode::SliceSprite == m_eEditMode) {
 		_CanvasSliceMode();
+		if (ImGui::Button("Scale up##AnimEditor")) {
+			fCanvasScale += 1.f;
+		}
+		if (ImGui::Button("Scale down##AnimEditor")) {
+			fCanvasScale -= 1.f;
+			fCanvasScale = max(1.f, fCanvasScale);
+		}
 	}
 
 	// Right Panel
@@ -182,8 +195,8 @@ void Animator2DEditorGUI::_CanvasTopPanel()
 
 TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize)
 {
-	float fGridStepWidth = _canvasSize.x / iCol;
-	float fGridStepHeight = _canvasSize.y / iRow;
+	float fGridStepWidth = _vImageSize.x / iCol;
+	float fGridStepHeight = _vImageSize.y / iRow;
 
 	int selCol = (int)(_mousPos.x / fGridStepWidth);
 	int selRow = (int)(_mousPos.y / fGridStepHeight);
@@ -192,12 +205,12 @@ TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _ca
 	tSelInfo.col = selCol;
 	tSelInfo.row = selRow;
 
-	tSelInfo.rect = _GetMinMaxRectFromColRow(fGridStepWidth, fGridStepHeight, tSelInfo.col, tSelInfo.row, _vImageSize);
+	tSelInfo.rect = _GetMinMaxRectFromColRow(fGridStepWidth, fGridStepHeight, tSelInfo.col, tSelInfo.row, _vImageSize, _canvasSize);
 
 	return tSelInfo;
 }
 
-TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize)
+TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize, const ImVec2& _vCanvasSize)
 {
 	TRect tRect = {};
 	tRect.rb = ImVec2((iCol + 1) * _gridStepWidth, (iRow + 1) * _gridStepHeight);
@@ -205,17 +218,17 @@ TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gri
 	tRect.lb = ImVec2(tRect.rb.x - _gridStepWidth, tRect.rb.y);
 	tRect.lt = ImVec2(tRect.lb.x, tRect.rt.y);
 
-	tRect.rbUV.x = tRect.rb.x / _vImageSize.x;
-	tRect.rbUV.y = tRect.rb.y / _vImageSize.y;
+	tRect.rbUV.x = tRect.rb.x / _vImageSize.x /fCanvasScale;
+	tRect.rbUV.y = tRect.rb.y / _vImageSize.y / fCanvasScale;
 
-	tRect.rtUV.x = tRect.rt.x / _vImageSize.x;
-	tRect.rtUV.y = tRect.rt.y / _vImageSize.y;
+	tRect.rtUV.x = tRect.rt.x / _vImageSize.x / fCanvasScale;
+	tRect.rtUV.y = tRect.rt.y / _vImageSize.y / fCanvasScale;
 
-	tRect.lbUV.x = tRect.lb.x / _vImageSize.x;
-	tRect.lbUV.y = tRect.lb.y / _vImageSize.y;
+	tRect.lbUV.x = tRect.lb.x / _vImageSize.x / fCanvasScale;
+	tRect.lbUV.y = tRect.lb.y / _vImageSize.y / fCanvasScale;
 
-	tRect.ltUV.x = tRect.lt.x / _vImageSize.x;
-	tRect.ltUV.y = tRect.lt.y / _vImageSize.y;
+	tRect.ltUV.x = tRect.lt.x / _vImageSize.x / fCanvasScale;
+	tRect.ltUV.y = tRect.lt.y / _vImageSize.y / fCanvasScale;
 
 	return tRect;
 }
@@ -531,18 +544,17 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 void Animator2DEditorGUI::_CanvasGridSliceMode() {
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
+	vAtlasSize *= fCanvasScale;
 
 	static int grids[2] = { 1, 1 };
 
 	// Texture canvas
-	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {
+	if (ImGui::BeginChild("texture canvas panel", m_vCanvsaSize, true)) {
 		//  opeiton
-
-
 		canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
 		canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
 
-		canvas_sz = ImVec2(vAtlasSize.x, vAtlasSize.y);
+		canvas_sz = ImVec2(m_vCanvsaSize.x, m_vCanvsaSize.y);
 		if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 		if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 		canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
@@ -551,8 +563,6 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 		float fGridStepWidth = vAtlasSize.x / grids[0];
 		float fGridStepHeight = vAtlasSize.y / grids[1];
 		// ---------------------------
-
-		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 
 		// Draw border and background color
 		ImGuiIO& io = ImGui::GetIO();
@@ -563,7 +573,7 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 		// image drawing
 		ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
-		ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
+		ImVec2 can1 = ImVec2(canvas_p0.x + vAtlasSize.x + scrolling.x, canvas_p0.y + vAtlasSize.y + scrolling.y);
 		_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, can0, can1);
 
 		// canvs에서 
@@ -572,15 +582,22 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 		const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 		const bool is_active = ImGui::IsItemActive();   // Held
 		origin = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
-		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, (io.MousePos.y - origin.y) / fCanvasScale);
+		ImVec2 mouse_pos_in_canvas_scale{};
+		mouse_pos_in_canvas_scale.x = mouse_pos_in_canvas.x / fCanvasScale;
+		mouse_pos_in_canvas_scale.y = mouse_pos_in_canvas.y / fCanvasScale;
 
+
+		ImVec2 originMousePos(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+		DBug->Debug("Mouse pos [%.2f,%.2f] [%.2f, %.2f]", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y, originMousePos.x, originMousePos.y);
+			
 
 		static bool bSelectArea = false;
 		static TSelectTexInfo tSelTexInfo = {};
 		// 왼쪽 마우스를 클릭했을 때 클릭했으면
 		if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 			// 클릭한 곳의 위치값을 인덱스값으로 변환하여 위치값을 알아내기.
-			tSelTexInfo = _FindMinorTexIdx(mouse_pos_in_canvas, canvas_sz, grids[0], grids[1], canvas_sz);
+			tSelTexInfo = _FindMinorTexIdx(mouse_pos_in_canvas, canvas_sz, grids[0], grids[1], ImVec2(vAtlasSize.x, vAtlasSize.y));
 
 			// 자잘한것들 초기화
 			tSelTexInfo.tAnim2DDesc = {};
@@ -646,36 +663,32 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 void Animator2DEditorGUI::_CanvasSliceMode()
 {
-	Vector2 vAtlasSize = Vector2(500.f, 500.f);
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
-
+	vAtlasSize *= fCanvasScale;
 	// Texture canvas
-	if (ImGui::BeginChild("texture canvas panel", ImVec2(500, 500), true)) {
+	if (ImGui::BeginChild("texture canvas panel", m_vCanvsaSize, true)) {
 
-		ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
-		ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
+		canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
+		canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available
 
-		canvas_sz = ImVec2(vAtlasSize.x, vAtlasSize.y);
+		canvas_sz = ImVec2(m_vCanvsaSize.x, m_vCanvsaSize.y);
 		if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 		if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
-		ImVec2 canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
-
-		ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
+		canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
 
 		// Draw border and background color
 		ImGuiIO& io = ImGui::GetIO();
-		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+		draw_list = ImGui::GetWindowDrawList();
 		draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(20, 20, 20, 255));
 		draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(10, 10, 10, 255));
 
-
 		// Drawing Cross
-		_DrawCross(canvas_p0, canvas_p1, draw_list);
+		//_DrawCross(canvas_p0, canvas_p1, draw_list);
 
 		// image drawing
 		ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
-		ImVec2 can1 = ImVec2(canvas_p1.x + scrolling.x, canvas_p1.y + scrolling.y);
+		ImVec2 can1 = ImVec2(canvas_p0.x + vAtlasSize.x + scrolling.x, canvas_p0.y + vAtlasSize.y + scrolling.y);
 		_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, can0, can1);
 
 		// canvs에서 
@@ -685,7 +698,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		const bool is_active = ImGui::IsItemActive();   // Held
 		origin = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
-		const ImVec2 mouse_pos = io.MousePos;
+		const ImVec2 mouse_pos(io.MousePos.x / fCanvasScale, io.MousePos.y /fCanvasScale);
 		
 		static TSelectTexInfo tSelTexInfo = {};
 		static ImVec2 vFirstClickedPosInCanavas = {};
@@ -746,8 +759,8 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 
 		if (opt_enable_grid)
 		{
-			float fGridStepWidth = vAtlasSize.x / 1.f;
-			float fGridStepHeight = vAtlasSize.y / 1.f;
+			float fGridStepWidth = vAtlasSize.x / 1.f / fCanvasScale;
+			float fGridStepHeight = vAtlasSize.y / 1.f / fCanvasScale;
 			_DrawAtlasOutline(canvas_p0, canvas_p1, fGridStepWidth, fGridStepHeight);
 
 		}
@@ -807,6 +820,24 @@ void Animator2DEditorGUI::_OnSaveAnimation()
 {
 	// TODO (Jang) : 저장하기	
 	// 원도우 창을 띄워서 저장하게 하자.
+	
+	OPENFILENAME ofn;
+	wchar_t strMaxPath[MAX_PATH] = L"";
+	memset(&ofn, 0, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
+	ofn.lpstrFilter = _T(".anim");
+	ofn.lpstrFile = strMaxPath;
+	ofn.nMaxFile = MAX_PATH;
+
+	if (0 != GetSaveFileName(&ofn)) {
+		tstring animName = m_queResultTexList[0].tAnim2DDesc.strName;
+		tstring animFileName = m_queResultTexList[0].tAnim2DDesc.strName + STR_EXTENSION_Anim;
+
+		_OnCreateAnimation();
+		CAnimation2D* pAnim2D = m_pAnimator2D->FindAnimation(animName);
+		pAnim2D->Save(STR_DIR_PATH_Anim, animFileName);
+	}
 }
 
 void Animator2DEditorGUI::_DrawAtlasOutline(const ImVec2& _canvas_p0, const ImVec2& _canvas_p1, float _fGridStepWidth, float _fGridStepHeight)

@@ -175,7 +175,9 @@
     <ClInclude Include="CCursor_bu.h">
       <Filter>Games\Butcher\Etc</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerController_bu.h" />
+    <ClInclude Include="CPlayerController_bu.h">
+      <Filter>Games\Butcher\Manager\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -266,6 +268,8 @@
     <ClCompile Include="CCursor_bu.cpp">
       <Filter>Games\Butcher\Etc</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerController_bu.cpp" />
+    <ClCompile Include="CPlayerController_bu.cpp">
+      <Filter>Games\Butcher\Manager\Character</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

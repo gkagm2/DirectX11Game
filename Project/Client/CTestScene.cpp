@@ -185,7 +185,7 @@ void CTestScene::CreateTestScene()
 		pPlayer->Animator2D()->Play(_T("Player_Walk"), E_AnimationState::Loop);
 		CAnimation2D* pAnim2D = pPlayer->Animator2D()->FindAnimation(_T("Player_Walk"));
 
-		//pAnim2D->Save(_T("anim\\"), _T("Player_Walk.anim"));
+		//pAnim2D->Save(STR_DIR_PATH_Anim), _T("Player_Walk.anim"));
 
 		/*pPlayer->Animator2D()->LoadAnimation(_T("anim\\Player_Walk.anim"));
 		pPlayer->Animator2D()->Play(_T("Player_Walk"));*/

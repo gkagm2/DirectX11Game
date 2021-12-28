@@ -34,7 +34,8 @@ void ListViewGUI::Update()
 
     // 모달 팝업창을 만든다.
     static char filter[255]{};
-    if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen)) {
+    //if (ImGui::BeginPopup(m_strTitle.c_str(), ImGuiWindowFlags_AlwaysAutoResize)) {
 
         if (InputKeyPress(E_Key::ESCAPE))
             m_bGUIOpen = false;
@@ -45,7 +46,8 @@ void ListViewGUI::Update()
 
         static int item_current_idx = 0; // 선택한 데이터의 인덱스
         // 리스트를 표시
-        if (ImGui::BeginListBox("##ListBox", ImVec2(0.f, 400.f))) {
+        ImVec2 vWindowSize = ImGui::GetWindowSize();
+        if (ImGui::BeginListBox("##ListBox", vWindowSize)) {
             // 리스트에 적을 글자들을 순회하여 표시
             for (UINT i = 0; i < m_vecListAdr.size(); ++i) {
                 // 문자열 filter 

@@ -71,7 +71,9 @@ void CAnimator2D::Play(const tstring& _strAnimName, E_AnimationState _eAnimation
 void CAnimator2D::LoadAnimation(const tstring& _strRelativeFilePath)
 {
 	CAnimation2D* pAnim = new CAnimation2D;
-	pAnim->Load(_strRelativeFilePath);
+	bool bSuccess = pAnim->Load(_strRelativeFilePath);
+	if (!bSuccess)
+		return;
 	m_unmapAnim.insert(std::make_pair(pAnim->GetName(), pAnim));
 }
 

@@ -84,7 +84,7 @@ void InspectorGUI::Init()
 
 	// Rigidbody2D
 	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D] = new Rigidbody2DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetUISize(ImVec2(0.f, 160.f));
+	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetUISize(ImVec2(0.f, 220.f));
 
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;

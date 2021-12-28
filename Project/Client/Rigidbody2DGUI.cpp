@@ -21,16 +21,17 @@ void Rigidbody2DGUI::Update()
 	
 
 	float fDrag = pTargetObj->Rigidbody2D()->GetDrag();
-	if(ImGui::InputFloat("Air Drag  ##Rigidbody2D", &fDrag, 0, 0, "%.2f"))
+	if(ImGui::DragFloat("Air Drag  ##Rigidbody2D", &fDrag, 0.02f, 0.f, FLOAT_MAX, "%.3f"))
 		pTargetObj->Rigidbody2D()->SetDrag(fDrag);
 
 	float fMass = pTargetObj->Rigidbody2D()->GetMass();
-	if(ImGui::InputFloat("Mass  ##Rigidbody2D", &fMass, 0, 0, "%.2f"))
+	if (ImGui::DragFloat("Mass  ##Rigidbody2D", &fMass, 0.02f, 0.f, FLOAT_MAX, "%.3f"))
 		pTargetObj->Rigidbody2D()->SetMass(fMass);
 
 	float fMaxSpeed = pTargetObj->Rigidbody2D()->GetMaxSpeed();
-	if(ImGui::InputFloat("Max Speed##Rigidbody2D", &fMaxSpeed, 0, 0, "%.2f"))
+	if (ImGui::DragFloat("Max Speed##Rigidbody2D", &fMaxSpeed, 0.02f, 0.f, FLOAT_MAX, "%.3f"))
 		pTargetObj->Rigidbody2D()->SetMaxSpeed(fMaxSpeed);
+		
 	
 	bool bGravity = pTargetObj->Rigidbody2D()->IsOnGravity();
 	if (ImGui::Checkbox("Use Gravity", &bGravity))
@@ -41,7 +42,7 @@ void Rigidbody2DGUI::Update()
 	ImGui::Text("View");
 	// 수정 불가능
 	float fSpeed = pTargetObj->Rigidbody2D()->GetSpeed();
-	ImGui::InputFloat("Cur Speed ##Rigidbody2D", &fSpeed, 0, 0, "%.2f");
+	ImGui::Text("Cur Speed : %.2f", fSpeed);
 
 	ImGui::Spacing();
 	// 수정 가능한데 스크립트로 이용

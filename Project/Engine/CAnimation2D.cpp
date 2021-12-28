@@ -108,17 +108,19 @@ void CAnimation2D::Create(const vector<TAnimation2DDesc>& _vecAnimation2DDesc)
 	}
 }
 
-void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _strFileName)
+bool CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _strFileName)
 {
 	tstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativeFilePath + _strFileName;
 
 	FILE* pFile = nullptr;
 	_tfopen_s(&pFile, strFilePath.c_str(), _T("w"));
 	assert(pFile);
+	if (nullptr == pFile)
+		return false;
 
 	// fwpritnf
 	_ftprintf(pFile, _T("Animation_Name\n"));
-	_ftprintf(pFile, GetName().c_str());
+	_ftprintf(pFile, _T("%s"),GetName().c_str());
 	_ftprintf(pFile, _T("\n"));
 	_ftprintf(pFile, _T("Frame_Count\n"));
 	_ftprintf(pFile, _T("%d\n"), (int)m_vecAnimFrame.size());
@@ -152,18 +154,19 @@ void CAnimation2D::Save(const tstring& _strRelativeFilePath, const wstring& _str
 
 	for (size_t i = 0; i < m_vecTex.size(); ++i) {
 		_ftprintf(pFile, _T("Texture_Name %d\n"), (int)i);
-		_ftprintf(pFile, m_vecTex[i]->GetKey().c_str());
+		_ftprintf(pFile, _T("%s"), m_vecTex[i]->GetKey().c_str());
 		_ftprintf(pFile, _T("\n"));
 
 		_ftprintf(pFile, _T("Texture_Path %d\n"), (int)i);
-		_ftprintf(pFile, m_vecTex[i]->GetRelativePath().c_str());
+		_ftprintf(pFile, _T("%s"), m_vecTex[i]->GetRelativePath().c_str());
 		_ftprintf(pFile, _T("\n"));
 	}
 
 	fclose(pFile);
+	return true;
 }
 
-void CAnimation2D::Load(const tstring& _strRelativeFilePath)
+bool CAnimation2D::Load(const tstring& _strRelativeFilePath)
 {
 	tstring strFilePath = CPathManager::GetInstance()->GetContentPath() + _strRelativeFilePath;
 
@@ -173,6 +176,8 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 	FILE* pFile = nullptr;
 	_tfopen_s(&pFile, strFilePath.c_str(), _T("r"));
 	assert(pFile);
+	if (nullptr == pFile)
+		return false;
 
 	// fwscanf_s
 	_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
@@ -229,6 +234,7 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 		// 텍스쳐 이름
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 		SharedPtr<CTexture> pTex = nullptr;
 		pTex = CResourceManager::GetInstance()->LoadRes<CTexture>(szBuffer);
 		m_vecTex.push_back(pTex);
@@ -237,12 +243,14 @@ void CAnimation2D::Load(const tstring& _strRelativeFilePath)
 		// 텍스쳐 경로
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
+		_ftscanf_s(pFile, _T("%s"), szBuffer, iBufferSize);
 		if (nullptr == m_vecTex[i]) {
 			m_vecTex[i] = CResourceManager::GetInstance()->LoadRes<CTexture>(strKey, szBuffer);
 		}
 	}
 
 	fclose(pFile);
+	return true;
 }
 
 bool CAnimation2D::SaveToScene(FILE* _pFile)
