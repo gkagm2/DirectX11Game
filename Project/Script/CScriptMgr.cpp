@@ -23,6 +23,7 @@
 #include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
 #include "CObjectDragAndDropScript_ca.h"
+#include "CPlayerController_bu.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
 #include "CPostProcessingScript.h"
@@ -53,6 +54,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
+	_vec.push_back(L"CPlayerController_bu");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CPostProcessingScript");
@@ -106,6 +108,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CModuleScript_ca;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
+	if (L"CPlayerController_bu" == _strScriptName)
+		return new CPlayerController_bu;
 	if (L"CPlayerScript_ca" == _strScriptName)
 		return new CPlayerScript_ca;
 	if (L"CPlayerScript_sh" == _strScriptName)
@@ -188,6 +192,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU:
+		return new CPlayerController_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT_CA:
 		return new CPlayerScript_ca;
@@ -298,6 +305,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return L"CObjectDragAndDropScript_ca";
+		break;
+
+	case SCRIPT_TYPE::PLAYERCONTROLLER_BU:
+		return L"CPlayerController_bu";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT_CA:

@@ -45,6 +45,9 @@ public:
 public:
 	void SceneLoadStart();		//
 
+public:
+	CScene* CreateNewScene(); // 새로운 씬 생성 후 새 씬으로 이동
+
 
 private:
 	void _SetSceneMode(E_SceneMode _eSceneMode);

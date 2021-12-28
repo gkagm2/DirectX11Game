@@ -88,6 +88,12 @@ CGameObject* TestCreateObj() {
 	return pObj;
 }
 
+void CTestScene::CreateNewScene()
+{
+	CScene* pNewScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+}
+
 CTestScene::CTestScene()
 {
 }

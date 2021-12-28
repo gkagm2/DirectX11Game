@@ -20,6 +20,7 @@ CManagerContainer_ca
 CModuleCreator_ca
 CModuleScript_ca
 CObjectDragAndDropScript_ca
+CPlayerController_bu
 CPlayerScript_ca
 CPlayerScript_sh
 CPostProcessingScript

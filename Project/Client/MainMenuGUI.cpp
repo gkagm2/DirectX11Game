@@ -40,6 +40,9 @@ void MainMenuGUI::Update()
     {
         // Scene Menu
         if (ImGui::BeginMenu("Scene")) {
+            if (ImGui::MenuItem("Create New Scene(no save)")) {
+                CreateNewScene();
+            }
             if (ImGui::MenuItem("Save Scene", "CTLR+S", false , true)) {
                 SaveScene();
             }
@@ -283,6 +286,11 @@ void MainMenuGUI::CreateParticleSystemGameObject()
 void MainMenuGUI::CreateLight2D()
 {
     CObjectManager::GetInstance()->CreateLight2D();
+}
+
+void MainMenuGUI::CreateNewScene()
+{
+    CSceneManager::GetInstance()->CreateNewScene();
 }
 
 void MainMenuGUI::Create2DRectGameObject()

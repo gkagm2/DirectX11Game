@@ -76,6 +76,15 @@
     <Filter Include="Cursor">
       <UniqueIdentifier>{27f17699-f737-44bc-9d21-380190e51a52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\Manager">
+      <UniqueIdentifier>{03451aa9-29bd-49e6-bb6d-c3ececc19af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Butcher\Manager\Character">
+      <UniqueIdentifier>{b0a4a08a-b8f5-4107-9f32-0e07b98e45de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Butcher\Etc">
+      <UniqueIdentifier>{48a9d6a7-55bd-4efc-9106-1dcf837a5d1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -160,8 +169,13 @@
     <ClInclude Include="CCursorScript.h">
       <Filter>Games\Useful</Filter>
     </ClInclude>
-    <ClInclude Include="CCursor_bu.h" />
-    <ClInclude Include="CCharacter_bu.h" />
+    <ClInclude Include="CCharacter_bu.h">
+      <Filter>Games\Butcher\Manager\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CCursor_bu.h">
+      <Filter>Games\Butcher\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerController_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -246,7 +260,12 @@
     <ClCompile Include="CCursorScript.cpp">
       <Filter>Games\Useful</Filter>
     </ClCompile>
-    <ClCompile Include="CCursor_bu.cpp" />
-    <ClCompile Include="CCharacter_bu.cpp" />
+    <ClCompile Include="CCharacter_bu.cpp">
+      <Filter>Games\Butcher\Manager\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CCursor_bu.cpp">
+      <Filter>Games\Butcher\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerController_bu.cpp" />
   </ItemGroup>
 </Project>

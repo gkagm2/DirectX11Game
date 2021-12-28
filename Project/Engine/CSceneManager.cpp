@@ -135,6 +135,13 @@ void CSceneManager::SceneLoadStart()
 	m_pCurScene = m_pLoadingScene;
 }
 
+CScene* CSceneManager::CreateNewScene()
+{
+	CScene* pNewScene = new CScene;
+	CSceneManager::GetInstance()->ChangeSceneEvt(pNewScene);
+	return pNewScene;
+}
+
 void CSceneManager::_SetSceneMode(E_SceneMode _eSceneMode) {
 	if (E_SceneMode::Play == _eSceneMode && E_SceneMode::Stop == m_eSceneMode) {
 		m_pCurScene->Awake();

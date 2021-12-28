@@ -24,6 +24,8 @@ public:
 	void CreateParticleSystemGameObject();
 	void CreateLight2D();
 
+	void CreateNewScene();
+
 	// 2D
 	void Create2DRectGameObject();
 
