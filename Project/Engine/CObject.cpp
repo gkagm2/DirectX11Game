@@ -8,23 +8,30 @@
 #include "Ptr.h"
 #include "CPrefab.h"
 
+
 UINT CObject::g_iNextID = 0;
 
 CObject::CObject() :
     m_iID(g_iNextID++)
 {
+    auto gen = boost::uuids::random_generator();
+    m_uuid = gen();
 }
 
 CObject::CObject(const CObject& _origin) :
     m_iID(g_iNextID++),
     m_strName(_origin.m_strName)
 {
+    auto gen = boost::uuids::random_generator();
+    m_uuid = gen();
 }
 
 CObject& CObject::operator=(const CObject& _obj)
 {
     m_strName = _obj.m_strName;
     m_iID = g_iNextID++;
+    auto gen = boost::uuids::random_generator();
+    m_uuid = gen();
     return *this;
 }
 
@@ -113,13 +120,26 @@ void CObject::ChangeStateEvn()
     CEventManager::GetInstance()->AddEvent(even);
 }
 
+void CObject::LinkObjectWhenSceneLoadEvn(CObject** _pTargetObj, uuid _tTargetId)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Link_GameObjectWhenSceneLoad;
+    even.lparam = (DWORD_PTR)_pTargetObj;
+    uuid* pId = new uuid;
+    *pId = _tTargetId;
+    even.wparam = (DWORD_PTR)pId;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
 bool CObject::SaveToScene(FILE* _pFile)
 {
+    FWrite(m_uuid, _pFile);
     SaveStringToFile(m_strName, _pFile);
     return true;
 }
 bool CObject::LoadFromScene(FILE* _pFile)
 {
+    FRead(m_uuid, _pFile);
     LoadStringFromFile(m_strName, _pFile);
     return true;
 }

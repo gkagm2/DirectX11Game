@@ -61,6 +61,35 @@ size_t FRead(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
 	return fread(&_data, sizeof(T), _iElementCount, _pFile);
 }
 
+template<typename T>
+uuid FWriteLinkObj(T& _Data, FILE* _pFile) {
+	bool isExist = false;
+	if (_Data)
+		isExist = true;
+	FWrite(isExist, _pFile);
+	
+	uuid id{};
+	if (isExist) {
+		id = ((CObject*)_Data)->GetUUID();
+		FWrite(id, _pFile);
+	}
+	return id;
+}
+
+template<typename T>
+uuid FReadLinkObj(T** _data, FILE* _pFile) {
+	bool isExist = false;
+	FRead(isExist, _pFile);
+	
+	uuid id{};
+	if (isExist) {
+		FRead(id, _pFile);
+		CObject::LinkObjectWhenSceneLoadEvn(_data, id);
+	}
+	return id;
+}
+
+
 class CResource;
 template<typename T>
 void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {

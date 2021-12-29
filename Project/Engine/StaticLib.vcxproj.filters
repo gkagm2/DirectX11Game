@@ -224,6 +224,9 @@
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
     <ClInclude Include="CCursor.h" />
+    <ClInclude Include="random_generator.hpp">
+      <Filter>Engine\Support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

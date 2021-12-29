@@ -73,6 +73,17 @@ void CScene::_AddGameObject(CGameObject* _pObj, UINT _iLayer, bool _bChangeChild
 
 CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 {
+	return _FindGameObject(_strName, _iLayer);
+}
+
+CGameObject* CScene::FindGameObject(const uuid& _id, UINT _iLayer)
+{
+	return _FindGameObject(_id, _iLayer);
+}
+
+template<typename T>
+CGameObject* CScene::_FindGameObject(const T& _Type, UINT _iLayer)
+{
 	if (MAX_SIZE_LAYER != _iLayer) {
 		// 레이어의 모든 루트 오브젝트들을 가져온다.
 		const vector<CGameObject*>& vecGameObjects = m_arrLayer[_iLayer]->GetRootGameObjects();
@@ -80,19 +91,19 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 		for (UINT i = 0; i < vecGameObjects.size(); ++i) {
 			// BFS를 이용하여 자식 오브젝트들을 순회하며 이름을 찾는다.
 			list<CGameObject*> que;
-			
+
 			que.push_back(vecGameObjects[i]);
-			
+
 			while (!que.empty()) {
 				CGameObject* pObj = que.front();
 				que.pop_front();
 
-				if (_strName == pObj->GetName())
+				if (_CompareGameObject(_Type, pObj))
 					return pObj;
-
+				
 				const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
 				for (UINT j = 0; j < vecChildsObj.size(); ++j) {
-					if(_iLayer == vecChildsObj[j]->GetLayer())
+					if (_iLayer == vecChildsObj[j]->GetLayer())
 						que.push_back(vecChildsObj[j]);
 				}
 			}
@@ -111,7 +122,7 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 				CGameObject* pObj = que.front();
 				que.pop_front();
 
-				if (_strName == pObj->GetName())
+				if (_CompareGameObject(_Type, pObj))
 					return pObj;
 
 				const vector<CGameObject*>& vecChildsObj = pObj->GetChildsObject();
@@ -121,6 +132,23 @@ CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)
 		}
 	}
 	return nullptr;
+}
+
+template<typename T>
+bool CScene::_CompareGameObject(const T& _Type, CGameObject* _pObj)
+{
+	bool bIsFind = false;
+	const type_info& info = typeid(_Type);
+
+	if (&info == &typeid(uuid)) {
+		if ((const uuid&)_Type == _pObj->GetUUID())
+			bIsFind = true;
+	}
+	else if (&info == &typeid(tstring)) {
+		if ((const tstring&)_Type == _pObj->GetName())
+			bIsFind = true;
+	}
+	return bIsFind;
 }
 
 void CScene::GetRootGameObjects(vector<CGameObject*>& _vecRootObjs, UINT _iLayer)

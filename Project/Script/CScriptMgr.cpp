@@ -19,6 +19,7 @@
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CLookAtScript.h"
+#include "CMainPanel_bu.h"
 #include "CManagerContainer_ca.h"
 #include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
@@ -29,6 +30,7 @@
 #include "CPostProcessingScript.h"
 #include "CRotateZScript.h"
 #include "CTestLight2DScript.h"
+#include "CUIManager_bu.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -50,6 +52,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CLookAtScript");
+	_vec.push_back(L"CMainPanel_bu");
 	_vec.push_back(L"CManagerContainer_ca");
 	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
@@ -60,6 +63,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CTestLight2DScript");
+	_vec.push_back(L"CUIManager_bu");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -100,6 +104,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLaserScript_ca;
 	if (L"CLookAtScript" == _strScriptName)
 		return new CLookAtScript;
+	if (L"CMainPanel_bu" == _strScriptName)
+		return new CMainPanel_bu;
 	if (L"CManagerContainer_ca" == _strScriptName)
 		return new CManagerContainer_ca;
 	if (L"CModuleCreator_ca" == _strScriptName)
@@ -120,6 +126,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRotateZScript;
 	if (L"CTestLight2DScript" == _strScriptName)
 		return new CTestLight2DScript;
+	if (L"CUIManager_bu" == _strScriptName)
+		return new CUIManager_bu;
 	return nullptr;
 }
 
@@ -181,6 +189,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::LOOKATSCRIPT:
 		return new CLookAtScript;
 		break;
+	case (UINT)SCRIPT_TYPE::MAINPANEL_BU:
+		return new CMainPanel_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::MANAGERCONTAINER_CA:
 		return new CManagerContainer_ca;
 		break;
@@ -210,6 +221,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return new CTestLight2DScript;
+		break;
+	case (UINT)SCRIPT_TYPE::UIMANAGER_BU:
+		return new CUIManager_bu;
 		break;
 	}
 	return nullptr;
@@ -291,6 +305,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CLookAtScript";
 		break;
 
+	case SCRIPT_TYPE::MAINPANEL_BU:
+		return L"CMainPanel_bu";
+		break;
+
 	case SCRIPT_TYPE::MANAGERCONTAINER_CA:
 		return L"CManagerContainer_ca";
 		break;
@@ -329,6 +347,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return L"CTestLight2DScript";
+		break;
+
+	case SCRIPT_TYPE::UIMANAGER_BU:
+		return L"CUIManager_bu";
 		break;
 
 	}

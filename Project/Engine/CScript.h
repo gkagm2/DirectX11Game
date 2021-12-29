@@ -23,6 +23,9 @@
 // UI
 #include "CCanvasRenderer.h"
 #include "CRectTransform.h"
+#include "CTextUI.h"
+#include "CButtonUI.h"
+#include "CImageUI.h"
 
 enum class E_ScriptParam {
 	INT,
@@ -40,6 +43,19 @@ struct TScriptParam {
 	tstring strName;
 	E_ScriptParam eParam;
 	void* pData;
+	void** ppData; // 포인터를 위한것
+	TScriptParam() :
+		strName(_T("")), eParam(E_ScriptParam::END), pData(nullptr), ppData(nullptr)
+	{}
+	TScriptParam(const tstring& _strName, E_ScriptParam _eParam, void* _pData, void** _ppData) :
+		strName(_strName), eParam(_eParam), pData(_pData), ppData(_ppData)
+	{}
+	TScriptParam(const tstring& _strName, E_ScriptParam _eParam, void* _pData) :
+		strName(_strName), eParam(_eParam), pData(_pData), ppData(nullptr)
+	{}
+	TScriptParam(const tstring& _strName, E_ScriptParam _eParam, void** _ppData) :
+		strName(_strName), eParam(_eParam), pData(nullptr), ppData(_ppData) 
+	{}
 };
 
 class CScript : public CComponent, public ICollision2DInterface, public ICollision3DInterface

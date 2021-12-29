@@ -12,6 +12,7 @@ private:
 private:
 	UINT m_iID;
 	tstring m_strName;
+	uuid m_uuid; // 고유 키
 
 public:
 	virtual void UpdateData() {}
@@ -29,8 +30,12 @@ public:
 
 	static void ChangeStateEvn(); // 상태가 바뀌면
 
+	// Load 될 때 script 코드에서 target object를 연결해주기 위해서 사용
+	static void LinkObjectWhenSceneLoadEvn(CObject** _pTargetObj, uuid _tTargetId);
+
 public:
 	UINT GetID() { return m_iID; }
+	uuid GetUUID() { return m_uuid; } // unique id
 	const tstring& GetName() { return m_strName; }
 	void SetName(const tstring& _strName) { m_strName = _strName; }
 

@@ -30,6 +30,24 @@ void CEventManager::Update()
 	}
 	m_vecDeadObj.clear();
 
+	for (UINT i = 0; i < m_vecTargetLinkObj.size(); ++i) {
+		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+		if (pCurScene) {
+			CGameObject** pObj = m_vecTargetLinkObj[i].first;
+			uuid* id = m_vecTargetLinkObj[i].second;
+			uuid ids = *id;
+			string str = to_string(ids);
+			CGameObject* pTargetGameObject = pCurScene->FindGameObject(ids);
+			if (pObj)
+				*pObj = pTargetGameObject;
+			if (id) {
+				delete id;
+				id = nullptr;
+			}
+		}
+	}
+	m_vecTargetLinkObj.clear();
+
 	// 이벤트 처리
 	for (UINT i = 0; i < m_vecEvent.size(); ++i)
 		_Excute(m_vecEvent[i]);
@@ -185,6 +203,14 @@ void CEventManager::_Excute(const TEvent& _event)
 		// lparam : enum SceneMode
 		E_SceneMode eSceneMode = (E_SceneMode)_event.lparam;
 		CSceneManager::GetInstance()->_SetSceneMode(eSceneMode);
+	}
+		break;
+	case E_EventType::Link_GameObjectWhenSceneLoad: {
+		// lparam : CObject
+		// wparam :	uuid
+		CGameObject** pObj = (CGameObject**)_event.lparam;
+		uuid* id = (uuid*)_event.wparam;
+		m_vecTargetLinkObj.push_back(std::make_pair(pObj, id));
 	}
 		break;
 	case E_EventType::Change_ToolState: {

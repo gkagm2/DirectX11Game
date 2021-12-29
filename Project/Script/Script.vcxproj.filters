@@ -85,6 +85,9 @@
     <Filter Include="Games\Butcher\Etc">
       <UniqueIdentifier>{48a9d6a7-55bd-4efc-9106-1dcf837a5d1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\MainScene">
+      <UniqueIdentifier>{9a3abbea-5606-49b7-80c2-d72672427102}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -178,6 +181,10 @@
     <ClInclude Include="CPlayerController_bu.h">
       <Filter>Games\Butcher\Manager\Character</Filter>
     </ClInclude>
+    <ClInclude Include="CUIManager_bu.h">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainPanel_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -271,5 +278,9 @@
     <ClCompile Include="CPlayerController_bu.cpp">
       <Filter>Games\Butcher\Manager\Character</Filter>
     </ClCompile>
+    <ClCompile Include="CUIManager_bu.cpp">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainPanel_bu.cpp" />
   </ItemGroup>
 </Project>

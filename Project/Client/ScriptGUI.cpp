@@ -80,9 +80,8 @@ void ScriptGUI::Update()
 			ParamGUI::Render_Float(strParamName, (float*)vecParams[i].pData, &fHeight);
 			break;
 		case E_ScriptParam::GAMEOBJ: {
-			CGameObject* pObj = (CGameObject*)vecParams[i].pData;
-			ParamGUI::Render_GameObjectLink(strParamName, &pObj, &fHeight);
-			vecParams[i].pData = (void*)pObj;
+			CGameObject** ppObj = (CGameObject**)(vecParams[i].ppData);
+			ParamGUI::Render_GameObjectLink(strParamName, ppObj, &fHeight);
 		}
 			break;
 		case E_ScriptParam::PREFAB:
@@ -91,14 +90,23 @@ void ScriptGUI::Update()
 		case E_ScriptParam::TEX:
 			assert(nullptr);
 			break;
-		case E_ScriptParam::VEC2:
-			ParamGUI::Render_Vector2(strParamName, (Vector2*)vecParams[i].pData, &fHeight);
+		case E_ScriptParam::VEC2: {
+			Vector2* vData = (Vector2*)vecParams[i].pData;
+				ParamGUI::Render_Vector2(strParamName, vData, &fHeight);
+				vecParams[i].pData = vData;
+		}
 			break;
-		case E_ScriptParam::VEC3:
-			ParamGUI::Render_Vector3(strParamName, (Vector3*)vecParams[i].pData, &fHeight);
+		case E_ScriptParam::VEC3:{
+			Vector3* vData = (Vector3*)vecParams[i].pData;
+			ParamGUI::Render_Vector3(strParamName, vData, &fHeight);
+			vecParams[i].pData = vData;
+		}
 			break;
-		case E_ScriptParam::VEC4:
-			ParamGUI::Render_Vector4(strParamName, (Vector4*)vecParams[i].pData, &fHeight);
+		case E_ScriptParam::VEC4: {
+			Vector4* vData = (Vector4*)vecParams[i].pData;
+			ParamGUI::Render_Vector4(strParamName, vData, &fHeight);
+			vecParams[i].pData = vData;
+		}
 			break;
 		default:
 			assert(nullptr && _T("스크립트 파라미터가 일치하지 않음"));

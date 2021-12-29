@@ -137,6 +137,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MaxFilesInUnityFile>0</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
+      <AdditionalIncludeDirectories>N:\Project\UsefulLibrary\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -161,6 +162,7 @@ call EngineCopy.bat</Command>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MaxFilesInUnityFile>0</MaxFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
+      <AdditionalIncludeDirectories>N:\Project\UsefulLibrary\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -246,6 +248,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="Ptr.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="CSpriteRenderer.h" />
+    <ClInclude Include="random_generator.hpp" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="StringTable.h" />
     <ClInclude Include="Struct.h" />

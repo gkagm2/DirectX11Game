@@ -250,6 +250,9 @@ void InspectorGUI::UpdateObjectGUI()
 		iSetTag = 0;
 	}
 
+	// FIXED(Jang) : 테스트용
+	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());
+
 	// ComponentGUI 보여주기
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])

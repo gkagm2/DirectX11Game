@@ -368,5 +368,5 @@ bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject** _pObj
 	if (_pHeightOut)
 		*_pHeightOut = fHeight; 
 
-	return _pObj;
+	return true;
 }

@@ -16,6 +16,7 @@ CGirderScript_ca
 CKeyControllerScript_ca
 CLaserScript_ca
 CLookAtScript
+CMainPanel_bu
 CManagerContainer_ca
 CModuleCreator_ca
 CModuleScript_ca
@@ -26,3 +27,4 @@ CPlayerScript_sh
 CPostProcessingScript
 CRotateZScript
 CTestLight2DScript
+CUIManager_bu

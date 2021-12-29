@@ -131,6 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>N:\Project\UsefulLibrary\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -154,6 +155,7 @@ call CodeGen.exe</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>N:\Project\UsefulLibrary\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -188,6 +190,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
     <ClInclude Include="CLookAtScript.h" />
+    <ClInclude Include="CMainPanel_bu.h" />
     <ClInclude Include="CManagerContainer_ca.h" />
     <ClInclude Include="CModuleCreator_ca.h" />
     <ClInclude Include="CModuleScript_ca.h" />
@@ -198,6 +201,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CRotateZScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CTestLight2DScript.h" />
+    <ClInclude Include="CUIManager_bu.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CObjectDragAndDropScript_ca.h" />
     <ClInclude Include="pch.h" />
@@ -221,6 +225,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
     <ClCompile Include="CLookAtScript.cpp" />
+    <ClCompile Include="CMainPanel_bu.cpp" />
     <ClCompile Include="CManagerContainer_ca.cpp" />
     <ClCompile Include="CModuleCreator_ca.cpp" />
     <ClCompile Include="CModuleScript_ca.cpp" />
@@ -232,6 +237,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp" />
     <ClCompile Include="CObjectDragAndDropScript_ca.cpp" />
+    <ClCompile Include="CUIManager_bu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

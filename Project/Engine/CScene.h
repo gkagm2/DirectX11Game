@@ -22,6 +22,14 @@ public:
 
 public:
     CGameObject* FindGameObject(const tstring& _strName, UINT _iLayer = MAX_SIZE_LAYER);
+    CGameObject* FindGameObject(const uuid& _id, UINT _iLayer = MAX_SIZE_LAYER);
+private:
+    template<typename T>
+    CGameObject* _FindGameObject(const T& _uuid, UINT _iLayer = MAX_SIZE_LAYER);
+    template<typename T>
+    bool _CompareGameObject(const T& _Type, CGameObject* pObj);
+public:
+
     void GetRootGameObjects(vector<CGameObject*>& _vecRootObjs, UINT _iLayer = MAX_SIZE_LAYER);
 
     CLayer* GetLayer(UINT _iLayer) { return m_arrLayer[_iLayer]; }
