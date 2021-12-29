@@ -2,6 +2,8 @@
 #include "ListViewGUI.h"
 #include <Engine\CKeyManager.h>
 #include <Engine\CTimeManager.h>
+#include <Engine\CResourceManager.h>
+#include "ParamGUI.h"
 
 ListViewGUI::ListViewGUI() :
     m_bPopUp(false),
@@ -9,7 +11,8 @@ ListViewGUI::ListViewGUI() :
     m_pInst(nullptr),
     m_dwSecondData(0),
     m_iCurItemIdx(0),
-    m_iSelectIdx(0)
+    m_iSelectIdx(0),
+    m_pPreViewTex(nullptr)
 {
     SetName("ListView");
     SetActive(false);
@@ -37,9 +40,9 @@ void ListViewGUI::Update()
 
     // 모달 팝업창을 만든다.
     static char filter[255]{};
-    if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen)) {
-    //if (ImGui::BeginPopup(m_strTitle.c_str(), ImGuiWindowFlags_AlwaysAutoResize)) {
 
+    if (ImGui::BeginPopupModal(m_strTitle.c_str(), &m_bGUIOpen, 0)) {
+    //if (ImGui::BeginPopup(m_strTitle.c_str(), ImGuiWindowFlags_AlwaysAutoResize)) {
         if (InputKeyPress(E_Key::ESCAPE))
             m_bGUIOpen = false;
 
@@ -49,13 +52,13 @@ void ListViewGUI::Update()
         bool bIsFirst = false;
         if (ImGui::InputText("##ListBox Filter", filter, 255)) {
             bIsFirst = true;
-        }
-            
+        }    
+        if (m_bIsRenderTexture)
+            _UpdateTexture();
 
-        
         // 리스트를 표시
         ImVec2 vWindowSize = ImGui::GetWindowSize();
-        vWindowSize.y -= 70.f;
+        vWindowSize.y * 0.5f;
         vector<int> vecEnableIdxs;
         if (ImGui::BeginListBox("##ListBox", vWindowSize)) {
             // 리스트에 적을 글자들을 순회하여 표시
@@ -153,11 +156,14 @@ void ListViewGUI::Update()
                 ImGui::CloseCurrentPopup();
                 _Clear();
             }
-            
-
             ImGui::EndListBox();
         }
         ImGui::EndPopup();
+
+
+
+
+
      }
     else {
         memset(filter, 0, 255);
@@ -194,6 +200,7 @@ void ListViewGUI::_Clear()
 {
     m_pInst = nullptr;
     m_pDBCCallBack = nullptr;
+    m_pGDBCCallBack = nullptr;
 
     m_vecListName.clear();
     m_vecListAdr.clear();
@@ -202,5 +209,23 @@ void ListViewGUI::_Clear()
 
     ImGui::SetWindowFocus(nullptr);
 
+    // 확장
+    m_bIsRenderTexture = false;
+
+    
+
     SetActive(false);
+}
+
+
+void ListViewGUI::_UpdateTexture()
+{
+    // 선택한 텍스쳐를 알아낸다.
+    string str = m_vecListAdr[m_iCurItemIdx];
+    tstring tStr;
+    StringToTString(str, tStr);
+    m_pPreViewTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStr).Get();
+    assert(m_pPreViewTex);
+
+    ParamGUI::Render_Texture("PreView", m_pPreViewTex, nullptr, nullptr, false);
 }

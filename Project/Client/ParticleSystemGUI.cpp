@@ -71,8 +71,7 @@ void ParticleSystemGUI::Update()
 	CTexture* pParticleTex = nullptr;
 	if (nullptr != pPS->GetParticleTexture())
 		pParticleTex = pPS->GetParticleTexture().Get();
-	ParamGUI::Render_Texture("Texture##ParticleSystemGUI", pParticleTex, this, (GUI_CALLBACK)&ParticleSystemGUI::_SelectParticleTexture);
-
+	ParamGUI::Render_Texture("Texture##ParticleSystemGUI", pParticleTex, this, (GUI_CALLBACK)&ParticleSystemGUI::_SelectParticleTexture, (GUI_CALLBACK)&ParticleSystemGUI::_UpdateTexture);
 
 
 	End();
@@ -103,4 +102,14 @@ void ParticleSystemGUI::_SelectParticleTexture(DWORD_PTR _strKey, DWORD_PTR _NON
 	assert(pTex);
 
 	GetTargetObject()->ParticleSystem()->SetParticleTexture(pTex);
+}
+
+void ParticleSystemGUI::_UpdateTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)
+{
+	const char* pStrKey = (const char*)_strKey;
+	string strKey = pStrKey;
+	tstring tStrKey;
+	StringToTString(strKey, tStrKey);
+
+	m_pPreviewTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
 }

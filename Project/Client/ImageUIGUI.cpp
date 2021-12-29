@@ -23,27 +23,13 @@ void ImageUIGUI::Update()
 	CImageUI* pImageUI = GetTargetObject()->ImageUI();
 
 	// 이미지 변경 버튼
-	ImGui::Text("Texture ");
-	if (ImGui::Button("Change")) {
-		ListViewGUI* pListView = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
-		assert(pListView);
-		if (pListView) {
-			// Texture Names
-			vector<tstring> vecNames;
-			CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecNames);
-			pListView->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Texture));
-			pListView->SetDoubleClickCallBack(this, (GUI_CALLBACK)&ImageUIGUI::SelectTexture);
-			pListView->SetActive(true);
-		}
-	}
-
 	CTexture* pImageTexture =  pImageUI->GetImageTex().Get();
-	if (pImageTexture) {
-		string strKey;
-		TStringToString(pImageTexture->GetKey().c_str(), strKey);
-		if (ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, nullptr, nullptr, false)) {
-		}
-	}
+	string strKey{};
+	if (pImageTexture)
+		TStringToString(pImageTexture->GetKey(), strKey);
+	
+	if (ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ImageUIGUI::SelectTexture, true));
+
 
 	ImGui::Spacing();
 	UINT iColor = pImageUI->GetColor();

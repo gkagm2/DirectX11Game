@@ -76,7 +76,7 @@ void InspectorGUI::Init()
 
 	// CanvasRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer] = new CanvasRendererGUI;
-	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer]->SetUISize(ImVec2(0.f, 20.f));
+	m_arrComGUI[(UINT)E_ComponentType::CanvasRenderer]->SetUISize(ImVec2(0.f, 30.f));
 
 	// Collider2D
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DGUI;
@@ -118,11 +118,11 @@ void InspectorGUI::Init()
 
 	// ImageUI
 	m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::ImageUI]->SetUISize(ImVec2(0.f, 350.f));
 
 	// ButtonUI
 	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 400.f));
 
 	//////////// Resources
 

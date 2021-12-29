@@ -15,7 +15,8 @@
 MaterialGUI::MaterialGUI() :
 	ResourceGUI(E_ResourceType::Material),
 	m_eSelectedTexParam{},
-	strResourceName{}
+	strResourceName{},
+	m_pPreViewTexture(nullptr)
 {
 }
 

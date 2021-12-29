@@ -21,6 +21,14 @@ private:
 	int m_iSelectIdx;
 
 
+	// »Æ¿Â
+	bool m_bIsRenderTexture;
+	CTexture* m_pPreViewTex;
+	//
+
+private:
+	void _UpdateTexture();
+
 public:
 	virtual void Update() override;
 
@@ -36,12 +44,11 @@ public:
 	}
 	void SetSecondData(DWORD_PTR _dwSecondData) { m_dwSecondData = _dwSecondData; }
 
+	void SetPreViewTexRender(bool _bIsRender) { m_bIsRenderTexture = _bIsRender; }
+
 private:
 	void _SetActivePopup(bool _bIsActive) { m_bPopUp = _bIsActive; }
 	void _Clear();
-
-	void _OnUpKey(int& iSelectIdx, int maxSize);
-	void _OnDownKey();
 
 public:
 	ListViewGUI();

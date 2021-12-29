@@ -6,6 +6,8 @@ private:
 	E_ShaderParam m_eSelectedTexParam;
 	char strResourceName[255];
 
+	CTexture* m_pPreViewTexture;
+
 public:
 	virtual void Update() override;
 

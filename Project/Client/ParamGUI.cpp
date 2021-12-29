@@ -141,6 +141,7 @@ bool ParamGUI::Render_Texture(const string& _strName, CTexture* _pTex, GUI* pIns
 			CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
 			pListGUI->SetList(vecName, titleName);
 			pListGUI->SetDoubleClickCallBack(pInst, (GUI_CALLBACK)_pFunc);
+			pListGUI->SetPreViewTexRender(true);
 			pListGUI->SetActive(true);
 			bButtonClick = true;
 		}
