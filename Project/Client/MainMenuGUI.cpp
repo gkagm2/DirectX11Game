@@ -36,10 +36,12 @@ MainMenuGUI::~MainMenuGUI()
 
 void MainMenuGUI::Update()
 {
-    if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::S))
-        SaveScene();
-    if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::L))
-        LoadScene();
+    if (E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode()) {
+        if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::S))
+            SaveScene();
+        if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::L))
+            LoadScene();
+    }
 
     if (ImGui::BeginMainMenuBar())
     {
