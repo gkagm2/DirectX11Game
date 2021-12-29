@@ -1,12 +1,15 @@
 #include "pch.h"
 #include "ListViewGUI.h"
 #include <Engine\CKeyManager.h>
+#include <Engine\CTimeManager.h>
 
 ListViewGUI::ListViewGUI() :
     m_bPopUp(false),
     m_pDBCCallBack(nullptr),
     m_pInst(nullptr),
-    m_dwSecondData(0)
+    m_dwSecondData(0),
+    m_iCurItemIdx(0),
+    m_iSelectIdx(0)
 {
     SetName("ListView");
     SetActive(false);
@@ -42,11 +45,18 @@ void ListViewGUI::Update()
 
         if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
             ImGui::SetKeyboardFocusHere(0);
-        ImGui::InputText("##ListBox Filter", filter,255);
 
-        static int item_current_idx = 0; // 선택한 데이터의 인덱스
+        bool bIsFirst = false;
+        if (ImGui::InputText("##ListBox Filter", filter, 255)) {
+            bIsFirst = true;
+        }
+            
+
+        
         // 리스트를 표시
         ImVec2 vWindowSize = ImGui::GetWindowSize();
+        vWindowSize.y -= 70.f;
+        vector<int> vecEnableIdxs;
         if (ImGui::BeginListBox("##ListBox", vWindowSize)) {
             // 리스트에 적을 글자들을 순회하여 표시
             for (UINT i = 0; i < m_vecListAdr.size(); ++i) {
@@ -60,30 +70,90 @@ void ListViewGUI::Update()
                         continue;
                 }
 
-                bool is_selected = (item_current_idx == i);
-                if (ImGui::Selectable(m_vecListAdr[i], is_selected))
-                    item_current_idx = i;
-
+                if (bIsFirst) {
+                    m_iCurItemIdx = i;
+                    m_iSelectIdx = 0;
+                    bIsFirst = false;
+                }
+                vecEnableIdxs.push_back(i);
+            }
+            
+            for (UINT i = 0; i < vecEnableIdxs.size(); ++i) {
+                int idx = vecEnableIdxs[i];
+                bool is_selected = (m_iCurItemIdx == idx);
+                if (ImGui::Selectable(m_vecListAdr[idx], is_selected)) {
+                    m_iSelectIdx = i;
+                    m_iCurItemIdx = vecEnableIdxs[m_iSelectIdx];
+                }
                 // 콤보를 열 때 초기 포커스 설정(스크롤링 + 키보드 탐색 포커스)
                 if (is_selected)
                     ImGui::SetItemDefaultFocus();
+            }
+            
 
-                // 아이템을 더블클릭 했을 경우
-                if (InputKeyPress(E_Key::Enter) ||
-                    ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
-                {
-                    // 콜백 함수를 호출
-                    if (m_pInst && m_pDBCCallBack)
-                        ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[i], m_dwSecondData);
+            static float fDelayTime = 0;
+            if (InputKeyPress(E_Key::UP) || ImGui::IsItemHovered()) {
+                --m_iSelectIdx;
+                m_iSelectIdx = CMyMath::Clamp(m_iSelectIdx, 0, max(0, (int)(vecEnableIdxs.size() - 1)));
+                m_iCurItemIdx = vecEnableIdxs[m_iSelectIdx];
+                fDelayTime = -0.3f;
+            }
+            if (InputKeyPress(E_Key::DOWN) || ImGui::IsItemHovered()) {
+                ++m_iSelectIdx;
+                m_iSelectIdx = CMyMath::Clamp(m_iSelectIdx, 0, max(0, (int)(vecEnableIdxs.size() - 1)));
+                m_iCurItemIdx = vecEnableIdxs[m_iSelectIdx];
+                fDelayTime = -0.3f;
+            }
 
-                    if (m_pGDBCCallBack)
-                        m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[i], m_dwSecondData);
-                    memset(filter, 0, 255);
-                    ImGui::CloseCurrentPopup();
-                    
-                    _Clear();
+            constexpr float fMaxDelay = 0.06f;
+            
+            if (InputKeyHold(E_Key::UP) || ImGui::IsItemHovered()) {
+                fDelayTime += DT;
+                if (fDelayTime >= fMaxDelay) {
+                    --m_iSelectIdx;
+                    m_iSelectIdx = CMyMath::Clamp(m_iSelectIdx, 0, max(0, (int)(vecEnableIdxs.size() - 1)));
+                    m_iCurItemIdx = vecEnableIdxs[m_iSelectIdx];
+                    fDelayTime = 0.f;
                 }
             }
+            if (InputKeyHold(E_Key::DOWN) || ImGui::IsItemHovered()) {
+                fDelayTime += DT;
+                if (fDelayTime >= fMaxDelay) {
+                    ++m_iSelectIdx;
+                    m_iSelectIdx = CMyMath::Clamp(m_iSelectIdx, 0, max(0, (int)(vecEnableIdxs.size() - 1)));
+                    m_iCurItemIdx = vecEnableIdxs[m_iSelectIdx];
+                    fDelayTime = 0.f;
+                }
+            }
+
+            if (ImGui::IsMouseDoubleClicked(0)) {
+                
+                // 콜백 함수를 호출
+                if (m_pInst && m_pDBCCallBack)
+                    ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[m_iCurItemIdx], m_dwSecondData);
+
+                if (m_pGDBCCallBack)
+                    m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[m_iCurItemIdx], m_dwSecondData);
+                memset(filter, 0, 255);
+                ImGui::CloseCurrentPopup();
+                _Clear();
+            }
+
+            // 아이템을 더블클릭 했을 경우
+            if (InputKeyPress(E_Key::Enter))
+            {
+                // 콜백 함수를 호출
+                if (m_pInst && m_pDBCCallBack)
+                    ((*m_pInst).*m_pDBCCallBack)((DWORD_PTR)m_vecListAdr[m_iCurItemIdx], m_dwSecondData);
+                 
+                if (m_pGDBCCallBack)
+                    m_pGDBCCallBack((DWORD_PTR)m_vecListAdr[m_iCurItemIdx], m_dwSecondData);
+
+                memset(filter, 0, 255);
+                ImGui::CloseCurrentPopup();
+                _Clear();
+            }
+            
 
             ImGui::EndListBox();
         }
@@ -127,6 +197,8 @@ void ListViewGUI::_Clear()
 
     m_vecListName.clear();
     m_vecListAdr.clear();
+    m_iCurItemIdx = 0;
+    m_iSelectIdx = 0;
 
     ImGui::SetWindowFocus(nullptr);
 

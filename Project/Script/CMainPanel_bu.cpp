@@ -6,16 +6,17 @@ CMainPanel_bu::CMainPanel_bu() :
 	/*m_pStartBtn(nullptr),
 	m_pOptionBtn(nullptr)*/
 {
-	TScriptParam param;
-	param.eParam = E_ScriptParam::GAMEOBJ;
-	param.pData = GetGameObject();
-	param.strName = _T("StartBtn obj");
-	AddParam(param);
+	// TODO(Jang) : 여기 만들어야 됨.
+	//TScriptParam param;
+	//param.eParam = E_ScriptParam::GAMEOBJ;
+	//param.pData = GetGameObject();
+	//param.strName = _T("StartBtn obj");
+	//AddParam(param);
 
-	param.eParam = E_ScriptParam::GAMEOBJ;
-	param.pData = GetGameObject();
-	param.strName = _T("OptionBtn obj");
-	AddParam(param);
+	//param.eParam = E_ScriptParam::GAMEOBJ;
+	//param.pData = GetGameObject();
+	//param.strName = _T("OptionBtn obj");
+	//AddParam(param);
 }
 
 CMainPanel_bu::~CMainPanel_bu()

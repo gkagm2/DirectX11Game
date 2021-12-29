@@ -17,7 +17,10 @@ private:
 	GLOBAL_CALLBACK m_pGDBCCallBack; // GDBC : global double click
 
 	DWORD_PTR m_dwSecondData;
-	
+	int m_iCurItemIdx;
+	int m_iSelectIdx;
+
+
 public:
 	virtual void Update() override;
 
@@ -36,6 +39,9 @@ public:
 private:
 	void _SetActivePopup(bool _bIsActive) { m_bPopUp = _bIsActive; }
 	void _Clear();
+
+	void _OnUpKey(int& iSelectIdx, int maxSize);
+	void _OnDownKey();
 
 public:
 	ListViewGUI();
