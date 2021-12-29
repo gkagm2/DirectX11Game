@@ -36,6 +36,11 @@ MainMenuGUI::~MainMenuGUI()
 
 void MainMenuGUI::Update()
 {
+    if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::S))
+        SaveScene();
+    if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::L))
+        LoadScene();
+
     if (ImGui::BeginMainMenuBar())
     {
         // Scene Menu
@@ -43,10 +48,12 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create New Scene(no save)")) {
                 CreateNewScene();
             }
-            if (ImGui::MenuItem("Save Scene", "CTLR+S", false , true)) {
+            if (ImGui::MenuItem("Save Scene", "CTLR+S", false, true)) {
+                
                 SaveScene();
             }
             if (ImGui::MenuItem("Load Scene", "CTRL+L", false, true)) {
+
                 LoadScene();
             }
             ImGui::EndMenu();
@@ -180,11 +187,11 @@ void MainMenuGUI::ShowExampleMenuFile()
 void MainMenuGUI::SaveScene()
 {
     OPENFILENAME ofn;
-    wchar_t strMaxPath[MAX_PATH] = L"";
+    TCHAR strMaxPath[MAX_PATH] = _T("");
     memset(&ofn, 0, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);
     ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
-    ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+    ofn.lpstrFilter = _T(".scene");//_T("葛电颇老(*.*)\0*.*\0*");
     ofn.lpstrFile = strMaxPath;
     ofn.nMaxFile = MAX_PATH;
 
@@ -193,20 +200,20 @@ void MainMenuGUI::SaveScene()
         tstring path = ofn.lpstrFile;
         CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), path, false);
 
-        wchar_t str[255] = L"Tile File Save";
+        TCHAR str[255] = _T("Scene File Save");
         CObject::ChangeStateEvn();
-        MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Save", MB_OK);
+        MessageBox(CCore::GetInstance()->GetWndHandle(), str, _T("Save"), MB_OK);
     }
 }
 
 void MainMenuGUI::LoadScene()
 {
     OPENFILENAME ofn;
-    wchar_t strMaxPath[MAX_PATH] = L"";
+    TCHAR strMaxPath[MAX_PATH] = _T("");
     memset(&ofn, 0, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);
     ofn.hwndOwner = CCore::GetInstance()->GetWndHandle();
-    ofn.lpstrFilter = L"葛电颇老(*.*)\0*.*\0*";
+    ofn.lpstrFilter = _T(".anim");// _T("葛电颇老(*.*)\0*.*\0*");
     ofn.lpstrFile = strMaxPath;
     ofn.nMaxFile = MAX_PATH;
 
@@ -218,8 +225,8 @@ void MainMenuGUI::LoadScene()
         CSceneManager::GetInstance()->ChangeSceneEvt(pCurScene);
         InspectorGUI* pInspectorGUI = (InspectorGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_Inspector);
         pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
-        wchar_t str[255] = L"Tile File Load";
-        MessageBox(CCore::GetInstance()->GetWndHandle(), str, L"Load", MB_OK);
+        TCHAR str[255] = _T("Scene File Load");
+        MessageBox(CCore::GetInstance()->GetWndHandle(), str, _T("Load"), MB_OK);
     }
 }
 
