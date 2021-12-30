@@ -1681,8 +1681,8 @@ void CTestScene::ParticleSystemTest2()
 
 	pParticleObj->ParticleSystem()->SetShape(E_ParticleShape::Cone_Spread);
 	pParticleObj->ParticleSystem()->SetGravityEnable(true);
-	pParticleObj->ParticleSystem()->SetMaxParticleCount(20.f);
-	pParticleObj->ParticleSystem()->SetSpawnCntPerSec(100.f);
+	pParticleObj->ParticleSystem()->SetMaxParticleCount(20);
+	pParticleObj->ParticleSystem()->SetSpawnCntPerSec(100);
 	pParticleObj->ParticleSystem()->SetMinLifeTime(0.5f);
 	pParticleObj->ParticleSystem()->SetMaxLifeTime(1.f);
 	pParticleObj->ParticleSystem()->SetStartColor(Vector4(0.f, 0.f, 0.5f, 1.f));

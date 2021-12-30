@@ -45,7 +45,7 @@ void Animator2DGUI::Update()
 
 	// 콤보로 표현하기
 	static int iCurItem = (int)eAnimationState;
-	ImGui::Combo("Animation State", &iCurItem, m_strList.data(), m_strList.size());
+	ImGui::Combo("Animation State", &iCurItem, m_strList.data(), (int)m_strList.size());
 	eAnimationState = (E_AnimationState)iCurItem;
 
 	pAnimator2D->SetAnimationState(eAnimationState);
@@ -63,6 +63,14 @@ void Animator2DGUI::Update()
 		tstring strAnimName = vectNames[iCurAnimIdx];
 		pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
 	}
+	
+
+	if (ImGui::Button("Delete Cur Animation##animtor2D")) {
+		tstring strAnimName = vectNames[iCurAnimIdx];
+		pAnimator2D->DeleteAnimation(strAnimName);
+	}
+
+	ImGui::SameLine();
 
 	if (ImGui::Button("Load Anmiation##Animator2D")) {
 		OPENFILENAME ofn;
@@ -76,16 +84,11 @@ void Animator2DGUI::Update()
 
 		if (0 != GetOpenFileName(&ofn)) {
 			tstring path = ofn.lpstrFile; // 파일을 가져옴.
-			int find = path.find(STR_DIR_PATH_Anim);
+			int find = (int)path.find(STR_DIR_PATH_Anim);
 			tstring fileName = path.substr(find, path.size() - find);
 			pAnimator2D->LoadAnimation(fileName);
 		}
 	}
-
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-	
 
 	if (ImGui::Button("Editor Open##Animator2D")) {
 		Animator2DEditorGUI* pAnimator2DEditorGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
@@ -106,10 +109,22 @@ void Animator2DGUI::Update()
 	//}
 
 	if (pAnimator2D) {
+		CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
+
+		if (pCurAnim) {
+			const auto& animList = pCurAnim->GetAnimationFrame();
+			static int iCurAnimFrameIdx = 0;
+			if (E_AnimationState::Fixed != pAnimator2D->GetAnimationState())
+				iCurAnimFrameIdx = pCurAnim->GetCurFrameIdx();
+
+			if (ImGui::SliderInt("", &iCurAnimFrameIdx, 0, (int)animList.size() - 1))
+				pAnimation->SetCurAnimationFrame(iCurAnimFrameIdx);
+		}
+
 		// PreView Texture가 있어야 될 듯
 		TTextureInfo tTexInfo = {};
 
-		CAnimation2D* pCurAnim = pAnimator2D->GetCurAnimation();
+		
 		if (pCurAnim) {
 			const TAnimationFrame& curFrame = pCurAnim->GetCurAnimationFrame();
 
@@ -118,10 +133,12 @@ void Animator2DGUI::Update()
 
 			tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
 			tTexInfo.uv_max = ImVec2(vFinalRB_Vec.x, vFinalRB_Vec.y);
-
-
-			ParamGUI::Render_Texture("PreView", pAnimator2D->GetCurAnimation()->GetCurTexture().Get(), nullptr, nullptr, false, tTexInfo);
 		}
+
+		CTexture* pTex = nullptr;
+		if (pCurAnim)
+			pTex = pCurAnim->GetCurTexture().Get();
+		ParamGUI::Render_Texture("PreView", pTex, nullptr, nullptr, false, tTexInfo);
 	}
 
 	End();

@@ -65,6 +65,7 @@ void Animator2DEditorGUI::_OnLoadAtlasTexture()
 	CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecNames);
 	pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Texture));
 	pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&Animator2DEditorGUI::_SelectLoadedAtlasTexture);
+	pListViewGUI->SetPreViewTexRender(true);
 	pListViewGUI->SetActive(true);
 }
 
@@ -205,7 +206,7 @@ TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _ca
 	tSelInfo.col = selCol;
 	tSelInfo.row = selRow;
 
-	tSelInfo.rect = _GetMinMaxRectFromColRow(fGridStepWidth, fGridStepHeight, tSelInfo.col, tSelInfo.row, _vImageSize, _canvasSize);
+	tSelInfo.rect = _GetMinMaxRectFromColRow((int)fGridStepWidth, (int)fGridStepHeight, tSelInfo.col, tSelInfo.row, _vImageSize, _canvasSize);
 
 	return tSelInfo;
 }
@@ -213,7 +214,7 @@ TSelectTexInfo Animator2DEditorGUI::_FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _ca
 TRect Animator2DEditorGUI::_GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize, const ImVec2& _vCanvasSize)
 {
 	TRect tRect = {};
-	tRect.rb = ImVec2((iCol + 1) * _gridStepWidth, (iRow + 1) * _gridStepHeight);
+	tRect.rb = ImVec2(float((iCol + 1) * _gridStepWidth), float((iRow + 1) * _gridStepHeight));
 	tRect.rt = ImVec2(tRect.rb.x, tRect.rb.y - _gridStepHeight);
 	tRect.lb = ImVec2(tRect.rb.x - _gridStepWidth, tRect.rb.y);
 	tRect.lt = ImVec2(tRect.lb.x, tRect.rt.y);
@@ -443,7 +444,7 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 		}
 
 
-		int iFrameCount = m_queResultTexList.size();
+		int iFrameCount = (int)m_queResultTexList.size();
 		for (int i = 0; i < m_queResultTexList.size(); ++i)
 			m_queResultTexList[m_iSelectedIdx].tAnim2DDesc.iFrameCount = iFrameCount;
 

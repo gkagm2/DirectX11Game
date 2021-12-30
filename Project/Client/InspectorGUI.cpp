@@ -88,7 +88,7 @@ void InspectorGUI::Init()
 
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 510.f));
+	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 340.f));
 
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
@@ -114,7 +114,7 @@ void InspectorGUI::Init()
 	// UI
 	// TextUI
 	m_arrComGUI[(UINT)E_ComponentType::TextUI] = new TextUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 100.f));
+	m_arrComGUI[(UINT)E_ComponentType::TextUI]->SetUISize(ImVec2(0.f, 220.f));
 
 	// ImageUI
 	m_arrComGUI[(UINT)E_ComponentType::ImageUI] = new ImageUIGUI;
@@ -122,7 +122,7 @@ void InspectorGUI::Init()
 
 	// ButtonUI
 	m_arrComGUI[(UINT)E_ComponentType::ButtonUI] = new ButtonUIGUI;
-	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 400.f));
+	m_arrComGUI[(UINT)E_ComponentType::ButtonUI]->SetUISize(ImVec2(0.f, 450.f));
 
 	//////////// Resources
 

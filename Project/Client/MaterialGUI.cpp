@@ -231,15 +231,15 @@ void MaterialGUI::CopyMaterial(CMaterial* _pMtrl)
 	tstring strOriginKey = _pMtrl->GetKey();
 	tstring strKey;
 	//  못찾았으면 
-	int FindStartIdx = strOriginKey.find_last_of(_T("\\"));
-	int FindLastIdx = strOriginKey.find_last_of(_T("."));
+	int FindStartIdx = (int)strOriginKey.find_last_of(_T("\\"));
+	int FindLastIdx = (int)strOriginKey.find_last_of(_T("."));
 	if (tstring::npos == FindStartIdx)
 		strKey = strOriginKey;
 	if (tstring::npos == FindLastIdx)
 		FindLastIdx = 0;
 	else { // 찾았으면
 		FindStartIdx += 1;
-		int iSize = strOriginKey.size();
+		int iSize = (int)strOriginKey.size();
 		int iCnt = 0;
 		if (FindLastIdx)
 			iCnt = (iSize - FindStartIdx) - (iSize - FindLastIdx);

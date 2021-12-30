@@ -92,7 +92,16 @@ void CAnimator2D::DeleteAnimation(const tstring& _strName)
 	if (iter == m_unmapAnim.end())
 		return;
 
+	if (GetCurAnimation()->GetName() == _strName) {
+		m_pCurAnimation = nullptr;
+	}
+	CAnimation2D* pAnim = (*iter).second;
+	if (pAnim) {
+		delete pAnim;
+		pAnim = nullptr;
+	}
 	m_unmapAnim.erase(iter);
+	
 }
 
 void CAnimator2D::CreateAnimation(TAnimation2DDesc& _tAnimation2DDesc)
@@ -130,6 +139,11 @@ void CAnimator2D::GetAnimationNamesFromList(vector<tstring>& _vecNameList_out)
 	_vecNameList_out.clear();
 	for (auto& t : m_unmapAnim)
 		_vecNameList_out.push_back(t.first);
+}
+
+void CAnimator2D::SetCurAnimationFrame(int _iIdx)
+{
+	GetCurAnimation()->SetCurAnimationFrame(_iIdx);
 }
 
 bool CAnimator2D::SaveToScene(FILE* _pFile)
@@ -195,6 +209,9 @@ tstring AnimationStateToStr(E_AnimationState _eState)
 		break;
 	case E_AnimationState::PingPong:
 		strState = _T("PingPong");
+		break;
+	case E_AnimationState::Fixed:
+		strState = _T("Fixed");
 		break;
 	default:
 		assert(nullptr);

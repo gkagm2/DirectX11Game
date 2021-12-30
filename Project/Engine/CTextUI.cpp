@@ -96,3 +96,26 @@ void CTextUI::SetAlign(E_TextAlign _eTextAlignment)
 		break;
 	}
 }
+
+bool CTextUI::SaveToScene(FILE* _pFile)
+{
+	CUI::SaveToScene(_pFile);
+	SaveStringToFile(m_strText, _pFile);
+	FWrite(m_fFontSize, _pFile);
+	FWrite(m_iColor, _pFile);
+	FWrite(m_eTextAlignment, _pFile);
+
+	return true;
+}
+
+bool CTextUI::LoadFromScene(FILE* _pFile)
+{
+	CUI::LoadFromScene(_pFile);
+	LoadStringFromFile(m_strText, _pFile);
+	FRead(m_fFontSize, _pFile);
+	FRead(m_iColor, _pFile);
+	FRead(m_eTextAlignment, _pFile);
+	SetAlign(m_eTextAlignment);
+
+	return true;
+}

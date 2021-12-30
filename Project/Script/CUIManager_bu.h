@@ -2,13 +2,7 @@
 #include <Engine\CScript.h>
 class CUIManager_bu : public CScript
 {
-private:
-	static CUIManager_bu* pInst;
-public:
-	
-	CUIManager_bu* GetInstance();
+	SINGLETON_SCRIPT(CUIManager_bu);
 public:
 	CLONE(CUIManager_bu);
-	CUIManager_bu();
-	virtual ~CUIManager_bu();
 };

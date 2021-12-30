@@ -30,7 +30,7 @@ void Light2DGUI::Update()
 	TStringToString(LightTypeToStr(tLightInfoRef.eLightType), strLightType);
 	// Type을 String으로 표시
 	static int iCurLightType = (int)tLightInfoRef.eLightType;
-	ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), m_vecStrLigthTypeList.size());
+	ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), (int)m_vecStrLigthTypeList.size());
 	tLightInfoRef.eLightType = (E_LightType)iCurLightType;
 
 	switch (tLightInfoRef.eLightType) {

@@ -10,6 +10,7 @@ CCursor_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh
+CGameManager_bu
 CGameManager_ca
 CGirder1x2Script_ca
 CGirderScript_ca

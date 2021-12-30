@@ -13,6 +13,7 @@
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
 #include "CGameManagerScript_sh.h"
+#include "CGameManager_bu.h"
 #include "CGameManager_ca.h"
 #include "CGirder1x2Script_ca.h"
 #include "CGirderScript_ca.h"
@@ -46,6 +47,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CGameManagerScript_sh");
+	_vec.push_back(L"CGameManager_bu");
 	_vec.push_back(L"CGameManager_ca");
 	_vec.push_back(L"CGirder1x2Script_ca");
 	_vec.push_back(L"CGirderScript_ca");
@@ -92,6 +94,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnemyScript_sh;
 	if (L"CGameManagerScript_sh" == _strScriptName)
 		return new CGameManagerScript_sh;
+	if (L"CGameManager_bu" == _strScriptName)
+		return new CGameManager_bu;
 	if (L"CGameManager_ca" == _strScriptName)
 		return new CGameManager_ca;
 	if (L"CGirder1x2Script_ca" == _strScriptName)
@@ -170,6 +174,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return new CGameManagerScript_sh;
+		break;
+	case (UINT)SCRIPT_TYPE::GAMEMANAGER_BU:
+		return new CGameManager_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGER_CA:
 		return new CGameManager_ca;
@@ -279,6 +286,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return L"CGameManagerScript_sh";
+		break;
+
+	case SCRIPT_TYPE::GAMEMANAGER_BU:
+		return L"CGameManager_bu";
 		break;
 
 	case SCRIPT_TYPE::GAMEMANAGER_CA:

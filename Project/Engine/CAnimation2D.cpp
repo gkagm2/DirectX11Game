@@ -259,7 +259,7 @@ bool CAnimation2D::SaveToScene(FILE* _pFile)
 	//SaveResourceToFile(m_pTexture, _pFile);
 	UINT iTexCnt = (UINT)m_vecTex.size();
 	FWrite(iTexCnt, _pFile);
-	for (int i = 0; i < iTexCnt; ++i)
+	for (UINT i = 0; i < iTexCnt; ++i)
 		SaveResourceToFile(m_vecTex[i], _pFile);
 
 
@@ -281,7 +281,7 @@ bool CAnimation2D::LoadFromScene(FILE* _pFile)
 	FRead(iTexCnt, _pFile);
 
 	m_vecTex.clear();
-	for (int i = 0; i < iTexCnt; ++i) {
+	for (UINT i = 0; i < iTexCnt; ++i) {
 		SharedPtr<CTexture> pTex = nullptr;
 		LoadResourceFromFile(pTex, _pFile);
 		m_vecTex.push_back(pTex);

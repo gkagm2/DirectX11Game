@@ -58,7 +58,6 @@ void ListViewGUI::Update()
 
         // 리스트를 표시
         ImVec2 vWindowSize = ImGui::GetWindowSize();
-        vWindowSize.y * 0.5f;
         vector<int> vecEnableIdxs;
         if (ImGui::BeginListBox("##ListBox", vWindowSize)) {
             // 리스트에 적을 글자들을 순회하여 표시

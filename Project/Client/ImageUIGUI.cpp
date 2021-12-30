@@ -28,8 +28,7 @@ void ImageUIGUI::Update()
 	if (pImageTexture)
 		TStringToString(pImageTexture->GetKey(), strKey);
 	
-	if (ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ImageUIGUI::SelectTexture, true));
-
+	ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ImageUIGUI::SelectTexture, true);
 
 	ImGui::Spacing();
 	UINT iColor = pImageUI->GetColor();

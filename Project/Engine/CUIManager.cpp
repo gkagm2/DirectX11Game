@@ -27,7 +27,8 @@ void CUIManager::Update()
 	// 현재 씬을 가져온다
 	CScene* pScene = CSceneManager::GetInstance()->GetCurScene();
 	if (nullptr == pScene) return;
-
+	if (E_SceneMode::Play != CSceneManager::GetInstance()->GetSceneMode())
+		return;
 	
 	
 	// Canvas내부에 존재하는 최상위 UI 오브젝트들을 가져온다.

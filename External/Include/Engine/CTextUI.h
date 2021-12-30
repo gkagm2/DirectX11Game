@@ -48,6 +48,10 @@ public:
 	E_TextAlign GetAlign() { return m_eTextAlignment; }
 	const tstring& GetAlignText() { return m_strTextAlignment; }
 
+public:
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
 
 public:
 	CLONE(CTextUI);

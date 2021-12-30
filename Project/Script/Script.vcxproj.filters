@@ -185,6 +185,9 @@
       <Filter>Games\Butcher\Manager</Filter>
     </ClInclude>
     <ClInclude Include="CMainPanel_bu.h" />
+    <ClInclude Include="CGameManager_bu.h">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -282,5 +285,8 @@
       <Filter>Games\Butcher\Manager</Filter>
     </ClCompile>
     <ClCompile Include="CMainPanel_bu.cpp" />
+    <ClCompile Include="CGameManager_bu.cpp">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

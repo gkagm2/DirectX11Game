@@ -64,7 +64,7 @@ void TileMapEditorGUI::Update()
 
 		ImVec2 vAtlasTexResol = {};
 		if (m_pTileMap->GetAtlasTexture().Get()) {
-			ImVec2((int)m_pTileMap->GetAtlasTexture()->GetResolution().x, (int)m_pTileMap->GetAtlasTexture()->GetResolution().y);
+			ImVec2(m_pTileMap->GetAtlasTexture()->GetResolution().x, m_pTileMap->GetAtlasTexture()->GetResolution().y);
 		}
 		ImGui::Text("Atlas Texture Resolution [%d,%d]", vAtlasTexResol.x, vAtlasTexResol.x);
 
@@ -197,7 +197,7 @@ void TileMapEditorGUI::_RenderCanvas()
 	static bool opt_enable_context_menu = true;
 	static bool adding_line = false;
 	
-	static int arrGrid[2] = { 5.f, 5.f };
+	static int arrGrid[2] = { 5, 5 };
 
 	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
 	ImVec2 canvas_sz = ImGui::GetContentRegionAvail();   // Resize canvas to what's available

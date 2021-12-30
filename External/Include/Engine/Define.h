@@ -5,6 +5,19 @@
 						virtual ~type();\
 						friend class CSingleton<type>;
 
+
+#define SINGLETON_SCRIPT(type)	private:\
+									static type* m_pInst;\
+								public:\
+									type* GetInstance() { \
+								if (!m_pInst)\
+									m_pInst = this;\
+								return m_pInst;\
+								}\
+								type();\
+								virtual ~type();
+#define SINGLETON_SCRIPT_CPP(type) type* type::m_pInst = nullptr;
+
 // 20210720 ImGui에 DeltaTime이 존해함. DeltaTime -> DT로 변환
 #define DT CTimeManager::GetInstance()->GetDeltaTime()
 #define InputKeyHold(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::HOLD)

@@ -39,6 +39,7 @@ enum class E_AnimationState {
 	Loop, // repeat 0 to 10 
 	Once, // 0 to 10 and done
 	PingPong, // repeat 0 to 10 and 10 to 0 
+	Fixed,
 	End,
 };
 tstring AnimationStateToStr(E_AnimationState _eState);
@@ -72,8 +73,9 @@ public:
 	void SetAnimationState(E_AnimationState _eState) { m_eAnimationState = _eState; }
 	E_AnimationState GetAnimationState() { return m_eAnimationState; }
 	CAnimation2D* GetCurAnimation() { return m_pCurAnimation; }
-	unordered_map<tstring, CAnimation2D*>& GetAnimationList() { m_unmapAnim; }
+	unordered_map<tstring, CAnimation2D*>& GetAnimationList() { return m_unmapAnim; }
 	void GetAnimationNamesFromList(vector<tstring>& _vecNameList_out);
+	void SetCurAnimationFrame(int _iIdx);
 
 	void PlayOnSceneStart(bool _bStartFlag) { m_bPlayOnSceneStart = _bStartFlag; }
 

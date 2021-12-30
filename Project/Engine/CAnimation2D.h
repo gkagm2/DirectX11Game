@@ -50,8 +50,12 @@ public:
 	SharedPtr<CTexture> GetCurTexture() { return m_vecTex[m_iCurFrameIdx]; }
 	vector<SharedPtr<CTexture>>& GetTextures() { return m_vecTex; }
 	int GetCurFrameIdx() { return m_iCurFrameIdx; }
-
-
+	void SetCurAnimationFrame(int _idx) {
+		Reset();
+		_idx = CMyMath::Clamp(_idx, 0, max(0, (int)m_vecAnimFrame.size()));
+		m_iCurFrameIdx = _idx;
+		_Play();
+	}
 
 private:
 	void _Play() { m_bFinish = true; }
