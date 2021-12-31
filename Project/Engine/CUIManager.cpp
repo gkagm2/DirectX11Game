@@ -7,6 +7,7 @@
 #include "CScene.h"
 #include "CUI.h"
 #include "CCamera.h"
+#include "CCollisionManager.h"
 
 //Test
 
@@ -57,7 +58,7 @@ void CUIManager::Update()
 		CUI* pUI = vecUIObjs[i]->GetComponent<CUI>();
 		if (pUI) {
 			if (pUI->IsActiveClickEvent()) {
-				if ((pUI->IsPointerOn(MousePosition) && eCurKeyState == E_KeyState::PRESS)) {
+				if ((CCollisionManager::GetInstance()->IsCollision(pUI->RectTransform(), MousePosition) && eCurKeyState == E_KeyState::PRESS)) {
 					// 현재 포커싱된 UI의오브젝트를 담는다.
 					m_pCurFocusedUI = pUI;
 					break;
@@ -94,7 +95,7 @@ void CUIManager::Update()
 			for (UINT i = 0; i < vecChilds.size(); ++i)
 				que.push(vecChilds[i]->GetComponent<CUI>());
 
-			if (pChildUI->IsPointerOn(MousePosition)) {
+			if (CCollisionManager::GetInstance()->IsCollision(pChildUI->RectTransform(), MousePosition)) {
 				
 				pChildUI->m_bIsOn = true;
 				if (pTargetUI->m_bIsOn)
@@ -107,7 +108,7 @@ void CUIManager::Update()
 		}	
 
 		// 마우스 포인터가 UI 외부에 있을 경우
-		if (false == pTargetUI->IsPointerOn(MousePosition)) {
+		if (false == CCollisionManager::GetInstance()->IsCollision(pTargetUI->RectTransform(), MousePosition)) {
 			if (pTargetUI->m_bIsOn)
 				pTargetUI->m_bIsOn = false;
 		}
@@ -144,9 +145,12 @@ void CUIManager::Update()
 		if (InputKeyPress(E_Key::LBUTTON)) { // 왼쪽 마우스 버튼을 눌렀다면
 			// 영역내에 들어온 UI가 있는지 체크한다.
 			for (UINT i = 0; i < vecUIObjs.size(); ++i) {
-				CUI* pParentUI = (CUI*)vecUIObjs[i];
+				//CUI* pParentUI = (CUI*)vecUIObjs[i];
+				CUI* pParentUI = vecUIObjs[i]->GetComponent<CUI>();
+				assert(pParentUI);
+				assert(pParentUI->GetGameObject());
 				// 영역에 들어온게 있다면
-				if (pParentUI->IsPointerOn(MousePosition)) {
+				if (CCollisionManager::GetInstance()->IsCollision(pParentUI->RectTransform(), MousePosition)) {
 					m_pCurFocusedUI = pParentUI;
 					break;
 				}
@@ -186,7 +190,7 @@ bool CUIManager::IsMousePointInUI()
 	while (!que.empty()) {
 		CUI* pUI = que.front();
 		que.pop();
-		if (pUI->IsPointerOn(MousePosition))
+		if (CCollisionManager::GetInstance()->IsCollision(pUI->RectTransform(), MousePosition))
 			return true;
 
 		const vector<CGameObject*>& vecChilds = pUI->GetGameObject()->GetChildsObject();

@@ -2,6 +2,7 @@
 
 class CCollider;
 class CCollider2D;
+class CRectTransform;
 union COLLIDER_ID
 {
 	struct {
@@ -53,6 +54,8 @@ public:
 
 	// BoxCollider, WorldPoint 2d
 	bool IsCollision(CCollider2D* _pCol, const Vector3& _vPoint); // 2d collsion
+	// RectTransform에 있는 영역과 ScreenPos의 MousePosition에 대한 충돌 처리
+	bool IsCollision(CRectTransform* _pRT, const Vector2& _vMousePosition);
 
 private:
 	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo);

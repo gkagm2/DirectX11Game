@@ -224,6 +224,60 @@ bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
 	return false;
 }
 
+bool CCollisionManager::IsCollision(CRectTransform* _pRT, const Vector2& _vMousePosition)
+{
+	CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
+	if (!pUICam) {
+		assert(pUICam && _T("UI Camera 없음"));
+		return false;
+	}
+
+	// 중심점으로부터 width, height을 구해서 위치를 구함
+	if (nullptr == _pRT) {
+		assert(_pRT && _T("RectTransform 없음"));
+		return false;
+	}
+	Vector3 vCenterPos = _pRT->GetPosition();
+	Vector2 vScreenCenter = pUICam->GetWorldToScreen2DPosition(vCenterPos);
+
+	float fHalfWidth = fabsf(_pRT->GetWidth()) * 0.5f;
+	float fHalfHeight = fabsf(_pRT->GetHeight()) * 0.5f;
+	float vRotZ = _pRT->GetRotationDegree().z;
+
+	// Screen좌표로 모서리 위치를 가져옴.
+	Vector2 vLT = GetScreenPosFromCenter(Vector2(vScreenCenter.x - fHalfWidth, vScreenCenter.y - fHalfHeight), vScreenCenter, vRotZ);
+
+	Vector2 vRightPointPos = GetScreenPosFromCenter(Vector2(vScreenCenter.x + fHalfWidth, vScreenCenter.y), vScreenCenter, vRotZ);
+	Vector2 vUpPointPos = GetScreenPosFromCenter(Vector2(vScreenCenter.x, vScreenCenter.y - fHalfHeight), vScreenCenter, vRotZ);
+	Vector2 vRDir = vRightPointPos - vScreenCenter;
+	vRDir.Normalize();
+	Vector2 vUpDir = vUpPointPos - vScreenCenter;
+	vUpDir.Normalize();
+
+	Vector2 vMousePosToCenter = Vector2{ vScreenCenter.x - _vMousePosition.x, vScreenCenter.y - _vMousePosition.y };
+	Vector2 vEdgePosToCenter = Vector2{ vScreenCenter.x - vLT.x, vScreenCenter.y - vLT.y };
+
+	bool isInRightVec = false;
+	{
+		float fCenterLen = fabsf(vRDir.Dot(vMousePosToCenter));
+		float fRightLen = fabsf(vRDir.Dot(vEdgePosToCenter));
+		if (fCenterLen < fRightLen)
+			isInRightVec = true;
+	}
+
+	bool isInUpVec = false;
+	{
+		float fCenterLen = fabsf(vUpDir.Dot(vMousePosToCenter));
+		float fUpLen = fabsf(vUpDir.Dot(vEdgePosToCenter));
+		if (fCenterLen < fUpLen)
+			isInUpVec = true;
+	}
+
+	if (isInUpVec && isInRightVec)
+		return true;
+	return false;
+}
+
 // OBB Check
 bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo)
 {

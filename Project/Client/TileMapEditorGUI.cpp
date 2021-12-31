@@ -136,6 +136,7 @@ void TileMapEditorGUI::Update()
 		}
 		else {
 			if (!ImGui::IsWindowFocused()) {
+				// TODO(Jang) : 타일 클릭 충돌했는지 구하는 코드를 CollisionManager에 넣기
 				Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
 
 				Vector3 vObjWorldPos = GetTargetObject()->Transform()->GetPosition();

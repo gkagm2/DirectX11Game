@@ -40,6 +40,7 @@ public:
 	const Vector3& GetLocalRotationDegree() {
 		return m_vLocalRotation * CMyMath::Rad2Deg();
 	}
+	Vector3 GetRotationDegree();
 
 	// È¸Àü
 	void RotateLocalXDegree(float _fDegree) { m_vLocalRotation.x += _fDegree * CMyMath::Rad2Deg(); }

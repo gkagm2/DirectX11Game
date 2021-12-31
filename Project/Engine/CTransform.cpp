@@ -74,6 +74,11 @@ Vector3 CTransform::GetRotation()
 	return vWorldRotation;
 }
 
+Vector3 CTransform::GetRotationDegree()
+{
+	return GetRotation() * CMyMath::Rad2Deg();
+}
+
 void CTransform::_LinkParent()
 {
 	// Scale

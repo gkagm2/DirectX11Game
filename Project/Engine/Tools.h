@@ -415,4 +415,12 @@ public:
 Vector2 ResizeScaleMaintainRatio(float _fitWidth, float _fitHeight, float _width, float _height);
 
 // 벡터 회전 (2D Rotate)
-Vector3 Rotate(const Vector3& _vVec, float _degree);
+Vector3 Rotate(const Vector3& _vVec, float _fDegree);
+Vector3 Rotate_Radian(const Vector3& _vVec, float _radian);
+Vector2 Rotate(const Vector2& _vVec, float _fDegree);
+Vector2 Rotate_Radian(const Vector2& _vVec, float _radian);
+
+// center 기준점에서부터 width, height으로부터 떨어진 점을 구한다. 
+
+// 회전되지 않은 screen 좌표에서 원하는 위치값을 center를 중점으로 회전된 후 좌표를 구함.
+Vector2 GetScreenPosFromCenter(Vector2 _vTargetPos, Vector2 _vCenterPos, float _degree);

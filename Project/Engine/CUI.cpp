@@ -10,6 +10,7 @@
 #include "CRenderManager.h"
 #include "CDevice.h"
 #include "CConstBuffer.h"
+#include "CKeyManager.h"
 //Test
 #include "CCore.h"
 
@@ -19,7 +20,10 @@ CUI::CUI(E_ComponentType _eComponentType) :
     m_bIsOn(false),
     m_bIsDown(false),
     m_vOffsetPosition{Vector3(0.f,0.f,0.f)},
-    m_vOffsetScale(Vector3(1.f,1.f,1.f))
+    m_vOffsetScale(Vector3(1.f,1.f,1.f)),
+    m_PointerDownCallBack{ nullptr },
+    m_PointerUpCallBack{ nullptr },
+    m_ClickCallBack{nullptr}
 {
     m_pColMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectLineMesh);
     m_pColMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Collider2DNoneColliedMtrl);
@@ -32,7 +36,10 @@ CUI::CUI(const CUI& _origin) :
     m_bIsOn(false),
     m_bIsDown(false),
     m_pColMesh(_origin.m_pColMesh),
-    m_pColMtrl(_origin.m_pColMtrl)
+    m_pColMtrl(_origin.m_pColMtrl),
+    m_PointerDownCallBack{ nullptr },
+    m_PointerUpCallBack{ nullptr },
+    m_ClickCallBack{nullptr}
 {
 }
 
@@ -109,24 +116,19 @@ void CUI::UpdateData()
 
 void CUI::OnPointerDown()
 {
+    if (m_PointerDownCallBack)
+        m_PointerDownCallBack();
 }
 void CUI::OnPointerUp()
 {
+    if (m_PointerUpCallBack)
+        m_PointerUpCallBack();
 }
 void CUI::OnPointerClick()
 {
-}
-
-bool CUI::IsPointerOn(const Vector2& _vMousePosition)
-{
-    Vector2 mousePos = _vMousePosition;
-    Vector2 minScreenPos = GetMin();
-    Vector2 maxScreenPos = GetMax();
-    if (_vMousePosition.x >= minScreenPos.x && _vMousePosition.x <= maxScreenPos.x &&
-        _vMousePosition.y >= minScreenPos.y && _vMousePosition.y <= maxScreenPos.y) {
-        return true;
-    }
-    return false;
+    _tcprintf(_T("click %s\n"), GetGameObject()->GetName().c_str());
+    if (m_ClickCallBack)
+        m_ClickCallBack();
 }
 
 // UI의 World 좌표의 min, max 구하기
