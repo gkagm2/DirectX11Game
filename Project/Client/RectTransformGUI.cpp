@@ -5,6 +5,7 @@
 RectTransformGUI::RectTransformGUI() :
 	ComponentGUI(E_ComponentType::RectTransform)
 {
+	SetDelBtn_Component(false);
 }
 
 RectTransformGUI::~RectTransformGUI()

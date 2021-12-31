@@ -60,14 +60,19 @@ void Animator2DGUI::Update()
 	ParamGUI::Make_ComboBoxList(vecNames_o, vecComboName);
 	static int iCurAnimIdx = 0;
 	if (ParamGUI::Render_ComboBox("Animation List##animator2D", &iCurAnimIdx, vecComboName)) {
-		tstring strAnimName = vectNames[iCurAnimIdx];
-		pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
+		tstring strAnimName{};
+		if (vectNames.size()) {
+			tstring strAnimName = vectNames[iCurAnimIdx];
+			pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
+		}
 	}
 	
 
 	if (ImGui::Button("Delete Cur Animation##animtor2D")) {
-		tstring strAnimName = vectNames[iCurAnimIdx];
-		pAnimator2D->DeleteAnimation(strAnimName);
+		if (vectNames.size()) {
+			tstring strAnimName = vectNames[iCurAnimIdx];
+			pAnimator2D->DeleteAnimation(strAnimName);
+		}
 	}
 
 	ImGui::SameLine();

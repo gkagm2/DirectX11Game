@@ -6,6 +6,7 @@
 TransformGUI::TransformGUI() :
 	ComponentGUI(E_ComponentType::Transform)
 {
+	SetDelBtn_Component(false);
 }
 
 TransformGUI::~TransformGUI()

@@ -122,7 +122,10 @@ void CAnimator2D::CreateAnimation(const vector<TAnimation2DDesc>& _vecAnimation2
 	if (0 == _vecAnimation2DDesc.size())
 		return;
 	CAnimation2D* pAnim = FindAnimation(_vecAnimation2DDesc[0].strName);
-	assert(!pAnim && _T("애니메이션이 이미 존재함"));
+	if (pAnim) {
+		assert(!pAnim && _T("애니메이션이 이미 존재함"));
+		return;
+	}
 
 	if (_vecAnimation2DDesc[0].strName.empty())
 		return;

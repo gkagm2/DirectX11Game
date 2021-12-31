@@ -1,3 +1,4 @@
+#pragma once
 #include "pch.h"
 #include "ComponentGUI.h"
 #include <Engine\CGameObject.h>
@@ -5,7 +6,8 @@
 
 ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_eComponentType(_eType),
-	m_pTargetObj(nullptr)
+	m_pTargetObj(nullptr),
+	m_bDeleteEnable(true)
 {
 	string strType;
 	TStringToString(ComponentTypeToStr(_eType), strType);
@@ -39,12 +41,14 @@ bool ComponentGUI::Start()
 	WStringToString(ComponentTypeToStr(m_eComponentType), strComponentName);
 	SetTitileButton((int)m_eComponentType, strComponentName);
 
-	ImGui::SameLine();
 
 	// Delete Component Button
-	if (ImGui::Button("Del")) {
-		CComponent* pComponent = m_pTargetObj->GetComponent(m_eComponentType);
-		CObject::DestroyObjectEvn(pComponent);
+	if (m_bDeleteEnable) {
+		ImGui::SameLine();
+		if (ImGui::Button("Del")) {
+			CComponent* pComponent = m_pTargetObj->GetComponent(m_eComponentType);
+			CObject::DestroyObjectEvn(pComponent);
+		}
 	}
 
 	return true;
