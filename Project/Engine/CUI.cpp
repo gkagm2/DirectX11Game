@@ -126,51 +126,8 @@ void CUI::OnPointerUp()
 }
 void CUI::OnPointerClick()
 {
-    _tcprintf(_T("click %s\n"), GetGameObject()->GetName().c_str());
     if (m_ClickCallBack)
         m_ClickCallBack();
-}
-
-// UI의 World 좌표의 min, max 구하기
-Vector2 CUI::GetMin()
-{
-    // pixel 사이즈라고 생각하고 해야되는듯?
-    CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
-    assert(pUICam && _T("UI Camera 없음"));
-    // 중심점으로부터 width, height을 구해서 위치를 구함
-    assert(RectTransform() && _T("RectTransform 없음"));
-    Vector3 vPos = RectTransform()->GetPosition();
-    float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5f;
-
-    Vector3 vMin;
-    vMin.x = vPos.x - fHalfWidth;
-    vMin.y = vPos.y + fHalfHeight;
-    vMin.z = vPos.z;
-
-    Vector2 vScreenMin = pUICam->GetWorldToScreen2DPosition(vMin);
-
-    return vScreenMin;
-}
-Vector2 CUI::GetMax()
-{
-    // pixel 사이즈라고 생각하고 해야되는듯?
-    CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
-    assert(pUICam && _T("UI Camera 없음"));
-    // 중심점으로부터 width, height을 구해서 위치를 구함
-    assert(RectTransform() && _T("RectTransform 없음"));
-    Vector3 vPos = RectTransform()->GetPosition();
-    float fHalfWidth = fabsf(RectTransform()->GetWidth()) * 0.5f;
-    float fHalfHeight = fabsf(RectTransform()->GetHeight()) * 0.5f;
-
-    Vector3 vMax;
-    vMax.x = vPos.x + fHalfWidth;
-    vMax.y = vPos.y - fHalfHeight;
-    vMax.z = vPos.z;
-
-    Vector2 vScreenMax = pUICam->GetWorldToScreen2DPosition(vMax);
-
-    return vScreenMax;
 }
 
 bool CUI::SaveToScene(FILE* _pFile)

@@ -226,6 +226,7 @@ bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
 
 bool CCollisionManager::IsCollision(CRectTransform* _pRT, const Vector2& _vMousePosition)
 {
+	// FIXED (Jang) : 최적화 필요.
 	CCamera* pUICam = CRenderManager::GetInstance()->GetUICamera();
 	if (!pUICam) {
 		assert(pUICam && _T("UI Camera 없음"));

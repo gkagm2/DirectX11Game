@@ -64,9 +64,6 @@ public:
 	bool IsActiveClickEvent() { return m_bActiveClickEvent; }
 
 public:
-	virtual Vector2 GetMin(); // Screen 좌표로 구함
-	virtual Vector2 GetMax(); // Screen 좌표로 구함
-
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
