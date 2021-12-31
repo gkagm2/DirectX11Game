@@ -36,7 +36,7 @@ void Animator2DGUI::Update()
 		TStringToString(pAnimation->GetName().c_str(), strName);
 		ImGui::Text("Animation Name : %s", strName.c_str());
 	}
-		
+
 
 	// 애니메이션 상태
 	string strAnimState = "";
@@ -50,7 +50,7 @@ void Animator2DGUI::Update()
 
 	pAnimator2D->SetAnimationState(eAnimationState);
 
-	
+
 	// animation list 보여주기
 	vector<tstring> vectNames;
 	GetTargetObject()->Animator2D()->GetAnimationNamesFromList(vectNames);
@@ -66,7 +66,7 @@ void Animator2DGUI::Update()
 			pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
 		}
 	}
-	
+
 
 	if (ImGui::Button("Delete Cur Animation##animtor2D")) {
 		if (vectNames.size()) {
@@ -95,6 +95,14 @@ void Animator2DGUI::Update()
 		}
 	}
 
+	if (E_AnimationState::Fixed != pAnimator2D->GetAnimationState()) {
+		bool bIsPlayOnSceneStart = pAnimator2D->IsPlayOnSceneStart();
+		if (ImGui::Checkbox("Start Anim When Scene Play", &bIsPlayOnSceneStart))
+			pAnimator2D->PlayOnSceneStart(bIsPlayOnSceneStart);
+	}
+	else
+		ImGui::Spacing();
+	
 	if (ImGui::Button("Editor Open##Animator2D")) {
 		Animator2DEditorGUI* pAnimator2DEditorGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
 		if (!pAnimator2DEditorGUI)
@@ -118,11 +126,9 @@ void Animator2DGUI::Update()
 
 		if (pCurAnim) {
 			const auto& animList = pCurAnim->GetAnimationFrame();
-			static int iCurAnimFrameIdx = 0;
-			if (E_AnimationState::Fixed != pAnimator2D->GetAnimationState())
-				iCurAnimFrameIdx = pCurAnim->GetCurFrameIdx();
+			int iCurAnimFrameIdx = pCurAnim->GetCurFrameIdx();
 
-			if (ImGui::SliderInt("", &iCurAnimFrameIdx, 0, (int)animList.size() - 1))
+			if (ImGui::SliderInt("", &iCurAnimFrameIdx, 0, max(0,(int)animList.size() - 1)))
 				pAnimation->SetCurAnimationFrame(iCurAnimFrameIdx);
 		}
 

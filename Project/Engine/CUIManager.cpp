@@ -79,7 +79,7 @@ void CUIManager::Update()
 	}
 
 	// Focus된 최상위 UI가 있다면
-	if(m_pCurFocusedUI) {
+	if(m_pCurFocusedUI && m_pCurFocusedUI->GetGameObject()) {
 		// 자식 UI중 타겟팅된 UI를 가져온다. 
 		CUI* pTargetUI = m_pCurFocusedUI;
 

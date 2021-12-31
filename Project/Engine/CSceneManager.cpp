@@ -96,8 +96,11 @@ void CSceneManager::Render()
 	m_pCurScene->Render();
 }
 
+#include "CUIManager.h"
 void CSceneManager::ChangeScene(CScene* _pNextScene)
 {
+	CUIManager::GetInstance()->Init();
+
 	if (m_pCurScene && m_pCurScene != m_pLoadingScene)
 		delete m_pCurScene;
 	m_pCurScene = _pNextScene;

@@ -52,6 +52,7 @@ private:
 	E_AnimationState m_eAnimationState;
 
 	bool m_bPlayOnSceneStart; // Scene 이 시작할때 셋팅된 애니메이션 즉시 재생여부
+	int m_iCurAnimCurFrameIdx; // state가 Fixed일 경우 고정된 애니메이션 프레임 인덱스를 저장, 불러오기 위함.
 
 public:
 	virtual void Start() override;
@@ -78,6 +79,7 @@ public:
 	void SetCurAnimationFrame(int _iIdx);
 
 	void PlayOnSceneStart(bool _bStartFlag) { m_bPlayOnSceneStart = _bStartFlag; }
+	bool IsPlayOnSceneStart() { return m_bPlayOnSceneStart; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

@@ -8,7 +8,8 @@ CAnimator2D::CAnimator2D() :
 	CComponent(E_ComponentType::Animator2D),
 	m_pCurAnimation(nullptr),
 	m_eAnimationState(E_AnimationState::Once),
-	m_bPlayOnSceneStart(false)
+	m_bPlayOnSceneStart(false),
+	m_iCurAnimCurFrameIdx(0)
 {
 }
 
@@ -16,7 +17,8 @@ CAnimator2D::CAnimator2D(const CAnimator2D& _origin) :
 	CComponent(_origin),
 	m_pCurAnimation(nullptr),
 	m_eAnimationState(_origin.m_eAnimationState),
-	m_bPlayOnSceneStart(_origin.m_bPlayOnSceneStart)
+	m_bPlayOnSceneStart(_origin.m_bPlayOnSceneStart),
+	m_iCurAnimCurFrameIdx(_origin.m_iCurAnimCurFrameIdx)
 {
 	for (auto& pair : _origin.m_unmapAnim)
 		m_unmapAnim.insert(std::make_pair(pair.first, pair.second->Clone()));
@@ -37,11 +39,15 @@ void CAnimator2D::Start()
 	if (nullptr == m_pCurAnimation)
 		return;
 
-	m_pCurAnimation->Reset();
-	if (m_bPlayOnSceneStart)
+	if (E_AnimationState::Fixed == GetAnimationState())
 		m_pCurAnimation->_Play();
-	else
-		m_pCurAnimation->_Stop();
+	else {
+		m_pCurAnimation->Reset();
+		if (m_bPlayOnSceneStart)
+			m_pCurAnimation->_Play();
+		else
+			m_pCurAnimation->_Stop();
+	}
 }
 
 void CAnimator2D::FinalUpdate()
@@ -53,6 +59,7 @@ void CAnimator2D::FinalUpdate()
 	if (E_AnimationState::Loop == GetAnimationState() && m_pCurAnimation->IsFinished())
 		m_pCurAnimation->Reset();
 	m_pCurAnimation->FinalUpdate();
+	m_iCurAnimCurFrameIdx =  m_pCurAnimation->GetCurFrameIdx();
 }
 
 void CAnimator2D::UpdateData()
@@ -168,6 +175,12 @@ bool CAnimator2D::SaveToScene(FILE* _pFile)
 	FWrite(m_eAnimationState, _pFile);
 	FWrite(m_bPlayOnSceneStart, _pFile);
 
+	bool bCurAnimExist = false;
+	if (m_pCurAnimation)
+		bCurAnimExist = true;
+	FWrite(bCurAnimExist, _pFile);
+	if(bCurAnimExist)
+		FWrite(m_iCurAnimCurFrameIdx, _pFile);
 	return true;
 }
 
@@ -197,6 +210,12 @@ bool CAnimator2D::LoadFromScene(FILE* _pFile)
 	FRead(m_eAnimationState, _pFile);
 	FRead(m_bPlayOnSceneStart, _pFile);
 
+	bool bCurAnimExist = false;
+	FRead(bCurAnimExist, _pFile);
+	if (bCurAnimExist) {
+		FRead(m_iCurAnimCurFrameIdx, _pFile);
+		m_pCurAnimation->SetCurAnimationFrame(m_iCurAnimCurFrameIdx);
+	}
 	return true;
 }
 
