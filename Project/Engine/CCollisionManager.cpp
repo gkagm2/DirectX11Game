@@ -240,9 +240,10 @@ bool CCollisionManager::IsCollision(CRectTransform* _pRT, const Vector2& _vMouse
 	}
 	Vector3 vCenterPos = _pRT->GetPosition();
 	Vector2 vScreenCenter = pUICam->GetWorldToScreen2DPosition(vCenterPos);
+	Vector3 vLocalScale = _pRT->GetLocalScale();
 
-	float fHalfWidth = fabsf(_pRT->GetWidth()) * 0.5f;
-	float fHalfHeight = fabsf(_pRT->GetHeight()) * 0.5f;
+	float fHalfWidth = fabsf(_pRT->GetWidth()) * 0.5f * vLocalScale.x;
+	float fHalfHeight = fabsf(_pRT->GetHeight()) * 0.5f * vLocalScale.y;
 	float vRotZ = _pRT->GetRotationDegree().z;
 
 	// Screen좌표로 모서리 위치를 가져옴.
