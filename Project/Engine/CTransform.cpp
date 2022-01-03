@@ -79,6 +79,16 @@ Vector3 CTransform::GetRotationDegree()
 	return GetRotation() * CMyMath::Rad2Deg();
 }
 
+void CTransform::LookAt2D(const Vector2& m_vWorldPos)
+{
+	Vector3 vCurPos = GetLocalPosition();
+	Vector2 vToTargetDir = m_vWorldPos - vCurPos;
+	float randian = atan2f(vToTargetDir.y, vToTargetDir.x);
+
+	vCurPos.z = randian;
+	SetLocalRotation(vCurPos);
+}
+
 void CTransform::_LinkParent()
 {
 	// Scale

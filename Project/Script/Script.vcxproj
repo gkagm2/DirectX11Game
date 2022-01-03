@@ -191,6 +191,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CInGamePanel_bu.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
+    <ClInclude Include="CLookAt2DScript.h" />
     <ClInclude Include="CLookAtScript.h" />
     <ClInclude Include="CMainPanel_bu.h" />
     <ClInclude Include="CManagerContainer_ca.h" />
@@ -229,6 +230,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CInGamePanel_bu.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
+    <ClCompile Include="CLookAt2DScript.cpp" />
     <ClCompile Include="CLookAtScript.cpp" />
     <ClCompile Include="CMainPanel_bu.cpp" />
     <ClCompile Include="CManagerContainer_ca.cpp" />

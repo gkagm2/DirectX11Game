@@ -202,6 +202,9 @@
     <ClInclude Include="CMainPanel_bu.h">
       <Filter>Games\Butcher\MainScene\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CLookAt2DScript.h">
+      <Filter>Games\Useful</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -309,6 +312,9 @@
     </ClCompile>
     <ClCompile Include="CMainPanel_bu.cpp">
       <Filter>Games\Butcher\MainScene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CLookAt2DScript.cpp">
+      <Filter>Games\Useful</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

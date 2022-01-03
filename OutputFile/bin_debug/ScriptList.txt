@@ -17,6 +17,7 @@ CGirderScript_ca
 CInGamePanel_bu
 CKeyControllerScript_ca
 CLaserScript_ca
+CLookAt2DScript
 CLookAtScript
 CMainPanel_bu
 CManagerContainer_ca
