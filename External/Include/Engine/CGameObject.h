@@ -84,12 +84,12 @@ public:
 private:
 	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }
 	void _SetDead();
-	void _AddChildGameObject(CGameObject* _pChildObj);
+	void _AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad = false);
 	void _RegisterLayer();
 
 	vector<CGameObject*>& _GetChildsObjectRef() { return m_vecChildObj; }
 
-	void _UnlinkParentGameObject();
+	void _UnlinkParentGameObject(bool _IsSaveLoad = false);
 	bool _IsAncestorGameObject(CGameObject* _pObj);
 
 	//오직 하나만 렌더링 가능한 컴포넌트인지 체크

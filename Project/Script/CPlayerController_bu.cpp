@@ -14,9 +14,9 @@ CPlayerController_bu::~CPlayerController_bu()
 void CPlayerController_bu::Start()
 {
 	m_pRigid = GetGameObject()->GetComponent<CRigidbody2D>();
-	m_pAnim = GetGameObject()->GetComponent<CAnimator2D>();
 	assert(m_pRigid); 
-	assert(m_pAnim);
+	/*m_pAnim = GetGameObject()->GetComponent<CAnimator2D>();
+	assert(m_pAnim);*/
 }
 
 void CPlayerController_bu::Update()
@@ -33,4 +33,9 @@ void CPlayerController_bu::Jump()
 
 void CPlayerController_bu::Move()
 {
+}
+
+void CPlayerController_bu::Aim(const Vector3& _vPos, CTransform* _pTr)
+{
+	Vector3 vRot= _pTr->GetLocalRotation();
 }

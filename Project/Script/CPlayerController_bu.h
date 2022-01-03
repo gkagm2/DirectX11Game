@@ -19,6 +19,8 @@ public:
 	virtual void Jump();
 	virtual void Move();
 
+	void Aim(const Vector3& _vPos, CTransform* _pTr);
+
 public:
 	CLONE(CPlayerController_bu);
 	CPlayerController_bu();

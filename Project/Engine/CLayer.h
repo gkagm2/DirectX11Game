@@ -50,5 +50,5 @@ public:
 
 	friend class CScene;
 	friend class CEventManager;
-	friend void CGameObject::_AddChildGameObject(CGameObject* _pChildObj);
+	friend void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _bIsSaveLoad);
 };

@@ -289,7 +289,7 @@ void CGameObject::_SetDead()
 	}
 }
 
-void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
+void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad)
 {
 	// 자식 오브젝트가 Ancestor 오브젝트면 안됨
 	if (_IsAncestorGameObject(_pChildObj))
@@ -305,7 +305,7 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	}
 
 	// 자식 오브젝트가 부모가 있으면 해제
-	_pChildObj->_UnlinkParentGameObject();
+	_pChildObj->_UnlinkParentGameObject(_IsSaveLoad);
 
 	// 부모와 자식 연결
 	_pChildObj->m_pParentObj = this;
@@ -316,8 +316,10 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj)
 	if (MAX_SIZE_LAYER == _pChildObj->GetLayer())
 		_pChildObj->_SetLayer(GetLayer());
 
-	if (_pChildObj->Transform())
-		_pChildObj->Transform()->_LinkParent();
+	if (false == _IsSaveLoad) {
+		if (_pChildObj->Transform())
+			_pChildObj->Transform()->_LinkParent();
+	}
 }
 
 void CGameObject::_RegisterLayer()
@@ -326,7 +328,7 @@ void CGameObject::_RegisterLayer()
 	pLayer->RegisterGameObject(this);
 }
 
-void CGameObject::_UnlinkParentGameObject()
+void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 {
 	UINT iLayer = GetLayer();
 	if (iLayer != MAX_SIZE_LAYER) {
@@ -364,8 +366,10 @@ void CGameObject::_UnlinkParentGameObject()
 
 	m_pParentObj = nullptr;
 
-	if (Transform())
-		Transform()->_UnlinkParent(vParentScale, vParentRotation);
+	if (false == _IsSaveLoad) {
+		if (Transform())
+			Transform()->_UnlinkParent(vParentScale, vParentRotation);
+	}
 }
 
 bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)
@@ -526,7 +530,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	for (UINT i = 0; i < iChildCount; ++i) {
 		CGameObject* pChildObj = new CGameObject;
 		pChildObj->LoadFromScene(_pFile, _iDepth);
-		_AddChildGameObject(pChildObj);
+		_AddChildGameObject(pChildObj, true);
 	}
 
 	return true;

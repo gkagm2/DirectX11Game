@@ -79,9 +79,6 @@
     <Filter Include="Games\Butcher\Manager">
       <UniqueIdentifier>{03451aa9-29bd-49e6-bb6d-c3ececc19af5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Games\Butcher\Manager\Character">
-      <UniqueIdentifier>{b0a4a08a-b8f5-4107-9f32-0e07b98e45de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Games\Butcher\Etc">
       <UniqueIdentifier>{48a9d6a7-55bd-4efc-9106-1dcf837a5d1b}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,12 @@
     </Filter>
     <Filter Include="Games\Butcher\MainScene\UI">
       <UniqueIdentifier>{6d58d5ce-69fd-4574-a34e-f2b609c44c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Butcher\InGames">
+      <UniqueIdentifier>{dff95274-d840-429d-ba7c-6f8331ee041e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Butcher\InGames\Character">
+      <UniqueIdentifier>{b0a4a08a-b8f5-4107-9f32-0e07b98e45de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -176,13 +179,13 @@
       <Filter>Games\Useful</Filter>
     </ClInclude>
     <ClInclude Include="CCharacter_bu.h">
-      <Filter>Games\Butcher\Manager\Character</Filter>
+      <Filter>Games\Butcher\InGames\Character</Filter>
     </ClInclude>
     <ClInclude Include="CCursor_bu.h">
       <Filter>Games\Butcher\Etc</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerController_bu.h">
-      <Filter>Games\Butcher\Manager\Character</Filter>
+      <Filter>Games\Butcher\InGames\Character</Filter>
     </ClInclude>
     <ClInclude Include="CUIManager_bu.h">
       <Filter>Games\Butcher\Manager</Filter>
@@ -284,13 +287,13 @@
       <Filter>Games\Useful</Filter>
     </ClCompile>
     <ClCompile Include="CCharacter_bu.cpp">
-      <Filter>Games\Butcher\Manager\Character</Filter>
+      <Filter>Games\Butcher\InGames\Character</Filter>
     </ClCompile>
     <ClCompile Include="CCursor_bu.cpp">
       <Filter>Games\Butcher\Etc</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerController_bu.cpp">
-      <Filter>Games\Butcher\Manager\Character</Filter>
+      <Filter>Games\Butcher\InGames\Character</Filter>
     </ClCompile>
     <ClCompile Include="CUIManager_bu.cpp">
       <Filter>Games\Butcher\Manager</Filter>
