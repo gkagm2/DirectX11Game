@@ -17,6 +17,7 @@
 #include "CGameManager_ca.h"
 #include "CGirder1x2Script_ca.h"
 #include "CGirderScript_ca.h"
+#include "CInGamePanel_bu.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CLookAtScript.h"
@@ -31,6 +32,7 @@
 #include "CPostProcessingScript.h"
 #include "CRotateZScript.h"
 #include "CTestLight2DScript.h"
+#include "CUIContainer_bu.h"
 #include "CUIManager_bu.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -51,6 +53,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGameManager_ca");
 	_vec.push_back(L"CGirder1x2Script_ca");
 	_vec.push_back(L"CGirderScript_ca");
+	_vec.push_back(L"CInGamePanel_bu");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CLookAtScript");
@@ -65,6 +68,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CTestLight2DScript");
+	_vec.push_back(L"CUIContainer_bu");
 	_vec.push_back(L"CUIManager_bu");
 }
 
@@ -102,6 +106,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGirder1x2Script_ca;
 	if (L"CGirderScript_ca" == _strScriptName)
 		return new CGirderScript_ca;
+	if (L"CInGamePanel_bu" == _strScriptName)
+		return new CInGamePanel_bu;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
 		return new CKeyControllerScript_ca;
 	if (L"CLaserScript_ca" == _strScriptName)
@@ -130,6 +136,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRotateZScript;
 	if (L"CTestLight2DScript" == _strScriptName)
 		return new CTestLight2DScript;
+	if (L"CUIContainer_bu" == _strScriptName)
+		return new CUIContainer_bu;
 	if (L"CUIManager_bu" == _strScriptName)
 		return new CUIManager_bu;
 	return nullptr;
@@ -187,6 +195,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return new CGirderScript_ca;
 		break;
+	case (UINT)SCRIPT_TYPE::INGAMEPANEL_BU:
+		return new CInGamePanel_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
 		return new CKeyControllerScript_ca;
 		break;
@@ -228,6 +239,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return new CTestLight2DScript;
+		break;
+	case (UINT)SCRIPT_TYPE::UICONTAINER_BU:
+		return new CUIContainer_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::UIMANAGER_BU:
 		return new CUIManager_bu;
@@ -304,6 +318,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CGirderScript_ca";
 		break;
 
+	case SCRIPT_TYPE::INGAMEPANEL_BU:
+		return L"CInGamePanel_bu";
+		break;
+
 	case SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
 		return L"CKeyControllerScript_ca";
 		break;
@@ -358,6 +376,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return L"CTestLight2DScript";
+		break;
+
+	case SCRIPT_TYPE::UICONTAINER_BU:
+		return L"CUIContainer_bu";
 		break;
 
 	case SCRIPT_TYPE::UIMANAGER_BU:

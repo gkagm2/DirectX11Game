@@ -33,6 +33,7 @@ CUI::CUI(E_ComponentType _eComponentType) :
 
 CUI::CUI(const CUI& _origin) :
     CBehaviour(_origin.m_eType),
+    m_bActiveClickEvent(_origin.m_bActiveClickEvent),
     m_bIsOn(false),
     m_bIsDown(false),
     m_pColMesh(_origin.m_pColMesh),

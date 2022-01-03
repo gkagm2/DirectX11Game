@@ -2,8 +2,6 @@
 #include "CObject.h"
 #include "CBehaviour.h"
 
-typedef 
-
 class CUI : public CBehaviour
 {
 private:
@@ -53,7 +51,7 @@ public:
 	}
 	template<typename T>
 	void SetPointerUpCallBack(T* _pObj, void(T::* _Func)()) {
-		m_PointerUpCallBack = std::bind(_pObj, _Func);
+		m_PointerUpCallBack = std::bind(_Func, _pObj);
 	}
 	template<typename T>
 	void SetClickCallBack(T* _pObj, void(T::* _Func)()) {

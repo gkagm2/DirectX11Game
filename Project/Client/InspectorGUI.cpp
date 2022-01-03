@@ -88,7 +88,7 @@ void InspectorGUI::Init()
 
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 350.f));
+	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 370.f));
 
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;

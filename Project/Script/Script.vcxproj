@@ -188,6 +188,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGameManager_ca.h" />
     <ClInclude Include="CGirderScript_ca.h" />
     <ClInclude Include="CGirder1x2Script_ca.h" />
+    <ClInclude Include="CInGamePanel_bu.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
     <ClInclude Include="CLookAtScript.h" />
@@ -206,6 +207,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="framework.h" />
     <ClInclude Include="CObjectDragAndDropScript_ca.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="CUIContainer_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraFollowerScript.cpp" />
@@ -224,6 +226,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGameManager_ca.cpp" />
     <ClCompile Include="CGirderScript_ca.cpp" />
     <ClCompile Include="CGirder1x2Script_ca.cpp" />
+    <ClCompile Include="CInGamePanel_bu.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />
     <ClCompile Include="CLookAtScript.cpp" />
@@ -247,6 +250,7 @@ call CodeGen.exe</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Script.cpp" />
+    <ClCompile Include="CUIContainer_bu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

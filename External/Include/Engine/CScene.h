@@ -21,6 +21,8 @@ public:
     virtual void Render() override {};
 
 public:
+    template<typename T>
+    T* FindComponent();
     CGameObject* FindGameObject(const tstring& _strName, UINT _iLayer = MAX_SIZE_LAYER);
     CGameObject* FindGameObject(const uuid& _id, UINT _iLayer = MAX_SIZE_LAYER);
 private:

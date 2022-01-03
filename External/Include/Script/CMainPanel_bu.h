@@ -15,9 +15,12 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
-	virtual bool SaveToScene(FILE* _pFile) override { return true; }
-	virtual bool LoadFromScene(FILE* _pFile) override { return true; }
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
+public:
+	void OnStartBtnClick();
+	void OnOptionBtnClick();
 public:
 	CLONE(CMainPanel_bu);
 	CMainPanel_bu();

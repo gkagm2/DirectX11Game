@@ -82,6 +82,27 @@ CGameObject* CScene::FindGameObject(const uuid& _id, UINT _iLayer)
 }
 
 template<typename T>
+T* CScene::FindComponent()
+{
+	vector<CGameObject*> vecRootObjs;
+	GetRootGameObjects(vecRootObjs);
+
+	// 모든 루트 오브젝트부터 순회한다.
+	for (UINT i = 0; i < vecRootObjs.size(); ++i) {
+		CGameObject* pObj = vecRootObjs[i];
+
+		T* pComponent = pObj->GetComponent<T>();
+		if (pComponent)
+			return pComponent;
+
+		pComponent = pObj->FindComponentInChilds<T>();
+		if (pComponent)
+			return pComponent;
+	}
+	return nullptr;
+}
+
+template<typename T>
 CGameObject* CScene::_FindGameObject(const T& _Type, UINT _iLayer)
 {
 	if (MAX_SIZE_LAYER != _iLayer) {

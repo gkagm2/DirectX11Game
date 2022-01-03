@@ -68,7 +68,7 @@ void CUIManager::Update()
 	}
 
 	// 포커싱된 UI가 변경되었으면 그룹 벡터에 가장 뒤로 옮김
-	if (pPrevFocusedUI != m_pCurFocusedUI) {
+	if (m_pCurFocusedUI && pPrevFocusedUI != m_pCurFocusedUI) {
 		for (auto iter = vecUIObjs.begin(); iter != vecUIObjs.end(); ++iter) {
 			if ((*iter) == m_pCurFocusedUI->GetGameObject()) {
 				vecUIObjs.erase(iter);
@@ -90,20 +90,24 @@ void CUIManager::Update()
 			CUI* pChildUI = que.front();
 			que.pop();
 
-			vector<CGameObject*> vecChilds = pChildUI->GetGameObject()->GetChildsObject();
+			if (pChildUI) {
+				vector<CGameObject*> vecChilds = pChildUI->GetGameObject()->GetChildsObject();
 
-			for (UINT i = 0; i < vecChilds.size(); ++i)
-				que.push(vecChilds[i]->GetComponent<CUI>());
+				for (UINT i = 0; i < vecChilds.size(); ++i) {
+					if (vecChilds[i]->IsActive())
+						que.push(vecChilds[i]->GetComponent<CUI>());
+				}
 
-			if (CCollisionManager::GetInstance()->IsCollision(pChildUI->RectTransform(), MousePosition)) {
-				
-				pChildUI->m_bIsOn = true;
-				if (pTargetUI->m_bIsOn)
-					pTargetUI->m_bIsOn = false;
-				pTargetUI = pChildUI;
-			}
-			else {
-				pChildUI->m_bIsOn = false;
+				if (CCollisionManager::GetInstance()->IsCollision(pChildUI->RectTransform(), MousePosition)) {
+
+					pChildUI->m_bIsOn = true;
+					if (pTargetUI->m_bIsOn)
+						pTargetUI->m_bIsOn = false;
+					pTargetUI = pChildUI;
+				}
+				else {
+					pChildUI->m_bIsOn = false;
+				}
 			}
 		}	
 
@@ -149,10 +153,12 @@ void CUIManager::Update()
 				CUI* pParentUI = vecUIObjs[i]->GetComponent<CUI>();
 				assert(pParentUI);
 				assert(pParentUI->GetGameObject());
-				// 영역에 들어온게 있다면
-				if (CCollisionManager::GetInstance()->IsCollision(pParentUI->RectTransform(), MousePosition)) {
-					m_pCurFocusedUI = pParentUI;
-					break;
+				if (pParentUI->IsActiveClickEvent()) {
+					// 영역에 들어온게 있다면
+					if (CCollisionManager::GetInstance()->IsCollision(pParentUI->RectTransform(), MousePosition)) {
+						m_pCurFocusedUI = pParentUI;
+						break;
+					}
 				}
 			}
 		}
@@ -171,6 +177,8 @@ void CUIManager::GetRootUIObjectsInCanvas(vector<CGameObject*>& _vecRootObjs)
 	for (UINT i = 0; i < vecCanvas.size(); ++i) {
 		const vector<CGameObject*>& vecChilds = vecCanvas[i]->GetChildsObject();
 		for (UINT j = 0; j < vecChilds.size(); ++j) {
+			if (!vecChilds[i]->IsActive())
+				continue;
 			// CUI이면서 CanvasRenderer가 존재하면 vector에 넣어줌
 			if (vecChilds[j]->CanvasRenderer() && vecChilds[j]->GetComponent<CUI>())
 				_vecRootObjs.push_back(vecChilds[j]);
@@ -194,8 +202,10 @@ bool CUIManager::IsMousePointInUI()
 			return true;
 
 		const vector<CGameObject*>& vecChilds = pUI->GetGameObject()->GetChildsObject();
-		for (UINT i = 0; i < vecChilds.size(); ++i)
-			que.push(vecChilds[i]->GetComponent<CUI>());
+		for (UINT i = 0; i < vecChilds.size(); ++i) {
+			if(vecChilds[i]->IsActive())
+				que.push(vecChilds[i]->GetComponent<CUI>());
+		}
 	}
 	return false;
 }

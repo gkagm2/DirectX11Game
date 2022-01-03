@@ -336,7 +336,7 @@ bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject** _pObj
 {
 	float fHeight = 0.f;
 
-	ImGui::Text("GameObject");
+	ImGui::Text(_strName.c_str());
 	fHeight += ImGui::GetItemRectSize().y;
 	tstring tstrName = _T("");
 	string strName = "NULL";

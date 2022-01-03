@@ -88,6 +88,9 @@
     <Filter Include="Games\Butcher\MainScene">
       <UniqueIdentifier>{9a3abbea-5606-49b7-80c2-d72672427102}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\MainScene\UI">
+      <UniqueIdentifier>{6d58d5ce-69fd-4574-a34e-f2b609c44c8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -184,9 +187,17 @@
     <ClInclude Include="CUIManager_bu.h">
       <Filter>Games\Butcher\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CMainPanel_bu.h" />
     <ClInclude Include="CGameManager_bu.h">
       <Filter>Games\Butcher\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIContainer_bu.h">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CInGamePanel_bu.h">
+      <Filter>Games\Butcher\MainScene\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainPanel_bu.h">
+      <Filter>Games\Butcher\MainScene\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -284,9 +295,17 @@
     <ClCompile Include="CUIManager_bu.cpp">
       <Filter>Games\Butcher\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CMainPanel_bu.cpp" />
     <ClCompile Include="CGameManager_bu.cpp">
       <Filter>Games\Butcher\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIContainer_bu.cpp">
+      <Filter>Games\Butcher\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CInGamePanel_bu.cpp">
+      <Filter>Games\Butcher\MainScene\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainPanel_bu.cpp">
+      <Filter>Games\Butcher\MainScene\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

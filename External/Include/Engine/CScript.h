@@ -14,6 +14,8 @@
 #include "CTransform.h"
 #include "CRectTransform.h"
 #include "CRigidbody2D.h"
+#include "CAnimator2D.h"
+#include "CAnimation2D.h"
 
 #include "CCamera.h"
 #include "CLight2D.h"

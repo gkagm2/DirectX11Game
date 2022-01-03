@@ -34,8 +34,19 @@
 #define DEVICE CDevice::GetInstance()->GetDevice()
 #define CONTEXT CDevice::GetInstance()->GetDeviceContext()
 
-#define FIND_GameObject_Layer(objName, layer) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer)
-#define FIND_GameObject(objName) CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName)
+#define FIND_GameObject_Layer(objName, layer) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer))
+#define FIND_GameObject(objName) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName))
+
+// OUT : 받을 포인터 변수, COMPONENT_TYPE : 찾을 컴포넌트 타입
+#define FIND_Component(OUT, COMPONENT_TYPE) { CScene* __pCurScene = CSceneManager::GetInstance()->GetCurScene(); \
+	vector<CGameObject*> __root; \
+	__pCurScene->GetRootGameObjects(__root); \
+	for (size_t i = 0; i < __root.size(); ++i) {\
+			OUT = __root[i]->GetComponent<COMPONENT_TYPE>(); \
+			if (OUT) break; \
+				OUT = __root[i]->FindComponentInChilds<COMPONENT_TYPE>(); \
+				if (OUT) break; \
+	}}
 
 // Return UINT
 #define COLOR_RGBA(r,g,b,a) (UINT)(((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)

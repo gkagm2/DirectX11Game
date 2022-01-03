@@ -266,13 +266,13 @@ float4 PS_Canvas(VTX_OUT _in) : SV_Target
                 
         if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
             && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
-            vOutColor = g_TexAnimAtlas.Sample(Sample_Anisotropic, vAnimUV);
+            vOutColor = g_TexAnimAtlas.Sample(Sample_Point, vAnimUV);
         else
             clip(-1);
     }
     else if (bTex_0)
     {
-        vOutColor = g_tex_0.Sample(Sample_Anisotropic, _in.vUV);
+        vOutColor = g_tex_0.Sample(Sample_Point, _in.vUV);
     }
     // »ö»ó È¥ÇÕ
     vOutColor = vOutColor * vUiColor;
