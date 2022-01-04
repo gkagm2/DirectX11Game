@@ -100,6 +100,9 @@
     <Filter Include="Games\Butcher\InGames\Button">
       <UniqueIdentifier>{f76ef961-b5b4-40b7-bcf5-d47d5de380ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\InGames\InteractiveObj">
+      <UniqueIdentifier>{708af93b-2b2f-41dd-9e26-7eacd52ebc3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -214,8 +217,11 @@
     <ClInclude Include="CGround_bu.h">
       <Filter>Games\Butcher\InGames\Ground</Filter>
     </ClInclude>
+    <ClInclude Include="CInteractiveObj_bu.h">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
     <ClInclude Include="CSwitch_bu.h">
-      <Filter>Games\Butcher\InGames\Button</Filter>
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,8 +337,11 @@
     <ClCompile Include="CGround_bu.cpp">
       <Filter>Games\Butcher\InGames\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="CInteractiveObj_bu.cpp">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
     <ClCompile Include="CSwitch_bu.cpp">
-      <Filter>Games\Butcher\InGames\Button</Filter>
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

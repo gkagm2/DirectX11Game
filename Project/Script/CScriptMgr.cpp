@@ -19,6 +19,7 @@
 #include "CGirderScript_ca.h"
 #include "CGround_bu.h"
 #include "CInGamePanel_bu.h"
+#include "CInteractiveObj_bu.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CLookAt2DScript.h"
@@ -58,6 +59,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGirderScript_ca");
 	_vec.push_back(L"CGround_bu");
 	_vec.push_back(L"CInGamePanel_bu");
+	_vec.push_back(L"CInteractiveObj_bu");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CLookAt2DScript");
@@ -116,6 +118,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGround_bu;
 	if (L"CInGamePanel_bu" == _strScriptName)
 		return new CInGamePanel_bu;
+	if (L"CInteractiveObj_bu" == _strScriptName)
+		return new CInteractiveObj_bu;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
 		return new CKeyControllerScript_ca;
 	if (L"CLaserScript_ca" == _strScriptName)
@@ -212,6 +216,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::INGAMEPANEL_BU:
 		return new CInGamePanel_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::INTERACTIVEOBJ_BU:
+		return new CInteractiveObj_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
 		return new CKeyControllerScript_ca;
@@ -345,6 +352,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::INGAMEPANEL_BU:
 		return L"CInGamePanel_bu";
+		break;
+
+	case SCRIPT_TYPE::INTERACTIVEOBJ_BU:
+		return L"CInteractiveObj_bu";
 		break;
 
 	case SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:

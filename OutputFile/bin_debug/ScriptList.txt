@@ -16,6 +16,7 @@ CGirder1x2Script_ca
 CGirderScript_ca
 CGround_bu
 CInGamePanel_bu
+CInteractiveObj_bu
 CKeyControllerScript_ca
 CLaserScript_ca
 CLookAt2DScript
