@@ -73,10 +73,15 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 			bool bIsPushIntersection = false;
 			TRigidCollisionInfo info = {};
 			// Rigidbody가 존재하며 두 충돌체 모두 통과 Trigger가 false면 밀어내기 기능 실행
-			if (vecLeft[l]->Rigidbody2D() && vecRight[r]->Rigidbody2D() &&
+			/*if (vecLeft[l]->Rigidbody2D() && vecRight[r]->Rigidbody2D() &&
 				!pLeftCol->IsTrigger() && !pRightCol->IsTrigger()) {
 				bIsPushIntersection = true;
+			}*/
+			// 한쪽만이라도 Rigidbody가 존재하면서 양쪽 다 Trigger가 false면
+			if (vecLeft[l]->Rigidbody2D() || vecRight[r]->Rigidbody2D() && !pLeftCol->IsTrigger() && !pRightCol->IsTrigger()) {
+				bIsPushIntersection = true;
 			}
+			bool bIsActivePushIntersection = false;
 
 			// 충돌 검사
 			if (IsCollision(pLeftCol, pRightCol, bIsPushIntersection, &info)) { // 충돌했을 경우
@@ -99,6 +104,7 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 						else {
 							// 밀어내기 실행 시 
 							if (bIsPushIntersection) {
+								bIsActivePushIntersection = true;
 								pLeftCol->OnCollisionStay2D(pRightCol, &info);
 								pRightCol->OnCollisionStay2D(pLeftCol, &info);
 							}
@@ -107,6 +113,13 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 								pRightCol->OnCollisionStay2D(pLeftCol);
 							}
 						}
+					}
+
+					// 밀어내기 실행하면
+					if (bIsActivePushIntersection) {
+						Vector3 vPos = info.pGameObject->Transform()->GetLocalPosition();
+						vPos += info.vDir * info.fDistance;
+						info.pGameObject->Transform()->SetLocalPosition(vPos);
 					}
 				}
 				else {
@@ -352,34 +365,138 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
 			return false;
 		}
-		else {
-			if (_tRigidColInfo) {
-				float fLMass = _pLeft->Rigidbody2D()->GetMass();
-				float fRMass = _pRight->Rigidbody2D()->GetMass();
-				Vector3 vForceDir;
-				if (fLMass < fRMass) {
-					vForceDir = vCenterPosLeftCollider - vCenterPosRightCollider;
-					_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
-				}
-				else {
-					vForceDir = vCenterPosRightCollider - vCenterPosLeftCollider;
-					_tRigidColInfo->pGameObject = _pRight->GetGameObject();
-				}
-				vForceDir.Normalize();
 
-				_tRigidColInfo->vDir = vForceDir;
-				_tRigidColInfo->fDistance += fabsf((fProjTwoBoxesDis * 0.5f) - fProjCenterDis);
+
+	
+	}
+
+	if (_tRigidColInfo) {
+		Vector3 vForceDir;
+		CRigidbody2D* pRigid = nullptr;
+		vector<Vector3> vecProj;
+		vector<Vector3> vecNoRigid;
+		if (_pLeft->Rigidbody2D() && _pRight->Rigidbody2D()) {
+			float fLMass = _pLeft->Rigidbody2D()->GetMass();
+			float fRMass = _pRight->Rigidbody2D()->GetMass();
+			if (fLMass < fRMass) {
+				pRigid = _pLeft->Rigidbody2D();
+				vForceDir = vCenterPosLeftCollider - vCenterPosRightCollider;
+				_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
+				vecProj.push_back(vToRight2);
+				vecProj.push_back(vToDown2);
+				vecProj.push_back(-vToRight2);
+				vecProj.push_back(-vToDown2);
+				vecNoRigid.push_back(vToRight1);
+				vecNoRigid.push_back(vToDown1);
+			}
+			else {
+				pRigid = _pRight->Rigidbody2D();
+				vForceDir = vCenterPosRightCollider - vCenterPosLeftCollider;
+				_tRigidColInfo->pGameObject = _pRight->GetGameObject();
+				vecProj.push_back(vToRight1);
+				vecProj.push_back(vToDown1);
+				vecProj.push_back(-vToRight1);
+				vecProj.push_back(-vToDown1);
+				vecNoRigid.push_back(vToRight2);
+				vecNoRigid.push_back(vToDown2);
+			}
+		}
+		else {
+			if (_pLeft->Rigidbody2D()) {
+				pRigid = _pLeft->Rigidbody2D();
+				vForceDir = vCenterPosLeftCollider - vCenterPosRightCollider;
+				_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
+				vecProj.push_back(vToRight2);
+				vecProj.push_back(vToDown2);
+				vecProj.push_back(-vToRight2);
+				vecProj.push_back(-vToDown2);
+				vecNoRigid.push_back(vToRight1);
+				vecNoRigid.push_back(vToDown1);
 			}
 
-			// 가깝다면
-			// rigidbody에서 weight값을 이용하여 fHalf - fCenterDis 의 길이만큼
-			// weight이 작은 오브젝트의 center위치 - weight이 큰 오브젝트의 center위치를 구해서 normalize해주면 weight이 작은 오브젝트의 방향을 구할 수 있다.
-			// 구한 값으로 fHalf - fCenterDis길이만큼 오브젝트를 이동시킨다.
-			// 그렇다면 fHalf- fCenterDis와 작은 weight의 방향값을 체크할 때 리턴시켜야한다. 
+			else if (_pRight->Rigidbody2D()) {
+				pRigid = _pRight->Rigidbody2D();
+				vForceDir = vCenterPosRightCollider - vCenterPosLeftCollider;
+				_tRigidColInfo->pGameObject = _pRight->GetGameObject();
+				vecProj.push_back(vToRight1);
+				vecProj.push_back(vToDown1);
+				vecProj.push_back(-vToRight1);
+				vecProj.push_back(-vToDown1);
+				vecNoRigid.push_back(vToRight2);
+				vecNoRigid.push_back(vToDown2);
+			}
 		}
-	}
-	if (_tRigidColInfo)
-		_tRigidColInfo->fDistance = _tRigidColInfo->fDistance / 4.f;
 
+		// Rigidbody가 없는 Collider의 right,down의 방향벡터 기준으로 밀려나가는 거리 계산
+			// TODO (Jang) : 다른쪽 면에 닿을경우 순간이동 함. 모서리쪽 방향을 가늠할 수 없음. 
+
+		vForceDir.Normalize();
+		float fShortedGetLen = FLOAT_MAX;
+		Vector3 vShortProj = {};
+		Vector3 vForceDirection = {};
+		for (int i = 0; i < vecProj.size(); ++i) {
+			Vector3 vProj = vecProj[i];
+			vProj.Normalize();
+			float vLen = fabsf(vProj.Dot(vecProj[i]));
+			float len1 = vProj.Dot(vToRight1);
+			float len2 = vProj.Dot(vToDown1);
+			float rigidLen = 0.f;
+			for (int i = 0; i < vecProj.size(); ++i)
+				rigidLen += fabsf(vProj.Dot(vecProj[i]));
+			rigidLen *= 0.5f;
+
+			float noRigidLen = 0.f;
+			for (int i = 0; i < vecNoRigid.size(); ++i)
+				noRigidLen += fabsf(vProj.Dot(vecNoRigid[i]));
+			noRigidLen *= 0.5f;
+
+			float fCenterLen = fabsf(vProj.Dot(vCenter));
+			fCenterLen *= 0.5f;
+			
+
+			float fGepLen = 0.f;
+			if (rigidLen + noRigidLen > fCenterLen) { // 겹쳐짐.
+				// 겹쳐진 차이를 구함.
+				fGepLen = fabsf(rigidLen - noRigidLen);
+				fGepLen = 0.01f;
+			}
+
+			// 예각인지 확인하기
+			if (vForceDir.Dot(vProj) >= 0) {
+				if (fGepLen < fShortedGetLen) {
+					fShortedGetLen = fGepLen;
+					vForceDirection = vProj;
+				}
+			}
+			else {
+				int i = 0;
+			}
+		}
+		_tRigidColInfo->vDir = vForceDirection;
+		_tRigidColInfo->fDistance = fShortedGetLen;
+		//// 대각선으로 밀려나가는 거리 계산
+		//Vector3 vCenter = vForceDir;
+		//vForceDir.Normalize();
+
+		//float centerlen = fabsf(vForceDir.Dot(vCenter));
+
+		//float len1 = fabsf(vForceDir.Dot(vToRight1));
+		//float len2 = fabsf(vForceDir.Dot(vToDown1));
+		//float len3 = fabsf(vForceDir.Dot(vToRight2));
+		//float len4 = fabsf(vForceDir.Dot(vToDown2));
+
+		//float resultLen2 = (len1 + len2 + len3 + len4) * 0.5f - centerlen;
+
+		//// 거리가 짧은 것으로 결정
+		//if (shortLen < resultLen2) {
+		//	_tRigidColInfo->vDir = vForceDirection;
+		//	_tRigidColInfo->fDistance = shortLen;
+		//}
+		//else {
+
+		//	_tRigidColInfo->vDir = vForceDir;
+		//	_tRigidColInfo->fDistance = resultLen2;
+		//}
+	}
 	return true;
 }

@@ -3,11 +3,8 @@
 class CGround_bu : public CScript
 {
 public:
-	void Start() override;
-	void Update() override;
-
-public:
-
+	virtual void Start() override;
+	virtual void Update() override;
 
 public:
 	CLONE(CGround_bu);

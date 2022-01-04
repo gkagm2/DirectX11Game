@@ -287,9 +287,7 @@ void CTestScene::Butcher()
 
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::Character, true);
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Character, (UINT)E_Layer::TileMap, true);
-
-
-	tstring path = _T("texture\\Butcher\\Mouse\\Cursor.png");
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Wall, (UINT)E_Layer::Character, true);
 
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }

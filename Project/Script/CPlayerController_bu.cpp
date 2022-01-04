@@ -45,9 +45,9 @@ void CPlayerController_bu::Attack()
 
 void CPlayerController_bu::Jump()
 {
-	Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
-	vJumpPower *= m_fJumpPower;
-	m_pRigid->AddForce(vJumpPower);
+	//Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
+	//vJumpPower *= m_fJumpPower;
+	//m_pRigid->AddForce(vJumpPower);
 }
 
 void CPlayerController_bu::Move()

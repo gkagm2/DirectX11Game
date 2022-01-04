@@ -277,6 +277,7 @@ enum class E_Layer {
 	Default,
 	Character,
 	BackgroundMap,
+	Wall,
 	TileMap = NUM_LAYER_TILEMAP,
 	UI = NUM_LAYER_UI,
 	CLIENT = NUM_LAYER_CLIENT,
