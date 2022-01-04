@@ -81,12 +81,16 @@ Vector3 CTransform::GetRotationDegree()
 
 void CTransform::LookAt2D(const Vector2& m_vWorldPos)
 {
-	Vector3 vCurPos = GetLocalPosition();
+	Vector3 vCurPos = GetPosition();
 	Vector2 vToTargetDir = m_vWorldPos - vCurPos;
+	vToTargetDir.Normalize();
 	float randian = atan2f(vToTargetDir.y, vToTargetDir.x);
-
-	vCurPos.z = randian;
-	SetLocalRotation(vCurPos);
+	Vector3 vParentRot {};
+	if (GetGameObject()->GetParentObject())
+		vParentRot = GetGameObject()->GetParentObject()->Transform()->GetRotation();
+	Vector3 vLocalRot = GetLocalRotation();
+	vLocalRot.z = randian - vParentRot.z;
+	SetLocalRotation(vLocalRot);
 }
 
 void CTransform::_LinkParent()
