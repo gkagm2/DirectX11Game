@@ -49,7 +49,7 @@ public:
 	bool IsOnKinematic() const { return m_bIsKinematic; }
 
 public:
-	void AddForce(Vector3 _vForce) { m_vForce += _vForce; } // 힘을 추가하다.
+	void AddForce(Vector3 _vForce) { m_vForce += -_vForce; } // 힘을 추가하다.
 	void AddVelocity(Vector3 _vVelocity) { m_vVelocity += _vVelocity; } // 속도를 추가하다.
 	const Vector3& GetForce() { return m_vForce; } //read only
 

@@ -22,15 +22,17 @@ void CPlayerController_bu::Start()
 void CPlayerController_bu::Update()
 {
 	if (InputKeyHold(E_Key::A)) { // left
-		m_vCurMoveDir = Vector3(0.f, -1.f, 0.f);
+		m_vCurMoveDir = Vector3(-1.f, 0.f, 0.f);
 		Move();
 	}
 	if (InputKeyHold(E_Key::D)) { // right
-		m_vCurMoveDir = Vector3(0.f, 1.f, 0.f);
+		m_vCurMoveDir = Vector3(1.f, 0.f, 0.f);
 		Move();
 	}
 	
-	Jump();
+	if (InputKeyHold(E_Key::W)) {
+		Jump();
+	}
 
 	if (InputKeyHold(E_Key::LBUTTON)) {
 		Attack();
@@ -45,9 +47,9 @@ void CPlayerController_bu::Attack()
 
 void CPlayerController_bu::Jump()
 {
-	//Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
-	//vJumpPower *= m_fJumpPower;
-	//m_pRigid->AddForce(vJumpPower);
+	Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
+	vJumpPower *= m_fJumpPower;
+	m_pRigid->AddForce(vJumpPower);
 }
 
 void CPlayerController_bu::Move()
