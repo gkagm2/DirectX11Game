@@ -172,6 +172,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
     <ClInclude Include="CBoosterScript_ca.h" />
     <ClInclude Include="CBulletScript_sh.h" />
@@ -188,6 +189,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CGameManager_ca.h" />
     <ClInclude Include="CGirderScript_ca.h" />
     <ClInclude Include="CGirder1x2Script_ca.h" />
+    <ClInclude Include="CGround_bu.h" />
     <ClInclude Include="CInGamePanel_bu.h" />
     <ClInclude Include="CKeyControllerScript_ca.h" />
     <ClInclude Include="CLaserScript_ca.h" />
@@ -211,6 +213,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CUIContainer_bu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />
     <ClCompile Include="CBoosterScript_ca.cpp" />
     <ClCompile Include="CBulletScript_sh.cpp" />
@@ -227,6 +230,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CGameManager_ca.cpp" />
     <ClCompile Include="CGirderScript_ca.cpp" />
     <ClCompile Include="CGirder1x2Script_ca.cpp" />
+    <ClCompile Include="CGround_bu.cpp" />
     <ClCompile Include="CInGamePanel_bu.cpp" />
     <ClCompile Include="CKeyControllerScript_ca.cpp" />
     <ClCompile Include="CLaserScript_ca.cpp" />

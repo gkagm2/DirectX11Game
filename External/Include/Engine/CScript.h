@@ -31,6 +31,7 @@
 
 enum class E_ScriptParam {
 	INT,
+	BOOL,
 	FLOAT,
 	VEC2,
 	VEC3,

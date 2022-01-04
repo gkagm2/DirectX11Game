@@ -120,6 +120,7 @@ void TileMapEditorGUI::Update()
 				if (pListGUI) {
 					pListGUI->SetList(vecName, _T("Atlas Texture"));
 					pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
+					pListGUI->SetPreViewTexRender(true);
 					pListGUI->SetActive(true);
 				}
 			}

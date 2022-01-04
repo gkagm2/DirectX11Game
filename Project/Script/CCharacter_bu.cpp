@@ -4,7 +4,7 @@
 CCharacter_bu::CCharacter_bu() :
 	CScript((UINT)SCRIPT_TYPE::CHARACTER_BU),
 	m_fJumpPower{ 10.f },
-	m_fMovePower{ 3.f }
+	m_fMovePower{ 30.f }
 {
 }
 

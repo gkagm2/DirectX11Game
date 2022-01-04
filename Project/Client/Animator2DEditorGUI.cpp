@@ -37,7 +37,8 @@ Animator2DEditorGUI::Animator2DEditorGUI() :
 	m_vCanvsaSize{450.f,450.f},
 	fCanvasScale{1.f},
 
-	m_fPreviewAnimSpeed(1.f)
+	m_fPreviewAnimSpeed(1.f),
+	m_isChangeCanvasScale(false)
 {
 }
 
@@ -145,23 +146,15 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 	//ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
 	if (E_EditMode::SliceSprite_Grid == m_eEditMode) {
 		_CanvasGridSliceMode();
-		if (ImGui::Button("Scale up##AnimEditor")) {
-			fCanvasScale += 1.f;
-		}
-		if (ImGui::Button("Scale down##AnimEditor")) {
-			fCanvasScale -= 1.f;
-			fCanvasScale = max(1.f, fCanvasScale);
-		}
+		m_isChangeCanvasScale = false;
+		if(ImGui::SliderFloat("Scale", &fCanvasScale, 0.1f, 50.f, "%.2f", 1))
+			m_isChangeCanvasScale = true;
 	}
 	else if (E_EditMode::SliceSprite == m_eEditMode) {
 		_CanvasSliceMode();
-		if (ImGui::Button("Scale up##AnimEditor")) {
-			fCanvasScale += 1.f;
-		}
-		if (ImGui::Button("Scale down##AnimEditor")) {
-			fCanvasScale -= 1.f;
-			fCanvasScale = max(1.f, fCanvasScale);
-		}
+		m_isChangeCanvasScale = false;
+		if(ImGui::SliderFloat("Scale", &fCanvasScale, 0.1f, 50.f, "%.2f", 1))
+			m_isChangeCanvasScale = true;
 	}
 
 	// Right Panel
@@ -172,6 +165,7 @@ void Animator2DEditorGUI::_CanvasDrawPanel()
 	if (m_bShowModifyPanel)
 		_ModifyAniationPanel();
 
+	
 }
 
 void Animator2DEditorGUI::_CanvasTopPanel()
@@ -538,7 +532,7 @@ void Animator2DEditorGUI::_ModifyAniationPanel()
 		m_iCurFrameIdx = max(0, m_iCurFrameIdx);
 	}
 
-	if(m_iCurFrameIdx)
+	if(m_queResultTexList.size() && 0 <= m_iCurFrameIdx)
 	ImGui::Text("curIdx %d", m_iCurFrameIdx);
 	TTextureInfo tTextureInfo = {};
 	tTextureInfo.uv_min = m_queResultTexList[m_iCurFrameIdx].rect.ltUV;
@@ -677,6 +671,147 @@ void Animator2DEditorGUI::_CanvasGridSliceMode() {
 
 void Animator2DEditorGUI::_CanvasSliceMode()
 {
+	// TODO (Jang) : 수정해야됨.
+	//if (ImGui::BeginChild("texture canvas panel", m_vCanvsaSize, true)) {
+	//	origin = (ImGui::GetCursorScreenPos() + scrolling);
+	//	canvas_p0 = origin;
+	//	canvas_sz = ImGui::GetContentRegionAvail() * fCanvasScale; // canvas Size
+	//	canvas_p1 = canvas_p0 + canvas_sz;
+	//	
+	//	/*DBug->Debug("p0 %.2f, %.2f", canvas_p0.x, canvas_p0.y);
+	//	DBug->Debug("canvas size %.2f, %.2f", canvas_sz.x, canvas_sz.y);*/
+
+
+	//	draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(240, 50, 50, 240));
+
+
+	//	ImVec2 imageSize{};
+	//	if (m_pLoadedAtlasTexture) {
+	//		imageSize = ImVec2(m_pLoadedAtlasTexture->GetResolution().x, m_pLoadedAtlasTexture->GetResolution().y);
+	//		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
+	//	}
+	//	imageSize *= fCanvasScale;
+
+	//	ImVec2 imageLTPos = canvas_p0;
+	//	ImVec2 imageRBPos = canvas_p0 + imageSize;
+	//	_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, imageLTPos, imageRBPos);
+
+	//	ImGuiIO& io = ImGui::GetIO();
+	//	ImVec2 mousePos = io.MousePos;
+	//	ImVec2 mousePosInCanvas = (io.MousePos - origin) * fCanvasScale;
+	//	
+
+	//	// 마우스 왼쪽과 오른쪽 버튼을 canvas에서 사용 할 것임.
+	//	ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
+	//	const bool is_hovered = ImGui::IsItemHovered(); // Hovered
+	//	const bool is_active = ImGui::IsItemActive();   // Held
+	//	const float mouse_threshold_for_pan = opt_enable_context_menu ? -1.0f : 0.0f;
+	//	static bool bDrag = false;
+
+	//	if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+	//		bDrag = true;
+	//	}
+
+	//	if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+	//		bDrag = false;
+	//	}
+
+	//	// 화면 움직임
+	//	if (is_active && ImGui::IsMouseDragging(ImGuiMouseButton_Right, mouse_threshold_for_pan))
+	//	{
+	//		if (false == bDrag) {
+	//			scrolling.x += io.MouseDelta.x;
+	//			scrolling.y += io.MouseDelta.y;
+	//		}
+	//	}
+
+	//	static ImVec2 vFirstClickPosInCanvas = {};
+	//	static ImVec2 vLastClickPosInCanvas = {};
+	//	if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+	//		vFirstClickPosInCanvas = (io.MousePos - origin);
+	//		vLastClickPosInCanvas = (io.MousePos - origin);
+	//	}
+
+	//	if (is_hovered && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+	//		vLastClickPosInCanvas = (io.MousePos - origin);
+
+	//		draw_list->AddRect(origin + vFirstClickPosInCanvas, origin + vLastClickPosInCanvas, IM_COL32(50, 240, 50, 240));
+	//	}
+
+
+	//	static ImVec2 resFirstClickPos = vFirstClickPosInCanvas;
+	//	static ImVec2 resLastClickPos = vLastClickPosInCanvas;
+	//	
+	//	if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+	//		resFirstClickPos = vFirstClickPosInCanvas;
+	//		resLastClickPos = vLastClickPosInCanvas;
+	//	}
+
+	//	// scale 변경될 경우 초기화
+	//	if (m_isChangeCanvasScale) {
+	//		resFirstClickPos = {};
+	//		resLastClickPos = {};
+	//	}
+
+	//	// 선택한 영역의 Rect그리기
+	//	draw_list->AddRect(origin + resFirstClickPos, origin + resLastClickPos, IM_COL32(50, 50, 240, 240));
+
+	//	// 마우스를 떗을 때 
+	//	if (is_hovered && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+
+	//		// 스케일값이 적용된것을 다시 원래대로 돌려줘야 한다.
+	//		// 마우스로 선택했던 영역이  scale에 적용되므로 
+	//		ImVec2 resLT = vFirstClickPosInCanvas;
+	//		ImVec2 resRB = vLastClickPosInCanvas;
+	//		ImVec2 vAtlasTexSize = ImVec2(vAtlasSize.x, vAtlasSize.y);
+
+	//		TRect tRect = _GetRectFromPos(resLT, resRB, vAtlasTexSize);
+	//		TSelectTexInfo tSelTexInfo{};
+
+	//		tSelTexInfo.rect = tRect;
+	//		tSelTexInfo.tAnim2DDesc = {};
+	//		tSelTexInfo.tAnim2DDesc.pAtlas = m_pLoadedAtlasTexture;
+
+
+	//		Vector2 vRectSize = Vector2(tRect.rb.x - tRect.lt.x, tRect.rb.y - tRect.lt.y);
+	//		tSelTexInfo.tAnim2DDesc.vBaseSize = vRectSize;
+	//		tSelTexInfo.tAnim2DDesc.vFrameSize = vRectSize;
+	//		tSelTexInfo.tAnim2DDesc.vLeftTop = Vector2(tSelTexInfo.rect.lt.x, tSelTexInfo.rect.lt.y);
+	//		m_queMinorTexList.push_back(tSelTexInfo);
+
+	//		DBug->Debug("resLT RB [%.2f %.2f][%.2f, %.2f]", resLT.x, resLT.y, resRB.x, resRB.y );
+	//	}
+	//	
+
+
+	//	// 선택 영역 rect draw하기
+	//	_DrawSelectedRect();
+
+
+	//	ImGui::EndChild();
+	//}
+
+	//ImGui::SameLine();
+	//// Right Panel
+	//if (ImGui::BeginChild("Atlas Texture view", ImVec2(300, 500))) { // Leave room for 1 line below us
+	//	{
+	//		if (ImGui::Button("Clear##Animator2DSelectImage")) {
+	//			m_queMinorTexList.clear();
+	//			m_iSelectedIdx = -1;
+	//		}
+
+	//		// 선택된 애니메이션 텍스쳐를 추가하기
+	//		if (ImGui::Button("Add Animations##animation2DEditor")) {
+	//			m_queResultTexList.clear();
+	//			// 순서대로 텍스쳐를 보여 주기
+	//			for (int i = 0; i < m_queMinorTexList.size(); ++i)
+	//				m_queResultTexList.push_back(m_queMinorTexList[i]);
+	//		}
+	//	}
+	//	ImGui::EndChild();
+	//}
+
+	
 	if (m_pLoadedAtlasTexture)
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 	vAtlasSize *= fCanvasScale;
@@ -690,7 +825,8 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		if (canvas_sz.x < 50.0f) canvas_sz.x = 50.0f;
 		if (canvas_sz.y < 50.0f) canvas_sz.y = 50.0f;
 		canvas_p1 = ImVec2(canvas_p0.x + canvas_sz.x, canvas_p0.y + canvas_sz.y);
-
+		canvas_p1.x = canvas_p1.x / fCanvasScale;
+		canvas_p1.y = canvas_p1.y / fCanvasScale;
 		// Draw border and background color
 		ImGuiIO& io = ImGui::GetIO();
 		draw_list = ImGui::GetWindowDrawList();
@@ -700,9 +836,11 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		// Drawing Cross
 		//_DrawCross(canvas_p0, canvas_p1, draw_list);
 
+		ImVec2 scrollingScale = ImVec2(scrolling.x * fCanvasScale, scrolling.y);
 		// image drawing
 		ImVec2 can0 = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y);
 		ImVec2 can1 = ImVec2(canvas_p0.x + vAtlasSize.x + scrolling.x, canvas_p0.y + vAtlasSize.y + scrolling.y);
+
 		_Canvas_DrawImage(draw_list, m_pLoadedAtlasTexture, can0, can1);
 
 		// canvs에서 
@@ -711,7 +849,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		const bool is_hovered = ImGui::IsItemHovered(); // Hovered
 		const bool is_active = ImGui::IsItemActive();   // Held
 		origin = ImVec2(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
-		const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+		const ImVec2 mouse_pos_in_canvas((io.MousePos.x - origin.x) / fCanvasScale, (io.MousePos.y - origin.y) / fCanvasScale);
 		const ImVec2 mouse_pos(io.MousePos.x / fCanvasScale, io.MousePos.y /fCanvasScale);
 		
 		static TSelectTexInfo tSelTexInfo = {};
@@ -723,7 +861,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 			// 클릭한 곳의 위치값을 인덱스값으로 변환하여 위치값을 알아내기.
 			vFirstClickedPosInCanavas = mouse_pos_in_canvas;
-			vFirstMousePos = ImVec2(mouse_pos.x + scrolling.x, mouse_pos.y + scrolling.y);
+			vFirstMousePos = ImVec2((mouse_pos.x + scrolling.x) / fCanvasScale, (mouse_pos.y + scrolling.y) / fCanvasScale);
 			// 자잘한것들 초기화
 			bDrag = true;
 		}
@@ -732,10 +870,8 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		ImVec2 vSClickedPos = {};
 		// 마우스 드래그를 했을 때.
 		if (bDrag) {
-			//if (is_hovered && ImGui::IsMouseDragging(ImGuiButtonFlags_MouseButtonLeft)) {
-				// 선을 보여준다.
-			vFClickedPos = ImVec2(vFirstMousePos.x - scrolling.x, vFirstMousePos.y - scrolling.y);
-			vSClickedPos = ImVec2(mouse_pos.x, mouse_pos.y);
+			vFClickedPos = ImVec2((mouse_pos.x - scrolling.x) / fCanvasScale, (mouse_pos.y - scrolling.y) / fCanvasScale);
+			vSClickedPos = ImVec2(mouse_pos.x / fCanvasScale, mouse_pos.y / fCanvasScale);
 
 			draw_list->AddRect(vFClickedPos, vSClickedPos, IM_COL32(0, 255, 0, 255), 0.f, 0, 2.f);
 		}
@@ -806,6 +942,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		}
 		ImGui::EndChild();
 	}
+	
 }
 
 void Animator2DEditorGUI::_Canvas_DrawImage(ImDrawList* _pDrawList, CTexture* _pTexture, const ImVec2& _vLTPos, const ImVec2& _vRBPos)

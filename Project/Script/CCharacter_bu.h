@@ -7,6 +7,8 @@ class CCharacter_bu : public CScript
 public:
 	float m_fJumpPower;
 	float m_fMovePower;
+
+	Vector3 m_vCurMoveDir;
 public:
 	virtual void Interaction() {}
 	virtual void Attack() {}

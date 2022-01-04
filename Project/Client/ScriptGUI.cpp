@@ -76,6 +76,11 @@ void ScriptGUI::Update()
 		case E_ScriptParam::INT:
 			ParamGUI::Render_Int(strParamName, (int*)vecParams[i].pData, &fHeight);
 			break;
+		case E_ScriptParam::BOOL: {
+			ImGui::Checkbox(strParamName.c_str(), (bool*)vecParams[i].pData);
+			fHeight += ImGui::GetItemRectSize().y;
+		}
+			break;
 		case E_ScriptParam::FLOAT:
 			ParamGUI::Render_Float(strParamName, (float*)vecParams[i].pData, &fHeight);
 			break;

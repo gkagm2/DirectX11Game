@@ -14,6 +14,7 @@ CGameManager_bu
 CGameManager_ca
 CGirder1x2Script_ca
 CGirderScript_ca
+CGround_bu
 CInGamePanel_bu
 CKeyControllerScript_ca
 CLaserScript_ca
@@ -29,6 +30,7 @@ CPlayerScript_ca
 CPlayerScript_sh
 CPostProcessingScript
 CRotateZScript
+CSwitch_bu
 CTestLight2DScript
 CUIContainer_bu
 CUIManager_bu

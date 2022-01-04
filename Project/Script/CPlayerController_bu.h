@@ -9,6 +9,9 @@ private:
 	CRigidbody2D* m_pRigid;
 	CAnimator2D* m_pAnim;
 
+private:
+
+
 public:
 	virtual void Start() override;
 	virtual void Update() override;
@@ -18,8 +21,6 @@ public:
 	virtual void Attack();
 	virtual void Jump();
 	virtual void Move();
-
-	void Aim(const Vector3& _vPos, CTransform* _pTr);
 
 public:
 	CLONE(CPlayerController_bu);

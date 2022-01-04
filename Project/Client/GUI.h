@@ -1,7 +1,6 @@
 #pragma once
 #include "imgui.h"
 
-
 class GUI;
 // 더블 클릭 시 콜백
 typedef void (GUI::* GUI_CALLBACK)(DWORD_PTR, DWORD_PTR);

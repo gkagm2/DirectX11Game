@@ -87,6 +87,7 @@ private: // canvas properties
 	Vector2 vAtlasSize;
 	ImVec2 m_vCanvsaSize;
 	float fCanvasScale;
+	bool m_isChangeCanvasScale;
 
 private:
 	// Panel

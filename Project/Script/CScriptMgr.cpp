@@ -17,6 +17,7 @@
 #include "CGameManager_ca.h"
 #include "CGirder1x2Script_ca.h"
 #include "CGirderScript_ca.h"
+#include "CGround_bu.h"
 #include "CInGamePanel_bu.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
@@ -32,6 +33,7 @@
 #include "CPlayerScript_sh.h"
 #include "CPostProcessingScript.h"
 #include "CRotateZScript.h"
+#include "CSwitch_bu.h"
 #include "CTestLight2DScript.h"
 #include "CUIContainer_bu.h"
 #include "CUIManager_bu.h"
@@ -54,6 +56,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGameManager_ca");
 	_vec.push_back(L"CGirder1x2Script_ca");
 	_vec.push_back(L"CGirderScript_ca");
+	_vec.push_back(L"CGround_bu");
 	_vec.push_back(L"CInGamePanel_bu");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
@@ -69,6 +72,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRotateZScript");
+	_vec.push_back(L"CSwitch_bu");
 	_vec.push_back(L"CTestLight2DScript");
 	_vec.push_back(L"CUIContainer_bu");
 	_vec.push_back(L"CUIManager_bu");
@@ -108,6 +112,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGirder1x2Script_ca;
 	if (L"CGirderScript_ca" == _strScriptName)
 		return new CGirderScript_ca;
+	if (L"CGround_bu" == _strScriptName)
+		return new CGround_bu;
 	if (L"CInGamePanel_bu" == _strScriptName)
 		return new CInGamePanel_bu;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
@@ -138,6 +144,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPostProcessingScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
+	if (L"CSwitch_bu" == _strScriptName)
+		return new CSwitch_bu;
 	if (L"CTestLight2DScript" == _strScriptName)
 		return new CTestLight2DScript;
 	if (L"CUIContainer_bu" == _strScriptName)
@@ -199,6 +207,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return new CGirderScript_ca;
 		break;
+	case (UINT)SCRIPT_TYPE::GROUND_BU:
+		return new CGround_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::INGAMEPANEL_BU:
 		return new CInGamePanel_bu;
 		break;
@@ -243,6 +254,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SWITCH_BU:
+		return new CSwitch_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return new CTestLight2DScript;
@@ -325,6 +339,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CGirderScript_ca";
 		break;
 
+	case SCRIPT_TYPE::GROUND_BU:
+		return L"CGround_bu";
+		break;
+
 	case SCRIPT_TYPE::INGAMEPANEL_BU:
 		return L"CInGamePanel_bu";
 		break;
@@ -383,6 +401,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:
 		return L"CRotateZScript";
+		break;
+
+	case SCRIPT_TYPE::SWITCH_BU:
+		return L"CSwitch_bu";
 		break;
 
 	case SCRIPT_TYPE::TESTLIGHT2DSCRIPT:

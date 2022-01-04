@@ -119,7 +119,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             // ImGUI Run
             CImGuiManager::GetInstance()->Progress();
-
+       
             // 백버퍼 교체
             CDevice::GetInstance()->Present();
         }

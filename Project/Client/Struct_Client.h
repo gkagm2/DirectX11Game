@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "imgui.h"
+#include "imgui_internal.h"
 
 struct TRect {
 	ImVec2 lt;
