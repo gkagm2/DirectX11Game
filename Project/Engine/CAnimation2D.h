@@ -19,6 +19,7 @@ private:
 	vector<SharedPtr<CTexture>> m_vecTex;
 	SharedPtr<CTexture>		m_pTexture;
 	vector<TAnimationFrame> m_vecAnimFrame;
+	tstring m_strAnimPath; // 저장할 곳의 상대경로
 
 	int		m_iCurFrameIdx;		// 현재 애니메이션 인덱스
 	float	m_fAccTime;		// 누적 시간(Accumulation Time)
@@ -56,6 +57,9 @@ public:
 		m_iCurFrameIdx = _idx;
 		_Play();
 	}
+
+public:
+	tstring GetAnimPath() { return m_strAnimPath; }
 
 private:
 	void _Play() { m_bFinish = true; }

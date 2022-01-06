@@ -92,6 +92,13 @@ void Animator2DGUI::Update()
 			int find = (int)path.find(STR_DIR_PATH_Anim);
 			tstring fileName = path.substr(find, path.size() - find);
 			pAnimator2D->LoadAnimation(fileName);
+			if (!pAnimator2D->GetCurAnimation()) {
+				const auto& iter = pAnimator2D->GetAnimationList().begin();
+				if (iter != pAnimator2D->GetAnimationList().end()) {
+					tstring strAnimName = iter->first;
+					pAnimator2D->Play(strAnimName);
+				}
+			}
 		}
 	}
 
@@ -110,6 +117,19 @@ void Animator2DGUI::Update()
 		else {
 			pAnimator2DEditorGUI->SetActive(true);
 			pAnimator2DEditorGUI->SetTargetObject(GetTargetObject());
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Fixed##Animator2D")) {
+		Animator2DEditorGUI* pAnimator2DEditorGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
+		if (!pAnimator2DEditorGUI)
+			assert(nullptr && _T("애니메이터2D 에디터를 열 수 없다."));
+		else {
+			pAnimator2DEditorGUI->SetActive(true);
+			pAnimator2DEditorGUI->SetTap
+			(Animator2DEditorGUI::E_Tap::Fixed);
+			pAnimator2DEditorGUI->SetTargetObject(GetTargetObject());
+			pAnimator2DEditorGUI->InitFixedAnimationPanel();
 		}
 	}
 

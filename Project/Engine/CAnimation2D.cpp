@@ -269,6 +269,7 @@ bool CAnimation2D::SaveToScene(FILE* _pFile)
 		FWrite(m_vecAnimFrame[i], _pFile);
 
 	FWrite(m_iCurFrameIdx, _pFile);
+	SaveStringToFile(m_strAnimPath, _pFile);
 
 	return true;
 }
@@ -297,6 +298,7 @@ bool CAnimation2D::LoadFromScene(FILE* _pFile)
 	}
 
 	FRead(m_iCurFrameIdx, _pFile);
+	LoadStringFromFile(m_strAnimPath, _pFile);
 
 	return true;
 }

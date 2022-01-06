@@ -2,6 +2,7 @@
 #include "GUI.h"
 #include <Engine/CAnimator2D.h>
 #include "ParamGUI.h"
+#include <Engine\CAnimation2D.h>
 
 #define IM_COL_WHITE IM_COL32(255,255,255,255)
 
@@ -17,6 +18,12 @@ struct TSelectTexInfo {
 
 class Animator2DEditorGUI : public GUI
 {
+public:
+	enum class E_Tap {
+		Editor,
+		Fixed,
+	};
+
 private:
 	CGameObject* m_pTargetObject;
 	CAnimator2D* m_pAnimator2D;
@@ -47,13 +54,21 @@ private:
 	bool m_bShowModifyPanel;
 
 	float m_fPreviewAnimSpeed;
+	E_Tap m_eTap;
 
 public:
 	virtual void Init();
 	virtual void Update() override;
 
 public:
-	void SetTargetObject(CGameObject* _pTargetObj) { m_pTargetObject = _pTargetObj; }
+	void SetTap(E_Tap _eTap) { m_eTap = _eTap; }
+
+public:
+	void SetTargetObject(CGameObject* _pTargetObj) { 
+		m_pTargetObject = _pTargetObj; 
+		if(m_pTargetObject->Animator2D())
+			m_pAnimator2D = m_pTargetObject->Animator2D();
+	}
 	CGameObject* GetTargetObject() { return m_pTargetObject; }
 
 	TSelectTexInfo& GetSelectedTexInfo() { return m_queResultTexList[m_iSelectedIdx]; }
@@ -77,7 +92,6 @@ private:
 private: // canvas properties 
 	ImVector<ImVec2> points;
 	ImVec2 scrolling; ///(0.0f, 0.0f);
-	bool opt_enable_grid = true;
 	bool opt_enable_context_menu = true;
 	ImVec2 canvas_p0;
 	ImVec2 canvas_sz;
@@ -85,7 +99,6 @@ private: // canvas properties
 	ImDrawList* draw_list;
 	ImVec2 origin;
 	Vector2 vAtlasSize;
-	ImVec2 m_vCanvsaSize;
 	float fCanvasScale;
 	bool m_isChangeCanvasScale;
 
@@ -94,9 +107,7 @@ private:
 	void _CanvasTopPanel();
 	void _CanvasDrawPanel();
 
-
 	// Canvas Panel
-	void _CanvasGridSliceMode();
 	void _CanvasSliceMode();
 
 	// 캔바스 내에 공통된 기능
@@ -107,8 +118,7 @@ private:
 	bool _FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo& _tTexBtnInfo_out, const ImVec2& _vImageSize = ImVec2(100.f, 100.f));
 
 	// etc
-	TSelectTexInfo _FindMinorTexIdx(ImVec2 _mousPos, ImVec2 _canvasSize, int iCol, int iRow, const ImVec2& _vImageSize);
-	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize, const ImVec2& _vCanvasSize);
+	TRect _GetMinMaxRectFromColRow(int _gridStepWidth, int _gridStepHeight, int iCol, int iRow, const ImVec2& _vImageSize);
 	TRect _GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _vPos2, const ImVec2& _vImageSize = ImVec2(0.f, 0.f));
 
 
@@ -118,10 +128,30 @@ private:
 	void _DrawSelectedRect(); // canvas에서 선택된 영역 그리기
 	void _DrawImageDeleteInResultQue(DWORD_PTR idx);
 
+
+/////////////////// 애니메이션 수정 패널
+private: // Fixed Animation Properties;
+	vector<TAnimationFrame> m_vecFrame;
+	// Animation Preview (애니메이션 미리보기
+	float	m_fAccTime;
+	int		m_iCurFrameIdx;
+	bool	m_iAnimFinish;
+	int		m_iMode;
+	
+
 private:
+	void _FixedAnimationPanel();
+public:
+	void InitFixedAnimationPanel();
+	
+///////////////////
+
 
 private:
 	void _Clear();
+
+	public:
+		virtual void SetActive(bool _bIsActive) override;
 
 public:
 	Animator2DEditorGUI();

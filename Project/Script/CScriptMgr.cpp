@@ -20,6 +20,7 @@
 #include "CGround_bu.h"
 #include "CInGamePanel_bu.h"
 #include "CInteractiveObj_bu.h"
+#include "CItem_bu.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CLookAt2DScript.h"
@@ -38,6 +39,7 @@
 #include "CTestLight2DScript.h"
 #include "CUIContainer_bu.h"
 #include "CUIManager_bu.h"
+#include "CWeapon_bu.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -60,6 +62,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGround_bu");
 	_vec.push_back(L"CInGamePanel_bu");
 	_vec.push_back(L"CInteractiveObj_bu");
+	_vec.push_back(L"CItem_bu");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CLookAt2DScript");
@@ -78,6 +81,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CTestLight2DScript");
 	_vec.push_back(L"CUIContainer_bu");
 	_vec.push_back(L"CUIManager_bu");
+	_vec.push_back(L"CWeapon_bu");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -120,6 +124,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CInGamePanel_bu;
 	if (L"CInteractiveObj_bu" == _strScriptName)
 		return new CInteractiveObj_bu;
+	if (L"CItem_bu" == _strScriptName)
+		return new CItem_bu;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
 		return new CKeyControllerScript_ca;
 	if (L"CLaserScript_ca" == _strScriptName)
@@ -156,6 +162,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CUIContainer_bu;
 	if (L"CUIManager_bu" == _strScriptName)
 		return new CUIManager_bu;
+	if (L"CWeapon_bu" == _strScriptName)
+		return new CWeapon_bu;
 	return nullptr;
 }
 
@@ -220,6 +228,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::INTERACTIVEOBJ_BU:
 		return new CInteractiveObj_bu;
 		break;
+	case (UINT)SCRIPT_TYPE::ITEM_BU:
+		return new CItem_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
 		return new CKeyControllerScript_ca;
 		break;
@@ -273,6 +284,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::UIMANAGER_BU:
 		return new CUIManager_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::WEAPON_BU:
+		return new CWeapon_bu;
 		break;
 	}
 	return nullptr;
@@ -358,6 +372,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CInteractiveObj_bu";
 		break;
 
+	case SCRIPT_TYPE::ITEM_BU:
+		return L"CItem_bu";
+		break;
+
 	case SCRIPT_TYPE::KEYCONTROLLERSCRIPT_CA:
 		return L"CKeyControllerScript_ca";
 		break;
@@ -428,6 +446,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::UIMANAGER_BU:
 		return L"CUIManager_bu";
+		break;
+
+	case SCRIPT_TYPE::WEAPON_BU:
+		return L"CWeapon_bu";
 		break;
 
 	}

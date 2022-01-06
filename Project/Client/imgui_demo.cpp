@@ -465,7 +465,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
             {
                 ImGui::Indent();
                 ImGui::Checkbox("io.ConfigDockingNoSplit", &io.ConfigDockingNoSplit);
-                ImGui::SameLine(); HelpMarker("Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars.");
+                ImGui::SameLine(); HelpMarker("Simplified docking m_iMode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars.");
                 ImGui::Checkbox("io.ConfigDockingAlwaysTabBar", &io.ConfigDockingAlwaysTabBar);
                 ImGui::SameLine(); HelpMarker("Create a docking node and tab-bar on single floating windows.");
                 ImGui::Checkbox("io.ConfigDockingTransparentPayload", &io.ConfigDockingTransparentPayload);
@@ -1822,11 +1822,11 @@ static void ShowDemoWindowWidgets()
         }
         ImGui::Combo("Display Mode", &display_mode, "Auto/Current\0None\0RGB Only\0HSV Only\0Hex Only\0");
         ImGui::SameLine(); HelpMarker(
-            "ColorEdit defaults to displaying RGB inputs if you don't specify a display mode, "
+            "ColorEdit defaults to displaying RGB inputs if you don't specify a display m_iMode, "
             "but the user can change it with a right-click.\n\nColorPicker defaults to displaying RGB+HSV+Hex "
-            "if you don't specify a display mode.\n\nYou can change the defaults using SetColorEditOptions().");
+            "if you don't specify a display m_iMode.\n\nYou can change the defaults using SetColorEditOptions().");
         ImGui::Combo("Picker Mode", &picker_mode, "Auto/Current\0Hue bar + SV rect\0Hue wheel + SV triangle\0");
-        ImGui::SameLine(); HelpMarker("User can right-click the picker to change mode.");
+        ImGui::SameLine(); HelpMarker("User can right-click the picker to change m_iMode.");
         ImGuiColorEditFlags flags = misc_flags;
         if (!alpha)            flags |= ImGuiColorEditFlags_NoAlpha;        // This is by default if you call ColorPicker3() instead of ColorPicker4()
         if (alpha_bar)         flags |= ImGuiColorEditFlags_AlphaBar;
@@ -2146,10 +2146,10 @@ static void ShowDemoWindowWidgets()
                 Mode_Move,
                 Mode_Swap
             };
-            static int mode = 0;
-            if (ImGui::RadioButton("Copy", mode == Mode_Copy)) { mode = Mode_Copy; } ImGui::SameLine();
-            if (ImGui::RadioButton("Move", mode == Mode_Move)) { mode = Mode_Move; } ImGui::SameLine();
-            if (ImGui::RadioButton("Swap", mode == Mode_Swap)) { mode = Mode_Swap; }
+            static int m_iMode = 0;
+            if (ImGui::RadioButton("Copy", m_iMode == Mode_Copy)) { m_iMode = Mode_Copy; } ImGui::SameLine();
+            if (ImGui::RadioButton("Move", m_iMode == Mode_Move)) { m_iMode = Mode_Move; } ImGui::SameLine();
+            if (ImGui::RadioButton("Swap", m_iMode == Mode_Swap)) { m_iMode = Mode_Swap; }
             static const char* names[9] =
             {
                 "Bobby", "Beatrice", "Betty",
@@ -2171,9 +2171,9 @@ static void ShowDemoWindowWidgets()
 
                     // Display preview (could be anything, e.g. when dragging an image we could decide to display
                     // the filename and a small preview of the image, etc.)
-                    if (mode == Mode_Copy) { ImGui::Text("Copy %s", names[n]); }
-                    if (mode == Mode_Move) { ImGui::Text("Move %s", names[n]); }
-                    if (mode == Mode_Swap) { ImGui::Text("Swap %s", names[n]); }
+                    if (m_iMode == Mode_Copy) { ImGui::Text("Copy %s", names[n]); }
+                    if (m_iMode == Mode_Move) { ImGui::Text("Move %s", names[n]); }
+                    if (m_iMode == Mode_Swap) { ImGui::Text("Swap %s", names[n]); }
                     ImGui::EndDragDropSource();
                 }
                 if (ImGui::BeginDragDropTarget())
@@ -2182,16 +2182,16 @@ static void ShowDemoWindowWidgets()
                     {
                         IM_ASSERT(payload->DataSize == sizeof(int));
                         int payload_n = *(const int*)payload->Data;
-                        if (mode == Mode_Copy)
+                        if (m_iMode == Mode_Copy)
                         {
                             names[n] = names[payload_n];
                         }
-                        if (mode == Mode_Move)
+                        if (m_iMode == Mode_Move)
                         {
                             names[n] = names[payload_n];
                             names[payload_n] = "";
                         }
-                        if (mode == Mode_Swap)
+                        if (m_iMode == Mode_Swap)
                         {
                             const char* tmp = names[n];
                             names[n] = names[payload_n];

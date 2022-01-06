@@ -17,6 +17,7 @@ CGirderScript_ca
 CGround_bu
 CInGamePanel_bu
 CInteractiveObj_bu
+CItem_bu
 CKeyControllerScript_ca
 CLaserScript_ca
 CLookAt2DScript
@@ -35,3 +36,4 @@ CSwitch_bu
 CTestLight2DScript
 CUIContainer_bu
 CUIManager_bu
+CWeapon_bu

@@ -389,3 +389,5 @@ enum class E_ParticleShape {
 	End, // 사용하지 않음
 };
 tstring ParticleShapeToStr(E_ParticleShape _eType);
+
+#define OLD_VERSION
