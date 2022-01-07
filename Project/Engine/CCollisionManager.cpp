@@ -121,6 +121,8 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 						Vector3 vPos = info.pGameObject->Transform()->GetLocalPosition();
 						vPos += info.vDir * info.fDistance;
 						info.pGameObject->Transform()->SetLocalPosition(vPos);
+						// TODO (Jang) :일단 임시로 해놓는다.
+						info.pGameObject->Rigidbody2D()->SetVelocity(Vector3{});
 					}
 				}
 				else {
