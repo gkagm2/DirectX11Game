@@ -1,5 +1,6 @@
 CBoosterScript_ca
 CBulletScript_sh
+CBullet_bu
 CCameraFollowerScript
 CCharacterScript_ca
 CCharacter_bu

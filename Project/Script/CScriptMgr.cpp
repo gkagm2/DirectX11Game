@@ -3,6 +3,7 @@
 
 #include "CBoosterScript_ca.h"
 #include "CBulletScript_sh.h"
+#include "CBullet_bu.h"
 #include "CCameraFollowerScript.h"
 #include "CCharacterScript_ca.h"
 #include "CCharacter_bu.h"
@@ -45,6 +46,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CBoosterScript_ca");
 	_vec.push_back(L"CBulletScript_sh");
+	_vec.push_back(L"CBullet_bu");
 	_vec.push_back(L"CCameraFollowerScript");
 	_vec.push_back(L"CCharacterScript_ca");
 	_vec.push_back(L"CCharacter_bu");
@@ -90,6 +92,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBoosterScript_ca;
 	if (L"CBulletScript_sh" == _strScriptName)
 		return new CBulletScript_sh;
+	if (L"CBullet_bu" == _strScriptName)
+		return new CBullet_bu;
 	if (L"CCameraFollowerScript" == _strScriptName)
 		return new CCameraFollowerScript;
 	if (L"CCharacterScript_ca" == _strScriptName)
@@ -176,6 +180,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BULLETSCRIPT_SH:
 		return new CBulletScript_sh;
+		break;
+	case (UINT)SCRIPT_TYPE::BULLET_BU:
+		return new CBullet_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:
 		return new CCameraFollowerScript;
@@ -302,6 +309,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BULLETSCRIPT_SH:
 		return L"CBulletScript_sh";
+		break;
+
+	case SCRIPT_TYPE::BULLET_BU:
+		return L"CBullet_bu";
 		break;
 
 	case SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:

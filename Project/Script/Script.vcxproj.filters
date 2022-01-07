@@ -235,6 +235,7 @@
     <ClInclude Include="CItem_bu.h">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClInclude>
+    <ClInclude Include="CBullet_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -361,5 +362,6 @@
     <ClCompile Include="CItem_bu.cpp">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClCompile>
+    <ClCompile Include="CBullet_bu.cpp" />
   </ItemGroup>
 </Project>

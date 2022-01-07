@@ -89,8 +89,10 @@ void ScriptGUI::Update()
 			ParamGUI::Render_GameObjectLink(strParamName, ppObj, &fHeight);
 		}
 			break;
-		case E_ScriptParam::PREFAB:
-			assert(nullptr);
+		case E_ScriptParam::PREFAB: {
+			CPrefab** ppPrefab = (CPrefab**)vecParams[i].pData;
+			ParamGUI::Render_PrefabLink(strParamName, ppPrefab, &fHeight);
+		}
 			break;
 		case E_ScriptParam::TEX:
 			assert(nullptr);

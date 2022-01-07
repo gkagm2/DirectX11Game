@@ -186,3 +186,12 @@
 #define STR_PATH_Enemy4 _T("texture\\Enemy4.png")
 #define STR_PATH_Anim _T("texture\\link_0.png")
 #define STR_PATH_Fog2D _T("texture\\Fog2D.png")
+
+
+//////////////// Butcher string table
+// Animation Name
+#define BUTCHER_Anim_Player_Dead _T("Player_Dead_Bu")
+
+// Object Name
+#define BUTCHER_ObjName_Muzzle _T("Muzzle")
+#define BUTCHER_ObjName_RotationPos _T("GunRotationPos")

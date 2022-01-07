@@ -8,8 +8,14 @@ tstring TagToString(E_Tag _eTag)
 {
 	tstring tagName = {};
 	switch (_eTag) {
+	case E_Tag::Player:
+		tagName = _T("Player");
+		break;
 	case E_Tag::Bullet:
 		tagName = _T("Bullet");
+		break;
+	case E_Tag::Object:
+		tagName = _T("Object");
 		break;
 	case E_Tag::Enemy:
 		tagName = _T("Enemy");
@@ -17,8 +23,8 @@ tstring TagToString(E_Tag _eTag)
 	case E_Tag::Item:
 		tagName = _T("Item");
 		break;
-	case E_Tag::Player:
-		tagName = _T("Player");
+	case E_Tag::Wall:
+		tagName = _T("Wall");
 		break;
 	default:
 		assert(nullptr);

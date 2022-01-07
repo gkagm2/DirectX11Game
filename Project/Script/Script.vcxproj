@@ -172,6 +172,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBullet_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
@@ -216,6 +217,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CUIContainer_bu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBullet_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />

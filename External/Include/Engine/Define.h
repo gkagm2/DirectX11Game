@@ -275,9 +275,8 @@ enum class E_Layer {
 #ifdef _BUTCHER_GAME
 enum class E_Layer {
 	Default,
-	Character,
+	Object,
 	BackgroundMap,
-	Wall,
 	TileMap = NUM_LAYER_TILEMAP,
 	UI = NUM_LAYER_UI,
 	CLIENT = NUM_LAYER_CLIENT,
@@ -288,8 +287,11 @@ enum class E_Tag {
 	Player,
 	Bullet,
 	Enemy,
-	Item,
+	Object, // Interaction Object
+	Item, // 플레이어가 먹을 수 있는 아이템
+	Wall,
 };
+
 tstring TagToString(E_Tag _eTag);
 
 #endif
@@ -390,4 +392,4 @@ enum class E_ParticleShape {
 };
 tstring ParticleShapeToStr(E_ParticleShape _eType);
 
-#define OLD_VERSION
+//#define OLD_VERSION

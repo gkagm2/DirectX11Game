@@ -407,7 +407,6 @@
     <ClInclude Include="AudioSourceGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AudioSourceGUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\Define.h" />
     <ClInclude Include="CollisionEditorGUI.h">
       <Filter>03. Tools\04. GUI\CollsionEditor</Filter>
     </ClInclude>

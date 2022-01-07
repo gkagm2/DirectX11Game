@@ -371,3 +371,41 @@ bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject** _pObj
 
 	return true;
 }
+
+bool ParamGUI::Render_PrefabLink(const string& _strName, CPrefab** _pPrefab, float* _pHeightOut)
+{
+	float fHeight = 0.f;
+	ImGui::Text(_strName.c_str());
+	tstring tstrName = _T("");
+	string strName = "NULL";
+	if (*_pPrefab) {
+		tstrName = (*_pPrefab)->GetProtoObj()->GetName();
+		TStringToString(tstrName, strName);
+	}
+
+	char szName[255] = {};
+	StringToArr(strName, szName, 255);
+
+	ImGui::InputText("", szName, ImGuiInputTextFlags_ReadOnly);
+	fHeight += ImGui::GetItemRectSize().y;
+	fHeight += ImGui::GetItemRectSize().y;
+
+	// 드랍 된 경우
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (ImGui::AcceptDragDropPayload(STR_GUI_ResourceViewTree))
+		{
+			DWORD_PTR dwData = *((DWORD_PTR*)ImGui::GetDragDropPayload()->Data);
+			CPrefab* pPrefab= (CPrefab*)dwData;
+			assert(pPrefab);
+			*_pPrefab = pPrefab;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (_pHeightOut)
+		*_pHeightOut = fHeight;
+
+	return true;
+}

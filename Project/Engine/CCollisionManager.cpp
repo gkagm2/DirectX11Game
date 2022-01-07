@@ -78,8 +78,9 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 				bIsPushIntersection = true;
 			}*/
 			// 한쪽만이라도 Rigidbody가 존재하면서 양쪽 다 Trigger가 false면
-			if (vecLeft[l]->Rigidbody2D() || vecRight[r]->Rigidbody2D() && !pLeftCol->IsTrigger() && !pRightCol->IsTrigger()) {
-				bIsPushIntersection = true;
+			if (vecLeft[l]->Rigidbody2D() || vecRight[r]->Rigidbody2D()) {
+				if(!pLeftCol->IsTrigger() && !pRightCol->IsTrigger())
+					bIsPushIntersection = true;
 			}
 			bool bIsActivePushIntersection = false;
 

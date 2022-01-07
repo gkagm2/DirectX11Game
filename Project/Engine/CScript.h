@@ -16,6 +16,7 @@
 #include "CRigidbody2D.h"
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
+#include "CParticleSystem.h"
 
 #include "CCamera.h"
 #include "CLight2D.h"

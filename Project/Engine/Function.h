@@ -89,7 +89,6 @@ uuid FReadLinkObj(T** _data, FILE* _pFile) {
 	return id;
 }
 
-
 class CResource;
 template<typename T>
 void SaveResourceToFile(SharedPtr<T> _pRes, FILE* _pFile) {
