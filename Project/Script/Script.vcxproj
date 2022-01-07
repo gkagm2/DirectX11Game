@@ -175,6 +175,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CBullet_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItem_bu.h" />
+    <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
     <ClInclude Include="CBoosterScript_ca.h" />
@@ -220,6 +221,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CBullet_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
+    <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />
     <ClCompile Include="CBoosterScript_ca.cpp" />

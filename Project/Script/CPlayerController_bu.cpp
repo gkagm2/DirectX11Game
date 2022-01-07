@@ -95,7 +95,7 @@ void CPlayerController_bu::Move()
 void CPlayerController_bu::OnDead()
 {
 	// Dead Animation Start
-	m_pAnim->Play(BUTCHER_Anim_Player_Dead, E_AnimationState::Once);
+	//m_pAnim->Play(BUTCHER_Anim_Player_Dead, E_AnimationState::Once);
 }
 
 bool CPlayerController_bu::SaveToScene(FILE* _pFile)

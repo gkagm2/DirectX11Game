@@ -195,9 +195,10 @@ inline TYPE* CGameObject::GetComponent()
 	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
 		if (typeid(TYPE) == typeid(*m_vecScript[i]))
 			return (TYPE*)m_vecScript[i];
-		/*TYPE* pType = dynamic_cast<TYPE*>(m_vecScript[i]);
+		// 부모 클래스에 존재하는지 확인
+		TYPE* pType = dynamic_cast<TYPE*>(m_vecScript[i]);
 		if (pType)
-			return (TYPE*)m_vecScript[i];*/
+			return (TYPE*)m_vecScript[i];
 	}
 
 	return nullptr;

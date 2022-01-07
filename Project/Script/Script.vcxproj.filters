@@ -235,7 +235,12 @@
     <ClInclude Include="CItem_bu.h">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClInclude>
-    <ClInclude Include="CBullet_bu.h" />
+    <ClInclude Include="CBullet_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CSparkParticle_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -362,6 +367,11 @@
     <ClCompile Include="CItem_bu.cpp">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet_bu.cpp" />
+    <ClCompile Include="CBullet_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CSparkParticle_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

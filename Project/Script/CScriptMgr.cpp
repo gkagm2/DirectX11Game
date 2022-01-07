@@ -36,6 +36,7 @@
 #include "CPlayerScript_sh.h"
 #include "CPostProcessingScript.h"
 #include "CRotateZScript.h"
+#include "CSparkParticle_bu.h"
 #include "CSwitch_bu.h"
 #include "CTestLight2DScript.h"
 #include "CUIContainer_bu.h"
@@ -79,6 +80,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRotateZScript");
+	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSwitch_bu");
 	_vec.push_back(L"CTestLight2DScript");
 	_vec.push_back(L"CUIContainer_bu");
@@ -158,6 +160,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPostProcessingScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
+	if (L"CSparkParticle_bu" == _strScriptName)
+		return new CSparkParticle_bu;
 	if (L"CSwitch_bu" == _strScriptName)
 		return new CSwitch_bu;
 	if (L"CTestLight2DScript" == _strScriptName)
@@ -279,6 +283,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SPARKPARTICLE_BU:
+		return new CSparkParticle_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::SWITCH_BU:
 		return new CSwitch_bu;
@@ -441,6 +448,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:
 		return L"CRotateZScript";
+		break;
+
+	case SCRIPT_TYPE::SPARKPARTICLE_BU:
+		return L"CSparkParticle_bu";
 		break;
 
 	case SCRIPT_TYPE::SWITCH_BU:

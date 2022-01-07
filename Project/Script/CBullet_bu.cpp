@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "CBullet_bu.h"
 #include "CCharacter_bu.h"
-#include <Engine\CObjectManager.h>
 
 CBullet_bu::CBullet_bu() :
 	CScript((UINT)SCRIPT_TYPE::BULLET_BU),
@@ -58,19 +57,24 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 	UINT iWallTag = (UINT)E_Tag::Wall;
 	UINT iPlayerTag = (UINT)(E_Tag::Player);
 	CGameObject* pObj = _pOther->GetGameObject();
-	if (iTag == iEnemyTag && iTag == iObjectTag && iTag == iPlayerTag) {
+	bool bTouched = false;
+
+	if (iTag == iEnemyTag || iTag == iPlayerTag) {
 		CCharacter_bu* pcha= pObj->GetComponent<CCharacter_bu>();
 		pcha->DamagedMe(m_fDamage);
 		if (0.f == pcha->GetHp()) {
 			pcha->OnDead();
 		}
+		bTouched = true;
+	}
+	if (iTag == iObjectTag) {
+		bTouched = true;
 	}
 	if (iTag == iWallTag) {
-		// Particle effect
-		UINT iWallLayer = iWallTag;
-		CGameObject* pParticleObj = CObjectManager::GetInstance()->CreateParticleSystemGameObject(iWallLayer);
-		Vector3 vPosition = Transform()->GetPosition();
-		pParticleObj->Transform()->SetLocalPosition(vPosition);
+		bTouched = true;
+	}
+	if (bTouched) {
+		DestroyGameObjectEvn(GetGameObject());
 	}
 }
 

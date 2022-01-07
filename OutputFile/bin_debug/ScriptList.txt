@@ -33,6 +33,7 @@ CPlayerScript_ca
 CPlayerScript_sh
 CPostProcessingScript
 CRotateZScript
+CSparkParticle_bu
 CSwitch_bu
 CTestLight2DScript
 CUIContainer_bu

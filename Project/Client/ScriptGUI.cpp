@@ -115,6 +115,10 @@ void ScriptGUI::Update()
 			vecParams[i].pData = vData;
 		}
 			break;
+		case E_ScriptParam::END:
+			ImGui::Spacing();
+			fHeight += ImGui::GetItemRectSize().y;
+			break;
 		default:
 			assert(nullptr && _T("스크립트 파라미터가 일치하지 않음"));
 			break;
