@@ -103,26 +103,23 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 							iter->second = false;
 						}
 						else {
-							// 밀어내기 실행 시 
-							if (bIsPushIntersection) {
+							pLeftCol->OnCollisionStay2D(pRightCol);
+							pRightCol->OnCollisionStay2D(pLeftCol);
+							if(bIsPushIntersection)
 								bIsActivePushIntersection = true;
-								pLeftCol->OnCollisionStay2D(pRightCol, &info);
-								pRightCol->OnCollisionStay2D(pLeftCol, &info);
-							}
-							else {
-								pLeftCol->OnCollisionStay2D(pRightCol);
-								pRightCol->OnCollisionStay2D(pLeftCol);
-							}
 						}
-					}
 
-					// 밀어내기 실행하면
-					if (bIsActivePushIntersection) {
-						Vector3 vPos = info.pGameObject->Transform()->GetLocalPosition();
-						vPos += info.vDir * info.fDistance;
-						info.pGameObject->Transform()->SetLocalPosition(vPos);
-						// TODO (Jang) :일단 임시로 해놓는다.
-						info.pGameObject->Rigidbody2D()->SetVelocity(Vector3{});
+						// 밀어내기 실행하면
+						if (bIsActivePushIntersection) {
+							if (info.pGameObject == nullptr)
+								assert(nullptr);
+							Vector3 vPos = info.pGameObject->Transform()->GetLocalPosition();
+							vPos += info.vDir * info.fDistance;
+							info.pGameObject->Transform()->SetLocalPosition(vPos);
+
+							// 마찰력
+							//info.pGameObject->Rigidbody2D()->SetVelocity(Vector3{});
+						}
 					}
 				}
 				else {
@@ -131,6 +128,7 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 						if (pLeftCol->IsActive() && pRightCol->IsActive()) {
 							pLeftCol->OnCollisionEnter2D(pRightCol);
 							pRightCol->OnCollisionEnter2D(pLeftCol);
+
 							iter->second = true;
 						}
 					}
@@ -186,7 +184,7 @@ bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, b
 		// FIXED : Collider2D에서 Rect로만 되어있는데 나중에 추가되면 타입에 따라 분기할 수 있도록 하기
 
 		if(m_bPushIntersection)
-			return _IsCollision(_pLeft, _pRight, &(*_pPushIntersectionInfo));
+			return _IsCollision(_pLeft, _pRight, &_pPushIntersectionInfo);
 		return _IsCollision(_pLeft, _pRight, nullptr);
 	}
 
@@ -297,7 +295,7 @@ bool CCollisionManager::IsCollision(CRectTransform* _pRT, const Vector2& _vMouse
 }
 
 // OBB Check
-bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo* _tRigidColInfo)
+bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo** _tRigidColInfo)
 {
 	// 로컬 좌표
 	/*
@@ -387,7 +385,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vToCenter = vCenterPosLeftCollider - vCenterPosRightCollider;
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
-				_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
+				(*_tRigidColInfo)->pGameObject = _pLeft->GetGameObject();
 				vecProj.push_back(vToRight2);
 				vecProj.push_back(vToDown2);
 				vecProj.push_back(-vToRight2);
@@ -402,7 +400,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vToCenter = vCenterPosRightCollider - vCenterPosLeftCollider;
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
-				_tRigidColInfo->pGameObject = _pRight->GetGameObject();
+				(*_tRigidColInfo)->pGameObject = _pRight->GetGameObject();
 				vecProj.push_back(vToRight1);
 				vecProj.push_back(vToDown1);
 				vecProj.push_back(-vToRight1);
@@ -419,7 +417,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vToCenter = vCenterPosLeftCollider - vCenterPosRightCollider;
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
-				_tRigidColInfo->pGameObject = _pLeft->GetGameObject();
+				(*_tRigidColInfo)->pGameObject = _pLeft->GetGameObject();
 				vecProj.push_back(vToRight2);
 				vecProj.push_back(vToDown2);
 				vecProj.push_back(-vToRight2);
@@ -433,7 +431,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 			else if (_pRight->Rigidbody2D()) {
 				pRigid = _pRight->Rigidbody2D();
 				vToCenter = vCenterPosRightCollider - vCenterPosLeftCollider;
-				_tRigidColInfo->pGameObject = _pRight->GetGameObject();
+				(*_tRigidColInfo)->pGameObject = _pRight->GetGameObject();
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
 				vecProj.push_back(vToRight1);
@@ -481,8 +479,8 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				}
 			}
 		}
-		_tRigidColInfo->vDir = vForceDirection;
-		_tRigidColInfo->fDistance = fShortestLen;
+		(*_tRigidColInfo)->vDir = vForceDirection;
+		(*_tRigidColInfo)->fDistance = fShortestLen;
 	}
 	return true;
 }

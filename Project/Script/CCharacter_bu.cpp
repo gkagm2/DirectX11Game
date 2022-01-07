@@ -3,8 +3,8 @@
 
 CCharacter_bu::CCharacter_bu() :
 	CScript((UINT)SCRIPT_TYPE::CHARACTER_BU),
-	m_fJumpPower{ 30.f },
-	m_fMovePower{ 30.f },
+	m_fJumpPower{ 0.2f },
+	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
 	m_fHp{},
 	m_fArmor{}
@@ -14,8 +14,8 @@ CCharacter_bu::CCharacter_bu() :
 
 CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	CScript(_iScriptType),
-	m_fJumpPower{ 30.f },
-	m_fMovePower{ 30.f },
+	m_fJumpPower{ 0.2f },
+	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
 	m_fHp{},
 	m_fArmor{}

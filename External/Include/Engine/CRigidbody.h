@@ -22,7 +22,6 @@ private:
 	bool m_bUseGravity; // 중력 사용 플래그
 	bool m_bIsKinematic; // 물리 효과 없애기 플래그
 
-
 public:
 	virtual void PrevUpdate();
 	virtual void Update();

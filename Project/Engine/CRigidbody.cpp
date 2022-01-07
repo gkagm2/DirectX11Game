@@ -70,13 +70,14 @@ void CRigidbody::LateUpdate()
 		m_vAccel = m_vForce / m_fMass; // 가속도
 
 		// 중력
+	Vector3 vGravityAccel{};
 	if (m_bUseGravity) { // f = m a = m 중력 가속도
-		Vector3 vGravityAccel = m_vGravityAccel;
+		vGravityAccel = m_vGravityAccel;
 		vGravityAccel.y *= -1;
-		m_vAccel -= vGravityAccel;
+		/*m_vAccel -= vGravityAccel;*/
 	}
 
-	m_vVelocity = m_vVelocity + (m_vAccel * DT);
+	m_vVelocity = m_vVelocity + (m_vAccel * DT - vGravityAccel * DT);
 
 	// 공기 저항
 	Vector3 vDragDir = m_vVelocity;

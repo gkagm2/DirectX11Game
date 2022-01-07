@@ -21,15 +21,8 @@ private:
 public:
 	
 	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override;
-
-	// 충돌 시 밀어내지 않을 경우 이 함수가 실행
 	virtual void OnCollisionStay2D(CCollider2D* _pOther) override;
-	// 충돌 시 밀어낼 경우 이 함수가 실행
-	void OnCollisionStay2D(CCollider2D* _pOther, TRigidCollisionInfo* _pInfo);
-
 	virtual void OnCollisionExit2D(CCollider2D* _pOther) override;
-
-	
 	
 protected:
 	void SetMesh(const SharedPtr<CMesh>& _pMesh) { m_pMesh = _pMesh; }
