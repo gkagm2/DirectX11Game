@@ -4,6 +4,36 @@
 
 
 
+tstring LayerToString(E_Layer _eLayer)
+{
+	tstring layerName = {};
+	switch (_eLayer) {
+	case E_Layer::Default:
+		layerName = _T("Default");
+		break;
+	case E_Layer::Object:
+		layerName = _T("Object");
+		break;
+	case E_Layer::TileMap:
+		layerName = _T("TileMap");
+		break;
+	case E_Layer::BackgroundMap:
+		layerName = _T("BackgroundMap");
+		break;
+	case E_Layer::UI:
+		layerName = _T("UI");
+		break;
+	case E_Layer::CLIENT:
+		layerName = _T("CLIENT");
+		break;
+	default:
+		if (!((int)_eLayer >= 0 && (int)_eLayer < MAX_SIZE_LAYER))
+			assert(nullptr);
+		break;
+	}
+	return layerName;
+}
+
 tstring TagToString(E_Tag _eTag)
 {
 	tstring tagName = {};
@@ -27,7 +57,8 @@ tstring TagToString(E_Tag _eTag)
 		tagName = _T("Wall");
 		break;
 	default:
-		assert(nullptr);
+		if (!((int)_eTag >= 0 && (int)_eTag < MAX_SIZE_TAG))
+			assert(nullptr);
 		break;
 	}
 	return tagName;

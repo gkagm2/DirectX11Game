@@ -282,14 +282,16 @@ enum class E_Layer {
 	CLIENT = NUM_LAYER_CLIENT,
 	End = MAX_SIZE_LAYER,
 };
+tstring LayerToString(E_Layer _eLayer);
 
 enum class E_Tag {
-	Player,
-	Bullet,
-	Enemy,
-	Object, // Interaction Object
-	Item, // 플레이어가 먹을 수 있는 아이템
-	Wall,
+	Player, // 0 
+	Bullet,	// 1
+	Enemy,	// 2
+	Object, // 3 Interaction Object
+	Item,	// 4플레이어가 먹을 수 있는 아이템
+	Wall,	// 5
+	End
 };
 
 tstring TagToString(E_Tag _eTag);

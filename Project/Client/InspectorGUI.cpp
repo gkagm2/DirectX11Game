@@ -222,12 +222,27 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::Separator();
 
 	// 레이어 변경
-	int iLayer = (int)m_pTargetObject->GetLayer();
-	ImGui::Text("Cur Layer %d", iLayer);
+	{
+		int iLayer = (int)m_pTargetObject->GetLayer();
+		tstring tStrLayerName = LayerToString((E_Layer)iLayer);
+		string strLayerName{};
+		TStringToString(tStrLayerName, strLayerName);
+		ImGui::Text("Cur Layer %d [%s]", iLayer, strLayerName.c_str());
+	}
 	static int iSetLayer = -1;
-	ImGui::InputInt("Set Layer##GameObject", &iSetLayer);
+	{
+		string strLayerName = "NONE";
+		if (iSetLayer > 0) {
+			tstring tStrLayerName = LayerToString((E_Layer)iSetLayer);
+			TStringToString(tStrLayerName, strLayerName);
+		}
+		
+		ImGui::Text("Set Layer [%s]", strLayerName.c_str());
+		ImGui::InputInt("##InspectorGUI LayerInput", &iSetLayer);
+	}
+	
+	
 	iSetLayer = CMyMath::Clamp(iSetLayer, 0, MAX_SIZE_LAYER - 1);
-
 	if (ImGui::Button("Sel##LayerSelect")) {
 		if ((int)m_pTargetObject->GetLayer() != iSetLayer) {
 			// 레이어를 바꾼다.
@@ -239,11 +254,25 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::Separator();
 
 	// 태그 변경
-	int iTag = (int)m_pTargetObject->GetTag();
-	ImGui::Text("Cur Tag %d", iTag);
+	{
+		int iTag = (int)m_pTargetObject->GetTag();
+		tstring tStrTagName = TagToString((E_Tag)iTag);
+		string strTagName{};
+		TStringToString(tStrTagName, strTagName);
+		ImGui::Text("Cur Tag %d [%s]", iTag, strTagName.c_str());
+	}
 	static int iSetTag = 0;
-	ImGui::InputInt("Set Tag##GameObject", &iSetTag);
-	iSetTag = CMyMath::Clamp(iSetTag, 0, MAX_SIZE_TAG - 1);
+	{
+		tstring tStrTagName = TagToString((E_Tag)iSetTag);
+		string strTagName;
+		TStringToString(tStrTagName, strTagName);
+		ImGui::Text("Set Tag [%s]", strTagName.c_str());
+		ImGui::InputInt("##InspectorGUI Tag Input", &iSetTag);
+	}
+	
+	ImGui::SameLine();
+	
+	iSetTag = CMyMath::Clamp(iSetTag, 0, max(0, (int)E_Tag::End - 1));
 	if (ImGui::Button("Sel##TagSelect")) {
 		if ((int)m_pTargetObject->GetTag() != iSetTag)
 			m_pTargetObject->SetTag((UINT)iSetTag);
