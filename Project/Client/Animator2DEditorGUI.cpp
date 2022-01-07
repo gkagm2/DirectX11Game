@@ -505,9 +505,12 @@ void Animator2DEditorGUI::_FixedAnimationPanel()
 		return;
 
 	vector<TAnimationFrame>& vecAnimFrm = pCurAnim->GetAnimationFrame();
+	
 
 	// frame 조절
 	ImGui::SliderInt("Frame## FixedAnimator2D", &m_iCurFrameIdx, 0, max(0, vecAnimFrm.size() - 1));
+
+	CTexture* pCurTex = pCurAnim->GetTextures()[m_iCurFrameIdx].Get();
 
 	// PreView Texture
 	TTextureInfo tTexInfo = {};
@@ -521,19 +524,20 @@ void Animator2DEditorGUI::_FixedAnimationPanel()
 	tTexInfo.uv_min = ImVec2(vFinalLT_Vec.x, vFinalLT_Vec.y);
 	tTexInfo.uv_max = ImVec2(vFinalRB_Vec.x, vFinalRB_Vec.y);
 
-	CTexture* pTex = nullptr;
-	pTex = pCurAnim->GetCurTexture().Get();
-	ParamGUI::Render_Texture("PreView", pTex, nullptr, nullptr, false, tTexInfo);
-
+	ParamGUI::Render_Texture("PreView", pCurTex, nullptr, nullptr, false, tTexInfo);
 
 	string strAnimName;
 	TStringToString(pCurAnim->GetName(), strAnimName);
-	ImGui::Text("animation name : %s", strAnimName.c_str());
+	ImGui::Text("cur animation name : %s", strAnimName.c_str());
+
+	static char szName[255] = {};
+	ImGui::Text("Change animation name");
+	ImGui::InputText("name##animationFixedName", szName, 255);
+
 
 	// frame count
 	int iFrameCnt = (int)pCurAnim->GetAnimationFrame().size();
 	ImGui::Text("animation frame count %d", iFrameCnt);
-
 	ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 
 	// duration
@@ -549,25 +553,32 @@ void Animator2DEditorGUI::_FixedAnimationPanel()
 	}
 
 	// base size
-	Vector2 vBaseSizeUV = curFrame.vBaseSizeUV;
-	if (ImGui::InputFloat2("base size##animator2DFixed", (float*)&vBaseSizeUV))
-		curFrame.vBaseSizeUV = vBaseSizeUV;
+	Vector2 vBaseSize = curFrame.vBaseSizeUV * pCurTex->GetResolution();
+	if (ImGui::InputFloat2("base size##animator2DFixed", (float*)&vBaseSize))
+		curFrame.vBaseSizeUV = vBaseSize / pCurTex->GetResolution();
 	ImGui::SameLine();
 	// 공통 적용
 	if (ImGui::Button("common apply##animator2DbaseSizeFixed")) {
 		for (int i = 0; i < (int)vecAnimFrm.size(); ++i) {
-			m_vecFrame[i].vBaseSizeUV = vBaseSizeUV;
+			m_vecFrame[i].vBaseSizeUV = vBaseSize / pCurTex->GetResolution();
 		}
 	}
 
 	// frame size
-	ImGui::InputFloat2("frame size UV##aniator2DFixed", (float*)&curFrame.vFrameSizeUV);
+	Vector2 vFrameSize = curFrame.vFrameSizeUV * pCurTex->GetResolution();
+	if (ImGui::InputFloat2("frame size UV##aniator2DFixed", (float*)&vFrameSize))
+		curFrame.vFrameSizeUV = vFrameSize / pCurTex->GetResolution();
 
 	// left top
-	ImGui::InputFloat2("left top UV##animator2DFixed", (float*)&curFrame.vLeftTopUV);
+	Vector2 vLeftTop = curFrame.vLeftTopUV * pCurTex->GetResolution();
+	if (ImGui::InputFloat2("left top UV##animator2DFixed", (float*)&vLeftTop))
+		curFrame.vLeftTopUV = vLeftTop / pCurTex->GetResolution();
+
 
 	// offset position
-	ImGui::DragFloat2("Offset UV##anmiator2DFixed", (float*)&curFrame.vOffsetPosUV, 0.1f, FLOAT_MIN, FLOAT_MIN, "%.2f", ImGuiSliderFlags_None);
+	Vector2 vOffsetPos = curFrame.vOffsetPosUV * pCurTex->GetResolution();
+	if (ImGui::DragFloat2("Offset UV##anmiator2DFixed", (float*)&vOffsetPos, 0.1f, FLOAT_MIN, FLOAT_MIN, "%.2f", ImGuiSliderFlags_None))
+		curFrame.vOffsetPosUV = vOffsetPos / pCurTex->GetResolution();
 
 	if (ImGui::Button("Apply##animator2DFixed")) {
 		// 현재 애니메이션으로 복사한다.
