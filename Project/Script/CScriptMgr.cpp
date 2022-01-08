@@ -11,6 +11,7 @@
 #include "CCommandModuleScript_ca.h"
 #include "CCursorScript.h"
 #include "CCursor_bu.h"
+#include "CEnemyController_bu.h"
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
 #include "CGameManagerScript_sh.h"
@@ -55,6 +56,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CCursor_bu");
+	_vec.push_back(L"CEnemyController_bu");
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CGameManagerScript_sh");
@@ -110,6 +112,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCursorScript;
 	if (L"CCursor_bu" == _strScriptName)
 		return new CCursor_bu;
+	if (L"CEnemyController_bu" == _strScriptName)
+		return new CEnemyController_bu;
 	if (L"CEnemyRespawnerScript_sh" == _strScriptName)
 		return new CEnemyRespawnerScript_sh;
 	if (L"CEnemyScript_sh" == _strScriptName)
@@ -208,6 +212,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CURSOR_BU:
 		return new CCursor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ENEMYCONTROLLER_BU:
+		return new CEnemyController_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYRESPAWNERSCRIPT_SH:
 		return new CEnemyRespawnerScript_sh;
@@ -348,6 +355,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CURSOR_BU:
 		return L"CCursor_bu";
+		break;
+
+	case SCRIPT_TYPE::ENEMYCONTROLLER_BU:
+		return L"CEnemyController_bu";
 		break;
 
 	case SCRIPT_TYPE::ENEMYRESPAWNERSCRIPT_SH:

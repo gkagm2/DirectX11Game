@@ -8,6 +8,7 @@ CColliderTestScript
 CCommandModuleScript_ca
 CCursorScript
 CCursor_bu
+CEnemyController_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CGameManagerScript_sh

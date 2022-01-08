@@ -198,7 +198,7 @@ void TileMapEditorGUI::_RenderCanvas()
 	static bool opt_enable_grid = true;
 	static bool opt_enable_context_menu = true;
 	static bool adding_line = false;
-	
+
 	static int arrGrid[2] = { 5, 5 };
 
 	ImVec2 canvas_p0 = ImGui::GetCursorScreenPos();      // ImDrawList API uses screen coordinates!
@@ -219,12 +219,22 @@ void TileMapEditorGUI::_RenderCanvas()
 	const bool is_active = ImGui::IsItemActive();   // Held
 	const ImVec2 origin(canvas_p0.x + scrolling.x, canvas_p0.y + scrolling.y); // Lock scrolled origin
 	const ImVec2 mouse_pos_in_canvas(io.MousePos.x - origin.x, io.MousePos.y - origin.y);
+	CTexture* pTileTexture = m_pTileMap->GetAtlasTexture().Get();
+	Vector2 vAtlasSize{};
+	Vector2 vAtlasTileSize{};
+	Vector2 vAtlasResol{};
+	if (!m_pTileMap->GetAtlasTexture().Get())
+		return;
+
+	if (pTileTexture) {
+		vAtlasSize = pTileTexture->GetResolution();
+		vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
+		vAtlasResol = m_pTileMap->GetAtlasTexture()->GetResolution();
+	}
 
 	// 왼쪽 버튼을 클릭했으면
 	if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		// 타일의 위치 값 계산 후 선택한 타일의 인덱스를 가져온다.
-		Vector2 vAtlasSize = m_pTileMap->GetAtlasTexture()->GetResolution();
-		Vector2 vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
 
 		// 타일을 클릭했는가?
 		bool isTileClick = false;
@@ -272,7 +282,6 @@ void TileMapEditorGUI::_RenderCanvas()
 
 	// 타일이 선택 되었으면
 	if (_IsTileSelectedInCanvas()) {
-		Vector2 vAtlasResol = m_pTileMap->GetAtlasTexture()->GetResolution();
 		Vector2 vAtlasTileSize = m_pTileMap->GetAtlasTilePixelSize();
 		int iAtlasColCnt = m_pTileMap->GetAtlasTileXCnt();
 

@@ -241,6 +241,9 @@
     <ClInclude Include="CSparkParticle_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CEnemyController_bu.h">
+      <Filter>Games\Butcher\InGames\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -372,6 +375,9 @@
     </ClCompile>
     <ClCompile Include="CSparkParticle_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemyController_bu.cpp">
+      <Filter>Games\Butcher\InGames\Character</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

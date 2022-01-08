@@ -173,6 +173,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CBullet_bu.h" />
+    <ClInclude Include="CEnemyController_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
@@ -219,6 +220,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBullet_bu.cpp" />
+    <ClCompile Include="CEnemyController_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />

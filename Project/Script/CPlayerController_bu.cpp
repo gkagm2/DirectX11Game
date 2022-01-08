@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlayerController_bu.h"
 #include "CBullet_bu.h"
+#include <Engine\CCore.h>
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
