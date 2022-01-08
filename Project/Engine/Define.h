@@ -36,6 +36,7 @@
 
 #define FIND_GameObject_Layer(objName, layer) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer))
 #define FIND_GameObject(objName) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName))
+//#define FIND_GameObjects_Layer(layer) 
 
 // OUT : 받을 포인터 변수, COMPONENT_TYPE : 찾을 컴포넌트 타입
 #define FIND_Component(OUT, COMPONENT_TYPE) { CScene* __pCurScene = CSceneManager::GetInstance()->GetCurScene(); \
@@ -277,6 +278,7 @@ enum class E_Layer {
 	Default,
 	Object,
 	BackgroundMap,
+	WayPoint_Tool,
 	TileMap = NUM_LAYER_TILEMAP,
 	UI = NUM_LAYER_UI,
 	CLIENT = NUM_LAYER_CLIENT,

@@ -1,6 +1,6 @@
 #pragma once
 #include "CCharacter_Bu.h"
-#include <Engine\CPathFinding.h>
+#include <Engine\CPathFind2D.h>
 enum class E_AIState_bu {
 	Idle,
 	Wander,
@@ -16,6 +16,7 @@ class CEnemyController_bu : public CCharacter_bu
 private:
 	CGameObject* m_pTargetObj;
 	E_AIState_bu m_eAIState;
+	tstring strAIStateName;
 
 	CGameObject* m_pMuzzleObj;
 	CGameObject* m_pGunRotationPosObj;
@@ -25,6 +26,8 @@ private:
 	std::function<void()> m_CurStateUpdateFunc;
 	std::function<void()> m_CurStateEndFunc;
 
+	CPathFind2D* m_pPathFind;
+
 public:
 	virtual void Awake() override;
 	virtual void Start() override;
@@ -32,7 +35,7 @@ public:
 
 public:
 	// AI Functions
-	void ChangeState(E_AIState_bu _eState);
+	void ChangeAIState(E_AIState_bu _eState);
 	void AIStart();
 	void AIUpdate();
 	void AIEnd();
@@ -66,7 +69,6 @@ public:
 	void ShootStateInit();
 	void ShootStateUpdate();
 	void ShootStateEnd();
-
 
 public:
 	CLONE(CEnemyController_bu);

@@ -26,6 +26,7 @@ public:
 
 public:
 	void InitCaptainForeverGUI();
+	void InitButcherGUI();
 	UINT GetWidgetID() { return ++m_iID; } 
 
 private:

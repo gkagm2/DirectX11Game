@@ -244,6 +244,12 @@
     <ClInclude Include="CEnemyController_bu.h">
       <Filter>Games\Butcher\InGames\Character</Filter>
     </ClInclude>
+    <ClInclude Include="CWayPoint_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CDraggable_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -378,6 +384,12 @@
     </ClCompile>
     <ClCompile Include="CEnemyController_bu.cpp">
       <Filter>Games\Butcher\InGames\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CWayPoint_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CDraggable_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

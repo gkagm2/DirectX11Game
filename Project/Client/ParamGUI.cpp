@@ -379,9 +379,12 @@ bool ParamGUI::Render_PrefabLink(const string& _strName, CPrefab** _pPrefab, flo
 	tstring tstrName = _T("");
 	string strName = "NULL";
 	if (*_pPrefab) {
-		tstrName = (*_pPrefab)->GetProtoObj()->GetName();
-		TStringToString(tstrName, strName);
+		if ((*_pPrefab)->GetProtoObj()) {
+			tstrName = (*_pPrefab)->GetProtoObj()->GetName();
+			TStringToString(tstrName, strName);
+		}
 	}
+
 
 	char szName[255] = {};
 	StringToArr(strName, szName, 255);

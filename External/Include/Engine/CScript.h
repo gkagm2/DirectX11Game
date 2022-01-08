@@ -40,6 +40,7 @@ enum class E_ScriptParam {
 	TEX,
 	PREFAB,
 	GAMEOBJ, // game object
+	STRING_PRINT,
 	END,
 };
 

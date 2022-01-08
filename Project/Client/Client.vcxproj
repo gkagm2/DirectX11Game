@@ -250,6 +250,7 @@
     <ClInclude Include="ToolCameraGUI.h" />
     <ClInclude Include="TransformGUI.h" />
     <ClInclude Include="TreeViewGUI.h" />
+    <ClInclude Include="WayPointGUI_bu.h" />
     <ClInclude Include="WindowsMessageMap.h" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +338,7 @@
     <ClCompile Include="ToolCameraGUI.cpp" />
     <ClCompile Include="TransformGUI.cpp" />
     <ClCompile Include="TreeViewGUI.cpp" />
+    <ClCompile Include="WayPointGUI_bu.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />
   </ItemGroup>
   <ItemGroup>

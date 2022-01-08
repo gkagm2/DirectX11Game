@@ -77,6 +77,8 @@ void ScriptGUI::Update()
 			ParamGUI::Render_Int(strParamName, (int*)vecParams[i].pData, &fHeight);
 			break;
 		case E_ScriptParam::BOOL: {
+			ImGui::Text("%s", strParamName.c_str());
+			fHeight += ImGui::GetItemRectSize().y;
 			ImGui::Checkbox(strParamName.c_str(), (bool*)vecParams[i].pData);
 			fHeight += ImGui::GetItemRectSize().y;
 		}
@@ -113,6 +115,16 @@ void ScriptGUI::Update()
 			Vector4* vData = (Vector4*)vecParams[i].pData;
 			ParamGUI::Render_Vector4(strParamName, vData, &fHeight);
 			vecParams[i].pData = vData;
+		}
+			break;
+		case E_ScriptParam::STRING_PRINT: {
+			ImGui::Text("%s", strParamName.c_str());
+			fHeight += ImGui::GetItemRectSize().y;
+			tstring* tstr = (tstring*)vecParams[i].pData;
+			string str{};
+			TStringToString(*tstr, str);
+			ImGui::Text("%s", str.c_str());
+			fHeight += ImGui::GetItemRectSize().y;
 		}
 			break;
 		case E_ScriptParam::END:

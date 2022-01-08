@@ -11,6 +11,7 @@
 #include "CCommandModuleScript_ca.h"
 #include "CCursorScript.h"
 #include "CCursor_bu.h"
+#include "CDraggable_bu.h"
 #include "CEnemyController_bu.h"
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
@@ -42,6 +43,7 @@
 #include "CTestLight2DScript.h"
 #include "CUIContainer_bu.h"
 #include "CUIManager_bu.h"
+#include "CWayPoint_bu.h"
 #include "CWeapon_bu.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -56,6 +58,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CCursor_bu");
+	_vec.push_back(L"CDraggable_bu");
 	_vec.push_back(L"CEnemyController_bu");
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
@@ -87,6 +90,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CTestLight2DScript");
 	_vec.push_back(L"CUIContainer_bu");
 	_vec.push_back(L"CUIManager_bu");
+	_vec.push_back(L"CWayPoint_bu");
 	_vec.push_back(L"CWeapon_bu");
 }
 
@@ -112,6 +116,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCursorScript;
 	if (L"CCursor_bu" == _strScriptName)
 		return new CCursor_bu;
+	if (L"CDraggable_bu" == _strScriptName)
+		return new CDraggable_bu;
 	if (L"CEnemyController_bu" == _strScriptName)
 		return new CEnemyController_bu;
 	if (L"CEnemyRespawnerScript_sh" == _strScriptName)
@@ -174,6 +180,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CUIContainer_bu;
 	if (L"CUIManager_bu" == _strScriptName)
 		return new CUIManager_bu;
+	if (L"CWayPoint_bu" == _strScriptName)
+		return new CWayPoint_bu;
 	if (L"CWeapon_bu" == _strScriptName)
 		return new CWeapon_bu;
 	return nullptr;
@@ -212,6 +220,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CURSOR_BU:
 		return new CCursor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::DRAGGABLE_BU:
+		return new CDraggable_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYCONTROLLER_BU:
 		return new CEnemyController_bu;
@@ -306,6 +317,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::UIMANAGER_BU:
 		return new CUIManager_bu;
 		break;
+	case (UINT)SCRIPT_TYPE::WAYPOINT_BU:
+		return new CWayPoint_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::WEAPON_BU:
 		return new CWeapon_bu;
 		break;
@@ -355,6 +369,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CURSOR_BU:
 		return L"CCursor_bu";
+		break;
+
+	case SCRIPT_TYPE::DRAGGABLE_BU:
+		return L"CDraggable_bu";
 		break;
 
 	case SCRIPT_TYPE::ENEMYCONTROLLER_BU:
@@ -479,6 +497,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::UIMANAGER_BU:
 		return L"CUIManager_bu";
+		break;
+
+	case SCRIPT_TYPE::WAYPOINT_BU:
+		return L"CWayPoint_bu";
 		break;
 
 	case SCRIPT_TYPE::WEAPON_BU:

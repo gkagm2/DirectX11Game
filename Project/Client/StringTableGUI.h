@@ -28,3 +28,6 @@
 
 // CaptainForever
 #define STR_GUI_ModuleCreator "ModuleCreator"
+
+// Butcher
+#define STR_GUI_WayPoint_bu "WayPoint_bu"

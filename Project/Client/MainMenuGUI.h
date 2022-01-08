@@ -54,6 +54,9 @@ public:
 	// CaptainForever
 	void OpenModuleCreatorToolWindows();
 
+	// Butcher
+	void OpenWayPointTool();
+
 public:
 	MainMenuGUI();
 	virtual ~MainMenuGUI() override;

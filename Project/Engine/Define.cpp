@@ -23,6 +23,9 @@ tstring LayerToString(E_Layer _eLayer)
 	case E_Layer::UI:
 		layerName = _T("UI");
 		break;
+	case E_Layer::WayPoint_Tool:
+		layerName = _T("WayPoint_Tool");
+		break;
 	case E_Layer::CLIENT:
 		layerName = _T("CLIENT");
 		break;

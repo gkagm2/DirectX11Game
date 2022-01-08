@@ -22,6 +22,9 @@
 // Captain Forever Game
 #include "ModuleCreatorGUI_ca.h"
 
+// Butcher Game
+#include "WayPointGUI_bu.h"
+
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
     bPause(false),
@@ -124,6 +127,12 @@ void MainMenuGUI::Update()
         if (ImGui::BeginMenu("CF Game")) {
             if (ImGui::MenuItem("Modeul Creator Tool")) {
                 OpenModuleCreatorToolWindows();
+            }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Butcher Game")) {
+            if (ImGui::MenuItem("Way Point Tool")) {
+                OpenWayPointTool();
             }
             ImGui::EndMenu();
         }
@@ -399,6 +408,16 @@ void MainMenuGUI::OpenModuleCreatorToolWindows()
     ModuleCreatorGUI_ca* pGUI = dynamic_cast<ModuleCreatorGUI_ca*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ModuleCreator));
     if (!pGUI) {
         assert(nullptr && _T("Module Creator를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenWayPointTool()
+{
+    WayPointGUI_bu* pGUI = dynamic_cast<WayPointGUI_bu*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_WayPoint_bu));
+    if (!pGUI) {
+        assert(nullptr && _T("WayPoint butcher를 열 수 없다."));
         return;
     }
     pGUI->SetActive(true);

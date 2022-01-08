@@ -154,8 +154,6 @@ CGameObject* CObjectManager::Create2DRectGameObject(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
-	CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlendMtrl);
-
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();

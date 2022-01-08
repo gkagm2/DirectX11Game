@@ -173,6 +173,7 @@ call CodeGen.exe</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CBullet_bu.h" />
+    <ClInclude Include="CDraggable_bu.h" />
     <ClInclude Include="CEnemyController_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItem_bu.h" />
@@ -212,6 +213,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CTestLight2DScript.h" />
     <ClInclude Include="CUIManager_bu.h" />
+    <ClInclude Include="CWayPoint_bu.h" />
     <ClInclude Include="CWeapon_bu.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="CObjectDragAndDropScript_ca.h" />
@@ -220,6 +222,7 @@ call CodeGen.exe</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBullet_bu.cpp" />
+    <ClCompile Include="CDraggable_bu.cpp" />
     <ClCompile Include="CEnemyController_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
@@ -260,6 +263,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CTestLight2DScript.cpp" />
     <ClCompile Include="CObjectDragAndDropScript_ca.cpp" />
     <ClCompile Include="CUIManager_bu.cpp" />
+    <ClCompile Include="CWayPoint_bu.cpp" />
     <ClCompile Include="CWeapon_bu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -61,10 +61,10 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 
 	if (iTag == iEnemyTag || iTag == iPlayerTag) {
 		CCharacter_bu* pcha= pObj->GetComponent<CCharacter_bu>();
-		pcha->DamagedMe(m_fDamage);
-		if (0.f == pcha->GetHp()) {
+		//pcha->DamagedMe(m_fDamage);
+		/*if (0.f == pcha->GetHp()) {
 			pcha->OnDead();
-		}
+		}*/
 		bTouched = true;
 	}
 	if (iTag == iObjectTag) {

@@ -221,16 +221,16 @@ bool CPathFinding::IsArrivedDestination()
 
 bool CPathFinding::IsObstacle(int _iCol, int _iRow)
 {
-	/*vector<CGameObject*> vecTiles;
-	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecTiles, NUM_LAYER_TILEMAP);
-	for (auto iter = m_setObstacleTile.begin(); iter != m_setObstacleTile.end(); ++iter) {
-		int idx = min(_iRow * (int)m_pTileMap->GetCol() + _iCol, (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow() - 1);
-		CTile* pTile = (CTile*)vecTiles[idx];
-		if (pTile) {
-			if (pTile->GetTileType() == *iter) {
-				return true;
-			}
-		}
-	}*/
+	//vector<CGameObject*> vecTiles;
+	//CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecTiles, NUM_LAYER_TILEMAP);
+	//for (auto iter = m_setObstacleTile.begin(); iter != m_setObstacleTile.end(); ++iter) {
+	//	int idx = min(_iRow * (int)m_pTileMap->GetCol() + _iCol, (int)m_pTileMap->GetCol() * (int)m_pTileMap->GetRow() - 1);
+	//	CTile* pTile = (CTile*)vecTiles[idx];
+	//	if (pTile) {
+	//		if (pTile->GetTileType() == *iter) {
+	//			return true;
+	//		}
+	//	}
+	//}
 	return false;
 }

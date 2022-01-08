@@ -8,6 +8,7 @@ CColliderTestScript
 CCommandModuleScript_ca
 CCursorScript
 CCursor_bu
+CDraggable_bu
 CEnemyController_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
@@ -39,4 +40,5 @@ CSwitch_bu
 CTestLight2DScript
 CUIContainer_bu
 CUIManager_bu
+CWayPoint_bu
 CWeapon_bu

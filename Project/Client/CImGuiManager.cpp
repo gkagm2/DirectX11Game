@@ -72,6 +72,8 @@ void CImGuiManager::Init()
 
     //ImGuiInitTestCode();
     InitCaptainForeverGUI();
+    InitButcherGUI();
+
     CreateGUI();
 }
 
@@ -157,6 +159,9 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "LayerCheckGUI.h"
 
 #include "ModuleCreatorGUI_ca.h"
+
+#include "WayPointGUI_bu.h"
+
 void CImGuiManager::InitCaptainForeverGUI()
 {
     Init_ShowGameObjectComponent();
@@ -164,6 +169,13 @@ void CImGuiManager::InitCaptainForeverGUI()
     ModuleCreatorGUI_ca* pModuleCreatorGUI = new ModuleCreatorGUI_ca;
     pModuleCreatorGUI->Init();
     AddGUI(pModuleCreatorGUI->GetName(), pModuleCreatorGUI);
+}
+
+void CImGuiManager::InitButcherGUI()
+{
+    WayPointGUI_bu* pWPGui = new WayPointGUI_bu;
+    pWPGui->Init();
+    AddGUI(pWPGui->GetName(), pWPGui);
 }
 
 #include "CToolCameraScript.h"

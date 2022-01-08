@@ -227,6 +227,9 @@
     <ClInclude Include="random_generator.hpp">
       <Filter>Engine\Support</Filter>
     </ClInclude>
+    <ClInclude Include="CPathFind2D.h">
+      <Filter>Engine\11. Functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -434,6 +437,9 @@
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
     <ClCompile Include="CCursor.cpp" />
+    <ClCompile Include="CPathFind2D.cpp">
+      <Filter>Engine\11. Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

@@ -66,10 +66,15 @@ void PrefabGUI::Update()
 		pInspectorGUI->SetInspectorUIMode(E_InspectorUIMode::None);
 	}
 
-	tstring tstrName = pPrefab->GetProtoObj()->GetName();
-	string strName;
-	TStringToString(tstrName, strName);
-	ImGui::Text("Game Object Name : %s", strName.c_str());
+	if (pPrefab) {
+		tstring tstrName = pPrefab->GetProtoObj()->GetName();
+		string strName;
+		TStringToString(tstrName, strName);
+		ImGui::Text("Game Object Name : %s", strName.c_str());
+	}
+	else {
+		ImGui::Text("Doesn't Exist GameObject");
+	}
 
 	// 들어갈 레이어
 	ImGui::DragInt("Insert Layer", &m_iLayer, 1, 0, MAX_SIZE_LAYER - 1, "%d");

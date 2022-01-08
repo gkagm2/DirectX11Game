@@ -221,6 +221,9 @@
     <Filter Include="01. Client\Widget">
       <UniqueIdentifier>{e5cdc179-bb9b-4493-8f26-608c3ddfefa1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Contents\Butcher">
+      <UniqueIdentifier>{8a5b2c08-b7cc-4933-a51e-187f0a34398a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -422,6 +425,9 @@
     <ClInclude Include="Struct_Client.h">
       <Filter>00. Default</Filter>
     </ClInclude>
+    <ClInclude Include="WayPointGUI_bu.h">
+      <Filter>04. Contents\Butcher</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -604,6 +610,9 @@
     </ClCompile>
     <ClCompile Include="Animator2DEditorGUI.cpp">
       <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="WayPointGUI_bu.cpp">
+      <Filter>04. Contents\Butcher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
