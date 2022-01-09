@@ -195,3 +195,4 @@
 // Object Name
 #define BUTCHER_ObjName_Muzzle _T("Muzzle")
 #define BUTCHER_ObjName_RotationPos _T("GunRotationPos")
+#define BUTCHER_ObjName_WayPoint_bu _T("WayPoint_bu")

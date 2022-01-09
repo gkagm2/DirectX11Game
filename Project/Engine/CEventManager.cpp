@@ -134,9 +134,10 @@ void CEventManager::_Excute(const TEvent& _event)
 		// wparam : child object
 		CGameObject* pParent = (CGameObject*)_event.lparam;
 		CGameObject* pChild = (CGameObject*)_event.wparam;
+		assert(pParent);
 		pParent->_AddChildGameObject(pChild);
 	}
-							   break;
+		break;
 	case E_EventType::Unlink_Parent: { // 부모 오브젝트와 연결을 해제한다.
 		// lparam : child object		
 		CGameObject* pChild = (CGameObject*)_event.lparam;

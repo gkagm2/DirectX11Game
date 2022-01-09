@@ -10,52 +10,42 @@ CWayPoint_bu::CWayPoint_bu() :
 CWayPoint_bu::~CWayPoint_bu()
 {
 }
-void CWayPoint_bu::AddWayPoint(const Vector2& _vPoint)
+CGameObject* CWayPoint_bu::AddWayPoint(const Vector2& _vPoint)
 {
 	UINT iLayer = (UINT)E_Layer::WayPoint_Tool;
 	Vector3 vWorldPos{ _vPoint.x, _vPoint.y, 0.f };
 	assert(m_pWPObjPref.Get());
 	CGameObject* pWPObj = CObject::InstantiateEvn(m_pWPObjPref, vWorldPos, iLayer);
-	m_vecWPObjs.push_back(pWPObj);
-	CObject::AddChildGameObjectEvn(GetGameObject(), pWPObj);
+	CGameObject* pParentObj = GetGameObject();
 	pWPObj->Transform()->SetLocalPosition(vWorldPos);
+	CObject::AddChildGameObjectEvn(pParentObj, pWPObj);
+	return pWPObj;
 }
 
 void CWayPoint_bu::DeleteWayPoint(CGameObject* _pObj)
 {
-	auto iter = m_vecWPObjs.begin();
-	for (iter; iter != m_vecWPObjs.end(); ++iter) {
+	auto iter = GetGameObject()->GetChildsObject().begin();
+	for (iter; iter != GetGameObject()->GetChildsObject().end(); ++iter) {
 		if ((*iter) == _pObj) {
 			break;
 		}
 	}
+	if(iter != GetGameObject()->GetChildsObject().end())
+		DestroyGameObjectEvn((*iter));
+}
 
-	if (iter != m_vecWPObjs.end())
-		m_vecWPObjs.erase(iter);
-	DestroyGameObjectEvn(_pObj);
+vector<CGameObject*>& CWayPoint_bu::GetWayPointObjs() {
+	return  GetGameObject()->GetChildsObject();
 }
 
 bool CWayPoint_bu::SaveToScene(FILE* _pFile)
 {
 	SaveResourceToFile(m_pWPObjPref, _pFile);
-	size_t iCnt = m_vecWPObjs.size();
-	FWrite(iCnt, _pFile);
-	for (size_t i = 0; i < m_vecWPObjs.size(); ++i) {
-		Vector3 vLocalPos = m_vecWPObjs[i]->Transform()->GetLocalPosition();
-		FWrite(vLocalPos, _pFile);
-	}
 	return true;
 }
 
 bool CWayPoint_bu::LoadFromScene(FILE* _pFile)
 {
 	LoadResourceFromFile(m_pWPObjPref, _pFile);
-	size_t iCnt = 0;
-	FRead(iCnt, _pFile);
-	for (size_t i = 0; i < iCnt; ++i) {
-		Vector3 vLocalPos{};
-		FRead(vLocalPos, _pFile);
-		AddWayPoint(vLocalPos.XY());
-	}
 	return true;
 }

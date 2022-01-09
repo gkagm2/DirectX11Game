@@ -454,6 +454,13 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 
 	FWrite(m_iTag, _pFile);
 	
+	// 자식 오브젝트
+	UINT iChildCount = (UINT)m_vecChildObj.size();
+	FWrite(iChildCount, _pFile);
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->SaveToScene(_pFile);
+
 	// 컴포넌트
 	UINT iComIdx = 0;
 	for (; iComIdx < (UINT)E_ComponentType::End; ++iComIdx) {
@@ -473,14 +480,7 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 		// SceneManager에 등록된 함수를 사용해서 Script를 저장
 		CSceneManager::GetInstance()->m_pSaveScript(m_vecScript[i], _pFile);
 	}
-		
-	// 자식 오브젝트
-	UINT iChildCount = (UINT)m_vecChildObj.size();
-	FWrite(iChildCount, _pFile);
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->SaveToScene(_pFile);
-
+	
 	return true;
 }
 
@@ -494,6 +494,17 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		FRead(m_iLayer, _pFile);
 
 	FRead(m_iTag, _pFile);
+
+	// 자식 정보
+	++_iDepth;
+
+	UINT iChildCount = 0;
+	FRead(iChildCount, _pFile);
+	for (UINT i = 0; i < iChildCount; ++i) {
+		CGameObject* pChildObj = new CGameObject;
+		pChildObj->LoadFromScene(_pFile, _iDepth);
+		_AddChildGameObject(pChildObj, true);
+	}
 
 	// 컴포넌트 정보
 	UINT iComIdx = (UINT)E_ComponentType::End;
@@ -522,17 +533,6 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		}
 	}
 		
-	// 자식 정보
-	++_iDepth;
-
-	UINT iChildCount = 0;
-	FRead(iChildCount, _pFile);
-	for (UINT i = 0; i < iChildCount; ++i) {
-		CGameObject* pChildObj = new CGameObject;
-		pChildObj->LoadFromScene(_pFile, _iDepth);
-		_AddChildGameObject(pChildObj, true);
-	}
-
 	return true;
 }
 

@@ -63,7 +63,7 @@ public:
 	bool IsActive() { return m_bActive; }
 
 	CGameObject* GetParentObject() { return m_pParentObj; }
-	const vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
+	vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 	CGameObject* FindGameObjectInChilds(const tstring& _strObjName);
 
 	template<typename TYPE>

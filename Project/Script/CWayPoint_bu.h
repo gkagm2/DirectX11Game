@@ -3,14 +3,13 @@
 class CWayPoint_bu : public CScript
 {
 private:
-	vector<CGameObject*> m_vecWPObjs;
 	SharedPtr<CPrefab> m_pWPObjPref; // WP : Way point
 
 public:
-	void AddWayPoint(const Vector2& _vWorldPoint);
+	CGameObject* AddWayPoint(const Vector2& _vWorldPoint);
 	void DeleteWayPoint(CGameObject* pObj);
 
-	vector<CGameObject*>& GetWayPointObjs() { return m_vecWPObjs; }
+	vector<CGameObject*>& GetWayPointObjs();
 
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;

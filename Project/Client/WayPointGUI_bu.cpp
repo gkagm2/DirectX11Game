@@ -14,18 +14,13 @@
 WayPointGUI_bu::WayPointGUI_bu() : 
 	m_pWayPointObj{ nullptr },
 	m_pWayPoint{ nullptr },
-	m_pPressObj{ nullptr },
-	m_pReleaseObj{ nullptr },
-	m_pClickedObj{nullptr}
+	m_pDragObj{nullptr}
 {
 }
 
 WayPointGUI_bu::~WayPointGUI_bu()
 {
-	if (m_pWayPoint) {
-		delete m_pWayPoint;
-		m_pWayPoint = nullptr;
-	}
+	_Clear();
 }
 
 void WayPointGUI_bu::Init()
@@ -44,9 +39,17 @@ void WayPointGUI_bu::Update()
 	if (E_SceneMode::Stop != CSceneManager::GetInstance()->GetSceneMode())
 		return;
 	if(ImGui::Begin(STR_GUI_WayPoint_bu, &m_bGUIOpen)){
-		if (!_CheckAndGenerateWayPoint()) {
-			ImGui::End();
-			return;
+		// 켜져있는 상태로 waypoint object를 삭제하면 에러남.
+		if (!m_pWayPointObj || !m_pWayPoint) {
+			m_pWayPointObj = FIND_GameObject(BUTCHER_ObjName_WayPoint_bu);
+			if (m_pWayPointObj)
+				m_pWayPoint = m_pWayPointObj->GetComponent<CWayPoint_bu>();
+			else
+				m_pWayPointObj = _CreateWayPointObj();
+
+			if (!m_pWayPoint) {
+				m_pWayPoint = m_pWayPointObj->GetComponent<CWayPoint_bu>();
+			}
 		}
 
 		CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
@@ -62,32 +65,31 @@ void WayPointGUI_bu::Update()
 		Vector3 vWorldPos = pMainCam->GetScreenToWorld2DPosition(vMousePos);
 		vWorldPos.z = -10.f;
 
+		if (InputKeyPress(E_Key::LBUTTON)) {
+			if (m_pDragObj)
+				m_pDragObj = nullptr;
+			m_pDragObj = _GetClickedObj(vWorldPos);
+		}
+			
+		if (InputKeyHold(E_Key::LBUTTON)) {
+			if (m_pDragObj)
+				m_pDragObj->Transform()->SetLocalPosition(vWorldPos);
+		}
+		
 		// Create
 		if (InputKeyHold(E_Key::LCtrl) && InputKeyPress(E_Key::LBUTTON)) {
 			Vector2 vWorldPos2D = vWorldPos.XY();
-			m_pWayPoint->AddWayPoint(vWorldPos2D);
+			CGameObject* pObj = m_pWayPoint->AddWayPoint(vWorldPos2D);
+			m_pDragObj = pObj;
 		}
 		// Delete
 		else if (InputKeyHold(E_Key::LAlt) && InputKeyPress(E_Key::LBUTTON)) {
 			// 클릭했는지 영역을 알아내야 함.
-			if (m_pClickedObj)
-				m_pWayPoint->DeleteWayPoint(m_pClickedObj);
-		}
-
-		if (InputKeyPress(E_Key::LBUTTON))
-			m_pPressObj = _GetClickedObj(vWorldPos);
-		if (InputKeyRelease(E_Key::LBUTTON)) {
-			m_pReleaseObj = _GetClickedObj(vWorldPos);
-			if (m_pPressObj && !m_pReleaseObj &&
-				m_pPressObj == m_pReleaseObj) {
-				m_pClickedObj = m_pPressObj;
+			CGameObject* pDelObj = _GetClickedObj(vWorldPos);
+			if (pDelObj) {
+				m_pWayPoint->DeleteWayPoint(pDelObj);
+				m_pDragObj = nullptr;
 			}
-			m_pPressObj = nullptr;
-			m_pReleaseObj = nullptr;
-		}
-		if (InputKeyHold(E_Key::LBUTTON)) {
-			if (m_pPressObj)
-				m_pPressObj->Transform()->SetLocalPosition(vWorldPos);
 		}
 
 		ImGui::End();
@@ -98,32 +100,14 @@ void WayPointGUI_bu::_DeletWayPoint(CGameObject* _pWayPointObj)
 {
 }
 
-
-
-bool WayPointGUI_bu::_CheckAndGenerateWayPoint()
+CGameObject* WayPointGUI_bu::_CreateWayPointObj()
 {
-	if (!m_pWayPointObj) {
-		m_pWayPointObj = FIND_GameObject(_T("WayPoint_bu"));
-		if (m_pWayPoint) {
-			m_pWayPoint = m_pWayPointObj->GetComponent<CWayPoint_bu>();
-		}
-	}
-
-	if (!m_pWayPointObj) {
-		SharedPtr<CPrefab> pPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("WayPoint_bu"));
-		if (pPrefab.Get()) {
-			UINT iLayer = (UINT)E_Layer::WayPoint_Tool;
-			m_pWayPointObj = CObject::InstantiateEvn(pPrefab, Vector3(0.f, 0.f, -10.f), (UINT)iLayer);
-			m_pWayPoint = m_pWayPointObj->GetComponent<CWayPoint_bu>();
-		}
-		return false;
-	}
-	if (m_pWayPointObj && !m_pWayPoint) {
-		m_pWayPoint = m_pWayPointObj->GetComponent<CWayPoint_bu>();
-		if(!m_pWayPoint)
-			return false;
-	}
-	return true;
+	UINT iLayer = (UINT)E_Layer::WayPoint_Tool;
+	CGameObject* pWayPointObj =  CObjectManager::GetInstance()->CreateEmptyGameObject(iLayer);
+	pWayPointObj->AddComponent<CWayPoint_bu>();
+	pWayPointObj->SetName(BUTCHER_ObjName_WayPoint_bu);
+	pWayPointObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, -10.f));
+	return pWayPointObj;
 }
 
 CGameObject* WayPointGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)
@@ -148,5 +132,7 @@ CGameObject* WayPointGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)
 
 void WayPointGUI_bu::_Clear()
 {
-	m_pPressObj = m_pReleaseObj = m_pClickedObj = nullptr;
+	m_pWayPointObj = nullptr;
+	m_pWayPoint = nullptr;
+	m_pDragObj = nullptr;
 }
