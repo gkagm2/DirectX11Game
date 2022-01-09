@@ -32,13 +32,18 @@ void WayPointGUI_bu::Init()
 void WayPointGUI_bu::Update()
 {
 	if (!m_bGUIOpen) {
-		_Clear();
 		return;
 	}
 
 	if (E_SceneMode::Stop != CSceneManager::GetInstance()->GetSceneMode())
 		return;
 	if(ImGui::Begin(STR_GUI_WayPoint_bu, &m_bGUIOpen)){
+		if (!m_bGUIOpen) {
+			_Clear();
+			ImGui::End();
+			return;
+		}
+			
 		// 켜져있는 상태로 waypoint object를 삭제하면 에러남.
 		if (!m_pWayPointObj || !m_pWayPoint) {
 			m_pWayPointObj = FIND_GameObject(BUTCHER_ObjName_WayPoint_bu);
@@ -91,7 +96,6 @@ void WayPointGUI_bu::Update()
 				m_pDragObj = nullptr;
 			}
 		}
-
 		ImGui::End();
 	}
 }

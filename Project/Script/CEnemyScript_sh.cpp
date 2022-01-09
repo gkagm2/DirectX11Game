@@ -9,13 +9,13 @@
 CEnemyScript_sh::CEnemyScript_sh() :
 	CScript((UINT)SCRIPT_TYPE::ENEMYSCRIPT_SH),
 	m_fHp(10.f),
-	m_fMoveSpeed(2.f),
+	m_fDoorMoveTime(2.f),
 	m_fBulletSpeed(3.f),
 	m_iColorFlag(0),
 	m_vOriginalScale{1.f,1.f,1.f},
 	m_fBackDistance(0.3f)
 {
-	m_fMoveSpeed = (float)(rand() % 5 + 10);
+	m_fDoorMoveTime = (float)(rand() % 5 + 10);
 }
 
 CEnemyScript_sh::~CEnemyScript_sh()
@@ -29,11 +29,11 @@ void CEnemyScript_sh::Awake()
 void CEnemyScript_sh::Start()
 {
 	m_fHp = 10.f;
-	m_fMoveSpeed = 2.f;
+	m_fDoorMoveTime = 2.f;
 	m_fBulletSpeed = 3.f;
 	m_iColorFlag = 0;
 	m_vOriginalScale = { 1.f,1.f,1.f };
-	m_fMoveSpeed = (float)(rand() % 5 + 5);
+	m_fDoorMoveTime = (float)(rand() % 5 + 5);
 
 	GetGameObject()->SetName(STR_OBJ_NAME_Enemy);
 	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
@@ -101,7 +101,7 @@ void CEnemyScript_sh::OnCollisionExit2D(CCollider2D* _pOther)
 void CEnemyScript_sh::Move()
 {
 	Vector3 vMovePos = Transform()->GetLocalPosition();
-	vMovePos.y -= m_fMoveSpeed * DT;
+	vMovePos.y -= m_fDoorMoveTime * DT;
 	Transform()->SetLocalPosition(vMovePos);
 }
 

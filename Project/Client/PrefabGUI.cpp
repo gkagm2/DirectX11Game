@@ -77,7 +77,13 @@ void PrefabGUI::Update()
 	}
 
 	// 들어갈 레이어
-	ImGui::DragInt("Insert Layer", &m_iLayer, 1, 0, MAX_SIZE_LAYER - 1, "%d");
+	string strLayerName = "NONE";
+	if (m_iLayer > 0) {
+		tstring tStrLayerName = LayerToString((E_Layer)m_iLayer);
+		TStringToString(tStrLayerName, strLayerName);
+	}
+	ImGui::Text("Insert Layer [%s] [%d]", strLayerName.c_str(), m_iLayer);
+	ImGui::DragInt("##PrefabGUI Insert Layer", &m_iLayer, 1, 0, MAX_SIZE_LAYER - 1, "%d");
 	ImGui::InputFloat3("Respawn Position", (float*)&m_iRespawnPos, "%.2f");
 
 	// InGame에 추가하기

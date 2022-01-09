@@ -247,6 +247,12 @@
     <ClInclude Include="CWayPoint_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CDoor_bu.h">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
+    <ClInclude Include="CElevator_bu.h">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -384,6 +390,12 @@
     </ClCompile>
     <ClCompile Include="CWayPoint_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoor_bu.cpp">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CElevator_bu.cpp">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

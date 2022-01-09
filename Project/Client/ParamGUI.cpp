@@ -341,8 +341,14 @@ bool ParamGUI::Render_GameObjectLink(const string& _strName, CGameObject** _pObj
 	tstring tstrName = _T("");
 	string strName = "NULL";
 	if (*_pObj) {
-		tstrName = (*_pObj)->GetName();
-		TStringToString(tstrName, strName);
+		try {
+			tstrName = (*_pObj)->GetName();
+			TStringToString(tstrName, strName);
+		}
+		catch (std::exception e) {
+			(*_pObj) = nullptr;
+			strName = "NULL";
+		}
 	}
 
 	char szName[255] = {};

@@ -11,7 +11,7 @@ CPlayerScript_sh::CPlayerScript_sh() :
 	CScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH),
 	m_fHp(10.f),
 	m_fBulletDamage(2.f),
-	m_fMoveSpeed(15.f)
+	m_fDoorMoveTime(15.f)
 {
 }
 
@@ -23,7 +23,7 @@ void CPlayerScript_sh::Start()
 {
 	m_fHp = 10.f;
 	m_fBulletDamage = 2.f;
-	m_fMoveSpeed = 15.f;
+	m_fDoorMoveTime = 15.f;
 
 
 
@@ -138,7 +138,7 @@ void CPlayerScript_sh::Move()
 		Transform()->SetLocalRotation(Vector3(0.f, 0.f,  z + 15 * DT));
 
 	vDir.Normalize();
-	vPosition = vPosition + vDir * m_fMoveSpeed * DT;
+	vPosition = vPosition + vDir * m_fDoorMoveTime * DT;
 	float fMiddleX = 0.f;
 	float fRange = (float)(CCore::GetInstance()->GetWindowResolution().x * 0.5f - Transform()->GetLocalScale().x);
 	/*if (vPosition.x > fRange + fMiddleX)
@@ -152,7 +152,7 @@ bool CPlayerScript_sh::SaveToScene(FILE* _pFile)
 {
 	FWrite(m_fHp, _pFile);
 	FWrite(m_fBulletDamage, _pFile);
-	FWrite(m_fMoveSpeed, _pFile);
+	FWrite(m_fDoorMoveTime, _pFile);
 	SaveResourceToFile(m_pMissilePrefab, _pFile);
 	return true;
 }
@@ -161,7 +161,7 @@ bool CPlayerScript_sh::LoadFromScene(FILE* _pFile)
 {
 	FRead(m_fHp, _pFile);
 	FRead(m_fBulletDamage, _pFile);
-	FRead(m_fMoveSpeed, _pFile);
+	FRead(m_fDoorMoveTime, _pFile);
 	LoadResourceFromFile(m_pMissilePrefab, _pFile);
 	return true;
 }

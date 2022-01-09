@@ -5,6 +5,7 @@ class CInteractiveObj_bu : public CScript
 protected:
 	function<void()> m_ActivateCallBack;
 	function<void()> m_DeActivateCallBack;
+	bool m_bIsActivate;
 
 public:
 	virtual void Awake() override{}
@@ -25,6 +26,7 @@ public:
 	}
 
 	virtual void Interaction(bool _bActive) {}
+	bool IsActive() { return m_bIsActivate; }
 
 public:
 	CLONE(CInteractiveObj_bu);

@@ -8,6 +8,8 @@ CColliderTestScript
 CCommandModuleScript_ca
 CCursorScript
 CCursor_bu
+CDoor_bu
+CElevator_bu
 CEnemyController_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh

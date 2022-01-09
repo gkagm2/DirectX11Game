@@ -4,7 +4,7 @@ class CEnemyScript_sh : public CScript
 {
 private:
 	float m_fHp;
-	float m_fMoveSpeed;
+	float m_fDoorMoveTime;
 	float m_fBulletSpeed;
 
 	float fAngle;

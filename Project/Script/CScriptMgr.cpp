@@ -11,6 +11,8 @@
 #include "CCommandModuleScript_ca.h"
 #include "CCursorScript.h"
 #include "CCursor_bu.h"
+#include "CDoor_bu.h"
+#include "CElevator_bu.h"
 #include "CEnemyController_bu.h"
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
@@ -57,6 +59,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CCursor_bu");
+	_vec.push_back(L"CDoor_bu");
+	_vec.push_back(L"CElevator_bu");
 	_vec.push_back(L"CEnemyController_bu");
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
@@ -114,6 +118,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCursorScript;
 	if (L"CCursor_bu" == _strScriptName)
 		return new CCursor_bu;
+	if (L"CDoor_bu" == _strScriptName)
+		return new CDoor_bu;
+	if (L"CElevator_bu" == _strScriptName)
+		return new CElevator_bu;
 	if (L"CEnemyController_bu" == _strScriptName)
 		return new CEnemyController_bu;
 	if (L"CEnemyRespawnerScript_sh" == _strScriptName)
@@ -216,6 +224,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CURSOR_BU:
 		return new CCursor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::DOOR_BU:
+		return new CDoor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ELEVATOR_BU:
+		return new CElevator_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::ENEMYCONTROLLER_BU:
 		return new CEnemyController_bu;
@@ -362,6 +376,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CURSOR_BU:
 		return L"CCursor_bu";
+		break;
+
+	case SCRIPT_TYPE::DOOR_BU:
+		return L"CDoor_bu";
+		break;
+
+	case SCRIPT_TYPE::ELEVATOR_BU:
+		return L"CElevator_bu";
 		break;
 
 	case SCRIPT_TYPE::ENEMYCONTROLLER_BU:

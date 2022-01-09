@@ -610,7 +610,7 @@ void Animator2DEditorGUI::_CanvasSliceMode()
 		vAtlasSize = m_pLoadedAtlasTexture->GetResolution();
 	ImVec2 vAtlasSizeInCanvas = ImVec2(vAtlasSize.x * fCanvasScale, vAtlasSize.y * fCanvasScale);
 
-	static int grids[2] = { 1.f,1.f };
+	static int grids[2] = { 1,1 };
 
 	ImVec2 vImageSize = ImVec2(vAtlasSize.x, vAtlasSize.y);
 

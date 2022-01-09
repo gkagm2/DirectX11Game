@@ -2,6 +2,7 @@
 #include "CPlayerController_bu.h"
 #include "CBullet_bu.h"
 #include <Engine\CCore.h>
+#include "CInteractiveObj_bu.h"
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
@@ -53,6 +54,21 @@ void CPlayerController_bu::Update()
 		if (m_fShotTime >= m_fMaxShotTime) {
 			Attack();
 			m_fShotTime = 0.f;
+		}
+	}
+}
+
+void CPlayerController_bu::OnCollisionStay2D(CCollider2D* pCol)
+{
+	CGameObject* pObj = pCol->GetGameObject();
+	CInteractiveObj_bu* pInteractive = pObj->GetComponent< CInteractiveObj_bu>();
+
+	// 상호작용하는 오브젝트면
+	if (pInteractive) {
+		// Space bar를 누르면 오브젝트 작동함.
+		if (InputKeyPress(E_Key::SPACE)) {
+			bool bActive = pInteractive->IsActive();
+			pInteractive->Interaction(!bActive);
 		}
 	}
 }

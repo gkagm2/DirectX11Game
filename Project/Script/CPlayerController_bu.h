@@ -21,6 +21,8 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	virtual void OnCollisionStay2D(CCollider2D* pCol) override;
+
 public:
 	virtual void Interaction() override {}
 	virtual void Attack() override;

@@ -5,7 +5,7 @@ class CPlayerScript_sh : public CScript
 private:
 	float m_fHp;
 	float m_fBulletDamage;
-	float m_fMoveSpeed;
+	float m_fDoorMoveTime;
 
 	SharedPtr<CMaterial> m_pSharedMtrl;
 	SharedPtr<CMaterial> m_pCloneMtrl;
