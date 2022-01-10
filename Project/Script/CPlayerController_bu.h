@@ -15,7 +15,6 @@ private:
 	CGameObject* m_pMuzzleObj;
 	CGameObject* m_pGunRotationPosObj;
 
-
 public:
 	virtual void Awake() override;
 	virtual void Start() override;

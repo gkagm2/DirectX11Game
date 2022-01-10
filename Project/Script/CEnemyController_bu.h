@@ -28,6 +28,8 @@ private:
 
 	CPathFind2D* m_pPathFind;
 
+	float m_fTargetFindTime;
+
 public:
 	virtual void Awake() override;
 	virtual void Start() override;

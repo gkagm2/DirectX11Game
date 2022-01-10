@@ -1,5 +1,7 @@
 #pragma once
 #include <Engine\CScript.h>
+#include "CWeapon_bu.h"
+class CWeapon_bu;
 
 class CCharacter_bu : public CScript
 {
@@ -13,6 +15,16 @@ protected:
 	float m_fHp;
 	float m_fArmor;
 
+	int m_iMaxBullet;
+	int m_iMagaginBullet;
+
+	CGameObject* m_pChainSawObj;
+	CGameObject* m_pGunImageObj;
+	CWeapon_bu* m_pWeapon;
+
+public:
+	virtual void Awake() override;
+
 public:
 	virtual void Interaction() {}
 	virtual void Attack() {}
@@ -22,6 +34,7 @@ public:
 	virtual void DamagedMe(float _fDamage);
 
 	virtual void OnDead(); // Á×À½ ½ÃÀÛ
+	void ChangeWeapon(E_WeaponType_bu _eType);
 
 public:
 	float GetHp() { return m_fHp; }

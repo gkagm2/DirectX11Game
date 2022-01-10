@@ -55,7 +55,7 @@ public:
 
 public:
 	UINT GetLayer() { return m_iLayer; }
-	void SetTag(UINT _iTag) { m_iTag = _iTag; }
+	void SetTag(UINT _iTag, bool _bChangeChilds = false);
 	UINT GetTag() { return m_iTag; }
 	bool IsDead() { return m_bDead; }
 
@@ -65,6 +65,7 @@ public:
 	CGameObject* GetParentObject() { return m_pParentObj; }
 	vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 	CGameObject* FindGameObjectInChilds(const tstring& _strObjName);
+	CGameObject* FindGameObjectSameLine(const tstring& _strObjName);
 
 	template<typename TYPE>
 	CGameObject* FindGameObjectInChilds();

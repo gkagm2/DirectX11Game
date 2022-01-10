@@ -22,7 +22,7 @@ CSwitch_bu::CSwitch_bu(const CSwitch_bu& _origin) :
 	CInteractiveObj_bu((UINT)SCRIPT_TYPE::SWITCH_BU),
 	m_pAnim(nullptr),
 	m_bSwitchState(_origin.m_bSwitchState),
-	m_pTargetObj(_origin.m_pTargetObj),
+	m_pTargetObj(nullptr),
 	m_iOffIdx(_origin.m_iOffIdx),
 	m_iOnIdx(_origin.m_iOnIdx)
 {
@@ -42,6 +42,7 @@ void CSwitch_bu::Awake()
 	assert(Animator2D());
 	m_pAnim = Animator2D();
 	int iCurFrame = m_pAnim->GetCurAnimation()->GetCurFrameIdx();
+	assert(m_pTargetObj);
 }
 
 void CSwitch_bu::Start()
@@ -65,9 +66,10 @@ void CSwitch_bu::Interaction(bool _bActive)
 			m_DeActivateCallBack();
 		m_pAnim->SetCurAnimationFrame(m_iOffIdx);
 	}
-
-	CInteractiveObj_bu* pInter = m_pTargetObj->GetComponent<CInteractiveObj_bu>();
-	pInter->Interaction(_bActive);
+	if (m_pTargetObj) {
+		CInteractiveObj_bu* pInter = m_pTargetObj->GetComponent<CInteractiveObj_bu>();
+		pInter->Interaction(_bActive);
+	}
 
 	m_bIsActivate = _bActive;
 	m_bSwitchState = _bActive;

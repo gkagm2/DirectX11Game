@@ -219,6 +219,16 @@ void CGameObject::RegisterAsPrefab(const tstring& _strName)
 	pPrefab->Save(strRelativePath);
 }
 
+void CGameObject::SetTag(UINT _iTag, bool _bChangeChilds)
+{
+	m_iTag = _iTag;
+	if (_bChangeChilds) {
+		vector<CGameObject*>& pChilds = GetChildsObject();
+		for (size_t i = 0; i < pChilds.size(); ++i)
+			pChilds[i]->SetTag(_iTag, _bChangeChilds);
+	}
+}
+
 void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
 {
 	m_bActive = _bActive;
@@ -326,6 +336,27 @@ void CGameObject::_RegisterLayer()
 {
 	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_iLayer);
 	pLayer->RegisterGameObject(this);
+}
+
+CGameObject* CGameObject::FindGameObjectSameLine(const tstring& _strObjName)
+{
+	CGameObject* pParent = GetParentObject();
+	if (pParent) {
+		vector<CGameObject*>& childs = pParent->GetChildsObject();
+		for (size_t i = 0; i < childs.size(); ++i) {
+			if (childs[i]->GetName() == _strObjName)
+				return childs[i];
+		}
+	}
+	else {
+		vector<CGameObject*> rootObjs;
+		CSceneManager::GetInstance()->GetCurScene()->GetRootGameObjects(rootObjs);
+		for (size_t i = 0; i < rootObjs.size(); ++i) {
+			if (rootObjs[i]->GetName() == _strObjName)
+				return rootObjs[i];
+		}
+	}
+	return nullptr;
 }
 
 void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)

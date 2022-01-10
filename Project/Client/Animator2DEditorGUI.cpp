@@ -530,9 +530,9 @@ void Animator2DEditorGUI::_FixedAnimationPanel()
 	TStringToString(pCurAnim->GetName(), strAnimName);
 	ImGui::Text("cur animation name : %s", strAnimName.c_str());
 
-	static char szName[255] = {};
+	/*static char szName[255] = {};
 	ImGui::Text("Change animation name");
-	ImGui::InputText("name##animationFixedName", szName, 255);
+	ImGui::InputText("name##animationFixedName", szName, 255);*/
 
 
 	// frame count

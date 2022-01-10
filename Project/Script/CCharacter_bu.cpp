@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CCharacter_bu.h"
+#include "CWeapon_bu.h"
 
 CCharacter_bu::CCharacter_bu() :
 	CScript((UINT)SCRIPT_TYPE::CHARACTER_BU),
@@ -7,7 +8,9 @@ CCharacter_bu::CCharacter_bu() :
 	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
 	m_fHp{},
-	m_fArmor{}
+	m_fArmor{},
+	m_pChainSawObj{ nullptr },
+	m_pGunImageObj{ nullptr }
 
 {
 }
@@ -18,12 +21,21 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
 	m_fHp{},
-	m_fArmor{}
+	m_fArmor{},
+	m_pChainSawObj{ nullptr },
+	m_pGunImageObj{ nullptr }
 {
 }
 
 CCharacter_bu::~CCharacter_bu()
 {
+}
+
+void CCharacter_bu::Awake()
+{
+
+	m_pWeapon = GetGameObject()->GetComponent<CWeapon_bu>();	
+	assert(m_pWeapon);
 }
 
 void CCharacter_bu::DamagedMe(float _fDamage)
@@ -44,4 +56,9 @@ void CCharacter_bu::DamagedMe(float _fDamage)
 void CCharacter_bu::OnDead()
 {
 	// Animation start
+}
+
+void CCharacter_bu::ChangeWeapon(E_WeaponType_bu _eType)
+{
+	m_pWeapon->ChangeWeapon(_eType);
 }

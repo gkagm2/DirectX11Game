@@ -20,6 +20,7 @@ CPlayerController_bu::~CPlayerController_bu()
 
 void CPlayerController_bu::Awake()
 {
+	CCharacter_bu::Awake();
 	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
 	assert(m_pMuzzleObj);
 	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
@@ -55,6 +56,13 @@ void CPlayerController_bu::Update()
 			Attack();
 			m_fShotTime = 0.f;
 		}
+	}
+
+	// number pad 1번부터 시작해서 총 갈기
+	for (int i = 0; i < (UINT)E_WeaponType_bu::End; ++i) {
+		UINT iNum = (UINT)E_Key::NUM1 + i;
+		if (InputKeyPress((E_Key)iNum))
+			ChangeWeapon((E_WeaponType_bu)i);
 	}
 }
 

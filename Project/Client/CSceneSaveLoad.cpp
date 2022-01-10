@@ -149,14 +149,21 @@ bool CSceneSaveLoad::SaveScript(CScript* _pScript, FILE* _pFile)
 
 CScript* CSceneSaveLoad::LoadScript(FILE* _pFile)
 {
-	tstring strScriptName;
-	LoadStringFromFile(strScriptName, _pFile);
+	try {
+		tstring strScriptName;
+		LoadStringFromFile(strScriptName, _pFile);
+	
+		CScript* pScript = CScriptMgr::GetScript(strScriptName);
+		if (nullptr == pScript)
+			return nullptr;
+		pScript->LoadFromScene(_pFile);
 
-	CScript* pScript = CScriptMgr::GetScript(strScriptName);
-	if (nullptr == pScript)
+		return pScript;
+	}
+	catch (std::exception e) {
+		int i = 0;
 		return nullptr;
-	pScript->LoadFromScene(_pFile);
-	return pScript;
+	}
 }
 
 bool CSceneSaveLoad::TestSave()

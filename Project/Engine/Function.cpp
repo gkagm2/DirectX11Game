@@ -10,6 +10,7 @@ void SaveStringToFile(const tstring& _str, FILE* _pFile)
 
 void LoadStringFromFile(tstring& _str, FILE* _pFile)
 {
+	
 	TCHAR szBuffer[1024] = {};
 	size_t iLen = 0;
 	fread(&iLen, sizeof(size_t), 1, _pFile);

@@ -9,14 +9,17 @@ public:
 	};
 private:
 	float m_fMoveTime;
-	bool m_bMove;
+	bool m_bDirFlag;
 	float m_fSpeed;
 
+	CGameObject* m_pStartPosObj;
+	CGameObject* m_pEndPosObj;
 	Vector3 m_vStartPos;
 	Vector3 m_vEndPos;
 	E_ElevationType m_eType;
 
 public:
+	virtual void Awake() override;
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void Interaction(bool _bActive) override;
@@ -24,6 +27,9 @@ public:
 public:
 	void Move();
 	void Stop();
+
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
 	CLONE(CElevator_bu);

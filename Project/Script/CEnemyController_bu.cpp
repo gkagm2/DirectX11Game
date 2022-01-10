@@ -8,7 +8,8 @@ CEnemyController_bu::CEnemyController_bu() :
 	m_pTargetObj(nullptr),
 	m_eAIState(E_AIState_bu::Idle),
 	m_pMuzzleObj(nullptr),
-	m_pGunRotationPosObj(nullptr)
+	m_pGunRotationPosObj(nullptr),
+	m_fTargetFindTime(0.f)
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
@@ -39,14 +40,12 @@ CEnemyController_bu::~CEnemyController_bu()
 
 void CEnemyController_bu::Awake()
 {
+	CCharacter_bu::Awake();
 	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
 	assert(m_pMuzzleObj);
 	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
 	assert(m_pGunRotationPosObj);
 	assert(Rigidbody2D());
-
-	m_pTargetObj = FIND_GameObject(_T("Player"));
-	assert(m_pTargetObj);
 }
 
 void CEnemyController_bu::Start()
@@ -56,6 +55,14 @@ void CEnemyController_bu::Start()
 
 void CEnemyController_bu::Update()
 {
+	if (!m_pTargetObj) {
+		m_fTargetFindTime += DT;
+		if (m_fTargetFindTime > 2.f) {
+			m_pTargetObj = FIND_GameObject(_T("Player"));
+			m_fTargetFindTime = 0.f;
+		}
+	}
+	
 	AIUpdate();
 }
 

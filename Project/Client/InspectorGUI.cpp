@@ -244,12 +244,9 @@ void InspectorGUI::UpdateObjectGUI()
 	
 	iSetLayer = CMyMath::Clamp(iSetLayer, 0, MAX_SIZE_LAYER - 1);
 	if (ImGui::Button("Sel##LayerSelect")) {
-		if ((int)m_pTargetObject->GetLayer() != iSetLayer) {
-			// 레이어를 바꾼다.
-			// 자신부터 자식까지 모두 바꾸기
-			CObject::ChangeLayerEvn(m_pTargetObject, iSetLayer);
-		}
-		iSetLayer = 0;
+		// 레이어를 바꾼다.
+		// 자신부터 자식까지 모두 바꾸기
+		CObject::ChangeLayerEvn(m_pTargetObject, iSetLayer);
 	}
 	ImGui::Separator();
 
@@ -273,11 +270,16 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::SameLine();
 	
 	iSetTag = CMyMath::Clamp(iSetTag, 0, max(0, (int)E_Tag::End - 1));
+
+	static bool bWithChild = false;
 	if (ImGui::Button("Sel##TagSelect")) {
-		if ((int)m_pTargetObject->GetTag() != iSetTag)
-			m_pTargetObject->SetTag((UINT)iSetTag);
-		iSetTag = 0;
+		m_pTargetObject->SetTag((UINT)iSetTag, bWithChild);
 	}
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	ImGui::Checkbox("with child##SelTag", &bWithChild);
+	ImGui::PopID();
+		
+
 
 	// FIXED(Jang) : 테스트용
 	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());

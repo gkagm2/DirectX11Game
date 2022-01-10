@@ -44,8 +44,10 @@ void Animator2DGUI::Update()
 	ImGui::Text("State : %s", strAnimState.c_str());
 
 	// 콤보로 표현하기
-	static int iCurItem = (int)eAnimationState;
+	int iCurItem = (int)eAnimationState;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	ImGui::Combo("Animation State", &iCurItem, m_strList.data(), (int)m_strList.size());
+	ImGui::PopID();
 	eAnimationState = (E_AnimationState)iCurItem;
 
 	pAnimator2D->SetAnimationState(eAnimationState);

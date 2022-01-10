@@ -24,6 +24,8 @@ void CLookAt2DScript::Update()
 	if (!m_pTargetObj->Transform()) return;
 
 	CCamera* pCurCam = CRenderManager::GetInstance()->GetMainCamera();
+	if (!pCurCam)
+		return;
 	if (E_ProjectionType::Orthographic == pCurCam->GetProjectionType()) {
 
 		Vector2 vmousepos = MousePosition;
