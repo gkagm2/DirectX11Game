@@ -10,6 +10,7 @@
 #include "CTransform.h"
 #include "CRectTransform.h"
 #include "CTextUI.h"
+#include "CMeshRenderer.h"
 
 
 
@@ -154,6 +155,7 @@ CGameObject* CObjectManager::Create2DRectGameObject(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdLight2DMtrl));
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();

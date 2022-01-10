@@ -6,7 +6,8 @@ class CPlayerController_bu : public CCharacter_bu
 {
 private:
 	CRigidbody2D* m_pRigid;
-	CAnimator2D* m_pAnim;
+	CAnimator2D* m_pLegAnim;
+	CAnimator2D* m_pTorsoAnimSprite;
 	SharedPtr<CPrefab> m_pBulletPref;
 
 	float m_fShotTime;
@@ -24,11 +25,25 @@ public:
 
 public:
 	virtual void Interaction() override {}
-	virtual void Attack() override;
-	virtual void Jump() override;
-	virtual void Move() override;
 
-	virtual void OnDead() override;
+
+	virtual void OnBehavior();
+
+	virtual void OnMoveStart() override;
+	virtual void OnMoveUpdate() override;
+	virtual void OnMoveEnd() override;
+
+	virtual void OnIdleStart() override;
+	virtual void OnIdleUpdate() override;
+	virtual void OnIdleEnd() override;
+
+	virtual void OnJumpStart() override;
+	virtual void OnJumpUpdate() override;
+	virtual void OnJumpEnd() override;
+
+	virtual void OnDeadStart() override;
+	virtual void OnDeadUpdate() override;
+	virtual void OnDeadEnd() override;
 
 public:
 	virtual bool SaveToScene(FILE* _pFile);

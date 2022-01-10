@@ -293,6 +293,7 @@ enum class E_Tag {
 	Object, // 3 Interaction Object
 	Item,	// 4플레이어가 먹을 수 있는 아이템
 	Wall,	// 5
+	DangerObj,//6 닿으면 위험한 오브젝트
 	End
 };
 

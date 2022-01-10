@@ -3,6 +3,20 @@
 #include "CWeapon_bu.h"
 class CWeapon_bu;
 
+
+enum class E_CharacterState {
+	Attack,
+	Idle,
+	Wander,
+	Dead,
+	Stun,
+	Runaway,
+	Follow,
+	Shoot,
+	Jump,
+	Move,
+};
+
 class CCharacter_bu : public CScript
 {
 protected:
@@ -15,22 +29,54 @@ protected:
 	float m_fHp;
 	float m_fArmor;
 
-	int m_iMaxBullet;
-	int m_iMagaginBullet;
-
 	CGameObject* m_pChainSawObj;
 	CGameObject* m_pGunImageObj;
 	CWeapon_bu* m_pWeapon;
+	E_CharacterState m_eCharacterState;
 
 public:
 	virtual void Awake() override;
 
 public:
+	std::function<void()> m_CurStateStartFunc;
+	std::function<void()> m_CurStateUpdateFunc;
+	std::function<void()> m_CurStateEndFunc;
+
 	virtual void Interaction() {}
-	virtual void Attack() {}
-	virtual void Jump() {}
-	virtual void Move() {}
-	
+
+	virtual void OnAttackStart() {}
+	virtual void OnAttackUpdate() {}
+	virtual void OnAttackEnd() {}
+	virtual void OnIdleStart() {}
+	virtual void OnIdleUpdate() {}
+	virtual void OnIdleEnd() {}
+	virtual void OnWanderStart() {}
+	virtual void OnWanderUpdate() {}
+	virtual void OnWanderEnd() {}
+	virtual void OnDeadStart() {}
+	virtual void OnDeadUpdate() {}
+	virtual void OnDeadEnd() {}
+	virtual void OnStunStart() {}
+	virtual void OnStunUpdate() {}
+	virtual void OnStunEnd() {}
+	virtual void OnRunawayStart() {}
+	virtual void OnRunawayUpdate() {}
+	virtual void OnRunawayEnd() {}
+	virtual void OnFollowStart() {}
+	virtual void OnFollowUpdate() {}
+	virtual void OnFollowEnd() {}
+	virtual void OnShootStart() {}
+	virtual void OnShootUpdate() {}
+	virtual void OnShootEnd() {}
+	virtual void OnJumpStart() {}
+	virtual void OnJumpUpdate() {}
+	virtual void OnJumpEnd() {}
+	virtual void OnMoveStart() {}
+	virtual void OnMoveUpdate() {}
+	virtual void OnMoveEnd() {}
+
+	void ChangeState(E_CharacterState _eState);
+
 	virtual void DamagedMe(float _fDamage);
 
 	virtual void OnDead(); // Á×À½ ½ÃÀÛ

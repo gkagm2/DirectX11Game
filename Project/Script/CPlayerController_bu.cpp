@@ -6,7 +6,8 @@
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
-	m_pAnim(nullptr),
+	m_pLegAnim(nullptr),
+	m_pTorsoAnimSprite(nullptr),
 	m_pBulletPref(nullptr),
 	m_fShotTime(0.3f),
 	m_fMaxShotTime(0.3f)
@@ -22,53 +23,42 @@ void CPlayerController_bu::Awake()
 {
 	CCharacter_bu::Awake();
 	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
-	assert(m_pMuzzleObj);
 	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
+	CGameObject* pLegsObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Legs);
+	CGameObject* pTorsoObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Torse);
+	assert(pLegsObj);
+	assert(pTorsoObj);
+	if(pLegsObj)
+		m_pLegAnim = pLegsObj->Animator2D();
+	if(pTorsoObj)
+		m_pTorsoAnimSprite = pTorsoObj->Animator2D();
+
+	assert(m_pMuzzleObj);
 	assert(m_pGunRotationPosObj);
+	assert(m_pLegAnim);
+	assert(m_pTorsoAnimSprite);
 }
 
 void CPlayerController_bu::Start()
 {
 	m_pRigid = GetGameObject()->GetComponent<CRigidbody2D>();
 	assert(m_pRigid); 
-	/*m_pAnim = GetGameObject()->GetComponent<CAnimator2D>();
-	assert(m_pAnim);*/
+
+	if (m_CurStateStartFunc)
+		m_CurStateStartFunc();
 }
 
 void CPlayerController_bu::Update()
 {
-	if (InputKeyHold(E_Key::A)) { // left
-		m_vCurMoveDir = Vector3(-1.f, 0.f, 0.f);
-		Move();
-	}
-	if (InputKeyHold(E_Key::D)) { // right
-		m_vCurMoveDir = Vector3(1.f, 0.f, 0.f);
-		Move();
-	}
-	
-	if (InputKeyHold(E_Key::W)) {
-		Jump();
-	}
-
-	m_fShotTime += DT;
-	if (InputKeyHold(E_Key::LBUTTON)) {
-		if (m_fShotTime >= m_fMaxShotTime) {
-			Attack();
-			m_fShotTime = 0.f;
-		}
-	}
-
-	// number pad 1번부터 시작해서 총 갈기
-	for (int i = 0; i < (UINT)E_WeaponType_bu::End; ++i) {
-		UINT iNum = (UINT)E_Key::NUM1 + i;
-		if (InputKeyPress((E_Key)iNum))
-			ChangeWeapon((E_WeaponType_bu)i);
-	}
+	OnBehavior();
+	if (m_CurStateUpdateFunc)
+		m_CurStateUpdateFunc();
 }
 
 void CPlayerController_bu::OnCollisionStay2D(CCollider2D* pCol)
 {
 	CGameObject* pObj = pCol->GetGameObject();
+	UINT iColTag = pObj->GetTag();
 	CInteractiveObj_bu* pInteractive = pObj->GetComponent< CInteractiveObj_bu>();
 
 	// 상호작용하는 오브젝트면
@@ -79,48 +69,183 @@ void CPlayerController_bu::OnCollisionStay2D(CCollider2D* pCol)
 			pInteractive->Interaction(!bActive);
 		}
 	}
+	//
+	//UINT iTag = (UINT)E_Tag::Bullet;
+	//if ((E_Tag)iTag == (E_Tag)iColTag) {
+	//	CBullet_bu* pBullet = pObj->GetComponent<CBullet_bu>();
+	//}
+
+	//iTag = (UINT)E_Tag::DangerObj;
+	//if ((E_Tag)iTag == (E_Tag)iColTag) {
+
+	//}
 }
 
-void CPlayerController_bu::Attack()
+void CPlayerController_bu::OnBehavior()
 {
+	bool isMove = false;
+	bool isJump = false;
+	bool isAttack = false; 
+
+	bool isWeaponSwap = false;
+	int iWeaponIdx = 0;
+
+	if (InputKeyHold(E_Key::A)) { // left
+		m_vCurMoveDir = Vector3(-1.f, 0.f, 0.f);
+		isMove = true;
+	}
+	if (InputKeyHold(E_Key::D)) { // right
+		m_vCurMoveDir = Vector3(1.f, 0.f, 0.f);
+		isMove = true;
+	}
+	if (InputKeyHold(E_Key::W)) {
+		isJump = true;
+	}
+
+	m_fShotTime += DT;
+	if (InputKeyHold(E_Key::LBUTTON)) {
+		if (m_fShotTime >= m_fMaxShotTime) {
+			isAttack = true;
+			m_fShotTime = 0.f;
+		}
+	}
+
+	// Weapon Swap
+	for (int i = 0; i < (UINT)E_WeaponType_bu::End; ++i) {
+		UINT iNum = (UINT)E_Key::NUM1 + i;
+		if (InputKeyPress((E_Key)iNum)) {
+			isWeaponSwap = true;
+			iWeaponIdx = i;
+		}
+	}
+	
+	if (isMove) {
+		Vector3 vMovePower = m_vCurMoveDir;
+		vMovePower *= m_fMovePower;
+		m_pRigid->AddForce(vMovePower);
+		ChangeState(E_CharacterState::Move);
+	}
+	else {
+		ChangeState(E_CharacterState::Idle);
+	}
+
+	if (isJump) {
+		Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
+		vJumpPower *= m_fJumpPower;
+		m_pRigid->AddForce(vJumpPower);
+		ChangeState(E_CharacterState::Jump);
+	}
+
+	if (isAttack) {
 #ifdef _BUTCHER_GAME
-	UINT iLayer = (UINT)E_Layer::Object;
+		UINT iLayer = (UINT)E_Layer::Object;
 #elif
-	UINT iLayer = 1;
+		UINT iLayer = 1;
 #endif
-	CGameObject* pBulletObj = m_pBulletPref->Instantiate();
-	CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
+		CGameObject* pBulletObj = m_pBulletPref->Instantiate();
+		CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
 
-	Vector3 vMuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
-	Vector3 vShootDir = m_pGunRotationPosObj->Transform()->GetRightVector();
-	Vector3 vRot = m_pGunRotationPosObj->Transform()->GetRotation();
+		Vector3 vMuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
+		Vector3 vShootDir = m_pGunRotationPosObj->Transform()->GetRightVector();
+		Vector3 vRot = m_pGunRotationPosObj->Transform()->GetRotation();
 
-	pBul->Transform()->SetLocalPosition(vMuzzlePos);
-	pBul->SetShootDir(vShootDir);
-	pBul->Transform()->SetLocalRotation(vRot);
+		pBul->Transform()->SetLocalPosition(vMuzzlePos);
+		pBul->SetShootDir(vShootDir);
+		pBul->Transform()->SetLocalRotation(vRot);
 
-	CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+		CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+	}
+
+	if (isWeaponSwap)
+		ChangeWeapon((E_WeaponType_bu)iWeaponIdx);
+
+
+	// 각도에 따라서 상체 애니메이션을 다르게 한다.
+	CAnimation2D* pAnim = m_pTorsoAnimSprite->GetCurAnimation();
+	if (pAnim) {
+		UINT iSize = pAnim->GetAnimationFrame().size();
+		// Rotation angle을 본다.
+		float fDegree = m_pGunRotationPosObj->Transform()->GetRotationDegree().z;
+		int idx = 0;
+		float fDegr = 180.f / iSize;
+		if (fDegree >= 0 && fDegree <= 90.f) {
+			float degree = 90.f - fDegree;
+			idx = (int)(degree / fDegr);
+
+		}
+		else if (fDegree > 90.f) {
+			fDegree -= 90.f;
+			float degree = fDegree;
+			idx = (int)(degree / fDegr);
+		}
+		else if (fDegree < 0 && fDegree >= -90) {
+			fDegree = fabsf(fDegree);
+			float degree = fDegree;
+			idx = (int)(degree / fDegr);
+			idx = (int)(iSize * 0.5f) + idx;
+		}
+		else {
+			fDegree = fabsf(fDegree);
+			float degree = 180.f - fDegree;
+			idx = (int)(degree / fDegr);
+			idx = (int)(iSize * 0.5f) + idx;
+		}
+		idx = CMyMath::Clamp(idx, 0, max(0, (int(iSize) - 1)));
+		m_pTorsoAnimSprite->SetCurAnimationFrame(idx);
+	}
 }
 
-void CPlayerController_bu::Jump()
+void CPlayerController_bu::OnMoveStart()
 {
-	Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
-	vJumpPower *= m_fJumpPower;
-	m_pRigid->AddForce(vJumpPower);
+	// Animation 추가
+	m_pLegAnim->Play(_T("Player_Walk_bu"), E_AnimationState::Loop);
 }
 
-void CPlayerController_bu::Move()
+void CPlayerController_bu::OnMoveUpdate()
 {
-	Vector3 vMovePower = m_vCurMoveDir;
-	vMovePower *= m_fMovePower;
-	m_pRigid->AddForce(vMovePower);
 }
 
-
-void CPlayerController_bu::OnDead()
+void CPlayerController_bu::OnMoveEnd()
 {
-	// Dead Animation Start
-	//m_pAnim->Play(BUTCHER_Anim_Player_Dead, E_AnimationState::Once);
+}
+
+void CPlayerController_bu::OnIdleStart()
+{
+	m_pLegAnim->Play(_T("Player_Idle_bu"), E_AnimationState::Loop);
+}
+
+void CPlayerController_bu::OnIdleUpdate()
+{
+}
+
+void CPlayerController_bu::OnIdleEnd()
+{
+}
+
+void CPlayerController_bu::OnJumpStart()
+{
+	m_pLegAnim->Play(_T("Player_Jump_bu"), E_AnimationState::Loop);
+}
+
+void CPlayerController_bu::OnJumpUpdate()
+{
+	
+}
+
+void CPlayerController_bu::OnJumpEnd()
+{
+}
+
+void CPlayerController_bu::OnDeadStart()
+{
+}
+
+void CPlayerController_bu::OnDeadUpdate()
+{
+}
+
+void CPlayerController_bu::OnDeadEnd()
+{
 }
 
 bool CPlayerController_bu::SaveToScene(FILE* _pFile)

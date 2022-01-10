@@ -38,6 +38,76 @@ void CCharacter_bu::Awake()
 	assert(m_pWeapon);
 }
 
+void CCharacter_bu::ChangeState(E_CharacterState _eState)
+{
+	if (m_CurStateEndFunc)
+		m_CurStateEndFunc();
+	m_eCharacterState = _eState;
+	
+	switch(_eState){
+	case E_CharacterState::Attack:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnAttackUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnAttackStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnAttackEnd, this);
+		break;
+	case E_CharacterState::Idle:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnIdleUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnIdleStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnIdleEnd, this);
+
+		break;
+	case E_CharacterState::Wander:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnWanderUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnWanderStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnWanderEnd, this);
+
+		break;
+	case E_CharacterState::Dead:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnDeadUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnDeadStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnDeadEnd, this);
+
+		break;
+	case E_CharacterState::Stun:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnStunUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnStunStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnStunEnd, this);
+
+		break;
+	case E_CharacterState::Runaway:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnRunawayUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnRunawayStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnRunawayEnd, this);
+
+		break;
+	case E_CharacterState::Follow:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnFollowUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnFollowStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnFollowEnd, this);
+		break;
+	case E_CharacterState::Shoot:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnShootUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnShootStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnShootEnd, this);
+		break;
+	case E_CharacterState::Jump:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnJumpUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnJumpStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnJumpEnd, this);
+		break;
+	case E_CharacterState::Move:
+		m_CurStateUpdateFunc = std::bind(&CCharacter_bu::OnMoveUpdate, this);
+		m_CurStateStartFunc = std::bind(&CCharacter_bu::OnMoveStart, this);
+		m_CurStateEndFunc = std::bind(&CCharacter_bu::OnMoveEnd, this);
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	if (m_CurStateStartFunc)
+		m_CurStateStartFunc();
+}
+
 void CCharacter_bu::DamagedMe(float _fDamage)
 {
 	// armor가 존재하면

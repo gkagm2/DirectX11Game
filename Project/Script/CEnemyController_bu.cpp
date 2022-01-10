@@ -13,20 +13,8 @@ CEnemyController_bu::CEnemyController_bu() :
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
-	m_pPathFind->SetColRow(500, 500);
+	m_pPathFind->SetColRow(100, 100);
 	// 장애물에 collider가 있는지 확인한다.
-	for (int y = 0; y < 500; ++y) {
-		for (int x = 0; x < 500; ++x) {
-			//Vector3 vWorldPos{ x ,y, 0 };
-			//모든 오브젝트들을 가져옴
-			//FIND_GameObject_Layer
-			//CCollisionManager::GetInstance()->IsCollision()
-		}
-	}
-	
-
-	//m_pPathFind->AddObstacleTile()
-
 }
 
 CEnemyController_bu::~CEnemyController_bu()
@@ -68,70 +56,70 @@ void CEnemyController_bu::Update()
 
 void CEnemyController_bu::AIStart()
 {
-	ChangeAIState(E_AIState_bu::Idle);
+	ChangeAIState(E_AIState_bu::Wander);
 }
 
 void CEnemyController_bu::AIUpdate()
 {
-	if(m_CurStateUpdateFunc)
-		m_CurStateUpdateFunc();
+	if(m_CurAIStateUpdateFunc)
+		m_CurAIStateUpdateFunc();
 }
 
 void CEnemyController_bu::AIEnd()
 {
-	if (m_CurStateEndFunc)
-		m_CurStateEndFunc();
+	if (m_CurAIStateEndFunc)
+		m_CurAIStateEndFunc();
 }
 
 void CEnemyController_bu::ChangeAIState(E_AIState_bu _eState)
 {
-	if(m_CurStateEndFunc)
-		m_CurStateEndFunc();
+	if(m_CurAIStateEndFunc)
+		m_CurAIStateEndFunc();
 	m_eAIState = _eState;
 	switch (m_eAIState) {
 	case E_AIState_bu::Idle: {
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::IdleStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::IdleStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::IdleStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::IdleStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::IdleStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::IdleStateEnd, this);
 	}
 		break;
 	case E_AIState_bu::Wander:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::WanderStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::WanderStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::WanderStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::WanderStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::WanderStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::WanderStateEnd, this);
 		break;
 	case E_AIState_bu::Dead:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::DeadStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::DeadStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::DeadStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::DeadStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::DeadStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::DeadStateEnd, this);
 		break;
 	case E_AIState_bu::Stun:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::StunStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::StunStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::StunStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::StunStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::StunStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::StunStateEnd, this);
 		break;
 	case E_AIState_bu::Runaway:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::RunawayStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::RunawayStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::RunawayStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::RunawayStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::RunawayStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::RunawayStateEnd, this);
 		break;
 	case E_AIState_bu::Follow:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::FollowStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::FollowStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::FollowStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::FollowStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::FollowStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::FollowStateEnd, this);
 		break;
 	case E_AIState_bu::Shoot:
-		m_CurStateInitFunc = std::bind(&CEnemyController_bu::ShootStateInit, this);
-		m_CurStateUpdateFunc = std::bind(&CEnemyController_bu::ShootStateUpdate, this);
-		m_CurStateEndFunc = std::bind(&CEnemyController_bu::ShootStateEnd, this);
+		m_CurAIStateInitFunc = std::bind(&CEnemyController_bu::ShootStateInit, this);
+		m_CurAIStateUpdateFunc = std::bind(&CEnemyController_bu::ShootStateUpdate, this);
+		m_CurAIStateEndFunc = std::bind(&CEnemyController_bu::ShootStateEnd, this);
 		break;
 	default:
 		assert(nullptr);
 		break;
 	}
 
-	if(m_CurStateInitFunc)
-		m_CurStateInitFunc();
+	if(m_CurAIStateInitFunc)
+		m_CurAIStateInitFunc();
 }
 
 
@@ -156,6 +144,8 @@ void CEnemyController_bu::WanderStateInit()
 
 void CEnemyController_bu::WanderStateUpdate()
 {
+	if (!m_pTargetObj)
+		return;
 	// path finding test
 	Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
 	Vector2 vTargetPos2 = Vector2(vTargetPos.x, vTargetPos.y);

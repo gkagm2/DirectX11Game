@@ -22,9 +22,9 @@ private:
 	CGameObject* m_pGunRotationPosObj;
 
 
-	std::function<void()> m_CurStateInitFunc;
-	std::function<void()> m_CurStateUpdateFunc;
-	std::function<void()> m_CurStateEndFunc;
+	std::function<void()> m_CurAIStateInitFunc;
+	std::function<void()> m_CurAIStateUpdateFunc;
+	std::function<void()> m_CurAIStateEndFunc;
 
 	CPathFind2D* m_pPathFind;
 
