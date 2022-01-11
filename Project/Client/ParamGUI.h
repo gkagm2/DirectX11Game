@@ -62,8 +62,10 @@ public:
 	static bool Render_Color(const string& _strName, UINT* _iColorInOut);
 	static bool Render_Color(const string& _strName, Vector4* _pOut);
 
+private:
 	static void Make_ComboBoxList(const vector<string>& _inStrList, vector<char>& _outStrList);
-	static bool Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& m_strList);
+public:
+	static bool Render_ComboBox(const string& _strName, int* _piCurItem, const vector<string>& m_strList);
 
 	static bool Render_ContextMenu(vector<TContextInfo>& _vecInfo, int* _iSelectNum_out);
 

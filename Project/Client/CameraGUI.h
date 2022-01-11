@@ -5,7 +5,7 @@ class LayerCheckGUI;
 class CameraGUI : public ComponentGUI
 {
 private:
-	vector<char> m_strList;
+	vector<string> m_strList;
 
 public:
 	virtual void Update() override;
@@ -13,7 +13,6 @@ public:
 private:
 	void _ShowPerspectiveUI();
 	void _ShowOrthographicUI();
-
 	void _InitComboBox();
 
 public:

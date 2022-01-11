@@ -58,10 +58,8 @@ void Animator2DGUI::Update()
 	GetTargetObject()->Animator2D()->GetAnimationNamesFromList(vectNames);
 	vector<string> vecNames_o;
 	TStringToStringVec(vectNames, vecNames_o);
-	vector<char> vecComboName;
-	ParamGUI::Make_ComboBoxList(vecNames_o, vecComboName);
 	int iCurAnimIdx = pAnimator2D->GetCurAnimationIdxFromNamesList(vectNames);
-	if (ParamGUI::Render_ComboBox("Animation List##animator2D", &iCurAnimIdx, vecComboName)) {
+	if (ParamGUI::Render_ComboBox("Animation List##animator2D", &iCurAnimIdx, vecNames_o)) {
 		tstring strAnimName{};
 		if (vectNames.size()) {
 			tstring strAnimName{};

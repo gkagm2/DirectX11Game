@@ -5,7 +5,7 @@ class CTransform;
 class ToolCameraGUI : public GUI
 {
 private:
-	vector<char> m_strList;
+	vector<string> m_strList;
 	CGameObject* m_pTargetObject;
 	ImGuiSliderFlags m_flags;
 public:

@@ -8,7 +8,7 @@
 ParticleSystemGUI::ParticleSystemGUI() :
 	ComponentGUI(E_ComponentType::ParticleSystem)
 {
-	_ResetShapeComboBoxStr(m_vecStrShape);
+	_ResetShapeComboBoxStr();
 }
 
 ParticleSystemGUI::~ParticleSystemGUI()
@@ -77,18 +77,13 @@ void ParticleSystemGUI::Update()
 	End();
 }
 
-void ParticleSystemGUI::_ResetShapeComboBoxStr(vector<char>& _vecStrShape_out)
+void ParticleSystemGUI::_ResetShapeComboBoxStr()
 {
-	_vecStrShape_out.clear();
-
 	vector<tstring> vectShape;
 	for (size_t i = 0; i < (size_t)E_ParticleShape::End; ++i)
 		vectShape.push_back(ParticleShapeToStr((E_ParticleShape)i));
 
-	vector <string> vecShape;
-	TStringToStringVec(vectShape, vecShape);
-
-	ParamGUI::Make_ComboBoxList(vecShape, _vecStrShape_out);
+	TStringToStringVec(vectShape, m_vecStrShape);
 }
 
 void ParticleSystemGUI::_SelectParticleTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)

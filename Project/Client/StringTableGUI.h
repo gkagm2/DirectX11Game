@@ -31,3 +31,4 @@
 
 // Butcher
 #define STR_GUI_WayPoint_bu "WayPoint_bu"
+#define STR_GUI_Spawning_bu "Spawning_bu"

@@ -17,11 +17,14 @@ private:
 	int m_arrFaceTileCnt[2];
 	int m_vAtlasTilePixelSize[2];
 
+	int m_iBrushSize;
+
 private:
 	int m_iSelectedTileIdx; // 선택한 타일의 인덱스
 
 private:
 	int m_iGridColor;
+	
 
 
 private:

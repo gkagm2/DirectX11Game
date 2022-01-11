@@ -135,13 +135,9 @@ void CameraGUI::_ShowOrthographicUI()
 void CameraGUI::_InitComboBox()
 {
 	// Combo Box의 리스트 생성
-	vector<string> vecList;
-	
 	string strState;
 	for (UINT i = 0; i < PROJECTION_TYPE_COUNT; ++i) {
 		TStringToString(CameraProjectionTypeToStr((E_ProjectionType)i), strState);
-		vecList.push_back(strState);
+		m_strList.push_back(strState);
 	}
-	
-	ParamGUI::Make_ComboBoxList(vecList, m_strList);
 }

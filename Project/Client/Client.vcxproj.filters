@@ -428,6 +428,9 @@
     <ClInclude Include="WayPointGUI_bu.h">
       <Filter>04. Contents\Butcher</Filter>
     </ClInclude>
+    <ClInclude Include="SpawningGUI_bu.h">
+      <Filter>04. Contents\Butcher</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -612,6 +615,9 @@
       <Filter>03. Tools\04. GUI\Animator2DEditor</Filter>
     </ClCompile>
     <ClCompile Include="WayPointGUI_bu.cpp">
+      <Filter>04. Contents\Butcher</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawningGUI_bu.cpp">
       <Filter>04. Contents\Butcher</Filter>
     </ClCompile>
   </ItemGroup>

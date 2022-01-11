@@ -120,10 +120,14 @@ void ScriptGUI::Update()
 		case E_ScriptParam::STRING_PRINT: {
 			ImGui::Text("%s", strParamName.c_str());
 			fHeight += ImGui::GetItemRectSize().y;
-			tstring* tstr = (tstring*)vecParams[i].pData;
-			string str{};
-			TStringToString(*tstr, str);
-			ImGui::Text("%s", str.c_str());
+			try {
+				tstring* tstr = (tstring*)vecParams[i].pData;
+				string str{};
+				TStringToString(*tstr, str);
+				ImGui::Text("%s", str.c_str());
+			}
+			catch (std::exception e) {
+			}
 			fHeight += ImGui::GetItemRectSize().y;
 		}
 			break;

@@ -282,11 +282,13 @@ void ParamGUI::Make_ComboBoxList(const vector<string>& _inStrList, vector<char>&
 	_outStrList.push_back('\0');
 }
 
-bool ParamGUI::Render_ComboBox(const string& _strName, int* _piCurItem, const vector<char>& _strList)
+bool ParamGUI::Render_ComboBox(const string& _strName, int* _piCurItem, const vector<string>& _strList)
 {
+	vector<char> strList;
+	Make_ComboBoxList(_strList, strList);
 	bool isFixed = false;
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
-	if (ImGui::Combo(_strName.c_str(), (&(*_piCurItem)), _strList.data(), (int)_strList.size()))
+	if (ImGui::Combo(_strName.c_str(), (&(*_piCurItem)), strList.data(), (int)strList.size()))
 		isFixed = true;
 	ImGui::PopID();
 	return isFixed;

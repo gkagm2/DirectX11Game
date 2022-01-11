@@ -19,6 +19,7 @@ TileMapEditorGUI::TileMapEditorGUI() :
 	m_pAtlasTileTex {nullptr},
 	m_arrFaceTileCnt{ 0,0 },
 	m_vAtlasTilePixelSize{ 0, 0},
+	m_iBrushSize(0),
 
 	m_iSelectedTileIdx(-1),
 
@@ -99,6 +100,9 @@ void TileMapEditorGUI::Update()
 
 		ImGui::Separator();
 
+		ImGui::Text("Brush Size : %d", m_iBrushSize + 1);
+		ImGui::DragInt("##TileMap Brush Size", &m_iBrushSize, 1.f, 0, 10);
+
 		// 아틀라스 텍스쳐 선택
 		// ListView선택.
 
@@ -178,9 +182,25 @@ void TileMapEditorGUI::Update()
 					int iClickX = (int)vOriginMousePos.x;
 					int iClickY = (int)vOriginMousePos.y;
 
-					int idx = iClickY * m_pTileMap->GetCol() + iClickX;
+					// Brush를 이용하여 그리기
+					int iMinX, iMinY, iMaxX, iMaxY;
+					iMinX = iClickX - m_iBrushSize;
+					iMaxX = iClickX + m_iBrushSize;
+					iMinY = iClickY - m_iBrushSize;
+					iMaxY = iClickY + m_iBrushSize;
+					iMinX = max(0, iMinX);
+					iMinY = max(0, iMinY);
+					iMaxX = min(m_pTileMap->GetCol() - 1, iMaxX);
+					iMaxY = min(m_pTileMap->GetRow() - 1, iMaxY);
 
-					vecTiles[idx].idx = m_iSelectedTileIdx;
+					for (int y = iMinY; y <= iMaxY; ++y) {
+						for (int x = iMinX; x <= iMaxX; ++x) {
+							int idx = y * m_pTileMap->GetCol() + x;
+							vecTiles[idx].idx = m_iSelectedTileIdx;
+						}
+					}
+					/*int idx = iClickY * m_pTileMap->GetCol() + iClickX;
+					vecTiles[idx].idx = m_iSelectedTileIdx;*/
 				}
 			}
 		}
