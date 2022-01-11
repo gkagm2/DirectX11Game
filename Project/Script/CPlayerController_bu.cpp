@@ -166,7 +166,7 @@ void CPlayerController_bu::OnBehavior()
 	// 각도에 따라서 상체 애니메이션을 다르게 한다.
 	CAnimation2D* pAnim = m_pTorsoAnimSprite->GetCurAnimation();
 	if (pAnim) {
-		UINT iSize = pAnim->GetAnimationFrame().size();
+		UINT iSize = (UINT)pAnim->GetAnimationFrame().size();
 		// Rotation angle을 본다.
 		float fDegree = m_pGunRotationPosObj->Transform()->GetRotationDegree().z;
 		int idx = 0;

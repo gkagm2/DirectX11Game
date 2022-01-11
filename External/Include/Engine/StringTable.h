@@ -202,5 +202,32 @@
 #define BUTCHER_ObjName_Flip _T("Flip")
 #define BUTCHER_ObjName_FlipGun _T("FlipGun")
 
+#define BUTCHER_ObjName_ItemAnim _T("ItemAnim")
+
 #define BUTCHER_ObjName_WayPoint_bu _T("WayPoint_bu")
 #define BUTCHER_ObjName_WayPointPos_bu _T("WayPointPos_bu")
+
+// Animation Name
+#define BUTCHER_AnimName_ItemArmor1 _T("Item_Pic_Armor1_bu")
+#define BUTCHER_AnimName_ItemArmor2 _T("Item_Pic_Armor2_bu")
+#define BUTCHER_AnimName_ItemArmor3 _T("Item_Pic_Armor3_bu")
+#define BUTCHER_AnimName_ItemArmor4 _T("Item_Pic_Armor4_bu")
+
+#define BUTCHER_AnimName_ItemHp1 _T("Item_Pic_Hp1_bu")
+#define BUTCHER_AnimName_ItemHp2 _T("Item_Pic_Hp2_bu")
+#define BUTCHER_AnimName_ItemHp3 _T("Item_Pic_Hp3_bu")
+#define BUTCHER_AnimName_ItemHp4 _T("Item_Pic_Hp4_bu")
+
+#define BUTCHER_AnimName_ItemWPShotgun _T("Item_Pic_Shotgun_bu")
+#define BUTCHER_AnimName_ItemWPFlameThrower _T("Item_Pic_FlameThrower_bu")
+#define BUTCHER_AnimName_ItemWPGrenadeLauncher _T("Item_Pickup_GrenadeLauncher_bu")
+#define BUTCHER_AnimName_ItemWPLaserGun _T("Item_Pic_LaserGun_bu")
+#define BUTCHER_AnimName_ItemWPMachineGun _T("Item_Pic_MachineGun_bu")
+#define BUTCHER_AnimName_ItemWPChainsaw _T("Item_Pic_Chainsaw_bu")
+
+#define BUTCHER_AnimName_ItemBulShotgun _T("Item_Pic_BulShotgun_bu")
+#define BUTCHER_AnimName_ItemBulFlameThrower _T("Item_Pic_BulFlameThrower_bu")
+#define BUTCHER_AnimName_ItemBulGrenadeLauncher _T("Item_Pickup_GrenadeLauncher_bu")
+#define BUTCHER_AnimName_ItemBulLaserGun _T("Item_Pic_BulLaserGun_bu")
+#define BUTCHER_AnimName_ItemBulChainsaw _T("Item_Pic_BulChainsaw_bu")
+#define BUTCHER_AnimName_ItemBulMachineGun _T("Item_Pic_BulMachineGun_bu")

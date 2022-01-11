@@ -21,6 +21,10 @@ CGirderScript_ca
 CGround_bu
 CInGamePanel_bu
 CInteractiveObj_bu
+CItemArmor_bu
+CItemBullet_bu
+CItemHp_bu
+CItemWeapon_bu
 CItem_bu
 CKeyControllerScript_ca
 CLaserScript_ca

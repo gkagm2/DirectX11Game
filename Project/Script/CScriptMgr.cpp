@@ -24,6 +24,10 @@
 #include "CGround_bu.h"
 #include "CInGamePanel_bu.h"
 #include "CInteractiveObj_bu.h"
+#include "CItemArmor_bu.h"
+#include "CItemBullet_bu.h"
+#include "CItemHp_bu.h"
+#include "CItemWeapon_bu.h"
 #include "CItem_bu.h"
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
@@ -72,6 +76,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGround_bu");
 	_vec.push_back(L"CInGamePanel_bu");
 	_vec.push_back(L"CInteractiveObj_bu");
+	_vec.push_back(L"CItemArmor_bu");
+	_vec.push_back(L"CItemBullet_bu");
+	_vec.push_back(L"CItemHp_bu");
+	_vec.push_back(L"CItemWeapon_bu");
 	_vec.push_back(L"CItem_bu");
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
@@ -144,6 +152,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CInGamePanel_bu;
 	if (L"CInteractiveObj_bu" == _strScriptName)
 		return new CInteractiveObj_bu;
+	if (L"CItemArmor_bu" == _strScriptName)
+		return new CItemArmor_bu;
+	if (L"CItemBullet_bu" == _strScriptName)
+		return new CItemBullet_bu;
+	if (L"CItemHp_bu" == _strScriptName)
+		return new CItemHp_bu;
+	if (L"CItemWeapon_bu" == _strScriptName)
+		return new CItemWeapon_bu;
 	if (L"CItem_bu" == _strScriptName)
 		return new CItem_bu;
 	if (L"CKeyControllerScript_ca" == _strScriptName)
@@ -263,6 +279,18 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::INTERACTIVEOBJ_BU:
 		return new CInteractiveObj_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ITEMARMOR_BU:
+		return new CItemArmor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ITEMBULLET_BU:
+		return new CItemBullet_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ITEMHP_BU:
+		return new CItemHp_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::ITEMWEAPON_BU:
+		return new CItemWeapon_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::ITEM_BU:
 		return new CItem_bu;
@@ -428,6 +456,22 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::INTERACTIVEOBJ_BU:
 		return L"CInteractiveObj_bu";
+		break;
+
+	case SCRIPT_TYPE::ITEMARMOR_BU:
+		return L"CItemArmor_bu";
+		break;
+
+	case SCRIPT_TYPE::ITEMBULLET_BU:
+		return L"CItemBullet_bu";
+		break;
+
+	case SCRIPT_TYPE::ITEMHP_BU:
+		return L"CItemHp_bu";
+		break;
+
+	case SCRIPT_TYPE::ITEMWEAPON_BU:
+		return L"CItemWeapon_bu";
 		break;
 
 	case SCRIPT_TYPE::ITEM_BU:

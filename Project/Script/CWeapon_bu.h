@@ -24,6 +24,7 @@ class CWeapon_bu : public CScript
 {
 private:
 	TWeaponInfo_bu m_tWeaponInfo[(UINT)E_WeaponType_bu::End];
+	bool m_arrWeaponUse[(UINT)E_WeaponType_bu::End];
 	E_WeaponType_bu m_eCurType;
 
 	CGameObject* m_pChainSawObj;
@@ -43,7 +44,7 @@ public:
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
 public:
-	void AddWeaponItem(E_WeaponType_bu _eType); // 아이템을 먹을경우 이 함수 실행
+	void AddWeaponBulletItem(E_WeaponType_bu _eType); // 아이템을 먹을경우 이 함수 실행
 	void ChangeWeapon(E_WeaponType_bu _eType);
 
 private:
@@ -56,6 +57,8 @@ public:
 
 	bool IsEnableFire() { return m_bIsEnableFire; }
 	void Fire();
+	void SetUseableWeapon(E_WeaponType_bu _eType, bool _bUse){ m_arrWeaponUse[(UINT)_eType] = _bUse; }
+	bool IsUseableWeapon(E_WeaponType_bu _eType) { return m_arrWeaponUse[(UINT)_eType]; }
 
 public:
 	CLONE(CWeapon_bu);

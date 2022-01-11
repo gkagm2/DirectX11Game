@@ -4,10 +4,31 @@
 
 CItem_bu::CItem_bu() :
 	CScript((UINT)SCRIPT_TYPE::ITEM_BU),
-	m_eItemType(E_ItemType_bu::Hp),
 	m_bIsLifeTimeOn(false),
 	m_fMaxLifeTime(10.f),
-	m_fLifeTime(0.f)
+	m_fLifeTime(0.f),
+	m_pItemAnimObj{ nullptr },
+	m_pItemAnim{ nullptr }
+{
+}
+
+CItem_bu::CItem_bu(UINT _iScriptType) :
+	CScript(_iScriptType),
+	m_bIsLifeTimeOn(false),
+	m_fMaxLifeTime(10.f),
+	m_fLifeTime(0.f),
+	m_pItemAnimObj{ nullptr },
+	m_pItemAnim{ nullptr }
+{
+}
+
+CItem_bu::CItem_bu(const CItem_bu& _origin) :
+	CScript((UINT)SCRIPT_TYPE::ITEM_BU),
+	m_bIsLifeTimeOn(_origin.m_bIsLifeTimeOn),
+	m_fMaxLifeTime(_origin.m_fMaxLifeTime),
+	m_fLifeTime(0.f),
+	m_pItemAnimObj{ nullptr },
+	m_pItemAnim{ nullptr }
 {
 }
 
@@ -15,8 +36,12 @@ CItem_bu::~CItem_bu()
 {
 }
 
-void CItem_bu::Start()
+void CItem_bu::Awake()
 {
+	m_pItemAnimObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ItemAnim);
+	assert(m_pItemAnimObj);
+	m_pItemAnim = m_pItemAnimObj->Animator2D();
+	assert(m_pItemAnim);
 }
 
 void CItem_bu::Update()
@@ -29,18 +54,6 @@ void CItem_bu::Update()
 	}
 }
 
-bool CItem_bu::SaveToScene(FILE* _pFile)
-{
-	FWrite(m_eItemType, _pFile);
-	return true;
-}
-
-bool CItem_bu::LoadFromScene(FILE* _pFile)
-{
-	FRead(m_eItemType, _pFile);
-	return true;
-}
-
 void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 #ifdef _BUTCHER_GAME
@@ -48,13 +61,20 @@ void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 #elif
 	UINT playerTag = 1;
 #endif
-
 	if (playerTag == _pOther->GetGameObject()->GetTag()) {
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 	}
 }
 
-void CItem_bu::GainItem()
+void CItem_bu::Interactive(CCharacter_bu* _pTargetCharacter)
 {
+	m_pTargetCharacter = _pTargetCharacter;
+	if (m_pItemFunc)
+		m_pItemFunc();
+}
 
+void CItem_bu::InitItem()
+{
+	if (m_pItemInitFunc)
+		m_pItemInitFunc();
 }

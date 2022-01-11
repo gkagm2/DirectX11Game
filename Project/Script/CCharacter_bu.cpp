@@ -7,8 +7,10 @@ CCharacter_bu::CCharacter_bu() :
 	m_fJumpPower{ 0.2f },
 	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
-	m_fHp{},
-	m_fArmor{},
+	m_fHp{100.f},
+	m_fMaxHp{ 100.f },
+	m_fArmor{100.f},
+	m_fMaxArmor{ 100.f },
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
 	m_pFlipObj{ nullptr },
@@ -22,8 +24,10 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_fJumpPower{ 0.2f },
 	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
-	m_fHp{},
-	m_fArmor{},
+	m_fHp{100.f},
+	m_fMaxHp{ 100.f },
+	m_fArmor{100.f},
+	m_fMaxArmor{ 100.f },
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
 	m_pFlipObj{nullptr},
@@ -137,5 +141,6 @@ void CCharacter_bu::OnDead()
 
 void CCharacter_bu::ChangeWeapon(E_WeaponType_bu _eType)
 {
-	m_pWeapon->ChangeWeapon(_eType);
+	if (m_pWeapon->IsUseableWeapon(_eType))
+		m_pWeapon->ChangeWeapon(_eType);
 }

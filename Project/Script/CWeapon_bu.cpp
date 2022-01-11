@@ -7,7 +7,8 @@ CWeapon_bu::CWeapon_bu() :
 	m_eCurType(E_WeaponType_bu::Chainsaw),
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
-	m_fReloadDelayTime{0.3f}
+	m_fReloadDelayTime{0.3f},
+	m_arrWeaponUse{}
 {
 	_InitWeaponInfo();
 }
@@ -20,8 +21,11 @@ CWeapon_bu::CWeapon_bu(const CWeapon_bu& _origin) :
 	m_pGunImageObj{ nullptr },
 	m_fFireTime{_origin.m_fFireTime},
 	m_fMaxFireTime{_origin.m_fMaxFireTime},
-	m_fReloadDelayTime{_origin.m_fReloadDelayTime}
+	m_fReloadDelayTime{_origin.m_fReloadDelayTime},
+	m_arrWeaponUse{}
 {
+	for (int i = 0; i < (int)E_WeaponType_bu::End; ++i)
+		m_arrWeaponUse[i] = _origin.m_arrWeaponUse[i];
 	_InitWeaponInfo();
 }
 
@@ -73,7 +77,7 @@ void CWeapon_bu::Fire()
 	}
 }
 
-void CWeapon_bu::AddWeaponItem(E_WeaponType_bu _eType)
+void CWeapon_bu::AddWeaponBulletItem(E_WeaponType_bu _eType)
 {
 	TWeaponInfo_bu& tWeapon = m_tWeaponInfo[(UINT)_eType];
 	int totalBullet = min(tWeapon.iMaxBullet, tWeapon.iCurBullet + tWeapon.iGetBulletCnt);

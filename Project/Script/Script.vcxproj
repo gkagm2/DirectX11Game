@@ -177,6 +177,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="CElevator_bu.h" />
     <ClInclude Include="CEnemyController_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
+    <ClInclude Include="CItemArmor_bu.h" />
+    <ClInclude Include="CItemBullet_bu.h" />
+    <ClInclude Include="CItemHp_bu.h" />
+    <ClInclude Include="CItemWeapon_bu.h" />
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
@@ -227,6 +231,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="CElevator_bu.cpp" />
     <ClCompile Include="CEnemyController_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
+    <ClCompile Include="CItemArmor_bu.cpp" />
+    <ClCompile Include="CItemBullet_bu.cpp" />
+    <ClCompile Include="CItemHp_bu.cpp" />
+    <ClCompile Include="CItemWeapon_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />

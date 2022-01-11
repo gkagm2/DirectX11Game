@@ -27,7 +27,9 @@ protected:
 	CGameObject* m_pMuzzlObj;
 
 	float m_fHp;
+	float m_fMaxHp;
 	float m_fArmor;
+	float m_fMaxArmor;
 
 	CGameObject* m_pChainSawObj;
 	CGameObject* m_pGunImageObj;
@@ -89,8 +91,11 @@ public:
 public:
 	float GetHp() { return m_fHp; }
 	float GetArmor() { return m_fArmor; }
-	float SetHp(float _fHp) { m_fHp = _fHp; }
-	float SetArmor(float _fArmor) { m_fArmor = _fArmor; }
+	float GetMaxHp() { return m_fMaxHp; }
+	float GetMaxArmor() { return m_fMaxArmor; }
+	void SetHp(float _fHp) { m_fHp = _fHp; }
+	void SetArmor(float _fArmor) { m_fArmor = _fArmor; }
+	
 
 public:
 	CLONE(CCharacter_bu);

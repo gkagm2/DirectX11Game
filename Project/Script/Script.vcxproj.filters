@@ -253,6 +253,18 @@
     <ClInclude Include="CElevator_bu.h">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClInclude>
+    <ClInclude Include="CItemHp_bu.h">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CItemArmor_bu.h">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CItemWeapon_bu.h">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CItemBullet_bu.h">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -396,6 +408,18 @@
     </ClCompile>
     <ClCompile Include="CElevator_bu.cpp">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemHp_bu.cpp">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemArmor_bu.cpp">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemBullet_bu.cpp">
+      <Filter>Games\Butcher\InGames\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemWeapon_bu.cpp">
+      <Filter>Games\Butcher\InGames\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
