@@ -14,6 +14,7 @@ private:
 	float m_fArmor;
 	E_ItemArmorType_bu m_eArmorType;
 
+	static tstring strDescription;
 private:
 	void ItemInitArmor();
 	void ItemArmor();

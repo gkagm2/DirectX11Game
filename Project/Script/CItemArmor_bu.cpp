@@ -2,6 +2,8 @@
 #include "CItemArmor_bu.h"
 #include "CCharacter_bu.h"
 
+tstring CItemArmor_bu::strDescription = _T("0 Lv1 Armor\n1 Lv2 Armor\n2 Lv3 Armor\n3 Lv4 Armor");
+
 CItemArmor_bu::CItemArmor_bu() :
 	CItem_bu((UINT)SCRIPT_TYPE::ITEMARMOR_BU),
 	m_fArmor(0.f),
@@ -10,7 +12,8 @@ CItemArmor_bu::CItemArmor_bu() :
 	AddParam(TScriptParam{ _T("Armor type"), E_ScriptParam::INT, &m_eArmorType });
 	int iType = CMyMath::Clamp((int)m_eArmorType, 0, (int)E_ItemArmorType_bu::End);
 	m_eArmorType = (E_ItemArmorType_bu)iType;
-	ItemInitArmor();
+	
+	AddParam(TScriptParam{ _T("Armor Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemArmor_bu::CItemArmor_bu(const CItemArmor_bu& _origin) :
@@ -21,7 +24,8 @@ CItemArmor_bu::CItemArmor_bu(const CItemArmor_bu& _origin) :
 	AddParam(TScriptParam{ _T("Armor type"), E_ScriptParam::INT, &m_eArmorType });
 	int iType = CMyMath::Clamp((int)m_eArmorType, 0, (int)E_ItemArmorType_bu::End);
 	m_eArmorType = (E_ItemArmorType_bu)iType;
-	ItemInitArmor();
+
+	AddParam(TScriptParam{ _T("Armor Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemArmor_bu::~CItemArmor_bu()

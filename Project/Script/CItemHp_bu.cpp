@@ -2,6 +2,8 @@
 #include "CItemHp_bu.h"
 #include "CCharacter_bu.h"
 
+tstring CItemHp_bu::strDescription = _T("0 Lv1 HP\n1 Lv2 HP\n2 Lv3 HP\n3 Lv4 HP");
+
 CItemHp_bu::CItemHp_bu() :
 	CItem_bu((UINT)SCRIPT_TYPE::ITEMHP_BU),
 	m_fHp(0.f),
@@ -10,7 +12,8 @@ CItemHp_bu::CItemHp_bu() :
 	AddParam(TScriptParam{ _T("HP type"), E_ScriptParam::INT, &m_eHpType });
 	int iType = CMyMath::Clamp((int)m_eHpType, 0, (int)E_ItemHpType_bu::End);
 	m_eHpType = (E_ItemHpType_bu)iType;
-	ItemInitHp();
+
+	AddParam(TScriptParam{ _T("HP Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemHp_bu::CItemHp_bu(const CItemHp_bu& _origin):
@@ -20,8 +23,9 @@ CItemHp_bu::CItemHp_bu(const CItemHp_bu& _origin):
 {
 	AddParam(TScriptParam{ _T("HP type"), E_ScriptParam::INT, &m_eHpType });
 	int iType = CMyMath::Clamp((int)m_eHpType, 0, (int)E_ItemHpType_bu::End);
-	m_eHpType = (E_ItemHpType_bu)iType;
-	ItemInitHp();
+	m_eHpType = (E_ItemHpType_bu)iType;	
+	
+	AddParam(TScriptParam{ _T("HP Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemHp_bu::~CItemHp_bu()

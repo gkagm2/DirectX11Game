@@ -3,7 +3,7 @@
 #include "CWeapon_bu.h"
 #include "CCharacter_bu.h"
 
-
+tstring CItemWeapon_bu::strDescription = _T("0 Chainsaw\n1 Shotgun\n2 MachineGun\n3 FlameThrower\n4 GranadeLauncher\n5 LaserGun");
 
 CItemWeapon_bu::CItemWeapon_bu() :
     CItem_bu((UINT)SCRIPT_TYPE::ITEMWEAPON_BU),
@@ -12,7 +12,8 @@ CItemWeapon_bu::CItemWeapon_bu() :
 	AddParam(TScriptParam{ _T("Weapon type"), E_ScriptParam::INT, &m_eWeaponType });
 	int iType = CMyMath::Clamp((int)m_eWeaponType, 0, (int)E_WeaponType_bu::End);
 	m_eWeaponType = (E_WeaponType_bu)iType;
-	ItemInitWeapon();
+
+	AddParam(TScriptParam{ _T("Weapon Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemWeapon_bu::CItemWeapon_bu(const CItemWeapon_bu& _origin) :
@@ -22,7 +23,8 @@ CItemWeapon_bu::CItemWeapon_bu(const CItemWeapon_bu& _origin) :
 	AddParam(TScriptParam{ _T("Weapon type"), E_ScriptParam::INT, &m_eWeaponType });
 	int iType = CMyMath::Clamp((int)m_eWeaponType, 0, (int)E_WeaponType_bu::End);
 	m_eWeaponType = (E_WeaponType_bu)iType;
-	ItemInitWeapon();
+
+	AddParam(TScriptParam{ _T("Weapon Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemWeapon_bu::~CItemWeapon_bu()
@@ -52,6 +54,7 @@ void CItemWeapon_bu::ItemInitWeapon()
 	else {
 		assert(nullptr);
 	}
+	m_strItemName = WeaponTypeToStr_bu(m_eWeaponType);
 }
 
 void CItemWeapon_bu::ItemWeapon()

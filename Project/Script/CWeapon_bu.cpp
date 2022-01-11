@@ -164,3 +164,32 @@ void CWeapon_bu::_InitWeaponInfo()
 		};
 	}
 }
+
+tstring WeaponTypeToStr_bu(E_WeaponType_bu _eType)
+{
+	tstring strName{};
+	switch (_eType) {
+	case E_WeaponType_bu::Chainsaw:
+		strName = _T("Chainsaw");
+		break;
+	case E_WeaponType_bu::FlameThrower:
+		strName = _T("FlameThrower");
+		break;
+	case E_WeaponType_bu::GrenadeLauncher:
+		strName = _T("GrenadeLauncher");
+		break;
+	case E_WeaponType_bu::LaserGun:
+		strName = _T("LaserGun");
+		break;
+	case E_WeaponType_bu::MachineGun:
+		strName = _T("MachineGun");
+		break;
+	case E_WeaponType_bu::Shotgun:
+		strName = _T("Shotgun");
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	return strName;
+}

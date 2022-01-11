@@ -3,6 +3,8 @@
 #include "CWeapon_bu.h"
 #include "CCharacter_bu.h"
 
+tstring CItemBullet_bu::strDescription = _T("1 Shotgun\n2 MachineGun\n3 FlameThrower\n4 GrenadeLauncher\n5 LaserGun");
+
 CItemBullet_bu::CItemBullet_bu() : 
 	CItem_bu((UINT)SCRIPT_TYPE::ITEMBULLET_BU),
 	m_eWeaponType(E_WeaponType_bu::Shotgun)
@@ -10,7 +12,8 @@ CItemBullet_bu::CItemBullet_bu() :
 	AddParam(TScriptParam{ _T("Bullet type"), E_ScriptParam::INT, &m_eWeaponType });
 	int iType = CMyMath::Clamp((int)m_eWeaponType, 0, (int)E_WeaponType_bu::End);
 	m_eWeaponType = (E_WeaponType_bu)iType;
-	ItemInitBullet();
+
+	AddParam(TScriptParam{ _T("Weapon Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemBullet_bu::CItemBullet_bu(const CItemBullet_bu& _origin) :
@@ -20,7 +23,8 @@ CItemBullet_bu::CItemBullet_bu(const CItemBullet_bu& _origin) :
 	AddParam(TScriptParam{ _T("Bullet type"), E_ScriptParam::INT, &m_eWeaponType });
 	int iType = CMyMath::Clamp((int)m_eWeaponType, 0, (int)E_WeaponType_bu::End);
 	m_eWeaponType = (E_WeaponType_bu)iType;
-	ItemInitBullet();
+
+	AddParam(TScriptParam{ _T("Weapon Description"), E_ScriptParam::STRING_PRINT, &strDescription });
 }
 
 CItemBullet_bu::~CItemBullet_bu()
@@ -42,9 +46,6 @@ void CItemBullet_bu::ItemInitBullet()
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemBulLaserGun);
 	}
 	else if (E_WeaponType_bu::MachineGun == m_eWeaponType) {
-		m_pItemAnim->Play(BUTCHER_AnimName_ItemBulChainsaw);
-	}
-	else if (E_WeaponType_bu::Chainsaw == m_eWeaponType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemBulMachineGun);
 	}
 	else {

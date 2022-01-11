@@ -33,6 +33,8 @@ protected:
 
 	CCharacter_bu* m_pTargetCharacter;
 
+	tstring m_strItemName;
+
 public:
 	virtual void Awake() override;
 	virtual void Update() override;

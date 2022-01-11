@@ -15,6 +15,8 @@ private:
 	float m_fHp;
 	E_ItemHpType_bu m_eHpType;
 
+	static tstring strDescription;
+
 private:
 	void ItemInitHp();
 	void ItemHp();

@@ -10,6 +10,7 @@ enum class E_WeaponType_bu {
 	LaserGun,
 	End
 };
+tstring WeaponTypeToStr_bu(E_WeaponType_bu _eType);
 
 struct TWeaponInfo_bu {
 	int iMaxBullet;

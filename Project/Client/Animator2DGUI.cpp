@@ -74,9 +74,11 @@ void Animator2DGUI::Update()
 
 
 	if (ImGui::Button("Delete Cur Animation##animtor2D")) {
-		if (vectNames.size()) {
-			tstring strAnimName = vectNames[iCurAnimIdx];
-			pAnimator2D->DeleteAnimation(strAnimName);
+		if (iCurAnimIdx >= 0) {
+			if (vectNames.size()) {
+				tstring strAnimName = vectNames[iCurAnimIdx];
+				pAnimator2D->DeleteAnimation(strAnimName);
+			}
 		}
 	}
 

@@ -5,6 +5,7 @@ class CItemWeapon_bu : public CItem_bu
 {
 private:
 	E_WeaponType_bu m_eWeaponType;
+	static tstring strDescription;
 
 private:
 	void ItemInitWeapon();
