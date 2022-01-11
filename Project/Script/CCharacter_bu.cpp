@@ -10,7 +10,9 @@ CCharacter_bu::CCharacter_bu() :
 	m_fHp{},
 	m_fArmor{},
 	m_pChainSawObj{ nullptr },
-	m_pGunImageObj{ nullptr }
+	m_pGunImageObj{ nullptr },
+	m_pFlipObj{ nullptr },
+	m_pFlipGunObj{ nullptr }
 
 {
 }
@@ -23,7 +25,9 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_fHp{},
 	m_fArmor{},
 	m_pChainSawObj{ nullptr },
-	m_pGunImageObj{ nullptr }
+	m_pGunImageObj{ nullptr },
+	m_pFlipObj{nullptr},
+	m_pFlipGunObj{ nullptr }
 {
 }
 
@@ -33,9 +37,12 @@ CCharacter_bu::~CCharacter_bu()
 
 void CCharacter_bu::Awake()
 {
-
 	m_pWeapon = GetGameObject()->GetComponent<CWeapon_bu>();	
 	assert(m_pWeapon);
+	m_pFlipObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Flip);
+	assert(m_pFlipObj);
+	m_pFlipGunObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_FlipGun);
+	assert(m_pFlipGunObj);
 }
 
 void CCharacter_bu::ChangeState(E_CharacterState _eState)

@@ -86,10 +86,17 @@ void CTransform::LookAt2D(const Vector2& m_vWorldPos)
 	vToTargetDir.Normalize();
 	float randian = atan2f(vToTargetDir.y, vToTargetDir.x);
 	Vector3 vParentRot {};
-	if (GetGameObject()->GetParentObject())
+	if (GetGameObject()->GetParentObject()) 
 		vParentRot = GetGameObject()->GetParentObject()->Transform()->GetRotation();
 	Vector3 vLocalRot = GetLocalRotation();
-	vLocalRot.z = randian - vParentRot.z;
+	float x = GetGameObject()->Transform()->GetScale().x;
+	if(x > 0)
+		
+		vLocalRot.z = randian - vParentRot.z;
+	else {
+		vLocalRot.z = (PI * 2.f - randian + vParentRot.z);
+	}
+	
 	SetLocalRotation(vLocalRot);
 }
 

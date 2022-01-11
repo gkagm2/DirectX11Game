@@ -199,6 +199,8 @@
 #define BUTCHER_ObjName_RotationPos _T("GunRotationPos")
 #define BUTCHER_ObjName_Legs _T("Legs")
 #define BUTCHER_ObjName_Torse _T("Torse")
+#define BUTCHER_ObjName_Flip _T("Flip")
+#define BUTCHER_ObjName_FlipGun _T("FlipGun")
 
 #define BUTCHER_ObjName_WayPoint_bu _T("WayPoint_bu")
 #define BUTCHER_ObjName_WayPointPos_bu _T("WayPointPos_bu")

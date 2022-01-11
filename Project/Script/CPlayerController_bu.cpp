@@ -193,6 +193,37 @@ void CPlayerController_bu::OnBehavior()
 		idx = CMyMath::Clamp(idx, 0, max(0, (int(iSize) - 1)));
 		m_pTorsoAnimSprite->SetCurAnimationFrame(idx);
 	}
+
+	// Flip
+	float fDegree = m_pGunRotationPosObj->Transform()->GetRotationDegree().z;
+	if (fDegree <= 90.f && fDegree >= -90.f)
+		m_bIsLookRight = true;
+	else
+		m_bIsLookRight = false;
+
+	Vector3 vScale = m_pFlipObj->Transform()->GetLocalScale();
+	vScale.x = m_bIsLookRight == true ? 1.f : -1.f;
+	m_pFlipObj->Transform()->SetLocalScale(vScale);
+
+	if (m_bIsLookRight) {
+		m_pFlipGunObj->Transform()->GetLocalScale();
+		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotation();
+		vRotGun.z = 0.f;
+		Vector3 vScale = m_pFlipGunObj->Transform()->GetLocalScale();
+		vScale.x = 1.f;
+		m_pFlipGunObj->Transform()->SetLocalRotation(vRotGun);
+		m_pFlipGunObj->Transform()->SetLocalScale(vScale); 
+		
+	}
+	else {
+		m_pFlipGunObj->Transform()->GetLocalScale();
+		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotation();
+		vRotGun.z = PI;
+		Vector3 vScale = m_pFlipGunObj->Transform()->GetLocalScale();
+		vScale.x = -1.f;
+		m_pFlipGunObj->Transform()->SetLocalRotation(vRotGun);
+		m_pFlipGunObj->Transform()->SetLocalScale(vScale);
+	}
 }
 
 void CPlayerController_bu::OnMoveStart()

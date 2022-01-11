@@ -33,6 +33,10 @@ protected:
 	CGameObject* m_pGunImageObj;
 	CWeapon_bu* m_pWeapon;
 	E_CharacterState m_eCharacterState;
+	bool m_bIsLookRight;
+
+	CGameObject* m_pFlipObj;
+	CGameObject* m_pFlipGunObj;
 
 public:
 	virtual void Awake() override;
