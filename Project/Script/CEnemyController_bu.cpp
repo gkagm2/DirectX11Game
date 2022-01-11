@@ -151,10 +151,12 @@ void CEnemyController_bu::WanderStateUpdate()
 	Vector2 vTargetPos2 = Vector2(vTargetPos.x, vTargetPos.y);
 	Vector3 vPos = Transform()->GetPosition();
 	Vector2 vPos2 = Vector2(vPos.x, vPos.y);
-
+	if (!m_pPathFind)
+		return;
 	static float ftime = 0.f;
 	static bool isFindPath = false;
 	ftime += DT;
+	
 	if (ftime > 0.2f) {
 		isFindPath = m_pPathFind->FindPath(vTargetPos2, vPos2);
 		ftime = 0.f;

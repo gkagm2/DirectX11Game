@@ -37,6 +37,7 @@
 #include "CManagerContainer_ca.h"
 #include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
+#include "CMouseLookAt_bu.h"
 #include "CObjectDragAndDropScript_ca.h"
 #include "CPlayerController_bu.h"
 #include "CPlayerScript_ca.h"
@@ -45,6 +46,7 @@
 #include "CRotateZScript.h"
 #include "CSparkParticle_bu.h"
 #include "CSwitch_bu.h"
+#include "CTargetLookAt_bu.h"
 #include "CTestLight2DScript.h"
 #include "CUIContainer_bu.h"
 #include "CUIManager_bu.h"
@@ -89,6 +91,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CManagerContainer_ca");
 	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
+	_vec.push_back(L"CMouseLookAt_bu");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
 	_vec.push_back(L"CPlayerController_bu");
 	_vec.push_back(L"CPlayerScript_ca");
@@ -97,6 +100,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSwitch_bu");
+	_vec.push_back(L"CTargetLookAt_bu");
 	_vec.push_back(L"CTestLight2DScript");
 	_vec.push_back(L"CUIContainer_bu");
 	_vec.push_back(L"CUIManager_bu");
@@ -178,6 +182,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CModuleCreator_ca;
 	if (L"CModuleScript_ca" == _strScriptName)
 		return new CModuleScript_ca;
+	if (L"CMouseLookAt_bu" == _strScriptName)
+		return new CMouseLookAt_bu;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
 	if (L"CPlayerController_bu" == _strScriptName)
@@ -194,6 +200,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSparkParticle_bu;
 	if (L"CSwitch_bu" == _strScriptName)
 		return new CSwitch_bu;
+	if (L"CTargetLookAt_bu" == _strScriptName)
+		return new CTargetLookAt_bu;
 	if (L"CTestLight2DScript" == _strScriptName)
 		return new CTestLight2DScript;
 	if (L"CUIContainer_bu" == _strScriptName)
@@ -319,6 +327,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::MODULESCRIPT_CA:
 		return new CModuleScript_ca;
 		break;
+	case (UINT)SCRIPT_TYPE::MOUSELOOKAT_BU:
+		return new CMouseLookAt_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
 		break;
@@ -342,6 +353,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SWITCH_BU:
 		return new CSwitch_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::TARGETLOOKAT_BU:
+		return new CTargetLookAt_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::TESTLIGHT2DSCRIPT:
 		return new CTestLight2DScript;
@@ -510,6 +524,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CModuleScript_ca";
 		break;
 
+	case SCRIPT_TYPE::MOUSELOOKAT_BU:
+		return L"CMouseLookAt_bu";
+		break;
+
 	case SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return L"CObjectDragAndDropScript_ca";
 		break;
@@ -540,6 +558,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SWITCH_BU:
 		return L"CSwitch_bu";
+		break;
+
+	case SCRIPT_TYPE::TARGETLOOKAT_BU:
+		return L"CTargetLookAt_bu";
 		break;
 
 	case SCRIPT_TYPE::TESTLIGHT2DSCRIPT:

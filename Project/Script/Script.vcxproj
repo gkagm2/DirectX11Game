@@ -182,6 +182,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CItemHp_bu.h" />
     <ClInclude Include="CItemWeapon_bu.h" />
     <ClInclude Include="CItem_bu.h" />
+    <ClInclude Include="CMouseLookAt_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
@@ -216,6 +217,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPostProcessingScript.h" />
     <ClInclude Include="CRotateZScript.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CTargetLookAt_bu.h" />
     <ClInclude Include="CTestLight2DScript.h" />
     <ClInclude Include="CUIManager_bu.h" />
     <ClInclude Include="CWayPoint_bu.h" />
@@ -236,6 +238,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CItemHp_bu.cpp" />
     <ClCompile Include="CItemWeapon_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
+    <ClCompile Include="CMouseLookAt_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />
@@ -270,6 +273,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPostProcessingScript.cpp" />
     <ClCompile Include="CRotateZScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CTargetLookAt_bu.cpp" />
     <ClCompile Include="CTestLight2DScript.cpp" />
     <ClCompile Include="CObjectDragAndDropScript_ca.cpp" />
     <ClCompile Include="CUIManager_bu.cpp" />

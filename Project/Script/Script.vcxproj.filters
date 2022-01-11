@@ -265,6 +265,10 @@
     <ClInclude Include="CItemBullet_bu.h">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClInclude>
+    <ClInclude Include="CMouseLookAt_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetLookAt_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -421,5 +425,9 @@
     <ClCompile Include="CItemWeapon_bu.cpp">
       <Filter>Games\Butcher\InGames\Item</Filter>
     </ClCompile>
+    <ClCompile Include="CMouseLookAt_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CTargetLookAt_bu.cpp" />
   </ItemGroup>
 </Project>

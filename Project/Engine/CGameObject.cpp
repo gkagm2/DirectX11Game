@@ -60,7 +60,7 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 		AddComponent(_origin.m_vecScript[i]->Clone());
 
 	for (UINT i = 0; i < _origin.m_vecChildObj.size(); ++i)
-		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone());
+		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone(),true);
 }
 
 CGameObject::~CGameObject()
@@ -386,20 +386,25 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 			break;
 		}
 	}
-	Vector3 vParentScale = Vector3::One;
-	Vector3 vParentRotation = Vector3::Zero;
-	if (Transform())
-		vParentRotation = Transform()->GetRotation();
-	if (m_pParentObj->Transform()) {
-		vParentScale = m_pParentObj->Transform()->GetScale();
-		vParentRotation = m_pParentObj->Transform()->GetRotation();
+	if (true == _IsSaveLoad) {
+		m_pParentObj = nullptr;
 	}
-
-	m_pParentObj = nullptr;
-
-	if (false == _IsSaveLoad) {
+	else {
+		Vector3 vParentScale = Vector3::One;
+		Vector3 vParentRotation = Vector3::Zero;
 		if (Transform())
-			Transform()->_UnlinkParent(vParentScale, vParentRotation);
+			vParentRotation = Transform()->GetRotation();
+		if (m_pParentObj->Transform()) {
+			vParentScale = m_pParentObj->Transform()->GetScale();
+			vParentRotation = m_pParentObj->Transform()->GetRotation();
+		}
+
+		m_pParentObj = nullptr;
+
+		if (false == _IsSaveLoad) {
+			if (Transform())
+				Transform()->_UnlinkParent(vParentScale, vParentRotation);
+		}
 	}
 }
 

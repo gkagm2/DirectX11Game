@@ -34,6 +34,7 @@ CMainPanel_bu
 CManagerContainer_ca
 CModuleCreator_ca
 CModuleScript_ca
+CMouseLookAt_bu
 CObjectDragAndDropScript_ca
 CPlayerController_bu
 CPlayerScript_ca
@@ -42,6 +43,7 @@ CPostProcessingScript
 CRotateZScript
 CSparkParticle_bu
 CSwitch_bu
+CTargetLookAt_bu
 CTestLight2DScript
 CUIContainer_bu
 CUIManager_bu

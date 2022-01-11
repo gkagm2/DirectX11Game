@@ -22,9 +22,6 @@ public:
 	void SetForwardType(E_ForwardType _eType) { m_eForwardType = _eType; }
 	E_ForwardType GetForwardType() { return m_eForwardType; }
 
-private:
-	void LookAt();
-
 public:
 	CLONE(CLookAt2DScript);
 	CLookAt2DScript();
