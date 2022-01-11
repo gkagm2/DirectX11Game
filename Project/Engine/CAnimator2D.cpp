@@ -151,6 +151,15 @@ void CAnimator2D::GetAnimationNamesFromList(vector<tstring>& _vecNameList_out)
 		_vecNameList_out.push_back(t.first);
 }
 
+int CAnimator2D::GetCurAnimationIdxFromNamesList(const vector<tstring>& _vecNameList)
+{
+	for (int i = 0; i < _vecNameList.size(); ++i) {
+		if (_vecNameList[i] == GetCurAnimation()->GetName())
+			return i;
+	}
+	return -1;
+}
+
 void CAnimator2D::SetCurAnimationFrame(int _iIdx)
 {
 	GetCurAnimation()->SetCurAnimationFrame(_iIdx);

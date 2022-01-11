@@ -4,7 +4,10 @@
 CWeapon_bu::CWeapon_bu() :
 	CScript((UINT)SCRIPT_TYPE::WEAPON_BU),
 	m_tWeaponInfo{},
-	m_eCurType(E_WeaponType_bu::Chainsaw)
+	m_eCurType(E_WeaponType_bu::Chainsaw),
+	m_pChainSawObj{ nullptr },
+	m_pGunImageObj{ nullptr },
+	m_fReloadDelayTime{0.3f}
 {
 	_InitWeaponInfo();
 }
@@ -12,7 +15,12 @@ CWeapon_bu::CWeapon_bu() :
 CWeapon_bu::CWeapon_bu(const CWeapon_bu& _origin) :
 	CScript((UINT)SCRIPT_TYPE::WEAPON_BU),
 	m_tWeaponInfo{},
-	m_eCurType(E_WeaponType_bu::Chainsaw)
+	m_eCurType(E_WeaponType_bu::Chainsaw),
+	m_pChainSawObj{ nullptr },
+	m_pGunImageObj{ nullptr },
+	m_fFireTime{_origin.m_fFireTime},
+	m_fMaxFireTime{_origin.m_fMaxFireTime},
+	m_fReloadDelayTime{_origin.m_fReloadDelayTime}
 {
 	_InitWeaponInfo();
 }
@@ -31,6 +39,17 @@ void CWeapon_bu::Start()
 
 void CWeapon_bu::Update()
 {
+	m_fFireTime += DT;
+	if (m_fFireTime >= m_fMaxFireTime) {
+		if (GetCurWeapon().bInfinity)
+			m_bIsEnableFire = true;
+		else {
+			if (GetCurWeapon().iCurBullet > 0)
+				m_bIsEnableFire = true;
+			else
+				m_bIsEnableFire = false;
+		}
+	}
 }
 
 bool CWeapon_bu::SaveToScene(FILE* _pFile)
@@ -43,6 +62,15 @@ bool CWeapon_bu::LoadFromScene(FILE* _pFile)
 {
 	FRead(m_eCurType, _pFile);
 	return true;
+}
+
+void CWeapon_bu::Fire()
+{
+	if (IsEnableFire()) {
+		if(!GetCurWeapon().bInfinity)
+			--GetCurWeapon().iCurBullet;
+		m_fFireTime = 0.f;
+	}
 }
 
 void CWeapon_bu::AddWeaponItem(E_WeaponType_bu _eType)
@@ -64,16 +92,8 @@ void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 		m_pChainSawObj->SetActive(false);
 		m_pGunImageObj->Animator2D()->SetCurAnimationFrame((UINT)m_eCurType);
 	}
-}
-
-void CWeapon_bu::Reload()
-{
-	TWeaponInfo_bu& tWeapon = m_tWeaponInfo[(UINT)m_eCurType];
-	int iLeftBullet = tWeapon.iCurBullet;
-	if (iLeftBullet <= tWeapon.iMaxMagazine)
-		tWeapon.iCurMagazineBullet = iLeftBullet;
-	else
-		tWeapon.iCurMagazineBullet = tWeapon.iMaxMagazine;
+	m_fMaxFireTime = m_tWeaponInfo[(UINT)m_eCurType].fRpm;
+	m_fFireTime = m_fMaxFireTime - m_fReloadDelayTime;
 }
 
 void CWeapon_bu::_InitWeaponInfo()
@@ -83,10 +103,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 0,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 0,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 0,
-			tInfo.iInfinity = true
+			tInfo.fRpm = 0.2f / 60.f,
+			tInfo.bInfinity = true
 		};
 	}
 	
@@ -95,10 +114,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 24,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 2,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 8,
-			tInfo.iInfinity = false
+			tInfo.fRpm = 1.f / 60.f,
+			tInfo.bInfinity = false
 		};
 	}
 	{
@@ -106,10 +124,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 75,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 25,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 25,
-			tInfo.iInfinity = false
+			tInfo.fRpm = 0.3f / 60.f,
+			tInfo.bInfinity = false
 		};
 	}
 	{
@@ -117,10 +134,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 90,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 30,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 8,
-			tInfo.iInfinity = false
+			tInfo.fRpm = 0.8f / 60.f,
+			tInfo.bInfinity = false
 		};
 	}
 	{
@@ -128,10 +144,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 20,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 5,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 5,
-			tInfo.iInfinity = false
+			tInfo.fRpm = 2.f / 60.f,
+			tInfo.bInfinity = false
 		};
 	}
 	{
@@ -139,10 +154,9 @@ void CWeapon_bu::_InitWeaponInfo()
 		tInfo = {
 			tInfo.iMaxBullet = 15,
 			tInfo.iCurBullet = 0,
-			tInfo.iMaxMagazine = 5,
-			tInfo.iCurMagazineBullet = 0,
 			tInfo.iGetBulletCnt = 2,
-			tInfo.iInfinity = false
+			tInfo.fRpm = 2.f / 60.f,
+			tInfo.bInfinity = false
 		};
 	}
 }

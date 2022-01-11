@@ -845,9 +845,23 @@ void Animator2DEditorGUI::_OnSaveAnimation()
 		tstring animName = m_queResultTexList[0].tAnim2DDesc.strName;
 		tstring animFileName = m_queResultTexList[0].tAnim2DDesc.strName + STR_EXTENSION_Anim;
 
-		_OnCreateAnimation();
-		CAnimation2D* pAnim2D = m_pAnimator2D->FindAnimation(animName);
-		pAnim2D->Save(STR_DIR_PATH_Anim, animFileName);
+		if (m_pAnimator2D) {
+			_OnCreateAnimation();
+			CAnimation2D* pAnim2D = m_pAnimator2D->FindAnimation(animName);
+			pAnim2D->Save(STR_DIR_PATH_Anim, animFileName);
+		}
+		else {
+			vector<TAnimation2DDesc> vecAnim2DDesc;
+			for (int i = 0; i < m_queResultTexList.size(); ++i)
+				vecAnim2DDesc.push_back(m_queResultTexList[i].tAnim2DDesc);
+			CAnimation2D* pAnim = new CAnimation2D;
+			pAnim->SetName(vecAnim2DDesc[0].strName);
+			pAnim->Create(vecAnim2DDesc);
+
+			pAnim->Save(STR_DIR_PATH_Anim, animFileName);
+			delete pAnim;
+			pAnim = nullptr;
+		}
 	}
 }
 

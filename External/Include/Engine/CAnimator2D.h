@@ -76,6 +76,7 @@ public:
 	CAnimation2D* GetCurAnimation() { return m_pCurAnimation; }
 	unordered_map<tstring, CAnimation2D*>& GetAnimationList() { return m_unmapAnim; }
 	void GetAnimationNamesFromList(vector<tstring>& _vecNameList_out);
+	int GetCurAnimationIdxFromNamesList(const vector<tstring>& _vecNameList);
 	void SetCurAnimationFrame(int _iIdx);
 
 	void PlayOnSceneStart(bool _bStartFlag) { m_bPlayOnSceneStart = _bStartFlag; }

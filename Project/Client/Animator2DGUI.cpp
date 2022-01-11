@@ -60,12 +60,15 @@ void Animator2DGUI::Update()
 	TStringToStringVec(vectNames, vecNames_o);
 	vector<char> vecComboName;
 	ParamGUI::Make_ComboBoxList(vecNames_o, vecComboName);
-	static int iCurAnimIdx = 0;
+	int iCurAnimIdx = pAnimator2D->GetCurAnimationIdxFromNamesList(vectNames);
 	if (ParamGUI::Render_ComboBox("Animation List##animator2D", &iCurAnimIdx, vecComboName)) {
 		tstring strAnimName{};
 		if (vectNames.size()) {
-			tstring strAnimName = vectNames[iCurAnimIdx];
-			pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
+			tstring strAnimName{};
+			if (iCurAnimIdx >= 0) {
+				strAnimName = vectNames[iCurAnimIdx];
+				pAnimator2D->Play(strAnimName, pAnimator2D->GetAnimationState());
+			}
 		}
 	}
 

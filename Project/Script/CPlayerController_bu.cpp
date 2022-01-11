@@ -137,23 +137,26 @@ void CPlayerController_bu::OnBehavior()
 	}
 
 	if (isAttack) {
+		if (m_pWeapon->IsEnableFire()) {
+			m_pWeapon->Fire();
+
 #ifdef _BUTCHER_GAME
-		UINT iLayer = (UINT)E_Layer::Object;
+			UINT iLayer = (UINT)E_Layer::Object;
 #elif
-		UINT iLayer = 1;
+			UINT iLayer = 1;
 #endif
-		CGameObject* pBulletObj = m_pBulletPref->Instantiate();
-		CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
+			CGameObject* pBulletObj = m_pBulletPref->Instantiate();
+			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
 
-		Vector3 vMuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
-		Vector3 vShootDir = m_pGunRotationPosObj->Transform()->GetRightVector();
-		Vector3 vRot = m_pGunRotationPosObj->Transform()->GetRotation();
+			Vector3 vMuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
+			Vector3 vShootDir = m_pGunRotationPosObj->Transform()->GetRightVector();
+			Vector3 vRot = m_pGunRotationPosObj->Transform()->GetRotation();
 
-		pBul->Transform()->SetLocalPosition(vMuzzlePos);
-		pBul->SetShootDir(vShootDir);
-		pBul->Transform()->SetLocalRotation(vRot);
-
-		CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+			pBul->Transform()->SetLocalPosition(vMuzzlePos);
+			pBul->SetShootDir(vShootDir);
+			pBul->Transform()->SetLocalRotation(vRot);
+			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+		}
 	}
 
 	if (isWeaponSwap)
