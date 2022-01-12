@@ -18,6 +18,7 @@ private:
 	int m_vAtlasTilePixelSize[2];
 
 	int m_iBrushSize;
+	bool m_bDeleteMode;
 
 private:
 	int m_iSelectedTileIdx; // 선택한 타일의 인덱스

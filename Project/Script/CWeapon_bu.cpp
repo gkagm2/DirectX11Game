@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CWeapon_bu.h"
+#include "CBullet_bu.h"
 
 CWeapon_bu::CWeapon_bu() :
 	CScript((UINT)SCRIPT_TYPE::WEAPON_BU),
@@ -37,8 +38,18 @@ void CWeapon_bu::Start()
 {
 	m_pChainSawObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Chainsaw);
 	m_pGunImageObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_GunImage);
+	m_pChainSawColObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ChainsawCol);
 	assert(m_pChainSawObj);
 	assert(m_pGunImageObj);
+	assert(m_pChainSawColObj);
+
+	tstring strPath = CPathManager::GetInstance()->GetContentPath();
+	m_pShotgunBullet = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletShotgun_bu.pref"));
+	m_pMachinegunBullet = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletRifle_bu.pref"));
+	m_pFlameBullet =CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletFlame_bu.pref"));
+	assert(m_pShotgunBullet.Get());
+	assert(m_pMachinegunBullet.Get());
+	assert(m_pFlameBullet.Get());
 }
 
 void CWeapon_bu::Update()
@@ -54,6 +65,14 @@ void CWeapon_bu::Update()
 				m_bIsEnableFire = false;
 		}
 	}
+	if (m_bIsEnableFire) {
+		if (E_WeaponType_bu::Chainsaw == GetCurWeaponType())
+			if(m_pChainSawColObj->IsActive())
+				m_pChainSawColObj->SetActive(false);
+	}
+
+	;
+	_tcprintf(_T("%s,Cur BUllet : %d \n"), m_strCurWeaponName.c_str(), GetCurWeapon().iCurBullet); // Using
 }
 
 bool CWeapon_bu::SaveToScene(FILE* _pFile)
@@ -68,12 +87,32 @@ bool CWeapon_bu::LoadFromScene(FILE* _pFile)
 	return true;
 }
 
-void CWeapon_bu::Fire()
+void CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vector3& _vShootDir, UINT _iTag)
 {
-	if (IsEnableFire()) {
+	bool isEnableFire = IsEnableFire();
+
+	if (isEnableFire) {
 		if(!GetCurWeapon().bInfinity)
 			--GetCurWeapon().iCurBullet;
 		m_fFireTime = 0.f;
+	}
+
+	//총알을 생성한다.
+	if (isEnableFire) {
+		if (m_eCurType == E_WeaponType_bu::Chainsaw)
+			m_pChainSawColObj->SetActive(true);
+		else {
+			//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
+			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
+			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
+			pBulletObj->SetTag(_iTag, true);
+			
+			pBul->Transform()->SetLocalPosition(_vMuzzlePos);
+			pBul->SetShootDir(_vShootDir);
+			pBul->Transform()->SetLocalRotation(_Rot);
+			UINT iLayer = (UINT)E_Layer::Object;
+			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+		}
 	}
 }
 
@@ -90,6 +129,7 @@ void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 	if (_eType == E_WeaponType_bu::Chainsaw) {
 		m_pGunImageObj->SetActive(false);
 		m_pChainSawObj->SetActive(true);
+		m_pChainSawColObj->Collider2D()->SetActive(false);
 	}
 	else {
 		m_pGunImageObj->SetActive(true);
@@ -98,6 +138,19 @@ void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 	}
 	m_fMaxFireTime = m_tWeaponInfo[(UINT)m_eCurType].fRpm;
 	m_fFireTime = m_fMaxFireTime - m_fReloadDelayTime;
+
+	switch (_eType) {
+	case E_WeaponType_bu::Shotgun:
+		m_pMainBullet = m_pShotgunBullet;
+		break;
+	case E_WeaponType_bu::MachineGun:
+		m_pMainBullet = m_pMachinegunBullet;
+		break;
+	case E_WeaponType_bu::FlameThrower:
+		m_pMainBullet = m_pFlameBullet;
+		break;
+	}
+	m_strCurWeaponName = WeaponTypeToStr_bu(m_eCurType);
 }
 
 void CWeapon_bu::_InitWeaponInfo()

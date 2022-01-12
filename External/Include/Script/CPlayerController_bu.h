@@ -10,12 +10,6 @@ private:
 	CAnimator2D* m_pTorsoAnimSprite;
 	SharedPtr<CPrefab> m_pBulletPref;
 
-	float m_fShotTime;
-	float m_fMaxShotTime;
-
-	CGameObject* m_pMuzzleObj;
-	CGameObject* m_pGunRotationPosObj;
-
 public:
 	virtual void Awake() override;
 	virtual void Start() override;

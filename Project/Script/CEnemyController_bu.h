@@ -17,8 +17,6 @@ private:
 	CGameObject* m_pTargetObj;
 	E_AIState_bu m_eAIState;
 	tstring strAIStateName;
-
-	CGameObject* m_pMuzzleObj;
 	CGameObject* m_pGunRotationPosObj;
 
 

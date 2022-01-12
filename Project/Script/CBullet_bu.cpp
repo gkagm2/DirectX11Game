@@ -41,7 +41,6 @@ void CBullet_bu::Update()
 		CObject::DestroyGameObjectEvn(GetGameObject());
 		return;
 	}
-		
 
 	Vector3 vPosition = Transform()->GetLocalPosition();
 	vPosition = vPosition  + m_fSpeed * DT * m_vShootDir;

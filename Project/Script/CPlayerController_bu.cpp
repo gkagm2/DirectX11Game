@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CPlayerController_bu.h"
-#include "CBullet_bu.h"
 #include <Engine\CCore.h>
 #include "CInteractiveObj_bu.h"
 CPlayerController_bu::CPlayerController_bu() :
@@ -8,11 +7,8 @@ CPlayerController_bu::CPlayerController_bu() :
 	m_pRigid(nullptr),
 	m_pLegAnim(nullptr),
 	m_pTorsoAnimSprite(nullptr),
-	m_pBulletPref(nullptr),
-	m_fShotTime(0.3f),
-	m_fMaxShotTime(0.3f)
+	m_pBulletPref(nullptr)
 {
-	AddParam(TScriptParam(_T("Bullet Prefab"), E_ScriptParam::PREFAB, m_pBulletPref.GetAddress()));
 }
 
 CPlayerController_bu::~CPlayerController_bu()
@@ -22,8 +18,7 @@ CPlayerController_bu::~CPlayerController_bu()
 void CPlayerController_bu::Awake()
 {
 	CCharacter_bu::Awake();
-	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
-	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
+	
 	CGameObject* pLegsObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Legs);
 	CGameObject* pTorsoObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Torse);
 	assert(pLegsObj);
@@ -33,8 +28,6 @@ void CPlayerController_bu::Awake()
 	if(pTorsoObj)
 		m_pTorsoAnimSprite = pTorsoObj->Animator2D();
 
-	assert(m_pMuzzleObj);
-	assert(m_pGunRotationPosObj);
 	assert(m_pLegAnim);
 	assert(m_pTorsoAnimSprite);
 }
@@ -46,6 +39,11 @@ void CPlayerController_bu::Start()
 
 	if (m_CurStateStartFunc)
 		m_CurStateStartFunc();
+	m_pWeapon->SetUseableWeapon(E_WeaponType_bu::Chainsaw, true);
+
+	// Test Code
+	for (UINT i = 0; i < (UINT)E_WeaponType_bu::End; ++i) 
+		m_pWeapon->SetUseableWeapon((E_WeaponType_bu)i, true);
 }
 
 void CPlayerController_bu::Update()
@@ -102,12 +100,8 @@ void CPlayerController_bu::OnBehavior()
 		isJump = true;
 	}
 
-	m_fShotTime += DT;
 	if (InputKeyHold(E_Key::LBUTTON)) {
-		if (m_fShotTime >= m_fMaxShotTime) {
-			isAttack = true;
-			m_fShotTime = 0.f;
-		}
+		isAttack = true;
 	}
 
 	// Weapon Swap
@@ -138,24 +132,10 @@ void CPlayerController_bu::OnBehavior()
 
 	if (isAttack) {
 		if (m_pWeapon->IsEnableFire()) {
-			m_pWeapon->Fire();
-
-#ifdef _BUTCHER_GAME
-			UINT iLayer = (UINT)E_Layer::Object;
-#elif
-			UINT iLayer = 1;
-#endif
-			CGameObject* pBulletObj = m_pBulletPref->Instantiate();
-			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
-
-			Vector3 vMuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
-			Vector3 vShootDir = m_pGunRotationPosObj->Transform()->GetRightVector();
-			Vector3 vRot = m_pGunRotationPosObj->Transform()->GetRotation();
-
-			pBul->Transform()->SetLocalPosition(vMuzzlePos);
-			pBul->SetShootDir(vShootDir);
-			pBul->Transform()->SetLocalRotation(vRot);
-			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+			if (!m_pMuzzleObj) {
+				assert(nullptr);
+			}
+			m_pWeapon->Fire(m_pMuzzleObj->Transform()->GetLocalPosition(), m_pGunRotationPosObj->Transform()->GetRotation(), m_pGunRotationPosObj->Transform()->GetRightVector(), (UINT)E_Tag::Player_Bullet);
 		}
 	}
 
@@ -284,12 +264,10 @@ void CPlayerController_bu::OnDeadEnd()
 
 bool CPlayerController_bu::SaveToScene(FILE* _pFile)
 {
-	SaveResourceToFile(m_pBulletPref, _pFile);
 	return true;
 }
 
 bool CPlayerController_bu::LoadFromScene(FILE* _pFile)
 {
-	LoadResourceFromFile(m_pBulletPref, _pFile);
 	return true;
 }

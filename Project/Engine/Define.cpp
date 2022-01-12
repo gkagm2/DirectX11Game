@@ -59,6 +59,15 @@ tstring TagToString(E_Tag _eTag)
 	case E_Tag::Wall:
 		tagName = _T("Wall");
 		break;
+	case E_Tag::DangerObj:
+		tagName = _T("DangerObj");
+		break;
+	case E_Tag::Player_Bullet:
+		tagName = _T("Player_Bullet");
+		break;
+	case E_Tag::Enemy_Bullet:
+		tagName = _T("Enemy_Bullet");
+		break;
 	default:
 		if (!((int)_eTag >= 0 && (int)_eTag < MAX_SIZE_TAG))
 			assert(nullptr);

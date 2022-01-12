@@ -14,7 +14,7 @@ TreeViewNode::TreeViewNode() :
 	m_dwData(0),
 	m_bUseFrame(false),
 	m_iStyleFlag(0),
-	m_vTextColor{1.f,1.f,1.f,1.f},
+	m_vTextColor{ 1.f,1.f,1.f,1.f },
 	m_bOpen{ false },
 	m_bMouseLBtnPress(false)
 {
@@ -38,8 +38,14 @@ void TreeViewNode::Update()
 	if (this == m_pOwner->_GetDragStartItem())
 		m_iStyleFlag |= ImGuiTreeNodeFlags_Selected;
 
-
 	bool bLeftClicked = false;
+
+	if (dynamic_cast<CGameObject*>((CGameObject*)m_dwData)) {
+		if (((CGameObject*)m_dwData)->IsActive())
+			SetTextColor(ImVec4(1.f, 1.f, 1.f, 1.f));
+		else
+			SetTextColor(ImVec4(0.4f, 0.4f, 0.4f, 1.f));
+	}
 
 	// Node Update
 	string strName = m_strName;

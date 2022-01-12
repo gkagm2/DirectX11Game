@@ -12,6 +12,7 @@
 #include <Engine\CKeyManager.h>
 #include <Engine\CTransform.h>
 #include <Engine\CRenderManager.h>
+#include <Engine\CCursor.h>
 
 TileMapEditorGUI::TileMapEditorGUI() :
 	m_pTargetObject(nullptr),
@@ -20,6 +21,7 @@ TileMapEditorGUI::TileMapEditorGUI() :
 	m_arrFaceTileCnt{ 0,0 },
 	m_vAtlasTilePixelSize{ 0, 0},
 	m_iBrushSize(0),
+	m_bDeleteMode{ false },
 
 	m_iSelectedTileIdx(-1),
 
@@ -100,6 +102,7 @@ void TileMapEditorGUI::Update()
 
 		ImGui::Separator();
 
+		ImGui::Text("Mouse Right button clicking : delete mode");
 		ImGui::Text("Brush Size : %d", m_iBrushSize + 1);
 		ImGui::DragInt("##TileMap Brush Size", &m_iBrushSize, 1.f, 0, 10);
 
@@ -141,6 +144,7 @@ void TileMapEditorGUI::Update()
 		}
 		else {
 			if (!ImGui::IsWindowFocused()) {
+				m_bDeleteMode = false;
 				// TODO(Jang) : 타일 클릭 충돌했는지 구하는 코드를 CollisionManager에 넣기
 				Vector3 vMouseWorldPos = pToolCam->GetScreenToWorld2DPosition(MousePosition);
 
@@ -168,7 +172,10 @@ void TileMapEditorGUI::Update()
 						vLBWorldPos.y < vMouseWorldPos.y && vRTWorldPos.y > vMouseWorldPos.y) {
 						bIsTileClicked = true;
 					}
+
 				}
+				if (InputKeyHold(E_Key::LBUTTON) && InputKeyHold(E_Key::RBUTTON))
+					m_bDeleteMode = true;
 
 				// 클릭했을 경우
 				if (bIsTileClicked) {
@@ -196,7 +203,11 @@ void TileMapEditorGUI::Update()
 					for (int y = iMinY; y <= iMaxY; ++y) {
 						for (int x = iMinX; x <= iMaxX; ++x) {
 							int idx = y * m_pTileMap->GetCol() + x;
-							vecTiles[idx].idx = m_iSelectedTileIdx;
+
+							if (m_bDeleteMode)
+								vecTiles[idx].idx = -1;
+							else
+								vecTiles[idx].idx = m_iSelectedTileIdx;
 						}
 					}
 					/*int idx = iClickY * m_pTileMap->GetCol() + iClickX;

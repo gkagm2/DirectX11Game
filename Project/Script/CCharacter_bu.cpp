@@ -11,10 +11,14 @@ CCharacter_bu::CCharacter_bu() :
 	m_fMaxHp{ 100.f },
 	m_fArmor{100.f},
 	m_fMaxArmor{ 100.f },
+	m_pGunRotationPosObj{ nullptr },
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
 	m_pFlipObj{ nullptr },
-	m_pFlipGunObj{ nullptr }
+	m_pFlipGunObj{ nullptr },
+	m_pMuzzleObj{ nullptr },
+	m_fShotTime(0.3f),
+	m_fMaxShotTime(0.3f)
 
 {
 }
@@ -28,8 +32,10 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_fMaxHp{ 100.f },
 	m_fArmor{100.f},
 	m_fMaxArmor{ 100.f },
+	m_pGunRotationPosObj{ nullptr },
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
+	m_pMuzzleObj{ nullptr },
 	m_pFlipObj{nullptr},
 	m_pFlipGunObj{ nullptr }
 {
@@ -47,6 +53,10 @@ void CCharacter_bu::Awake()
 	assert(m_pFlipObj);
 	m_pFlipGunObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_FlipGun);
 	assert(m_pFlipGunObj);
+	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
+	assert(m_pMuzzleObj);
+	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
+	assert(m_pGunRotationPosObj);
 }
 
 void CCharacter_bu::ChangeState(E_CharacterState _eState)

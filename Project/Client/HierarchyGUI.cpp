@@ -70,11 +70,6 @@ void HierarchyGUI::_RenewTreeView()
 			TStringToString(pObj->GetName(), strObjName);
 			pNode = m_treeView.AddItem(strObjName, (DWORD_PTR)pObj, pNode);
 
-			if (pObj->IsActive())
-				pNode->SetTextColor(ImVec4(1.f, 1.f, 1.f, 1.f));
-			else
-				pNode->SetTextColor(ImVec4(0.4f, 0.4f, 0.4f, 1.f));
-
 			const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
 			for (UINT k = 0; k < vecChilds.size(); ++k)
 				stk.push_back(std::make_pair(vecChilds[k], pNode));

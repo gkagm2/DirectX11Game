@@ -24,7 +24,8 @@ protected:
 	float m_fMovePower;
 	Vector3 m_vCurMoveDir;
 
-	CGameObject* m_pMuzzlObj;
+	CGameObject* m_pMuzzleObj;
+	CGameObject* m_pGunRotationPosObj;
 
 	float m_fHp;
 	float m_fMaxHp;
@@ -39,6 +40,9 @@ protected:
 
 	CGameObject* m_pFlipObj;
 	CGameObject* m_pFlipGunObj;
+
+	float m_fShotTime;
+	float m_fMaxShotTime;
 
 public:
 	virtual void Awake() override;
