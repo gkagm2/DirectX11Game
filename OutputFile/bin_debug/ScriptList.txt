@@ -13,6 +13,7 @@ CElevator_bu
 CEnemyController_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
+CEventFuncTest
 CGameManagerScript_sh
 CGameManager_bu
 CGameManager_ca
@@ -35,6 +36,7 @@ CManagerContainer_ca
 CModuleCreator_ca
 CModuleScript_ca
 CMouseLookAt_bu
+CMuzzleParticle_bu
 CObjectDragAndDropScript_ca
 CPlayerController_bu
 CPlayerScript_ca

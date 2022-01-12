@@ -17,6 +17,8 @@ CCharacter_bu::CCharacter_bu() :
 	m_pFlipObj{ nullptr },
 	m_pFlipGunObj{ nullptr },
 	m_pMuzzleObj{ nullptr },
+	m_pMuzzleParticleObj{ nullptr },
+	m_pMuzzleFlashObj{ nullptr },
 	m_fShotTime(0.3f),
 	m_fMaxShotTime(0.3f)
 
@@ -36,6 +38,8 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
 	m_pMuzzleObj{ nullptr },
+	m_pMuzzleParticleObj{ nullptr },
+	m_pMuzzleFlashObj{ nullptr },
 	m_pFlipObj{nullptr},
 	m_pFlipGunObj{ nullptr }
 {
@@ -55,6 +59,10 @@ void CCharacter_bu::Awake()
 	assert(m_pFlipGunObj);
 	m_pMuzzleObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Muzzle);
 	assert(m_pMuzzleObj);
+	m_pMuzzleParticleObj = m_pMuzzleObj->FindGameObjectInChilds(BUTCHER_ObjName_MuzzleParticle);
+	assert(m_pMuzzleParticleObj);
+	m_pMuzzleFlashObj = m_pMuzzleObj->FindGameObjectInChilds(BUTCHER_ObjName_MuzzleFlash);
+		assert(m_pMuzzleFlashObj);
 	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
 	assert(m_pGunRotationPosObj);
 }

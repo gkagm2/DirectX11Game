@@ -13,6 +13,9 @@ protected:
 
 public:
 	virtual void Awake() override {}
+	virtual void OnEnable() {}
+	virtual void OnDisable() {}
+	virtual void OnDestroy() {}
 	virtual void Start() override {}
 	virtual void PrevUpdate() override {}
 	virtual void Update() override {}
@@ -24,7 +27,7 @@ public:
 	CGameObject* GetGameObject() { return m_pGameObj; }
 	E_ComponentType GetComponentType() { return m_eType; }
 
-	void SetActive(bool _bActive) { m_bActive = _bActive; }
+	void SetActive(bool _bActive);
 	bool IsActive() { return m_bActive; }
 
 public:

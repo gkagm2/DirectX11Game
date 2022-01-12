@@ -55,23 +55,41 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 	UINT iObjectTag = (UINT)E_Tag::Object;
 	UINT iWallTag = (UINT)E_Tag::Wall;
 	UINT iPlayerTag = (UINT)(E_Tag::Player);
+	UINT iEnemyBulletTag = (UINT)E_Tag::Enemy_Bullet;
+	UINT iPlayerBulletTag = (UINT)E_Tag::Player_Bullet;
 	CGameObject* pObj = _pOther->GetGameObject();
 	bool bTouched = false;
 
-	if (iTag == iEnemyTag || iTag == iPlayerTag) {
-		CCharacter_bu* pcha= pObj->GetComponent<CCharacter_bu>();
-		//pcha->DamagedMe(m_fDamage);
-		/*if (0.f == pcha->GetHp()) {
-			pcha->OnDead();
-		}*/
-		bTouched = true;
+
+	UINT iMyTag = GetGameObject()->GetTag();
+
+	if (iMyTag == iPlayerBulletTag) {
+		if (iTag == iEnemyTag) {
+			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
+			pChar->DamagedMe(m_fDamage);
+			bTouched = true;
+		}
+		if (iTag == iObjectTag) {
+			bTouched = true;
+		}
+		if (iTag == iWallTag) {
+			bTouched = true;
+		}
 	}
-	if (iTag == iObjectTag) {
-		bTouched = true;
+	else if (iMyTag == iEnemyBulletTag) {
+		if (iTag == iPlayerTag) {
+			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
+			pChar->DamagedMe(m_fDamage);
+			bTouched = true;
+		}
+		if (iTag == iObjectTag) {
+			bTouched = true;
+		}
+		if (iTag == iWallTag) {
+			bTouched = true;
+		}
 	}
-	if (iTag == iWallTag) {
-		bTouched = true;
-	}
+
 	if (bTouched) {
 		DestroyGameObjectEvn(GetGameObject());
 	}

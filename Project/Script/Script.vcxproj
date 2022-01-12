@@ -176,6 +176,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CDoor_bu.h" />
     <ClInclude Include="CElevator_bu.h" />
     <ClInclude Include="CEnemyController_bu.h" />
+    <ClInclude Include="CEventFuncTest.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItemArmor_bu.h" />
     <ClInclude Include="CItemBullet_bu.h" />
@@ -183,6 +184,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CItemWeapon_bu.h" />
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CMouseLookAt_bu.h" />
+    <ClInclude Include="CMuzzleParticle_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
@@ -232,6 +234,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CDoor_bu.cpp" />
     <ClCompile Include="CElevator_bu.cpp" />
     <ClCompile Include="CEnemyController_bu.cpp" />
+    <ClCompile Include="CEventFuncTest.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItemArmor_bu.cpp" />
     <ClCompile Include="CItemBullet_bu.cpp" />
@@ -239,6 +242,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CItemWeapon_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CMouseLookAt_bu.cpp" />
+    <ClCompile Include="CMuzzleParticle_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />

@@ -24,9 +24,6 @@ private:
 	float m_fMaxLifeTime;
 	float m_fLifeTime;
 
-	std::function<void()> m_pItemInitFunc;	// 아이템 초기화
-	std::function<void()> m_pItemFunc;		// 플레이어가 먹었을 경우 실행
-
 protected:
 	CGameObject* m_pItemAnimObj;
 	CAnimator2D* m_pItemAnim;
@@ -41,18 +38,13 @@ public:
 
 	virtual void OnCollisionEnter2D(CCollider2D* _pOther);
 
+protected:
+	// 아이템 초기화
+	virtual void InitItem() {}
 public:
-	void Interactive(CCharacter_bu* _pTargetCharacter);
+	// 플레이어가 먹었을 경우 실행
+	virtual void Interact(CCharacter_bu* _pTargetCharacter){}
 
-protected:
-	void InitItem();
-
-protected:
-	template<typename T>
-	void _SetItemCallBack(void(T::* _InitFunc)(), void(T::* _InteractiveFunc)(), T* _pObj) {
-		m_pItemInitFunc = std::bind(_InitFunc, _pObj);
-		m_pItemFunc = std::bind(_InteractiveFunc, _pObj);
-	}
 public:
 	CLONE(CItem_bu);
 	CItem_bu();

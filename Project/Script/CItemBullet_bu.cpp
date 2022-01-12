@@ -31,7 +31,7 @@ CItemBullet_bu::~CItemBullet_bu()
 {
 }
 
-void CItemBullet_bu::ItemInitBullet()
+void CItemBullet_bu::InitItem()
 {
 	if (E_WeaponType_bu::Shotgun == m_eWeaponType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemBulShotgun);
@@ -53,8 +53,9 @@ void CItemBullet_bu::ItemInitBullet()
 	}
 }
 
-void CItemBullet_bu::ItemBullet()
+void CItemBullet_bu::Interact(CCharacter_bu* _pTargetCharacter)
 {
+	m_pTargetCharacter = _pTargetCharacter;
 	// ¾ÆÀÌÅÛ ÃÑ¾Ë ´õÇØÁü
 	CWeapon_bu* pWeapon = m_pTargetCharacter->GetGameObject()->GetComponent<CWeapon_bu>();
 	if (!pWeapon) {
@@ -66,7 +67,6 @@ void CItemBullet_bu::ItemBullet()
 
 void CItemBullet_bu::Start()
 {
-	_SetItemCallBack(&CItemBullet_bu::ItemInitBullet, &CItemBullet_bu::ItemBullet, this);
 	InitItem();
 }
 

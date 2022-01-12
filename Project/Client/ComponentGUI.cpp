@@ -3,6 +3,7 @@
 #include "ComponentGUI.h"
 #include <Engine\CGameObject.h>
 #include <Engine\CComponent.h>
+#include "CImGuiManager.h"
 
 ComponentGUI::ComponentGUI(E_ComponentType _eType) :
 	m_eComponentType(_eType),
@@ -50,6 +51,16 @@ bool ComponentGUI::Start()
 			CObject::DestroyObjectEvn(pComponent);
 		}
 	}
+
+	ImGui::SameLine();
+	CComponent* pComponent = m_pTargetObj->GetComponent(m_eComponentType);
+	bool bActive = pComponent->IsActive();
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::Checkbox("Active", &bActive))
+		pComponent->SetActive(bActive);
+	ImGui::PopID();
+	
+
 
 	return true;
 }

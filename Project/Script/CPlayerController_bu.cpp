@@ -131,12 +131,10 @@ void CPlayerController_bu::OnBehavior()
 	}
 
 	if (isAttack) {
-		if (m_pWeapon->IsEnableFire()) {
-			if (!m_pMuzzleObj) {
-				assert(nullptr);
-			}
-			m_pWeapon->Fire(m_pMuzzleObj->Transform()->GetLocalPosition(), m_pGunRotationPosObj->Transform()->GetRotation(), m_pGunRotationPosObj->Transform()->GetRightVector(), (UINT)E_Tag::Player_Bullet);
-		}
+		Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
+		Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
+		Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
+		m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, (UINT)E_Tag::Player_Bullet);
 	}
 
 	if (isWeaponSwap)

@@ -16,8 +16,8 @@ private:
 
 	static tstring strDescription;
 private:
-	void ItemInitArmor();
-	void ItemArmor();
+	virtual void InitItem() override;
+	virtual void Interact(CCharacter_bu* _pTargetCharacter) override;
 
 public:
 	virtual void Start() override;

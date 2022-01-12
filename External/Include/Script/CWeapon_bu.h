@@ -21,9 +21,12 @@ struct TWeaponInfo_bu {
 	bool bInfinity;		// ¹«ÇÑ¼º
 };
 
+
 class CWeapon_bu : public CScript
 {
 private:
+	class CCharacter_bu* m_pCharacter;
+
 	TWeaponInfo_bu m_tWeaponInfo[(UINT)E_WeaponType_bu::End];
 	bool m_arrWeaponUse[(UINT)E_WeaponType_bu::End];
 	E_WeaponType_bu m_eCurType;

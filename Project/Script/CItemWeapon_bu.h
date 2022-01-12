@@ -8,8 +8,8 @@ private:
 	static tstring strDescription;
 
 private:
-	void ItemInitWeapon();
-	void ItemWeapon();
+	virtual void InitItem();
+	virtual void Interact(CCharacter_bu* _pTargetCharacter);
 
 public:
 	virtual void Start() override;

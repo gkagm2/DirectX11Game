@@ -32,7 +32,7 @@ CItemArmor_bu::~CItemArmor_bu()
 {
 }
 
-void CItemArmor_bu::ItemInitArmor()
+void CItemArmor_bu::InitItem()
 {
 	if (E_ItemArmorType_bu::Armor1 == m_eArmorType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemArmor1);
@@ -54,8 +54,9 @@ void CItemArmor_bu::ItemInitArmor()
 		assert(nullptr);
 }
 
-void CItemArmor_bu::ItemArmor()
+void CItemArmor_bu::Interact(CCharacter_bu* _pTargetCharacter)
 {
+	m_pTargetCharacter = _pTargetCharacter;
 	float fArmor = m_pTargetCharacter->GetArmor();
 	fArmor += m_fArmor;
 	float fMaxArmor = m_pTargetCharacter->GetMaxArmor();
@@ -66,7 +67,6 @@ void CItemArmor_bu::ItemArmor()
 
 void CItemArmor_bu::Start()
 {
-	_SetItemCallBack(&CItemArmor_bu::ItemInitArmor, &CItemArmor_bu::ItemArmor, this);
 	InitItem();
 }
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CItem_bu.h"
 #include "CPlayerController_bu.h"
+#include "CCharacter_bu.h"
 
 CItem_bu::CItem_bu() :
 	CScript((UINT)SCRIPT_TYPE::ITEM_BU),
@@ -8,7 +9,8 @@ CItem_bu::CItem_bu() :
 	m_fMaxLifeTime(10.f),
 	m_fLifeTime(0.f),
 	m_pItemAnimObj{ nullptr },
-	m_pItemAnim{ nullptr }
+	m_pItemAnim{ nullptr },
+	m_pTargetCharacter{ nullptr }
 {
 }
 
@@ -18,7 +20,8 @@ CItem_bu::CItem_bu(UINT _iScriptType) :
 	m_fMaxLifeTime(10.f),
 	m_fLifeTime(0.f),
 	m_pItemAnimObj{ nullptr },
-	m_pItemAnim{ nullptr }
+	m_pItemAnim{ nullptr },
+	m_pTargetCharacter{ nullptr }
 {
 }
 
@@ -28,7 +31,8 @@ CItem_bu::CItem_bu(const CItem_bu& _origin) :
 	m_fMaxLifeTime(_origin.m_fMaxLifeTime),
 	m_fLifeTime(0.f),
 	m_pItemAnimObj{ nullptr },
-	m_pItemAnim{ nullptr }
+	m_pItemAnim{ nullptr },
+	m_pTargetCharacter{ nullptr }
 {
 }
 
@@ -63,18 +67,7 @@ void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 #endif
 	if (playerTag == _pOther->GetGameObject()->GetTag()) {
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
+		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();
+		Interact(pchar);
 	}
-}
-
-void CItem_bu::Interactive(CCharacter_bu* _pTargetCharacter)
-{
-	m_pTargetCharacter = _pTargetCharacter;
-	if (m_pItemFunc)
-		m_pItemFunc();
-}
-
-void CItem_bu::InitItem()
-{
-	if (m_pItemInitFunc)
-		m_pItemInitFunc();
 }

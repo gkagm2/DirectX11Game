@@ -32,3 +32,18 @@ bool CComponent::LoadFromScene(FILE* _pFile)
 	FRead(m_bActive, _pFile);
 	return CObject::LoadFromScene(_pFile);
 }
+
+void CComponent::SetActive(bool _bActive)
+{
+	if (_bActive == IsActive())
+		return;
+
+	if (GetGameObject()) {
+		if(GetGameObject()->IsActive()) {
+			if (_bActive) OnEnable();
+			else OnDisable();
+		}
+	}
+	
+	m_bActive = _bActive;
+}

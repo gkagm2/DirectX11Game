@@ -56,7 +56,17 @@ bool ScriptGUI::Start()
 		CObject::DestroyScriptEvn(pTargetObj, m_pScript);
 	}
 	ImGui::PopID();
+
+	ImGui::SameLine();
+	bool bActive = m_pScript->IsActive();
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::Checkbox("Active", &bActive))
+		m_pScript->SetActive(bActive);
+	ImGui::PopID();
+
 	m_fHeight += ImGui::GetItemRectSize().y;
+
+
 
 	return true;
 }

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CWeapon_bu.h"
 #include "CBullet_bu.h"
+#include "CCharacter_bu.h"
 
 CWeapon_bu::CWeapon_bu() :
 	CScript((UINT)SCRIPT_TYPE::WEAPON_BU),
@@ -36,12 +37,16 @@ CWeapon_bu::~CWeapon_bu()
 
 void CWeapon_bu::Start()
 {
+	m_pCharacter = GetGameObject()->GetComponent<CCharacter_bu>();
 	m_pChainSawObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Chainsaw);
 	m_pGunImageObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_GunImage);
 	m_pChainSawColObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ChainsawCol);
 	assert(m_pChainSawObj);
 	assert(m_pGunImageObj);
 	assert(m_pChainSawColObj);
+
+
+
 
 	tstring strPath = CPathManager::GetInstance()->GetContentPath();
 	m_pShotgunBullet = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletShotgun_bu.pref"));
@@ -65,6 +70,9 @@ void CWeapon_bu::Update()
 				m_bIsEnableFire = false;
 		}
 	}
+	else
+		m_bIsEnableFire = false;
+
 	if (m_bIsEnableFire) {
 		if (E_WeaponType_bu::Chainsaw == GetCurWeaponType())
 			if(m_pChainSawColObj->IsActive())
@@ -92,27 +100,42 @@ void CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 	bool isEnableFire = IsEnableFire();
 
 	if (isEnableFire) {
-		if(!GetCurWeapon().bInfinity)
-			--GetCurWeapon().iCurBullet;
+		if (!GetCurWeapon().bInfinity) {
+			
+		}
 		m_fFireTime = 0.f;
 	}
 
-	//총알을 생성한다.
 	if (isEnableFire) {
+		//총알을 생성한다.
 		if (m_eCurType == E_WeaponType_bu::Chainsaw)
 			m_pChainSawColObj->SetActive(true);
 		else {
+
 			//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
 			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
 			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
 			pBulletObj->SetTag(_iTag, true);
-			
+
 			pBul->Transform()->SetLocalPosition(_vMuzzlePos);
 			pBul->SetShootDir(_vShootDir);
 			pBul->Transform()->SetLocalRotation(_Rot);
 			UINT iLayer = (UINT)E_Layer::Object;
 			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+			--(GetCurWeapon().iCurBullet);
+			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
 		}
+		
+		if (m_eCurType == E_WeaponType_bu::MachineGun ||
+			m_eCurType == E_WeaponType_bu::Shotgun ||
+			m_eCurType == E_WeaponType_bu::GrenadeLauncher) {
+			m_pCharacter->GetMuzzleFlashObj()->SetActive(true);
+			m_pCharacter->GetMuzzleParticleObj()->SetActive(true);
+			m_pCharacter->GetMuzzleParticleObj()->Animator2D()->Play(E_AnimationState::Once, true);
+		}
+
+		// Muzzle 파티클 Action
+		
 	}
 }
 
@@ -161,7 +184,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 0,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 0,
-			tInfo.fRpm = 0.2f / 60.f,
+			tInfo.fRpm = 0.2f,
 			tInfo.bInfinity = true
 		};
 	}
@@ -172,7 +195,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 24,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 8,
-			tInfo.fRpm = 1.f / 60.f,
+			tInfo.fRpm = 1.f,
 			tInfo.bInfinity = false
 		};
 	}
@@ -182,7 +205,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 75,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 25,
-			tInfo.fRpm = 0.3f / 60.f,
+			tInfo.fRpm = 0.3f,
 			tInfo.bInfinity = false
 		};
 	}
@@ -192,7 +215,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 90,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 8,
-			tInfo.fRpm = 0.8f / 60.f,
+			tInfo.fRpm = 0.8f,
 			tInfo.bInfinity = false
 		};
 	}
@@ -202,7 +225,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 20,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 5,
-			tInfo.fRpm = 2.f / 60.f,
+			tInfo.fRpm = 2.f,
 			tInfo.bInfinity = false
 		};
 	}
@@ -212,7 +235,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 15,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 2,
-			tInfo.fRpm = 2.f / 60.f,
+			tInfo.fRpm = 2.f,
 			tInfo.bInfinity = false
 		};
 	}

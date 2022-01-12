@@ -74,27 +74,36 @@ void CGameObject::Awake()
 {
 	if (IsDead() || !IsActive())
 		return;
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Awake();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
-			if(m_arrComponent[i]->IsActive())
+			if (m_arrComponent[i]->IsActive()) {
 				m_arrComponent[i]->Awake();
+				m_arrComponent[i]->OnEnable();
+			}
+				
 		}
 	}
 
 	for (UINT i = 0; i < m_vecScript.size(); ++i) {
-		if(m_vecScript[i]->IsActive())
+		if (m_vecScript[i]->IsActive()) {
 			m_vecScript[i]->Awake();
+			m_vecScript[i]->OnEnable();
+		}
 	}
-		
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->Awake();
 }
 
 void CGameObject::Start()
 {
 	if (IsDead() || !IsActive())
 		return;
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Start();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
 			if(m_arrComponent[i]->IsActive())
@@ -105,16 +114,16 @@ void CGameObject::Start()
 		if (m_vecScript[i]->IsActive())
 			m_vecScript[i]->Start();
 	}
-		
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->Start();
 }
 
 void CGameObject::PrevUpdate()
 {
 	if (IsDead() || !IsActive())
 		return;
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->PrevUpdate();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
 			if (m_arrComponent[i]->IsActive())
@@ -126,15 +135,16 @@ void CGameObject::PrevUpdate()
 		if (m_vecScript[i]->IsActive())
 			m_vecScript[i]->PrevUpdate();
 	}
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->PrevUpdate();
 }
 
 void CGameObject::Update()
 {
 	if (IsDead() || !IsActive())
 		return;
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->Update();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
 			if (m_arrComponent[i]->IsActive())
@@ -146,15 +156,16 @@ void CGameObject::Update()
 		if (m_vecScript[i]->IsActive())
 			m_vecScript[i]->Update();
 	}
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->Update();
 }
 
 void CGameObject::LateUpdate()
 {
 	if (IsDead() || !IsActive())
 		return;
+
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->LateUpdate();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
 			if (m_arrComponent[i]->IsActive())
@@ -166,9 +177,6 @@ void CGameObject::LateUpdate()
 		if (m_vecScript[i]->IsActive())
 			m_vecScript[i]->LateUpdate();
 	}
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->LateUpdate();
 }
 
 void CGameObject::FinalUpdate()
@@ -177,15 +185,15 @@ void CGameObject::FinalUpdate()
 
 	if (IsDead())
 		return;
+	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->FinalUpdate();
+
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != m_arrComponent[i]) {
 			if(m_arrComponent[i]->IsActive())
 				m_arrComponent[i]->FinalUpdate();
 		}
 	}
-
-	for (UINT i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->FinalUpdate();
 }
 
 void CGameObject::Render()
@@ -231,11 +239,121 @@ void CGameObject::SetTag(UINT _iTag, bool _bChangeChilds)
 
 void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
 {
-	m_bActive = _bActive;
-	if(_bWithChilds) {
-		const vector<CGameObject*>& vecChilds = GetChildsObject();
-		for (size_t i = 0; i < vecChilds.size(); ++i)
-			vecChilds[i]->SetActive(_bActive, _bWithChilds);
+	bool isFixed = false;
+	if (m_bActive != _bActive)
+		isFixed = true;
+
+	if (isFixed) {
+		if (_bWithChilds) {
+			if (_bActive) { // 오브젝트를 enable하게 함.
+				for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+					if (m_arrComponent[i])
+						if (m_arrComponent[i]->IsActive()) {
+							if (_bActive)
+								m_arrComponent[i]->OnEnable();
+							else
+								m_arrComponent[i]->OnDisable();
+						}
+				}
+				for (size_t i = 0; i < m_vecScript.size(); ++i) {
+					if (m_vecScript[i]->IsActive()) {
+						if (_bActive)
+							m_vecScript[i]->OnEnable();
+						else
+							m_vecScript[i]->OnDisable();
+					}
+				}
+				const vector<CGameObject*>& vecChilds = GetChildsObject();
+				for (size_t i = 0; i < vecChilds.size(); ++i)
+					vecChilds[i]->SetActive(_bActive, _bWithChilds);
+
+			}
+			else { // 오브젝트를 disable하게 함.
+				list<CGameObject*> que;
+				list<CGameObject*> stk;
+				que.push_back(this);
+				while (!que.empty()) {
+					CGameObject* pObj = que.front();
+					stk.push_back(pObj);
+					que.pop_front();
+
+					const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
+					for (size_t i = 0; i < vecChilds.size(); ++i)
+						que.push_back(vecChilds[i]);
+				}
+				while (!stk.empty()) {
+					CGameObject* pObj = stk.back();
+					stk.pop_back();
+					pObj->SetActive(_bActive);
+				}
+			}
+		}
+		else {
+			for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+				if (m_arrComponent[i])
+					if (m_arrComponent[i]->IsActive()) {
+						if (_bActive)
+							m_arrComponent[i]->OnEnable();
+						else
+							m_arrComponent[i]->OnDisable();
+					}
+			}
+			for (size_t i = 0; i < m_vecScript.size(); ++i) {
+				if (m_vecScript[i]->IsActive()) {
+					if (_bActive)
+						m_vecScript[i]->OnEnable();
+					else
+						m_vecScript[i]->OnDisable();
+				}
+			}
+		}
+		m_bActive = _bActive;
+	}
+	else {
+		if (_bWithChilds) {
+			if (_bActive) { // 오브젝트를 enable하게 함.
+				for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+					if (m_arrComponent[i])
+						if (m_arrComponent[i]->IsActive()) {
+							if (_bActive)
+								m_arrComponent[i]->OnEnable();
+							else
+								m_arrComponent[i]->OnDisable();
+						}
+				}
+				for (size_t i = 0; i < m_vecScript.size(); ++i) {
+					if (m_vecScript[i]->IsActive()) {
+						if (_bActive)
+							m_vecScript[i]->OnEnable();
+						else
+							m_vecScript[i]->OnDisable();
+					}
+				}
+				const vector<CGameObject*>& vecChilds = GetChildsObject();
+				for (size_t i = 0; i < vecChilds.size(); ++i)
+					vecChilds[i]->SetActive(_bActive, _bWithChilds);
+
+			}
+			else { // 오브젝트를 disable하게 함.
+				list<CGameObject*> que;
+				list<CGameObject*> stk;
+				que.push_back(this);
+				while (!que.empty()) {
+					CGameObject* pObj = que.front();
+					stk.push_back(pObj);
+					que.pop_front();
+
+					const vector<CGameObject*>& vecChilds = pObj->GetChildsObject();
+					for (size_t i = 0; i < vecChilds.size(); ++i)
+						que.push_back(vecChilds[i]);
+				}
+				while (!stk.empty()) {
+					CGameObject* pObj = stk.back();
+					stk.pop_back();
+					pObj->SetActive(_bActive);
+				}
+			}
+		}
 	}
 }
 

@@ -11,7 +11,7 @@ CSwitch_bu::CSwitch_bu() :
 	m_iOffIdx(0),
 	m_iOnIdx(0)
 {
-	AddParam(TScriptParam{ _T("Target Interactive Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
+	AddParam(TScriptParam{ _T("Target Interact Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
 
 	AddParam(TScriptParam{ _T("Cur Switch State"), E_ScriptParam::BOOL, &m_bSwitchState });
 	AddParam(TScriptParam{ _T("On Anim Idx"), E_ScriptParam::INT, &m_iOnIdx });
@@ -26,7 +26,7 @@ CSwitch_bu::CSwitch_bu(const CSwitch_bu& _origin) :
 	m_iOffIdx(_origin.m_iOffIdx),
 	m_iOnIdx(_origin.m_iOnIdx)
 {
-	AddParam(TScriptParam{ _T("Target Interactive Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
+	AddParam(TScriptParam{ _T("Target Interact Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
 
 	AddParam(TScriptParam{ _T("Cur Switch State"), E_ScriptParam::BOOL, &m_bSwitchState });
 	AddParam(TScriptParam{ _T("On Anim Idx"), E_ScriptParam::INT, &m_iOnIdx });

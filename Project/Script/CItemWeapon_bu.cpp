@@ -31,7 +31,7 @@ CItemWeapon_bu::~CItemWeapon_bu()
 {
 }
 
-void CItemWeapon_bu::ItemInitWeapon()
+void CItemWeapon_bu::InitItem()
 {
 	if (E_WeaponType_bu::Shotgun == m_eWeaponType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemWPShotgun);
@@ -57,8 +57,9 @@ void CItemWeapon_bu::ItemInitWeapon()
 	m_strItemName = WeaponTypeToStr_bu(m_eWeaponType);
 }
 
-void CItemWeapon_bu::ItemWeapon()
+void CItemWeapon_bu::Interact(CCharacter_bu* _pTargetCharacter)
 {
+	m_pTargetCharacter = _pTargetCharacter;
 	// 아이템 잠금 해제
 	CWeapon_bu* pWeapon = m_pTargetCharacter->GetGameObject()->GetComponent<CWeapon_bu>();
 	if (!pWeapon) {
@@ -71,7 +72,6 @@ void CItemWeapon_bu::ItemWeapon()
 
 void CItemWeapon_bu::Start()
 {
-	_SetItemCallBack(&CItemWeapon_bu::ItemInitWeapon, &CItemWeapon_bu::ItemWeapon, this);
 	InitItem();
 }
 

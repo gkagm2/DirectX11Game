@@ -34,11 +34,10 @@ CItemHp_bu::~CItemHp_bu()
 
 void CItemHp_bu::Start()
 {
-	_SetItemCallBack(&CItemHp_bu::ItemInitHp, &CItemHp_bu::ItemHp, this);
 	InitItem();
 }
 
-void CItemHp_bu::ItemInitHp()
+void CItemHp_bu::InitItem()
 {
 	if (E_ItemHpType_bu::Hp1 == m_eHpType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemHp1);
@@ -60,8 +59,9 @@ void CItemHp_bu::ItemInitHp()
 		assert(nullptr);
 }
 
-void CItemHp_bu::ItemHp()
+void CItemHp_bu::Interact(CCharacter_bu* _pTargetCharacter)
 {
+	m_pTargetCharacter = _pTargetCharacter;
 	// Sound Ãâ·Â
 	float fHp = m_pTargetCharacter->GetHp();
 	fHp += m_fHp;

@@ -24,10 +24,32 @@ void CEventManager::Update()
 	// 삭제 예정 오브젝트 정리
 	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
 		m_vecDeadObj[i]->_UnlinkParentGameObject();
+		m_vecDeadObj[i]->SetActive(false, true);
+	}
+	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
+		queue<CGameObject*> que;
+		que.push(m_vecDeadObj[i]);
+		while (!que.empty()) {
+			CGameObject* pDeadObj = que.front();
+			que.pop();
+
+			for (size_t j = 0; j < (size_t)E_ComponentType::End; ++j) {
+				if (pDeadObj->m_arrComponent[j])
+					pDeadObj->m_arrComponent[j]->OnDestroy();
+			}
+			for (size_t j = 0; j < pDeadObj->m_vecScript.size(); ++j)
+				pDeadObj->m_vecScript[j]->OnDestroy();
+			
+			for (size_t i = 0; i < pDeadObj->GetChildsObject().size(); ++i)
+				que.push(pDeadObj->GetChildsObject()[i]);
+		}
+	}
+	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
 		delete m_vecDeadObj[i];
 		m_vecDeadObj[i] = nullptr;
 		m_bEventHappened = true;
 	}
+	
 	m_vecDeadObj.clear();
 
 	for (UINT i = 0; i < m_vecTargetLinkObj.size(); ++i) {

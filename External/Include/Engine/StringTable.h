@@ -195,6 +195,8 @@
 
 // Object Name
 #define BUTCHER_ObjName_Muzzle _T("Muzzle")
+#define BUTCHER_ObjName_MuzzleFlash _T("MuzzleFlash")
+#define BUTCHER_ObjName_MuzzleParticle _T("MuzzleParticle")
 #define BUTCHER_ObjName_Chainsaw _T("ChainSaw")
 #define BUTCHER_ObjName_ChainsawCol _T("ChainsawCol")
 #define BUTCHER_ObjName_GunImage _T("Gun Image")

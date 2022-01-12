@@ -16,6 +16,7 @@
 #include "CEnemyController_bu.h"
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
+#include "CEventFuncTest.h"
 #include "CGameManagerScript_sh.h"
 #include "CGameManager_bu.h"
 #include "CGameManager_ca.h"
@@ -38,6 +39,7 @@
 #include "CModuleCreator_ca.h"
 #include "CModuleScript_ca.h"
 #include "CMouseLookAt_bu.h"
+#include "CMuzzleParticle_bu.h"
 #include "CObjectDragAndDropScript_ca.h"
 #include "CPlayerController_bu.h"
 #include "CPlayerScript_ca.h"
@@ -70,6 +72,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEnemyController_bu");
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
+	_vec.push_back(L"CEventFuncTest");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CGameManager_bu");
 	_vec.push_back(L"CGameManager_ca");
@@ -92,6 +95,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CModuleCreator_ca");
 	_vec.push_back(L"CModuleScript_ca");
 	_vec.push_back(L"CMouseLookAt_bu");
+	_vec.push_back(L"CMuzzleParticle_bu");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
 	_vec.push_back(L"CPlayerController_bu");
 	_vec.push_back(L"CPlayerScript_ca");
@@ -140,6 +144,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnemyRespawnerScript_sh;
 	if (L"CEnemyScript_sh" == _strScriptName)
 		return new CEnemyScript_sh;
+	if (L"CEventFuncTest" == _strScriptName)
+		return new CEventFuncTest;
 	if (L"CGameManagerScript_sh" == _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CGameManager_bu" == _strScriptName)
@@ -184,6 +190,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CModuleScript_ca;
 	if (L"CMouseLookAt_bu" == _strScriptName)
 		return new CMouseLookAt_bu;
+	if (L"CMuzzleParticle_bu" == _strScriptName)
+		return new CMuzzleParticle_bu;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
 	if (L"CPlayerController_bu" == _strScriptName)
@@ -264,6 +272,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::ENEMYSCRIPT_SH:
 		return new CEnemyScript_sh;
 		break;
+	case (UINT)SCRIPT_TYPE::EVENTFUNCTEST:
+		return new CEventFuncTest;
+		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return new CGameManagerScript_sh;
 		break;
@@ -329,6 +340,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MOUSELOOKAT_BU:
 		return new CMouseLookAt_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::MUZZLEPARTICLE_BU:
+		return new CMuzzleParticle_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
@@ -440,6 +454,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CEnemyScript_sh";
 		break;
 
+	case SCRIPT_TYPE::EVENTFUNCTEST:
+		return L"CEventFuncTest";
+		break;
+
 	case SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return L"CGameManagerScript_sh";
 		break;
@@ -526,6 +544,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MOUSELOOKAT_BU:
 		return L"CMouseLookAt_bu";
+		break;
+
+	case SCRIPT_TYPE::MUZZLEPARTICLE_BU:
+		return L"CMuzzleParticle_bu";
 		break;
 
 	case SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:

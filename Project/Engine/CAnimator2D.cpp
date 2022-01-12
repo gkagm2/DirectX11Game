@@ -75,6 +75,15 @@ void CAnimator2D::Play(const tstring& _strAnimName, E_AnimationState _eAnimation
 	assert(m_pCurAnimation);
 }
 
+void CAnimator2D::Play(E_AnimationState _eAnimationState, bool _bReset)
+{
+	if (!m_pCurAnimation)
+		return;
+	m_pCurAnimation->Reset();
+	m_pCurAnimation->_Play();
+	m_eAnimationState = _eAnimationState;
+}
+
 void CAnimator2D::LoadAnimation(const tstring& _strRelativeFilePath)
 {
 	CAnimation2D* pAnim = new CAnimation2D;
