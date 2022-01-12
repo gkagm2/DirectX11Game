@@ -508,7 +508,7 @@ void Animator2DEditorGUI::_FixedAnimationPanel()
 	
 
 	// frame Á¶Àý
-	ImGui::SliderInt("Frame## FixedAnimator2D", &m_iCurFrameIdx, 0, max(0, vecAnimFrm.size() - 1));
+	ImGui::SliderInt("Frame## FixedAnimator2D", &m_iCurFrameIdx, 0, max(0, (int)(vecAnimFrm.size() - 1)));
 
 	CTexture* pCurTex = pCurAnim->GetTextures()[m_iCurFrameIdx].Get();
 

@@ -38,6 +38,10 @@ public:
 
 	void SetInspectorUIMode(E_InspectorUIMode _eMode) { m_eMode = _eMode; }
 
+	CGameObject* GetTargetObject() { return m_pTargetObject; }
+	CResource* GetTargetResource() { return m_pTargetResource; }
+
+
 private:
 	void _AddNewComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);
 	void _AddNewScriptComponent(DWORD_PTR _dw1, DWORD_PTR _dw2);

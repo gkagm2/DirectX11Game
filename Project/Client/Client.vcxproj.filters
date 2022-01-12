@@ -224,6 +224,9 @@
     <Filter Include="04. Contents\Butcher">
       <UniqueIdentifier>{8a5b2c08-b7cc-4933-a51e-187f0a34398a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\02. ToolObjects\DragAndDrop">
+      <UniqueIdentifier>{a68700d1-f11e-44bd-ae4f-6d48bf2f796c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -431,6 +434,9 @@
     <ClInclude Include="SpawningGUI_bu.h">
       <Filter>04. Contents\Butcher</Filter>
     </ClInclude>
+    <ClInclude Include="CToolDragAndDropScript.h">
+      <Filter>03. Tools\02. ToolObjects\DragAndDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -619,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="SpawningGUI_bu.cpp">
       <Filter>04. Contents\Butcher</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolDragAndDropScript.cpp">
+      <Filter>03. Tools\02. ToolObjects\DragAndDrop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

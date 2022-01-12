@@ -162,6 +162,7 @@
 #define STR_TOOL_OBJ_NAME_ToolCamera _T("Tool Camera_Engine")
 #define STR_TOOL_OBJ_NAME_ToolUICamera _T("Tool UI Camera_Engine")
 #define STR_TOOL_OBJ_NAME_ToolOrthogonalAxisCoordinate _T("Tool OrthogonalAxisCoordinate")
+#define STR_TOOL_OBJ_NAAME_DragAndDrop _T("Tool Drag_And_Drop")
 
 ///////////////////////
 // GameObject name

@@ -68,7 +68,7 @@ void SpawningGUI_bu::Update()
 		else if (InputKeyHold(E_Key::LAlt) && InputKeyPress(E_Key::LBUTTON)) {
 			bDelete = true;
 		}
-
+		// 오브젝트 드래그 기능 추가해서 옮기도록 합세.
 		if (bCreate) {
 		}
 

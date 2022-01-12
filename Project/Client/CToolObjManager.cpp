@@ -3,6 +3,7 @@
 #include "CGameObjectEx.h"
 #include "CCameraEx.h"
 #include "CToolCameraScript.h"
+#include "CToolDragAndDropScript.h"
 #include "COrthogonalLineScript.h"
 #include <Engine\CRenderManager.h>
 
@@ -57,6 +58,12 @@ void CToolObjManager::Init()
 		pOrthogonalAxisCoordinate->AddComponent<COrthogonalLineScript>();
 		pOrthogonalAxisCoordinate->AddComponent<CMeshRenderer>();
 		_AddGameObjectEx(pOrthogonalAxisCoordinate);
+	}
+	{
+		CGameObjectEx* pDragAndDropObj = new CGameObjectEx;
+		pDragAndDropObj->SetName(STR_TOOL_OBJ_NAAME_DragAndDrop);
+		pDragAndDropObj->AddComponent<CToolDragAndDropScript>();
+		_AddGameObjectEx(pDragAndDropObj);
 	}
 
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)

@@ -165,6 +165,7 @@
     <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CanvasRendererGUI.h" />
     <ClInclude Include="CCameraEx.h" />
+    <ClInclude Include="CToolDragAndDropScript.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -263,6 +264,7 @@
     <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CanvasRendererGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
+    <ClCompile Include="CToolDragAndDropScript.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
