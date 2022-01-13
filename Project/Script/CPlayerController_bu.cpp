@@ -2,6 +2,7 @@
 #include "CPlayerController_bu.h"
 #include <Engine\CCore.h>
 #include "CInteractiveObj_bu.h"
+#include "CCameraFollowerScript.h"
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
@@ -134,7 +135,15 @@ void CPlayerController_bu::OnBehavior()
 		Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
 		Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
 		Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
-		m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, (UINT)E_Tag::Player_Bullet);
+		bool isFired = m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, (UINT)E_Tag::Player_Bullet);
+		if (isFired) {
+			// cam shaking
+			CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
+			if (pMainCam) {
+				auto* pCamFol =pMainCam->GetGameObject()->GetComponent<CCameraFollowerScript>();
+				pCamFol->Shaking(false, 0.1f, 0.05f, -vfrontVec);
+			}
+		}
 	}
 
 	if (isWeaponSwap)

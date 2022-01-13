@@ -57,8 +57,6 @@ private:
 	// 유탄 총알
 	//SharedPtr<CPrefab> m_GranadeBullet;
 
-
-
 public:
 	virtual void Start() override;
 	virtual void Update() override;
@@ -79,8 +77,8 @@ public:
 	TWeaponInfo_bu& GetCurWeapon() { return m_tWeaponInfo[(UINT)m_eCurType]; }
 
 	bool IsEnableFire() { return m_bIsEnableFire; }
-	// 발사 위치, 로컬 위치의 발사 방향, 회전각도
-	void Fire(const Vector3& _vMuzzlePos, const Vector3& _vRot, const Vector3& _vShootDir, UINT _iTag);
+	// 발사 위치, 로컬 위치의 발사 방향, 회전각도. return : 발사 성공 여부
+	bool Fire(const Vector3& _vMuzzlePos, const Vector3& _vRot, const Vector3& _vShootDir, UINT _iTag);
 	void SetUseableWeapon(E_WeaponType_bu _eType, bool _bUse){ m_arrWeaponUse[(UINT)_eType] = _bUse; }
 	bool IsUseableWeapon(E_WeaponType_bu _eType) { return m_arrWeaponUse[(UINT)_eType]; }
 

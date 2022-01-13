@@ -78,9 +78,6 @@ void CWeapon_bu::Update()
 			if(m_pChainSawColObj->IsActive())
 				m_pChainSawColObj->SetActive(false);
 	}
-
-	;
-	_tcprintf(_T("%s,Cur BUllet : %d \n"), m_strCurWeaponName.c_str(), GetCurWeapon().iCurBullet); // Using
 }
 
 bool CWeapon_bu::SaveToScene(FILE* _pFile)
@@ -95,7 +92,7 @@ bool CWeapon_bu::LoadFromScene(FILE* _pFile)
 	return true;
 }
 
-void CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vector3& _vShootDir, UINT _iTag)
+bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vector3& _vShootDir, UINT _iTag)
 {
 	bool isEnableFire = IsEnableFire();
 
@@ -129,14 +126,11 @@ void CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 		if (m_eCurType == E_WeaponType_bu::MachineGun ||
 			m_eCurType == E_WeaponType_bu::Shotgun ||
 			m_eCurType == E_WeaponType_bu::GrenadeLauncher) {
-			m_pCharacter->GetMuzzleFlashObj()->SetActive(true);
-			m_pCharacter->GetMuzzleParticleObj()->SetActive(true);
-			m_pCharacter->GetMuzzleParticleObj()->Animator2D()->Play(E_AnimationState::Once, true);
+			m_pCharacter->GetMuzzleParticleObj()->SetActive(true,true);
 		}
-
 		// Muzzle ÆÄÆ¼Å¬ Action
-		
 	}
+	return isEnableFire;
 }
 
 void CWeapon_bu::AddWeaponBulletItem(E_WeaponType_bu _eType)

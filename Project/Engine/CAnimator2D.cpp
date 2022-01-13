@@ -79,8 +79,8 @@ void CAnimator2D::Play(E_AnimationState _eAnimationState, bool _bReset)
 {
 	if (!m_pCurAnimation)
 		return;
-	m_pCurAnimation->Reset();
-	m_pCurAnimation->_Play();
+	if (_bReset)
+		m_pCurAnimation->Reset();
 	m_eAnimationState = _eAnimationState;
 }
 

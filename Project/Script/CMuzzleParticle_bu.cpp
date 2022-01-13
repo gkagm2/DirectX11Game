@@ -11,19 +11,16 @@ void CMuzzleParticle_bu::Update()
 {
 	if (!Animator2D())
 		return;
-	if (!Animator2D()->GetCurAnimation()) {
+	if (Animator2D()->GetCurAnimation()) {
 		if (Animator2D()->GetCurAnimation()->IsFinished())
-			GetGameObject()->SetActive(false);
+			GetGameObject()->SetActive(false, true);
 	}
 }
 
 void CMuzzleParticle_bu::OnEnable()
 {
-	if (!Animator2D())
+	if (!Animator2D() || !Animator2D()->GetCurAnimation())
 		return;
+	
 	GetGameObject()->Animator2D()->Play(E_AnimationState::Once, true);
-}
-
-void CMuzzleParticle_bu::OnDisable()
-{
-}
+}	

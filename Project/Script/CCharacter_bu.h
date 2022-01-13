@@ -26,7 +26,6 @@ protected:
 
 	CGameObject* m_pMuzzleObj;
 	CGameObject* m_pMuzzleParticleObj;
-	CGameObject* m_pMuzzleFlashObj;
 	CGameObject* m_pGunRotationPosObj;
 
 	float m_fHp;
@@ -106,7 +105,6 @@ public:
 public:
 	CGameObject* GetMuzzleObj() { return m_pMuzzleObj; }
 	CGameObject* GetMuzzleParticleObj() { return m_pMuzzleParticleObj; }
-	CGameObject* GetMuzzleFlashObj() { return m_pMuzzleFlashObj; }
 	CGameObject* GetGunRotationPosObj() { return m_pGunRotationPosObj; }
 
 public:

@@ -11,6 +11,12 @@ private:
 	bool m_bEnableZoom;
 	float m_fMouseScrollSpeed;
 
+	float m_bIsShaking;
+	float m_fShakingTime;
+	float m_fMaxShakingTime;
+	bool m_bIsRandomShake;
+	float m_fShakeRange;
+	Vector3 m_vShakeDir;
 
 public:
 	virtual void Awake() override;
@@ -21,6 +27,8 @@ public:
 
 public:
 	void Zoom();
+	//Random true 시 ForceDir 방향을 입력할 필요 없음.
+	void Shaking(bool _bIsRandom, float _fRange, float _fTime, const Vector3& _vShakeDir = Vector3::Zero);
 
 public:
 	CLONE(CCameraFollowerScript);

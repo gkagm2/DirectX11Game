@@ -52,13 +52,15 @@ void CCameraFollowerScript::Update()
 	if (m_bEnableFollow) {
 		Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
 		Vector3 vCurPos = Transform()->GetPosition();
-		Vector3 vResultPos = CMyMath::Lerp(vCurPos, vTargetPos, m_fLerpSpeed * DT);
+
+		Vector3 vResultPos{};
+		if (m_bIsShaking)
+			vResultPos = vTargetPos;
+		else
+			vResultPos = CMyMath::Lerp(vCurPos, vTargetPos, m_fLerpSpeed * DT);
+
 		vResultPos.z = vCurPos.z;
 		Transform()->SetLocalPosition(vResultPos);
-
-		//Vector3 vTargetPosition = m_pTargetObj->Transform()->GetPosition();
-		//vTargetPosition.z = m_pTargetObj->Transform()->GetPosition().z;
-		//Transform()->SetLocalPosition(vTargetPosition);
 	}
 
 	if (m_bEnableZoom) {
@@ -67,6 +69,27 @@ void CCameraFollowerScript::Update()
 			E_MouseEventType::WheelDown == evt.GetType()) {
 			if (E_ProjectionType::Orthographic == Camera()->GetProjectionType())
 				Zoom();
+		}
+	}
+
+	if (m_bIsShaking) {
+		m_fShakingTime += DT;
+		if (m_fShakingTime >= m_fMaxShakingTime) { // ½Ã°£ ´ÙµÇ¸é ³¡³¿
+			m_bIsShaking = false;
+		}
+		else { // Èçµé±â
+			if (m_bIsRandomShake) {
+				float fCamPosX = rand() % (int)m_fShakeRange * 2 - m_fShakeRange;
+				float fCamPosY = rand() % (int)m_fShakeRange * 2 - m_fShakeRange;
+				Vector3 vShakingOffsetPos = Vector3(fCamPosX, fCamPosY, 0.f);
+				Vector3 vResPos = Transform()->GetLocalPosition() + vShakingOffsetPos;
+				Transform()->SetLocalPosition(vResPos);
+			}
+			else {
+				Vector3 vShakingOffsetPos = m_vShakeDir * m_fShakeRange;
+				Vector3 vResPos = Transform()->GetLocalPosition() + vShakingOffsetPos;
+				Transform()->SetLocalPosition(vResPos);
+			}
 		}
 	}
 }
@@ -101,4 +124,14 @@ void CCameraFollowerScript::Zoom()
 	fSize += fY;
 	fSize = max(0.001f, fSize);
 	Camera()->SetSize(fSize);
+}
+
+void CCameraFollowerScript::Shaking(bool _bIsRandom, float _fRange, float _fTime, const Vector3& _vShakeDir)
+{
+	m_bIsShaking = true;
+	m_fShakingTime = 0.f;
+	m_fMaxShakingTime = _fTime;
+	m_bIsRandomShake = _bIsRandom;
+	m_fShakeRange = _fRange;
+	m_vShakeDir = _vShakeDir;
 }
