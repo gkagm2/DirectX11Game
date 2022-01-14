@@ -68,10 +68,12 @@ void CAnimator2D::UpdateData()
 		m_pCurAnimation->UpdateData();
 }
 
-void CAnimator2D::Play(const tstring& _strAnimName, E_AnimationState _eAnimationState)
+void CAnimator2D::Play(const tstring& _strAnimName, E_AnimationState _eAnimationState, bool _bReset)
 {
 	m_eAnimationState = _eAnimationState;
 	m_pCurAnimation = FindAnimation(_strAnimName);
+	if (_bReset)
+		m_pCurAnimation->Reset();
 	assert(m_pCurAnimation);
 }
 

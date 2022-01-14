@@ -12,6 +12,7 @@
 #include <Engine\CKeyManager.h>
 #include <Engine\CTransform.h>
 #include <Engine\CRenderManager.h>
+#include <Engine\CObjectManager.h>
 #include <Engine\CCursor.h>
 
 TileMapEditorGUI::TileMapEditorGUI() :
@@ -122,14 +123,14 @@ void TileMapEditorGUI::Update()
 				// 목록 전달
 				vector<tstring> vecName;
 				CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
-				ListViewGUI* pListGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
-				assert(pListGUI);
-				if (pListGUI) {
-					pListGUI->SetList(vecName, _T("Atlas Texture"));
-					pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
-					pListGUI->SetPreViewTexRender(true);
-					pListGUI->SetActive(true);
-				}
+ListViewGUI* pListGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+assert(pListGUI);
+if (pListGUI) {
+	pListGUI->SetList(vecName, _T("Atlas Texture"));
+	pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
+	pListGUI->SetPreViewTexRender(true);
+	pListGUI->SetActive(true);
+}
 			}
 		}
 
@@ -159,7 +160,7 @@ void TileMapEditorGUI::Update()
 				vLBWorldPos.y = vObjWorldPos.y - vHalfScale.y;
 
 				Vector2 vOffsetLB = -Vector2(vLBWorldPos.x, vLBWorldPos.y);
-				
+
 				Vector3 vRTWorldPos = {};
 				vRTWorldPos.x = vLBWorldPos.x + GetTargetObject()->Transform()->GetScale().x;
 				vRTWorldPos.y = vLBWorldPos.y + GetTargetObject()->Transform()->GetScale().y;
@@ -215,6 +216,30 @@ void TileMapEditorGUI::Update()
 				}
 			}
 		}
+
+		if (ImGui::Button("CollderCreate##TileMap2D")) {
+			CGameObject* pObj = CObjectManager::GetInstance()->CreateEmptyGameObject();
+			pObj->SetName(_T("new Collders"));
+			vector<TTileInfo>& vecTiles = m_pTileMap->GetTilesInfo();
+			int iCol = m_pTileMap->GetCol();
+			int iRow = m_pTileMap->GetRow();
+			for (int y = 0; y < iRow; ++y) {
+				for (int x = 0; x < iCol; ++x) {
+					int idx = y * iCol + x;
+					if (vecTiles[idx].idx >= 0) {
+						// 생성
+						CGameObject* pColObj = CObjectManager::GetInstance()->CreateEmptyGameObject();
+						pColObj->AddComponent<CCollider2D>();
+						TCHAR strName[255];
+						_stprintf_s(strName, 255, _T("Col[%d,%d]"), x, y);
+						pColObj->SetName(strName);
+						pColObj->Transform()->SetLocalPosition(Vector3(x + 0.5f, iRow - y - 0.5f, 0));
+						CObject::AddChildGameObjectEvn(pObj, pColObj);
+					}
+				}
+			}
+		}
+
 		ImGui::End();
     }
 }

@@ -60,7 +60,7 @@ public:
 	virtual void UpdateData() override;
 
 	// Animation Name, Animation State
-	void Play(const tstring& _strAnimName, E_AnimationState _eAnimationState = E_AnimationState::Loop);
+	void Play(const tstring& _strAnimName, E_AnimationState _eAnimationState = E_AnimationState::Loop, bool _bReset = false);
 	// Current Animation Play
 	void Play(E_AnimationState _eAnimationState = E_AnimationState::Loop, bool _bReset = true);
 

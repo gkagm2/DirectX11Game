@@ -17,9 +17,7 @@ CCharacter_bu::CCharacter_bu() :
 	m_pFlipObj{ nullptr },
 	m_pFlipGunObj{ nullptr },
 	m_pMuzzleObj{ nullptr },
-	m_pMuzzleParticleObj{ nullptr },
-	m_fShotTime(0.3f),
-	m_fMaxShotTime(0.3f)
+	m_pMuzzleParticleObj{ nullptr }
 
 {
 }

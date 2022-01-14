@@ -2,22 +2,31 @@
 #include "CCharacter_Bu.h"
 #include <Engine\CPathFind2D.h>
 enum class E_AIState_bu {
-	Idle,
 	Wander,
 	Dead,
 	Stun,
 	Runaway,
 	Follow,
-	Shoot
+	Notice,
+	Bewildered,
 };
+tstring AIStateToStr_bu(E_AIState_bu _eState);
 
 class CEnemyController_bu : public CCharacter_bu
 {
 private:
+	CAnimator2D* m_pLegAnim;
+	CAnimator2D* m_pTorsoAnimSprite;
+
 	CGameObject* m_pTargetObj;
 	E_AIState_bu m_eAIState;
 	tstring strAIStateName;
-	CGameObject* m_pGunRotationPosObj;
+
+	CGameObject* m_pEmoticonObj;
+	CAnimator2D* m_pEmoticonAnim;
+
+	class CTargetLookAt_bu* m_pTargetLookAt;
+	bool m_bIsTargeting;
 
 
 	std::function<void()> m_CurAIStateInitFunc;
@@ -25,8 +34,10 @@ private:
 	std::function<void()> m_CurAIStateEndFunc;
 
 	CPathFind2D* m_pPathFind;
+	CGameObject* m_pWayPoint;
 
 	float m_fTargetFindTime;
+	float m_fMaxTargetFindTime;
 
 public:
 	virtual void Awake() override;
@@ -42,10 +53,6 @@ public:
 
 public:
 	// AI States
-	void IdleStateInit();
-	void IdleStateUpdate();
-	void IdleStateEnd();
-
 	void WanderStateInit();
 	void WanderStateUpdate();
 	void WanderStateEnd();
@@ -66,12 +73,29 @@ public:
 	void FollowStateUpdate();
 	void FollowStateEnd();
 
-	void ShootStateInit();
-	void ShootStateUpdate();
-	void ShootStateEnd();
+	void NoticeStateInit();
+	void NoticeStateUpdate();
+	void NoticeStateEnd();
 
+	void BewilderedStateInit();
+	void BewilderedStateUpdate();
+	void BewilderedStateEnd();
+
+	virtual void OnShootStart() override;
+	virtual void OnShootUpdate() override;
+	virtual void OnShootEnd() override;
+
+	virtual void OnIdleStart() override;
+	virtual void OnIdleUpdate() override;
+	virtual void OnIdleEnd() override;
+
+private:
+	// Targeting되어있는 상태면 적용 안됨
+	void _SetLookRightState(bool _bIsRight) { m_bIsLookRight = _bIsRight; }
+	
 public:
 	CLONE(CEnemyController_bu);
 	CEnemyController_bu();
+	CEnemyController_bu(const CEnemyController_bu& _origin);
 	virtual ~CEnemyController_bu() override;
 };

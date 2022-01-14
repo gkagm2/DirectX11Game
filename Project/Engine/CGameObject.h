@@ -256,7 +256,7 @@ inline TYPE* CGameObject::FindComponentInChilds()
 	while (!que.empty()) {
 		CGameObject* pObj = que.front();
 		que.pop_front();
-		TYPE* pComponent = GetComponent<TYPE>();
+		TYPE* pComponent = pObj->GetComponent<TYPE>();
 		if (pComponent) {
 			pFindComType = pComponent;
 			break;

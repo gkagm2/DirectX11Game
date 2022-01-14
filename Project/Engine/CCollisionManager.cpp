@@ -210,15 +210,15 @@ bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
 	vLT.z = vRT.z = vRB.z = vLB.z = vCenter.z = 0.f;
 
 	// Åõ¿µ Ãà
-	Vector3 vProjRight = _pCol->Transform()->GetLocalRightVector();
-	Vector3 vProjUp = _pCol->Transform()->GetLocalUpVector();
+	Vector3 vProjRight = _pCol->Transform()->GetRightVector();
+	Vector3 vProjUp = _pCol->Transform()->GetUpVector();
 	
 	const int iAxisCnt = 2;
 	Vector3 vPoint = Vector3(_vPoint.x, _vPoint.y, 0.f);
 
 	Vector3 vPointToCenter = vCenter - vPoint;
-	Vector3 vToRight = vRT - vLT;
-	Vector3 vToUp = vLT - vLB;
+	Vector3 vToRight = (vRT - vLT) * 0.5f;
+	Vector3 vToUp = (vLT - vLB) * 0.5f;
 
 	bool bIsMouseInBox1 = false;
 	bool bIsMouseInBox2 = false;

@@ -204,6 +204,7 @@
 #define BUTCHER_ObjName_Torse _T("Torse")
 #define BUTCHER_ObjName_Flip _T("Flip")
 #define BUTCHER_ObjName_FlipGun _T("FlipGun")
+#define BUTCHER_ObjName_Emoticon _T("Emoticon")
 
 #define BUTCHER_ObjName_ItemAnim _T("ItemAnim")
 
@@ -234,3 +235,7 @@
 #define BUTCHER_AnimName_ItemBulLaserGun _T("Item_Pic_BulLaserGun_bu")
 #define BUTCHER_AnimName_ItemBulChainsaw _T("Item_Pic_BulChainsaw_bu")
 #define BUTCHER_AnimName_ItemBulMachineGun _T("Item_Pic_BulMachineGun_bu")
+
+#define BUTCHER_AnimName_EmoticonSuprise _T("SupriseEmoticon_bu")
+#define BUTCHER_AnimName_EmoticonQuestionMark _T("QuestionMarkEmoticon_bu")
+#define BUTCHER_AnimName_EmoticonStun _T("StunEmoticon_bu")

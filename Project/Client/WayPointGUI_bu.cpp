@@ -35,8 +35,11 @@ void WayPointGUI_bu::Update()
 		return;
 	}
 
-	if (E_SceneMode::Stop != CSceneManager::GetInstance()->GetSceneMode())
+	if (E_SceneMode::Stop != CSceneManager::GetInstance()->GetSceneMode()) {
+		_Clear();
 		return;
+	}
+		
 	if(ImGui::Begin(STR_GUI_WayPoint_bu, &m_bGUIOpen)){
 		if (!m_bGUIOpen) {
 			_Clear();
@@ -118,19 +121,22 @@ CGameObject* WayPointGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)
 {
 	bool isCollision = false;
 	int idx = 0;
-	vector<CGameObject*>& vecWayPoints = m_pWayPoint->GetWayPointObjs();
-	for (int i = 0; i < vecWayPoints.size(); ++i) {
-		CGameObject* pObj = vecWayPoints[i];
-		CCollider2D* pCol = pObj->Collider2D();
-		isCollision = CCollisionManager::GetInstance()->IsCollision(pCol, _vWorldPos);
+	if (m_pWayPointObj) {
+		vector<CGameObject*>& vecWayPoints = m_pWayPoint->GetWayPointObjs();
+		for (int i = 0; i < vecWayPoints.size(); ++i) {
+			CGameObject* pObj = vecWayPoints[i];
+			CCollider2D* pCol = pObj->Collider2D();
+			isCollision = CCollisionManager::GetInstance()->IsCollision(pCol, _vWorldPos);
 
-		if (isCollision) {
-			idx = i;
-			break;
+			if (isCollision) {
+				idx = i;
+				break;
+			}
 		}
+		if (isCollision)
+			return vecWayPoints[idx];
 	}
-	if (isCollision)
-		return vecWayPoints[idx];
+	
 	return nullptr;
 }
 

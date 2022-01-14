@@ -79,6 +79,7 @@ void PrefabGUI::Update()
 	// 들어갈 레이어
 	string strLayerName = "NONE";
 	if (m_iLayer > 0) {
+		m_iLayer = min(MAX_SIZE_LAYER - 1, m_iLayer);
 		tstring tStrLayerName = LayerToString((E_Layer)m_iLayer);
 		TStringToString(tStrLayerName, strLayerName);
 	}

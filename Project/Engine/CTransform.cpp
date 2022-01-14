@@ -124,9 +124,9 @@ void CTransform::_LinkParent()
 
 
 	// 월드 좌표를 로컬 좌표로 넣는다.
-	Vector3 vParentWorldPos = GetPosition();
+	Vector3 vParentWorldPos = GetGameObject()->GetParentObject()->Transform()->GetPosition();
 	Vector3 vParentScalePos = GetGameObject()->GetParentObject()->Transform()->GetScale();
-	Vector3 vChildPos = GetPosition();
+	Vector3 vChildPos = GetLocalPosition();
 	if (GetGameObject()->GetParentObject()) {
 		vParentWorldPos = GetGameObject()->GetParentObject()->Transform()->GetPosition();
 	}

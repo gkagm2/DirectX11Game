@@ -191,6 +191,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Client\PrefabGUI.cpp" />
     <ClCompile Include="MFCDialog.cpp" />
     <ClCompile Include="MFCDialogDlg.cpp" />
     <ClCompile Include="pch.cpp">

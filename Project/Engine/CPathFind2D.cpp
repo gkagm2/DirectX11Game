@@ -3,8 +3,12 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 
-const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
-const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+//const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
+//const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+
+const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, };
+const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, };
+const int dirCnt = 4;
 
 CPathFind2D::CPathFind2D()
 {
@@ -23,25 +27,32 @@ void CPathFind2D::Update()
 {
 }
 
-float CPathFind2D::GetDistance(int x1, int y1, int x2, int y2)
+float CPathFind2D::_GetDistance(int x1, int y1, int x2, int y2)
 {
 	return sqrtf(float((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
 
-bool CPathFind2D::IsUnBlocked(int x, int y)
+bool CPathFind2D::_IsUnBlocked(int x, int y)
 {
+	set<Vector2>::iterator iter = m_setObstacleTile.begin();
+	for (; iter != m_setObstacleTile.end(); ++iter) {
+		Vector2 tilePos = *iter;
+		if (tilePos.x == x && tilePos.y == y)
+			return false;
+	}
 	return true;
 }
 
-bool CPathFind2D::IsDestination(int x, int y, const Vector2& dest)
+bool CPathFind2D::_IsDestination(int x, int y, const Vector2& dest)
 {
-	if (x == (int)dest.x && y == (int)dest.y)
+	if (x == (int)dest.x && y == (int)dest.y) {
 		return true;
+	}
 	return false;
 }
 
 // 시작위치에서부터 목적지까지의 경로를 추적한다.
-void CPathFind2D::TracePath(const vector<vector<Cell>>& cellDetails, const Vector2& dest)
+void CPathFind2D::_TracePath(const vector<vector<Cell>>& cellDetails, const Vector2& dest)
 {
 	int x = (int)dest.x;
 	int y = (int)dest.y;
@@ -49,7 +60,7 @@ void CPathFind2D::TracePath(const vector<vector<Cell>>& cellDetails, const Vecto
 	m_stkPath.clear();
 
 	while (!(cellDetails[y][x].parentX == x && cellDetails[y][x].parentY == y)) {
-		m_stkPath.push_front(Vector2(x,y));
+		m_stkPath.push_front(Vector2(x - GetOffsetPos().x,y - GetOffsetPos().y));
 
 		int tempX = cellDetails[y][x].parentX;
 		int tempY = cellDetails[y][x].parentY;
@@ -69,18 +80,21 @@ bool CPathFind2D::IsValid(int x, int y)
 
 bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 {
+	const Vector2& vecOriginMin =  GetOffsetPos();
+	Vector2 vStart = start + vecOriginMin;
+	Vector2 vDest = dest + vecOriginMin;
 	m_bFoundDestination = false;
-	if (false == IsValid(start.x, start.y))
+	if (false == IsValid(vStart.x, vStart.y))
 		return false;
-	if (false == IsValid(dest.x, dest.y))
-		return false;
-
-	if (false == IsUnBlocked(start.x, start.y))
-		return false;
-	if (false == IsUnBlocked(dest.x, dest.y))
+	if (false == IsValid(vDest.x, vDest.y))
 		return false;
 
-	if (IsDestination(start.x, start.y, dest))
+	if (false == _IsUnBlocked(vStart.x, vStart.y))
+		return false;
+	if (false == _IsUnBlocked(vDest.x, vDest.y))
+		return false;
+
+	if (_IsDestination(vStart.x, vStart.y, vDest))
 		return false;
 
 	int iRow = m_iRow;
@@ -100,7 +114,7 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 	}
 
 	// 시작 노드를 초기화 한다.
-	int iX = start.x, iY = start.y; // i = y, j = x
+	int iX = vStart.x, iY = vStart.y; // i = y, j = x
 	cellDetails[iY][iX].f = 0.f;
 	cellDetails[iY][iX].g = 0.f;
 	cellDetails[iY][iX].h = 0.f;
@@ -125,24 +139,24 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 		closedList[iY][iX] = true;
 
 		// 8방향의 successor를 생성한다.
-		for (int d = 0; d < 8; ++d) {
+		for (int d = 0; d < dirCnt; ++d) {
 			int x = iX + m_iDirX[d];
 			int y = iY + m_iDirY[d];
 
 			if (false == IsValid(x, y))
 				continue;
 
-			if (true == IsDestination(x, y, dest)) {
+			if (true == _IsDestination(x, y, vDest)) {
 				// 목적지 Cell의 부모를 설정한다.
 				cellDetails[y][x].parentX = iX;
 				cellDetails[y][x].parentY = iY;
 				m_bFoundDestination = true;
-				TracePath(cellDetails, dest);
+				_TracePath(cellDetails, vDest);
 				return true;
 			}
-			else if (false == closedList[y][x] && true == IsUnBlocked(x, y)) {
+			else if (false == closedList[y][x] && true == _IsUnBlocked(x, y)) {
 				float gNew = cellDetails[iY][iX].g + 1.0f;
-				float hNew = (float)GetDistance(x, y, dest.x, dest.y);
+				float hNew = (float)_GetDistance(x, y, vDest.x, vDest.y);
 				float fNew = gNew + hNew;
 
 				// openList가 아니면 openList에 추가한다.
@@ -165,12 +179,16 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 
 void CPathFind2D::AddObstacleTile(Vector2 _vPos)
 {
-	m_setObstacleTile.insert(_vPos);
+	Vector2 vPos = Vector2((int)_vPos.x, (int)_vPos.y);
+	vPos = vPos + GetOffsetPos();
+	m_setObstacleTile.insert(vPos);
 }
 
 void CPathFind2D::DeleteObstacleTile(Vector2 _vPos)
 {
-	m_setObstacleTile.erase(_vPos);
+	Vector2 vPos = Vector2((int)_vPos.x, (int)_vPos.y);
+	vPos = vPos + GetOffsetPos();
+	m_setObstacleTile.erase(vPos);
 }
 
 bool CPathFind2D::IsArrivedDestination()
@@ -184,10 +202,12 @@ bool CPathFind2D::IsArrivedDestination()
 	return false;
 }
 
-bool CPathFind2D::IsObstacle(int _iCol, int _iRow)
+bool CPathFind2D::IsObstacle(const Vector2& _vObstaclePos)
 {
+	int iCol = (int)(_vObstaclePos.x + GetOffsetPos().x);
+	int iRow = (int)(_vObstaclePos.y + GetOffsetPos().y);
 	for (auto iter = m_setObstacleTile.begin(); iter != m_setObstacleTile.end(); ++iter) {
-		if (_iCol == iter->x && _iRow == iter->y)
+		if (iCol == iter->x && iRow == iter->y)
 			return true;
 	}
 	return false;

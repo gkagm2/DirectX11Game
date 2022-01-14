@@ -42,9 +42,6 @@ protected:
 	CGameObject* m_pFlipObj;
 	CGameObject* m_pFlipGunObj;
 
-	float m_fShotTime;
-	float m_fMaxShotTime;
-
 public:
 	virtual void Awake() override;
 
@@ -101,6 +98,7 @@ public:
 	void SetHp(float _fHp) { m_fHp = _fHp; }
 	void SetArmor(float _fArmor) { m_fArmor = _fArmor; }
 	
+	bool IsLookRight() { return m_bIsLookRight; }
 
 public:
 	CGameObject* GetMuzzleObj() { return m_pMuzzleObj; }

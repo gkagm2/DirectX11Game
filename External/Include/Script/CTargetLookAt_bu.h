@@ -4,8 +4,10 @@ class CTargetLookAt_bu : public CScript
 {
 private:
 	CGameObject* m_pTargetObj;
+	class CCharacter_bu* m_pCharacter;
 
 public:
+	virtual void Awake() override;
 	virtual void Update() override;
 
 	void SetTargetObj(CGameObject* _pTargetObj) { m_pTargetObj = _pTargetObj; }
