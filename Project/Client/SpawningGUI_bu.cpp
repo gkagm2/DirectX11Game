@@ -78,6 +78,12 @@ void SpawningGUI_bu::Update()
 	if (!m_bGUIOpen) {
 		return;
 	}
+
+	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
+		_Clear();
+		return;
+	}
+
 	if (ImGui::Begin(STR_GUI_Spawning_bu, &m_bGUIOpen)) {
 		if (!m_bGUIOpen) {
 			_Clear();
@@ -217,7 +223,7 @@ void SpawningGUI_bu::_CreateEnemy()
 
 	UINT iLayer = (UINT)E_Layer::Object;
 	m_pTargetObj = CObject::InstantiateEvn(m_pEnemyPrefab, Vector3::Zero, iLayer);
-	auto* pCom = m_pTargetObj->GetComponent< CWeapon_bu>();
+	CWeapon_bu* pCom = m_pTargetObj->GetComponent<CWeapon_bu>();
 	E_WeaponType_bu eType = (E_WeaponType_bu)m_iCurEnemyWeaponTypeIdx;
 	pCom->SetUseableWeapon(eType, true);
 	pCom->ChangeWeapon(eType);

@@ -150,6 +150,20 @@ void CWeapon_bu::AddWeaponBulletItem(E_WeaponType_bu _eType)
 
 void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 {
+	if (!m_pChainSawObj) {
+		m_pChainSawObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Chainsaw);
+		assert(m_pChainSawObj);
+	}
+	if (!m_pGunImageObj) {
+		m_pGunImageObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_GunImage);
+		assert(m_pGunImageObj);
+
+	}
+	if (!m_pChainSawColObj) {
+		m_pChainSawColObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ChainsawCol);
+		assert(m_pChainSawColObj);
+	}
+
 	m_eCurType = _eType;
 	if (_eType == E_WeaponType_bu::Chainsaw) {
 		m_pGunImageObj->SetActive(false);
