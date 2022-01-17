@@ -83,11 +83,13 @@ void CCameraFollowerScript::Update()
 				float fCamPosY = rand() % (int)m_fShakeRange * 2 - m_fShakeRange;
 				Vector3 vShakingOffsetPos = Vector3(fCamPosX, fCamPosY, 0.f);
 				Vector3 vResPos = Transform()->GetLocalPosition() + vShakingOffsetPos;
+				vShakingOffsetPos.z = Transform()->GetLocalPosition().z;
 				Transform()->SetLocalPosition(vResPos);
 			}
 			else {
 				Vector3 vShakingOffsetPos = m_vShakeDir * m_fShakeRange;
 				Vector3 vResPos = Transform()->GetLocalPosition() + vShakingOffsetPos;
+				vShakingOffsetPos.z = Transform()->GetLocalPosition().z;
 				Transform()->SetLocalPosition(vResPos);
 			}
 		}

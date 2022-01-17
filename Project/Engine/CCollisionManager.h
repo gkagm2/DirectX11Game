@@ -58,5 +58,7 @@ public:
 	bool IsCollision(CRectTransform* _pRT, const Vector2& _vMousePosition);
 
 private:
+	// OBB
 	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo** _tRigidColInfo);
+	bool _IsCOllision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo** _tRigidColInfo);
 };

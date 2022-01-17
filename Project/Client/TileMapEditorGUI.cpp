@@ -453,7 +453,7 @@ void TileMapEditorGUI::_OptimizeCollisionArea()
 		CGameObject* pColObj = CObjectManager::GetInstance()->CreateEmptyGameObject();
 		pColObj->AddComponent<CCollider2D>();
 		TCHAR strName[255];
-		_stprintf_s(strName, 255, _T("Col[%d,%d]"), vPos.x, vPos.y);
+		_stprintf_s(strName, 255, _T("Col[%d,%d]"), (int)vPos.x, (int)vPos.y);
 		pColObj->SetName(strName);
 
 		//Vector2 offset{ 0.5f, -y - 0.5f };

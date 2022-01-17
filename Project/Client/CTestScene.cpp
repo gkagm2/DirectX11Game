@@ -285,8 +285,13 @@ void CTestScene::Butcher()
 {
 	CScene* pNewScene = new CScene;
 
-	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Object, true);
-	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::TileMap, true);
+	CCollisionManager::GetInstance()->ClearAllCollisionLayer();
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Wall, true);
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Player, (UINT)E_Layer::Wall, true);
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Player, (UINT)E_Layer::EnemyBullet, true);
+
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Enemy, (UINT)E_Layer::PlayerBullet, true);
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Enemy, (UINT)E_Layer::Wall, true);
 
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }

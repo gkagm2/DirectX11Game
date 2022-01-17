@@ -80,23 +80,23 @@ void CEnemyController_bu::Start()
 {
 	vector<CGameObject*> vecWallObjs;
 	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecWallObjs, (UINT)E_Layer::Object);
-	for (int i = -75; i < 75; ++i) {
-		for (int j = -75; j < 75; ++j) {
-			for (int m = 0; m < vecWallObjs.size(); ++m) {
-				if (vecWallObjs[m]->GetTag() == (UINT)E_Tag::Wall) {
-					bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3(j, i, 0));
-					if (isCol) {
-						if (!m_pPathFind->IsObstacle(Vector2(j, i))) {
-							m_pPathFind->AddObstacleTile(Vector2(j, i));
-							//CGameObject* pObj = CObjectManager::GetInstance()->Create2DRectGameObject();
-							//pObj->Transform()->SetLocalPosition(Vector3(j, i, 0));
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
+	//for (int i = -75; i < 75; ++i) {
+	//	for (int j = -75; j < 75; ++j) {
+	//		for (int m = 0; m < vecWallObjs.size(); ++m) {
+	//			if (vecWallObjs[m]->GetTag() == (UINT)E_Tag::Wall) {
+	//				bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3(j, i, 0));
+	//				if (isCol) {
+	//					if (!m_pPathFind->IsObstacle(Vector2(j, i))) {
+	//						//m_pPathFind->AddObstacleTile(Vector2(j, i));
+	//						//CGameObject* pObj = CObjectManager::GetInstance()->Create2DRectGameObject();
+	//						//pObj->Transform()->SetLocalPosition(Vector3(j, i, 0));
+	//						break;
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 	AIStart();
 
 	TWeaponInfo_bu& tWeaponInfo =  m_pWeapon->GetCurWeapon();
