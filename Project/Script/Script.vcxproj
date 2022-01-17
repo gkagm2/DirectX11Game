@@ -172,11 +172,15 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CActivatorController.h" />
+    <ClInclude Include="CActivator_bu.h" />
     <ClInclude Include="CBullet_bu.h" />
+    <ClInclude Include="CDeactivator_bu.h" />
     <ClInclude Include="CDoor_bu.h" />
     <ClInclude Include="CElevator_bu.h" />
     <ClInclude Include="CEnemyController_bu.h" />
     <ClInclude Include="CEventFuncTest.h" />
+    <ClInclude Include="CGroundCheck_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItemArmor_bu.h" />
     <ClInclude Include="CItemBullet_bu.h" />
@@ -185,6 +189,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CMouseLookAt_bu.h" />
     <ClInclude Include="CMuzzleParticle_bu.h" />
+    <ClInclude Include="CObjectManager_bu.h" />
+    <ClInclude Include="CRespawnManager_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
@@ -230,11 +236,15 @@ call CodeGen.exe</Command>
     <ClInclude Include="CUIContainer_bu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CActivatorController.cpp" />
+    <ClCompile Include="CActivator_bu.cpp" />
     <ClCompile Include="CBullet_bu.cpp" />
+    <ClCompile Include="CDeactivator_bu.cpp" />
     <ClCompile Include="CDoor_bu.cpp" />
     <ClCompile Include="CElevator_bu.cpp" />
     <ClCompile Include="CEnemyController_bu.cpp" />
     <ClCompile Include="CEventFuncTest.cpp" />
+    <ClCompile Include="CGroundCheck_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItemArmor_bu.cpp" />
     <ClCompile Include="CItemBullet_bu.cpp" />
@@ -243,6 +253,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CMouseLookAt_bu.cpp" />
     <ClCompile Include="CMuzzleParticle_bu.cpp" />
+    <ClCompile Include="CObjectManager_bu.cpp" />
+    <ClCompile Include="CRespawnManager_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />

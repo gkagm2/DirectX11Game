@@ -25,6 +25,9 @@ public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
+	void SetItemType(E_ItemArmorType_bu _eType) { m_eArmorType = _eType; InitItem();
+	}
+
 
 public:
 	CLONE(CItemArmor_bu);

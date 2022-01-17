@@ -24,6 +24,7 @@
 
 // Butcher Game
 #include "WayPointGUI_bu.h"
+#include "SpawningGUI_bu.h"
 
 MainMenuGUI::MainMenuGUI() :
     bPlay(true),
@@ -133,6 +134,9 @@ void MainMenuGUI::Update()
         if (ImGui::BeginMenu("Butcher Game")) {
             if (ImGui::MenuItem("Way Point Tool")) {
                 OpenWayPointTool();
+            }
+            if (ImGui::MenuItem("Spawning Tool")) {
+                OpenSpawningTool_bu();
             }
             ImGui::EndMenu();
         }
@@ -418,6 +422,16 @@ void MainMenuGUI::OpenWayPointTool()
     WayPointGUI_bu* pGUI = dynamic_cast<WayPointGUI_bu*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_WayPoint_bu));
     if (!pGUI) {
         assert(nullptr && _T("WayPoint butcher를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenSpawningTool_bu()
+{
+    SpawningGUI_bu* pGUI = dynamic_cast<SpawningGUI_bu*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Spawning_bu));
+    if (!pGUI) {
+        assert(nullptr && _T("Spawning Tool butcher를 열 수 없다."));
         return;
     }
     pGUI->SetActive(true);

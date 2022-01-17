@@ -39,6 +39,8 @@ private:
 	float m_fTargetFindTime;
 	float m_fMaxTargetFindTime;
 
+	float m_fMaxDetectDistance;
+
 public:
 	virtual void Awake() override;
 	virtual void Start() override;
@@ -88,6 +90,15 @@ public:
 	virtual void OnIdleStart() override;
 	virtual void OnIdleUpdate() override;
 	virtual void OnIdleEnd() override;
+
+	virtual void OnMoveStart() override;
+	virtual void OnMoveUpdate() override;
+	virtual void OnMoveEnd() override;
+
+	virtual void OnJumpStart() override;
+	virtual void OnJumpUpdate() override;
+	virtual void OnJumpEnd() override;
+
 
 private:
 	// Targeting되어있는 상태면 적용 안됨

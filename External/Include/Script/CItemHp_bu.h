@@ -27,6 +27,9 @@ public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 
+	void SetItemType(E_ItemHpType_bu _eType) { m_eHpType = _eType; InitItem();
+	}
+
 public:
 	CLONE(CItemHp_bu);
 	CItemHp_bu();

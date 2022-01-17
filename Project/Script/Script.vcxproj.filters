@@ -112,6 +112,9 @@
     <Filter Include="Games\Butcher\InGames\Bullets">
       <UniqueIdentifier>{c8b3c528-0cfd-4575-b83d-94e91b00a0f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\InGames\Activator">
+      <UniqueIdentifier>{2ad77282-bd93-46a3-9f0b-19b73aa72ae6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -268,7 +271,6 @@
     <ClInclude Include="CMouseLookAt_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
-    <ClInclude Include="CTargetLookAt_bu.h" />
     <ClInclude Include="CBullet_bu.h">
       <Filter>Games\Butcher\InGames\Bullets</Filter>
     </ClInclude>
@@ -276,6 +278,27 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
     <ClInclude Include="CEventFuncTest.h" />
+    <ClInclude Include="CObjectManager_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetLookAt_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CActivator_bu.h">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClInclude>
+    <ClInclude Include="CActivatorController.h">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClInclude>
+    <ClInclude Include="CDeactivator_bu.h">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClInclude>
+    <ClInclude Include="CRespawnManager_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CGroundCheck_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -432,7 +455,6 @@
     <ClCompile Include="CMouseLookAt_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
-    <ClCompile Include="CTargetLookAt_bu.cpp" />
     <ClCompile Include="CBullet_bu.cpp">
       <Filter>Games\Butcher\InGames\Bullets</Filter>
     </ClCompile>
@@ -440,5 +462,26 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
     <ClCompile Include="CEventFuncTest.cpp" />
+    <ClCompile Include="CObjectManager_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CTargetLookAt_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CActivator_bu.cpp">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClCompile>
+    <ClCompile Include="CActivatorController.cpp">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClCompile>
+    <ClCompile Include="CDeactivator_bu.cpp">
+      <Filter>Games\Butcher\InGames\Activator</Filter>
+    </ClCompile>
+    <ClCompile Include="CRespawnManager_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CGroundCheck_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -296,6 +296,8 @@ enum class E_Tag {
 	DangerObj,//6 닿으면 위험한 오브젝트
 	Player_Bullet, // 7
 	Enemy_Bullet, // 8
+	Player_GroundCheck,//9
+	Enemy_GroundCheck,//10
 	End
 };
 

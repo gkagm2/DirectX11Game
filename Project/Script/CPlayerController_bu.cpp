@@ -14,6 +14,7 @@ CPlayerController_bu::CPlayerController_bu() :
 
 CPlayerController_bu::~CPlayerController_bu()
 {
+
 }
 
 void CPlayerController_bu::Awake()
@@ -83,8 +84,7 @@ void CPlayerController_bu::OnCollisionStay2D(CCollider2D* pCol)
 void CPlayerController_bu::OnBehavior()
 {
 	bool isMove = false;
-	bool isJump = false;
-	bool isAttack = false; 
+	bool isAttack = false;
 
 	bool isWeaponSwap = false;
 	int iWeaponIdx = 0;
@@ -97,8 +97,14 @@ void CPlayerController_bu::OnBehavior()
 		m_vCurMoveDir = Vector3(1.f, 0.f, 0.f);
 		isMove = true;
 	}
-	if (InputKeyHold(E_Key::W)) {
-		isJump = true;
+
+	if (InputKeyPress(E_Key::W)) {
+		if (m_bCanJump) {
+			m_bJump = true;
+			ChangeState(E_CharacterState::Jump);
+			m_fJumpCoolTime = 0.f;
+		}
+
 	}
 
 	if (InputKeyHold(E_Key::LBUTTON)) {
@@ -113,7 +119,7 @@ void CPlayerController_bu::OnBehavior()
 			iWeaponIdx = i;
 		}
 	}
-	
+
 	if (isMove) {
 		Vector3 vMovePower = m_vCurMoveDir;
 		vMovePower *= m_fMovePower;
@@ -124,11 +130,18 @@ void CPlayerController_bu::OnBehavior()
 		ChangeState(E_CharacterState::Idle);
 	}
 
-	if (isJump) {
-		Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
-		vJumpPower *= m_fJumpPower;
-		m_pRigid->AddForce(vJumpPower);
-		ChangeState(E_CharacterState::Jump);
+	if (m_bJump) {
+		m_fJumpCoolTime += DT;
+		if (m_fJumpCoolTime <= m_fJumpMaxCoolTime) {
+			{
+				Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
+				vJumpPower *= m_fJumpPower;
+				Vector3 vPower = (m_fJumpMaxCoolTime - m_fJumpCoolTime)* vJumpPower* 2;
+				m_pRigid->AddForce(vPower);
+			}
+		}
+		else
+			m_bJump = false;
 	}
 
 	if (isAttack) {

@@ -14,7 +14,8 @@ CEnemyController_bu::CEnemyController_bu() :
 	m_fMaxTargetFindTime(1.0f),
 	m_pEmoticonObj{ nullptr },
 	m_pEmoticonAnim{ nullptr },
-	m_pTargetLookAt{ nullptr }
+	m_pTargetLookAt{ nullptr },
+	m_fMaxDetectDistance{ 5.f }
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
@@ -31,7 +32,8 @@ CEnemyController_bu::CEnemyController_bu(const CEnemyController_bu& _origin) :
 	m_fMaxTargetFindTime(_origin.m_fMaxTargetFindTime),
 	m_pEmoticonObj{ nullptr },
 	m_pEmoticonAnim{ nullptr },
-	m_pTargetLookAt{ nullptr }
+	m_pTargetLookAt{ nullptr },
+	m_fMaxDetectDistance{ 5.f }
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
@@ -95,12 +97,25 @@ void CEnemyController_bu::Start()
 			}
 		}
 	}
-
 	AIStart();
+
+	TWeaponInfo_bu& tWeaponInfo =  m_pWeapon->GetCurWeapon();
+	tWeaponInfo.bInfinity = true;
 }
 
 void CEnemyController_bu::Update()
 {
+	bool isMove = false;
+
+	Vector3 vForce = Rigidbody2D()->GetForce();
+	if (vForce != Vector3::Zero) {
+		isMove = true;
+	}
+	else
+		isMove = false;
+
+
+
 	if (!m_pTargetObj) {
 		m_fTargetFindTime += DT;
 		if (m_fTargetFindTime > m_fMaxTargetFindTime) {
@@ -108,6 +123,29 @@ void CEnemyController_bu::Update()
 			m_fTargetFindTime = 0.f;
 		}
 	}
+
+
+	if (m_bJump) {
+		m_fJumpCoolTime += DT;
+		if (m_fJumpCoolTime <= m_fJumpMaxCoolTime) {
+			{
+				Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
+				vJumpPower *= m_fJumpPower;
+				Vector3 vPower = (m_fJumpMaxCoolTime - m_fJumpCoolTime) * vJumpPower * 2;
+				Rigidbody2D()->AddForce(vPower);
+			}
+		}
+		else
+			m_bJump = false;
+	}
+
+	if (isMove) {
+		ChangeState(E_CharacterState::Move);
+	}
+	else
+		ChangeState(E_CharacterState::Idle);
+
+
 
 	// 각도에 따라서 상체 애니메이션을 다르게 한다.
 	
@@ -189,6 +227,19 @@ void CEnemyController_bu::AIUpdate()
 {
 	if(m_CurAIStateUpdateFunc)
 		m_CurAIStateUpdateFunc();
+
+	if (m_pTargetObj) {
+		Vector3 vTargePos = m_pTargetObj->Transform()->GetPosition();
+		Vector3 vMyPos = Transform()->GetPosition();
+		float fDis = Vector3::Distance(vTargePos, vMyPos);
+
+		if (fDis <= m_fMaxDetectDistance) {
+			ChangeAIState(E_AIState_bu::Follow);
+		}
+		else {
+			ChangeAIState(E_AIState_bu::Wander);
+		}
+	}
 }
 
 void CEnemyController_bu::AIEnd()
@@ -382,6 +433,7 @@ void CEnemyController_bu::FollowStateInit()
 	fDetectRange = 5.f;
 	m_fTargetFindTime = m_fMaxTargetFindTime;
 	isKeepGoToTargetPos = false;
+	m_pTargetLookAt->SetTargetObj(m_pTargetObj);
 
 	// targetObject 세팅
 	// target look at의 타겟을 세팅
@@ -389,10 +441,10 @@ void CEnemyController_bu::FollowStateInit()
 
 void CEnemyController_bu::FollowStateUpdate()
 {
-	Vector2 vTargetPos = m_pTargetObj->Transform()->GetPosition().XY();
-	Vector2 vMyPos = Transform()->GetPosition().XY();
+	Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
+	Vector3 vMyPos = Transform()->GetPosition();
 
-	float fLength = Vector2::Distance(vTargetPos, vMyPos);
+	float fLength = Vector2::Distance(vTargetPos.XY(), vMyPos.XY());
 
 	bool bKeepFollow = true;
 	if (fLength > fDetectRange)
@@ -402,10 +454,30 @@ void CEnemyController_bu::FollowStateUpdate()
 		ChangeAIState(E_AIState_bu::Bewildered);
 	else {
 		bool isPathFound = false;
-
+		m_fTargetFindTime += DT;
 		if (m_fTargetFindTime > m_fMaxTargetFindTime) {
-			isPathFound = m_pPathFind->FindPath(vMyPos, vTargetPos);
+			isPathFound = m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
 			m_fTargetFindTime = 0.f;
+		}
+
+		list<Vector2>& listNextPath = m_pPathFind->GetPath();
+		if (!listNextPath.empty()) {
+			Vector2 vNextPath = m_pPathFind->GetNextPath();
+			Vector3 vNextPos = Vector3(vNextPath.x, vNextPath.y, vMyPos.z);
+			Vector3 vMoveDir = vNextPos - vMyPos;
+			vMoveDir.Normalize();
+			Vector3 vForce = vMoveDir * m_fMovePower;
+			vForce.y = 0.f;
+			Rigidbody2D()->AddForce(vForce);
+
+			if (vForce.x > 0)
+				_SetLookRightState(true);
+			else
+				_SetLookRightState(false);
+			float vDis = Vector2::Distance(vNextPath, Transform()->GetPosition().XY());
+			if (vDis < 0.7f) {
+				listNextPath.pop_front();
+			}
 		}
 
 		if (isPathFound) {
@@ -433,6 +505,7 @@ void CEnemyController_bu::FollowStateUpdate()
 
 void CEnemyController_bu::FollowStateEnd()
 {
+	m_pTargetLookAt->SetTargetObj(nullptr);
 }
 
 float fKeepNoticeTime = 0.f;
@@ -487,7 +560,6 @@ void CEnemyController_bu::OnShootStart()
 
 void CEnemyController_bu::OnShootUpdate()
 {
-	// 누굴 겨냥해야되는건진 알고있나?
 	Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
 	Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
 	Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
@@ -509,8 +581,36 @@ void CEnemyController_bu::OnIdleEnd()
 {
 }
 
+void CEnemyController_bu::OnMoveStart()
+{
+	// Animation 추가
+	m_pLegAnim->Play(_T("Enemy_Walk_bu"), E_AnimationState::Loop);
+}
+
+void CEnemyController_bu::OnMoveUpdate()
+{
+}
+
+void CEnemyController_bu::OnMoveEnd()
+{
+}
+
+void CEnemyController_bu::OnJumpStart()
+{
+	m_pLegAnim->Play(_T("Enemy_Jump_bu"), E_AnimationState::Loop);
+}
+
+void CEnemyController_bu::OnJumpUpdate()
+{
+}
+
+void CEnemyController_bu::OnJumpEnd()
+{
+}
+
 void CEnemyController_bu::OnShootEnd()
 {
+	m_pLegAnim->Play(_T("Enemy_Idle_bu"), E_AnimationState::Loop);
 }
 
 tstring AIStateToStr_bu(E_AIState_bu _eState)

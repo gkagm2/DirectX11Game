@@ -33,6 +33,11 @@ CItemBullet_bu::~CItemBullet_bu()
 
 void CItemBullet_bu::InitItem()
 {
+	m_pItemAnimObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ItemAnim);
+	assert(m_pItemAnimObj);
+	m_pItemAnim = m_pItemAnimObj->Animator2D();
+	assert(m_pItemAnim);
+
 	if (E_WeaponType_bu::Shotgun == m_eWeaponType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemBulShotgun);
 	}

@@ -39,6 +39,11 @@ void CItemHp_bu::Start()
 
 void CItemHp_bu::InitItem()
 {
+	m_pItemAnimObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_ItemAnim);
+	assert(m_pItemAnimObj);
+	m_pItemAnim = m_pItemAnimObj->Animator2D();
+	assert(m_pItemAnim);
+
 	if (E_ItemHpType_bu::Hp1 == m_eHpType) {
 		m_pItemAnim->Play(BUTCHER_AnimName_ItemHp1);
 		m_fHp = 15.f;

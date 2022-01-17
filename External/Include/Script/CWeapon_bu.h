@@ -25,6 +25,8 @@ struct TWeaponInfo_bu {
 class CWeapon_bu : public CScript
 {
 private:
+	static tstring m_strExplain;
+private:
 	class CCharacter_bu* m_pCharacter;
 
 	TWeaponInfo_bu m_tWeaponInfo[(UINT)E_WeaponType_bu::End];

@@ -205,6 +205,7 @@
 #define BUTCHER_ObjName_Flip _T("Flip")
 #define BUTCHER_ObjName_FlipGun _T("FlipGun")
 #define BUTCHER_ObjName_Emoticon _T("Emoticon")
+#define BUTCHER_ObjName_GroundCheck _T("GroundCheck")
 
 #define BUTCHER_ObjName_ItemAnim _T("ItemAnim")
 

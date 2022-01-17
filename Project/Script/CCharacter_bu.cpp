@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CCharacter_bu.h"
 #include "CWeapon_bu.h"
+#include "CGroundCheck_bu.h"
 
 CCharacter_bu::CCharacter_bu() :
 	CScript((UINT)SCRIPT_TYPE::CHARACTER_BU),
@@ -17,8 +18,12 @@ CCharacter_bu::CCharacter_bu() :
 	m_pFlipObj{ nullptr },
 	m_pFlipGunObj{ nullptr },
 	m_pMuzzleObj{ nullptr },
-	m_pMuzzleParticleObj{ nullptr }
-
+	m_pMuzzleParticleObj{ nullptr },
+	m_pGroundCheckObj{ nullptr },
+	m_pGroundCheckCol{ nullptr },
+	m_bCanJump{ false },
+	m_fJumpCoolTime{ 0.f },
+	m_fJumpMaxCoolTime{0.7f}
 {
 }
 
@@ -37,7 +42,12 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_pMuzzleObj{ nullptr },
 	m_pMuzzleParticleObj{ nullptr },
 	m_pFlipObj{nullptr},
-	m_pFlipGunObj{ nullptr }
+	m_pFlipGunObj{ nullptr },
+	m_pGroundCheckObj{ nullptr },
+	m_pGroundCheckCol{ nullptr },
+	m_bCanJump{false},
+	m_fJumpCoolTime{ 0.f },
+	m_fJumpMaxCoolTime{ 0.7f }
 {
 }
 
@@ -59,6 +69,20 @@ void CCharacter_bu::Awake()
 	assert(m_pMuzzleParticleObj);
 	m_pGunRotationPosObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_RotationPos);
 	assert(m_pGunRotationPosObj);
+	m_pGroundCheckObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_GroundCheck);
+	assert(m_pGroundCheckObj);
+	m_pGroundCheckCol = m_pGroundCheckObj->GetComponent<CGroundCheck_bu>();
+	assert(m_pGroundCheckCol);
+}
+
+void CCharacter_bu::PrevUpdate()
+{
+	if (m_pGroundCheckCol->IsTouchGround()) {
+		m_bCanJump = true;
+	}
+	else
+		m_bCanJump = false;
+
 }
 
 void CCharacter_bu::ChangeState(E_CharacterState _eState)
@@ -155,4 +179,8 @@ void CCharacter_bu::ChangeWeapon(E_WeaponType_bu _eType)
 {
 	if (m_pWeapon->IsUseableWeapon(_eType))
 		m_pWeapon->ChangeWeapon(_eType);
+}
+
+void CCharacter_bu::OnCollisionStay2D(CCollider2D* _pCol)
+{
 }

@@ -1,3 +1,5 @@
+CActivatorController
+CActivator_bu
 CBoosterScript_ca
 CBulletScript_sh
 CBullet_bu
@@ -8,6 +10,7 @@ CColliderTestScript
 CCommandModuleScript_ca
 CCursorScript
 CCursor_bu
+CDeactivator_bu
 CDoor_bu
 CElevator_bu
 CEnemyController_bu
@@ -19,6 +22,7 @@ CGameManager_bu
 CGameManager_ca
 CGirder1x2Script_ca
 CGirderScript_ca
+CGroundCheck_bu
 CGround_bu
 CInGamePanel_bu
 CInteractiveObj_bu
@@ -38,10 +42,12 @@ CModuleScript_ca
 CMouseLookAt_bu
 CMuzzleParticle_bu
 CObjectDragAndDropScript_ca
+CObjectManager_bu
 CPlayerController_bu
 CPlayerScript_ca
 CPlayerScript_sh
 CPostProcessingScript
+CRespawnManager_bu
 CRotateZScript
 CSparkParticle_bu
 CSwitch_bu

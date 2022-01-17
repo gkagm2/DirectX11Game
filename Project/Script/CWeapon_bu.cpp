@@ -3,6 +3,8 @@
 #include "CBullet_bu.h"
 #include "CCharacter_bu.h"
 
+tstring CWeapon_bu::m_strExplain = _T("0 : Chainsaw\n1 : Shotgun\n2 : MachineGun\n3 : FlameThrower\n4 : GrenadeLauncher\n5 : LaserGun");
+
 CWeapon_bu::CWeapon_bu() :
 	CScript((UINT)SCRIPT_TYPE::WEAPON_BU),
 	m_tWeaponInfo{},
@@ -13,6 +15,9 @@ CWeapon_bu::CWeapon_bu() :
 	m_arrWeaponUse{}
 {
 	_InitWeaponInfo();
+
+	AddParam(TScriptParam{ _T("Weapon Type"),E_ScriptParam::INT, &m_eCurType });
+	AddParam(TScriptParam{ _T("Description\n"), E_ScriptParam::STRING_PRINT, &m_strExplain });
 }
 
 CWeapon_bu::CWeapon_bu(const CWeapon_bu& _origin) :
@@ -29,6 +34,9 @@ CWeapon_bu::CWeapon_bu(const CWeapon_bu& _origin) :
 	for (int i = 0; i < (int)E_WeaponType_bu::End; ++i)
 		m_arrWeaponUse[i] = _origin.m_arrWeaponUse[i];
 	_InitWeaponInfo();
+
+	AddParam(TScriptParam{ _T("Weapon Type"),E_ScriptParam::INT, &m_eCurType });
+	AddParam(TScriptParam{ _T("Description\n"), E_ScriptParam::STRING_PRINT, &m_strExplain });
 }
 
 CWeapon_bu::~CWeapon_bu()
@@ -45,9 +53,6 @@ void CWeapon_bu::Start()
 	assert(m_pGunImageObj);
 	assert(m_pChainSawColObj);
 
-
-
-
 	tstring strPath = CPathManager::GetInstance()->GetContentPath();
 	m_pShotgunBullet = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletShotgun_bu.pref"));
 	m_pMachinegunBullet = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("prefab\\BulletRifle_bu.pref"));
@@ -55,6 +60,9 @@ void CWeapon_bu::Start()
 	assert(m_pShotgunBullet.Get());
 	assert(m_pMachinegunBullet.Get());
 	assert(m_pFlameBullet.Get());
+
+	SetUseableWeapon(m_eCurType, true);
+	ChangeWeapon(m_eCurType);
 }
 
 void CWeapon_bu::Update()

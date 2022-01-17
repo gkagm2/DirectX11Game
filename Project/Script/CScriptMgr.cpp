@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CScriptMgr.h"
 
+#include "CActivatorController.h"
+#include "CActivator_bu.h"
 #include "CBoosterScript_ca.h"
 #include "CBulletScript_sh.h"
 #include "CBullet_bu.h"
@@ -11,6 +13,7 @@
 #include "CCommandModuleScript_ca.h"
 #include "CCursorScript.h"
 #include "CCursor_bu.h"
+#include "CDeactivator_bu.h"
 #include "CDoor_bu.h"
 #include "CElevator_bu.h"
 #include "CEnemyController_bu.h"
@@ -22,6 +25,7 @@
 #include "CGameManager_ca.h"
 #include "CGirder1x2Script_ca.h"
 #include "CGirderScript_ca.h"
+#include "CGroundCheck_bu.h"
 #include "CGround_bu.h"
 #include "CInGamePanel_bu.h"
 #include "CInteractiveObj_bu.h"
@@ -41,10 +45,12 @@
 #include "CMouseLookAt_bu.h"
 #include "CMuzzleParticle_bu.h"
 #include "CObjectDragAndDropScript_ca.h"
+#include "CObjectManager_bu.h"
 #include "CPlayerController_bu.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
 #include "CPostProcessingScript.h"
+#include "CRespawnManager_bu.h"
 #include "CRotateZScript.h"
 #include "CSparkParticle_bu.h"
 #include "CSwitch_bu.h"
@@ -57,6 +63,8 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CActivatorController");
+	_vec.push_back(L"CActivator_bu");
 	_vec.push_back(L"CBoosterScript_ca");
 	_vec.push_back(L"CBulletScript_sh");
 	_vec.push_back(L"CBullet_bu");
@@ -67,6 +75,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCommandModuleScript_ca");
 	_vec.push_back(L"CCursorScript");
 	_vec.push_back(L"CCursor_bu");
+	_vec.push_back(L"CDeactivator_bu");
 	_vec.push_back(L"CDoor_bu");
 	_vec.push_back(L"CElevator_bu");
 	_vec.push_back(L"CEnemyController_bu");
@@ -78,6 +87,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CGameManager_ca");
 	_vec.push_back(L"CGirder1x2Script_ca");
 	_vec.push_back(L"CGirderScript_ca");
+	_vec.push_back(L"CGroundCheck_bu");
 	_vec.push_back(L"CGround_bu");
 	_vec.push_back(L"CInGamePanel_bu");
 	_vec.push_back(L"CInteractiveObj_bu");
@@ -97,10 +107,12 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CMouseLookAt_bu");
 	_vec.push_back(L"CMuzzleParticle_bu");
 	_vec.push_back(L"CObjectDragAndDropScript_ca");
+	_vec.push_back(L"CObjectManager_bu");
 	_vec.push_back(L"CPlayerController_bu");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CPostProcessingScript");
+	_vec.push_back(L"CRespawnManager_bu");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSwitch_bu");
@@ -114,6 +126,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CActivatorController" == _strScriptName)
+		return new CActivatorController;
+	if (L"CActivator_bu" == _strScriptName)
+		return new CActivator_bu;
 	if (L"CBoosterScript_ca" == _strScriptName)
 		return new CBoosterScript_ca;
 	if (L"CBulletScript_sh" == _strScriptName)
@@ -134,6 +150,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCursorScript;
 	if (L"CCursor_bu" == _strScriptName)
 		return new CCursor_bu;
+	if (L"CDeactivator_bu" == _strScriptName)
+		return new CDeactivator_bu;
 	if (L"CDoor_bu" == _strScriptName)
 		return new CDoor_bu;
 	if (L"CElevator_bu" == _strScriptName)
@@ -156,6 +174,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CGirder1x2Script_ca;
 	if (L"CGirderScript_ca" == _strScriptName)
 		return new CGirderScript_ca;
+	if (L"CGroundCheck_bu" == _strScriptName)
+		return new CGroundCheck_bu;
 	if (L"CGround_bu" == _strScriptName)
 		return new CGround_bu;
 	if (L"CInGamePanel_bu" == _strScriptName)
@@ -194,6 +214,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CMuzzleParticle_bu;
 	if (L"CObjectDragAndDropScript_ca" == _strScriptName)
 		return new CObjectDragAndDropScript_ca;
+	if (L"CObjectManager_bu" == _strScriptName)
+		return new CObjectManager_bu;
 	if (L"CPlayerController_bu" == _strScriptName)
 		return new CPlayerController_bu;
 	if (L"CPlayerScript_ca" == _strScriptName)
@@ -202,6 +224,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript_sh;
 	if (L"CPostProcessingScript" == _strScriptName)
 		return new CPostProcessingScript;
+	if (L"CRespawnManager_bu" == _strScriptName)
+		return new CRespawnManager_bu;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
 	if (L"CSparkParticle_bu" == _strScriptName)
@@ -227,6 +251,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::ACTIVATORCONTROLLER:
+		return new CActivatorController;
+		break;
+	case (UINT)SCRIPT_TYPE::ACTIVATOR_BU:
+		return new CActivator_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA:
 		return new CBoosterScript_ca;
 		break;
@@ -256,6 +286,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CURSOR_BU:
 		return new CCursor_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::DEACTIVATOR_BU:
+		return new CDeactivator_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::DOOR_BU:
 		return new CDoor_bu;
@@ -289,6 +322,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return new CGirderScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::GROUNDCHECK_BU:
+		return new CGroundCheck_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::GROUND_BU:
 		return new CGround_bu;
@@ -347,6 +383,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::OBJECTDRAGANDDROPSCRIPT_CA:
 		return new CObjectDragAndDropScript_ca;
 		break;
+	case (UINT)SCRIPT_TYPE::OBJECTMANAGER_BU:
+		return new CObjectManager_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU:
 		return new CPlayerController_bu;
 		break;
@@ -358,6 +397,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
 		return new CPostProcessingScript;
+		break;
+	case (UINT)SCRIPT_TYPE::RESPAWNMANAGER_BU:
+		return new CRespawnManager_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
@@ -394,6 +436,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::ACTIVATORCONTROLLER:
+		return L"CActivatorController";
+		break;
+
+	case SCRIPT_TYPE::ACTIVATOR_BU:
+		return L"CActivator_bu";
+		break;
+
 	case SCRIPT_TYPE::BOOSTERSCRIPT_CA:
 		return L"CBoosterScript_ca";
 		break;
@@ -432,6 +482,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CURSOR_BU:
 		return L"CCursor_bu";
+		break;
+
+	case SCRIPT_TYPE::DEACTIVATOR_BU:
+		return L"CDeactivator_bu";
 		break;
 
 	case SCRIPT_TYPE::DOOR_BU:
@@ -476,6 +530,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::GIRDERSCRIPT_CA:
 		return L"CGirderScript_ca";
+		break;
+
+	case SCRIPT_TYPE::GROUNDCHECK_BU:
+		return L"CGroundCheck_bu";
 		break;
 
 	case SCRIPT_TYPE::GROUND_BU:
@@ -554,6 +612,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CObjectDragAndDropScript_ca";
 		break;
 
+	case SCRIPT_TYPE::OBJECTMANAGER_BU:
+		return L"CObjectManager_bu";
+		break;
+
 	case SCRIPT_TYPE::PLAYERCONTROLLER_BU:
 		return L"CPlayerController_bu";
 		break;
@@ -568,6 +630,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
 		return L"CPostProcessingScript";
+		break;
+
+	case SCRIPT_TYPE::RESPAWNMANAGER_BU:
+		return L"CRespawnManager_bu";
 		break;
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:

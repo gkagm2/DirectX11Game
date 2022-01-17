@@ -56,6 +56,7 @@ public:
 
 	// Butcher
 	void OpenWayPointTool();
+	void OpenSpawningTool_bu();
 
 public:
 	MainMenuGUI();

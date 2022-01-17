@@ -161,6 +161,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "ModuleCreatorGUI_ca.h"
 
 #include "WayPointGUI_bu.h"
+#include "SpawningGUI_bu.h"
 
 void CImGuiManager::InitCaptainForeverGUI()
 {
@@ -176,6 +177,10 @@ void CImGuiManager::InitButcherGUI()
     WayPointGUI_bu* pWPGui = new WayPointGUI_bu;
     pWPGui->Init();
     AddGUI(pWPGui->GetName(), pWPGui);
+
+    SpawningGUI_bu* pSGui = new SpawningGUI_bu;
+    pSGui->Init();
+    AddGUI(pSGui->GetName(), pSGui);
 }
 
 #include "CToolCameraScript.h"

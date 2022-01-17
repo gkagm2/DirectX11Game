@@ -2,7 +2,7 @@
 #include <Engine\CScript.h>
 #include "CWeapon_bu.h"
 class CWeapon_bu;
-
+class CGroundCheck_bu;
 
 enum class E_CharacterState {
 	Attack,
@@ -42,8 +42,16 @@ protected:
 	CGameObject* m_pFlipObj;
 	CGameObject* m_pFlipGunObj;
 
+	CGameObject* m_pGroundCheckObj;
+	CGroundCheck_bu* m_pGroundCheckCol;
+	bool m_bCanJump;
+	bool m_bJump;
+	float m_fJumpCoolTime;
+	float m_fJumpMaxCoolTime;
+
 public:
 	virtual void Awake() override;
+	virtual void PrevUpdate() override;
 
 public:
 	std::function<void()> m_CurStateStartFunc;
@@ -99,6 +107,8 @@ public:
 	void SetArmor(float _fArmor) { m_fArmor = _fArmor; }
 	
 	bool IsLookRight() { return m_bIsLookRight; }
+
+	virtual void OnCollisionStay2D(CCollider2D* _pCol);
 
 public:
 	CGameObject* GetMuzzleObj() { return m_pMuzzleObj; }
