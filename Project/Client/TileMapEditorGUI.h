@@ -6,6 +6,8 @@ class CTileMap;
 #define IMGUI_COLOR_GREEN IM_COL32(10, 240, 10, 128)
 #define IMGUI_COLOR_RED IM_COL32(240, 10, 10, 128)
 
+enum class E_VisitedState { not_visited, visited }; // 최적화에 사용됨
+
 class TileMapEditorGUI : public GUI
 {
 private:
@@ -48,6 +50,9 @@ private:
 	void _SelectTileMap(DWORD_PTR _strKey, DWORD_PTR _NONE);
 	void _SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE);
 	void _Clear();
+
+	void _OptimizeCollisionArea(); // 충돌영역 타일 최적화하기
+	void GetEndIdxOfRectArea(int** _grid, int _startX, int _startY, int& _endX, int& _endY);
 
 public:
 	TileMapEditorGUI();

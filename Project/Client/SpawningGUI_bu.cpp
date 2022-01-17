@@ -370,24 +370,34 @@ CGameObject* SpawningGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)
 	bool isCollision = false;
 	int idx = 0;
 
+	CGameObject* pHitObj = nullptr;
 	vector<CGameObject*> gameObjs;
 	UINT iLayer = (UINT)E_Layer::Object;
 	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(gameObjs, iLayer);
-	for (int i = 0; i < gameObjs.size(); ++i) {
-		CGameObject* pObj = gameObjs[i];
+
+	queue<CGameObject*> que;
+	for (size_t i = 0; i < gameObjs.size(); ++i)
+		que.push(gameObjs[i]);
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop();
+
 		if (pObj->Collider2D()) {
 			CCollider2D* pCol = pObj->Collider2D();
-
 			isCollision = CCollisionManager::GetInstance()->IsCollision(pCol, _vWorldPos);
 
 			if (isCollision) {
-				idx = i;
+				pHitObj = pObj;
 				break;
 			}
 		}
+		vector<CGameObject*>& chidls = pObj->GetChildsObject();
+		for (size_t j = 0; j < chidls.size(); ++j)
+			que.push(chidls[j]);
 	}
 	if (isCollision)
-		return gameObjs[idx];
+		return pHitObj;
 
 	return nullptr;
 }

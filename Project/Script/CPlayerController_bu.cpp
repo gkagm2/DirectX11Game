@@ -153,7 +153,7 @@ void CPlayerController_bu::OnBehavior()
 			// cam shaking
 			CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
 			if (pMainCam) {
-				auto* pCamFol =pMainCam->GetGameObject()->GetComponent<CCameraFollowerScript>();
+				CCameraFollowerScript* pCamFol =pMainCam->GetGameObject()->GetComponent<CCameraFollowerScript>();
 				pCamFol->Shaking(false, 0.1f, 0.05f, -vfrontVec);
 			}
 		}
