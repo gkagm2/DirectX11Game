@@ -151,8 +151,8 @@ void CUIManager::Update()
 			for (UINT i = 0; i < vecUIObjs.size(); ++i) {
 				//CUI* pParentUI = (CUI*)vecUIObjs[i];
 				CUI* pParentUI = vecUIObjs[i]->GetComponent<CUI>();
-				assert(pParentUI);
-				assert(pParentUI->GetGameObject());
+				//assert(pParentUI);
+				//assert(pParentUI->GetGameObject());
 				if (pParentUI->IsActiveClickEvent()) {
 					// 영역에 들어온게 있다면
 					if (CCollisionManager::GetInstance()->IsCollision(pParentUI->RectTransform(), MousePosition)) {

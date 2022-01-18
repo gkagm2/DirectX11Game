@@ -22,8 +22,6 @@ void Collider2DGUI::Update()
 		return;
 
 	CCollider2D* pCol = GetTargetObject()->Collider2D();
-	assert(pCol);
-
 	Vector2 vOffPosition = pCol->GetOffsetPosition();
 	Vector2 vOffScale = pCol->GetOffsetScale();
 

@@ -4,6 +4,7 @@
 #include "CActivatorController.h"
 #include "CActivator_bu.h"
 #include "CBoosterScript_ca.h"
+#include "CBulletBouncingParticle_bu.h"
 #include "CBulletScript_sh.h"
 #include "CBullet_bu.h"
 #include "CCameraFollowerScript.h"
@@ -66,6 +67,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CActivatorController");
 	_vec.push_back(L"CActivator_bu");
 	_vec.push_back(L"CBoosterScript_ca");
+	_vec.push_back(L"CBulletBouncingParticle_bu");
 	_vec.push_back(L"CBulletScript_sh");
 	_vec.push_back(L"CBullet_bu");
 	_vec.push_back(L"CCameraFollowerScript");
@@ -132,6 +134,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CActivator_bu;
 	if (L"CBoosterScript_ca" == _strScriptName)
 		return new CBoosterScript_ca;
+	if (L"CBulletBouncingParticle_bu" == _strScriptName)
+		return new CBulletBouncingParticle_bu;
 	if (L"CBulletScript_sh" == _strScriptName)
 		return new CBulletScript_sh;
 	if (L"CBullet_bu" == _strScriptName)
@@ -259,6 +263,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BOOSTERSCRIPT_CA:
 		return new CBoosterScript_ca;
+		break;
+	case (UINT)SCRIPT_TYPE::BULLETBOUNCINGPARTICLE_BU:
+		return new CBulletBouncingParticle_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::BULLETSCRIPT_SH:
 		return new CBulletScript_sh;
@@ -446,6 +453,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BOOSTERSCRIPT_CA:
 		return L"CBoosterScript_ca";
+		break;
+
+	case SCRIPT_TYPE::BULLETBOUNCINGPARTICLE_BU:
+		return L"CBulletBouncingParticle_bu";
 		break;
 
 	case SCRIPT_TYPE::BULLETSCRIPT_SH:

@@ -117,8 +117,11 @@ void Animator2DGUI::Update()
 	
 	if (ImGui::Button("Editor Open##Animator2D")) {
 		Animator2DEditorGUI* pAnimator2DEditorGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
-		if (!pAnimator2DEditorGUI)
-			assert(nullptr && _T("애니메이터2D 에디터를 열 수 없다."));
+		if (!pAnimator2DEditorGUI) {
+			;
+			//assert(nullptr && _T("애니메이터2D 에디터를 열 수 없다."));
+		}
+			
 		else {
 			pAnimator2DEditorGUI->SetActive(true);
 			pAnimator2DEditorGUI->SetTargetObject(GetTargetObject());
@@ -127,8 +130,11 @@ void Animator2DGUI::Update()
 	ImGui::SameLine();
 	if (ImGui::Button("Fixed##Animator2D")) {
 		Animator2DEditorGUI* pAnimator2DEditorGUI = dynamic_cast<Animator2DEditorGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Animator2DEditor));
-		if (!pAnimator2DEditorGUI)
-			assert(nullptr && _T("애니메이터2D 에디터를 열 수 없다."));
+		if (!pAnimator2DEditorGUI) {
+			;
+			//assert(nullptr && _T("애니메이터2D 에디터를 열 수 없다."));
+		}
+			
 		else {
 			pAnimator2DEditorGUI->SetActive(true);
 			pAnimator2DEditorGUI->SetTap

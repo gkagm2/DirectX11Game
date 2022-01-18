@@ -79,8 +79,12 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 			}*/
 			// 한쪽만이라도 Rigidbody가 존재하면서 양쪽 다 Trigger가 false면
 			if (vecLeft[l]->Rigidbody2D() || vecRight[r]->Rigidbody2D()) {
-				if(!pLeftCol->IsTrigger() && !pRightCol->IsTrigger())
-					bIsPushIntersection = true;
+				if (!pLeftCol->IsTrigger() && !pRightCol->IsTrigger()) {
+					// 성능을 위해 
+					if(vecLeft[l]->IsActive() && vecRight[r]->IsActive() &&
+						pLeftCol->IsActive() && pRightCol->IsActive())
+						bIsPushIntersection = true;
+				}
 			}
 			bool bIsActivePushIntersection = false;
 
@@ -96,7 +100,8 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 					}
 					else {
 						// 하나라도 active가 된게 있으면
-						if (!pLeftCol->IsActive() || !pRightCol->IsActive()) {
+						if (!vecLeft[l]->IsActive() || !vecRight[r]->IsActive() ||
+							!pLeftCol->IsActive() || !pRightCol->IsActive()) {
 							// 충돌을 벗어난다.
 							pLeftCol->OnCollisionExit2D(pRightCol);
 							pRightCol->OnCollisionExit2D(pLeftCol);
@@ -125,7 +130,11 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 				else {
 					// 둘다 삭제 예정이 아니고 처음 충돌 시 
 					if (!vecLeft[l]->IsDead() && !vecRight[r]->IsDead()) {
-						if (pLeftCol->IsActive() && pRightCol->IsActive()) {
+						if (
+							vecLeft[l]->IsActive() && 
+							vecRight[r]->IsActive() && 
+							pLeftCol->IsActive() && 
+							pRightCol->IsActive()) {
 							pLeftCol->OnCollisionEnter2D(pRightCol);
 							pRightCol->OnCollisionEnter2D(pLeftCol);
 
@@ -306,8 +315,8 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 	*/
 	static Vector3 arrLocal[4] = {
 		Vector3(-0.5f, 0.5f, 0.f),
-		Vector3( 0.5f, 0.5f, 0.f),
-		Vector3( 0.5f,-0.5f, 0.f),
+		Vector3(0.5f, 0.5f, 0.f),
+		Vector3(0.5f,-0.5f, 0.f),
 		Vector3(-0.5f,-0.5f, 0.f)
 	};
 
@@ -327,7 +336,7 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 	v1.z = 0.f;
 	Vector3 v3 = XMVector3TransformCoord(arrLocal[3], _pLeft->GetWorldMatrix());
 	v3.z = 0.f;
-	
+
 	// 투영축 계산
 	Vector3 vToRight1 = v1 - v0;
 	Vector3 vToDown1 = v3 - v0;
@@ -352,30 +361,14 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 
 	Vector3 vCenter = vCenterPosRightCollider - vCenterPosLeftCollider;
 
-	// 모든 축으로 투영되어 분리축이 나오는지 검사
-	for (int i = 0; i < 4; ++i) {
-		Vector3 vAxisDir = arrProjAxis[i];
-		vAxisDir.Normalize(); // 단위 벡터로 만듬
-
-		float fProjTwoBoxesDis = 0.f;
-		for (int j = 0; j < 4; ++j)
-			fProjTwoBoxesDis += abs(vAxisDir.Dot(arrProjAxis[j]));
-
-		float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
-
-		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
-			return false;
-		}
-	}
-
 	if (_tRigidColInfo) {
 		// Rigidbody 컴포넌트가 존재한다면 
-		Vector3 vForceDir{};
-		Vector3 vToCenter{};
+		static Vector3 vForceDir{};
+		static Vector3 vToCenter{};
 		CRigidbody2D* pRigid = nullptr;
-		vector<Vector3> vecProj{};
-		vector<Vector3> vecNoRigid{};
-		vector<Vector3> vecRigid{};
+		static Vector3 vecProj[4]{};
+		static Vector3 vecNoRigid[2]{};
+		static Vector3 vecRigid[2]{};
 
 		if (_pLeft->Rigidbody2D() && _pRight->Rigidbody2D()) {
 			float fLMass = _pLeft->Rigidbody2D()->GetMass();
@@ -386,14 +379,14 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
 				(*_tRigidColInfo)->pGameObject = _pLeft->GetGameObject();
-				vecProj.push_back(vToRight2);
-				vecProj.push_back(vToDown2);
-				vecProj.push_back(-vToRight2);
-				vecProj.push_back(-vToDown2);
-				vecRigid.push_back(vToRight2);
-				vecRigid.push_back(vToDown2);
-				vecNoRigid.push_back(vToRight1);
-				vecNoRigid.push_back(vToDown1);
+				vecProj[0] =	vToRight2;
+				vecProj[1] =	vToDown2;
+				vecProj[2] =	-vToRight2;
+				vecProj[3] =	-vToDown2;
+				vecRigid[0] =	vToRight2;
+				vecRigid[1] =	vToDown2;
+				vecNoRigid[0]=	vToRight1;
+				vecNoRigid[1]=	vToDown1;
 			}
 			else {
 				pRigid = _pRight->Rigidbody2D();
@@ -401,14 +394,14 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
 				(*_tRigidColInfo)->pGameObject = _pRight->GetGameObject();
-				vecProj.push_back(vToRight1);
-				vecProj.push_back(vToDown1);
-				vecProj.push_back(-vToRight1);
-				vecProj.push_back(-vToDown1);
-				vecRigid.push_back(vToRight1);
-				vecRigid.push_back(vToDown1);
-				vecNoRigid.push_back(vToRight2);
-				vecNoRigid.push_back(vToDown2);
+				vecProj[0] = vToRight1;
+				vecProj[1] = vToDown1;
+				vecProj[2] = -vToRight1;
+				vecProj[3] = -vToDown1;
+				vecRigid[0] = vToRight1;
+				vecRigid[1] = vToDown1;
+				vecNoRigid[0] = vToRight2;
+				vecNoRigid[1] = vToDown2;
 			}
 		}
 		else {
@@ -418,14 +411,14 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
 				(*_tRigidColInfo)->pGameObject = _pLeft->GetGameObject();
-				vecProj.push_back(vToRight2);
-				vecProj.push_back(vToDown2);
-				vecProj.push_back(-vToRight2);
-				vecProj.push_back(-vToDown2);
-				vecRigid.push_back(vToRight2);
-				vecRigid.push_back(vToDown2);
-				vecNoRigid.push_back(vToRight1);
-				vecNoRigid.push_back(vToDown1);
+				vecProj[0] = vToRight2;
+				vecProj[1] = vToDown2;
+				vecProj[2] = -vToRight2;
+				vecProj[3] = -vToDown2;
+				vecRigid[0] = vToRight2;
+				vecRigid[1] = vToDown2;
+				vecNoRigid[0] = vToRight1;
+				vecNoRigid[1] = vToDown1;
 			}
 
 			else if (_pRight->Rigidbody2D()) {
@@ -434,32 +427,34 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 				(*_tRigidColInfo)->pGameObject = _pRight->GetGameObject();
 				vForceDir = vToCenter;
 				vForceDir.Normalize();
-				vecProj.push_back(vToRight1);
-				vecProj.push_back(vToDown1);
-				vecProj.push_back(-vToRight1);
-				vecProj.push_back(-vToDown1);
-				vecRigid.push_back(vToRight1);
-				vecRigid.push_back(vToDown1);
-				vecNoRigid.push_back(vToRight2);
-				vecNoRigid.push_back(vToDown2);
+				vecProj[0] = vToRight1;
+				vecProj[1] = vToDown1;
+				vecProj[2] = -vToRight1;
+				vecProj[3] = -vToDown1;
+				vecRigid[0] = vToRight1;
+				vecRigid[1] = vToDown1;
+				vecNoRigid[0] = vToRight2;
+				vecNoRigid[1] = vToDown2;
 			}
 		}
 
 		float fShortestLen = FLOAT_MAX;
-		Vector3 vShortProj = {};
 		Vector3 vForceDirection = {};
-		for (int i = 0; i < vecProj.size(); ++i) {
+		const int iProjSize = 4;
+		const int iRigidSize = 2;
+		const int iNoRigidSize = 2;
+		for (int i = 0; i < iProjSize; ++i) {
 			Vector3 vProjDir = vecProj[i]; // 투영축 방향 벡터
 			Vector3 vProjVec = vecProj[i]; // 투영축 방향의 벡터 크기
 			vProjDir.Normalize();
 
 			float rigidLen = 0.f; // rigidBody 있는 충돌체의 중심점부터 투영축으로부터의 길이
-			for (int j = 0; j < vecRigid.size(); ++j)
+			for (int j = 0; j < iRigidSize; ++j)
 				rigidLen += fabsf(vProjDir.Dot(vecRigid[j]));
 			rigidLen *= 0.5f;
 
 			float noRigidLen = 0.f; // rigidbody가 없는 충돌체의 중심점부터 투영축으로부터의 길이
-			for (int j = 0; j < vecNoRigid.size(); ++j)
+			for (int j = 0; j < iNoRigidSize; ++j)
 				noRigidLen += fabsf(vProjDir.Dot(vecNoRigid[j]));
 			noRigidLen *= 0.5f;
 
@@ -481,6 +476,23 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 		}
 		(*_tRigidColInfo)->vDir = vForceDirection;
 		(*_tRigidColInfo)->fDistance = fShortestLen;
+	}
+	else {
+		// 모든 축으로 투영되어 분리축이 나오는지 검사
+		for (int i = 0; i < 4; ++i) {
+			Vector3 vAxisDir = arrProjAxis[i];
+			vAxisDir.Normalize(); // 단위 벡터로 만듬
+
+			float fProjTwoBoxesDis = 0.f;
+			for (int j = 0; j < 4; ++j)
+				fProjTwoBoxesDis += abs(vAxisDir.Dot(arrProjAxis[j]));
+
+			float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
+
+			if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
+				return false;
+			}
+		}
 	}
 	return true;
 }

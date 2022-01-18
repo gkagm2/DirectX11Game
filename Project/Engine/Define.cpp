@@ -20,18 +20,6 @@ tstring LayerToString(E_Layer _eLayer)
 	case E_Layer::BackgroundMap:
 		layerName = _T("BackgroundMap");
 		break;
-	case E_Layer::Player:
-		layerName = _T("Player");
-		break;
-	case E_Layer::Enemy:
-		layerName = _T("Enemy");
-		break;
-	case E_Layer::PlayerBullet:
-		layerName = _T("PlayerBullet");
-		break;
-	case E_Layer::EnemyBullet:
-		layerName = _T("EnemyBullet");
-		break;
 	case E_Layer::UI:
 		layerName = _T("UI");
 		break;
@@ -70,9 +58,6 @@ tstring TagToString(E_Tag _eTag)
 		break;
 	case E_Tag::Item:
 		tagName = _T("Item");
-		break;
-	case E_Tag::Wall:
-		tagName = _T("Wall");
 		break;
 	case E_Tag::DangerObj:
 		tagName = _T("DangerObj");

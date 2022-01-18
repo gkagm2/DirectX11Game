@@ -74,7 +74,7 @@ void CAnimator2D::Play(const tstring& _strAnimName, E_AnimationState _eAnimation
 	m_pCurAnimation = FindAnimation(_strAnimName);
 	if (_bReset)
 		m_pCurAnimation->Reset();
-	assert(m_pCurAnimation);
+	//assert(m_pCurAnimation);
 }
 
 void CAnimator2D::Play(E_AnimationState _eAnimationState, bool _bReset)

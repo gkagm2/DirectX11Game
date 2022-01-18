@@ -141,6 +141,8 @@ void InspectorGUI::Update()
 	// TODO (Jang) : HierarchyGUI 내부에서  Focusing된 object. none으로 설정하게끔 해야됨
 	//if (CEventManager::GetInstance()->DidEventHappended())
 	//	m_eMode = E_InspectorUIMode::None;
+	if (!m_bGUIOpen)
+		return;
 
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 

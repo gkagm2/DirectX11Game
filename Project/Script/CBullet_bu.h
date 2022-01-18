@@ -9,7 +9,18 @@ private:
 	float m_fLifeTime;
 	float m_fMaxLifeTime;
 
+
+	CGameObject* m_pWallParticle;
+	CGameObject* m_pHumanParticle;
+	CGameObject* m_pObjParticle;
+
+	SharedPtr<CPrefab> m_pWallParticlePref;
+	SharedPtr<CPrefab> m_pHumanParticlePref;
+	SharedPtr<CPrefab> m_pObjParticlePref;
+
+
 public:
+	virtual void Awake() override;
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override;

@@ -112,12 +112,10 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 	}
 
 	if (isEnableFire) {
-		//총알을 생성한다.
+		//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
 		if (m_eCurType == E_WeaponType_bu::Chainsaw)
 			m_pChainSawColObj->SetActive(true);
-		else {
-
-			//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
+		else if(m_eCurType == E_WeaponType_bu::MachineGun) {
 			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
 			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
 			pBulletObj->SetTag(_iTag, true);
@@ -127,16 +125,41 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			pBul->Transform()->SetLocalRotation(_Rot);
 			UINT iLayer = (UINT)E_Layer::Object;
 			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
-			--(GetCurWeapon().iCurBullet);
+			--GetCurWeapon().iCurBullet;
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
 		}
+		else if (m_eCurType == E_WeaponType_bu::Shotgun) {
+			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
+			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
+			pBulletObj->SetTag(_iTag, true);
+
+			const int iShotgunBulletCnt = 8;
+			Vector3 shootDir = _vShootDir;
+			Vector2 shootDir2 = shootDir.XY();
+
+			for (int i = 0; i < iShotgunBulletCnt; ++i) {
+				pBul->Transform()->SetLocalPosition(_vMuzzlePos);
+				Vector3 vShootDir = Vector3((::Rotate(shootDir2, (iShotgunBulletCnt * 0.5f - i)), _vShootDir.z));
+				// 각 사이값을 구한다.
+				pBul->SetShootDir(vShootDir);
+				pBul->Transform()->SetLocalRotation(_Rot);
+				UINT iLayer = (UINT)E_Layer::Object;
+				CObject::CreateGameObjectEvn(pBulletObj, iLayer);
+			}
+			--GetCurWeapon().iCurBullet;
+			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
+		}
+		else {
+			// TODO :
+		}
 		
+		// Muzzle 파티클 Action
 		if (m_eCurType == E_WeaponType_bu::MachineGun ||
 			m_eCurType == E_WeaponType_bu::Shotgun ||
 			m_eCurType == E_WeaponType_bu::GrenadeLauncher) {
 			m_pCharacter->GetMuzzleParticleObj()->SetActive(true,true);
 		}
-		// Muzzle 파티클 Action
+
 	}
 	return isEnableFire;
 }

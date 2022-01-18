@@ -21,7 +21,8 @@
 CImGuiManager::CImGuiManager() :
     m_bDemoGUIOpen(false),
     m_iTestCodeType(1),
-    m_iID(0)
+    m_iID(0),
+    m_bOpenGUI(true)
 {
 }
 
@@ -79,9 +80,14 @@ void CImGuiManager::Init()
 
 void CImGuiManager::Progress()
 {
-    _InitFrame();
-    Update();
-    Render();
+    if (InputKeyPress(E_Key::F8))
+        m_bOpenGUI = !m_bOpenGUI;
+
+    if (m_bOpenGUI) {
+        _InitFrame();
+        Update();
+        Render();
+    }
 }
 
 void CImGuiManager::Update()

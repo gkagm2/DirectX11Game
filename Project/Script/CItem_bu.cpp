@@ -60,11 +60,7 @@ void CItem_bu::Update()
 
 void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 {
-#ifdef _BUTCHER_GAME
 	UINT playerTag = (UINT)E_Tag::Player;
-#elif
-	UINT playerTag = 1;
-#endif
 	if (playerTag == _pOther->GetGameObject()->GetTag()) {
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();

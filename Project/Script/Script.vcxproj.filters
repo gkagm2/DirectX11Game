@@ -299,6 +299,7 @@
     <ClInclude Include="CGroundCheck_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CBulletBouncingParticle_bu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -483,5 +484,6 @@
     <ClCompile Include="CGroundCheck_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
+    <ClCompile Include="CBulletBouncingParticle_bu.cpp" />
   </ItemGroup>
 </Project>

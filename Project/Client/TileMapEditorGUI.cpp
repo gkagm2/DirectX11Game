@@ -125,14 +125,14 @@ void TileMapEditorGUI::Update()
 				// 목록 전달
 				vector<tstring> vecName;
 				CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecName);
-ListViewGUI* pListGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
-assert(pListGUI);
-if (pListGUI) {
-	pListGUI->SetList(vecName, _T("Atlas Texture"));
-	pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
-	pListGUI->SetPreViewTexRender(true);
-	pListGUI->SetActive(true);
-}
+				ListViewGUI* pListGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+				assert(pListGUI);
+				if (pListGUI) {
+					pListGUI->SetList(vecName, _T("Atlas Texture"));
+					pListGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&TileMapEditorGUI::_SelectTexture);
+					pListGUI->SetPreViewTexRender(true);
+					pListGUI->SetActive(true);
+				}
 			}
 		}
 

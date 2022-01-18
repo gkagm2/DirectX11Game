@@ -148,4 +148,5 @@ public:
 	virtual ~TreeViewGUI() override;
 
 	friend class TreeViewNode;
+	friend class HierarchyGUI;
 };

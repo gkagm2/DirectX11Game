@@ -4,6 +4,7 @@
 
 #include <Engine\CEventManager.h>
 #include <Engine\CSceneManager.h>
+#include <Engine\CKeyManager.h>
 #include <Engine\CScene.h>
 #include <Engine\CLayer.h>
 #include <Engine\CGameObject.h>
@@ -40,6 +41,11 @@ void HierarchyGUI::Update()
 		
 	ImGui::Begin(GetName().c_str(), &m_bGUIOpen);
 	m_treeView.Update();
+
+	// HierarchyGUI 가 포커싱 중일 때, 키 이벤트 처리
+	if (ImGui::IsWindowFocused())
+		_KeyCheck();
+
 	ImGui::End();
 }
 
@@ -144,4 +150,21 @@ void HierarchyGUI::_ClickedGameObject(DWORD_PTR _dwItem, DWORD_PTR _dwData)
 	// Hierachy 에 선택된 아이템 해제
 	ResourceViewGUI* pResView = (ResourceViewGUI*)CImGuiManager::GetInstance()->FindGUI(STR_GUI_ResourceView);
 	pResView->ReleaseSelectNode();
+}
+
+void HierarchyGUI::_KeyCheck()
+{
+	bool bDelete = false;
+	if (InputKeyPress(E_Key::Delete))
+		bDelete = true;
+
+	if (bDelete) {
+		TreeViewNode* pSelItem = m_treeView._GetSelectdItem();
+		if (!pSelItem)
+			return;
+
+		CGameObject* pObj = (CGameObject*)pSelItem->GetData();
+		if (pObj)
+			CObject::DestroyGameObjectEvn(pObj);
+	}
 }

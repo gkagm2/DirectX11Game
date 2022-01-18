@@ -10,7 +10,7 @@ private:
 
 	UINT m_iID; // 중복 방지용
 
-
+	bool m_bOpenGUI;
 public:
 	void Init();
 	void Progress();

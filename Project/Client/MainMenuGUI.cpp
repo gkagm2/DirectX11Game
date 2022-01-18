@@ -157,6 +157,9 @@ void MainMenuGUI::Update()
                 if (ImGui::MenuItem("Hierarchy")) {
                     OpenHierarchyUI();
                 }
+                if (ImGui::MenuItem("Inspector")) {
+                    OpenInspectorUI();
+                }
                 if (ImGui::MenuItem("Resource")) {
                     OpenResourceViewUI();
                 }

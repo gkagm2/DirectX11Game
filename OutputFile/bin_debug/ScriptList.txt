@@ -1,6 +1,7 @@
 CActivatorController
 CActivator_bu
 CBoosterScript_ca
+CBulletBouncingParticle_bu
 CBulletScript_sh
 CBullet_bu
 CCameraFollowerScript

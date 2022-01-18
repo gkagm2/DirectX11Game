@@ -496,11 +496,8 @@ void CEnemyController_bu::FollowStateUpdate()
 		else {
 			ChangeAIState(E_AIState_bu::Bewildered);
 		}
-
 		ChangeState(E_CharacterState::Shoot);
-
 	}
-
 }
 
 void CEnemyController_bu::FollowStateEnd()

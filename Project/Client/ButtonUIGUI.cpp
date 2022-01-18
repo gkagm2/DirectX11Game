@@ -78,6 +78,6 @@ void ButtonUIGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 	StringToTString(strKey, tStrKey);
 
 	CTexture* pImageTexture = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
-	assert(pImageTexture);
+	//assert(pImageTexture);
 	GetTargetObject()->ButtonUI()->SetImageTex(pImageTexture);
 }

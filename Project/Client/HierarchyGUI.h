@@ -20,6 +20,8 @@ private:
 	void DragDrop(TreeViewNode* _pDragStartNode, TreeViewNode* _pDropTargetNode);
 private:
 	void _ClickedGameObject(DWORD_PTR _dwItem, DWORD_PTR _dwData);
+	void _KeyCheck();
+
 public:
 	void ReleaseSelectNode() { m_treeView.ReleaseSelectedNode(); }
 

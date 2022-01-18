@@ -280,10 +280,6 @@ enum class E_Layer {
 	BackgroundMap,
 	WayPoint_Tool,
 	Wall,
-	Player,
-	Enemy,
-	PlayerBullet,
-	EnemyBullet,
 	TileMap = NUM_LAYER_TILEMAP,
 	UI = NUM_LAYER_UI,
 	CLIENT = NUM_LAYER_CLIENT,
@@ -297,7 +293,6 @@ enum class E_Tag {
 	Enemy,	// 2
 	Object, // 3 Interaction Object
 	Item,	// 4플레이어가 먹을 수 있는 아이템
-	Wall,	// 5
 	DangerObj,//6 닿으면 위험한 오브젝트
 	Player_Bullet, // 7
 	Enemy_Bullet, // 8

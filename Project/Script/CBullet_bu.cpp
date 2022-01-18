@@ -30,6 +30,21 @@ CBullet_bu::~CBullet_bu()
 {
 }
 
+void CBullet_bu::Awake()
+{
+	tstring str = STR_DIR_PATH_Prefab;
+	tstring strPrefabName;
+	strPrefabName = str + _T("ObjBulletBouncingParticle_bu");
+	m_pObjParticlePref = CResourceManager::GetInstance()->FindRes<CPrefab>(strPrefabName);
+	strPrefabName = str + _T("HumanBulletBouncingParticle_bu");
+	m_pHumanParticlePref = CResourceManager::GetInstance()->FindRes<CPrefab>(strPrefabName);
+	strPrefabName = str + _T("WallBulletBouncingParticle_bu");
+	m_pWallParticlePref = CResourceManager::GetInstance()->FindRes<CPrefab>(strPrefabName);
+	assert(m_pObjParticlePref.Get());
+	assert(m_pHumanParticlePref.Get());
+	assert(m_pWallParticlePref.Get());
+}
+
 void CBullet_bu::Start()
 {
 }
@@ -53,13 +68,15 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 	UINT iTag = _pOther->GetGameObject()->GetTag();
 	UINT iEnemyTag = (UINT)E_Tag::Enemy;
 	UINT iObjectTag = (UINT)E_Tag::Object;
-	UINT iWallTag = (UINT)E_Tag::Wall;
 	UINT iPlayerTag = (UINT)(E_Tag::Player);
 	UINT iEnemyBulletTag = (UINT)E_Tag::Enemy_Bullet;
 	UINT iPlayerBulletTag = (UINT)E_Tag::Player_Bullet;
+	UINT iWallLayer = (UINT)E_Layer::Wall;
 	CGameObject* pObj = _pOther->GetGameObject();
-	bool bTouched = false;
-
+	bool bManTouched = false;
+	bool bWallTouched = false;
+	bool bObjTouched = false;
+	
 
 	UINT iMyTag = GetGameObject()->GetTag();
 
@@ -67,30 +84,37 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		if (iTag == iEnemyTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
 			pChar->DamagedMe(m_fDamage);
-			bTouched = true;
+			bManTouched = true;
 		}
 		if (iTag == iObjectTag) {
-			bTouched = true;
-		}
-		if (iTag == iWallTag) {
-			bTouched = true;
+			bManTouched = true;
 		}
 	}
 	else if (iMyTag == iEnemyBulletTag) {
 		if (iTag == iPlayerTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
 			pChar->DamagedMe(m_fDamage);
-			bTouched = true;
+			bManTouched = true;
 		}
 		if (iTag == iObjectTag) {
-			bTouched = true;
-		}
-		if (iTag == iWallTag) {
-			bTouched = true;
+			bManTouched = true;
 		}
 	}
+	else if (iWallLayer == GetGameObject()->GetLayer()) {
+		bWallTouched = true;
+	}
 
-	if (bTouched) {
+	UINT iParticleLayer = (UINT)E_Layer::Object;
+	if (bManTouched) {
+		CGameObject* pParticle = CObject::InstantiateEvn(m_pHumanParticlePref, Transform()->GetPosition(), iParticleLayer);
+		DestroyGameObjectEvn(GetGameObject());
+	}
+	else if (bObjTouched) {
+		CGameObject* pParticle = CObject::InstantiateEvn(m_pObjParticlePref, Transform()->GetPosition(), iParticleLayer);
+		DestroyGameObjectEvn(GetGameObject());
+	}
+	else if (bWallTouched) {
+		CGameObject* pParticle = CObject::InstantiateEvn(m_pWallParticlePref, Transform()->GetPosition(), iParticleLayer);
 		DestroyGameObjectEvn(GetGameObject());
 	}
 }

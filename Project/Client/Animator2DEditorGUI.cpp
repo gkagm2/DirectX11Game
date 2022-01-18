@@ -76,7 +76,7 @@ void Animator2DEditorGUI::_OnLoadAtlasTexture()
 {
 	// 리스트 뷰를 보여준다.
 	ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
-	assert(pListViewGUI);
+	//assert(pListViewGUI);
 
 	vector<tstring> vecNames;
 	CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Texture, vecNames);
@@ -141,7 +141,7 @@ void Animator2DEditorGUI::_SetAtlasTexture(DWORD_PTR _dw1, DWORD_PTR _dw)
 	tstring tstrKey;
 	StringToTString(strKey, tstrKey);
 	SharedPtr<CTexture> pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tstrKey);
-	assert(pTex.Get());
+	//assert(pTex.Get());
 	SetAtlasTexture(pTex.Get());
 }
 
@@ -153,7 +153,7 @@ void Animator2DEditorGUI::_SelectLoadedAtlasTexture(DWORD_PTR _pStr, DWORD_PTR _
 	StringToTString(strKey, tStrKey);
 
 	CTexture* pImageTexture = CResourceManager::GetInstance()->FindRes<CTexture>(tStrKey).Get();
-	assert(pImageTexture);
+	//assert(pImageTexture);
 	SetAtlasTexture(pImageTexture);
 }
 
@@ -242,7 +242,7 @@ TRect Animator2DEditorGUI::_GetRectFromPos(const ImVec2& _vPos1, const ImVec2& _
 bool Animator2DEditorGUI::_FixedTextureEleToUVInList(int _iIdx, TTextureBtnInfo& _tTexBtnInfo_out, const ImVec2& _vImageSize)
 {
 	if (m_queResultTexList.size() <= _iIdx || 0 > _iIdx) {
-		assert(nullptr);
+		//assert(nullptr);
 		return false;
 	}
 
@@ -817,7 +817,7 @@ void Animator2DEditorGUI::_Canvas_DrawImage(ImDrawList* _pDrawList, CTexture* _p
 void Animator2DEditorGUI::_OnCreateAnimation()
 {
 	if (!m_pAnimator2D) {
-		assert(nullptr);
+		//assert(nullptr);
 		return;
 	}
 

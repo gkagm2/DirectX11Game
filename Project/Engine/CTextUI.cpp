@@ -36,8 +36,8 @@ void CTextUI::Render()
 
 	CCamera* pUICamera = CRenderManager::GetInstance()->GetUICamera();
 	if (!pUICamera) {
-		return;
 		assert(pUICamera);
+		return;
 	}
 	if (E_ProjectionType::Orthographic == pUICamera->GetProjectionType()) {
 		m_vScreenPos = pUICamera->GetWorldToScreen2DPosition(RectTransform()->GetPosition());
