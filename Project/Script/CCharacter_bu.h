@@ -105,6 +105,7 @@ public:
 	float GetMaxArmor() { return m_fMaxArmor; }
 	void SetHp(float _fHp) { m_fHp = _fHp; }
 	void SetArmor(float _fArmor) { m_fArmor = _fArmor; }
+	CWeapon_bu* GetWeapon() { return m_pWeapon; }
 	
 	bool IsLookRight() { return m_bIsLookRight; }
 

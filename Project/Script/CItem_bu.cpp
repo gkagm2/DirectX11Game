@@ -65,5 +65,6 @@ void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();
 		Interact(pchar);
+		CObject::DestroyGameObjectEvn(GetGameObject());
 	}
 }

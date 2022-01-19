@@ -12,8 +12,6 @@ CMainPanel_bu::CMainPanel_bu() :
 	m_pStartBtn(nullptr),
 	m_pOptionBtn(nullptr)
 {
-	AddParam(TScriptParam{ _T("Start Btn Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pStartBtnObj });
-	AddParam(TScriptParam{ _T("Option Btn Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pOptionBtnObj });
 }
 
 CMainPanel_bu::~CMainPanel_bu()
@@ -23,6 +21,10 @@ CMainPanel_bu::~CMainPanel_bu()
 
 void CMainPanel_bu::Awake()
 {
+	m_pStartBtnObj = GetGameObject()->FindGameObjectInChilds(_T("StartBtn"));
+	m_pOptionBtnObj = GetGameObject()->FindGameObjectInChilds(_T("OptionBtn"));
+	assert(m_pStartBtnObj);
+	assert(m_pOptionBtnObj);
 	m_pStartBtn = m_pStartBtnObj->GetComponent<CButtonUI>();
 	assert(m_pStartBtn);
 	m_pOptionBtn = m_pOptionBtnObj->GetComponent<CButtonUI>();
@@ -39,21 +41,6 @@ void CMainPanel_bu::Start()
 void CMainPanel_bu::Update()
 {
 
-}
-
-bool CMainPanel_bu::SaveToScene(FILE* _pFile)
-{
-	FWriteLinkObj(m_pStartBtnObj, _pFile);
-	FWriteLinkObj(m_pOptionBtnObj, _pFile);
-	return true;
-}
-
-bool CMainPanel_bu::LoadFromScene(FILE* _pFile)
-{
-	FReadLinkObj((CObject**)&m_pStartBtnObj, _pFile);
-	FReadLinkObj((CObject**)&m_pOptionBtnObj, _pFile);
-
-	return true;
 }
 
 void CMainPanel_bu::OnStartBtnClick()

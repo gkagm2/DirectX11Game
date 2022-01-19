@@ -2,6 +2,7 @@
 #include "CCharacter_bu.h"
 class CRigidbody2D;
 class CAnimator2D;
+class CUIManager_bu;
 class CPlayerController_bu : public CCharacter_bu
 {
 private:
@@ -9,7 +10,7 @@ private:
 	CAnimator2D* m_pLegAnim;
 	CAnimator2D* m_pTorsoAnimSprite;
 	SharedPtr<CPrefab> m_pBulletPref;
-
+	CUIManager_bu* m_pUIManager;
 public:
 	virtual void Awake() override;
 	virtual void Start() override;
@@ -38,6 +39,9 @@ public:
 	virtual void OnDeadStart() override;
 	virtual void OnDeadUpdate() override;
 	virtual void OnDeadEnd() override;
+
+
+	void UpdateUI();
 
 public:
 	virtual bool SaveToScene(FILE* _pFile);

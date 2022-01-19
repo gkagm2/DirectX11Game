@@ -287,6 +287,7 @@ void CTestScene::Butcher()
 
 	CCollisionManager::GetInstance()->ClearAllCollisionLayer();
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Wall, true);
+	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Object, true);
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 

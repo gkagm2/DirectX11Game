@@ -44,6 +44,8 @@ CMaterial::~CMaterial()
 
 void CMaterial::UpdateData()
 {
+	if (!m_pShader.Get())
+		return;
 	m_pShader->UpdateData();
 
 	// ÅØ½ºÃÄ

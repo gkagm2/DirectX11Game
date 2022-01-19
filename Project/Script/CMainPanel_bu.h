@@ -15,9 +15,6 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
-	virtual bool SaveToScene(FILE* _pFile) override;
-	virtual bool LoadFromScene(FILE* _pFile) override;
-
 public:
 	void OnStartBtnClick();
 	void OnOptionBtnClick();

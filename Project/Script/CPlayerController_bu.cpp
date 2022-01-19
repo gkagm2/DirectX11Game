@@ -3,12 +3,17 @@
 #include <Engine\CCore.h>
 #include "CInteractiveObj_bu.h"
 #include "CCameraFollowerScript.h"
+
+#include "CUIManager_bu.h"
+#include "CUIContainer_bu.h"
+#include "CInGamePanel_bu.h"
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
 	m_pLegAnim(nullptr),
 	m_pTorsoAnimSprite(nullptr),
-	m_pBulletPref(nullptr)
+	m_pBulletPref(nullptr),
+	m_pUIManager(nullptr)
 {
 }
 
@@ -23,6 +28,8 @@ void CPlayerController_bu::Awake()
 	
 	CGameObject* pLegsObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Legs);
 	CGameObject* pTorsoObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Torse);
+	m_pUIManager = FIND_GameObject(_T("UIManager"))->GetComponent<CUIManager_bu>();
+	assert(m_pUIManager);
 	assert(pLegsObj);
 	assert(pTorsoObj);
 	if(pLegsObj)
@@ -46,6 +53,9 @@ void CPlayerController_bu::Start()
 	// Test Code
 	for (UINT i = 0; i < (UINT)E_WeaponType_bu::End; ++i) 
 		m_pWeapon->SetUseableWeapon((E_WeaponType_bu)i, true);
+
+
+
 }
 
 void CPlayerController_bu::Update()
@@ -279,6 +289,10 @@ void CPlayerController_bu::OnDeadUpdate()
 }
 
 void CPlayerController_bu::OnDeadEnd()
+{
+}
+
+void CPlayerController_bu::UpdateUI()
 {
 }
 
