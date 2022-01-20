@@ -5,15 +5,8 @@
 
 CInGamePanel_bu::CInGamePanel_bu() :
 	CScript((UINT)SCRIPT_TYPE::INGAMEPANEL_BU),
-	m_pGunImageObj(nullptr),
-	m_pMagazineImageObj(nullptr),
-	m_pBulletImageObj(nullptr),
-	m_pSkelletonImageObj(nullptr),
-	m_pGunImage(nullptr),
-	m_pMagazineImage(nullptr),
-	m_pBulletImage(nullptr),
-	m_pSkelletonImage(nullptr),
-	m_pPlayer(nullptr)
+	m_fUpdateTime(0.f),
+	m_fMaxUpdateTime(0.1f)
 {
 }
 
@@ -35,6 +28,8 @@ void CInGamePanel_bu::Awake()
 	m_pGrenadeLauncherBulletTextObj = GetGameObject()->FindGameObjectInChilds(_T("GrenadeLauncherBulletText"));
 	m_pFlameBulletTextObj = GetGameObject()->FindGameObjectInChilds(_T("FlameBulletText"));
 	m_pLaserGunBulletTextObj = GetGameObject()->FindGameObjectInChilds(_T("RailGunBulletText"));
+	m_pHpImageObj = GetGameObject()->FindGameObjectInChilds(_T("HpImage"));
+	m_pArmorImageObj = GetGameObject()->FindGameObjectInChilds(_T("ArmorImage"));
 
 	m_pGunImage = m_pGunImageObj->GetComponent<CImageUI>();
 	m_pMagazineImage = m_pMagazineImageObj->GetComponent<CImageUI>();
@@ -48,6 +43,9 @@ void CInGamePanel_bu::Awake()
 	m_pGrenadeLauncherBulletText = m_pGrenadeLauncherBulletTextObj->GetComponent<CTextUI>();
 	m_pFlameBulletText = m_pFlameBulletTextObj->GetComponent<CTextUI>();
 	m_pLaserGunBulletText = m_pLaserGunBulletTextObj->GetComponent<CTextUI>();
+	m_pHpImage = m_pHpImageObj->GetComponent<CImageUI>();
+	m_pArmorImage = m_pArmorImageObj->GetComponent<CImageUI>();
+
 	assert(m_pGunImage);
 	assert(m_pMagazineImage);
 	assert(m_pBulletImage);
@@ -60,6 +58,8 @@ void CInGamePanel_bu::Awake()
 	assert(m_pGrenadeLauncherBulletText	);
 	assert(m_pFlameBulletText			);
 	assert(m_pLaserGunBulletText		);
+	assert(m_pHpImage);
+	assert(m_pArmorImage);
 }
 
 void CInGamePanel_bu::Start()
@@ -70,24 +70,53 @@ void CInGamePanel_bu::Start()
 
 void CInGamePanel_bu::Update()
 {
-	E_WeaponType_bu eWeaponType =  m_pPlayer->GetWeapon()->GetCurWeaponType();
-	m_pGunImage->Animator2D()->GetCurAnimation()->SetCurAnimationFrame((UINT)eWeaponType);
+	m_fUpdateTime += DT;
+	if (m_fUpdateTime > m_fMaxUpdateTime) {
+		E_WeaponType_bu eWeaponType = m_pPlayer->GetWeapon()->GetCurWeaponType();
+		m_pGunImage->Animator2D()->GetCurAnimation()->SetCurAnimationFrame((UINT)eWeaponType);
 
-	//m_pSkelletonImage->Animator2D()->GetCurAnimation()->
-	// TODO :  HP 차이에 따라서 스켈레톤 이미지를 바꾸게 하기.
+		float fHp = m_pPlayer->GetHp();
+		if (fHp >= 80.f)
+			m_pSkelletonImage->Animator2D()->Play(_T("Skelleton80HpUpSprite"));
+		else if (fHp >= 60.f)
+			m_pSkelletonImage->Animator2D()->Play(_T("Skelleton60HpUpSprite"));
+		else if (fHp >= 20.f)
+			m_pSkelletonImage->Animator2D()->Play(_T("Skelleton10HpUpSprite"));
+		else
+			m_pSkelletonImage->Animator2D()->Play(_T("Skelleton0HpUpSprite"));
+			
+		Vector3 vArmorImgPos = m_pArmorImage->RectTransform()->GetLocalPosition();
+		Vector3 vHpImgPos = m_pHpImage->RectTransform()->GetLocalPosition();
+
+		// 550이 완성이면
+		const float fMaxHeightHp = 550.f, fMaxHeightArmor = 550.f;
+		float fHpRatio = m_pPlayer->GetHp() / m_pPlayer->GetMaxHp();
+		float fArmorRatio = m_pPlayer->GetArmor() / m_pPlayer->GetMaxArmor();
+		m_pArmorImage->RectTransform()->SetHeight(fMaxHeightArmor * fArmorRatio);
+		m_pHpImage->RectTransform()->SetHeight(fMaxHeightHp * fHpRatio);
+
+		float vArmorImgHeight = m_pArmorImage->RectTransform()->GetHeight();
+		float vHpImgHeight = m_pHpImage->RectTransform()->GetHeight();
+
+		vHpImgPos.y = -((fMaxHeightHp - vHpImgHeight) * 0.5f);
+		m_pHpImage->RectTransform()->SetLocalPosition(vHpImgPos);
+		vArmorImgPos.y = -((fMaxHeightArmor - vArmorImgHeight) * 0.5f);
+		m_pArmorImage->RectTransform()->SetLocalPosition(vArmorImgPos);
+
+		m_pHpText->SetText(to_tstring((int)m_pPlayer->GetHp()));
+		m_pArmorText->SetText(to_tstring((int)m_pPlayer->GetArmor()));
+		TWeaponInfo_bu& tWeaponInfo = m_pPlayer->GetWeapon()->GetCurWeapon();
+		m_pCurBulletText->SetText(to_tstring(tWeaponInfo.iCurBullet));
+		TWeaponInfo_bu* pWeaponInfos = m_pPlayer->GetWeapon()->GetAllWeaponInfo();
+		m_pShotgunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::Shotgun].iCurBullet));
+		m_pMachineGunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::MachineGun].iCurBullet));
+		m_pGrenadeLauncherBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::GrenadeLauncher].iCurBullet));
+		m_pFlameBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::FlameThrower].iCurBullet));
+		m_pLaserGunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::LaserGun].iCurBullet));
 
 
-
-	m_pHpText->SetText(to_tstring(m_pPlayer->GetHp()));
-	m_pArmorText->SetText(to_tstring(m_pPlayer->GetArmor()));
-	TWeaponInfo_bu& tWeaponInfo = m_pPlayer->GetWeapon()->GetCurWeapon();
-	m_pCurBulletText->SetText(to_tstring(tWeaponInfo.iCurBullet));
-	TWeaponInfo_bu* pWeaponInfos = m_pPlayer->GetWeapon()->GetAllWeaponInfo();
-	m_pShotgunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::Shotgun].iCurBullet));
-	m_pMachineGunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::MachineGun].iCurBullet));
-	m_pGrenadeLauncherBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::GrenadeLauncher].iCurBullet));
-	m_pFlameBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::FlameThrower].iCurBullet));
-	m_pLaserGunBulletText->SetText(to_tstring(pWeaponInfos[(UINT)E_WeaponType_bu::LaserGun].iCurBullet));
+		m_fUpdateTime = 0.f;
+	}
 }
 
 bool CInGamePanel_bu::SaveToScene(FILE* _pFile)

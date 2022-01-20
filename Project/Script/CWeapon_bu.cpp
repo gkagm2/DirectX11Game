@@ -129,17 +129,16 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
 		}
 		else if (m_eCurType == E_WeaponType_bu::Shotgun) {
-			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
-			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
-			pBulletObj->SetTag(_iTag, true);
-
 			const int iShotgunBulletCnt = 8;
-			Vector3 shootDir = _vShootDir;
-			Vector2 shootDir2 = shootDir.XY();
-
 			for (int i = 0; i < iShotgunBulletCnt; ++i) {
+				CGameObject* pBulletObj = m_pMainBullet->Instantiate();
+				CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
+				pBul->SetSpeed(pBul->GetSpeed() - (rand() % 10) * 0.9f + 3.f);
+				pBul->SetBouncingParticleType(CBullet_bu::E_BouncingParticleType_bu::oneBulletOneParticle);
+				pBulletObj->SetTag(_iTag, true);
+
 				pBul->Transform()->SetLocalPosition(_vMuzzlePos);
-				Vector3 vShootDir = Vector3((::Rotate(shootDir2, (iShotgunBulletCnt * 0.5f - i)), _vShootDir.z));
+				Vector3 vShootDir = ::Rotate(_vShootDir, (i - iShotgunBulletCnt * 0.5f));
 				// 각 사이값을 구한다.
 				pBul->SetShootDir(vShootDir);
 				pBul->Transform()->SetLocalRotation(_Rot);

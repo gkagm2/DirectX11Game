@@ -74,6 +74,9 @@ tstring TagToString(E_Tag _eTag)
 	case E_Tag::Enemy_GroundCheck:
 		tagName = _T("Enemy_GroundCheck");
 		break;
+	case E_Tag::ObjParticle:
+		tagName = _T("ObjParticle");
+		break;
 	default:
 		if (!((int)_eTag >= 0 && (int)_eTag < MAX_SIZE_TAG))
 			assert(nullptr);

@@ -3,6 +3,9 @@
 class CInGamePanel_bu : public CScript
 {
 private:
+	float m_fUpdateTime;
+	float m_fMaxUpdateTime;
+private:
 	CGameObject*	m_pGunImageObj;
 	CGameObject*	m_pMagazineImageObj;
 	CGameObject*	m_pBulletImageObj;
@@ -15,6 +18,9 @@ private:
 	CGameObject*	m_pGrenadeLauncherBulletTextObj;
 	CGameObject*	m_pFlameBulletTextObj;
 	CGameObject*	m_pLaserGunBulletTextObj;
+	CGameObject* m_pHpImageObj;
+	CGameObject* m_pArmorImageObj;
+
 private:
 	CImageUI*		m_pGunImage;
 	CImageUI*		m_pMagazineImage;
@@ -28,6 +34,8 @@ private:
 	CTextUI*		m_pGrenadeLauncherBulletText;
 	CTextUI*		m_pFlameBulletText;
 	CTextUI*		m_pLaserGunBulletText;
+	CImageUI*		m_pHpImage;
+	CImageUI*		m_pArmorImage;
 
 private:
 	class CPlayerController_bu* m_pPlayer;

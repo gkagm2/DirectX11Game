@@ -298,6 +298,7 @@ enum class E_Tag {
 	Enemy_Bullet, // 8
 	Player_GroundCheck,//9
 	Enemy_GroundCheck,//10
+	ObjParticle, //11
 	End
 };
 

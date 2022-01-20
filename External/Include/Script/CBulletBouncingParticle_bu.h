@@ -12,9 +12,10 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	virtual void OnCollisionEnter2D(CCollider2D* _pCol) override;
+
 public:
-	// fSideDegree : ªÁ¿’∞¢
-	void SetParticle(const Vector3& _vBouncingDir, float _fSideDegree);
+	void SetParticle(const Vector3& _vBouncingDir);
 
 public:
 	CLONE(CBulletBouncingParticle_bu);

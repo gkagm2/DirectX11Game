@@ -53,9 +53,6 @@ void CPlayerController_bu::Start()
 	// Test Code
 	for (UINT i = 0; i < (UINT)E_WeaponType_bu::End; ++i) 
 		m_pWeapon->SetUseableWeapon((E_WeaponType_bu)i, true);
-
-
-
 }
 
 void CPlayerController_bu::Update()

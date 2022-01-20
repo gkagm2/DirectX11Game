@@ -2,6 +2,12 @@
 #include <Engine\CScript.h>
 class CBullet_bu : public CScript
 {
+public:
+	enum class E_BouncingParticleType_bu {
+		oneBulletOneParticle,
+		oneBulletMultipleParticle,
+		none,
+	};
 private:
 	Vector3 m_vShootDir;
 	float m_fSpeed;
@@ -17,7 +23,9 @@ private:
 	SharedPtr<CPrefab> m_pWallParticlePref;
 	SharedPtr<CPrefab> m_pHumanParticlePref;
 	SharedPtr<CPrefab> m_pObjParticlePref;
-
+	
+	
+	E_BouncingParticleType_bu m_eBouncingParticleType;
 
 public:
 	virtual void Awake() override;
@@ -26,9 +34,19 @@ public:
 	virtual void OnCollisionEnter2D(CCollider2D* _pOther) override;
 
 	void SetShootDir(const Vector3& _vShootDir) { m_vShootDir = _vShootDir; }
+	void SetBouncingParticleType(E_BouncingParticleType_bu _eType) { m_eBouncingParticleType = _eType; }
 
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
+	
+	void SetSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
+	float GetSpeed() { return m_fSpeed; }
+
+
+private:
+	void _ParticleMultiple();
+	void _ParticleOne();
+
 
 public:
 	CLONE(CBullet_bu);
