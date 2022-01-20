@@ -2,6 +2,7 @@
 #include "Light2DGUI.h"
 #include <Engine\CLight2D.h>
 #include "ParamGUI.h"
+#include "CImGuiManager.h"
 
 Light2DGUI::Light2DGUI() :
 	LightGUI(E_ComponentType::Light2D),
@@ -29,8 +30,10 @@ void Light2DGUI::Update()
 	string strLightType;
 	TStringToString(LightTypeToStr(tLightInfoRef.eLightType), strLightType);
 	// Type을 String으로 표시
-	static int iCurLightType = (int)tLightInfoRef.eLightType;
+	int iCurLightType = (int)tLightInfoRef.eLightType;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), (int)m_vecStrLigthTypeList.size());
+	ImGui::PopID();
 	tLightInfoRef.eLightType = (E_LightType)iCurLightType;
 
 	switch (tLightInfoRef.eLightType) {

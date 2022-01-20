@@ -137,26 +137,21 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
         else if (g_Light2DBuffer[i].iLightType == spotType)
         {
             // Spot Light
-            float3 vForwardDir = normalize(g_Light2DBuffer[0].vLightDir.xyz); // light 방향
-            float3 vDirToTarget = normalize(_in.vWorldPos.xyz - g_Light2DBuffer[0].vLightPos.xyz);
+            float3 vForwardDir = normalize(g_Light2DBuffer[i].vLightDir.xyz); // light 방향
+            float3 vDirToTarget = normalize(_in.vWorldPos.xyz - g_Light2DBuffer[i].vLightPos.xyz);
     
             float fRadian = dot(vForwardDir, vDirToTarget);
             float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree
-    
-            if (fAngle < g_Light2DBuffer[0].fAngle * 0.5f)
+            float fRatio = 0.f;
+            if (fAngle < g_Light2DBuffer[i].fAngle * 0.5f)
             {
                 float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
                 // saturate: 0~1사이의 값으로 만듬
                 //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
-                float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
-        
-                // 분산광 설정
-                finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
+                fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
             }
-            else
-            {
-            //vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
-            }
+             // 분산광 설정
+             finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
         }
         else if(g_Light2DBuffer[i].iLightType == directType)
         {
@@ -165,9 +160,9 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
     }
     vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
     
-    //vOutColor.x = saturate(vOutColor.x);
-    //vOutColor.y = saturate(vOutColor.y);
-    //vOutColor.z = saturate(vOutColor.z);
+    vOutColor.x = saturate(vOutColor.x);
+    vOutColor.y = saturate(vOutColor.y);
+    vOutColor.z = saturate(vOutColor.z);
     return vOutColor;
 }
 ///////////////////////
