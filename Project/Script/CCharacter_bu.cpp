@@ -23,7 +23,8 @@ CCharacter_bu::CCharacter_bu() :
 	m_pGroundCheckCol{ nullptr },
 	m_bCanJump{ false },
 	m_fJumpCoolTime{ 0.f },
-	m_fJumpMaxCoolTime{0.7f}
+	m_fJumpMaxCoolTime{0.7f},
+	m_pBodyPartPref{ nullptr }
 {
 }
 
@@ -47,7 +48,8 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_pGroundCheckCol{ nullptr },
 	m_bCanJump{false},
 	m_fJumpCoolTime{ 0.f },
-	m_fJumpMaxCoolTime{ 0.7f }
+	m_fJumpMaxCoolTime{ 0.7f },
+	m_pBodyPartPref{ nullptr }
 {
 }
 
@@ -73,16 +75,24 @@ void CCharacter_bu::Awake()
 	assert(m_pGroundCheckObj);
 	m_pGroundCheckCol = m_pGroundCheckObj->GetComponent<CGroundCheck_bu>();
 	assert(m_pGroundCheckCol);
+
+	tstring strPath = STR_DIR_PATH_Prefab;
+	strPath = strPath +_T("BodyPart_bu") + STR_EXTENSION_Prefab;
+	m_pBodyPartPref = CResourceManager::GetInstance()->FindRes<CPrefab>(strPath);
+		if (nullptr == m_pBodyPartPref) {
+			m_pBodyPartPref = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("BodyPart_bu"));
+			if (nullptr == m_pBodyPartPref)
+				assert(nullptr);
+		}
+	
 }
 
 void CCharacter_bu::PrevUpdate()
 {
-	if (m_pGroundCheckCol->IsTouchGround()) {
+	if (m_pGroundCheckCol->IsTouchGround())
 		m_bCanJump = true;
-	}
 	else
 		m_bCanJump = false;
-
 }
 
 void CCharacter_bu::ChangeState(E_CharacterState _eState)

@@ -49,6 +49,8 @@ protected:
 	float m_fJumpCoolTime;
 	float m_fJumpMaxCoolTime;
 
+	SharedPtr<CPrefab> m_pBodyPartPref;
+
 public:
 	virtual void Awake() override;
 	virtual void PrevUpdate() override;

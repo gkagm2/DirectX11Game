@@ -42,6 +42,9 @@ void CSwitch_bu::Awake()
 	assert(Animator2D());
 	m_pAnim = Animator2D();
 	int iCurFrame = m_pAnim->GetCurAnimation()->GetCurFrameIdx();
+
+
+	m_pTargetObj = GetGameObject()->FindGameObjectSameLine(_T("InteractiveObj"));
 	assert(m_pTargetObj);
 }
 

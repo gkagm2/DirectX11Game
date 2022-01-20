@@ -119,7 +119,6 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
 			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
 			pBulletObj->SetTag(_iTag, true);
-
 			pBul->Transform()->SetLocalPosition(_vMuzzlePos);
 			pBul->SetShootDir(_vShootDir);
 			pBul->Transform()->SetLocalRotation(_Rot);

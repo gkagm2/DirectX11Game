@@ -34,7 +34,8 @@ private:
 	SharedPtr<CPrefab> m_pPlayerPrefab;
 	SharedPtr<CPrefab> m_pEnemyPrefab;
 	SharedPtr<CPrefab> m_pDoorPrefab;
-	SharedPtr<CPrefab> m_pSwitchPrefab;
+	SharedPtr<CPrefab> m_pSwitch1Prefab;
+	SharedPtr<CPrefab> m_pSwitch2Prefab;
 
 	SharedPtr<CPrefab> m_pBulletPickupPrefab;
 	SharedPtr<CPrefab> m_pHpPickupPrefab;

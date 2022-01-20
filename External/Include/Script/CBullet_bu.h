@@ -44,8 +44,8 @@ public:
 
 
 private:
-	void _ParticleMultiple();
-	void _ParticleOne();
+	void _ParticleMultiple(const Vector3& _vDir);
+	void _ParticleOne(const Vector3& _vDir);
 
 
 public:

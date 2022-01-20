@@ -111,7 +111,7 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 	UINT iParticleLayer = (UINT)E_Layer::Object;
 	if (bManTouched) {
 		CGameObject* pParticle = CObject::InstantiateEvn(m_pHumanParticlePref, Transform()->GetPosition(), iParticleLayer);
-			_ParticleOne();
+			_ParticleOne(m_vShootDir);
 		DestroyGameObjectEvn(GetGameObject());
 	}
 	else if (bObjTouched) {
@@ -120,9 +120,9 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 	}
 	else if (bWallTouched) {
 		if (E_BouncingParticleType_bu::oneBulletMultipleParticle == m_eBouncingParticleType)
-			_ParticleMultiple();
+			_ParticleMultiple(-m_vShootDir);
 		else if (E_BouncingParticleType_bu::oneBulletOneParticle == m_eBouncingParticleType)
-			_ParticleOne();
+			_ParticleOne(-m_vShootDir);
 		DestroyGameObjectEvn(GetGameObject());
 	}
 }
@@ -141,7 +141,7 @@ bool CBullet_bu::LoadFromScene(FILE* _pFile)
 	return true;
 }
 
-void CBullet_bu::_ParticleMultiple()
+void CBullet_bu::_ParticleMultiple(const Vector3& _vDir)
 {
 	UINT iParticleLayer = (UINT)E_Layer::Object;
 	if (m_eBouncingParticleType == E_BouncingParticleType_bu::oneBulletMultipleParticle) {
@@ -149,18 +149,17 @@ void CBullet_bu::_ParticleMultiple()
 		for (int i = 0; i < 12; ++i) {
 			CGameObject* pParticle = CObject::InstantiateEvn(m_pWallParticlePref, Transform()->GetPosition(), iParticleLayer);
 
-			Vector3 vShootDir = ::Rotate(-m_vShootDir, degree * i + rand() % 25);
+			Vector3 vShootDir = ::Rotate(_vDir, degree * i + rand() % 25);
 			CBulletBouncingParticle_bu* pbp = pParticle->GetComponent< CBulletBouncingParticle_bu>();
 			pbp->SetParticle(vShootDir);
-
 		}
 	}
 }
 
-void CBullet_bu::_ParticleOne()
+void CBullet_bu::_ParticleOne(const Vector3& _vDir)
 {
 	UINT iParticleLayer = (UINT)E_Layer::Object;
 	CGameObject* pParticle = CObject::InstantiateEvn(m_pWallParticlePref, Transform()->GetPosition(), iParticleLayer);
 	CBulletBouncingParticle_bu* pbp = pParticle->GetComponent< CBulletBouncingParticle_bu>();
-	pbp->SetParticle(-m_vShootDir);
+	pbp->SetParticle(_vDir);
 }

@@ -9,6 +9,7 @@
 // 렌더링시 생성할 타일의 개수
 #define TileXCount      g_int_0 // 타일맵의 타일 가로 개수
 #define TileYCount      g_int_1 // 타일맵의 세로 개수
+#define LightEnable     g_int_2 // 라이팅 적용
 
 //#define TileIdx         g_int_2 // 이미지 인덱스
 
@@ -27,13 +28,16 @@ struct VTX_TILEMAP_IN
 struct VTX_TILEMAP_OUT
 {
     float4 vPosition : SV_Position;
+    float3 vWorldPos : POSITION;
     float2 vUV : TEXCOORD;
 };
 
 VTX_TILEMAP_OUT VS_TileMap(VTX_TILEMAP_IN _in)
 {
     VTX_TILEMAP_OUT output = (VTX_TILEMAP_OUT) 0.f;
+    output.vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld).xyz;
     output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWorldViewProj);
+    
     output.vUV = _in.vUV;
     return output;
 }
@@ -86,6 +90,61 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
 
  
     vOutColor = AtlasTex.Sample(Sample_Point, vTileUV);
+    
+    if (LightEnable)
+    {
+        int directType = 0;
+        int pointType = 1;
+        int spotType = 2;
+    
+        TLightColor finalColor = (TLightColor) 0.f;
+        for (int i = 0; i < g_iLight2DCount.x; ++i)
+        {
+            if (g_Light2DBuffer[i].iLightType == pointType)
+            {
+            //Point Light
+            // 광원처리
+    
+                float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
+            // saturate: 0~1사이의 값으로 만듬
+            //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+                float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
+        
+            // 분산광 설정
+                finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
+            }
+            else if (g_Light2DBuffer[i].iLightType == spotType)
+            {
+            // Spot Light
+                float3 vForwardDir = normalize(g_Light2DBuffer[0].vLightDir.xyz); // light 방향
+                float3 vDirToTarget = normalize(_in.vWorldPos.xyz - g_Light2DBuffer[0].vLightPos.xyz);
+    
+                float fRadian = dot(vForwardDir, vDirToTarget);
+                float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree
+    
+                if (fAngle < g_Light2DBuffer[0].fAngle * 0.5f)
+                {
+                    float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
+                // saturate: 0~1사이의 값으로 만듬
+                //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+                    float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
+        
+                // 분산광 설정
+                    finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
+                }
+                else
+                {
+            //vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+                }
+            }
+            else if (g_Light2DBuffer[i].iLightType == directType)
+            {
+                finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse;
+            }
+        }
+        vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+    }
+    
     return vOutColor;
 }
 #endif

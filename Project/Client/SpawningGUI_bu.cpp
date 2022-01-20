@@ -51,7 +51,8 @@ void SpawningGUI_bu::Init()
 	m_CatePickupsList.push_back("Laser Gun");
 
 	m_CateDoorAndSwitchList.push_back("door");
-	m_CateDoorAndSwitchList.push_back("switch");
+	m_CateDoorAndSwitchList.push_back("elevator1");
+	m_CateDoorAndSwitchList.push_back("elevator2");
 
 	m_itemHpTypeList.push_back("Level1");
 	m_itemHpTypeList.push_back("Level2");
@@ -239,12 +240,20 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	if (nullptr == m_pDoorPrefab)
 		return;
 
-	if (nullptr == m_pSwitchPrefab) {
+	if (nullptr == m_pSwitch1Prefab) {
 		tstring path = STR_FILE_PATH_Prefab;
-		tstring totalPath = path + _T("Swtich_bu.pref");
-		m_pSwitchPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+		tstring totalPath = path + _T("Elevator1_bu.pref");
+		m_pSwitch1Prefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
-	if (nullptr == m_pSwitchPrefab)
+	if (nullptr == m_pSwitch1Prefab)
+		return;
+
+	if (nullptr == m_pSwitch2Prefab) {
+		tstring path = STR_FILE_PATH_Prefab;
+		tstring totalPath = path + _T("Elevator2_bu.pref");
+		m_pSwitch2Prefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+	}
+	if (nullptr == m_pSwitch2Prefab)
 		return;
 
 	UINT iLayer = (UINT)E_Layer::Object;
@@ -253,8 +262,11 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	if ("door" == itemName) {
 		m_pTargetObj = CObject::InstantiateEvn(m_pDoorPrefab, Vector3::Zero, iLayer);
 	}
-	else if ("switch" == itemName) {
-		m_pTargetObj = CObject::InstantiateEvn(m_pSwitchPrefab, Vector3::Zero, iLayer);
+	else if ("elevator1" == itemName) {
+		m_pTargetObj = CObject::InstantiateEvn(m_pSwitch1Prefab, Vector3::Zero, iLayer);
+	}
+	else if ("elevator2" == itemName) {
+		m_pTargetObj = CObject::InstantiateEvn(m_pSwitch2Prefab, Vector3::Zero, iLayer);
 	}
 }
 

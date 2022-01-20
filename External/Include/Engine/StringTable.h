@@ -25,6 +25,7 @@
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 #define STR_FILE_PATH_TileMapShader _T("shader\\tilemap.fx")
+#define STR_FILE_PATH_TileMapLightShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 #define STR_FILE_PATH_Material _T("material\\")
@@ -116,6 +117,7 @@
 #define STR_KEY_StdLight2DShader _T("StandardShaderLight2D")
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
+#define STR_KEY_TileMapLightShader _T("TileMapLightShader")
 #define STR_KEY_ParticleShader _T("ParticleShader")
 #define STR_KEY_DistortionShader _T("DistortionShader")
 #define STR_KEY_FishEyeShader _T("FishEyeShader")
@@ -142,6 +144,7 @@
 #define STR_KEY_Collider2DNoneColliedMtrl _T("Collider2DNonColliedMaterial") // 충돌되지 않았을 시 나타내는 메터리얼
 #define STR_KEY_Collider2DCollisionMtrl _T("Collider2DCollisionMaterial") // 충돌 시 나타내는 메터리얼 
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
+#define STR_KEY_TileMapLightMtrl _T("TileMapLightMaterial")
 #define STR_KEY_ParticleMtrl _T("ParticleMaterial")
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 #define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")

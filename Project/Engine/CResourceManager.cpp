@@ -398,6 +398,29 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_TileMapShader, pShader);
 
+	//-----------------------
+	// 빛 적용 타일맵 쉐이더 생성
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_TileMapShader, STR_FUNC_NAME_VTXShaderTileMap);
+	pShader->CreatePixelShader(STR_FILE_PATH_TileMapShader, STR_FUNC_NAME_PIXShaderTileMap);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+
+	// Blend State
+	pShader->SetBlendState(E_BlendState::AlphaBlend);
+
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Tile x cnt") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("Tile y cnt") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_2, _T("Light Enable") });
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Atlas Texture") });
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Atlas Resolution") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_1, _T("Atlas Tile UV Size") });
+	AddRes(STR_KEY_TileMapLightShader, pShader);
+
 	//-------------------------
 	// 파티클 렌더 쉐이더 생성
 	pShader = new CGraphicsShader(E_RenderTimePoint::Particle);
@@ -598,7 +621,17 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderTileMap = LoadRes<CGraphicsShader>(STR_KEY_TileMapShader);
 	pMtrl->SetShader(pShaderTileMap);
+	int iLightDisable = 0;
+	pMtrl->SetData(E_ShaderParam::Int_2, &iLightDisable);
 	AddRes(STR_KEY_TileMapMtrl, pMtrl);
+
+	// 빛 적용된 타일맵 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderTileMapLight = LoadRes<CGraphicsShader>(STR_KEY_TileMapLightShader);
+	pMtrl->SetShader(pShaderTileMapLight);
+	int iLightEnable = 1;
+	pMtrl->SetData(E_ShaderParam::Int_2, &iLightEnable);
+	AddRes(STR_KEY_TileMapLightMtrl, pMtrl);
 
 	// 파티클 재질 생성
 	pMtrl = new CMaterial(true);
