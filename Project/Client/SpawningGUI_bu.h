@@ -36,6 +36,7 @@ private:
 	SharedPtr<CPrefab> m_pDoorPrefab;
 	SharedPtr<CPrefab> m_pSwitch1Prefab;
 	SharedPtr<CPrefab> m_pSwitch2Prefab;
+	SharedPtr<CPrefab> m_pExitDoorPrefab;
 
 	SharedPtr<CPrefab> m_pBulletPickupPrefab;
 	SharedPtr<CPrefab> m_pHpPickupPrefab;

@@ -99,6 +99,10 @@ public:
 	virtual void OnJumpUpdate() override;
 	virtual void OnJumpEnd() override;
 
+	virtual void OnDeadStart() override;
+	virtual void OnDeadUpdate() override;
+	virtual void OnDeadEnd() override;
+
 
 private:
 	// Targeting되어있는 상태면 적용 안됨

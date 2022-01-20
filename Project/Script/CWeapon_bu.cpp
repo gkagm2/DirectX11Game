@@ -221,7 +221,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 0,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 0,
-			tInfo.fRpm = 0.2f,
+			tInfo.fRpm = 0.1f,
 			tInfo.bInfinity = true
 		};
 	}
@@ -242,7 +242,7 @@ void CWeapon_bu::_InitWeaponInfo()
 			tInfo.iMaxBullet = 75,
 			tInfo.iCurBullet = 0,
 			tInfo.iGetBulletCnt = 25,
-			tInfo.fRpm = 0.3f,
+			tInfo.fRpm = 0.1f,
 			tInfo.bInfinity = false
 		};
 	}

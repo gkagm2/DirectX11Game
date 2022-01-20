@@ -168,7 +168,7 @@ void CCharacter_bu::ChangeState(E_CharacterState _eState)
 void CCharacter_bu::DamagedMe(float _fDamage)
 {
 	// armor가 존재하면
-	float fDamage = 0.f;
+	float fDamage = _fDamage;
 	if (m_fArmor > 0.f) {
 		m_fArmor = m_fArmor - _fDamage;
 		if (m_fArmor < 0.f) {
@@ -178,6 +178,9 @@ void CCharacter_bu::DamagedMe(float _fDamage)
 	}
 	m_fHp = m_fHp - fDamage;
 	m_fHp = max(m_fHp, 0.f);
+	if (0.f == m_fHp) {
+		ChangeState(E_CharacterState::Dead);
+	}
 }
 
 void CCharacter_bu::OnDead()

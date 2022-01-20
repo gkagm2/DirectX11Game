@@ -300,6 +300,12 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
     <ClInclude Include="CBulletBouncingParticle_bu.h" />
+    <ClInclude Include="CExitDoor_bu.h">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
+    <ClInclude Include="CExitDoorEndCol_bu.h">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -485,5 +491,11 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
     <ClCompile Include="CBulletBouncingParticle_bu.cpp" />
+    <ClCompile Include="CExitDoor_bu.cpp">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CExitDoorEndCol_bu.cpp">
+      <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

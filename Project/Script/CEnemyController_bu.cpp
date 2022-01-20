@@ -74,6 +74,9 @@ void CEnemyController_bu::Awake()
 
 	m_pTargetLookAt = GetGameObject()->FindComponentInChilds<CTargetLookAt_bu>();
 	assert(m_pTargetLookAt);
+
+	SetHp(20.f);
+	SetArmor(0.f);
 }
 
 void CEnemyController_bu::Start()
@@ -602,6 +605,28 @@ void CEnemyController_bu::OnJumpUpdate()
 }
 
 void CEnemyController_bu::OnJumpEnd()
+{
+}
+
+void CEnemyController_bu::OnDeadStart()
+{
+	UINT iLayer = (UINT)E_Layer::Object;
+	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
+	float degree = size / 360;
+	for (int i = 0; i < size; ++i) {
+		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
+		Vector3 vDir = ::Rotate(Vector3::Right, i * degree);
+		pObj->Animator2D()->SetCurAnimationFrame(i);
+		pObj->Rigidbody2D()->AddForce(vDir * 30.f);
+	}
+	DestroyGameObjectEvn(GetGameObject());
+}
+
+void CEnemyController_bu::OnDeadUpdate()
+{
+}
+
+void CEnemyController_bu::OnDeadEnd()
 {
 }
 

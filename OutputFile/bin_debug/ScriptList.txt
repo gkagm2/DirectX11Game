@@ -18,6 +18,8 @@ CEnemyController_bu
 CEnemyRespawnerScript_sh
 CEnemyScript_sh
 CEventFuncTest
+CExitDoorEndCol_bu
+CExitDoor_bu
 CGameManagerScript_sh
 CGameManager_bu
 CGameManager_ca

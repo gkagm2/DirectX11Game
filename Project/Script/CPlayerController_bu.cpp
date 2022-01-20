@@ -3,23 +3,17 @@
 #include <Engine\CCore.h>
 #include "CInteractiveObj_bu.h"
 #include "CCameraFollowerScript.h"
-
-#include "CUIManager_bu.h"
-#include "CUIContainer_bu.h"
-#include "CInGamePanel_bu.h"
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
 	m_pLegAnim(nullptr),
 	m_pTorsoAnimSprite(nullptr),
-	m_pBulletPref(nullptr),
-	m_pUIManager(nullptr)
+	m_pBulletPref(nullptr)
 {
 }
 
 CPlayerController_bu::~CPlayerController_bu()
 {
-
 }
 
 void CPlayerController_bu::Awake()
@@ -28,8 +22,6 @@ void CPlayerController_bu::Awake()
 	
 	CGameObject* pLegsObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Legs);
 	CGameObject* pTorsoObj = GetGameObject()->FindGameObjectInChilds(BUTCHER_ObjName_Torse);
-	m_pUIManager = FIND_GameObject(_T("UIManager"))->GetComponent<CUIManager_bu>();
-	assert(m_pUIManager);
 	assert(pLegsObj);
 	assert(pTorsoObj);
 	if(pLegsObj)
@@ -279,6 +271,12 @@ void CPlayerController_bu::OnJumpEnd()
 
 void CPlayerController_bu::OnDeadStart()
 {
+	UINT iLayer = (UINT)E_Layer::Object;
+	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
+	for (int i = 0; i < size; ++i) {
+		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
+		pObj->Animator2D()->SetCurAnimationFrame(i);
+	}
 }
 
 void CPlayerController_bu::OnDeadUpdate()

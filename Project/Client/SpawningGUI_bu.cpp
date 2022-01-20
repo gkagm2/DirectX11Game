@@ -53,6 +53,7 @@ void SpawningGUI_bu::Init()
 	m_CateDoorAndSwitchList.push_back("door");
 	m_CateDoorAndSwitchList.push_back("elevator1");
 	m_CateDoorAndSwitchList.push_back("elevator2");
+	m_CateDoorAndSwitchList.push_back("exitDoor");
 
 	m_itemHpTypeList.push_back("Level1");
 	m_itemHpTypeList.push_back("Level2");
@@ -256,6 +257,14 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	if (nullptr == m_pSwitch2Prefab)
 		return;
 
+	if (nullptr == m_pExitDoorPrefab) {
+		tstring path = STR_FILE_PATH_Prefab;
+		tstring totalPath = path + _T("ExitDoor_bu.pref");
+		m_pExitDoorPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+	}
+	if (nullptr == m_pExitDoorPrefab)
+		return;
+
 	UINT iLayer = (UINT)E_Layer::Object;
 	string itemName = m_CateDoorAndSwitchList[m_iCurDoorAndSwitchItemIdx];
 
@@ -267,6 +276,9 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	}
 	else if ("elevator2" == itemName) {
 		m_pTargetObj = CObject::InstantiateEvn(m_pSwitch2Prefab, Vector3::Zero, iLayer);
+	}
+	else if ("exitDoor" == itemName) {
+		m_pTargetObj = CObject::InstantiateEvn(m_pExitDoorPrefab, Vector3::Zero, iLayer);
 	}
 }
 

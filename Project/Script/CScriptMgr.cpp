@@ -21,6 +21,8 @@
 #include "CEnemyRespawnerScript_sh.h"
 #include "CEnemyScript_sh.h"
 #include "CEventFuncTest.h"
+#include "CExitDoorEndCol_bu.h"
+#include "CExitDoor_bu.h"
 #include "CGameManagerScript_sh.h"
 #include "CGameManager_bu.h"
 #include "CGameManager_ca.h"
@@ -84,6 +86,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CEnemyRespawnerScript_sh");
 	_vec.push_back(L"CEnemyScript_sh");
 	_vec.push_back(L"CEventFuncTest");
+	_vec.push_back(L"CExitDoorEndCol_bu");
+	_vec.push_back(L"CExitDoor_bu");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CGameManager_bu");
 	_vec.push_back(L"CGameManager_ca");
@@ -168,6 +172,10 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CEnemyScript_sh;
 	if (L"CEventFuncTest" == _strScriptName)
 		return new CEventFuncTest;
+	if (L"CExitDoorEndCol_bu" == _strScriptName)
+		return new CExitDoorEndCol_bu;
+	if (L"CExitDoor_bu" == _strScriptName)
+		return new CExitDoor_bu;
 	if (L"CGameManagerScript_sh" == _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CGameManager_bu" == _strScriptName)
@@ -314,6 +322,12 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::EVENTFUNCTEST:
 		return new CEventFuncTest;
+		break;
+	case (UINT)SCRIPT_TYPE::EXITDOORENDCOL_BU:
+		return new CExitDoorEndCol_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::EXITDOOR_BU:
+		return new CExitDoor_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return new CGameManagerScript_sh;
@@ -521,6 +535,14 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::EVENTFUNCTEST:
 		return L"CEventFuncTest";
+		break;
+
+	case SCRIPT_TYPE::EXITDOORENDCOL_BU:
+		return L"CExitDoorEndCol_bu";
+		break;
+
+	case SCRIPT_TYPE::EXITDOOR_BU:
+		return L"CExitDoor_bu";
 		break;
 
 	case SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:

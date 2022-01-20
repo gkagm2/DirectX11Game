@@ -181,6 +181,8 @@ call CodeGen.exe</Command>
     <ClInclude Include="CElevator_bu.h" />
     <ClInclude Include="CEnemyController_bu.h" />
     <ClInclude Include="CEventFuncTest.h" />
+    <ClInclude Include="CExitDoorEndCol_bu.h" />
+    <ClInclude Include="CExitDoor_bu.h" />
     <ClInclude Include="CGroundCheck_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItemArmor_bu.h" />
@@ -246,6 +248,8 @@ call CodeGen.exe</Command>
     <ClCompile Include="CElevator_bu.cpp" />
     <ClCompile Include="CEnemyController_bu.cpp" />
     <ClCompile Include="CEventFuncTest.cpp" />
+    <ClCompile Include="CExitDoorEndCol_bu.cpp" />
+    <ClCompile Include="CExitDoor_bu.cpp" />
     <ClCompile Include="CGroundCheck_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItemArmor_bu.cpp" />

@@ -11,6 +11,7 @@ private:
 	int m_iOnIdx;
 
 	CGameObject* m_pTargetObj; //  Interactive 스크립트가 있는 오브젝트
+	CLight2D* m_pLight;
 
 public:
 	virtual void Awake() override;

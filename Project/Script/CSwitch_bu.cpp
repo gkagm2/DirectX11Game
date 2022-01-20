@@ -46,6 +46,8 @@ void CSwitch_bu::Awake()
 
 	m_pTargetObj = GetGameObject()->FindGameObjectSameLine(_T("InteractiveObj"));
 	assert(m_pTargetObj);
+	m_pLight = GetGameObject()->FindComponentInChilds<CLight2D>();
+	assert(m_pLight);
 }
 
 void CSwitch_bu::Start()
@@ -63,11 +65,15 @@ void CSwitch_bu::Interaction(bool _bActive)
 		if (m_ActivateCallBack)
 			m_ActivateCallBack();
 		m_pAnim->SetCurAnimationFrame(m_iOnIdx);
+		if (!m_pLight->GetGameObject()->IsActive())
+			m_pLight->GetGameObject()->SetActive(true);
 	}
 	else {
 		if (m_DeActivateCallBack)
 			m_DeActivateCallBack();
 		m_pAnim->SetCurAnimationFrame(m_iOffIdx);
+		if(m_pLight->GetGameObject()->IsActive())
+			m_pLight->GetGameObject()->SetActive(false);
 	}
 	if (m_pTargetObj) {
 		CInteractiveObj_bu* pInter = m_pTargetObj->GetComponent<CInteractiveObj_bu>();
