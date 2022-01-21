@@ -92,11 +92,11 @@ public:
 	vector<TModuleConnector_ca>& GetConnectors() { return m_vecModuleConnectors; }
 
 	// 연결당하는 위치
-	const Vector3& FindNearestConnectionPosition(const Vector3& _vPosition);
+	Vector3 FindNearestConnectionPosition(const Vector3& _vPosition);
 	TModuleConnector_ca& FindNearestConnector(const Vector3& _vPosition);
 	// 연결하는 위치
-	const Vector3& GetMainConnectionPosition();
-	const Vector3& GetMainConnectionLocalPosition();
+	Vector3 GetMainConnectionPosition();
+	Vector3 GetMainConnectionLocalPosition();
 	TModuleConnector_ca& MainConnector();
 	
 

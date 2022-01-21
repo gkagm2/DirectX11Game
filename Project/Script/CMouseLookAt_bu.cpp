@@ -13,6 +13,8 @@ void CMouseLookAt_bu::Update()
 		return;
 	if (E_ProjectionType::Orthographic == pCurCam->GetProjectionType()) {
 		Vector2 vmousepos = MousePosition;
+		tstring str = to_tstring(vmousepos.x) + _T(", ") + to_tstring(vmousepos.y);
+		CFontManager::GetInstance()->DrawFont(str.c_str(), 30, 100, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
 		Vector3 vpos = pCurCam->GetScreenToWorld2DPosition(vmousepos);
 		Transform()->LookAt2D(Vector2(vpos));
 	}

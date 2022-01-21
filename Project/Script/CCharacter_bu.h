@@ -50,6 +50,7 @@ protected:
 	float m_fJumpMaxCoolTime;
 
 	SharedPtr<CPrefab> m_pBodyPartPref;
+	Vector3 m_vBodySplitDir;
 
 public:
 	virtual void Awake() override;
@@ -107,6 +108,7 @@ public:
 	float GetMaxArmor() { return m_fMaxArmor; }
 	void SetHp(float _fHp) { m_fHp = _fHp; }
 	void SetArmor(float _fArmor) { m_fArmor = _fArmor; }
+	void SetBodySplitDir(const Vector3& _vDir) { m_vBodySplitDir = _vDir; }
 	CWeapon_bu* GetWeapon() { return m_pWeapon; }
 	
 	bool IsLookRight() { return m_bIsLookRight; }

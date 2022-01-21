@@ -3,6 +3,7 @@
 #include <Engine\CCore.h>
 #include "CInteractiveObj_bu.h"
 #include "CCameraFollowerScript.h"
+#include "CExplosion_bu.h"
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
@@ -88,12 +89,13 @@ void CPlayerController_bu::OnBehavior()
 	bool isWeaponSwap = false;
 	int iWeaponIdx = 0;
 
+	m_vCurMoveDir = {};
 	if (InputKeyHold(E_Key::A)) { // left
-		m_vCurMoveDir = Vector3(-1.f, 0.f, 0.f);
+		m_vCurMoveDir += Vector3(-1.f, 0.f, 0.f);
 		isMove = true;
 	}
 	if (InputKeyHold(E_Key::D)) { // right
-		m_vCurMoveDir = Vector3(1.f, 0.f, 0.f);
+		m_vCurMoveDir += Vector3(1.f, 0.f, 0.f);
 		isMove = true;
 	}
 
@@ -103,7 +105,6 @@ void CPlayerController_bu::OnBehavior()
 			ChangeState(E_CharacterState::Jump);
 			m_fJumpCoolTime = 0.f;
 		}
-
 	}
 
 	if (InputKeyHold(E_Key::LBUTTON)) {
@@ -135,13 +136,17 @@ void CPlayerController_bu::OnBehavior()
 			{
 				Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
 				vJumpPower *= m_fJumpPower;
-				Vector3 vPower = (m_fJumpMaxCoolTime - m_fJumpCoolTime)* vJumpPower* 2;
-				m_pRigid->AddForce(vPower);
+				m_pRigid->AddForce(vJumpPower);
 			}
 		}
 		else
 			m_bJump = false;
 	}
+	if (m_bCanJump)
+		Rigidbody2D()->UseGravity(false);
+	else
+		Rigidbody2D()->UseGravity(true);
+
 
 	if (isAttack) {
 		Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
@@ -273,10 +278,16 @@ void CPlayerController_bu::OnDeadStart()
 {
 	UINT iLayer = (UINT)E_Layer::ObjectParticle;
 	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
+	float degree = 180.f / size;
 	for (int i = 0; i < size; ++i) {
+		Vector3 vDir = ::Rotate(Vector3::Right, i * degree);
 		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
 		pObj->Animator2D()->SetCurAnimationFrame(i);
+		CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
+		if (pExp)
+			pExp->SetExplosion(vDir, 2.0f, 0.3f);
 	}
+	DestroyGameObjectEvn(GetGameObject());
 }
 
 void CPlayerController_bu::OnDeadUpdate()

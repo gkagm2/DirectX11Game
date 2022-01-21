@@ -48,12 +48,12 @@ void CCamera::FinalUpdate()
 	CRenderManager::GetInstance()->RegisterCamera(this);
 }
 
-const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
+Vector3 CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 {
 	// orthographic일경우에만 사용 가능 
 	if (E_ProjectionType::Perspective == GetProjectionType()) {
 		assert(nullptr && _T("Perspectie type임"));
-		return std::move(Vector3(0.f, 0.f, 0.f));
+		return Vector3(0.f, 0.f, 0.f);
 	}
 		
 
@@ -66,12 +66,11 @@ const Vector3& CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
 
 	vWorldPos.x = vWorldPos.x + vPos.x;
 	vWorldPos.y = vWorldPos.y + vPos.y;
-	return std::move(vWorldPos);
+	return vWorldPos;
 }
 
-const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPosition)
+Vector2 CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPosition)
 {
-
 	Vector3 vLTPos = GetScreenToWorld2DPosition(Vector2(0.f, 0.f));
 	Vector3 vRBPos = GetScreenToWorld2DPosition(Vector2(CCore::GetInstance()->GetWindowResolution()));
 
@@ -94,7 +93,7 @@ const Vector2& CCamera::GetWorldToScreen2DPosition(const Vector3& _vWorldPositio
 
 	Vector2 vFinalScreenPos = vCursorResultPos * vScreenPos;
 
-	return std::move(vFinalScreenPos);
+	return vFinalScreenPos;
 }
 
 float CCamera::GetDistancePerFixel()

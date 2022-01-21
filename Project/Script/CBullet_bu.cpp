@@ -87,6 +87,7 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		if (iTag == iEnemyTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
 			pChar->DamagedMe(m_fDamage);
+			pChar->SetBodySplitDir(m_vShootDir);
 			bManTouched = true;
 		}
 		if (iTag == iObjectTag) {
@@ -97,6 +98,7 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		if (iTag == iPlayerTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
 			pChar->DamagedMe(m_fDamage);
+			pChar->SetBodySplitDir(m_vShootDir);
 			bManTouched = true;
 		}
 		if (iTag == iObjectTag) {

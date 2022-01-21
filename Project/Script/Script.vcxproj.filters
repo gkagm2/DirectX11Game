@@ -311,6 +311,7 @@
     <ClInclude Include="CBulletBouncingParticle_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CRigidbody2DTestScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -507,5 +508,6 @@
     <ClCompile Include="CBulletBouncingParticle_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
+    <ClCompile Include="CRigidbody2DTestScript.cpp" />
   </ItemGroup>
 </Project>

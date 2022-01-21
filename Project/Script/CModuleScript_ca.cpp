@@ -98,7 +98,7 @@ bool CModuleScript_ca::LoadFromScene(FILE* _pFile)
 	return true;
 }
 
-const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPosition)
+Vector3 CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _vPosition)
 {
 	const vector<TModuleConnector_ca>& vecConnectors = GetConnectors();
 	Vector3 vNearestPos = {};
@@ -111,7 +111,7 @@ const Vector3& CModuleScript_ca::FindNearestConnectionPosition(const Vector3& _v
 			fMinDistance = fDis;
 		}
 	}
-	return std::move(vNearestPos);
+	return vNearestPos;
 }
 
 TModuleConnector_ca& CModuleScript_ca::FindNearestConnector(const Vector3& _vPosition)
@@ -133,7 +133,7 @@ TModuleConnector_ca& CModuleScript_ca::FindNearestConnector(const Vector3& _vPos
 	return vecConnectors[idx];
 }
 
-const Vector3& CModuleScript_ca::GetMainConnectionPosition()
+Vector3 CModuleScript_ca::GetMainConnectionPosition()
 {
 	Vector3 vMainPosition = {};
 	const vector<TModuleConnector_ca>& vecConnectPoints = GetConnectors();
@@ -143,7 +143,7 @@ const Vector3& CModuleScript_ca::GetMainConnectionPosition()
 			break;
 		}
 	}
-	return std::move(vMainPosition);
+	return vMainPosition;
 }
 
 TModuleConnector_ca& CModuleScript_ca::MainConnector()
@@ -158,7 +158,7 @@ TModuleConnector_ca& CModuleScript_ca::MainConnector()
 	return vecConnectors[0];
 }
 
-const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()
+Vector3 CModuleScript_ca::GetMainConnectionLocalPosition()
 {
 	Vector3 vMainLocalPosition = {};
 	const vector<TModuleConnector_ca>& vecConnectPoints = GetConnectors();
@@ -168,7 +168,7 @@ const Vector3& CModuleScript_ca::GetMainConnectionLocalPosition()
 			break;
 		}
 	}
-	return std::move(vMainLocalPosition);
+	return vMainLocalPosition;
 }
 
 void CModuleScript_ca::_InitModuleSize(E_ModuleSize_ca _eModuleSize)

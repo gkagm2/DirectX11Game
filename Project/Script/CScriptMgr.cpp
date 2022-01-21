@@ -55,6 +55,7 @@
 #include "CPlayerScript_sh.h"
 #include "CPostProcessingScript.h"
 #include "CRespawnManager_bu.h"
+#include "CRigidbody2DTestScript.h"
 #include "CRotateZScript.h"
 #include "CSparkParticle_bu.h"
 #include "CSwitch_bu.h"
@@ -121,6 +122,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript_sh");
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRespawnManager_bu");
+	_vec.push_back(L"CRigidbody2DTestScript");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSwitch_bu");
@@ -242,6 +244,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPostProcessingScript;
 	if (L"CRespawnManager_bu" == _strScriptName)
 		return new CRespawnManager_bu;
+	if (L"CRigidbody2DTestScript" == _strScriptName)
+		return new CRigidbody2DTestScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
 	if (L"CSparkParticle_bu" == _strScriptName)
@@ -428,6 +432,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::RESPAWNMANAGER_BU:
 		return new CRespawnManager_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::RIGIDBODY2DTESTSCRIPT:
+		return new CRigidbody2DTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
@@ -678,6 +685,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::RESPAWNMANAGER_BU:
 		return L"CRespawnManager_bu";
+		break;
+
+	case SCRIPT_TYPE::RIGIDBODY2DTESTSCRIPT:
+		return L"CRigidbody2DTestScript";
 		break;
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:

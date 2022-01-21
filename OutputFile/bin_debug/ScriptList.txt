@@ -52,6 +52,7 @@ CPlayerScript_ca
 CPlayerScript_sh
 CPostProcessingScript
 CRespawnManager_bu
+CRigidbody2DTestScript
 CRotateZScript
 CSparkParticle_bu
 CSwitch_bu

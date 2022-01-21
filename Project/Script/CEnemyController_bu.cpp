@@ -135,13 +135,16 @@ void CEnemyController_bu::Update()
 			{
 				Vector3 vJumpPower = Vector3(0.f, 1.f, 0.f);
 				vJumpPower *= m_fJumpPower;
-				Vector3 vPower = (m_fJumpMaxCoolTime - m_fJumpCoolTime) * vJumpPower * 2;
-				Rigidbody2D()->AddForce(vPower);
+				Rigidbody2D()->AddForce(vJumpPower);
 			}
 		}
 		else
 			m_bJump = false;
 	}
+	if (m_bCanJump)
+		Rigidbody2D()->UseGravity(false);
+	else
+		Rigidbody2D()->UseGravity(true);
 
 	if (isMove) {
 		ChangeState(E_CharacterState::Move);
@@ -219,6 +222,11 @@ void CEnemyController_bu::Update()
 		m_pFlipGunObj->Transform()->SetLocalScale(vScale);
 	}
 	
+
+	if (InputKeyPress(E_Key::SPACE)) {
+		DamagedMe(2000);
+	}
+
 	AIUpdate();
 }
 
@@ -613,14 +621,16 @@ void CEnemyController_bu::OnDeadStart()
 {
 	UINT iLayer = (UINT)E_Layer::ObjectParticle;
 	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
-	float degree = size / 180.f;
+	
+	//m_vBodySplitDir
+	float degree = 90.f / size;
 	for (int i = 0; i < size; ++i) {
-		Vector3 vDir = ::Rotate(Vector3::Right, i * degree);
+		Vector3 vDir = ::Rotate(m_vBodySplitDir, 45.f - i * degree);
 		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
 		pObj->Animator2D()->SetCurAnimationFrame(i);
 		CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
 		if (pExp)
-			pExp->SetExplosion(vDir, 30.f, 1.f);
+			pExp->SetExplosion(vDir, 2.0f, 0.3f);
 	}
 	DestroyGameObjectEvn(GetGameObject()); 
 }

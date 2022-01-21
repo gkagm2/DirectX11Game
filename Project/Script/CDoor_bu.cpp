@@ -27,15 +27,21 @@ void CDoor_bu::Update()
 {
 	if (m_bIsDoorOpen) {
 		m_fDoorMoveTime += DT;
-		Vector3 vCurPos = CMyMath::Lerp(m_vClosePos, m_vOpenPos, m_fDoorMoveTime);
-		Transform()->SetLocalPosition(vCurPos);
-		m_fDoorMoveTime = min(m_fDoorMoveTime, 1.f);
+		if (m_fDoorMoveTime <= 1.f) {
+			Vector3 vCurPos = CMyMath::Lerp(m_vClosePos, m_vOpenPos, m_fDoorMoveTime);
+			Transform()->SetLocalPosition(vCurPos);
+		}
+		else
+			m_fDoorMoveTime = 1.f;
 	}
 	else {
 		m_fDoorMoveTime -= DT;
-		Vector3 vCurPos = CMyMath::Lerp(m_vClosePos, m_vOpenPos, m_fDoorMoveTime);
-		Transform()->SetLocalPosition(vCurPos);
-		m_fDoorMoveTime = max(m_fDoorMoveTime, 0.f);
+		if (m_fDoorMoveTime > 0) {
+			Vector3 vCurPos = CMyMath::Lerp(m_vClosePos, m_vOpenPos, m_fDoorMoveTime);
+			Transform()->SetLocalPosition(vCurPos);
+		}
+		else
+			m_fDoorMoveTime = 0.f;
 	}
 }
 

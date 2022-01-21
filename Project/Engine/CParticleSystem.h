@@ -62,8 +62,8 @@ public:
 
 	const Vector4& GetStartColor() { return m_vStartColor; }
 	const Vector4& GetEndColor() { return m_vEndColor; }
-	const Vector3& GetStartScale() { return std::move(Vector3(m_vStartScale.x, m_vStartScale.y, m_vStartScale.z)); }
-	const Vector3& GetEndScale() { return std::move(Vector3(m_vEndScale.x, m_vEndScale.y, m_vEndScale.z)); }
+	Vector3 GetStartScale() { return Vector3(m_vStartScale.x, m_vStartScale.y, m_vStartScale.z); }
+	Vector3 GetEndScale() { return Vector3(m_vEndScale.x, m_vEndScale.y, m_vEndScale.z); }
 	float GetMinLifeTime() { return m_fMinLifeTime; }
 	float GetMaxLifeTime() { return m_fMaxLifeTime; }
 	UINT GetSpawnCntPerSec() { return m_iSpawnCntPerSec; }

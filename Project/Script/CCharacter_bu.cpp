@@ -23,14 +23,14 @@ CCharacter_bu::CCharacter_bu() :
 	m_pGroundCheckCol{ nullptr },
 	m_bCanJump{ false },
 	m_fJumpCoolTime{ 0.f },
-	m_fJumpMaxCoolTime{0.7f},
+	m_fJumpMaxCoolTime{0.3f},
 	m_pBodyPartPref{ nullptr }
 {
 }
 
 CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	CScript(_iScriptType),
-	m_fJumpPower{ 0.2f },
+	m_fJumpPower{ 0.5f },
 	m_fMovePower{ 0.2f },
 	m_vCurMoveDir{},
 	m_fHp{100.f},
@@ -48,7 +48,7 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_pGroundCheckCol{ nullptr },
 	m_bCanJump{false},
 	m_fJumpCoolTime{ 0.f },
-	m_fJumpMaxCoolTime{ 0.7f },
+	m_fJumpMaxCoolTime{ 0.3f },
 	m_pBodyPartPref{ nullptr }
 {
 }

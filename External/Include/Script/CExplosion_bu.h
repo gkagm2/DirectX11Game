@@ -8,15 +8,16 @@ private:
 	float m_fForceTime;
 	float m_fMaxForceTime;
 
+	float m_fDelTime;
+	float m_fTouchTime;
+
 public:
 	virtual void Awake() override;
 	virtual void Update() override;
 
-	virtual bool SaveToScene(FILE* _pFile) override;
-	virtual bool LoadFromScene(FILE* _pFile) override;
-
 	void SetExplosion(const Vector3& _vExplosionDir, float _fForce, float _fForceTime);
-	
+
+	virtual void OnCollisionStay2D(CCollider2D* _pCol) override;
 public:
 	CLONE(CExplosion_bu);
 	CExplosion_bu();

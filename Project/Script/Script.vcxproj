@@ -195,6 +195,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMuzzleParticle_bu.h" />
     <ClInclude Include="CObjectManager_bu.h" />
     <ClInclude Include="CRespawnManager_bu.h" />
+    <ClInclude Include="CRigidbody2DTestScript.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
     <ClInclude Include="CCameraFollowerScript.h" />
@@ -263,6 +264,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMuzzleParticle_bu.cpp" />
     <ClCompile Include="CObjectManager_bu.cpp" />
     <ClCompile Include="CRespawnManager_bu.cpp" />
+    <ClCompile Include="CRigidbody2DTestScript.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />
     <ClCompile Include="CCameraFollowerScript.cpp" />

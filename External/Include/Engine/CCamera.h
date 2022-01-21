@@ -70,8 +70,8 @@ public: // Orthographic
 	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
 	const TViewportRect& GetViewportRect() { return m_tViewportRect; }
 
-	virtual const Vector3& GetScreenToWorld2DPosition(const Vector2& _vPosition);
-	virtual const Vector2& GetWorldToScreen2DPosition(const Vector3& _vWorldPosition);
+	virtual Vector3 GetScreenToWorld2DPosition(const Vector2& _vPosition);
+	virtual Vector2 GetWorldToScreen2DPosition(const Vector3& _vWorldPosition);
 
 	float GetDistancePerFixel(); // 1 pixel당 거리 구하기
 

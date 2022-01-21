@@ -69,15 +69,10 @@ void CRigidbody::LateUpdate()
 	else
 		m_vAccel = m_vForce / m_fMass; // 가속도
 
-		// 중력
-	Vector3 vGravityAccel{};
-	if (m_bUseGravity) { // f = m a = m 중력 가속도
-		vGravityAccel = m_vGravityAccel;
-		vGravityAccel.y *= -1;
-		m_vAccel -= vGravityAccel;
-	}
+	if(m_bUseGravity)
+		m_vVelocity.y += m_vGravityAccel.y * DT;
 
-	m_vVelocity = m_vVelocity + (m_vAccel * DT - vGravityAccel * DT);
+	m_vVelocity = m_vVelocity + (m_vAccel * DT);
 
 	// 공기 저항
 	Vector3 vDragDir = m_vVelocity;
@@ -87,14 +82,17 @@ void CRigidbody::LateUpdate()
 	m_fSpeed = m_vVelocity.Length();
 	if (fDragSpeed > m_fSpeed)
 		m_vVelocity = Vector3(0.0f, 0.0f, 0.0f);
-	else
+	else {
 		m_vVelocity += vDragVec;
+	}
+
 
 	// 최대 속도 제한
 	m_fSpeed = m_vVelocity.Length();
-	if (m_fSpeed > m_fMaxSpeed * DT) {
+	float fMaxSpeed = m_fMaxSpeed * DT;
+	if (m_fSpeed > fMaxSpeed) {
 		m_vVelocity.Normalize();
-		m_vVelocity = m_vVelocity * m_fMaxSpeed * DT;
+		m_vVelocity = m_vVelocity * fMaxSpeed;
 	}
 
 	Vector3 vObjPos = GetGameObject()->Transform()->GetLocalPosition();

@@ -37,8 +37,8 @@ public:
 	void SetLocalRotationDegree(const Vector3& _vDegree) {
 		m_vLocalRotation = _vDegree* CMyMath::Deg2Rad();
 	}
-	const Vector3& GetLocalRotationDegree() {
-		return std::move(m_vLocalRotation * CMyMath::Rad2Deg());
+	Vector3 GetLocalRotationDegree() {
+		return m_vLocalRotation * CMyMath::Rad2Deg();
 	}
 	Vector3 GetRotationDegree();
 
