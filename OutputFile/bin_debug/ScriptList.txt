@@ -20,6 +20,7 @@ CEnemyScript_sh
 CEventFuncTest
 CExitDoorEndCol_bu
 CExitDoor_bu
+CExplosion_bu
 CGameManagerScript_sh
 CGameManager_bu
 CGameManager_ca

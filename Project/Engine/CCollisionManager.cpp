@@ -12,6 +12,7 @@
 #include "CScript.h"
 
 #include "CRigidbody2D.h"
+#include "CRigidbody.h"
 
 CCollisionManager::CCollisionManager()
 {
@@ -121,9 +122,6 @@ void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)
 							Vector3 vPos = info.pGameObject->Transform()->GetLocalPosition();
 							vPos += info.vDir * info.fDistance;
 							info.pGameObject->Transform()->SetLocalPosition(vPos);
-
-							// 마찰력
-							//info.pGameObject->Rigidbody2D()->SetVelocity(Vector3{});
 						}
 					}
 				}
@@ -361,6 +359,22 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 
 	Vector3 vCenter = vCenterPosRightCollider - vCenterPosLeftCollider;
 
+	// 모든 축으로 투영되어 분리축이 나오는지 검사
+	for (int i = 0; i < 4; ++i) {
+		Vector3 vAxisDir = arrProjAxis[i];
+		vAxisDir.Normalize(); // 단위 벡터로 만듬
+
+		float fProjTwoBoxesDis = 0.f;
+		for (int j = 0; j < 4; ++j)
+			fProjTwoBoxesDis += abs(vAxisDir.Dot(arrProjAxis[j]));
+
+		float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
+
+		if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
+			return false;
+		}
+	}
+
 	if (_tRigidColInfo) {
 		// Rigidbody 컴포넌트가 존재한다면 
 		static Vector3 vForceDir{};
@@ -476,23 +490,6 @@ bool CCollisionManager::_IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, 
 		}
 		(*_tRigidColInfo)->vDir = vForceDirection;
 		(*_tRigidColInfo)->fDistance = fShortestLen;
-	}
-	else {
-		// 모든 축으로 투영되어 분리축이 나오는지 검사
-		for (int i = 0; i < 4; ++i) {
-			Vector3 vAxisDir = arrProjAxis[i];
-			vAxisDir.Normalize(); // 단위 벡터로 만듬
-
-			float fProjTwoBoxesDis = 0.f;
-			for (int j = 0; j < 4; ++j)
-				fProjTwoBoxesDis += abs(vAxisDir.Dot(arrProjAxis[j]));
-
-			float fProjCenterDis = abs(vAxisDir.Dot(vCenter)); // 센터길이를 투영시켜서 길이를 구한다.
-
-			if (fProjCenterDis > fProjTwoBoxesDis * 0.5f) {
-				return false;
-			}
-		}
 	}
 	return true;
 }

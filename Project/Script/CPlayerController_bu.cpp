@@ -271,7 +271,7 @@ void CPlayerController_bu::OnJumpEnd()
 
 void CPlayerController_bu::OnDeadStart()
 {
-	UINT iLayer = (UINT)E_Layer::Object;
+	UINT iLayer = (UINT)E_Layer::ObjectParticle;
 	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
 	for (int i = 0; i < size; ++i) {
 		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);

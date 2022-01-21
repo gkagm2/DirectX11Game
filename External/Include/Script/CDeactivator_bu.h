@@ -7,6 +7,7 @@ public:
 	CActivatorController* m_pController;
 	bool m_bIsDeactivatorActive;
 public:
+	virtual void Awake() override;
 	virtual void OnCollisionEnter2D(CCollider2D* _pOther);
 public:
 	CLONE(CDeactivator_bu);

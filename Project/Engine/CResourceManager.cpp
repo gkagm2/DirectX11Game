@@ -1020,7 +1020,6 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 	auto iter = m_umapResource[(UINT)eResourceType].begin();
 	for (; iter != m_umapResource[(UINT)eResourceType].end(); ++iter) {
 		if ((*iter).first == _strKey) {
-			//m_umapResource[(UINT)eResourceType].erase(iter);
 			bIsDeleted = true;
 			break;
 		}

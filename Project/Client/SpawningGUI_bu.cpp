@@ -238,32 +238,41 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 		tstring totalPath = path + _T("Door_bu.pref");
 		m_pDoorPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
-	if (nullptr == m_pDoorPrefab)
+	if (nullptr == m_pDoorPrefab) {
+		assert(nullptr);
 		return;
+	}
+		
 
 	if (nullptr == m_pSwitch1Prefab) {
 		tstring path = STR_FILE_PATH_Prefab;
 		tstring totalPath = path + _T("Elevator1_bu.pref");
 		m_pSwitch1Prefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
-	if (nullptr == m_pSwitch1Prefab)
+	if (nullptr == m_pSwitch1Prefab) {
+		assert(nullptr);
 		return;
+	}
 
 	if (nullptr == m_pSwitch2Prefab) {
 		tstring path = STR_FILE_PATH_Prefab;
 		tstring totalPath = path + _T("Elevator2_bu.pref");
 		m_pSwitch2Prefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
-	if (nullptr == m_pSwitch2Prefab)
+	if (nullptr == m_pSwitch2Prefab) {
+		assert(nullptr);
 		return;
+	}
 
 	if (nullptr == m_pExitDoorPrefab) {
 		tstring path = STR_FILE_PATH_Prefab;
 		tstring totalPath = path + _T("ExitDoor_bu.pref");
 		m_pExitDoorPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
-	if (nullptr == m_pExitDoorPrefab)
+	if (nullptr == m_pExitDoorPrefab) {
+		assert(nullptr);
 		return;
+	}
 
 	UINT iLayer = (UINT)E_Layer::Object;
 	string itemName = m_CateDoorAndSwitchList[m_iCurDoorAndSwitchItemIdx];

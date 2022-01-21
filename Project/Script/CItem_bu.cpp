@@ -61,7 +61,9 @@ void CItem_bu::Update()
 void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	UINT playerTag = (UINT)E_Tag::Player;
-	if (playerTag == _pOther->GetGameObject()->GetTag()) {
+	UINT iLayer = (UINT)E_Layer::Object;
+	if (iLayer == _pOther->GetGameObject()->GetLayer() &&
+		playerTag == _pOther->GetGameObject()->GetTag()) {
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();
 		Interact(pchar);

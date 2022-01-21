@@ -11,4 +11,5 @@ public:
 	CLONE(CRigidbody2D);
 	CRigidbody2D();
 	virtual ~CRigidbody2D() override;
+	friend class CCollisionManager;
 };

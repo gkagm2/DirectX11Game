@@ -183,6 +183,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CEventFuncTest.h" />
     <ClInclude Include="CExitDoorEndCol_bu.h" />
     <ClInclude Include="CExitDoor_bu.h" />
+    <ClInclude Include="CExplosion_bu.h" />
     <ClInclude Include="CGroundCheck_bu.h" />
     <ClInclude Include="CInteractiveObj_bu.h" />
     <ClInclude Include="CItemArmor_bu.h" />
@@ -250,6 +251,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CEventFuncTest.cpp" />
     <ClCompile Include="CExitDoorEndCol_bu.cpp" />
     <ClCompile Include="CExitDoor_bu.cpp" />
+    <ClCompile Include="CExplosion_bu.cpp" />
     <ClCompile Include="CGroundCheck_bu.cpp" />
     <ClCompile Include="CInteractiveObj_bu.cpp" />
     <ClCompile Include="CItemArmor_bu.cpp" />

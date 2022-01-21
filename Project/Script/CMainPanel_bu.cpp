@@ -4,6 +4,7 @@
 #include <Script\CUIManager_bu.h>
 #include <Script\CUIContainer_bu.h>
 #include <Script\CInGamePanel_bu.h>
+#include "CGameManager_bu.h"
 
 CMainPanel_bu::CMainPanel_bu() :
 	CScript((UINT)SCRIPT_TYPE::MAINPANEL_BU),
@@ -45,13 +46,9 @@ void CMainPanel_bu::Update()
 
 void CMainPanel_bu::OnStartBtnClick()
 {
-	CUIManager_bu* pUIMgr = nullptr;
-	FIND_Component(pUIMgr, CUIManager_bu);
-	if (pUIMgr) {
-		CInGamePanel_bu* pInGamePanel = pUIMgr->GetContainer()->GetInGamePanel();
-		pInGamePanel->GetGameObject()->SetActive(true, true);
-		GetGameObject()->SetActive(false, true);
-	}
+	CGameObject* pMgrObj = FIND_GameObject(_T("GameManager"));
+	CGameManager_bu* pmgr = pMgrObj->GetComponent<CGameManager_bu>();
+	pmgr->SetGameMode(E_GameMode_bu::Play);
 }
 
 void CMainPanel_bu::OnOptionBtnClick()

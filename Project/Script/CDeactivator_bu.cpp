@@ -7,6 +7,14 @@ CDeactivator_bu::CDeactivator_bu() :
 {
 }
 
+void CDeactivator_bu::Awake()
+{
+	CGameObject* pController = GetGameObject()->GetParentObject();
+	assert(pController);
+	m_pController = pController->GetComponent<CActivatorController>();
+	assert(m_pController);
+}
+
 void CDeactivator_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 {
 	CGameObject* pObj = _pOther->GetGameObject();

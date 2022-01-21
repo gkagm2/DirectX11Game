@@ -60,5 +60,7 @@ public:
 private:
 	// OBB
 	bool _IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo** _tRigidColInfo);
-	bool _IsCOllision(CCollider2D* _pLeft, CCollider2D* _pRight, TRigidCollisionInfo** _tRigidColInfo);
+
+	friend class CRigidbody;
+	friend class CRigidbody2D;
 };

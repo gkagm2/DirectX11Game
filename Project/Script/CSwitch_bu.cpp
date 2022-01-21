@@ -11,8 +11,6 @@ CSwitch_bu::CSwitch_bu() :
 	m_iOffIdx(0),
 	m_iOnIdx(0)
 {
-	AddParam(TScriptParam{ _T("Target Interact Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
-
 	AddParam(TScriptParam{ _T("Cur Switch State"), E_ScriptParam::BOOL, &m_bSwitchState });
 	AddParam(TScriptParam{ _T("On Anim Idx"), E_ScriptParam::INT, &m_iOnIdx });
 	AddParam(TScriptParam{ _T("Off Anim Idx"), E_ScriptParam::INT,&m_iOffIdx });
@@ -26,8 +24,6 @@ CSwitch_bu::CSwitch_bu(const CSwitch_bu& _origin) :
 	m_iOffIdx(_origin.m_iOffIdx),
 	m_iOnIdx(_origin.m_iOnIdx)
 {
-	AddParam(TScriptParam{ _T("Target Interact Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
-
 	AddParam(TScriptParam{ _T("Cur Switch State"), E_ScriptParam::BOOL, &m_bSwitchState });
 	AddParam(TScriptParam{ _T("On Anim Idx"), E_ScriptParam::INT, &m_iOnIdx });
 	AddParam(TScriptParam{ _T("Off Anim Idx"), E_ScriptParam::INT,&m_iOffIdx });
@@ -86,7 +82,6 @@ void CSwitch_bu::Interaction(bool _bActive)
 
 bool CSwitch_bu::SaveToScene(FILE* _pFile)
 {
-	FWriteLinkObj(m_pTargetObj, _pFile);
 	FWrite(m_bSwitchState, _pFile);
 	FWrite(m_iOffIdx, _pFile);
 	FWrite(m_iOnIdx, _pFile);
@@ -95,7 +90,6 @@ bool CSwitch_bu::SaveToScene(FILE* _pFile)
 
 bool CSwitch_bu::LoadFromScene(FILE* _pFile)
 {
-	FReadLinkObj((CObject**)&m_pTargetObj, _pFile);
 	FRead(m_bSwitchState, _pFile);
 	m_bIsActivate = m_bSwitchState;
 	FRead(m_iOffIdx, _pFile);

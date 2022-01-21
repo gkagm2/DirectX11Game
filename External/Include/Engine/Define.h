@@ -280,6 +280,8 @@ enum class E_Layer {
 	BackgroundMap,
 	WayPoint_Tool,
 	Wall,
+	ObjectParticle,
+
 	TileMap = NUM_LAYER_TILEMAP,
 	UI = NUM_LAYER_UI,
 	CLIENT = NUM_LAYER_CLIENT,

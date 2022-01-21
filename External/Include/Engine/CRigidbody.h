@@ -4,7 +4,7 @@
 class CGameObject;
 class CRigidbody : public CComponent
 {
-private:
+protected:
 	Vector3 m_vForce; // 힘
 	Vector3 m_vAccel; // 가속도
 	float m_fMass;	// 질량
@@ -59,4 +59,6 @@ public:
 	CLONE(CRigidbody);
 	CRigidbody(E_ComponentType _eType);
 	virtual ~CRigidbody() override;
+
+	friend class CCollisionManager;
 };

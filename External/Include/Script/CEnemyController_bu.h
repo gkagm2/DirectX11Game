@@ -103,11 +103,10 @@ public:
 	virtual void OnDeadUpdate() override;
 	virtual void OnDeadEnd() override;
 
-
 private:
 	// Targeting되어있는 상태면 적용 안됨
 	void _SetLookRightState(bool _bIsRight) { m_bIsLookRight = _bIsRight; }
-	
+
 public:
 	CLONE(CEnemyController_bu);
 	CEnemyController_bu();

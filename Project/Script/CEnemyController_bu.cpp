@@ -4,6 +4,7 @@
 #include <Engine\CCollisionManager.h>
 #include <Engine\CAnimator2D.h>
 #include <Engine\CObjectManager.h>
+#include "CExplosion_bu.h"
 #include "CTargetLookAt_bu.h"
 
 CEnemyController_bu::CEnemyController_bu() :
@@ -610,16 +611,18 @@ void CEnemyController_bu::OnJumpEnd()
 
 void CEnemyController_bu::OnDeadStart()
 {
-	UINT iLayer = (UINT)E_Layer::Object;
+	UINT iLayer = (UINT)E_Layer::ObjectParticle;
 	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
-	float degree = size / 360;
+	float degree = size / 180.f;
 	for (int i = 0; i < size; ++i) {
-		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
 		Vector3 vDir = ::Rotate(Vector3::Right, i * degree);
+		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
 		pObj->Animator2D()->SetCurAnimationFrame(i);
-		pObj->Rigidbody2D()->AddForce(vDir * 30.f);
+		CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
+		if (pExp)
+			pExp->SetExplosion(vDir, 30.f, 1.f);
 	}
-	DestroyGameObjectEvn(GetGameObject());
+	DestroyGameObjectEvn(GetGameObject()); 
 }
 
 void CEnemyController_bu::OnDeadUpdate()

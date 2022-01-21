@@ -9,14 +9,14 @@ CRigidbody::CRigidbody(E_ComponentType _eType) :
 	CComponent(_eType),
 	m_vForce{},
 	m_vAccel{},
-	m_fMass(0.1f),
+	m_fMass(0.5f),
 	m_vVelocity{},
-	m_fDrag(0.4f),
+	m_fDrag(0.2f),
 	m_fSpeed(0.f),
-	m_fMaxSpeed(1000.0f),
+	m_fMaxSpeed(15.f),
 	m_fFriction(0.f),
 	m_bIsFrictionActive(true),
-	m_vGravityAccel(0.0f, 0.98066f * 0.5f, 0.0f), // default (0.0f, 9.80665f, 0.0f)
+	m_vGravityAccel(0.0f, 0.98066f , 0.0f), // default (0.0f, 9.80665f, 0.0f)
 	m_bUseGravity(false),
 	m_bIsKinematic(false)
 {
@@ -46,7 +46,7 @@ CRigidbody::~CRigidbody()
 
 void CRigidbody::PrevUpdate()
 {
-	m_vForce = Vector3(0.f,0.f,0.f);
+	m_vForce = Vector3(0.f, 0.f, 0.f);
 }
 
 void CRigidbody::Update()
@@ -66,7 +66,7 @@ void CRigidbody::LateUpdate()
 
 	if (0 == m_fMass)
 		m_vAccel = {};
-	else 
+	else
 		m_vAccel = m_vForce / m_fMass; // 가속도
 
 		// 중력
@@ -74,7 +74,7 @@ void CRigidbody::LateUpdate()
 	if (m_bUseGravity) { // f = m a = m 중력 가속도
 		vGravityAccel = m_vGravityAccel;
 		vGravityAccel.y *= -1;
-		/*m_vAccel -= vGravityAccel;*/
+		m_vAccel -= vGravityAccel;
 	}
 
 	m_vVelocity = m_vVelocity + (m_vAccel * DT - vGravityAccel * DT);
@@ -89,7 +89,7 @@ void CRigidbody::LateUpdate()
 		m_vVelocity = Vector3(0.0f, 0.0f, 0.0f);
 	else
 		m_vVelocity += vDragVec;
-	
+
 	// 최대 속도 제한
 	m_fSpeed = m_vVelocity.Length();
 	if (m_fSpeed > m_fMaxSpeed * DT) {

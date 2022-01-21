@@ -14,20 +14,23 @@ tstring LayerToString(E_Layer _eLayer)
 	case E_Layer::Object:
 		layerName = _T("Object");
 		break;
-	case E_Layer::TileMap:
-		layerName = _T("TileMap");
-		break;
 	case E_Layer::BackgroundMap:
 		layerName = _T("BackgroundMap");
-		break;
-	case E_Layer::UI:
-		layerName = _T("UI");
 		break;
 	case E_Layer::WayPoint_Tool:
 		layerName = _T("WayPoint_Tool");
 		break;
 	case E_Layer::Wall:
 		layerName = _T("Wall");
+		break;
+	case E_Layer::ObjectParticle:
+		layerName = _T("ObjectParticle");
+		break;
+	case E_Layer::TileMap:
+		layerName = _T("TileMap");
+		break;
+	case E_Layer::UI:
+		layerName = _T("UI");
 		break;
 	case E_Layer::CLIENT:
 		layerName = _T("CLIENT");

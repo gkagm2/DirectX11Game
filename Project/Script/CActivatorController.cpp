@@ -9,12 +9,14 @@ CActivatorController::CActivatorController() :
 }
 void CActivatorController::Activate()
 {
-	m_pTargetActiveObj->SetActive(true,true);
+	if(m_pTargetActiveObj)
+		m_pTargetActiveObj->SetActive(true,true);
 }
 
 void CActivatorController::Deactivate()
 {
-	m_pTargetActiveObj->SetActive(false, true);
+	if(m_pTargetActiveObj)
+		m_pTargetActiveObj->SetActive(false, true);
 }
 
 bool CActivatorController::SaveToScene(FILE* _pFile)

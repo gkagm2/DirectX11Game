@@ -299,12 +299,17 @@
     <ClInclude Include="CGroundCheck_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
-    <ClInclude Include="CBulletBouncingParticle_bu.h" />
     <ClInclude Include="CExitDoor_bu.h">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClInclude>
     <ClInclude Include="CExitDoorEndCol_bu.h">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClInclude>
+    <ClInclude Include="CExplosion_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
+    <ClInclude Include="CBulletBouncingParticle_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -490,12 +495,17 @@
     <ClCompile Include="CGroundCheck_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
-    <ClCompile Include="CBulletBouncingParticle_bu.cpp" />
     <ClCompile Include="CExitDoor_bu.cpp">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
     </ClCompile>
     <ClCompile Include="CExitDoorEndCol_bu.cpp">
       <Filter>Games\Butcher\InGames\InteractiveObj</Filter>
+    </ClCompile>
+    <ClCompile Include="CExplosion_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CBulletBouncingParticle_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
