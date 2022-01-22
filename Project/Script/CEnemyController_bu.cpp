@@ -381,6 +381,16 @@ void CEnemyController_bu::WanderStateUpdate()
 		m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
 		m_fTargetFindTime = 0.f;
 	}
+
+	{
+		Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
+		Vector3 vMyPos = Transform()->GetPosition();
+		vTargetPos.z = 0.f;
+		vMyPos.z = 0.f;
+		float fDistance = CMyMath::GetDistance(vTargetPos, vMyPos);
+		if(fDistance < m_fMaxDetectDistance)
+			ChangeAIState(E_AIState_bu::Follow);
+	}
 }
 
 void CEnemyController_bu::WanderStateEnd()
@@ -493,8 +503,10 @@ void CEnemyController_bu::FollowStateUpdate()
 		}
 
 		if (isPathFound) {
-			vNextPath = m_pPathFind->GetNextPath();
-			isKeepGoToTargetPos = true;
+			if (!m_pPathFind->IsArrivedDestination()) {
+				vNextPath = m_pPathFind->GetNextPath();
+				isKeepGoToTargetPos = true;
+			}
 		}
 		else
 			isKeepGoToTargetPos = false;
@@ -630,7 +642,7 @@ void CEnemyController_bu::OnDeadStart()
 		pObj->Animator2D()->SetCurAnimationFrame(i);
 		CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
 		if (pExp)
-			pExp->SetExplosion(vDir, 2.0f, 0.3f);
+			pExp->SetExplosion(vDir, 2.0f, 0.15f);
 	}
 	DestroyGameObjectEvn(GetGameObject()); 
 }

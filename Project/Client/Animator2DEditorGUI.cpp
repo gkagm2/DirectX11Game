@@ -845,6 +845,9 @@ void Animator2DEditorGUI::_OnSaveAnimation()
 		tstring animName = m_queResultTexList[0].tAnim2DDesc.strName;
 		tstring animFileName = m_queResultTexList[0].tAnim2DDesc.strName + STR_EXTENSION_Anim;
 
+		if (animName.empty())
+			return;
+
 		if (m_pAnimator2D) {
 			_OnCreateAnimation();
 			CAnimation2D* pAnim2D = m_pAnimator2D->FindAnimation(animName);

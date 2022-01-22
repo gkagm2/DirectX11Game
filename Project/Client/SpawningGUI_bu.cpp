@@ -28,7 +28,8 @@ void SpawningGUI_bu::Init()
 	m_CateList.push_back("pickups");
 	m_CateList.push_back("doorAndSwitch");
 
-	m_CateObjList.push_back("destruct object");
+	//m_CateObjList.push_back("destruct object");
+	m_CateObjList.push_back("spot light");
 
 	// TODO(Jang ) : ÇØ¾ßµÊ
 	m_CateList.push_back("corpses");
@@ -114,7 +115,7 @@ void SpawningGUI_bu::Update()
 			if ("objects" == categoryName) {
 				ParamGUI::Render_ComboBox("Objects", &m_iCurObjItemIdx, m_CateObjList);
 				if (!m_CateObjList.empty()) {
-					string name = m_CateObjList[m_iCurCategoryItemIdx];
+					m_pCreateFunc = std::bind(&SpawningGUI_bu::_CreateObject, this);
 				}
 			}
 			else if ("actors" == categoryName) {
@@ -396,6 +397,22 @@ void SpawningGUI_bu::_CreatePickupsItem()
 	}
 
 	
+}
+
+void SpawningGUI_bu::_CreateObject()
+{
+	UINT iLayer = (UINT)E_Layer::Object;
+	if (nullptr == m_pSpotLightPrefab) {
+		tstring path = STR_FILE_PATH_Prefab;
+		tstring totalPath = path + _T("SpotLight_bu.pref");
+		m_pSpotLightPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+		if (nullptr == m_pSpotLightPrefab)
+			return;
+	}
+	string objName = m_CateObjList[m_iCurObjItemIdx];
+
+	if ("spot light" == objName)
+		CObject::InstantiateEvn(m_pSpotLightPrefab, Vector3::Zero, iLayer);
 }
 
 CGameObject* SpawningGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)

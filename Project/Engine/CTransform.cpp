@@ -187,9 +187,9 @@ void CTransform::FinalUpdate()
 		}
 
 		// 부모상태까지 적용시킨 월드 방향 정보
-		m_vWorldRightDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Right, matRot));
-		m_vWorldUpDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Up, matRot));
-		m_vWorldFrontDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Front, matRot));
+		m_vWorldRightDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Right, m_matWorld));
+		m_vWorldUpDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Up, m_matWorld));
+		m_vWorldFrontDir = XMVector3Normalize(XMVector3TransformNormal(Vector3::Front, m_matWorld));
 	}
 
 	// Canvas Renderer, 2D Sprite Renderer

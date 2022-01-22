@@ -55,6 +55,7 @@ CRespawnManager_bu
 CRigidbody2DTestScript
 CRotateZScript
 CSparkParticle_bu
+CSpotLight_bu
 CSwitch_bu
 CTargetLookAt_bu
 CTestLight2DScript

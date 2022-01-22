@@ -25,6 +25,7 @@ CLight2D::~CLight2D()
 void CLight2D::FinalUpdate()
 {
 	m_tInfo.vLightPos = Transform()->GetPosition();
+	//m_tInfo.vLightDir = Transform()->GetLocalUpVQector();
 	m_tInfo.vLightDir = Transform()->GetUpVector();
 	if(GetGameObject()->IsActive() && IsActive())
 		m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight2D(this);

@@ -58,6 +58,7 @@
 #include "CRigidbody2DTestScript.h"
 #include "CRotateZScript.h"
 #include "CSparkParticle_bu.h"
+#include "CSpotLight_bu.h"
 #include "CSwitch_bu.h"
 #include "CTargetLookAt_bu.h"
 #include "CTestLight2DScript.h"
@@ -125,6 +126,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CRigidbody2DTestScript");
 	_vec.push_back(L"CRotateZScript");
 	_vec.push_back(L"CSparkParticle_bu");
+	_vec.push_back(L"CSpotLight_bu");
 	_vec.push_back(L"CSwitch_bu");
 	_vec.push_back(L"CTargetLookAt_bu");
 	_vec.push_back(L"CTestLight2DScript");
@@ -250,6 +252,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRotateZScript;
 	if (L"CSparkParticle_bu" == _strScriptName)
 		return new CSparkParticle_bu;
+	if (L"CSpotLight_bu" == _strScriptName)
+		return new CSpotLight_bu;
 	if (L"CSwitch_bu" == _strScriptName)
 		return new CSwitch_bu;
 	if (L"CTargetLookAt_bu" == _strScriptName)
@@ -441,6 +445,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SPARKPARTICLE_BU:
 		return new CSparkParticle_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::SPOTLIGHT_BU:
+		return new CSpotLight_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::SWITCH_BU:
 		return new CSwitch_bu;
@@ -697,6 +704,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SPARKPARTICLE_BU:
 		return L"CSparkParticle_bu";
+		break;
+
+	case SCRIPT_TYPE::SPOTLIGHT_BU:
+		return L"CSpotLight_bu";
 		break;
 
 	case SCRIPT_TYPE::SWITCH_BU:

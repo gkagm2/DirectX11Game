@@ -312,6 +312,9 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
     <ClInclude Include="CRigidbody2DTestScript.h" />
+    <ClInclude Include="CSpotLight_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -509,5 +512,8 @@
       <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
     <ClCompile Include="CRigidbody2DTestScript.cpp" />
+    <ClCompile Include="CSpotLight_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

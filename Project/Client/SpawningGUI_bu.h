@@ -31,6 +31,9 @@ private:
 
 	vector<string> m_Actors_EnemyList;
 
+
+	SharedPtr<CPrefab> m_pSpotLightPrefab;
+
 	SharedPtr<CPrefab> m_pPlayerPrefab;
 	SharedPtr<CPrefab> m_pEnemyPrefab;
 	SharedPtr<CPrefab> m_pDoorPrefab;
@@ -59,6 +62,7 @@ private:
 	void _CreateEnemy();
 	void _CreateDoorAndSwitch();
 	void _CreatePickupsItem();
+	void _CreateObject();
 
 	CGameObject* _GetClickedObj(const Vector3& _vWorldPos);
 
