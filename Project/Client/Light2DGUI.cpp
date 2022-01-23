@@ -55,6 +55,18 @@ void Light2DGUI::Update()
 	ParamGUI::Render_Color("Embient##Light2D", &tLightInfoRef.tColor.vEmbient);
 	ParamGUI::Render_Color("Specular##Light2D", &tLightInfoRef.tColor.vSpecular);
 
+	if (ImGui::Button("Material Change##Light2D")) {
+		//// 리스트 뷰를 보여준다.
+		//ListViewGUI* pListViewGUI = dynamic_cast<ListViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_ListView));
+		//assert(pListViewGUI);
+
+		//vector<tstring> vecNames;
+		//CResourceManager::GetInstance()->GetResourceKeys(E_ResourceType::Material, vecNames);
+		//pListViewGUI->SetList(vecNames, ResourceTypeToStr(E_ResourceType::Material));
+		//pListViewGUI->SetDoubleClickCallBack(this, (GUI_CALLBACK)&MeshRendererGUI::_SetMatrial);
+		//pListViewGUI->SetActive(true);
+	}
+
 	End();
 }
 
@@ -92,4 +104,25 @@ void Light2DGUI::_RenderPoint(TLightInfo& _tLightInfoRef)
 void Light2DGUI::_RenderParam_Range(TLightInfo& _tLightInfoRef)
 {
 	ImGui::DragFloat("Range##Light2D ", &_tLightInfoRef.fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f");
+}
+
+
+void Light2DGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
+{
+	string strKey = (const char*)_dw1;
+	tstring tstrKey;
+	StringToTString(strKey, tstrKey);
+	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(tstrKey);
+	assert(pMesh.Get());
+	GetTargetObject()->MeshRenderer()->SetMesh(pMesh);
+}
+
+void Light2DGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
+{
+	string strKey = (const char*)_dw1;
+	tstring tstrKey;
+	StringToTString(strKey, tstrKey);
+	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
+	assert(pMtrl.Get());
+	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
 }

@@ -137,6 +137,72 @@ float4 PS_TileMap(VTX_TILEMAP_OUT _in) : SV_Target
                 finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse;
             }
         }
+        
+        if (finalColor.vDiffuse.x > 0.9f && finalColor.vDiffuse.x < 1.0f)
+            finalColor.vDiffuse.x = 0.9f;
+        else if (finalColor.vDiffuse.x > 0.8f)
+            finalColor.vDiffuse.x = 0.8f;
+        else if (finalColor.vDiffuse.x > 0.7f)
+            finalColor.vDiffuse.x = 0.7f;
+        else if (finalColor.vDiffuse.x > 0.6f)
+            finalColor.vDiffuse.x = 0.6f;
+        else if (finalColor.vDiffuse.x > 0.5f)
+            finalColor.vDiffuse.x = 0.5f;
+        else if (finalColor.vDiffuse.x > 0.4f)
+            finalColor.vDiffuse.x = 0.4f;
+        else if (finalColor.vDiffuse.x > 0.3f)
+            finalColor.vDiffuse.x = 0.3f;
+        else if (finalColor.vDiffuse.x > 0.2f)
+            finalColor.vDiffuse.x = 0.2f;
+        else if (finalColor.vDiffuse.x > 0.1f)
+            finalColor.vDiffuse.x = 0.1f;
+        else if (finalColor.vDiffuse.x > 0.0f)
+            finalColor.vDiffuse.x = 0.0f;
+    
+        if (finalColor.vDiffuse.y > 0.9f && finalColor.vDiffuse.y < 1.0f)
+            finalColor.vDiffuse.y = 0.9f;
+        else if (finalColor.vDiffuse.y > 0.8f)
+            finalColor.vDiffuse.y = 0.8f;
+        else if (finalColor.vDiffuse.y > 0.7f)
+            finalColor.vDiffuse.y = 0.7f;
+        else if (finalColor.vDiffuse.y > 0.6f)
+            finalColor.vDiffuse.y = 0.6f;
+        else if (finalColor.vDiffuse.y > 0.5f)
+            finalColor.vDiffuse.y = 0.5f;
+        else if (finalColor.vDiffuse.y > 0.4f)
+            finalColor.vDiffuse.y = 0.4f;
+        else if (finalColor.vDiffuse.y > 0.3f)
+            finalColor.vDiffuse.y = 0.3f;
+        else if (finalColor.vDiffuse.y > 0.2f)
+            finalColor.vDiffuse.y = 0.2f;
+        else if (finalColor.vDiffuse.y > 0.1f)
+            finalColor.vDiffuse.y = 0.1f;
+        else if (finalColor.vDiffuse.y > 0.0f)
+            finalColor.vDiffuse.y = 0.0f;
+        
+        if (finalColor.vDiffuse.z > 0.9f && finalColor.vDiffuse.z < 1.0f)
+            finalColor.vDiffuse.z = 0.9f;
+        else if (finalColor.vDiffuse.z > 0.8f)
+            finalColor.vDiffuse.z = 0.8f;
+        else if (finalColor.vDiffuse.z > 0.7f)
+            finalColor.vDiffuse.z = 0.7f;
+        else if (finalColor.vDiffuse.z > 0.6f)
+            finalColor.vDiffuse.z = 0.6f;
+        else if (finalColor.vDiffuse.z > 0.5f)
+            finalColor.vDiffuse.z = 0.5f;
+        else if (finalColor.vDiffuse.z > 0.4f)
+            finalColor.vDiffuse.z = 0.4f;
+        else if (finalColor.vDiffuse.z > 0.3f)
+            finalColor.vDiffuse.z = 0.3f;
+        else if (finalColor.vDiffuse.z > 0.2f)
+            finalColor.vDiffuse.z = 0.2f;
+        else if (finalColor.vDiffuse.z > 0.1f)
+            finalColor.vDiffuse.z = 0.1f;
+        else if (finalColor.vDiffuse.z > 0.0f)
+            finalColor.vDiffuse.z = 0.0f;
+    
+        
+        
         vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
     
         vOutColor.x = saturate(vOutColor.x);

@@ -176,6 +176,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CActivator_bu.h" />
     <ClInclude Include="CBulletBouncingParticle_bu.h" />
     <ClInclude Include="CBullet_bu.h" />
+    <ClInclude Include="CChainsaw_bu.h" />
     <ClInclude Include="CDeactivator_bu.h" />
     <ClInclude Include="CDoor_bu.h" />
     <ClInclude Include="CElevator_bu.h" />
@@ -246,6 +247,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CActivator_bu.cpp" />
     <ClCompile Include="CBulletBouncingParticle_bu.cpp" />
     <ClCompile Include="CBullet_bu.cpp" />
+    <ClCompile Include="CChainsaw_bu.cpp" />
     <ClCompile Include="CDeactivator_bu.cpp" />
     <ClCompile Include="CDoor_bu.cpp" />
     <ClCompile Include="CElevator_bu.cpp" />

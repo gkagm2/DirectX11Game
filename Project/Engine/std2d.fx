@@ -158,16 +158,244 @@ float4 PS_Std2D_Light2D(VTX_OUT_LIGHT _in) : SV_Target
             finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse;
         }
     }
+    
+    
+    if (finalColor.vDiffuse.x > 0.9f && finalColor.vDiffuse.x < 1.0f)
+        finalColor.vDiffuse.x = 0.9f;
+    else if (finalColor.vDiffuse.x > 0.8f)
+        finalColor.vDiffuse.x = 0.8f;
+    else if (finalColor.vDiffuse.x > 0.7f)
+        finalColor.vDiffuse.x = 0.7f;
+    else if (finalColor.vDiffuse.x > 0.6f)
+        finalColor.vDiffuse.x = 0.6f;
+    else if (finalColor.vDiffuse.x > 0.5f)
+        finalColor.vDiffuse.x = 0.5f;
+    else if (finalColor.vDiffuse.x > 0.4f)
+        finalColor.vDiffuse.x = 0.4f;
+    else if (finalColor.vDiffuse.x > 0.3f)
+        finalColor.vDiffuse.x = 0.3f;
+    else if (finalColor.vDiffuse.x > 0.2f)
+        finalColor.vDiffuse.x = 0.2f;
+    else if (finalColor.vDiffuse.x > 0.1f)
+        finalColor.vDiffuse.x = 0.1f;
+    else if (finalColor.vDiffuse.x > 0.0f)
+        finalColor.vDiffuse.x = 0.0f;
+    
+    if (finalColor.vDiffuse.y > 0.9f && finalColor.vDiffuse.y < 1.0f)
+        finalColor.vDiffuse.y = 0.9f;
+    else if (finalColor.vDiffuse.y > 0.8f)
+        finalColor.vDiffuse.y = 0.8f;
+    else if (finalColor.vDiffuse.y > 0.7f)
+        finalColor.vDiffuse.y = 0.7f;
+    else if (finalColor.vDiffuse.y > 0.6f)
+        finalColor.vDiffuse.y = 0.6f;
+    else if (finalColor.vDiffuse.y > 0.5f)
+        finalColor.vDiffuse.y = 0.5f;
+    else if (finalColor.vDiffuse.y > 0.4f)
+        finalColor.vDiffuse.y = 0.4f;
+    else if (finalColor.vDiffuse.y > 0.3f)
+        finalColor.vDiffuse.y = 0.3f;
+    else if (finalColor.vDiffuse.y > 0.2f)
+        finalColor.vDiffuse.y = 0.2f;
+    else if (finalColor.vDiffuse.y > 0.1f)
+        finalColor.vDiffuse.y = 0.1f;
+    else if (finalColor.vDiffuse.y > 0.0f)
+        finalColor.vDiffuse.y = 0.0f;
+        
+    if (finalColor.vDiffuse.z > 0.9f && finalColor.vDiffuse.z < 1.0f)
+        finalColor.vDiffuse.z = 0.9f;
+    else if (finalColor.vDiffuse.z > 0.8f)
+        finalColor.vDiffuse.z = 0.8f;
+    else if (finalColor.vDiffuse.z > 0.7f)
+        finalColor.vDiffuse.z = 0.7f;
+    else if (finalColor.vDiffuse.z > 0.6f)
+        finalColor.vDiffuse.z = 0.6f;
+    else if (finalColor.vDiffuse.z > 0.5f)
+        finalColor.vDiffuse.z = 0.5f;
+    else if (finalColor.vDiffuse.z > 0.4f)
+        finalColor.vDiffuse.z = 0.4f;
+    else if (finalColor.vDiffuse.z > 0.3f)
+        finalColor.vDiffuse.z = 0.3f;
+    else if (finalColor.vDiffuse.z > 0.2f)
+        finalColor.vDiffuse.z = 0.2f;
+    else if (finalColor.vDiffuse.z > 0.1f)
+        finalColor.vDiffuse.z = 0.1f;
+    else if (finalColor.vDiffuse.z > 0.0f)
+        finalColor.vDiffuse.z = 0.0f;
+    
+    
     vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
     
     vOutColor.x = saturate(vOutColor.x);
     vOutColor.y = saturate(vOutColor.y);
     vOutColor.z = saturate(vOutColor.z);
+    
     return vOutColor;
 }
 ///////////////////////
 
 
+////////////////
+// Light2D Cartoon Vertex shader
+////////////////
+// vPos, vColor를 입력받아서 처리해주는 함수
+VTX_OUT_LIGHT VS_Std2D_Light2DCartoon(VTX_IN _in)
+{
+    VTX_OUT_LIGHT output = (VTX_OUT_LIGHT) 0.f; // 초기화
+	
+    float4 vWorldPos = mul(float4(_in.vPosition, 1.0f), g_matWorld);
+    float4 vViewPos = mul(vWorldPos, g_matView);
+    float4 vProjPos = mul(vViewPos, g_matProjection);
+    
+	// 레스터라이져에서 전달된 좌표를 w 로 나누어서 투영좌표를 얻어간다.    
+    output.vPosition = vProjPos;
+    output.vWorldPos = vWorldPos.xyz;
+    output.vUV = _in.vUV;
+    return output;
+}
+
+///////////////Z
+// Light2D Cartoon Pixel shader
+///////////////
+float4 PS_Std2D_Light2DCartoon(VTX_OUT_LIGHT _in) : SV_Target
+{
+    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f); // 마젠타 색상
+    
+    // 애니메이션 타입인 경우
+    if (bIsAnimating2D)
+    {
+        float2 vFinalLeftTop = vLeftTopUV - ((vBaseSizeUV * 0.5f) - (vFrameSizeUV * 0.5f)) - vOffsetPosUV;
+        float2 vAnimUV = vFinalLeftTop + vBaseSizeUV * _in.vUV;
+                
+        if (vLeftTopUV.x < vAnimUV.x && vAnimUV.x < (vLeftTopUV + vFrameSizeUV).x
+            && vLeftTopUV.y < vAnimUV.y && vAnimUV.y < (vLeftTopUV + vFrameSizeUV).y)
+            vOutColor = g_TexAnimAtlas.Sample(g_sam_1, vAnimUV);
+        else
+            clip(-1);
+    }
+    else if (bTex_0)
+        vOutColor = g_tex_0.Sample(Sample_Point, _in.vUV);
+    
+
+    
+    int directType = 0;
+    int pointType = 1;
+    int spotType = 2;
+    
+    TLightColor finalColor = (TLightColor) 0.f;
+    for (int i = 0; i < g_iLight2DCount.x; ++i)
+    {
+        if (g_Light2DBuffer[i].iLightType == pointType)
+        {
+            //Point Light
+            // 광원처리
+    
+            float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
+            // saturate: 0~1사이의 값으로 만듬
+            //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+            float fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
+        
+            // 분산광 설정
+            finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
+        }
+        else if (g_Light2DBuffer[i].iLightType == spotType)
+        {
+            // Spot Light
+            float3 vForwardDir = normalize(g_Light2DBuffer[i].vLightDir.xyz); // light 방향
+            float3 vDirToTarget = normalize(_in.vWorldPos.xyz - g_Light2DBuffer[i].vLightPos.xyz);
+    
+            float fRadian = dot(vForwardDir, vDirToTarget);
+            float fAngle = acos(fRadian); //* 57.29578f; // radian  to degree
+            float fRatio = 0.f;
+            if (fAngle < g_Light2DBuffer[i].fAngle * 0.5f)
+            {
+                float fLength = abs(length(g_Light2DBuffer[i].vLightPos.xy - _in.vWorldPos.xy));
+                // saturate: 0~1사이의 값으로 만듬
+                //float fRatio = saturate(1.f - (fLength / g_Light2DBuffer[i].fRange));
+                fRatio = cos(saturate(fLength / g_Light2DBuffer[i].fRange) * (3.1415926535f * 0.5f));
+            }
+             // 분산광 설정
+            finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse * fRatio;
+        }
+        else if (g_Light2DBuffer[i].iLightType == directType)
+        {
+            finalColor.vDiffuse += g_Light2DBuffer[i].color.vDiffuse;
+        }
+    }
+    
+    if (finalColor.vDiffuse.x > 0.9f && finalColor.vDiffuse.x < 1.0f)
+        finalColor.vDiffuse.x = 0.9f;
+    else if (finalColor.vDiffuse.x > 0.8f)
+        finalColor.vDiffuse.x = 0.8f;
+    else if (finalColor.vDiffuse.x > 0.7f)
+        finalColor.vDiffuse.x = 0.7f;
+    else if (finalColor.vDiffuse.x > 0.6f)
+        finalColor.vDiffuse.x = 0.6f;
+    else if (finalColor.vDiffuse.x > 0.5f)
+        finalColor.vDiffuse.x = 0.5f;
+    else if (finalColor.vDiffuse.x > 0.4f)
+        finalColor.vDiffuse.x = 0.4f;
+    else if (finalColor.vDiffuse.x > 0.3f)
+        finalColor.vDiffuse.x = 0.3f;
+    else if (finalColor.vDiffuse.x > 0.2f)
+        finalColor.vDiffuse.x = 0.2f;
+    else if (finalColor.vDiffuse.x > 0.1f)
+        finalColor.vDiffuse.x = 0.1f;
+    else if (finalColor.vDiffuse.x > 0.0f)
+        finalColor.vDiffuse.x = 0.0f;
+    
+    if (finalColor.vDiffuse.y > 0.9f && finalColor.vDiffuse.y < 1.0f)
+        finalColor.vDiffuse.y = 0.9f;
+    else if (finalColor.vDiffuse.y > 0.8f)
+        finalColor.vDiffuse.y = 0.8f;
+    else if (finalColor.vDiffuse.y > 0.7f)
+        finalColor.vDiffuse.y = 0.7f;
+    else if (finalColor.vDiffuse.y > 0.6f)
+        finalColor.vDiffuse.y = 0.6f;
+    else if (finalColor.vDiffuse.y > 0.5f)
+        finalColor.vDiffuse.y = 0.5f;
+    else if (finalColor.vDiffuse.y > 0.4f)
+        finalColor.vDiffuse.y = 0.4f;
+    else if (finalColor.vDiffuse.y > 0.3f)
+        finalColor.vDiffuse.y = 0.3f;
+    else if (finalColor.vDiffuse.y > 0.2f)
+        finalColor.vDiffuse.y = 0.2f;
+    else if (finalColor.vDiffuse.y > 0.1f)
+        finalColor.vDiffuse.y = 0.1f;
+    else if (finalColor.vDiffuse.y > 0.0f)
+        finalColor.vDiffuse.y = 0.0f;
+        
+    if (finalColor.vDiffuse.z > 0.9f && finalColor.vDiffuse.z < 1.0f)
+        finalColor.vDiffuse.z = 0.9f;
+    else if (finalColor.vDiffuse.z > 0.8f)
+        finalColor.vDiffuse.z = 0.8f;
+    else if (finalColor.vDiffuse.z > 0.7f)
+        finalColor.vDiffuse.z = 0.7f;
+    else if (finalColor.vDiffuse.z > 0.6f)
+        finalColor.vDiffuse.z = 0.6f;
+    else if (finalColor.vDiffuse.z > 0.5f)
+        finalColor.vDiffuse.z = 0.5f;
+    else if (finalColor.vDiffuse.z > 0.4f)
+        finalColor.vDiffuse.z = 0.4f;
+    else if (finalColor.vDiffuse.z > 0.3f)
+        finalColor.vDiffuse.z = 0.3f;
+    else if (finalColor.vDiffuse.z > 0.2f)
+        finalColor.vDiffuse.z = 0.2f;
+    else if (finalColor.vDiffuse.z > 0.1f)
+        finalColor.vDiffuse.z = 0.1f;
+    else if (finalColor.vDiffuse.z > 0.0f)
+        finalColor.vDiffuse.z = 0.0f;
+    
+    
+    vOutColor.xyz = vOutColor.xyz * finalColor.vDiffuse.xyz;
+    
+    vOutColor.x = saturate(vOutColor.x);
+    vOutColor.y = saturate(vOutColor.y);
+    vOutColor.z = saturate(vOutColor.z);
+    
+    return vOutColor;
+}
+///////////////////////
 ////////////////
 // Collider2D vertex shader
 ////////////////

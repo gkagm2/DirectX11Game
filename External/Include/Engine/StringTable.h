@@ -68,6 +68,8 @@
 #define STR_FUNC_NAME_PIXShaderLineStrip "PS_LineStrip"
 #define STR_FUNC_NAME_VTXShaderLight2D "VS_Std2D_Light2D"
 #define STR_FUNC_NAME_PIXShaderLight2D "PS_Std2D_Light2D"
+#define STR_FUNC_NAME_VTXShaderLight2DCartoon "VS_Std2D_Light2DCartoon"
+#define STR_FUNC_NAME_PIXShaderLight2DCartoon "PS_Std2D_Light2DCartoon"
 #define STR_FUNC_NAME_VTXShaderTileMap "VS_TileMap"
 #define STR_FUNC_NAME_PIXShaderTileMap "PS_TileMap"
 #define STR_FUNC_NAME_VTXCanvasShader "VS_Canvas"
@@ -97,6 +99,8 @@
 #define STR_FUNC_NAME_PIX_FishEye "PS_FishEye"
 #define STR_FUNC_NAME_VTX_Blur "VS_Blur"
 #define STR_FUNC_NAME_PIX_Blur "PS_Blur"
+#define STR_FUNC_NAME_VTX_Noise "VS_Noise"
+#define STR_FUNC_NAME_PIX_Noise "PS_Noise"
 
 
 ////////// Resource Key ///////////////
@@ -115,6 +119,7 @@
 #define STR_KEY_StdAlphaBlendShader _T("StandardShaderAlphaBlend")
 #define STR_KEY_StdLineStripShader _T("LineStripShader")
 #define STR_KEY_StdLight2DShader _T("StandardShaderLight2D")
+#define STR_KEY_StdLight2DCartoonShader _T("StandardShaderLight2DCartoon")
 #define STR_KEY_Collider2DShader _T("Collider2DShader")
 #define STR_KEY_TileMapShader _T("TileMapShader")
 #define STR_KEY_TileMapLightShader _T("TileMapLightShader")
@@ -122,6 +127,7 @@
 #define STR_KEY_DistortionShader _T("DistortionShader")
 #define STR_KEY_FishEyeShader _T("FishEyeShader")
 #define STR_KEY_BlurShader _T("BlurShader")
+#define STR_KEY_NoiseShader _T("NoiseShader")
 #define STR_KEY_CanvasShader _T("CanvasShader")
 #define STR_KEY_Fog2DShader _T("Fog2DShader")
 #define STR_KEY_ButtonUIShader _T("ButtonUIShader")
@@ -141,6 +147,7 @@
 #define STR_KEY_LineStripMtrl _T("LineStripLMaterial")
 #define STR_KEY_LineListMtrl _T("LineListMaterial")
 #define STR_KEY_StdLight2DMtrl _T("StandardMaterialLight2D")
+#define STR_KEY_StdLight2DCartoonMtrl _T("StandardMaterialLight2DCartoon")
 #define STR_KEY_Collider2DNoneColliedMtrl _T("Collider2DNonColliedMaterial") // 충돌되지 않았을 시 나타내는 메터리얼
 #define STR_KEY_Collider2DCollisionMtrl _T("Collider2DCollisionMaterial") // 충돌 시 나타내는 메터리얼 
 #define STR_KEY_TileMapMtrl _T("TileMapMaterial")
@@ -149,6 +156,7 @@
 #define STR_KEY_DistortionMtrl _T("DistortionMaterial")
 #define STR_KEY_FishEyeMtrl _T("FishEyeMaterial")
 #define STR_KEY_BlurMtrl _T("BlurMaterial")
+#define STR_KEY_NoiseMtrl _T("NoiseMaterial")
 #define STR_KEY_PaperBurnMtrl _T("PaperBurnMaterial")
 #define STR_KEY_CanvasMtrl _T("CanvasMaterial")
 #define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
@@ -159,6 +167,7 @@
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
+#define STR_ResourceKey_NoiseTexture _T("NoiseTexture")
 
 
 // Tool Object name
@@ -190,6 +199,7 @@
 #define STR_PATH_Enemy4 _T("texture\\Enemy4.png")
 #define STR_PATH_Anim _T("texture\\link_0.png")
 #define STR_PATH_Fog2D _T("texture\\Fog2D.png")
+#define STR_PATH_Noise _T("texture\\Noise.png")
 
 
 //////////////// Butcher string table

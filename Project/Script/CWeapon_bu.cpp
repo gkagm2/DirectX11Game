@@ -113,8 +113,9 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 
 	if (isEnableFire) {
 		//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
-		if (m_eCurType == E_WeaponType_bu::Chainsaw)
+		if (m_eCurType == E_WeaponType_bu::Chainsaw) {
 			m_pChainSawColObj->SetActive(true);
+		}
 		else if(m_eCurType == E_WeaponType_bu::MachineGun) {
 			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
 			CBullet_bu* pBul = pBulletObj->GetComponent<CBullet_bu>();
@@ -157,7 +158,6 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			m_eCurType == E_WeaponType_bu::GrenadeLauncher) {
 			m_pCharacter->GetMuzzleParticleObj()->SetActive(true,true);
 		}
-
 	}
 	return isEnableFire;
 }
@@ -189,7 +189,7 @@ void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 	if (_eType == E_WeaponType_bu::Chainsaw) {
 		m_pGunImageObj->SetActive(false);
 		m_pChainSawObj->SetActive(true);
-		m_pChainSawColObj->Collider2D()->SetActive(false);
+		m_pChainSawColObj->SetActive(false);
 	}
 	else {
 		m_pGunImageObj->SetActive(true);

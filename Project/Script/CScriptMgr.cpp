@@ -8,6 +8,7 @@
 #include "CBulletScript_sh.h"
 #include "CBullet_bu.h"
 #include "CCameraFollowerScript.h"
+#include "CChainsaw_bu.h"
 #include "CCharacterScript_ca.h"
 #include "CCharacter_bu.h"
 #include "CColliderTestScript.h"
@@ -76,6 +77,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBulletScript_sh");
 	_vec.push_back(L"CBullet_bu");
 	_vec.push_back(L"CCameraFollowerScript");
+	_vec.push_back(L"CChainsaw_bu");
 	_vec.push_back(L"CCharacterScript_ca");
 	_vec.push_back(L"CCharacter_bu");
 	_vec.push_back(L"CColliderTestScript");
@@ -152,6 +154,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBullet_bu;
 	if (L"CCameraFollowerScript" == _strScriptName)
 		return new CCameraFollowerScript;
+	if (L"CChainsaw_bu" == _strScriptName)
+		return new CChainsaw_bu;
 	if (L"CCharacterScript_ca" == _strScriptName)
 		return new CCharacterScript_ca;
 	if (L"CCharacter_bu" == _strScriptName)
@@ -295,6 +299,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:
 		return new CCameraFollowerScript;
+		break;
+	case (UINT)SCRIPT_TYPE::CHAINSAW_BU:
+		return new CChainsaw_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::CHARACTERSCRIPT_CA:
 		return new CCharacterScript_ca;
@@ -504,6 +511,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::CAMERAFOLLOWERSCRIPT:
 		return L"CCameraFollowerScript";
+		break;
+
+	case SCRIPT_TYPE::CHAINSAW_BU:
+		return L"CChainsaw_bu";
 		break;
 
 	case SCRIPT_TYPE::CHARACTERSCRIPT_CA:

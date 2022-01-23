@@ -28,6 +28,9 @@ void ParticleSystemGUI::Update()
 	Vector3 vStartScale = pPS->GetStartScale();
 	Vector3 vEndScale = pPS->GetEndScale();
 
+	Vector3 vRadius = pPS->GetRadius();
+
+
 	float fStartSpeed = pPS->GetStartSpeed();
 	float fEndSpeed = pPS->GetEndSpeed();
 
@@ -63,6 +66,9 @@ void ParticleSystemGUI::Update()
 		pPS->SetMaxParticleCount((UINT)iMaxParticleCnt);
 	if (ImGui::DragInt("Spawn Cnt PerSec##ParticleSystemGUI", &iSpawnCntPerSec, 1.f, 0, INT_MAX, "%d"))
 		pPS->SetSpawnCntPerSec((UINT)iSpawnCntPerSec);
+
+	if (ImGui::DragFloat3("Radius##ParticleSystemGUI", (float*)&vRadius, 0.01f, 0.f, FLOAT_MAX, "%.3f", 0))
+		pPS->SetRadius(vRadius);
 
 	bool isGravityEnable = pPS->IsGravityEnable();
 	if (ImGui::Checkbox("Gravity##ParticleSystem", &isGravityEnable))

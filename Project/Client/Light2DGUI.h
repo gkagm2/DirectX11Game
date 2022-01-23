@@ -19,6 +19,9 @@ private:
 	void _RenderParam_Range(TLightInfo& _tLightInfoRef);
 	void _RenderParam_LightColor(TLightInfo& _tLightInfoRef);
 
+	void _SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw);
+	void _SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw);
+
 public:
 	Light2DGUI();
 	virtual ~Light2DGUI() override;

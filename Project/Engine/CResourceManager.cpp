@@ -339,6 +339,22 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_StdLight2DShader, pShader);
 
 	//----------------------
+	// Light2D Cartoon 쉐이더 생성
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLight2DCartoon);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_PIXShaderLight2DCartoon);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	// OM
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+	// ShaderParam
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+
+	AddRes(STR_KEY_StdLight2DCartoonShader, pShader);
+
+
+	//----------------------
 	// LineStript 쉐이더 생성
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXShaderLineStrip);
@@ -489,6 +505,17 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_BlurShader, pShader);
 
 	//----------------------------
+	// Noise Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::PostEffect);
+	pShader->CreateVertexShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_VTX_Noise);
+	pShader->CreatePixelShader(STR_FILE_PATH_PostEffectShader, STR_FUNC_NAME_PIX_Noise);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullNone);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
+	AddRes(STR_KEY_NoiseShader, pShader);
+
+	//----------------------------
 	// Canvas Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Canvas);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader, STR_FUNC_NAME_VTXCanvasShader);
@@ -601,6 +628,13 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
 	AddRes<CMaterial>(STR_KEY_StdLight2DMtrl, pMtrl);
 
+	// Light2D Animation 재질 설정
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderLight2DAnim = LoadRes<CGraphicsShader>(STR_KEY_StdLight2DCartoonShader);
+	pMtrl->SetShader(pShaderLight2DAnim);
+	pMtrl->SetData(E_ShaderParam::Texture_0, LoadRes<CTexture>(STR_PATH_Box).Get());
+	AddRes<CMaterial>(STR_KEY_StdLight2DCartoonMtrl, pMtrl);
+
 	// Collider2D 재질 생성
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderCollider2D = LoadRes<CGraphicsShader>(STR_KEY_Collider2DShader);
@@ -664,6 +698,18 @@ void CResourceManager::CreateDefaultMaterial()
 	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
 	AddRes(STR_KEY_BlurMtrl, pMtrl);
+
+	// Noise 재질 생성 
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderNoise = LoadRes<CGraphicsShader>(STR_KEY_NoiseShader);
+	pMtrl->SetShader(pShaderNoise);
+	pPostEffectTargetTex = LoadRes<CTexture>(STR_ResourceKey_PostEffectTargetTexture);
+	SharedPtr<CTexture> pNoiseTex = LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
+	pMtrl->SetData(E_ShaderParam::Texture_0, pPostEffectTargetTex.Get());
+	pMtrl->SetData(E_ShaderParam::Texture_1, pNoiseTex.Get());
+
+	AddRes(STR_KEY_NoiseMtrl, pMtrl);
+
 
 	// Canvas 재질 생성
 	pMtrl = new CMaterial(true);

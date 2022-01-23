@@ -634,16 +634,29 @@ void CEnemyController_bu::OnDeadStart()
 	UINT iLayer = (UINT)E_Layer::ObjectParticle;
 	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
 	
-	//m_vBodySplitDir
-	float degree = 90.f / size;
-	for (int i = 0; i < size; ++i) {
-		Vector3 vDir = ::Rotate(m_vBodySplitDir, 45.f - i * degree);
-		CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
-		pObj->Animator2D()->SetCurAnimationFrame(i);
-		CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
-		if (pExp)
-			pExp->SetExplosion(vDir, 2.0f, 0.15f);
+	if (m_vBodySplitDir == Vector3::Zero) {
+		float degree = 180.f / size;
+		for (int i = 0; i < size; ++i) {
+			Vector3 vDir = ::Rotate(Vector3::Right, i * degree);
+			CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
+			pObj->Animator2D()->SetCurAnimationFrame(i);
+			CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
+			if (pExp)
+				pExp->SetExplosion(vDir, 2.0f, 0.3f);
+		}
 	}
+	else {
+		float degree = 90.f / size;
+		for (int i = 0; i < size; ++i) {
+			Vector3 vDir = ::Rotate(m_vBodySplitDir, 45.f - i * degree);
+			CGameObject* pObj = CObject::InstantiateEvn(m_pBodyPartPref, Transform()->GetPosition(), iLayer);
+			pObj->Animator2D()->SetCurAnimationFrame(i);
+			CExplosion_bu* pExp = pObj->GetComponent<CExplosion_bu>();
+			if (pExp)
+				pExp->SetExplosion(vDir, 2.0f, 0.15f);
+		}
+	}
+	
 	DestroyGameObjectEvn(GetGameObject()); 
 }
 

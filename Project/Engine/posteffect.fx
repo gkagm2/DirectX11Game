@@ -252,5 +252,53 @@ float4 PS_Blur(VTX_OUT_BLUR _in) : SV_Target
     return vColor;
 }
 
+//=====================
+// FishEye Shader
+// Mesh : Circle Mesh
+#define CloneTex g_tex_0
+#define NoiseTexture g_tex_1
+//=====================
+
+struct VTX_NOISE_OUT
+{
+    float4 vPosition : SV_Position;
+    float2 vCenterPos : POSITION; // 투영좌표계 중앙 위치
+    float2 vRadius : POSITION2; // 사각형의 반지름 길이(투영좌표계 기준)
+    float2 vUV : TEXCOORD;
+};
+
+VTX_FISHEYE_OUT VS_Noise(VTX_IN _in)
+{
+    VTX_NOISE_OUT output = (VTX_NOISE_OUT) 0.f;
+
+    output.vPosition = mul(float4(_in.vPosition, 1.f), g_matWorldViewProj);
+    float4 vCenterProj = mul(float4(0.f, 0.f, 0.f, 1.f), g_matWorldViewProj);
+    output.vCenterPos = vCenterProj.xy / vCenterProj.w;
+    
+    float2 vProj = output.vPosition.xy / output.vPosition.w;
+    
+    //output.vRadius = float2(abs(vProj.x - output.vCenterPos.x), abs(vProj.y - output.vCenterPos.y));
+    output.vRadius = float2(0.8, 0.8);
+    
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+float4 PS_Noise(VTX_NOISE_OUT _in) : SV_Target
+{
+    float2 vScreenUV = _in.vPosition.xy / g_vResolution;
+    float4 vColor = (float4) 0.f;
+
+    float2 uv = _in.vUV;
+    float2 ouv = _in.vUV;
+    //float r = 1.f;
+    
+    uv.x = uv.x + Rand(g_fAccTime * 10.f);
+    uv.y = uv.y + Rand(g_fAccTime * 11.f);
+    vColor = NoiseTexture.Sample(g_sam_1, uv);
+    float4 vTexColor = CloneTex.Sample(g_sam_1, _in.vUV);
+    return vTexColor;
+}
 
 #endif

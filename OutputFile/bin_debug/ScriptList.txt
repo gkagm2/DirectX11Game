@@ -5,6 +5,7 @@ CBulletBouncingParticle_bu
 CBulletScript_sh
 CBullet_bu
 CCameraFollowerScript
+CChainsaw_bu
 CCharacterScript_ca
 CCharacter_bu
 CColliderTestScript

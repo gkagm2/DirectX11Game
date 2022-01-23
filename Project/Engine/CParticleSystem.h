@@ -58,7 +58,7 @@ public:
 	void SetSpawnCntPerSec(UINT _iParticleCnt) { m_iSpawnCntPerSec = _iParticleCnt; }
 	void SetMaxParticleCount(UINT _iParticleCnt) { m_iMaxParticleCount; }
 
-	void SetRadius(const Vector3 _vRadius) { m_vRadius - _vRadius; }
+	void SetRadius(const Vector3 _vRadius) { m_vRadius = _vRadius; }
 
 	const Vector4& GetStartColor() { return m_vStartColor; }
 	const Vector4& GetEndColor() { return m_vEndColor; }

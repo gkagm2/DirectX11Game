@@ -8,7 +8,7 @@ CLight2D::CLight2D() :
 	CComponent(E_ComponentType::Light2D)
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
-	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DNoneColliedMtrl);
+	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
 	m_tInfo.eLightType = E_LightType::Point;
 
 	m_tInfo.fAngle_Radian = PI * 0.5f;
@@ -25,7 +25,6 @@ CLight2D::~CLight2D()
 void CLight2D::FinalUpdate()
 {
 	m_tInfo.vLightPos = Transform()->GetPosition();
-	//m_tInfo.vLightDir = Transform()->GetLocalUpVQector();
 	m_tInfo.vLightDir = Transform()->GetUpVector();
 	if(GetGameObject()->IsActive() && IsActive())
 		m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight2D(this);

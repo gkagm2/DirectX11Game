@@ -181,7 +181,7 @@ void CS_ParticleUpdate(int3 _iThreadID : SV_DispatchThreadID)
             
             g_particle[_iThreadID.x].fFallTime += g_fDeltaTime * 10.f;
             g_particle[_iThreadID.x].fFallStartY = 3.f;
-            g_particle[_iThreadID.x].fSpeed = 20.f;
+            //g_particle[_iThreadID.x].fSpeed = 20.f;
             float Velocity = 0.1f * g_particle[_iThreadID.x].fSpeed *
 					g_particle[_iThreadID.x].fFallTime;
 
