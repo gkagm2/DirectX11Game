@@ -9,7 +9,7 @@
 
 CEnemyController_bu::CEnemyController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::ENEMYCONTROLLER_BU),
-	m_pTargetObj(nullptr),
+	m_pTargetObj{},
 	m_eAIState(E_AIState_bu::Wander),
 	m_fTargetFindTime(1.f),
 	m_fMaxTargetFindTime(1.0f),
@@ -45,7 +45,7 @@ CEnemyController_bu::CEnemyController_bu(const CEnemyController_bu& _origin) :
 
 CEnemyController_bu::~CEnemyController_bu()
 {
-	AIEnd();
+	//AIEnd();
 	if (m_pPathFind) {
 		delete m_pPathFind;
 		m_pPathFind = nullptr;
@@ -76,6 +76,8 @@ void CEnemyController_bu::Awake()
 	m_pTargetLookAt = GetGameObject()->FindComponentInChilds<CTargetLookAt_bu>();
 	assert(m_pTargetLookAt);
 
+	m_pTargetObj = FIND_GameObject(_T("Player"));
+	assert(m_pTargetObj);
 	SetHp(20.f);
 	SetArmor(0.f);
 }
@@ -109,6 +111,9 @@ void CEnemyController_bu::Start()
 
 void CEnemyController_bu::Update()
 {
+	if (m_pTargetObj == nullptr || m_pTargetObj->IsDead())
+		m_pTargetObj = nullptr;
+
 	bool isMove = false;
 
 	Vector3 vForce = Rigidbody2D()->GetForce();
@@ -117,18 +122,7 @@ void CEnemyController_bu::Update()
 	}
 	else
 		isMove = false;
-
-
-
-	if (!m_pTargetObj) {
-		m_fTargetFindTime += DT;
-		if (m_fTargetFindTime > m_fMaxTargetFindTime) {
-			m_pTargetObj = FIND_GameObject(_T("Player"));
-			m_fTargetFindTime = 0.f;
-		}
-	}
-
-
+	
 	if (m_bJump) {
 		m_fJumpCoolTime += DT;
 		if (m_fJumpCoolTime <= m_fJumpMaxCoolTime) {
@@ -204,30 +198,32 @@ void CEnemyController_bu::Update()
 
 	if (m_bIsLookRight) {
 		m_pFlipGunObj->Transform()->GetLocalScale();
-		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotation();
+		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotationDegree();
 		vRotGun.z = 0.f;
 		Vector3 vScale = m_pFlipGunObj->Transform()->GetLocalScale();
 		vScale.x = 1.f;
-		m_pFlipGunObj->Transform()->SetLocalRotation(vRotGun);
+		m_pFlipGunObj->Transform()->SetLocalRotationDegree(vRotGun);
 		m_pFlipGunObj->Transform()->SetLocalScale(vScale);
 
 	}
 	else {
 		m_pFlipGunObj->Transform()->GetLocalScale();
-		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotation();
-		vRotGun.z = PI;
+		Vector3 vRotGun = m_pFlipGunObj->Transform()->GetLocalRotationDegree();
+		vRotGun.z = 180.f;
 		Vector3 vScale = m_pFlipGunObj->Transform()->GetLocalScale();
 		vScale.x = -1.f;
-		m_pFlipGunObj->Transform()->SetLocalRotation(vRotGun);
+		m_pFlipGunObj->Transform()->SetLocalRotationDegree(vRotGun);
 		m_pFlipGunObj->Transform()->SetLocalScale(vScale);
-	}
-	
-
-	if (InputKeyPress(E_Key::SPACE)) {
-		DamagedMe(2000);
 	}
 
 	AIUpdate();
+}
+
+void CEnemyController_bu::DamagedMe(float _fDamage)
+{
+	CCharacter_bu::DamagedMe(_fDamage);
+	if (m_fHp > 0.f)
+		ChangeAIState(E_AIState_bu::Stun);
 }
 
 void CEnemyController_bu::AIStart()
@@ -246,10 +242,8 @@ void CEnemyController_bu::AIUpdate()
 		float fDis = Vector3::Distance(vTargePos, vMyPos);
 
 		if (fDis <= m_fMaxDetectDistance) {
-			ChangeAIState(E_AIState_bu::Follow);
-		}
-		else {
-			ChangeAIState(E_AIState_bu::Wander);
+			if(E_AIState_bu::Follow != GetCurAIState())
+				ChangeAIState(E_AIState_bu::Follow);
 		}
 	}
 }
@@ -321,6 +315,7 @@ void CEnemyController_bu::WanderStateInit()
 	iCurWayPointIdx = 0;
 	isFindPath = false;
 	m_pLegAnim->Play(_T("Enemy_Walk_bu"));
+	ChangeState(E_CharacterState::Move);
 }
 
 void CEnemyController_bu::WanderStateUpdate()
@@ -388,8 +383,8 @@ void CEnemyController_bu::WanderStateUpdate()
 		vTargetPos.z = 0.f;
 		vMyPos.z = 0.f;
 		float fDistance = CMyMath::GetDistance(vTargetPos, vMyPos);
-		if(fDistance < m_fMaxDetectDistance)
-			ChangeAIState(E_AIState_bu::Follow);
+		if (fDistance < m_fMaxDetectDistance)
+			ChangeAIState(E_AIState_bu::Notice);
 	}
 }
 
@@ -410,14 +405,14 @@ void CEnemyController_bu::DeadStateEnd()
 }
 
 float fStunTime = 0.f;
-float fMaxStunTime = 1.f;
+float fMaxStunTime = 0.8f;
 void CEnemyController_bu::StunStateInit()
 {
 	m_pEmoticonObj->SetActive(true);
-	m_pEmoticonAnim->Play(BUTCHER_AnimName_EmoticonStun, E_AnimationState::Once, true);
+	m_pEmoticonAnim->Play(BUTCHER_AnimName_EmoticonStun, E_AnimationState::Loop, true);
 	
 	fStunTime = 0.f;
-	fMaxStunTime = 1.f;
+	fMaxStunTime = 0.8f;
 
 	m_pLegAnim->Play(_T("Enemy_Idle_bu"));
 }
@@ -447,22 +442,37 @@ void CEnemyController_bu::RunawayStateEnd()
 {
 }
 
-float fDetectRange = 5.f;
+float fDetectRange = 15.f;
+float fShootableRange = 8.f;
 bool isKeepGoToTargetPos = false;
 Vector2 vNextPath;
+float fFireDelay = 0.f;
+float fMaxFireDelay = 1.3f;
+bool isFireWait = false;
+float fFireWait = 0.f;
+float fMaxFireWait = 1.3;
 void CEnemyController_bu::FollowStateInit()
 {
-	fDetectRange = 5.f;
+	fDetectRange = 15.f;
 	m_fTargetFindTime = m_fMaxTargetFindTime;
 	isKeepGoToTargetPos = false;
 	m_pTargetLookAt->SetTargetObj(m_pTargetObj);
 
 	// targetObject 세팅
 	// target look at의 타겟을 세팅
+
+	isFireWait = false;
+	fFireDelay = 0.f;
+	fFireWait = 0.f;
 }
 
 void CEnemyController_bu::FollowStateUpdate()
 {
+	if (!m_pTargetObj) {
+		ChangeAIState(E_AIState_bu::Wander);
+		return;
+	}
+		
 	Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
 	Vector3 vMyPos = Transform()->GetPosition();
 
@@ -477,21 +487,51 @@ void CEnemyController_bu::FollowStateUpdate()
 	else {
 		bool isPathFound = false;
 		m_fTargetFindTime += DT;
+
+		// step1 : 경로를 찾는다.
 		if (m_fTargetFindTime > m_fMaxTargetFindTime) {
 			isPathFound = m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
 			m_fTargetFindTime = 0.f;
 		}
 
+		// 다음 경로가 존재한다면 
 		list<Vector2>& listNextPath = m_pPathFind->GetPath();
 		if (!listNextPath.empty()) {
+			// 다음 경로의 위치를 구한다.
 			Vector2 vNextPath = m_pPathFind->GetNextPath();
 			Vector3 vNextPos = Vector3(vNextPath.x, vNextPath.y, vMyPos.z);
 			Vector3 vMoveDir = vNextPos - vMyPos;
 			vMoveDir.Normalize();
+
 			Vector3 vForce = vMoveDir * m_fMovePower;
 			vForce.y = 0.f;
-			Rigidbody2D()->AddForce(vForce);
 
+
+			// 무기에 따라서 움직일지 안움직일지 결정한다.
+			bool go = false;
+			if (E_WeaponType_bu::Chainsaw == GetWeapon()->GetCurWeaponType()) {
+				go = true;
+			}
+			else {
+				float fDis = Vector3::Distance(vTargetPos, vMyPos);
+				if (fDis < fShootableRange) 
+					go = false;
+				else 
+					go = true;
+			}
+
+			if (go) {
+				Vector3 vForceDir = Vector3(vMoveDir.x, 0.f, 0.f);
+				vForceDir.Normalize();
+				Rigidbody2D()->AddForce(vForceDir * m_fMovePower);
+				ChangeState(E_CharacterState::Move);
+			}
+			else {
+				ChangeState(E_CharacterState::Idle);
+			}
+
+
+			// 이미지 방향을 바꾼다.
 			if (vForce.x > 0)
 				_SetLookRightState(true);
 			else
@@ -501,26 +541,38 @@ void CEnemyController_bu::FollowStateUpdate()
 				listNextPath.pop_front();
 			}
 		}
+	}
 
-		if (isPathFound) {
-			if (!m_pPathFind->IsArrivedDestination()) {
-				vNextPath = m_pPathFind->GetNextPath();
-				isKeepGoToTargetPos = true;
+
+	if (GetWeapon()->GetCurWeaponType() == E_WeaponType_bu::MachineGun) {
+		if (!isFireWait) {
+			fFireDelay += DT;
+			if (fFireDelay > fMaxFireDelay) {
+				fFireDelay = 0.f;
+				isFireWait = true;
+			}
+			else {
+				Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
+				Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
+				Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
+				UINT iLayer = (UINT)E_Tag::Enemy_Bullet;
+				m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, iLayer);
 			}
 		}
-		else
-			isKeepGoToTargetPos = false;
-
-		if (isKeepGoToTargetPos) {
-			Vector2 vForce2DDir = vNextPath - vMyPos;
-			Vector3 vForceDir = Vector3(vForce2DDir.x, 0.f, 0.f);
-			vForceDir.Normalize();
-			Rigidbody2D()->AddForce(vForceDir * m_fMovePower);
-		}
 		else {
-			ChangeAIState(E_AIState_bu::Bewildered);
+			fFireWait += DT;
+			if (fFireWait > fMaxFireWait) {
+				fFireWait = 0.f;
+				isFireWait = false;
+			}
 		}
-		ChangeState(E_CharacterState::Shoot);
+	}
+	else {
+		Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
+		Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
+		Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
+		UINT iLayer = (UINT)E_Tag::Enemy_Bullet;
+		m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, iLayer);
 	}
 }
 
@@ -535,6 +587,7 @@ void CEnemyController_bu::NoticeStateInit()
 {
 	m_pEmoticonObj->SetActive(true);
 	m_pEmoticonAnim->Play(BUTCHER_AnimName_EmoticonSuprise, E_AnimationState::Once, true);
+	ChangeState(E_CharacterState::Idle);
 
 	fKeepNoticeTime = 0.f;
 	fMaxKeepNoticeTime = 1.f;
@@ -561,11 +614,12 @@ void CEnemyController_bu::BewilderedStateInit()
 
 	fBewilderedTime = 0.f;
 	fBewilderedMaxTime = 2.f;
-
+	ChangeState(E_CharacterState::Idle);
 }
 
 void CEnemyController_bu::BewilderedStateUpdate()
 {
+	fBewilderedTime += DT;
 	if(fBewilderedTime > fBewilderedMaxTime)
 		ChangeAIState(E_AIState_bu::Wander);
 }
@@ -573,19 +627,6 @@ void CEnemyController_bu::BewilderedStateUpdate()
 void CEnemyController_bu::BewilderedStateEnd()
 {
 	m_pEmoticonObj->SetActive(false);
-}
-
-void CEnemyController_bu::OnShootStart()
-{
-}
-
-void CEnemyController_bu::OnShootUpdate()
-{
-	Vector3 vmuzzlePos = m_pMuzzleObj->Transform()->GetPosition();
-	Vector3 vrotPos = m_pGunRotationPosObj->Transform()->GetRotation();
-	Vector3 vfrontVec = m_pGunRotationPosObj->Transform()->GetRightVector();
-	UINT iLayer = (UINT)E_Tag::Enemy_Bullet;
-	m_pWeapon->Fire(vmuzzlePos, vrotPos, vfrontVec, iLayer);
 }
 
 void CEnemyController_bu::OnIdleStart()
@@ -666,11 +707,6 @@ void CEnemyController_bu::OnDeadUpdate()
 
 void CEnemyController_bu::OnDeadEnd()
 {
-}
-
-void CEnemyController_bu::OnShootEnd()
-{
-	m_pLegAnim->Play(_T("Enemy_Idle_bu"), E_AnimationState::Loop);
 }
 
 tstring AIStateToStr_bu(E_AIState_bu _eState)

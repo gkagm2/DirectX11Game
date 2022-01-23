@@ -115,6 +115,9 @@
     <Filter Include="Games\Butcher\InGames\Activator">
       <UniqueIdentifier>{2ad77282-bd93-46a3-9f0b-19b73aa72ae6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\Butcher\InGames\Sound">
+      <UniqueIdentifier>{b05457b1-89f0-43e0-bbac-53504fc8a7a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -318,6 +321,10 @@
     <ClInclude Include="CChainsaw_bu.h">
       <Filter>Games\Butcher\InGames\Bullets</Filter>
     </ClInclude>
+    <ClInclude Include="CSoundManager_bu.h" />
+    <ClInclude Include="CPortal_bu.h">
+      <Filter>Games\Butcher\InGames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -520,6 +527,10 @@
     </ClCompile>
     <ClCompile Include="CChainsaw_bu.cpp">
       <Filter>Games\Butcher\InGames\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="CSoundManager_bu.cpp" />
+    <ClCompile Include="CPortal_bu.cpp">
+      <Filter>Games\Butcher\InGames</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -24,10 +24,21 @@ CLight2D::~CLight2D()
 
 void CLight2D::FinalUpdate()
 {
-	m_tInfo.vLightPos = Transform()->GetPosition();
-	m_tInfo.vLightDir = Transform()->GetUpVector();
-	if(GetGameObject()->IsActive() && IsActive())
-		m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight2D(this);
+	CGameObject* pParentObj = GetGameObject();
+	bool isRender = true;
+	while (nullptr != pParentObj) {
+		if (!pParentObj->IsActive()) {
+			isRender = false;
+			break;
+		}
+		pParentObj = pParentObj->GetParentObject();
+	}
+	if (isRender) {
+		m_tInfo.vLightPos = Transform()->GetPosition();
+		m_tInfo.vLightDir = Transform()->GetUpVector();
+		if (GetGameObject()->IsActive() && IsActive())
+			m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight2D(this);
+	}
 }
 
 void CLight2D::SetRange(float _fRange)

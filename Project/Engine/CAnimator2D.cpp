@@ -83,6 +83,7 @@ void CAnimator2D::Play(E_AnimationState _eAnimationState, bool _bReset)
 		return;
 	if (_bReset)
 		m_pCurAnimation->Reset();
+
 	m_eAnimationState = _eAnimationState;
 }
 

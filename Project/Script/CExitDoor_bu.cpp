@@ -23,8 +23,10 @@ void CExitDoor_bu::Update()
 	else {
 		m_fTime -= DT;
 	}
-	CMyMath::Lerp(m_vDoorClosePos, m_vDoorOpenPos, m_fTime);
+	Vector3 vDoorPos = CMyMath::Lerp(m_vDoorClosePos, m_vDoorOpenPos, m_fTime);
 	m_fTime = CMyMath::Clamp(m_fTime, 0.f, 1.f);
+	
+	Transform()->SetLocalPosition(vDoorPos);
 }
 
 void CExitDoor_bu::OnCollisionEnter2D(CCollider2D* _pCol)

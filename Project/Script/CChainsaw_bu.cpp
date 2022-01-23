@@ -16,7 +16,12 @@ void CChainsaw_bu::OnCollisionEnter2D(CCollider2D* _pCol)
 	bool isPlayerTag = pObj->GetTag() == (UINT)E_Tag::Player;
 	
 	if (isObjLayer) {
-		if (isEnemyTag) {
+		if ((UINT)GetGameObject()->GetTag() == (UINT)E_Tag::Enemy_Bullet && isPlayerTag) {
+			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
+			pChar->SetBodySplitDir(Vector3::Zero);
+			pChar->DamagedMe(m_fDamaged);
+		}
+		if ((UINT)GetGameObject()->GetTag() == (UINT)E_Tag::Player_Bullet && isEnemyTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
 			pChar->SetBodySplitDir(Vector3::Zero);
 			pChar->DamagedMe(m_fDamaged);

@@ -18,13 +18,6 @@ void CSpotLight_bu::OnCollisionEnter2D(CCollider2D* _pCol)
 	}
 }
 
-void CSpotLight_bu::Update()
-{
-	if (InputKeyPress(E_Key::SPACE)) {
-		DestroyGameObjectEvn(GetGameObject());
-	}
-}
-
 void CSpotLight_bu::OnDestroy()
 {
 	if (nullptr != m_pSparkParticle)

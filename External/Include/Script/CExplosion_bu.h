@@ -11,6 +11,9 @@ private:
 	float m_fDelTime;
 	float m_fTouchTime;
 
+	float m_fDeleteTime;
+	float m_fMaxDeleteTime;
+
 public:
 	virtual void Awake() override;
 	virtual void Update() override;

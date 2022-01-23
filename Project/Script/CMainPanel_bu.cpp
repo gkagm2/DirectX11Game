@@ -47,6 +47,7 @@ void CMainPanel_bu::Update()
 void CMainPanel_bu::OnStartBtnClick()
 {
 	CGameObject* pMgrObj = FIND_GameObject(_T("GameManager"));
+	assert(pMgrObj);
 	CGameManager_bu* pmgr = pMgrObj->GetComponent<CGameManager_bu>();
 	pmgr->SetGameMode(E_GameMode_bu::Play);
 }

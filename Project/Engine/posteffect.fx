@@ -288,16 +288,19 @@ VTX_FISHEYE_OUT VS_Noise(VTX_IN _in)
 float4 PS_Noise(VTX_NOISE_OUT _in) : SV_Target
 {
     float2 vScreenUV = _in.vPosition.xy / g_vResolution;
-    float4 vColor = (float4) 0.f;
+    //vScreenUV *= _in.vRadius * 2.f;
 
-    float2 uv = _in.vUV;
+    float2 uv = vScreenUV;
     float2 ouv = _in.vUV;
     //float r = 1.f;
     
     uv.x = uv.x + Rand(g_fAccTime * 10.f);
     uv.y = uv.y + Rand(g_fAccTime * 11.f);
-    vColor = NoiseTexture.Sample(g_sam_1, uv);
+    float4 vNoiseColor = NoiseTexture.Sample(g_sam_1, uv);
     float4 vTexColor = CloneTex.Sample(g_sam_1, _in.vUV);
+    
+    vTexColor *= vNoiseColor;
+    
     return vTexColor;
 }
 

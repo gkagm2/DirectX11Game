@@ -301,6 +301,7 @@ enum class E_Tag {
 	Player_GroundCheck,//9
 	Enemy_GroundCheck,//10
 	ObjParticle, //11
+	Trigger,
 	End
 };
 

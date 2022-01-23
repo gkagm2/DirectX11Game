@@ -54,10 +54,12 @@
 #include "CPlayerController_bu.h"
 #include "CPlayerScript_ca.h"
 #include "CPlayerScript_sh.h"
+#include "CPortal_bu.h"
 #include "CPostProcessingScript.h"
 #include "CRespawnManager_bu.h"
 #include "CRigidbody2DTestScript.h"
 #include "CRotateZScript.h"
+#include "CSoundManager_bu.h"
 #include "CSparkParticle_bu.h"
 #include "CSpotLight_bu.h"
 #include "CSwitch_bu.h"
@@ -123,10 +125,12 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerController_bu");
 	_vec.push_back(L"CPlayerScript_ca");
 	_vec.push_back(L"CPlayerScript_sh");
+	_vec.push_back(L"CPortal_bu");
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRespawnManager_bu");
 	_vec.push_back(L"CRigidbody2DTestScript");
 	_vec.push_back(L"CRotateZScript");
+	_vec.push_back(L"CSoundManager_bu");
 	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSpotLight_bu");
 	_vec.push_back(L"CSwitch_bu");
@@ -246,6 +250,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript_ca;
 	if (L"CPlayerScript_sh" == _strScriptName)
 		return new CPlayerScript_sh;
+	if (L"CPortal_bu" == _strScriptName)
+		return new CPortal_bu;
 	if (L"CPostProcessingScript" == _strScriptName)
 		return new CPostProcessingScript;
 	if (L"CRespawnManager_bu" == _strScriptName)
@@ -254,6 +260,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CRigidbody2DTestScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
+	if (L"CSoundManager_bu" == _strScriptName)
+		return new CSoundManager_bu;
 	if (L"CSparkParticle_bu" == _strScriptName)
 		return new CSparkParticle_bu;
 	if (L"CSpotLight_bu" == _strScriptName)
@@ -438,6 +446,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT_SH:
 		return new CPlayerScript_sh;
 		break;
+	case (UINT)SCRIPT_TYPE::PORTAL_BU:
+		return new CPortal_bu;
+		break;
 	case (UINT)SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
 		return new CPostProcessingScript;
 		break;
@@ -449,6 +460,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
+		break;
+	case (UINT)SCRIPT_TYPE::SOUNDMANAGER_BU:
+		return new CSoundManager_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::SPARKPARTICLE_BU:
 		return new CSparkParticle_bu;
@@ -697,6 +711,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CPlayerScript_sh";
 		break;
 
+	case SCRIPT_TYPE::PORTAL_BU:
+		return L"CPortal_bu";
+		break;
+
 	case SCRIPT_TYPE::POSTPROCESSINGSCRIPT:
 		return L"CPostProcessingScript";
 		break;
@@ -711,6 +729,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:
 		return L"CRotateZScript";
+		break;
+
+	case SCRIPT_TYPE::SOUNDMANAGER_BU:
+		return L"CSoundManager_bu";
 		break;
 
 	case SCRIPT_TYPE::SPARKPARTICLE_BU:

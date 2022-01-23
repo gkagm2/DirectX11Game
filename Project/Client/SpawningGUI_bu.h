@@ -33,6 +33,7 @@ private:
 
 
 	SharedPtr<CPrefab> m_pSpotLightPrefab;
+	SharedPtr<CPrefab> m_pPortalPrefab;
 
 	SharedPtr<CPrefab> m_pPlayerPrefab;
 	SharedPtr<CPrefab> m_pEnemyPrefab;
@@ -46,10 +47,13 @@ private:
 	SharedPtr<CPrefab> m_pArmorPickupPrefab;
 	SharedPtr<CPrefab> m_pWeaponPickupPrefab;
 
-	std::function<void()> m_pCreateFunc;
+	std::function<CGameObject*()> m_pCreateFunc;
 
 	CGameObject* m_pTargetObj;
 
+	CGameObject* m_pInsertStage1;
+	CGameObject* m_pInsertStage2;
+	CGameObject* m_pInsertStage3;
 
 public:
 	virtual void Init() override;
@@ -58,11 +62,11 @@ public:
 private:
 	void _Clear();
 
-	void _CreatePlayer();
-	void _CreateEnemy();
-	void _CreateDoorAndSwitch();
-	void _CreatePickupsItem();
-	void _CreateObject();
+	CGameObject* _CreatePlayer();
+	CGameObject* _CreateEnemy();
+	CGameObject* _CreateDoorAndSwitch();
+	CGameObject* _CreatePickupsItem();
+	CGameObject* _CreateObject();
 
 	CGameObject* _GetClickedObj(const Vector3& _vWorldPos);
 

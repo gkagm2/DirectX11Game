@@ -10,9 +10,10 @@ CExitDoorEndCol_bu::CExitDoorEndCol_bu() :
 
 void CExitDoorEndCol_bu::OnCollisionEnter2D(CCollider2D* pCol)
 {
+	UINT iObjLayer = (UINT)E_Layer::Object;
 	UINT iPlayerTag = (UINT)E_Tag::Player;
 	CGameObject* pObj = pCol->GetGameObject();
-	if (iPlayerTag == pObj->GetTag()) {
+	if (iObjLayer == pObj->GetLayer() && iPlayerTag == pObj->GetTag()) {
 		CGameObject* pGameMgr = FIND_GameObject(_T("GameManager"));
 		if (pGameMgr) {
 			CGameManager_bu* pmgr = pGameMgr->GetComponent<CGameManager_bu>();

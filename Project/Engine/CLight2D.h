@@ -28,6 +28,7 @@ public:
 	float GetAngle() { return m_tInfo.fAngle_Radian * CMyMath::Rad2Deg(); }
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }
 	void SetRange(float _fRange);
+	float GetRange() { return m_tInfo.fRange; }
 	const TLightInfo& GetLightInfo() { return m_tInfo	; }
 	TLightInfo& GetLightInfoRef() { return m_tInfo; }
 

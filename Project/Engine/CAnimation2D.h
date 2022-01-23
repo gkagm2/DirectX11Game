@@ -58,6 +58,8 @@ public:
 		_Play();
 	}
 
+	bool IsCurFrameEnd() { return m_iCurFrameIdx == max(0, m_vecAnimFrame.size() - 1); }
+
 public:
 	tstring GetAnimPath() { return m_strAnimPath; }
 

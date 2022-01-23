@@ -51,10 +51,12 @@ CObjectManager_bu
 CPlayerController_bu
 CPlayerScript_ca
 CPlayerScript_sh
+CPortal_bu
 CPostProcessingScript
 CRespawnManager_bu
 CRigidbody2DTestScript
 CRotateZScript
+CSoundManager_bu
 CSparkParticle_bu
 CSpotLight_bu
 CSwitch_bu

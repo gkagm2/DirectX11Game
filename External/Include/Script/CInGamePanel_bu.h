@@ -5,6 +5,8 @@ class CInGamePanel_bu : public CScript
 private:
 	float m_fUpdateTime;
 	float m_fMaxUpdateTime;
+	bool isCallAwake;
+	bool isCallStart;
 private:
 	CGameObject*	m_pGunImageObj;
 	CGameObject*	m_pMagazineImageObj;
@@ -42,6 +44,7 @@ private:
 
 public:
 	virtual void Awake() override;
+	virtual void OnEnable() override;
 	virtual void Start() override;
 	virtual void Update() override;
 

@@ -7,7 +7,9 @@ CExplosion_bu::CExplosion_bu() :
 	m_fForce{ 10.f },
 	m_fForceTime{ 0.f },
 	m_fMaxForceTime{ 1.f },
-	m_fDelTime(0.1f)
+	m_fDelTime(0.1f),
+	m_fDeleteTime(0.f),
+	m_fMaxDeleteTime{ 15.f }
 {
 }
 
@@ -16,7 +18,9 @@ CExplosion_bu::CExplosion_bu(const CExplosion_bu& _origin):
 	m_vExplosionDir{_origin.m_vExplosionDir},
 	m_fForce{ _origin.m_fForce},
 	m_fForceTime{ 0.f},
-	m_fMaxForceTime{ _origin.m_fMaxForceTime }
+	m_fMaxForceTime{ _origin.m_fMaxForceTime },
+	m_fDeleteTime(0.f),
+	m_fMaxDeleteTime{15.f}
 {
 }
 
@@ -31,6 +35,10 @@ void CExplosion_bu::Update()
 	/*if (m_fTouchTime > m_fDelTime) {
 		m_fForceTime = m_fMaxForceTime;
 	}*/
+
+	m_fDeleteTime += DT;
+	if (m_fDeleteTime > m_fMaxDeleteTime)
+		DestroyGameObjectEvn(GetGameObject());
 
 	m_fForceTime += DT;
 	if (m_fForceTime < m_fMaxForceTime)

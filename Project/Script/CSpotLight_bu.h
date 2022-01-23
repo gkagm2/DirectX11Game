@@ -6,7 +6,6 @@ private:
 	SharedPtr<CPrefab> m_pSparkParticle;
 public:
 	virtual void OnCollisionEnter2D(CCollider2D* _pCol);
-	virtual void Update();
 	virtual void OnDestroy() override;
 public:
 	CLONE(CSpotLight_bu);

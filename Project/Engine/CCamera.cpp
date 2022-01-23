@@ -208,6 +208,19 @@ void CCamera::_SortObjects()
 				CGameObject* pObj = vecAllObjs[i];
 				if (!pObj->IsActive())
 					continue;
+				
+				CGameObject* pParentObj = pObj;
+				bool isRender = true;
+				while (nullptr != pParentObj) {
+					if (pParentObj->IsActive())
+						pParentObj = pParentObj->GetParentObject();
+					else {
+						isRender = false;
+						break;
+					}
+				}
+				if (!isRender)
+					continue;
 
 				E_RenderTimePoint eRenderTimePoint = E_RenderTimePoint::None;
 

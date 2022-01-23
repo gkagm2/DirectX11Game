@@ -195,8 +195,10 @@ call CodeGen.exe</Command>
     <ClInclude Include="CMouseLookAt_bu.h" />
     <ClInclude Include="CMuzzleParticle_bu.h" />
     <ClInclude Include="CObjectManager_bu.h" />
+    <ClInclude Include="CPortal_bu.h" />
     <ClInclude Include="CRespawnManager_bu.h" />
     <ClInclude Include="CRigidbody2DTestScript.h" />
+    <ClInclude Include="CSoundManager_bu.h" />
     <ClInclude Include="CSparkParticle_bu.h" />
     <ClInclude Include="CSpotLight_bu.h" />
     <ClInclude Include="CSwitch_bu.h" />
@@ -266,8 +268,10 @@ call CodeGen.exe</Command>
     <ClCompile Include="CMouseLookAt_bu.cpp" />
     <ClCompile Include="CMuzzleParticle_bu.cpp" />
     <ClCompile Include="CObjectManager_bu.cpp" />
+    <ClCompile Include="CPortal_bu.cpp" />
     <ClCompile Include="CRespawnManager_bu.cpp" />
     <ClCompile Include="CRigidbody2DTestScript.cpp" />
+    <ClCompile Include="CSoundManager_bu.cpp" />
     <ClCompile Include="CSparkParticle_bu.cpp" />
     <ClCompile Include="CSpotLight_bu.cpp" />
     <ClCompile Include="CSwitch_bu.cpp" />

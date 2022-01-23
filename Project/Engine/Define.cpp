@@ -80,6 +80,9 @@ tstring TagToString(E_Tag _eTag)
 	case E_Tag::ObjParticle:
 		tagName = _T("ObjParticle");
 		break;
+	case E_Tag::Trigger:
+		tagName = _T("Trigger");
+		break;
 	default:
 		if (!((int)_eTag >= 0 && (int)_eTag < MAX_SIZE_TAG))
 			assert(nullptr);

@@ -30,6 +30,8 @@ void SpawningGUI_bu::Init()
 
 	//m_CateObjList.push_back("destruct object");
 	m_CateObjList.push_back("spot light");
+	m_CateObjList.push_back("portal");
+
 
 	// TODO(Jang ) : ÇØ¾ßµÊ
 	m_CateList.push_back("corpses");
@@ -93,6 +95,16 @@ void SpawningGUI_bu::Update()
 			ImGui::End();
 			return;
 		}
+
+		if (!m_pInsertStage1)
+			m_pInsertStage1 = FIND_GameObject(_T("Stage1Objs"));
+		if (!m_pInsertStage2)
+			m_pInsertStage2 = FIND_GameObject(_T("Stage2Objs"));
+		if (!m_pInsertStage3)
+			m_pInsertStage3 = FIND_GameObject(_T("Stage3Objs"));
+		static int insertStage = 1;
+		ImGui::InputInt("Insert Stage (1~3)", &insertStage);
+
 
 		CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
 		if (E_ProjectionType::Perspective == pMainCam->GetProjectionType()) {
@@ -178,8 +190,27 @@ void SpawningGUI_bu::Update()
 
 		if (bCreate) {
 			Vector2 vWorldPos2D = vWorldPos.XY();
-			if(m_pCreateFunc)
-				m_pCreateFunc();
+			if (m_pCreateFunc) {
+				CGameObject* pNewObj = m_pCreateFunc();
+				if (pNewObj) {
+					switch (insertStage) {
+					case 1:
+						if(m_pInsertStage1)
+							CObject::AddChildGameObjectEvn(m_pInsertStage1, pNewObj);
+						break;
+					case 2:
+						if(m_pInsertStage2)
+							CObject::AddChildGameObjectEvn(m_pInsertStage2, pNewObj);
+						break;
+					case 3:
+						if(m_pInsertStage3)
+							CObject::AddChildGameObjectEvn(m_pInsertStage3, pNewObj);
+						break;
+					default:
+						break;
+					}
+				}
+			}
 		}
 
 		if (bDelete) {
@@ -199,7 +230,7 @@ void SpawningGUI_bu::_Clear()
 {
 }
 
-void SpawningGUI_bu::_CreatePlayer()
+CGameObject* SpawningGUI_bu::_CreatePlayer()
 {
 	if (nullptr == m_pPlayerPrefab) {
 		tstring path = STR_FILE_PATH_Prefab;
@@ -207,14 +238,16 @@ void SpawningGUI_bu::_CreatePlayer()
 		m_pPlayerPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
 	if (nullptr == m_pPlayerPrefab)
-		return;
+		return nullptr;
 
 	UINT iLayer = (UINT)E_Layer::Object;
-	CObject::InstantiateEvn(m_pPlayerPrefab, Vector3::Zero, iLayer);
+	m_pTargetObj = CObject::InstantiateEvn(m_pPlayerPrefab, Vector3::Zero, iLayer);
 	m_pPlayerPrefab->SetName(_T("Player"));
+	
+	return m_pTargetObj;
 }
 
-void SpawningGUI_bu::_CreateEnemy()
+CGameObject* SpawningGUI_bu::_CreateEnemy()
 {
 	if (nullptr == m_pEnemyPrefab) {
 		tstring path = STR_FILE_PATH_Prefab;
@@ -222,7 +255,7 @@ void SpawningGUI_bu::_CreateEnemy()
 		m_pEnemyPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 	}
 	if (nullptr == m_pEnemyPrefab)
-		return;
+		return nullptr;
 
 	UINT iLayer = (UINT)E_Layer::Object;
 	m_pTargetObj = CObject::InstantiateEvn(m_pEnemyPrefab, Vector3::Zero, iLayer);
@@ -230,9 +263,11 @@ void SpawningGUI_bu::_CreateEnemy()
 	E_WeaponType_bu eType = (E_WeaponType_bu)m_iCurEnemyWeaponTypeIdx;
 	pCom->SetUseableWeapon(eType, true);
 	pCom->ChangeWeapon(eType);
+
+	return m_pTargetObj;
 }
 
-void SpawningGUI_bu::_CreateDoorAndSwitch()
+CGameObject* SpawningGUI_bu::_CreateDoorAndSwitch()
 {
 	if (nullptr == m_pDoorPrefab) {
 		tstring path = STR_FILE_PATH_Prefab;
@@ -241,7 +276,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	}
 	if (nullptr == m_pDoorPrefab) {
 		assert(nullptr);
-		return;
+		return nullptr;
 	}
 		
 
@@ -252,7 +287,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	}
 	if (nullptr == m_pSwitch1Prefab) {
 		assert(nullptr);
-		return;
+		return nullptr;
 	}
 
 	if (nullptr == m_pSwitch2Prefab) {
@@ -262,7 +297,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	}
 	if (nullptr == m_pSwitch2Prefab) {
 		assert(nullptr);
-		return;
+		return nullptr;
 	}
 
 	if (nullptr == m_pExitDoorPrefab) {
@@ -272,7 +307,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	}
 	if (nullptr == m_pExitDoorPrefab) {
 		assert(nullptr);
-		return;
+		return nullptr;
 	}
 
 	UINT iLayer = (UINT)E_Layer::Object;
@@ -290,6 +325,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 	else if ("exitDoor" == itemName) {
 		m_pTargetObj = CObject::InstantiateEvn(m_pExitDoorPrefab, Vector3::Zero, iLayer);
 	}
+	return m_pTargetObj;
 }
 
 #include <Script\CItemArmor_bu.h>
@@ -297,7 +333,7 @@ void SpawningGUI_bu::_CreateDoorAndSwitch()
 #include <Script\CItemBullet_bu.h>
 #include <Script\CItemWeapon_bu.h>
 #include <Script\CItem_bu.h>
-void SpawningGUI_bu::_CreatePickupsItem()
+CGameObject* SpawningGUI_bu::_CreatePickupsItem()
 {
 	UINT iLayer = (UINT)E_Layer::Object;
 
@@ -318,7 +354,7 @@ void SpawningGUI_bu::_CreatePickupsItem()
 			m_pHpPickupPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 		}
 		if (nullptr == m_pHpPickupPrefab)
-			return;
+			return nullptr;
 		m_pTargetObj = CObject::InstantiateEvn(m_pHpPickupPrefab, Vector3::Zero, iLayer);
 		auto* pItemHp = m_pTargetObj->GetComponent<CItemHp_bu>();
 		pItemHp->SetItemType((CItemHp_bu::E_ItemHpType_bu)m_iCurItemHpTypeIdx);
@@ -330,7 +366,8 @@ void SpawningGUI_bu::_CreatePickupsItem()
 			m_pArmorPickupPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 		}
 		if (nullptr == m_pArmorPickupPrefab)
-			return;
+			return nullptr;
+
 		m_pTargetObj = CObject::InstantiateEvn(m_pArmorPickupPrefab, Vector3::Zero, iLayer);
 		auto* pItemArmor = m_pTargetObj->GetComponent<CItemArmor_bu>();
 		pItemArmor->SetItemType((CItemArmor_bu::E_ItemArmorType_bu)m_iCurItemArmorTypeIdx);
@@ -351,7 +388,7 @@ void SpawningGUI_bu::_CreatePickupsItem()
 			m_pBulletPickupPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 		}
 		if (nullptr == m_pBulletPickupPrefab)
-			return;
+			return nullptr;
 
 		m_pTargetObj = CObject::InstantiateEvn(m_pBulletPickupPrefab, Vector3::Zero, iLayer);
 		CItemBullet_bu* pBullet = m_pTargetObj->GetComponent<CItemBullet_bu>();
@@ -378,7 +415,7 @@ void SpawningGUI_bu::_CreatePickupsItem()
 			m_pWeaponPickupPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
 		}
 		if (nullptr == m_pWeaponPickupPrefab)
-			return;
+			return nullptr;
 
 		m_pTargetObj = CObject::InstantiateEvn(m_pWeaponPickupPrefab, Vector3::Zero, iLayer);
 		CItemWeapon_bu* pWeapon = m_pTargetObj->GetComponent<CItemWeapon_bu>();
@@ -396,23 +433,39 @@ void SpawningGUI_bu::_CreatePickupsItem()
 			assert(nullptr);
 	}
 
-	
+	return m_pTargetObj;
 }
 
-void SpawningGUI_bu::_CreateObject()
+CGameObject* SpawningGUI_bu::_CreateObject()
 {
 	UINT iLayer = (UINT)E_Layer::Object;
 	if (nullptr == m_pSpotLightPrefab) {
 		tstring path = STR_FILE_PATH_Prefab;
 		tstring totalPath = path + _T("SpotLight_bu.pref");
 		m_pSpotLightPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
-		if (nullptr == m_pSpotLightPrefab)
-			return;
+		if (nullptr == m_pSpotLightPrefab) {
+			assert(nullptr);
+			return nullptr;
+		}
 	}
+
+	if (nullptr == m_pPortalPrefab) {
+		tstring path = STR_FILE_PATH_Prefab;
+		tstring totalPath = path + _T("Portal_bu.pref");
+		m_pPortalPrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+		if (nullptr == m_pPortalPrefab) {
+			assert(nullptr);
+			return nullptr;
+		}
+	}
+
 	string objName = m_CateObjList[m_iCurObjItemIdx];
 
 	if ("spot light" == objName)
-		CObject::InstantiateEvn(m_pSpotLightPrefab, Vector3::Zero, iLayer);
+		m_pTargetObj = CObject::InstantiateEvn(m_pSpotLightPrefab, Vector3::Zero, iLayer);
+	else if ("portal" == objName)
+		m_pTargetObj = CObject::InstantiateEvn(m_pPortalPrefab, Vector3::Zero, iLayer);
+	return m_pTargetObj;
 }
 
 CGameObject* SpawningGUI_bu::_GetClickedObj(const Vector3& _vWorldPos)

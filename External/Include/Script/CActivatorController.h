@@ -4,6 +4,7 @@ class CActivatorController : public CScript
 {
 public:
 	CGameObject* m_pTargetActiveObj;
+	CGameObject* m_pTargetActive2Obj;
 
 public:
 	void Activate();

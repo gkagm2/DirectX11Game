@@ -60,12 +60,23 @@ void CInGamePanel_bu::Awake()
 	assert(m_pLaserGunBulletText		);
 	assert(m_pHpImage);
 	assert(m_pArmorImage);
+	isCallAwake = true;
+}
+
+void CInGamePanel_bu::OnEnable()
+{
+	if (!isCallAwake)
+		Awake();
+	if (!isCallStart)
+		Start();
 }
 
 void CInGamePanel_bu::Start()
 {
 	FIND_Component(m_pPlayer, CPlayerController_bu);
 	assert(m_pPlayer);
+	
+	isCallStart = true;
 }
 
 void CInGamePanel_bu::Update()

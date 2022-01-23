@@ -16,7 +16,13 @@ void CTargetLookAt_bu::Awake()
 
 void CTargetLookAt_bu::Update()
 {
-	if (!m_pTargetObj) {
+	if (!m_pTargetObj || m_pTargetObj->IsDead()) {
+		m_pTargetObj = nullptr;
+		return;
+	}
+		
+
+	if(nullptr == m_pTargetObj) {
 		Vector3 vPos = m_pCharacter->GetGameObject()->Transform()->GetPosition();
 		if (m_pCharacter->IsLookRight())
 			vPos.x += 10.f;
@@ -25,6 +31,6 @@ void CTargetLookAt_bu::Update()
 		Transform()->LookAt2D(vPos.XY());
 		return;
 	}
-		
-	Transform()->LookAt2D(m_pTargetObj->Transform()->GetPosition().XY());
+	else
+		Transform()->LookAt2D(m_pTargetObj->Transform()->GetPosition().XY());
 }

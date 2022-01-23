@@ -47,8 +47,12 @@ public:
 	virtual void Update() override;
 
 public:
+	virtual void DamagedMe(float _fDamage) override;
+
+public:
 	// AI Functions
 	void ChangeAIState(E_AIState_bu _eState);
+	E_AIState_bu GetCurAIState() { return m_eAIState; }
 	void AIStart();
 	void AIUpdate();
 	void AIEnd();
@@ -82,10 +86,6 @@ public:
 	void BewilderedStateInit();
 	void BewilderedStateUpdate();
 	void BewilderedStateEnd();
-
-	virtual void OnShootStart() override;
-	virtual void OnShootUpdate() override;
-	virtual void OnShootEnd() override;
 
 	virtual void OnIdleStart() override;
 	virtual void OnIdleUpdate() override;
