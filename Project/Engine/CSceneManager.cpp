@@ -127,6 +127,15 @@ void CSceneManager::ChangeSceneEvt(CScene* _pNextScene)
 	CEventManager::GetInstance()->AddEvent(evn);
 }
 
+void CSceneManager::ChangeSceneEvt(const tstring& _pNextScenePath, bool _bRelativePath)
+{
+	TEvent evn = {};
+	evn.eType = E_EventType::Change_Scene_InScript;
+	evn.lparam = (DWORD_PTR)_pNextScenePath.data();
+	evn.wparam = (DWORD_PTR)_bRelativePath;
+	CEventManager::GetInstance()->AddEvent(evn);
+}
+
 void CSceneManager::SceneLoadStart()
 {
 	m_iLoadSync = 0; // 씽크 초기화

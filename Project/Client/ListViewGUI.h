@@ -20,11 +20,9 @@ private:
 	int m_iCurItemIdx;
 	int m_iSelectIdx;
 
-
 	// »Æ¿Â
 	bool m_bIsRenderTexture;
 	CTexture* m_pPreViewTex;
-	//
 
 private:
 	void _UpdateTexture();

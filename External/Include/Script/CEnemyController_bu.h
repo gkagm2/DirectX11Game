@@ -12,9 +12,13 @@ enum class E_AIState_bu {
 };
 tstring AIStateToStr_bu(E_AIState_bu _eState);
 
+class CSoundManager_bu;
+class CGameManager_bu;
 class CEnemyController_bu : public CCharacter_bu
 {
 private:
+	CSoundManager_bu* m_pSoundMgr;
+	CGameManager_bu* m_pGameMgr;
 	CAnimator2D* m_pLegAnim;
 	CAnimator2D* m_pTorsoAnimSprite;
 

@@ -7,6 +7,8 @@ class CGameObject;
 typedef CScript* (*pLoadScript)(FILE*);
 typedef bool(*pSaveScript)(CScript*, FILE*);
 
+typedef CScene* (*pLoadScene)(const tstring&,bool);
+
 class CSceneManager : public CSingleton<CSceneManager>
 {
 	SINGLETON(CSceneManager)
@@ -20,6 +22,9 @@ public:
 	// 스크립트 컴포넌트 Save, Load를 위한 함수 포인터
 	pLoadScript m_pLoadScript;
 	pSaveScript m_pSaveScript;
+
+	// Scene Load를 위한 함수 포인터
+	pLoadScene m_pLoadSceneFunc;
 
 public:
 	void Init();
@@ -35,6 +40,7 @@ public:
 
 	void ChangeSceneModeEvt(E_SceneMode _eSceneMode); // 현재 씬의 모드 변경
 	void ChangeSceneEvt(CScene* _pNextScene);
+	void ChangeSceneEvt(const tstring& _pNextScenePath, bool _bRelativePath = true);
 	void ChangeScene(CScene* _pNextScene);
 
 	// For Multi Thread

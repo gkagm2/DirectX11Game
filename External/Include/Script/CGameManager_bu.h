@@ -21,12 +21,15 @@ private:
 	CGameObject* m_pStage2ColObj;
 	CGameObject* m_pStage3ColObj;
 
+	E_GameMode_bu m_eGameMode;
+
 public:
 	virtual void Start() override;
 	virtual void PrevUpdate() override;
 
 
 	void SetGameMode(E_GameMode_bu _eMode);
+	E_GameMode_bu GetGameMode() { return m_eGameMode ; }
 
 	void StartPlayMode();
 	void StartSuccessStopMode();

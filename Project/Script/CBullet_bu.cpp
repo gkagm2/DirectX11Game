@@ -2,6 +2,8 @@
 #include "CBullet_bu.h"
 #include "CCharacter_bu.h"
 #include "CBulletBouncingParticle_bu.h"
+#include "CFlameParticle_bu.h"
+
 
 CBullet_bu::CBullet_bu() :
 	CScript((UINT)SCRIPT_TYPE::BULLET_BU),
@@ -106,7 +108,10 @@ void CBullet_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		}
 	}
 	if (iWallLayer == pObj->GetLayer()) {
-		bWallTouched = true;
+		if (GetGameObject()->GetComponent< CFlameParticle_bu>())
+			bWallTouched = false;
+		else
+			bWallTouched = true;
 	}
 	
 

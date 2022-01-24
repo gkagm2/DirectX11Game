@@ -25,6 +25,7 @@
 #include "CExitDoorEndCol_bu.h"
 #include "CExitDoor_bu.h"
 #include "CExplosion_bu.h"
+#include "CFlameParticle_bu.h"
 #include "CGameManagerScript_sh.h"
 #include "CGameManager_bu.h"
 #include "CGameManager_ca.h"
@@ -97,6 +98,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CExitDoorEndCol_bu");
 	_vec.push_back(L"CExitDoor_bu");
 	_vec.push_back(L"CExplosion_bu");
+	_vec.push_back(L"CFlameParticle_bu");
 	_vec.push_back(L"CGameManagerScript_sh");
 	_vec.push_back(L"CGameManager_bu");
 	_vec.push_back(L"CGameManager_ca");
@@ -194,6 +196,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CExitDoor_bu;
 	if (L"CExplosion_bu" == _strScriptName)
 		return new CExplosion_bu;
+	if (L"CFlameParticle_bu" == _strScriptName)
+		return new CFlameParticle_bu;
 	if (L"CGameManagerScript_sh" == _strScriptName)
 		return new CGameManagerScript_sh;
 	if (L"CGameManager_bu" == _strScriptName)
@@ -362,6 +366,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::EXPLOSION_BU:
 		return new CExplosion_bu;
+		break;
+	case (UINT)SCRIPT_TYPE::FLAMEPARTICLE_BU:
+		return new CFlameParticle_bu;
 		break;
 	case (UINT)SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:
 		return new CGameManagerScript_sh;
@@ -600,6 +607,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::EXPLOSION_BU:
 		return L"CExplosion_bu";
+		break;
+
+	case SCRIPT_TYPE::FLAMEPARTICLE_BU:
+		return L"CFlameParticle_bu";
 		break;
 
 	case SCRIPT_TYPE::GAMEMANAGERSCRIPT_SH:

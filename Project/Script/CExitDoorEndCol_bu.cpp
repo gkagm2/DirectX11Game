@@ -19,6 +19,8 @@ void CExitDoorEndCol_bu::OnCollisionEnter2D(CCollider2D* pCol)
 			CGameManager_bu* pmgr = pGameMgr->GetComponent<CGameManager_bu>();
 			if (pmgr)
 				pmgr->SetGameMode(E_GameMode_bu::SuccessStop);
+
+			//CSceneManager::GetInstance()->ChangeSceneEvt(_T("scene\\Butcher_Combine99.scene"));
 		}
 	}
 }

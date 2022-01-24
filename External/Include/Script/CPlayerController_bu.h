@@ -2,9 +2,13 @@
 #include "CCharacter_bu.h"
 class CRigidbody2D;
 class CAnimator2D;
+class CSoundManager_bu;
+class CGameManager_bu;
 class CPlayerController_bu : public CCharacter_bu
 {
 private:
+	CSoundManager_bu* m_pSoundMgr;
+	CGameManager_bu* m_pGameMgr;
 	CRigidbody2D* m_pRigid;
 	CAnimator2D* m_pLegAnim;
 	CAnimator2D* m_pTorsoAnimSprite;

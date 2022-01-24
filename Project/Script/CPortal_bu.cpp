@@ -29,12 +29,15 @@ void CPortal_bu::Awake()
 
 	m_pLight = GetGameObject()->FindComponentInChilds<CLight2D>();
 	assert(m_pLight);
+
+	CGameObject* pGameMgrObj = FIND_GameObject(_T("GameManager"));
+	if (pGameMgrObj)
+		m_pGameMgr = pGameMgrObj->GetComponent<CGameManager_bu>();
 }
 
 void CPortal_bu::Update()
 {
-	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
-	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+	if (m_pGameMgr && m_pGameMgr->GetGameMode() != E_GameMode_bu::Play)
 		return;
 
 	/*if (!m_pPlayerObj || m_pPlayerObj->IsDead()) {

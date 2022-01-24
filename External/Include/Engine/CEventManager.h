@@ -9,6 +9,7 @@ enum class E_EventType {
 	Add_Child,
 	Unlink_Parent,
 	Change_Scene,
+	Change_Scene_InScript,
 	Chagne_ResourceKey,
 	Remove_Material,
 	Remove_Resource,
@@ -38,6 +39,8 @@ public:
 	vector<CGameObject*> m_vecCreateObj; // 생성 예정 오브젝트
 	vector<std::pair<CGameObject**,uuid*>> m_vecTargetLinkObj; // Scene Load 시 Script에서 링크 예정인 오브젝트
 	bool m_bEventHappened;				// 새로운 정보가 추가되거나 수정될 경우 true가 됨
+
+	std::function<void(const tstring&,bool)> m_pLoadSceneFunc;
 
 public:
 	void Update();

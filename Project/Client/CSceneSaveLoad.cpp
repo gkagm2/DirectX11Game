@@ -4,6 +4,7 @@
 #include <Engine\CPathManager.h>
 #include <Engine\CScene.h>
 #include <Engine\CSceneManager.h>
+#include <Engine\CEventManager.h>
 
 #include <Engine\CScript.h>
 #include <Script\CScriptMgr.h>
@@ -70,6 +71,8 @@ void CSceneSaveLoad::Init()
 
 	CSceneManager::GetInstance()->m_pSaveScript = &CSceneSaveLoad::SaveScript;
 	CSceneManager::GetInstance()->m_pLoadScript = &CSceneSaveLoad::LoadScript;
+
+	CSceneManager::GetInstance()->m_pLoadSceneFunc = &CSceneSaveLoad::LoadScene;
 }
 
 void CSceneSaveLoad::Release()
@@ -149,21 +152,15 @@ bool CSceneSaveLoad::SaveScript(CScript* _pScript, FILE* _pFile)
 
 CScript* CSceneSaveLoad::LoadScript(FILE* _pFile)
 {
-	try {
-		tstring strScriptName;
-		LoadStringFromFile(strScriptName, _pFile);
+	tstring strScriptName;
+	LoadStringFromFile(strScriptName, _pFile);
 	
-		CScript* pScript = CScriptMgr::GetScript(strScriptName);
-		if (nullptr == pScript)
-			return nullptr;
-		pScript->LoadFromScene(_pFile);
-
-		return pScript;
-	}
-	catch (std::exception e) {
-		int i = 0;
+	CScript* pScript = CScriptMgr::GetScript(strScriptName);
+	if (nullptr == pScript)
 		return nullptr;
-	}
+	pScript->LoadFromScene(_pFile);
+
+	return pScript;
 }
 
 bool CSceneSaveLoad::TestSave()

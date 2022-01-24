@@ -10,7 +10,8 @@ SINGLETON_SCRIPT_CPP(CGameManager_bu);
 
 CGameManager_bu::CGameManager_bu() :
 	CScript((UINT)SCRIPT_TYPE::GAMEMANAGER_BU),
-	m_bIsInit{false}
+	m_bIsInit{false},
+	m_eGameMode{E_GameMode_bu::Pause}
 {
 }
 
@@ -20,10 +21,10 @@ CGameManager_bu::~CGameManager_bu() {
 
 void CGameManager_bu::Start()
 {
-	CSoundManager_bu* pSoundMgr = nullptr;
-	FIND_Component(pSoundMgr, CSoundManager_bu);
-	if (pSoundMgr)
-		pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
+	CSoundManager_bu* m_pSoundMgr = nullptr;
+	FIND_Component(m_pSoundMgr, CSoundManager_bu);
+	if (m_pSoundMgr)
+		m_pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
 }
 
 void CGameManager_bu::PrevUpdate()
@@ -82,10 +83,10 @@ void CGameManager_bu::StartPlayMode()
 		pMainPanel->GetGameObject()->SetActive(false, true);
 	}
 
-	CSoundManager_bu* pSoundMgr = nullptr;
-	FIND_Component(pSoundMgr, CSoundManager_bu);
-	if (pSoundMgr)
-		pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::InGame);
+	CSoundManager_bu* m_pSoundMgr = nullptr;
+	FIND_Component(m_pSoundMgr, CSoundManager_bu);
+	if (m_pSoundMgr)
+		m_pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::InGame);
 }
 
 void CGameManager_bu::StartSuccessStopMode()
@@ -95,10 +96,10 @@ void CGameManager_bu::StartSuccessStopMode()
 	pmgr->GetContainer()->GetMainPanel()->GetGameObject()->SetActive(true, true);
 	pmgr->GetContainer()->GetInGamePanel()->GetGameObject()->SetActive(false, true);
 
-	CSoundManager_bu* pSoundMgr = nullptr;
-	FIND_Component(pSoundMgr, CSoundManager_bu);
-	if (pSoundMgr)
-		pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
+	CSoundManager_bu* m_pSoundMgr = nullptr;
+	FIND_Component(m_pSoundMgr, CSoundManager_bu);
+	if (m_pSoundMgr)
+		m_pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
 }
 
 void CGameManager_bu::StartPauseMode()
@@ -112,8 +113,8 @@ void CGameManager_bu::StartFailStopMode()
 	pmgr->GetContainer()->GetMainPanel()->GetGameObject()->SetActive(true, true);
 	pmgr->GetContainer()->GetInGamePanel()->GetGameObject()->SetActive(false, true);
 
-	CSoundManager_bu* pSoundMgr = nullptr;
-	FIND_Component(pSoundMgr, CSoundManager_bu);
-	if (pSoundMgr)
-		pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
+	CSoundManager_bu* m_pSoundMgr = nullptr;
+	FIND_Component(m_pSoundMgr, CSoundManager_bu);
+	if (m_pSoundMgr)
+		m_pSoundMgr->SetBGSound(CSoundManager_bu::E_BGSoundType::Menu);
 }

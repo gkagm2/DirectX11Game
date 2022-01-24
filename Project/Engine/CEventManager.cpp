@@ -161,7 +161,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	}
 		break;
 	case E_EventType::Unlink_Parent: { // 부모 오브젝트와 연결을 해제한다.
-		// lparam : child object		
+		// lparam : child object
 		CGameObject* pChild = (CGameObject*)_event.lparam;
 		pChild->_UnlinkParentGameObject();
 
@@ -175,6 +175,17 @@ void CEventManager::_Excute(const TEvent& _event)
 		// lparam : next Scene
 		CScene* pNextScene = (CScene*)_event.lparam;
 		CSceneManager::GetInstance()->ChangeScene(pNextScene);
+	}
+		break;
+	case E_EventType::Change_Scene_InScript: {
+		// lparam : path
+		// wparam : _bRelativePath
+		tstring* pRelativePath = (tstring*)_event.lparam;
+		bool bRelativePath = (bool)_event.wparam;
+
+		CScene* pScene = CSceneManager::GetInstance()->m_pLoadSceneFunc(*pRelativePath, bRelativePath);
+		CSceneManager::GetInstance()->ChangeScene(pScene);
+		
 	}
 		break;
 	case E_EventType::Chagne_ResourceKey: {

@@ -284,12 +284,24 @@ void CTestScene::CaptainForever()
 void CTestScene::Butcher()
 {
 	CScene* pNewScene = new CScene;
-
 	CCollisionManager::GetInstance()->ClearAllCollisionLayer();
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Wall, true);
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::Object, (UINT)E_Layer::Object, true);
 	CCollisionManager::GetInstance()->SetOnOffCollision((UINT)E_Layer::ObjectParticle, (UINT)E_Layer::Wall, true);
+
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
+
+	//CSceneManager::GetInstance()->ChangeScene(pNewScene);
+
+	//CSceneManager::GetInstance()->ChangeSceneEvt(pNewScene);
+
+	//tstring strPath = STR_DIR_PATH_Scene;
+	//strPath += _T("Butcher_Combine99.scene");
+	//CScene* pScene = CSceneSaveLoad::LoadScene(strPath);
+	//CSceneManager::GetInstance()->ChangeSceneEvt(pScene);
+
+
+	//CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Play);
 }
 
 #ifdef _SHOOTING2D_GAME

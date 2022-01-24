@@ -54,12 +54,19 @@ void CPlayerController_bu::Start()
 	for (UINT i = 0; i < (UINT)E_WeaponType_bu::End; ++i) 
 		m_pWeapon->SetUseableWeapon((E_WeaponType_bu)i, true);
 	m_pWeapon->SetVolume(1.f);
+
+	CGameObject* pSoundMgrObj = FIND_GameObject(_T("SoundManager"));
+	if (pSoundMgrObj)
+		m_pSoundMgr = pSoundMgrObj->GetComponent<CSoundManager_bu>();
+
+	CGameObject* pGameMgrObj = FIND_GameObject(_T("GameManager"));
+	if(pGameMgrObj)
+		m_pGameMgr = pGameMgrObj->GetComponent<CGameManager_bu>();
 }
 
 void CPlayerController_bu::Update()
 {
-	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
-	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+	if(m_pGameMgr && m_pGameMgr->GetGameMode() != E_GameMode_bu::Play)
 		return;
 	OnBehavior();
 	if (m_CurStateUpdateFunc)
@@ -272,7 +279,6 @@ void CPlayerController_bu::OnMoveStart()
 
 void CPlayerController_bu::OnMoveUpdate()
 {
-	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
 	if (m_pSoundMgr) {
 		m_fFootstepSoundDelTime += DT;
 		if (m_fFootstepSoundDelTime > m_fMaxFootstepSoundDelTime) {
@@ -332,6 +338,7 @@ void CPlayerController_bu::OnDeadStart()
 		if (pExp)
 			pExp->SetExplosion(vDir, 2.0f, 0.3f);
 	}
+
 	DestroyGameObjectEvn(GetGameObject());
 }
 

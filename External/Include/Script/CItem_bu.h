@@ -16,6 +16,7 @@ enum class E_ItemType_bu {
 };
 
 class CCharacter_bu;
+class CSoundManager_bu;
 class CItem_bu : public CScript
 {
 private:
@@ -25,6 +26,7 @@ private:
 	float m_fLifeTime;
 
 protected:
+	CSoundManager_bu* m_pSoundMgr;
 	CGameObject* m_pItemAnimObj;
 	CAnimator2D* m_pItemAnim;
 

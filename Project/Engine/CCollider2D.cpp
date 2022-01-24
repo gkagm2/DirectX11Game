@@ -7,6 +7,8 @@
 #include "CScript.h"
 #include "CConfigurationManager.h"
 #include "CCollisionManager.h"
+#include "CSceneManager.h"
+#include "CScene.h"
 
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
@@ -39,8 +41,13 @@ void CCollider2D::Render()
 	// 재질 세팅
 	m_pMaterial->UpdateData();
 
+	static bool Rendering = true;
+	if (InputKeyPress(E_Key::F9))
+		Rendering = !Rendering;
+
 	// 렌더링
-	m_pMesh->Render();
+	if(Rendering)
+		m_pMesh->Render();
 
 	// 메터리얼 클리어
 	m_pMaterial->Clear();

@@ -115,13 +115,20 @@ void CEnemyController_bu::Start()
 	if (E_WeaponType_bu::Chainsaw != GetWeapon()->GetCurWeaponType()) {
 		m_fMovePower = m_fMovePower * 0.5f;
 	}
+
+	CGameObject* pSoundMgrObj = FIND_GameObject(_T("SoundManager"));
+	if (pSoundMgrObj)
+		m_pSoundMgr = pSoundMgrObj->GetComponent<CSoundManager_bu>();
+
 	GetWeapon()->SetVolume(1.f);
+	CGameObject* pGameMgrObj = FIND_GameObject(_T("GameManager"));
+	if (pGameMgrObj)
+		m_pGameMgr = pGameMgrObj->GetComponent<CGameManager_bu>();
 }
 
 void CEnemyController_bu::Update()
 {
-	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
-	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+	if(m_pGameMgr && m_pGameMgr->GetGameMode() != E_GameMode_bu::Play)
 		return;
 
 	if (m_pTargetObj == nullptr || m_pTargetObj->IsDead())
@@ -479,6 +486,7 @@ void CEnemyController_bu::FollowStateInit()
 	isFireWait = false;
 	fFireDelay = 0.f;
 	fFireWait = 0.f;
+	fMaxFireWait = (rand() % 3 + 10) * 0.1f;
 }
 
 void CEnemyController_bu::FollowStateUpdate()
@@ -669,7 +677,6 @@ void CEnemyController_bu::OnMoveStart()
 
 void CEnemyController_bu::OnMoveUpdate()
 {
-	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
 	if (m_pSoundMgr) {
 		m_fFootstepSoundDelTime += DT;
 		if (m_fFootstepSoundDelTime > m_fMaxFootstepSoundDelTime) {
@@ -730,15 +737,15 @@ void CEnemyController_bu::OnDeadStart()
 		}
 	}
 	
-	
-	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
-	int iRandSound = rand() % 3;
-	if (iRandSound == 0)
-		m_pSoundMgr->m_pScream1->Play(1,1,true);
-	else if (iRandSound == 1)
-		m_pSoundMgr->m_pScream2->Play(1,1,true);
-	else if (iRandSound == 2)
-		m_pSoundMgr->m_pScream3->Play(1,1,true);
+	if (m_pSoundMgr) {
+		int iRandSound = rand() % 3;
+		if (iRandSound == 0)
+			m_pSoundMgr->m_pScream1->Play(1, 1, true);
+		else if (iRandSound == 1)
+			m_pSoundMgr->m_pScream2->Play(1, 1, true);
+		else if (iRandSound == 2)
+			m_pSoundMgr->m_pScream3->Play(1, 1, true);
+	}
 
 	DestroyGameObjectEvn(GetGameObject()); 
 }

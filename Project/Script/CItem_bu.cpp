@@ -47,6 +47,10 @@ void CItem_bu::Awake()
 	assert(m_pItemAnimObj);
 	m_pItemAnim = m_pItemAnimObj->Animator2D();
 	assert(m_pItemAnim);
+
+	CGameObject* pSoundMgrObj = FIND_GameObject(_T("SoundManager"));
+	if (pSoundMgrObj)
+		m_pSoundMgr = pSoundMgrObj->GetComponent<CSoundManager_bu>();
 }
 
 void CItem_bu::Update()
@@ -68,9 +72,8 @@ void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();
 		Interact(pchar);
-		CSoundManager_bu* pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
-		if (pSoundMgr)
-			pSoundMgr->m_pPickupItem->Play(1, 1, true);
+		if (m_pSoundMgr)
+			m_pSoundMgr->m_pPickupItem->Play(1, 1, true);
 		CObject::DestroyGameObjectEvn(GetGameObject());
 	}
 }
