@@ -4,6 +4,12 @@
 #include "CInteractiveObj_bu.h"
 #include "CCameraFollowerScript.h"
 #include "CExplosion_bu.h"
+
+#include "CUIManager_bu.h"
+#include "CUIContainer_bu.h"
+#include "CInGamePanel_bu.h"
+#include "CSoundManager_bu.h"
+
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
 	m_pRigid(nullptr),
@@ -53,6 +59,11 @@ void CPlayerController_bu::Update()
 	OnBehavior();
 	if (m_CurStateUpdateFunc)
 		m_CurStateUpdateFunc();
+
+
+	if (InputKeyPress(E_Key::P)) {
+		DamagedMe(10);
+	}
 }
 
 void CPlayerController_bu::OnCollisionStay2D(CCollider2D* pCol)
@@ -163,8 +174,18 @@ void CPlayerController_bu::OnBehavior()
 		}
 	}
 
-	if (isWeaponSwap)
+	if (isWeaponSwap) {
 		ChangeWeapon((E_WeaponType_bu)iWeaponIdx);
+		E_WeaponType_bu eType = GetWeapon()->GetCurWeaponType();
+		tstring strGunName = WeaponTypeToStr_bu(eType);
+		CGameObject* pUIMgrObj = FIND_GameObject(_T("UIManager"));
+		if (pUIMgrObj) {
+			CUIManager_bu* pUiMgr = pUIMgrObj->GetComponent<CUIManager_bu>();
+			if(pUiMgr->GetContainer()->GetInGamePanel()->IsActive())
+				pUiMgr->GetContainer()->GetInGamePanel()->ChangeGunName(strGunName);
+		}
+	}
+		
 
 
 	// 각도에 따라서 상체 애니메이션을 다르게 한다.
@@ -239,8 +260,23 @@ void CPlayerController_bu::OnMoveStart()
 	m_pLegAnim->Play(_T("Player_Walk_bu"), E_AnimationState::Loop);
 }
 
+
 void CPlayerController_bu::OnMoveUpdate()
 {
+	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+	if (m_pSoundMgr) {
+		m_fFootstepSoundDelTime += DT;
+		if (m_fFootstepSoundDelTime > m_fMaxFootstepSoundDelTime) {
+			int iRand = rand() % 3;
+			if (iRand == 0)
+				m_pSoundMgr->m_pFootStep1->Play(1, 1, true);
+			else if (iRand == 1)
+				m_pSoundMgr->m_pFootStep2->Play(1, 1, true);
+			else if (iRand == 2)
+				m_pSoundMgr->m_pFootStep3->Play(1, 1, true);
+			m_fFootstepSoundDelTime = 0.f;
+		}
+	}
 }
 
 void CPlayerController_bu::OnMoveEnd()

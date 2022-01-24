@@ -325,6 +325,9 @@
     <ClInclude Include="CPortal_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CLineRenderingTestScript.h">
+      <Filter>Games\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -531,6 +534,9 @@
     <ClCompile Include="CSoundManager_bu.cpp" />
     <ClCompile Include="CPortal_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLineRenderingTestScript.cpp">
+      <Filter>Games\Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

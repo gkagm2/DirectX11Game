@@ -24,7 +24,9 @@ CCharacter_bu::CCharacter_bu() :
 	m_bCanJump{ false },
 	m_fJumpCoolTime{ 0.f },
 	m_fJumpMaxCoolTime{0.3f},
-	m_pBodyPartPref{ nullptr }
+	m_pBodyPartPref{ nullptr },
+	m_fFootstepSoundDelTime{ 0.f },
+	m_fMaxFootstepSoundDelTime{0.3f}
 {
 }
 
@@ -49,7 +51,9 @@ CCharacter_bu::CCharacter_bu(UINT _iScriptType) :
 	m_bCanJump{false},
 	m_fJumpCoolTime{ 0.f },
 	m_fJumpMaxCoolTime{ 0.3f },
-	m_pBodyPartPref{ nullptr }
+	m_pBodyPartPref{ nullptr },
+	m_fFootstepSoundDelTime{ 0.f },
+	m_fMaxFootstepSoundDelTime{ 0.3f }
 {
 }
 
@@ -79,12 +83,11 @@ void CCharacter_bu::Awake()
 	tstring strPath = STR_DIR_PATH_Prefab;
 	strPath = strPath +_T("BodyPart_bu") + STR_EXTENSION_Prefab;
 	m_pBodyPartPref = CResourceManager::GetInstance()->FindRes<CPrefab>(strPath);
-		if (nullptr == m_pBodyPartPref) {
-			m_pBodyPartPref = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("BodyPart_bu"));
-			if (nullptr == m_pBodyPartPref)
-				assert(nullptr);
-		}
-	
+	if (nullptr == m_pBodyPartPref) {
+		m_pBodyPartPref = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("BodyPart_bu"));
+		if (nullptr == m_pBodyPartPref)
+			assert(nullptr);
+	}
 }
 
 void CCharacter_bu::PrevUpdate()
@@ -170,14 +173,20 @@ void CCharacter_bu::DamagedMe(float _fDamage)
 	// armor가 존재하면
 	float fDamage = _fDamage;
 	if (m_fArmor > 0.f) {
-		m_fArmor = m_fArmor - _fDamage;
-		if (m_fArmor < 0.f) {
-			fDamage = fabsf(m_fArmor);
+		if (m_fArmor >= _fDamage) {
+			m_fArmor = m_fArmor - _fDamage;
+			fDamage = 0.f;
+		}
+		else {// 데미지가 더 크면
+			fDamage = fabsf(_fDamage - m_fArmor);
 			m_fArmor = 0.f;
 		}
 	}
-	m_fHp = m_fHp - fDamage;
-	m_fHp = max(m_fHp, 0.f);
+	if (fDamage > 0) {
+		m_fHp = m_fHp - fDamage;
+		m_fHp = max(m_fHp, 0.f);
+	}
+
 	if (0.f == m_fHp) {
 		ChangeState(E_CharacterState::Dead);
 	}

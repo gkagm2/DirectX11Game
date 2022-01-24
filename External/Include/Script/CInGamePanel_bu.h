@@ -22,6 +22,7 @@ private:
 	CGameObject*	m_pLaserGunBulletTextObj;
 	CGameObject* m_pHpImageObj;
 	CGameObject* m_pArmorImageObj;
+	CGameObject* m_pGunNameTextObj;
 
 private:
 	CImageUI*		m_pGunImage;
@@ -38,15 +39,23 @@ private:
 	CTextUI*		m_pLaserGunBulletText;
 	CImageUI*		m_pHpImage;
 	CImageUI*		m_pArmorImage;
+	CTextUI*		m_pGunNameText;
 
 private:
 	class CPlayerController_bu* m_pPlayer;
+
+	float m_fGunNameShowTime;
+	float m_fGunNameMaxShowTime;
+	tstring m_strGunName;
 
 public:
 	virtual void Awake() override;
 	virtual void OnEnable() override;
 	virtual void Start() override;
 	virtual void Update() override;
+
+public:
+	void ChangeGunName(const tstring& _strName);
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

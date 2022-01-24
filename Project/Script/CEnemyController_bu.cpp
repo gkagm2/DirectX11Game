@@ -6,22 +6,26 @@
 #include <Engine\CObjectManager.h>
 #include "CExplosion_bu.h"
 #include "CTargetLookAt_bu.h"
+#include "CSoundManager_bu.h"
+
+int iPathFindCol = 120;
+int iPathFindRow = 35;
 
 CEnemyController_bu::CEnemyController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::ENEMYCONTROLLER_BU),
 	m_pTargetObj{},
 	m_eAIState(E_AIState_bu::Wander),
 	m_fTargetFindTime(1.f),
-	m_fMaxTargetFindTime(1.0f),
+	m_fMaxTargetFindTime(0.6f),
 	m_pEmoticonObj{ nullptr },
 	m_pEmoticonAnim{ nullptr },
 	m_pTargetLookAt{ nullptr },
-	m_fMaxDetectDistance{ 5.f }
+	m_fMaxDetectDistance{ 7.f }
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
-	m_pPathFind->SetColRow(150, 150);
-	m_pPathFind->SetOriginPos(Vector2(-75.f, -75.f));
+	m_pPathFind->SetColRow(iPathFindCol, iPathFindRow);
+	m_pPathFind->SetOriginPos(Vector2(0.5f, 0.5f));
 	// 장애물에 collider가 있는지 확인한다.
 }
 
@@ -34,12 +38,12 @@ CEnemyController_bu::CEnemyController_bu(const CEnemyController_bu& _origin) :
 	m_pEmoticonObj{ nullptr },
 	m_pEmoticonAnim{ nullptr },
 	m_pTargetLookAt{ nullptr },
-	m_fMaxDetectDistance{ 5.f }
+	m_fMaxDetectDistance{ 7.f }
 {
 	AddParam(TScriptParam{ _T("Cur AI State"), E_ScriptParam::STRING_PRINT, &strAIStateName });
 	m_pPathFind = new CPathFind2D;
-	m_pPathFind->SetColRow(150, 150);
-	m_pPathFind->SetOriginPos(Vector2(-75.f, -75.f));
+	m_pPathFind->SetColRow(iPathFindCol, iPathFindRow);
+	m_pPathFind->SetOriginPos(Vector2(0.5f, 0.5f));
 	// 장애물에 collider가 있는지 확인한다.
 }
 
@@ -78,35 +82,39 @@ void CEnemyController_bu::Awake()
 
 	m_pTargetObj = FIND_GameObject(_T("Player"));
 	assert(m_pTargetObj);
-	SetHp(20.f);
-	SetArmor(0.f);
+
+	vector<CGameObject*> vecWallObjs;
+	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecWallObjs, (UINT)E_Layer::Wall);
+	for (int i = 0; i < iPathFindRow; ++i) {
+		for (int j = 0; j < iPathFindCol; ++j) {
+			for (int m = 0; m < vecWallObjs.size(); ++m) {
+				if (vecWallObjs[m]->Collider2D()) {
+					bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3(j, i, 0));
+					if (isCol) {
+						if (!m_pPathFind->IsObstacle(Vector2(j, i))) {
+							m_pPathFind->AddObstacleTile(Vector2(j, i));
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void CEnemyController_bu::Start()
 {
-	vector<CGameObject*> vecWallObjs;
-	CSceneManager::GetInstance()->GetCurScene()->GetGameObjects(vecWallObjs, (UINT)E_Layer::Object);
-	//for (int i = -75; i < 75; ++i) {
-	//	for (int j = -75; j < 75; ++j) {
-	//		for (int m = 0; m < vecWallObjs.size(); ++m) {
-	//			if (vecWallObjs[m]->GetTag() == (UINT)E_Tag::Wall) {
-	//				bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3(j, i, 0));
-	//				if (isCol) {
-	//					if (!m_pPathFind->IsObstacle(Vector2(j, i))) {
-	//						//m_pPathFind->AddObstacleTile(Vector2(j, i));
-	//						//CGameObject* pObj = CObjectManager::GetInstance()->Create2DRectGameObject();
-	//						//pObj->Transform()->SetLocalPosition(Vector3(j, i, 0));
-	//						break;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+	SetHp(20.f);
+	SetArmor(0.f);
+
 	AIStart();
 
 	TWeaponInfo_bu& tWeaponInfo =  m_pWeapon->GetCurWeapon();
 	tWeaponInfo.bInfinity = true;
+	if (E_WeaponType_bu::Chainsaw != GetWeapon()->GetCurWeaponType()) {
+		m_fMovePower = m_fMovePower * 0.5f;
+	}
+	
 }
 
 void CEnemyController_bu::Update()
@@ -226,6 +234,15 @@ void CEnemyController_bu::DamagedMe(float _fDamage)
 		ChangeAIState(E_AIState_bu::Stun);
 }
 
+void CEnemyController_bu::Jump()
+{
+	if (m_bCanJump) {
+		m_bJump = true;
+		ChangeState(E_CharacterState::Jump);
+		m_fJumpCoolTime = 0.f;
+	}
+}
+
 void CEnemyController_bu::AIStart()
 {
 	ChangeAIState(E_AIState_bu::Wander);
@@ -235,17 +252,6 @@ void CEnemyController_bu::AIUpdate()
 {
 	if(m_CurAIStateUpdateFunc)
 		m_CurAIStateUpdateFunc();
-
-	if (m_pTargetObj) {
-		Vector3 vTargePos = m_pTargetObj->Transform()->GetPosition();
-		Vector3 vMyPos = Transform()->GetPosition();
-		float fDis = Vector3::Distance(vTargePos, vMyPos);
-
-		if (fDis <= m_fMaxDetectDistance) {
-			if(E_AIState_bu::Follow != GetCurAIState())
-				ChangeAIState(E_AIState_bu::Follow);
-		}
-	}
 }
 
 void CEnemyController_bu::AIEnd()
@@ -325,59 +331,63 @@ void CEnemyController_bu::WanderStateUpdate()
 		vector<CGameObject*>& vecWayPoints = pWPObj->GetChildsObject();
 		if (vecWayPoints.empty()) {
 			//ChangeState(E_CharacterState::Idle);
-			return;
 		}
 	}
 	else {
 		pWPObj = FIND_GameObject(BUTCHER_ObjName_WayPoint_bu);
 		//ChangeState(E_CharacterState::Idle);
-		return;
 	}
-	vector<CGameObject*>& vecWayPoints = pWPObj->GetChildsObject();
+	if (pWPObj) {
+		vector<CGameObject*>& vecWayPoints = pWPObj->GetChildsObject();
+		if (!vecWayPoints.empty()) {
+			Vector3 vMyPos = Transform()->GetPosition();
+			if (!m_pPathFind)
+				return;
+			bool isArriveDestination = false;
+			m_fTargetFindTime += DT;
 
-	// path finding test
-	
-	Vector3 vMyPos = Transform()->GetPosition();
-	if (!m_pPathFind)
-		return;
-	bool isArriveDestination = false;
-	m_fTargetFindTime += DT;
+			if (m_fTargetFindTime > m_fMaxTargetFindTime) {
+				Vector3 vTargetPos = vecWayPoints[iCurWayPointIdx]->Transform()->GetPosition();
 
-	if(m_fTargetFindTime > m_fMaxTargetFindTime) {
-		Vector3 vTargetPos = vecWayPoints[iCurWayPointIdx]->Transform()->GetPosition();
+				m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
+				m_fTargetFindTime = 0.f;
+			}
 
-		m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
-		m_fTargetFindTime = 0.f;
-	}
-		
-	list<Vector2>& listNextPath = m_pPathFind->GetPath();
-	if (!listNextPath.empty()) {
-		Vector2 vNextPath = m_pPathFind->GetNextPath();
-		Vector3 vNextPos = Vector3(vNextPath.x, vNextPath.y, vMyPos.z);
-		Vector3 vMoveDir = vNextPos - vMyPos;
-		vMoveDir.Normalize();
-		Vector3 vForce = vMoveDir * m_fMovePower;
-		Rigidbody2D()->AddForce(vForce);
+			list<Vector2>& listNextPath = m_pPathFind->GetPath();
+			if (!listNextPath.empty()) {
+				Vector2 vNextPath = m_pPathFind->GetNextPath();
+				Vector3 vNextPos = Vector3(vNextPath.x, vNextPath.y, vMyPos.z);
+				Vector3 vMoveDir = vNextPos - vMyPos;
+				vMoveDir.Normalize();
+				Vector3 vForce = vMoveDir * m_fMovePower;
 
-		if (vForce.x > 0)
-			_SetLookRightState(true);
-		else
-			_SetLookRightState(false);
-		float vDis = Vector2::Distance(vNextPath, Transform()->GetPosition().XY());
-		if (vDis < 0.7f) {
-			listNextPath.pop_front();
+				float fDegree = CMyMath::VectorToDegree(vMoveDir.XY());
+				bool bLookingUp = fDegree >= 45.f && fDegree <= 135.f;
+				if (bLookingUp)
+					Jump();
+				vForce.z = 0.f;
+				Rigidbody2D()->AddForce(vForce);
+
+				if (vForce.x > 0)
+					_SetLookRightState(true);
+				else
+					_SetLookRightState(false);
+				float vDis = Vector2::Distance(vNextPath, Transform()->GetPosition().XY());
+				if (vDis < 0.7f) {
+					listNextPath.pop_front();
+				}
+			}
+			else {
+				++iCurWayPointIdx;
+				iCurWayPointIdx = (iCurWayPointIdx) % vecWayPoints.size();
+				Vector3 vTargetPos = vecWayPoints[iCurWayPointIdx]->Transform()->GetPosition();
+
+				m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
+				m_fTargetFindTime = 0.f;
+			}
 		}
 	}
-	else {
-		++iCurWayPointIdx;
-		iCurWayPointIdx = (iCurWayPointIdx) % vecWayPoints.size();
-		Vector3 vTargetPos = vecWayPoints[iCurWayPointIdx]->Transform()->GetPosition();
-		
-		m_pPathFind->FindPath(vMyPos.XY(), vTargetPos.XY());
-		m_fTargetFindTime = 0.f;
-	}
-
-	{
+	if (m_pTargetObj) {
 		Vector3 vTargetPos = m_pTargetObj->Transform()->GetPosition();
 		Vector3 vMyPos = Transform()->GetPosition();
 		vTargetPos.z = 0.f;
@@ -421,7 +431,7 @@ void CEnemyController_bu::StunStateUpdate()
 {
 	fStunTime += DT;
 	if (fStunTime > fMaxStunTime) {
-		ChangeAIState(E_AIState_bu::Follow);
+		ChangeAIState(E_AIState_bu::Notice);
 	}
 }
 
@@ -500,12 +510,9 @@ void CEnemyController_bu::FollowStateUpdate()
 			// 다음 경로의 위치를 구한다.
 			Vector2 vNextPath = m_pPathFind->GetNextPath();
 			Vector3 vNextPos = Vector3(vNextPath.x, vNextPath.y, vMyPos.z);
+
 			Vector3 vMoveDir = vNextPos - vMyPos;
 			vMoveDir.Normalize();
-
-			Vector3 vForce = vMoveDir * m_fMovePower;
-			vForce.y = 0.f;
-
 
 			// 무기에 따라서 움직일지 안움직일지 결정한다.
 			bool go = false;
@@ -521,6 +528,13 @@ void CEnemyController_bu::FollowStateUpdate()
 			}
 
 			if (go) {
+				Vector3 vForce = vMoveDir * m_fMovePower;
+				float fDegree = CMyMath::VectorToDegree(vMoveDir.XY());
+				bool bLookingUp = fDegree >= 45.f && fDegree <= 135.f;
+				if (bLookingUp)
+					Jump();
+
+				vForce.y = 0.f;
 				Vector3 vForceDir = Vector3(vMoveDir.x, 0.f, 0.f);
 				vForceDir.Normalize();
 				Rigidbody2D()->AddForce(vForceDir * m_fMovePower);
@@ -532,7 +546,7 @@ void CEnemyController_bu::FollowStateUpdate()
 
 
 			// 이미지 방향을 바꾼다.
-			if (vForce.x > 0)
+			if (vMoveDir.x > 0)
 				_SetLookRightState(true);
 			else
 				_SetLookRightState(false);
@@ -582,15 +596,14 @@ void CEnemyController_bu::FollowStateEnd()
 }
 
 float fKeepNoticeTime = 0.f;
-float fMaxKeepNoticeTime = 1.f;
+float fMaxKeepNoticeTime = 1.5f;
 void CEnemyController_bu::NoticeStateInit()
 {
 	m_pEmoticonObj->SetActive(true);
-	m_pEmoticonAnim->Play(BUTCHER_AnimName_EmoticonSuprise, E_AnimationState::Once, true);
+	m_pEmoticonAnim->Play(BUTCHER_AnimName_EmoticonSuprise, E_AnimationState::Loop, true);
 	ChangeState(E_CharacterState::Idle);
 
 	fKeepNoticeTime = 0.f;
-	fMaxKeepNoticeTime = 1.f;
 }
 
 void CEnemyController_bu::NoticeStateUpdate()
@@ -651,6 +664,20 @@ void CEnemyController_bu::OnMoveStart()
 
 void CEnemyController_bu::OnMoveUpdate()
 {
+	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+	if (m_pSoundMgr) {
+		m_fFootstepSoundDelTime += DT;
+		if (m_fFootstepSoundDelTime > m_fMaxFootstepSoundDelTime) {
+			int iRand = rand() % 3;
+			if (iRand == 0)
+				m_pSoundMgr->m_pFootStep1->Play(1, 0.5f, true);
+			else if (iRand == 1)
+				m_pSoundMgr->m_pFootStep2->Play(1, 0.5f, true);
+			else if (iRand == 2)
+				m_pSoundMgr->m_pFootStep3->Play(1, 0.5f, true);
+			m_fFootstepSoundDelTime = 0.f;
+		}
+	}
 }
 
 void CEnemyController_bu::OnMoveEnd()
@@ -698,6 +725,16 @@ void CEnemyController_bu::OnDeadStart()
 		}
 	}
 	
+	
+	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+	int iRandSound = rand() % 3;
+	if (iRandSound == 0)
+		m_pSoundMgr->m_pScream1->Play(1,1,true);
+	else if (iRandSound == 1)
+		m_pSoundMgr->m_pScream2->Play(1,1,true);
+	else if (iRandSound == 2)
+		m_pSoundMgr->m_pScream3->Play(1,1,true);
+
 	DestroyGameObjectEvn(GetGameObject()); 
 }
 

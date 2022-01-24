@@ -230,6 +230,9 @@
     <ClInclude Include="CPathFind2D.h">
       <Filter>Engine\11. Functions</Filter>
     </ClInclude>
+    <ClInclude Include="CLine.h">
+      <Filter>Engine\07. Component\Transform\InnerClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -439,6 +442,9 @@
     <ClCompile Include="CCursor.cpp" />
     <ClCompile Include="CPathFind2D.cpp">
       <Filter>Engine\11. Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="CLine.cpp">
+      <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

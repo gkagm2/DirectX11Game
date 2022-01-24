@@ -2,6 +2,7 @@
 #include "CItem_bu.h"
 #include "CPlayerController_bu.h"
 #include "CCharacter_bu.h"
+#include "CSoundManager_bu.h"
 
 CItem_bu::CItem_bu() :
 	CScript((UINT)SCRIPT_TYPE::ITEM_BU),
@@ -67,6 +68,9 @@ void CItem_bu::OnCollisionEnter2D(CCollider2D* _pOther)
 		CPlayerController_bu* pctr = _pOther->GetGameObject()->GetComponent<CPlayerController_bu>();
 		CCharacter_bu* pchar = _pOther->GetGameObject()->GetComponent<CCharacter_bu>();
 		Interact(pchar);
+		CSoundManager_bu* pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+		if (pSoundMgr)
+			pSoundMgr->m_pPickupItem->Play(1, 1, true);
 		CObject::DestroyGameObjectEvn(GetGameObject());
 	}
 }

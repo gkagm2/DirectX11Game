@@ -3,11 +3,11 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 
-//const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
-//const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
+const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, 1, -1, 1, -1 };
+const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, 1, 1, -1, -1 };
 
-const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, };
-const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, };
+//const int CPathFind2D::m_iDirX[] = { 1, 0, -1, 0, };
+//const int CPathFind2D::m_iDirY[] = { 0, 1, 0, -1, };
 const int dirCnt = 4;
 
 CPathFind2D::CPathFind2D()
@@ -83,6 +83,10 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 	const Vector2& vecOriginMin =  GetOffsetPos();
 	Vector2 vStart = start + vecOriginMin;
 	Vector2 vDest = dest + vecOriginMin;
+	vStart.x = round(vStart.x);
+	vStart.y = round(vStart.y);
+	vDest.x = round(vDest.x);
+	vDest.y = round(vDest.y);
 	m_bFoundDestination = false;
 	if (false == IsValid(vStart.x, vStart.y))
 		return false;

@@ -2,6 +2,7 @@
 #include "CWeapon_bu.h"
 #include "CBullet_bu.h"
 #include "CCharacter_bu.h"
+#include "CSoundManager_bu.h"
 
 tstring CWeapon_bu::m_strExplain = _T("0 : Chainsaw\n1 : Shotgun\n2 : MachineGun\n3 : FlameThrower\n4 : GrenadeLauncher\n5 : LaserGun");
 
@@ -127,6 +128,9 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
 			--GetCurWeapon().iCurBullet;
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
+
+			static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+			m_pSoundMgr->m_pMachinegun->Play(1,1,true);
 		}
 		else if (m_eCurType == E_WeaponType_bu::Shotgun) {
 			const int iShotgunBulletCnt = 8;
@@ -147,6 +151,9 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			}
 			--GetCurWeapon().iCurBullet;
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
+
+			static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+			m_pSoundMgr->m_pShotgun->Play(1,1,true);
 		}
 		else {
 			// TODO :

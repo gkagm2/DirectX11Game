@@ -52,6 +52,12 @@ protected:
 	SharedPtr<CPrefab> m_pBodyPartPref;
 	Vector3 m_vBodySplitDir;
 
+
+	// sound
+	float m_fFootstepSoundDelTime;
+	float m_fMaxFootstepSoundDelTime;
+
+
 public:
 	virtual void Awake() override;
 	virtual void PrevUpdate() override;

@@ -23,7 +23,10 @@ void CChainsaw_bu::OnCollisionEnter2D(CCollider2D* _pCol)
 		}
 		if ((UINT)GetGameObject()->GetTag() == (UINT)E_Tag::Player_Bullet && isEnemyTag) {
 			CCharacter_bu* pChar = pObj->GetComponent<CCharacter_bu>();
-			pChar->SetBodySplitDir(Vector3::Zero);
+			if(rand()%2 == 0)
+				pChar->SetBodySplitDir(Vector3::Zero);
+			else
+				pChar->SetBodySplitDir(Transform()->GetRightVector());
 			pChar->DamagedMe(m_fDamaged);
 		}
 	}

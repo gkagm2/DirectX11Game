@@ -80,9 +80,9 @@ void CTileMapGrid::AddBuffer(const Vector3& _vPos1, const Vector3& _vPos2)
 	m_vecVtx.push_back(vertex);
 	m_vecIdx.push_back(1);
 
-	CMesh* m_pMesh = new CMesh;
-	m_pMesh->Create(m_vecVtx.data(), sizeof(VTX) * (UINT)m_vecVtx.size(), m_vecIdx.data(), sizeof(UINT) * (UINT)m_vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	m_vecMesh.push_back(m_pMesh);
+	CMesh* pMesh = new CMesh;
+	pMesh->Create(m_vecVtx.data(), sizeof(VTX) * (UINT)m_vecVtx.size(), m_vecIdx.data(), sizeof(UINT) * (UINT)m_vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	m_vecMesh.push_back(pMesh);
 
 	m_vecVtx.clear();
 	m_vecIdx.clear();
@@ -96,8 +96,7 @@ void CTileMapGrid::Clear()
 void CTileMapGrid::UpdateData()
 {
 	m_pMtrl->SetData(E_ShaderParam::Vector4_0, &m_vGridColor);
-
 	m_pMtrl->UpdateData();
-	for (int i = 0; i < m_vecMesh.size(); ++i)
+	for (size_t i = 0; i < m_vecMesh.size(); ++i)
 		m_vecMesh[i]->Render(); // TODO (Jang) : Instancing Rendering을 바꾸기
 }

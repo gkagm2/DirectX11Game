@@ -48,6 +48,7 @@ public:
 
 public:
 	virtual void DamagedMe(float _fDamage) override;
+	void Jump();
 
 public:
 	// AI Functions

@@ -38,6 +38,7 @@ CItemWeapon_bu
 CItem_bu
 CKeyControllerScript_ca
 CLaserScript_ca
+CLineRenderingTestScript
 CLookAt2DScript
 CLookAtScript
 CMainPanel_bu

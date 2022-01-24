@@ -249,18 +249,22 @@ void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
 				for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 					if (m_arrComponent[i])
 						if (m_arrComponent[i]->IsActive()) {
-							if (_bActive)
-								m_arrComponent[i]->OnEnable();
-							else
-								m_arrComponent[i]->OnDisable();
+							if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+								if (_bActive)
+									m_arrComponent[i]->OnEnable();
+								else
+									m_arrComponent[i]->OnDisable();
+							}
 						}
 				}
 				for (size_t i = 0; i < m_vecScript.size(); ++i) {
-					if (m_vecScript[i]->IsActive()) {
-						if (_bActive)
-							m_vecScript[i]->OnEnable();
-						else
-							m_vecScript[i]->OnDisable();
+					if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+						if (m_vecScript[i]->IsActive()) {
+							if (_bActive)
+								m_vecScript[i]->OnEnable();
+							else
+								m_vecScript[i]->OnDisable();
+						}
 					}
 				}
 				const vector<CGameObject*>& vecChilds = GetChildsObject();
@@ -292,18 +296,22 @@ void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
 			for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 				if (m_arrComponent[i])
 					if (m_arrComponent[i]->IsActive()) {
-						if (_bActive)
-							m_arrComponent[i]->OnEnable();
-						else
-							m_arrComponent[i]->OnDisable();
+						if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+							if (_bActive)
+								m_arrComponent[i]->OnEnable();
+							else
+								m_arrComponent[i]->OnDisable();
+						}
 					}
 			}
 			for (size_t i = 0; i < m_vecScript.size(); ++i) {
 				if (m_vecScript[i]->IsActive()) {
-					if (_bActive)
-						m_vecScript[i]->OnEnable();
-					else
-						m_vecScript[i]->OnDisable();
+					if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+						if (_bActive)
+							m_vecScript[i]->OnEnable();
+						else
+							m_vecScript[i]->OnDisable();
+					}
 				}
 			}
 		}
@@ -315,24 +323,27 @@ void CGameObject::SetActive(bool _bActive, bool _bWithChilds)
 				for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 					if (m_arrComponent[i])
 						if (m_arrComponent[i]->IsActive()) {
-							if (_bActive)
-								m_arrComponent[i]->OnEnable();
-							else
-								m_arrComponent[i]->OnDisable();
+							if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+								if (_bActive)
+									m_arrComponent[i]->OnEnable();
+								else
+									m_arrComponent[i]->OnDisable();
+							}
 						}
 				}
 				for (size_t i = 0; i < m_vecScript.size(); ++i) {
 					if (m_vecScript[i]->IsActive()) {
-						if (_bActive)
-							m_vecScript[i]->OnEnable();
-						else
-							m_vecScript[i]->OnDisable();
+						if (CSceneManager::GetInstance()->GetSceneMode() == E_SceneMode::Play) {
+							if (_bActive)
+								m_vecScript[i]->OnEnable();
+							else
+								m_vecScript[i]->OnDisable();
+						}
 					}
 				}
 				const vector<CGameObject*>& vecChilds = GetChildsObject();
 				for (size_t i = 0; i < vecChilds.size(); ++i)
 					vecChilds[i]->SetActive(_bActive, _bWithChilds);
-
 			}
 			else { // 오브젝트를 disable하게 함.
 				list<CGameObject*> que;
