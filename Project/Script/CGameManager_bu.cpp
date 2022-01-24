@@ -50,6 +50,7 @@ void CGameManager_bu::PrevUpdate()
 
 void CGameManager_bu::SetGameMode(E_GameMode_bu _eMode)
 {
+	m_eGameMode = _eMode;
 	switch (_eMode) {
 	case E_GameMode_bu::Play:
 		StartPlayMode();

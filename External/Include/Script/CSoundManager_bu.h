@@ -24,6 +24,13 @@ public:
 	SharedPtr<CSound> m_pFootStep2;
 	SharedPtr<CSound> m_pFootStep3;
 
+	SharedPtr<CSound> m_pWeaponReady;
+	SharedPtr<CSound> m_pChainsawReady;
+	SharedPtr<CSound> m_pChainsawIdle;
+	SharedPtr<CSound> m_pChainsawAttackStart;
+	SharedPtr<CSound> m_pChainsawAttacking;
+	SharedPtr<CSound> m_pChainsawStopping;
+
 
 public:
 	virtual void Awake() override;

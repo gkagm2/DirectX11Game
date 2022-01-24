@@ -9,6 +9,7 @@
 #include "CUIContainer_bu.h"
 #include "CInGamePanel_bu.h"
 #include "CSoundManager_bu.h"
+#include "CGameManager_bu.h"
 
 CPlayerController_bu::CPlayerController_bu() :
 	CCharacter_bu((UINT)SCRIPT_TYPE::PLAYERCONTROLLER_BU),
@@ -52,10 +53,14 @@ void CPlayerController_bu::Start()
 	// Test Code
 	for (UINT i = 0; i < (UINT)E_WeaponType_bu::End; ++i) 
 		m_pWeapon->SetUseableWeapon((E_WeaponType_bu)i, true);
+	m_pWeapon->SetVolume(1.f);
 }
 
 void CPlayerController_bu::Update()
 {
+	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
+	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+		return;
 	OnBehavior();
 	if (m_CurStateUpdateFunc)
 		m_CurStateUpdateFunc();
@@ -96,6 +101,7 @@ void CPlayerController_bu::OnBehavior()
 {
 	bool isMove = false;
 	bool isAttack = false;
+	bool isReleaseAttack = false;
 
 	bool isWeaponSwap = false;
 	int iWeaponIdx = 0;
@@ -118,9 +124,10 @@ void CPlayerController_bu::OnBehavior()
 		}
 	}
 
-	if (InputKeyHold(E_Key::LBUTTON)) {
+	if (InputKeyHold(E_Key::LBUTTON))
 		isAttack = true;
-	}
+	if (InputKeyRelease(E_Key::LBUTTON))
+		isReleaseAttack = true;
 
 	// Weapon Swap
 	for (int i = 0; i < (UINT)E_WeaponType_bu::End; ++i) {
@@ -173,6 +180,8 @@ void CPlayerController_bu::OnBehavior()
 			}
 		}
 	}
+	if (isReleaseAttack)
+		m_pWeapon->ReleaseFire();
 
 	if (isWeaponSwap) {
 		ChangeWeapon((E_WeaponType_bu)iWeaponIdx);

@@ -7,6 +7,7 @@
 #include "CExplosion_bu.h"
 #include "CTargetLookAt_bu.h"
 #include "CSoundManager_bu.h"
+#include "CGameManager_bu.h"
 
 int iPathFindCol = 120;
 int iPathFindRow = 35;
@@ -114,11 +115,15 @@ void CEnemyController_bu::Start()
 	if (E_WeaponType_bu::Chainsaw != GetWeapon()->GetCurWeaponType()) {
 		m_fMovePower = m_fMovePower * 0.5f;
 	}
-	
+	GetWeapon()->SetVolume(1.f);
 }
 
 void CEnemyController_bu::Update()
 {
+	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
+	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+		return;
+
 	if (m_pTargetObj == nullptr || m_pTargetObj->IsDead())
 		m_pTargetObj = nullptr;
 

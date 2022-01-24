@@ -32,6 +32,13 @@ void CSoundManager_bu::Awake()
 	m_pFootStep1 = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\footsep1.wav"));
 	m_pFootStep2 = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\footsep2.wav"));
 	m_pFootStep3 = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\footsep3.wav"));
+
+	m_pWeaponReady = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\weaponReady.wav"));
+	m_pChainsawReady = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\chainsawReady.wav"));
+	m_pChainsawIdle = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\chainsawIdle.wav"));
+	m_pChainsawAttackStart = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\chainsawAttackStart.wav"));
+	m_pChainsawAttacking = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\chainsawAttacking.wav"));
+	m_pChainsawStopping = CResourceManager::GetInstance()->LoadRes<CSound>(_T("sound\\Butcher\\footsep3.wav"));
 }
 
 void CSoundManager_bu::SetBGSound(E_BGSoundType _eType)

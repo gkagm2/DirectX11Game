@@ -43,6 +43,7 @@ private:
 
 	bool m_bIsEnableFire;
 
+	bool isChainsawAttackStart;
 
 	SharedPtr<CPrefab> m_pMainBullet; // 출력할 총알
 
@@ -58,6 +59,9 @@ private:
 	//SharedPtr<CPrefab> m_pLaserBullet;
 	// 유탄 총알
 	//SharedPtr<CPrefab> m_GranadeBullet;
+
+	float m_fSoundVolume;
+	
 
 public:
 	virtual void Start() override;
@@ -78,9 +82,12 @@ public:
 	TWeaponInfo_bu* GetAllWeaponInfo() { return m_tWeaponInfo; }
 	TWeaponInfo_bu& GetCurWeapon() { return m_tWeaponInfo[(UINT)m_eCurType]; }
 
+	void SetVolume(float _volume) { m_fSoundVolume = _volume; }
+
 	bool IsEnableFire() { return m_bIsEnableFire; }
 	// 발사 위치, 로컬 위치의 발사 방향, 회전각도. return : 발사 성공 여부
 	bool Fire(const Vector3& _vMuzzlePos, const Vector3& _vRot, const Vector3& _vShootDir, UINT _iTag);
+	bool ReleaseFire();
 	void SetUseableWeapon(E_WeaponType_bu _eType, bool _bUse){ m_arrWeaponUse[(UINT)_eType] = _bUse; }
 	bool IsUseableWeapon(E_WeaponType_bu _eType) { return m_arrWeaponUse[(UINT)_eType]; }
 

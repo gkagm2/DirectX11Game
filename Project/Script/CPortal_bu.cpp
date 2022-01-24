@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPortal_bu.h"
 #include "CPlayerController_bu.h"
+#include "CGameManager_bu.h"
 
 CPortal_bu::CPortal_bu() :
 	CScript((UINT)SCRIPT_TYPE::PORTAL_BU)
@@ -32,6 +33,10 @@ void CPortal_bu::Awake()
 
 void CPortal_bu::Update()
 {
+	static CGameManager_bu* pGameMgr = FIND_GameObject(_T("GameManager"))->GetComponent<CGameManager_bu>();
+	if (pGameMgr->GetGameMode() != E_GameMode_bu::Play)
+		return;
+
 	/*if (!m_pPlayerObj || m_pPlayerObj->IsDead()) {
 		m_pPlayerObj = nullptr;
 		return;

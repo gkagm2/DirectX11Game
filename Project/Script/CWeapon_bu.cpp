@@ -13,7 +13,8 @@ CWeapon_bu::CWeapon_bu() :
 	m_pChainSawObj{ nullptr },
 	m_pGunImageObj{ nullptr },
 	m_fReloadDelayTime{0.3f},
-	m_arrWeaponUse{}
+	m_arrWeaponUse{},
+	m_fSoundVolume{ 0.f }
 {
 	_InitWeaponInfo();
 
@@ -30,7 +31,8 @@ CWeapon_bu::CWeapon_bu(const CWeapon_bu& _origin) :
 	m_fFireTime{_origin.m_fFireTime},
 	m_fMaxFireTime{_origin.m_fMaxFireTime},
 	m_fReloadDelayTime{_origin.m_fReloadDelayTime},
-	m_arrWeaponUse{}
+	m_arrWeaponUse{},
+	m_fSoundVolume{ 0.f }
 {
 	for (int i = 0; i < (int)E_WeaponType_bu::End; ++i)
 		m_arrWeaponUse[i] = _origin.m_arrWeaponUse[i];
@@ -62,8 +64,10 @@ void CWeapon_bu::Start()
 	assert(m_pMachinegunBullet.Get());
 	assert(m_pFlameBullet.Get());
 
+	m_fSoundVolume = 0.f;
 	SetUseableWeapon(m_eCurType, true);
 	ChangeWeapon(m_eCurType);
+	m_fSoundVolume = 1.f;
 }
 
 void CWeapon_bu::Update()
@@ -83,9 +87,14 @@ void CWeapon_bu::Update()
 		m_bIsEnableFire = false;
 
 	if (m_bIsEnableFire) {
-		if (E_WeaponType_bu::Chainsaw == GetCurWeaponType())
-			if(m_pChainSawColObj->IsActive())
+		if (E_WeaponType_bu::Chainsaw == GetCurWeaponType()) {
+			if (m_pChainSawColObj->IsActive())
 				m_pChainSawColObj->SetActive(false);
+
+			static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+			if (m_pSoundMgr)
+				m_pSoundMgr->m_pChainsawIdle->Play(1.f, m_fSoundVolume * 0.4f, false);
+		}
 	}
 }
 
@@ -113,9 +122,21 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 	}
 
 	if (isEnableFire) {
+		static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+
+
 		//타입에 따라서 프리펩을 생성하는걸 다르게 한다.
 		if (m_eCurType == E_WeaponType_bu::Chainsaw) {
 			m_pChainSawColObj->SetActive(true);
+
+			if (!isChainsawAttackStart) {
+				if (m_pSoundMgr)
+					m_pSoundMgr->m_pChainsawAttackStart->Play(1, m_fSoundVolume * 0.4f, true);
+				isChainsawAttackStart = true;
+			}
+			else
+				if (m_pSoundMgr)
+					m_pSoundMgr->m_pChainsawAttacking->Play(1, m_fSoundVolume * 0.4f, true);
 		}
 		else if(m_eCurType == E_WeaponType_bu::MachineGun) {
 			CGameObject* pBulletObj = m_pMainBullet->Instantiate();
@@ -128,9 +149,8 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			CObject::CreateGameObjectEvn(pBulletObj, iLayer);
 			--GetCurWeapon().iCurBullet;
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
-
-			static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
-			m_pSoundMgr->m_pMachinegun->Play(1,1,true);
+			if (m_pSoundMgr)
+				m_pSoundMgr->m_pMachinegun->Play(1,m_fSoundVolume,true);
 		}
 		else if (m_eCurType == E_WeaponType_bu::Shotgun) {
 			const int iShotgunBulletCnt = 8;
@@ -151,9 +171,8 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 			}
 			--GetCurWeapon().iCurBullet;
 			GetCurWeapon().iCurBullet = max(0, GetCurWeapon().iCurBullet);
-
-			static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
-			m_pSoundMgr->m_pShotgun->Play(1,1,true);
+			if (m_pSoundMgr)
+				m_pSoundMgr->m_pShotgun->Play(1,m_fSoundVolume,true);
 		}
 		else {
 			// TODO :
@@ -167,6 +186,18 @@ bool CWeapon_bu::Fire(const Vector3& _vMuzzlePos, const Vector3& _Rot, const Vec
 		}
 	}
 	return isEnableFire;
+}
+
+bool CWeapon_bu::ReleaseFire()
+{
+	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+		
+	if (m_eCurType == E_WeaponType_bu::Chainsaw)
+		if (m_pSoundMgr)
+			m_pSoundMgr->m_pChainsawStopping->Play(1, m_fSoundVolume * 0.4f,true);
+	isChainsawAttackStart = false;
+		
+	return true;
 }
 
 void CWeapon_bu::AddWeaponBulletItem(E_WeaponType_bu _eType)
@@ -192,16 +223,22 @@ void CWeapon_bu::ChangeWeapon(E_WeaponType_bu _eType)
 		assert(m_pChainSawColObj);
 	}
 
+	static CSoundManager_bu* m_pSoundMgr = FIND_GameObject(_T("SoundManager"))->GetComponent<CSoundManager_bu>();
+
 	m_eCurType = _eType;
 	if (_eType == E_WeaponType_bu::Chainsaw) {
 		m_pGunImageObj->SetActive(false);
 		m_pChainSawObj->SetActive(true);
 		m_pChainSawColObj->SetActive(false);
+		if (m_pSoundMgr)
+			m_pSoundMgr->m_pChainsawReady->Play(1, m_fSoundVolume * 0.4f, false);
 	}
 	else {
 		m_pGunImageObj->SetActive(true);
 		m_pChainSawObj->SetActive(false);
 		m_pGunImageObj->Animator2D()->SetCurAnimationFrame((UINT)m_eCurType);
+		if (m_pSoundMgr)
+			m_pSoundMgr->m_pWeaponReady->Play(1, m_fSoundVolume, false);
 	}
 	m_fMaxFireTime = m_tWeaponInfo[(UINT)m_eCurType].fRpm;
 	m_fFireTime = m_fMaxFireTime - m_fReloadDelayTime;
