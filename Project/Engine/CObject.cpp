@@ -5,6 +5,7 @@
 
 #include "CScript.h"
 #include "CGameObject.h"
+#include "CComponent.h"
 #include "Ptr.h"
 #include "CPrefab.h"
 
@@ -128,6 +129,16 @@ void CObject::LinkObjectWhenSceneLoadEvn(CObject** _pTargetObj, uuid _tTargetId)
     uuid* pId = new uuid;
     *pId = _tTargetId;
     even.wparam = (DWORD_PTR)pId;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
+void CObject::LinkObjectWhenCloneGameObjEvn(CComponent* _pComp, CGameObject** _pTargetObj, CGameObject* _originTargetObj)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Link_GameObjectWhenClone;
+    even.lparam = (DWORD_PTR)_pComp;
+    even.wparam = (DWORD_PTR)_pTargetObj;
+    even.mparam = (DWORD_PTR)_originTargetObj;
     CEventManager::GetInstance()->AddEvent(even);
 }
 

@@ -204,8 +204,34 @@ void InspectorGUI::UpdateObjectGUI()
 	if (ImGui::Button("Clone##Clone GameObject")) {
 		CGameObject* pCloneObj = m_pTargetObject->Clone();
 		CObject::CreateGameObjectEvn(pCloneObj, m_pTargetObject->GetLayer());
-		if (m_pTargetObject->GetParentObject())
+
+		tstring strName = pCloneObj->GetName();
+		if (strName.find(_T("Clone")) == tstring::npos)
+			strName = strName + _T("Clone");
+
+		constexpr int iBuffSize = 255;
+		TCHAR szBuffer[iBuffSize] = _T("");
+
+		// 고유 이름값 생성
+		int id = 1;
+		if (m_pTargetObject->GetParentObject()) {
+			while (true) {
+				_stprintf_s(szBuffer, iBuffSize, _T("%s%d"), strName.c_str(), id++);
+				bool found = m_pTargetObject->FindGameObjectSameLine(szBuffer);
+				if (!found)
+					break;
+			}
 			CObject::AddChildGameObjectEvn(m_pTargetObject->GetParentObject(), pCloneObj);
+		}
+		else {
+			while (true) {
+				_stprintf_s(szBuffer, iBuffSize, _T("%s%d"), strName.c_str(), id++);
+				CGameObject* pObj = CSceneManager::GetInstance()->GetCurScene()->FindGameObject(szBuffer);
+				if (nullptr == pObj)
+					break;
+			}
+		}
+		pCloneObj->SetName(szBuffer);
 	}
 
 	// 활성화  세팅
@@ -285,7 +311,11 @@ void InspectorGUI::UpdateObjectGUI()
 
 	// FIXED(Jang) : 테스트용
 	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());
-
+	tstring strLocalAddress = m_pTargetObject->GetLocalAddressTotal().c_str();
+	string strLocalAdr{};
+	TStringToString(strLocalAddress, strLocalAdr);
+	ImGui::Text("Local Address : [%s]", strLocalAdr.c_str());
+	
 	// ComponentGUI 보여주기
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr == m_arrComGUI[i])

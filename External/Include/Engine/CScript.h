@@ -58,8 +58,9 @@ struct TScriptParam {
 	TScriptParam(const tstring& _strName, E_ScriptParam _eParam, void* _pData) :
 		strName(_strName), eParam(_eParam), pData(_pData), ppData(nullptr)
 	{}
-	TScriptParam(const tstring& _strName, E_ScriptParam _eParam, void** _ppData) :
-		strName(_strName), eParam(_eParam), pData(nullptr), ppData(_ppData) 
+	template<typename T>
+	TScriptParam(const  tstring& _strName, E_ScriptParam _eParam, T** _ppData) :
+		strName(_strName), eParam(_eParam), pData(nullptr), ppData((void**)_ppData)
 	{}
 };
 
@@ -87,13 +88,16 @@ protected:
 public:
 	const vector<TScriptParam>& GetParams_Cst() { return m_vecParam; }
 	vector<TScriptParam>& GetParams() { return m_vecParam; }
+	
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override { return true; }
 	virtual bool LoadFromScene(FILE* _pFile) override { return true; }
 
 public:
-	virtual CScript* Clone() = 0;
+	virtual CScript* Clone() = 0; 
 	CScript(UINT _iType);
 	virtual ~CScript() override;
+
+	friend CGameObject::CGameObject(const CGameObject& _origin);
 };

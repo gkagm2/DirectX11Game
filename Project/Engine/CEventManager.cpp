@@ -70,6 +70,21 @@ void CEventManager::Update()
 	}
 	m_vecTargetLinkObj.clear();
 
+	for (size_t i = 0; i < m_vecTargetLinkComponent.size(); ++i) {
+		CComponent* pClonedCom = std::get<0>(m_vecTargetLinkComponent[i]);
+		CGameObject** pTargetObj = std::get<1>(m_vecTargetLinkComponent[i]); // 세팅할 타겟오브젝트
+		CGameObject* pOriginTargetObj = std::get<2>(m_vecTargetLinkComponent[i]);
+		CGameObject* pClonedObj = pClonedCom->GetGameObject();
+		//복사당할 원래 오브젝트에서 타겟 오브젝트가 자식 오브젝트에 있으면
+		// 복사당할 오브젝트에서 가리키고있는 타겟 오브젝트의 로컬주소를 가져온다.
+		tstring strLocalAdr = pOriginTargetObj->GetLocalAddressTotal();
+		// 그 로컬 주소를 이용하여 자기 로컬주소의 게임 오브젝트를 찾아서 타겟오브젝트로 세팅해준다.
+		CGameObject* pFindTargetObj = pClonedObj->FindGameObjectFromLocalAddress(strLocalAdr);
+		(*pTargetObj) = pFindTargetObj;
+	}
+	m_vecTargetLinkComponent.clear();
+
+
 	// 이벤트 처리
 	for (UINT i = 0; i < m_vecEvent.size(); ++i)
 		_Excute(m_vecEvent[i]);
@@ -245,6 +260,16 @@ void CEventManager::_Excute(const TEvent& _event)
 		CGameObject** pObj = (CGameObject**)_event.lparam;
 		uuid* id = (uuid*)_event.wparam;
 		m_vecTargetLinkObj.push_back(std::make_pair(pObj, id));
+	}
+		break;
+	case E_EventType::Link_GameObjectWhenClone: {
+		// lparam : 복사 대상의 Root 오브젝트
+		// wparam : 넣어줄 대상 오브젝트
+		// mparam : 복사할 원본의 타겟 오브젝트
+		CComponent* pComponent = (CComponent*)_event.lparam;
+		CGameObject** pTargetObj = (CGameObject**)_event.wparam;
+		CGameObject* pOriginTargetObj = (CGameObject*)_event.mparam;
+		m_vecTargetLinkComponent.push_back(std::make_tuple(pComponent, pTargetObj, pOriginTargetObj));
 	}
 		break;
 	case E_EventType::Change_ToolState: {

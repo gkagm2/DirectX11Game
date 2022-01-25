@@ -38,7 +38,8 @@ CGameObject::CGameObject() :
 	m_iLayer(MAX_SIZE_LAYER),
 	m_iTag(0),
 	m_bDead(false),
-	m_bActive(true)
+	m_bActive(true),
+	m_iLocalAddress(-1)
 {
 }
 
@@ -49,18 +50,21 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_iLayer(MAX_SIZE_LAYER),
 	m_iTag(_origin.m_iTag),
 	m_bDead(false),
-	m_bActive(_origin.m_bActive)
+	m_bActive(_origin.m_bActive),
+	m_iLocalAddress(_origin.m_iLocalAddress)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != _origin.m_arrComponent[i])
 			AddComponent((CComponent*)_origin.m_arrComponent[i]->Clone());
 	}
 
-	for (UINT i = 0; i < _origin.m_vecScript.size(); ++i)
+	for (UINT i = 0; i < _origin.m_vecScript.size(); ++i) {
 		AddComponent(_origin.m_vecScript[i]->Clone());
+	}
 
-	for (UINT i = 0; i < _origin.m_vecChildObj.size(); ++i)
-		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone(),true);
+	for (UINT i = 0; i < _origin.m_vecChildObj.size(); ++i) {
+		_AddChildGameObject(_origin.m_vecChildObj[i]->Clone(), true);
+	}
 }
 
 CGameObject::~CGameObject()
@@ -84,7 +88,6 @@ void CGameObject::Awake()
 				m_arrComponent[i]->Awake();
 				m_arrComponent[i]->OnEnable();
 			}
-				
 		}
 	}
 
@@ -391,6 +394,52 @@ CGameObject* CGameObject::FindGameObjectInChilds(const tstring& _strObjName)
 	return pFindObject;
 }
 
+bool CGameObject::IsExistGameObjectInChilds(CGameObject* _pObj, bool _bIncludeMine)
+{
+	list<CGameObject*> que;
+	if (_bIncludeMine)
+		que.push_back(this);
+	else {
+		const vector<CGameObject*>& vecChilds = GetChildsObject();
+		for (UINT i = 0; i < vecChilds.size(); ++i)
+			que.push_back(vecChilds[i]);
+	}
+
+	while (!que.empty()) {
+		CGameObject* pObj = que.front();
+		que.pop_front();
+		if (pObj == _pObj) {
+			return true;
+		}
+		const vector<CGameObject*>& childs = pObj->GetChildsObject();
+		for (UINT i = 0; i < childs.size(); ++i)
+			que.push_back(childs[i]);
+	}
+	return false;
+}
+
+bool CGameObject::IsExistGameObjectInParent(CGameObject* _pObj, bool _bIncludeMine)
+{
+	CGameObject* pParent = nullptr;
+	if (_bIncludeMine)
+		pParent = this;
+	else
+		pParent = GetParentObject();
+	while (nullptr != pParent) {
+		if (_pObj == pParent)
+			return true;
+		pParent = pParent->GetParentObject();
+	}
+	return false;
+}
+
+bool CGameObject::IsExistGameObjectInTree(CGameObject* _pObj)
+{
+	CGameObject* pObj = GetRootObject();
+	if (pObj == _pObj) return true;
+	return pObj->IsExistGameObjectInChilds(_pObj);
+}
+
 CGameObject* CGameObject::FindGameObjectInParent(const tstring& _strObjName)
 {
 	CGameObject* pParent = GetParentObject();
@@ -405,9 +454,12 @@ CGameObject* CGameObject::FindGameObjectInParent(const tstring& _strObjName)
 CGameObject* CGameObject::GetRootObject()
 {
 	CGameObject* pRootObj = this;
-	while (pRootObj->GetParentObject())
-		pRootObj = pRootObj->GetParentObject();
-
+	while (pRootObj->GetParentObject()) {
+		if (pRootObj->GetParentObject())
+			pRootObj = pRootObj->GetParentObject();
+		else
+			break;
+	}
 	return pRootObj;
 }
 
@@ -449,6 +501,12 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad)
 	// 부모와 자식 연결
 	_pChildObj->m_pParentObj = this;
 	m_vecChildObj.push_back(_pChildObj);
+
+	// Local Address 설정
+	size_t iChildSize = m_vecChildObj.size();
+	for (size_t i = 0; i < m_vecChildObj.size(); ++i)
+		m_vecChildObj[i]->_SetLocalAddress(i);
+	
 
 
 	// 소속된 레이어가 없으면 부모 오브젝트의 레이어로 설정.
@@ -498,6 +556,11 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 		for (; rootObjIter != vecRootObjs.end(); ++rootObjIter) {
 			if (*rootObjIter == this) {
 				vecRootObjs.erase(rootObjIter);
+
+				vector<CGameObject*> vecRoots;
+				CSceneManager::GetInstance()->GetCurScene()->GetRootGameObjects(vecRoots);
+				for (size_t i = 0; i < vecRoots.size(); ++i)
+					vecRoots[i]->_SetLocalAddress(i);
 				break;
 			}
 		}
@@ -505,6 +568,7 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 
 	if (nullptr == m_pParentObj)
 		return;
+
 
 	vector<CGameObject*>& vecChild = m_pParentObj->_GetChildsObjectRef();
 	vector<CGameObject*>::iterator iter = vecChild.begin();
@@ -515,6 +579,11 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 			break;
 		}
 	}
+
+	for (size_t i = 0; i < vecChild.size(); ++i)
+		vecChild[i]->_SetLocalAddress(i);
+	
+
 	if (true == _IsSaveLoad) {
 		m_pParentObj = nullptr;
 	}
@@ -606,6 +675,61 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 CComponent* CGameObject::GetComponent(E_ComponentType _eType)
 {
 	return m_arrComponent[(UINT)_eType];
+}
+
+tstring CGameObject::GetLocalAddressTotal()
+{
+	tstring strAddress = _T("");
+	CGameObject* pObj = this;
+	while (nullptr != pObj) {
+		strAddress = _T("-") + to_tstring(pObj->GetLocalAddress())+ strAddress;
+		pObj = pObj->GetParentObject();
+	}
+	return strAddress;
+}
+
+CGameObject* CGameObject::FindGameObjectFromLocalAddress(const tstring& _strLocalAddress)
+{
+	CGameObject* pObj = GetRootObject();
+
+		int idx = 0;
+		int istart = 1;
+		int iend = 0;
+		int ioriginstart;
+		int i = 0;
+		tstring strNum{};
+		int nodeNum = -1;
+		int iSize = (int)_strLocalAddress.size();
+		vector<int> vecNode;
+		for (; i < iSize; ++i) {
+			if (_strLocalAddress[i] == _T('-')) {
+				ioriginstart = istart;
+				istart = i + 1;
+				iend = i - 1;
+
+				if (iend > 0) {
+					int len = iend - ioriginstart + 1;
+					strNum = _strLocalAddress.substr(ioriginstart, len);
+					nodeNum = _ttoi(strNum.c_str());
+					vecNode.push_back(nodeNum);
+				}
+			}
+		}
+		if (iend > 0) {
+			ioriginstart = istart;
+			iend = iSize - 1;
+			int len = iend - ioriginstart + 1;
+			strNum = _strLocalAddress.substr(ioriginstart, len);
+			nodeNum = _ttoi(strNum.c_str());
+			vecNode.push_back(nodeNum);
+		}
+		for (size_t i = 1; i < vecNode.size(); ++i) {
+			int idx = vecNode[i];
+			pObj = pObj->GetChildsObject()[idx];
+		}
+		
+
+	return pObj;
 }
 
 bool CGameObject::SaveToScene(FILE* _pFile)

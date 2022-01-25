@@ -73,6 +73,11 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 
 	m_vecRootObj.push_back(_pObj);
 
+	vector<CGameObject*> vecRoots;
+	m_pOwnScene->GetRootGameObjects(vecRoots);
+	int iSize = (int)vecRoots.size();
+	_pObj->_SetLocalAddress(iSize - 1);
+
 	list<CGameObject*> que;
 	que.push_back(_pObj);
 
@@ -105,6 +110,10 @@ void CLayer::_RegisterInRootGameObject(CGameObject* _pChildObj) {
 //	m_vecRootObj.push_back(_pChildObj);  
 #pragma endregion
 	m_vecRootObj.push_back(_pChildObj);
+	vector<CGameObject*> vecRoots;
+	m_pOwnScene->GetRootGameObjects(vecRoots);
+	int iSize = (int)vecRoots.size();
+	_pChildObj->_SetLocalAddress(iSize - 1);
 }
 
 void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
@@ -113,9 +122,16 @@ void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
 	for (; iter != m_vecRootObj.end(); ++iter) {
 		if (_pRootObj == *iter) { // 최상위 오브젝트를 찾았으면
 			m_vecRootObj.erase(iter); //  삭제
+
+			vector<CGameObject*> vecRoots;
+			CSceneManager::GetInstance()->GetCurScene()->GetRootGameObjects(vecRoots);
+			for (size_t i = 0; i < vecRoots.size(); ++i)
+				vecRoots[i]->_SetLocalAddress(i);
+
 			return;
 		}
 	}
+
 	// assert(nullptr && _T("최상위 오브젝트를 찾지 못함"));
 }
 

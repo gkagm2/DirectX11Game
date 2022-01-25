@@ -43,6 +43,7 @@
 #include "CKeyControllerScript_ca.h"
 #include "CLaserScript_ca.h"
 #include "CLineRenderingTestScript.h"
+#include "CLinkTestScript.h"
 #include "CLookAt2DScript.h"
 #include "CLookAtScript.h"
 #include "CMainPanel_bu.h"
@@ -116,6 +117,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CKeyControllerScript_ca");
 	_vec.push_back(L"CLaserScript_ca");
 	_vec.push_back(L"CLineRenderingTestScript");
+	_vec.push_back(L"CLinkTestScript");
 	_vec.push_back(L"CLookAt2DScript");
 	_vec.push_back(L"CLookAtScript");
 	_vec.push_back(L"CMainPanel_bu");
@@ -232,6 +234,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLaserScript_ca;
 	if (L"CLineRenderingTestScript" == _strScriptName)
 		return new CLineRenderingTestScript;
+	if (L"CLinkTestScript" == _strScriptName)
+		return new CLinkTestScript;
 	if (L"CLookAt2DScript" == _strScriptName)
 		return new CLookAt2DScript;
 	if (L"CLookAtScript" == _strScriptName)
@@ -420,6 +424,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::LINERENDERINGTESTSCRIPT:
 		return new CLineRenderingTestScript;
+		break;
+	case (UINT)SCRIPT_TYPE::LINKTESTSCRIPT:
+		return new CLinkTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::LOOKAT2DSCRIPT:
 		return new CLookAt2DScript;
@@ -679,6 +686,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LINERENDERINGTESTSCRIPT:
 		return L"CLineRenderingTestScript";
+		break;
+
+	case SCRIPT_TYPE::LINKTESTSCRIPT:
+		return L"CLinkTestScript";
 		break;
 
 	case SCRIPT_TYPE::LOOKAT2DSCRIPT:

@@ -62,7 +62,7 @@ size_t FRead(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
 }
 
 template<typename T>
-uuid FWriteLinkObj(T& _Data, FILE* _pFile) {
+uuid FWriteObj(T& _Data, FILE* _pFile) {
 	bool isExist = false;
 	if (_Data)
 		isExist = true;
@@ -77,14 +77,14 @@ uuid FWriteLinkObj(T& _Data, FILE* _pFile) {
 }
 
 template<typename T>
-uuid FReadLinkObj(T** _data, FILE* _pFile) {
+uuid FReadObj(T** _data, FILE* _pFile) {
 	bool isExist = false;
 	FRead(isExist, _pFile);
 	
 	uuid id{};
 	if (isExist) {
 		FRead(id, _pFile);
-		CObject::LinkObjectWhenSceneLoadEvn(_data, id);
+		CObject::LinkObjectWhenSceneLoadEvn((CObject**)_data, id);
 	}
 	return id;
 }

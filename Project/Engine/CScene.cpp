@@ -69,6 +69,7 @@ void CScene::FinalUpdate()
 void CScene::_AddGameObject(CGameObject* _pObj, UINT _iLayer, bool _bChangeChildLayer)
 {
 	m_arrLayer[_iLayer]->AddGameObject(_pObj, _bChangeChildLayer);
+
 }
 
 CGameObject* CScene::FindGameObject(const tstring& _strName, UINT _iLayer)

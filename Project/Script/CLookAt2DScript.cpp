@@ -6,7 +6,7 @@ CLookAt2DScript::CLookAt2DScript() :
 	m_pTargetObj(nullptr),
 	m_eForwardType(E_ForwardType::X)
 {
-	AddParam(TScriptParam{ _T("Target Obj") ,E_ScriptParam::GAMEOBJ, (void**)&m_pTargetObj });
+	AddParam(TScriptParam{ _T("Target Obj") ,E_ScriptParam::GAMEOBJ, &m_pTargetObj });
 }
 
 CLookAt2DScript::~CLookAt2DScript()
@@ -38,13 +38,13 @@ void CLookAt2DScript::Update()
 bool CLookAt2DScript::SaveToScene(FILE* _pFile)
 {
 	FWrite(m_eForwardType, _pFile);
-	FWriteLinkObj(m_pTargetObj, _pFile);
+	FWriteObj(m_pTargetObj, _pFile);
 	return true;
 }
 
 bool CLookAt2DScript::LoadFromScene(FILE* _pFile)
 {
 	FRead(m_eForwardType, _pFile);
-	FReadLinkObj((CObject**)&m_pTargetObj, _pFile);
+	FReadObj(&m_pTargetObj, _pFile);
 	return true;
 }

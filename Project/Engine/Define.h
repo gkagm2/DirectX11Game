@@ -18,6 +18,10 @@
 								virtual ~type();
 #define SINGLETON_SCRIPT_CPP(type) type* type::m_pInst = nullptr;
 
+// 복사생성자에서 Param을 추가할 경우 적용시켜야 됨
+#define AddParam_LINKOBJ(pTargetObj_OUT, pOriginTargetObj, TYPE) if (((TYPE*)&_origin)->GetGameObject()->IsExistGameObjectInChilds(pOriginTargetObj, true))\
+CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
+
 // 20210720 ImGui에 DeltaTime이 존해함. DeltaTime -> DT로 변환
 #define DT CTimeManager::GetInstance()->GetDeltaTime()
 #define InputKeyHold(eKeyType) (CKeyManager::GetInstance()->GetKeyState(eKeyType) == E_KeyState::HOLD)
@@ -36,7 +40,6 @@
 
 #define FIND_GameObject_Layer(objName, layer) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName, layer))
 #define FIND_GameObject(objName) dynamic_cast<CGameObject*>(CSceneManager::GetInstance()->GetCurScene()->FindGameObject(objName))
-//#define FIND_GameObjects_Layer(layer) 
 
 // OUT : 받을 포인터 변수, COMPONENT_TYPE : 찾을 컴포넌트 타입
 #define FIND_Component(OUT, COMPONENT_TYPE) { CScene* __pCurScene = CSceneManager::GetInstance()->GetCurScene(); \

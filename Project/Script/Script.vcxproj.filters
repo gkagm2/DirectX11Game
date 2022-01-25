@@ -331,6 +331,9 @@
     <ClInclude Include="CFlameParticle_bu.h">
       <Filter>Games\Butcher\InGames</Filter>
     </ClInclude>
+    <ClInclude Include="CLinkTestScript.h">
+      <Filter>Games\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -543,6 +546,9 @@
     </ClCompile>
     <ClCompile Include="CFlameParticle_bu.cpp">
       <Filter>Games\Butcher\InGames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLinkTestScript.cpp">
+      <Filter>Games\Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

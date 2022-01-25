@@ -27,6 +27,7 @@ void SpawningGUI_bu::Init()
 	m_CateList.push_back("actors");
 	m_CateList.push_back("pickups");
 	m_CateList.push_back("doorAndSwitch");
+	m_CateList.push_back("particle");
 
 	//m_CateObjList.push_back("destruct object");
 	m_CateObjList.push_back("spot light");
@@ -74,6 +75,8 @@ void SpawningGUI_bu::Init()
 	m_enemyWeaponTypeList.push_back("FlameThrower");
 	m_enemyWeaponTypeList.push_back("GrenadeLauncher");
 	m_enemyWeaponTypeList.push_back("LaserGun");
+
+	m_particleTypeList.push_back("fog");
 
 	SetActive(false);
 }
@@ -163,6 +166,12 @@ void SpawningGUI_bu::Update()
 				ParamGUI::Render_ComboBox("door And Switch", &m_iCurDoorAndSwitchItemIdx, m_CateDoorAndSwitchList);
 				if (!m_CateDoorAndSwitchList.empty()) {
 					m_pCreateFunc = std::bind(&SpawningGUI_bu::_CreateDoorAndSwitch, this);
+				}
+			}
+			else if ("particle" == categoryName) {
+				ParamGUI::Render_ComboBox("particle", & m_iCurParticleTypeIdx, m_particleTypeList);
+				if (!m_particleTypeList.empty()) {
+					m_pCreateFunc = std::bind(&SpawningGUI_bu::_CreateParticle, this);
 				}
 			}
 		}
@@ -465,6 +474,26 @@ CGameObject* SpawningGUI_bu::_CreateObject()
 		m_pTargetObj = CObject::InstantiateEvn(m_pSpotLightPrefab, Vector3::Zero, iLayer);
 	else if ("portal" == objName)
 		m_pTargetObj = CObject::InstantiateEvn(m_pPortalPrefab, Vector3::Zero, iLayer);
+	return m_pTargetObj;
+}
+
+CGameObject* SpawningGUI_bu::_CreateParticle()
+{
+	UINT iLayer = (UINT)E_Layer::ObjectParticle;
+	if (nullptr == m_pSpotLightPrefab) {
+		tstring path = STR_FILE_PATH_Prefab;
+		tstring totalPath = path + _T("FogParticle_bu.pref");
+		m_pFogParticlePrefab = CResourceManager::GetInstance()->FindRes<CPrefab>(totalPath);
+		if (nullptr == m_pFogParticlePrefab) {
+			assert(nullptr);
+			return nullptr;
+		}
+	}
+
+	string objName = m_particleTypeList[m_iCurParticleTypeIdx];
+	if ("fog" == objName)
+		m_pTargetObj = CObject::InstantiateEvn(m_pFogParticlePrefab, Vector3::Zero, iLayer);
+
 	return m_pTargetObj;
 }
 

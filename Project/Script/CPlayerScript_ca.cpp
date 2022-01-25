@@ -10,7 +10,7 @@ CPlayerScript_ca::CPlayerScript_ca() :
 {
 	AddParam(TScriptParam{ _T("Speed"), E_ScriptParam::FLOAT, &m_fSpeed });
 	AddParam(TScriptParam{ _T("TempVec"), E_ScriptParam::VEC3, &m_vTempVec });
-	AddParam(TScriptParam{ _T("Object"), E_ScriptParam::GAMEOBJ, (void**)&pTargetObj});
+	AddParam(TScriptParam{ _T("Object"), E_ScriptParam::GAMEOBJ, &pTargetObj});
 }
 
 CPlayerScript_ca::~CPlayerScript_ca()
@@ -33,7 +33,7 @@ bool CPlayerScript_ca::SaveToScene(FILE* _pFile)
 	FWrite(m_fSpeed, _pFile);
 	FWrite(m_vTempVec, _pFile);
 
-	FWriteLinkObj(pTargetObj, _pFile);
+	FWriteObj(pTargetObj, _pFile);
 
 	//int address = (int)&(*pTargetObj);
 	//FWrite(address, _pFile);
@@ -44,6 +44,6 @@ bool CPlayerScript_ca::LoadFromScene(FILE* _pFile)
 {
 	FRead(m_fSpeed, _pFile);
 	FRead(m_vTempVec, _pFile);
-	uuid id = FReadLinkObj((CObject**)&pTargetObj, _pFile);
+	uuid id = FReadObj(&pTargetObj, _pFile);
 	return true;
 }

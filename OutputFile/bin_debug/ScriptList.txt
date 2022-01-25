@@ -40,6 +40,7 @@ CItem_bu
 CKeyControllerScript_ca
 CLaserScript_ca
 CLineRenderingTestScript
+CLinkTestScript
 CLookAt2DScript
 CLookAtScript
 CMainPanel_bu

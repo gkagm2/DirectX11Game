@@ -14,7 +14,7 @@ class CExitDoor_bu : public CScript
 	virtual void OnCollisionEnter2D(CCollider2D* _pCol) override;
 	virtual void OnCollisionExit2D(CCollider2D* _pCol) override;
 public:
-	CLONE(CExitDoor_bu);	
+	CLONE(CExitDoor_bu);
 	CExitDoor_bu();
 	virtual ~CExitDoor_bu() override {}
 };

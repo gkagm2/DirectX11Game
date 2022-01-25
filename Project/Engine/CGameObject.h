@@ -1,6 +1,7 @@
 #pragma once
 #include "CObject.h"
 #include "Interfaces.h"
+
 class CComponent;
 class CTransform;
 class CMeshRenderer;
@@ -36,6 +37,7 @@ private:
 
 	bool m_bDead;
 	bool m_bActive;
+	int m_iLocalAddress;
 
 public:
 	virtual void Awake() override;
@@ -65,20 +67,23 @@ public:
 	CGameObject* GetParentObject() { return m_pParentObj; }
 	vector<CGameObject*>& GetChildsObject() { return m_vecChildObj; }
 	CGameObject* FindGameObjectInChilds(const tstring& _strObjName);
+	bool IsExistGameObjectInChilds(CGameObject* _pObj, bool _bIncludeMine = false);
+	bool IsExistGameObjectInParent(CGameObject* _pObj, bool _bIncludeMine = false);
+	bool IsExistGameObjectInTree(CGameObject* _pObj);
 	CGameObject* FindGameObjectSameLine(const tstring& _strObjName);
 
 	template<typename TYPE>
-	CGameObject* FindGameObjectInChilds();
+	CGameObject* FindGameObjectInChilds(bool _bIncludeMine = false); // 컴포넌트를 이용하여 찾기
 
 	CGameObject* FindGameObjectInParent(const tstring& _strObjName);
 
 	template<typename TYPE>
-	CGameObject* FindGameObjectInParent();
+	CGameObject* FindGameObjectInParent(bool _bIncludeMine = false); // 컴포넌트를 이용하여 찾기
 
 	template<typename TYPE>
-	TYPE* FindComponentInChilds();
+	TYPE* FindComponentInChilds(bool _bIncludeMine = false);
 	template<typename TYPE>
-	TYPE* FindComponentInParent();
+	TYPE* FindComponentInParent(bool _bIncludeMine = false);
 	
 	CGameObject* GetRootObject();
 
@@ -87,6 +92,7 @@ private:
 	void _SetDead();
 	void _AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad = false);
 	void _RegisterLayer();
+	void _SetLocalAddress(int _iAddress) { m_iLocalAddress = _iAddress; }
 
 	vector<CGameObject*>& _GetChildsObjectRef() { return m_vecChildObj; }
 
@@ -114,6 +120,11 @@ public:
 	CComponent* GetComponent(E_ComponentType _eType);
 
 	const vector<CScript*>& GetScripts() { return m_vecScript; }// 추가되어있는 스크립트 컴포넌트들을 가져온다.
+
+	tstring GetLocalAddressTotal();
+	int GetLocalAddress() { return m_iLocalAddress; }
+	CGameObject* FindGameObjectFromLocalAddress(const tstring& _strLocalAddress);
+
 private:
 	vector<CScript*>& _GetScripts() { return m_vecScript; }
 
@@ -132,6 +143,7 @@ public:
 	friend class CCollider2D;
 	friend class CCollider3D;
 	friend class CUI;
+	friend class CScene;
 };
 
 template<typename TYPE>
@@ -206,13 +218,17 @@ inline TYPE* CGameObject::GetComponent()
 }
 
 template<typename TYPE>
-inline CGameObject* CGameObject::FindGameObjectInChilds()
+inline CGameObject* CGameObject::FindGameObjectInChilds(bool _bIncludeMine)
 {
 	CGameObject* pFindObject = nullptr;
 	list<CGameObject*> que;
-	const vector<CGameObject*>& vecChilds = GetChildsObject();
-	for (UINT i = 0; i < vecChilds.size(); ++i)
-		que.push_back(vecChilds[i]);
+	if (_bIncludeMine)
+		que.push_back(this);
+	else {
+		const vector<CGameObject*>& vecChilds = GetChildsObject();
+		for (UINT i = 0; i < vecChilds.size(); ++i)
+			que.push_back(vecChilds[i]);
+	}
 
 	while (!que.empty()) {
 		CGameObject* pObj = que.front();
@@ -231,9 +247,13 @@ inline CGameObject* CGameObject::FindGameObjectInChilds()
 }
 
 template<typename TYPE>
-inline CGameObject* CGameObject::FindGameObjectInParent()
+inline CGameObject* CGameObject::FindGameObjectInParent(bool _bIncludeMine)
 {
-	CGameObject* pParent = GetParentObject();
+	CGameObject* pParent = nullptr;
+	if (_bIncludeMine)
+		pParent = this;
+	else
+		pParent = GetParentObject();
 	while (nullptr != pParent) {
 		TYPE* pCom =  pParent->GetComponent<TYPE>();
 		if (pCom) {
@@ -245,13 +265,18 @@ inline CGameObject* CGameObject::FindGameObjectInParent()
 }
 
 template<typename TYPE>
-inline TYPE* CGameObject::FindComponentInChilds()
+inline TYPE* CGameObject::FindComponentInChilds(bool _bIncludeMine)
 {
 	TYPE* pFindComType = nullptr;
 	list<CGameObject*> que;
-	const vector<CGameObject*>& vecChilds = GetChildsObject();
-	for (UINT i = 0; i < vecChilds.size(); ++i)
-		que.push_back(vecChilds[i]);
+	if (_bIncludeMine) {
+		que.push_back(this);
+	}
+	else {
+		const vector<CGameObject*>& vecChilds = GetChildsObject();
+		for (UINT i = 0; i < vecChilds.size(); ++i)
+			que.push_back(vecChilds[i]);
+	}
 
 	while (!que.empty()) {
 		CGameObject* pObj = que.front();
@@ -270,9 +295,13 @@ inline TYPE* CGameObject::FindComponentInChilds()
 }
 
 template<typename TYPE>
-inline TYPE* CGameObject::FindComponentInParent()
+inline TYPE* CGameObject::FindComponentInParent(bool _bIncludeMine)
 {
-	CGameObject* pParent = GetParentObject();
+	CGameObject* pParent = nullptr;
+	if (_bIncludeMine)
+		pParent = this;
+	else
+		pParent = GetParentObject();
 
 	while (nullptr != pParent) {
 		TYPE* pCom = pParent->GetComponent<TYPE>();

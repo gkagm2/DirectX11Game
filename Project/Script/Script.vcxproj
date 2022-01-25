@@ -194,6 +194,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CItemWeapon_bu.h" />
     <ClInclude Include="CItem_bu.h" />
     <ClInclude Include="CLineRenderingTestScript.h" />
+    <ClInclude Include="CLinkTestScript.h" />
     <ClInclude Include="CMouseLookAt_bu.h" />
     <ClInclude Include="CMuzzleParticle_bu.h" />
     <ClInclude Include="CObjectManager_bu.h" />
@@ -269,6 +270,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CItemWeapon_bu.cpp" />
     <ClCompile Include="CItem_bu.cpp" />
     <ClCompile Include="CLineRenderingTestScript.cpp" />
+    <ClCompile Include="CLinkTestScript.cpp" />
     <ClCompile Include="CMouseLookAt_bu.cpp" />
     <ClCompile Include="CMuzzleParticle_bu.cpp" />
     <ClCompile Include="CObjectManager_bu.cpp" />

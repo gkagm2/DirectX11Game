@@ -28,6 +28,9 @@ private:
 	vector<string> m_enemyWeaponTypeList;
 	int m_iCurEnemyWeaponTypeIdx;
 
+	vector<string> m_particleTypeList;
+	int m_iCurParticleTypeIdx;
+
 
 	vector<string> m_Actors_EnemyList;
 
@@ -46,6 +49,8 @@ private:
 	SharedPtr<CPrefab> m_pHpPickupPrefab;
 	SharedPtr<CPrefab> m_pArmorPickupPrefab;
 	SharedPtr<CPrefab> m_pWeaponPickupPrefab;
+
+	SharedPtr<CPrefab> m_pFogParticlePrefab;
 
 	std::function<CGameObject*()> m_pCreateFunc;
 
@@ -67,6 +72,7 @@ private:
 	CGameObject* _CreateDoorAndSwitch();
 	CGameObject* _CreatePickupsItem();
 	CGameObject* _CreateObject();
+	CGameObject* _CreateParticle();
 
 	CGameObject* _GetClickedObj(const Vector3& _vWorldPos);
 

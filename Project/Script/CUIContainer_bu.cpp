@@ -11,8 +11,8 @@ CUIContainer_bu::CUIContainer_bu() :
 	m_pMainPanel(nullptr),
 	m_pInGamePanel(nullptr)
 {
-	AddParam(TScriptParam{_T("Main Panel Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pMainPanelObj});
-	AddParam(TScriptParam{ _T("InGame Panel Obj"), E_ScriptParam::GAMEOBJ, (void**)&m_pInGamePanelObj});
+	AddParam(TScriptParam{_T("Main Panel Obj"), E_ScriptParam::GAMEOBJ, &m_pMainPanelObj});
+	AddParam(TScriptParam{ _T("InGame Panel Obj"), E_ScriptParam::GAMEOBJ, &m_pInGamePanelObj});
 }
 CUIContainer_bu::~CUIContainer_bu() {
 }
@@ -31,15 +31,15 @@ void CUIContainer_bu::Update()
 
 bool CUIContainer_bu::SaveToScene(FILE* _pFile)
 {
-	FWriteLinkObj(m_pMainPanelObj, _pFile);
-	FWriteLinkObj(m_pInGamePanelObj, _pFile);
+	FWriteObj(m_pMainPanelObj, _pFile);
+	FWriteObj(m_pInGamePanelObj, _pFile);
 
 	return true;
 }
 
 bool CUIContainer_bu::LoadFromScene(FILE* _pFile)
 {
-	FReadLinkObj((CObject**)&m_pMainPanelObj, _pFile);
-	FReadLinkObj((CObject**)&m_pInGamePanelObj, _pFile);
+	FReadObj(&m_pMainPanelObj, _pFile);
+	FReadObj(&m_pInGamePanelObj, _pFile);
 	return true;
 }
