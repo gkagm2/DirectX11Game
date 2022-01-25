@@ -19,7 +19,7 @@
 #define SINGLETON_SCRIPT_CPP(type) type* type::m_pInst = nullptr;
 
 // 복사생성자에서 Param을 추가할 경우 적용시켜야 됨
-#define AddParam_LINKOBJ(pTargetObj_OUT, pOriginTargetObj, TYPE) if (((TYPE*)&_origin)->GetGameObject()->IsExistGameObjectInChilds(pOriginTargetObj, true))\
+#define AddParam_LINKOBJ(pTargetObj_OUT, pOriginTargetObj, TYPE) if (((TYPE*)&_origin)->GetGameObject()->IsExistGameObjectInTree(pOriginTargetObj))\
 CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 
 // 20210720 ImGui에 DeltaTime이 존해함. DeltaTime -> DT로 변환

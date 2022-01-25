@@ -60,6 +60,7 @@ int CPrefab::Load(const tstring& _strFilePath)
 
 	m_pProtoObj = new CGameObject;
 	m_pProtoObj->LoadFromScene(pFile, 0);
+
 	fclose(pFile);
 
 	return 1;
