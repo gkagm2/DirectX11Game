@@ -8,6 +8,7 @@ private:
 	LARGE_INTEGER m_llPrevFrameCount;
 	LARGE_INTEGER m_llPrevCount;
 
+	bool m_bFPSShow;
 	tstring m_strFPS;
 
 	float m_fDeltaTime; // 프레임 간격 시간

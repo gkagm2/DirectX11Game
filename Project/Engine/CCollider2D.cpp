@@ -10,6 +10,11 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 
+#ifdef _DEBUG
+bool CCollider2D::m_bColliderShow = true;
+#else
+bool CCollider2D::m_bColliderShow = false;
+#endif 
 CCollider2D::CCollider2D() :
 	CCollider(E_ComponentType::Collider2D),
 	m_vOffsetPosition{},
@@ -41,12 +46,11 @@ void CCollider2D::Render()
 	// 재질 세팅
 	m_pMaterial->UpdateData();
 
-	static bool Rendering = true;
 	if (InputKeyPress(E_Key::F9))
-		Rendering = !Rendering;
+		m_bColliderShow = m_bColliderShow == true ? false : true;
 
 	// 렌더링
-	if(Rendering)
+	if (m_bColliderShow)
 		m_pMesh->Render();
 
 	// 메터리얼 클리어

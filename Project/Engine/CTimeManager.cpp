@@ -2,6 +2,7 @@
 #include "CTimeManager.h"
 #include "CCore.h"
 #include "CFontManager.h"
+#include "CKeyManager.h"
 
 CTimeManager::CTimeManager() :
 	m_llFrequency{},
@@ -12,7 +13,8 @@ CTimeManager::CTimeManager() :
 	m_iFPS(0),
 	m_iFrameCount(0),
 	m_timeScale(1.0f),
-	m_bIsRender(false)
+	m_bIsRender(false),
+	m_bFPSShow{true}
 {
 	m_bIsRender = true;
 }
@@ -64,5 +66,10 @@ void CTimeManager::Update()
 void CTimeManager::Render()
 {
 	//tstring tile = _T("Hello World ¾È´¨.");
-	CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10, 30, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
+	if (InputKeyPress(E_Key::F11)) {
+		m_bFPSShow = m_bFPSShow == true ? false : true;
+	}
+	if (m_bFPSShow) {
+		CFontManager::GetInstance()->DrawFont(m_strFPS.c_str(), 10, 30, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
+	}
 }

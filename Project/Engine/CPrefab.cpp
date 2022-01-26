@@ -19,7 +19,8 @@ CPrefab::~CPrefab()
 CGameObject* CPrefab::Instantiate()
 {
 	assert(m_pProtoObj);
-	return m_pProtoObj->Clone();
+	CGameObject* pCloneObj = m_pProtoObj->Clone();
+	return pCloneObj;
 }
 
 bool CPrefab::Save(const tstring& _strRelativePath)
