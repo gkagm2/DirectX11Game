@@ -69,6 +69,41 @@ void CEventManager::Update()
 		}
 	}
 	m_vecTargetLinkObj.clear();
+	
+	for (size_t i = 0; i < m_vecTargetLinkObj2.size(); ++i) {
+		CGameObject** pTargetObj = std::get<0>(m_vecTargetLinkObj2[i]);
+		tstring* pStrLocalAdr = std::get<1>(m_vecTargetLinkObj2[i]);
+		CComponent* pComponent = std::get<2>(m_vecTargetLinkObj2[i]);
+		CGameObject* pComObj = pComponent->GetGameObject();
+
+		CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+		if (pCurScene) {
+			vector<int> vecLocalAddress;
+			pComObj->ChangeLocalAddressToIntTotal(vecLocalAddress, *pStrLocalAdr);
+
+			vector<CGameObject*> vecRoots;
+			pCurScene->GetRootGameObjects(vecRoots);
+			if (vecRoots.empty()) { // prefab이면서 scened load되기전에 prefab으로 load한 것임
+
+			}
+			else {
+				CGameObject* pObj = nullptr;
+				if (0 < vecLocalAddress.size())
+					pObj = vecRoots[vecLocalAddress[0]];
+				for (size_t j = 1; j < vecLocalAddress.size(); ++j) {
+					int num = vecLocalAddress[j];
+					pObj = pObj->GetChildsObject()[num];
+				}
+				*pTargetObj = pObj;
+			}
+		}
+		if (pStrLocalAdr) {
+			delete pStrLocalAdr; pStrLocalAdr = nullptr;
+		}
+	}
+	m_vecTargetLinkObj2.clear();
+
+
 
 	for (size_t i = 0; i < m_vecTargetLinkComponent.size(); ++i) {
 		CComponent* pClonedCom = std::get<0>(m_vecTargetLinkComponent[i]);
@@ -262,6 +297,16 @@ void CEventManager::_Excute(const TEvent& _event)
 		m_vecTargetLinkObj.push_back(std::make_pair(pObj, id));
 	}
 		break;
+	case E_EventType::Link_GameObjectWhensceneLoadv2: {
+		// lparam : Target object (out)
+		// wparam : 로컬 주소 경로
+		// mparam : Target object가 멤버변수로 있는 클래스
+		CGameObject** pTargetObjOut = (CGameObject**)_event.lparam;
+		tstring* pStrLocalAdr = (tstring*)_event.wparam;
+		CComponent* pComp = (CComponent*)_event.mparam;
+		m_vecTargetLinkObj2.push_back(std::make_tuple(pTargetObjOut, pStrLocalAdr, pComp));
+	}
+		break;
 	case E_EventType::Link_GameObjectWhenClone: {
 		// lparam : 복사 대상의 Root 오브젝트
 		// wparam : 넣어줄 대상 오브젝트
@@ -276,7 +321,6 @@ void CEventManager::_Excute(const TEvent& _event)
 		// 없음
 	}
 		break;
-
 	default:
 		assert(nullptr);
 		break;

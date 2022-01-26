@@ -76,6 +76,9 @@ uuid FWriteObj(T& _Data, FILE* _pFile) {
 	return id;
 }
 
+bool FWriteObj2(CGameObject* _Obj, FILE* _pFile);
+
+
 template<typename T>
 uuid FReadObj(T** _data, FILE* _pFile) {
 	bool isExist = false;
@@ -87,6 +90,18 @@ uuid FReadObj(T** _data, FILE* _pFile) {
 		CObject::LinkObjectWhenSceneLoadEvn((CObject**)_data, id);
 	}
 	return id;
+}
+
+template<typename T1, typename T2>
+bool FReadObj2(T1** _data, T2* _CurComponent, FILE* _pFile) {
+	bool isExist = false;
+	FRead(isExist, _pFile);
+	if (isExist) {
+		tstring strLocalAdr = {};
+		LoadStringFromFile(strLocalAdr, _pFile);
+		CObject::LinkObjectWhenSceneLoadEvn(_data, strLocalAdr, _CurComponent);
+	}
+	return true;
 }
 
 class CResource;

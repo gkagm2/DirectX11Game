@@ -34,6 +34,7 @@ public:
 	// Load 될 때 script 코드에서 target object를 연결해주기 위해서 사용
 	static void LinkObjectWhenSceneLoadEvn(CObject** _pTargetObj, uuid _tTargetId);
 	static void LinkObjectWhenCloneGameObjEvn(CComponent* _pComp, CGameObject** _pTargetObj, CGameObject* _pOriginTargetObj);
+	static void LinkObjectWhenSceneLoadEvn(CGameObject** _pTargetObj, const tstring& strLocalAddress, CComponent* _pComponent);
 
 public:
 	UINT GetID() { return m_iID; }

@@ -692,44 +692,54 @@ CGameObject* CGameObject::FindGameObjectFromLocalAddress(const tstring& _strLoca
 {
 	CGameObject* pObj = GetRootObject();
 
-		int idx = 0;
-		int istart = 1;
-		int iend = 0;
-		int ioriginstart;
-		int i = 0;
-		tstring strNum{};
-		int nodeNum = -1;
-		int iSize = (int)_strLocalAddress.size();
-		vector<int> vecNode;
-		for (; i < iSize; ++i) {
-			if (_strLocalAddress[i] == _T('-')) {
-				ioriginstart = istart;
-				istart = i + 1;
-				iend = i - 1;
+	vector<int> vecNode;
+	ChangeLocalAddressToIntTotal(vecNode, _strLocalAddress);
 
-				if (iend > 0) {
-					int len = iend - ioriginstart + 1;
-					strNum = _strLocalAddress.substr(ioriginstart, len);
-					nodeNum = _ttoi(strNum.c_str());
-					vecNode.push_back(nodeNum);
-				}
-			}
-		}
-		if (iend > 0) {
-			ioriginstart = istart;
-			iend = iSize - 1;
-			int len = iend - ioriginstart + 1;
-			strNum = _strLocalAddress.substr(ioriginstart, len);
-			nodeNum = _ttoi(strNum.c_str());
-			vecNode.push_back(nodeNum);
-		}
-		for (size_t i = 1; i < vecNode.size(); ++i) {
-			int idx = vecNode[i];
-			pObj = pObj->GetChildsObject()[idx];
-		}
+	if (vecNode.empty())
+		return nullptr;
 		
+	for (size_t i = 1; i < vecNode.size(); ++i) {
+		int idx = vecNode[i];
+		pObj = pObj->GetChildsObject()[idx];
+	}
 
 	return pObj;
+}
+
+void CGameObject::ChangeLocalAddressToIntTotal(vector<int>& _vecOut, const tstring& _strLocalAddress)
+{
+	_vecOut.clear();
+	int idx = 0;
+	int istart = 1;
+	int iend = 0;
+	int ioriginstart;
+	int i = 0;
+	tstring strNum{};
+	int nodeNum = -1;
+	int iSize = (int)_strLocalAddress.size();
+
+	for (; i < iSize; ++i) {
+		if (_strLocalAddress[i] == _T('-')) {
+			ioriginstart = istart;
+			istart = i + 1;
+
+			if (iend > 0) {
+				int len = iend - ioriginstart + 1;
+				strNum = _strLocalAddress.substr(ioriginstart, len);
+				nodeNum = _ttoi(strNum.c_str());
+				_vecOut.push_back(nodeNum);
+			}
+		}
+		iend = i;
+	}
+	if (iend > 0) {
+		ioriginstart = istart;
+		iend = iSize - 1;
+		int len = iend - ioriginstart + 1;
+		strNum = _strLocalAddress.substr(ioriginstart, len);
+		nodeNum = _ttoi(strNum.c_str());
+		_vecOut.push_back(nodeNum);
+	}
 }
 
 bool CGameObject::SaveToScene(FILE* _pFile)

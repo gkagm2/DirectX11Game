@@ -124,6 +124,7 @@ public:
 	tstring GetLocalAddressTotal();
 	int GetLocalAddress() { return m_iLocalAddress; }
 	CGameObject* FindGameObjectFromLocalAddress(const tstring& _strLocalAddress);
+	void ChangeLocalAddressToIntTotal(vector<int>& _vecOut, const tstring& _strLocalAddress);
 
 private:
 	vector<CScript*>& _GetScripts() { return m_vecScript; }

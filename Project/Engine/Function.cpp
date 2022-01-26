@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Function.h"
 
+
 void SaveStringToFile(const tstring& _str, FILE* _pFile)
 {
 	size_t iLen = _str.length();
@@ -16,6 +17,20 @@ void LoadStringFromFile(tstring& _str, FILE* _pFile)
 	fread(&iLen, sizeof(size_t), 1, _pFile);
 	fread(szBuffer, sizeof(TCHAR), iLen, _pFile);
 	_str = szBuffer;
+}
+
+#include "CGameObject.h"
+bool FWriteObj2(CGameObject* _Obj, FILE* _pFile)
+{
+	bool isExist = false;
+	if (_Obj)
+		isExist = true;
+	FWrite(isExist, _pFile);
+	if (isExist) {
+		tstring strLocalAdr = _Obj->GetLocalAddressTotal();
+		SaveStringToFile(strLocalAdr, _pFile);
+	}
+	return true;
 }
 
 void StringToTStringVec(const vector<string>& _in, vector<tstring>& _out)

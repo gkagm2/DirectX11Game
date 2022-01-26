@@ -142,6 +142,17 @@ void CObject::LinkObjectWhenCloneGameObjEvn(CComponent* _pComp, CGameObject** _p
     CEventManager::GetInstance()->AddEvent(even);
 }
 
+void CObject::LinkObjectWhenSceneLoadEvn(CGameObject** _pTargetObj, const tstring& strLocalAddress, CComponent* _pComponent)
+{
+    TEvent even = {};
+    even.eType = E_EventType::Link_GameObjectWhensceneLoadv2;
+    even.lparam = (DWORD_PTR)_pTargetObj;
+    tstring* pLocalAddress = new tstring(strLocalAddress);
+    even.wparam = (DWORD_PTR)pLocalAddress;
+    even.mparam = (DWORD_PTR)_pComponent;
+    CEventManager::GetInstance()->AddEvent(even);
+}
+
 bool CObject::SaveToScene(FILE* _pFile)
 {
     FWrite(m_uuid, _pFile);

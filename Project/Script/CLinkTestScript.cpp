@@ -23,12 +23,17 @@ CLinkTestScript::CLinkTestScript(const CLinkTestScript& _origin) :
 
 bool CLinkTestScript::SaveToScene(FILE* _pFile)
 {
-	FWriteObj(pTargetObj, _pFile);
+	//FWriteObj(pTargetObj, _pFile);
+	FWriteObj2(pTargetObj, _pFile);
+
 	return true;
 }
 
 bool CLinkTestScript::LoadFromScene(FILE* _pFile)
 {
-	FReadObj(&pTargetObj, _pFile);
+	//FReadObj(&pTargetObj, _pFile);
+
+	FReadObj2(&pTargetObj, this, _pFile);
+
 	return true;
 }
