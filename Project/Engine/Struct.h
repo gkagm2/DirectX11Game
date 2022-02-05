@@ -7,6 +7,10 @@ struct VTX { // Vertex
 	Vector3 vPos;
 	Vector4 vColor;
 	Vector2 vUV;
+
+	Vector3 vTangent; // 표면의 접선 벡터   (평행)
+	Vector3 vNormal;  // 표면의 법선 벡터   (수직)
+	Vector3 vBinormal;// 표면의 종법선 벡터 (평행)
 };
 
 /////////////////////////////

@@ -23,9 +23,11 @@ CResourceManager::~CResourceManager()
 
 void CResourceManager::Init()
 {
+	InitInputLayout();
+
 	CreateDefaultMesh();
 	CreateDefaultCircle2DMesh();
-	//CreateDefaultCubeMesh3D();
+	CreateDefaultCubeMesh3D();
 	CreateDefaultShader();
 	CreateDefaultTexture();
 	CreateComputeShader();
@@ -234,54 +236,152 @@ void CResourceManager::CreateDefaultCircle2DMesh()
 void CResourceManager::CreateDefaultCubeMesh3D()
 {
 	// TODO (Jang): 20210606 UV 좌표 값 넣기
-	// 
-	// 버퍼 만들기
-	VTX vertices[] = {
-		{ Vector3(-1.0f, 1.0f, -1.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f) },
-		{ Vector3(1.0f, 1.0f, -1.0f), Vector4(0.0f, 1.0f, 0.0f, 1.0f) },
-		{ Vector3(1.0f, 1.0f, 1.0f), Vector4(0.0f, 1.0f, 1.0f, 1.0f) },
-		{ Vector3(-1.0f, 1.0f, 1.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f) },
-		{ Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 0.0f, 1.0f, 1.0f) },
-		{ Vector3(1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 0.0f, 1.0f) },
-		{ Vector3(1.0f, -1.0f, 1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f) },
-		{ Vector3(-1.0f, -1.0f, 1.0f), Vector4(0.0f, 0.0f, 0.0f, 1.0f) },
-	};
+	// =========
+	// Cube Mesh
+	// =========
+	VTX vertices[24] = {};
+	vector<UINT> vecIdx;
+	// 윗면
+	vertices[0].vPos = Vector3(-0.5f, 0.5f, 0.5f);
+	vertices[0].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertices[0].vUV = Vector2(0.f, 0.f);
+	vertices[0].vNormal = Vector3(0.f, 1.f, 0.f);
 
-	// create index buffer
-	//UINT arrIdx[6] = { 0 ,1, 3, 3, 1, 2 };
-	/*
-		3----- 2
-		  ＼
-	0-------1  |
-	|＼     |  |
-	|  ＼   |  |
-	|   7＼ |--6
-	4-------5
-	*/
+	vertices[1].vPos = Vector3(0.5f, 0.5f, 0.5f);
+	vertices[1].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertices[1].vUV = Vector2(0.f, 0.f);
+	vertices[1].vNormal = Vector3(0.f, 1.f, 0.f);
 
-	UINT arrIdx[] =
+	vertices[2].vPos = Vector3(0.5f, 0.5f, -0.5f);
+	vertices[2].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertices[2].vUV = Vector2(0.f, 0.f);
+	vertices[2].vNormal = Vector3(0.f, 1.f, 0.f);
+
+	vertices[3].vPos = Vector3(-0.5f, 0.5f, -0.5f);
+	vertices[3].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+	vertices[3].vUV = Vector2(0.f, 0.f);
+	vertices[3].vNormal = Vector3(0.f, 1.f, 0.f);
+
+
+	// 아랫 면	
+	vertices[4].vPos = Vector3(-0.5f, -0.5f, -0.5f);
+	vertices[4].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
+	vertices[4].vUV = Vector2(0.f, 0.f);
+	vertices[4].vNormal = Vector3(0.f, -1.f, 0.f);
+
+	vertices[5].vPos = Vector3(0.5f, -0.5f, -0.5f);
+	vertices[5].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
+	vertices[5].vUV = Vector2(0.f, 0.f);
+	vertices[5].vNormal = Vector3(0.f, -1.f, 0.f);
+
+	vertices[6].vPos = Vector3(0.5f, -0.5f, 0.5f);
+	vertices[6].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
+	vertices[6].vUV = Vector2(0.f, 0.f);
+	vertices[6].vNormal = Vector3(0.f, -1.f, 0.f);
+
+	vertices[7].vPos = Vector3(-0.5f, -0.5f, 0.5f);
+	vertices[7].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
+	vertices[7].vUV = Vector2(0.f, 0.f);
+	vertices[7].vNormal = Vector3(0.f, -1.f, 0.f);
+
+	// 왼쪽 면
+	vertices[8].vPos = Vector3(-0.5f, 0.5f, 0.5f);
+	vertices[8].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
+	vertices[8].vUV = Vector2(0.f, 0.f);
+	vertices[8].vNormal = Vector3(-1.f, 0.f, 0.f);
+
+	vertices[9].vPos = Vector3(-0.5f, 0.5f, -0.5f);
+	vertices[9].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
+	vertices[9].vUV = Vector2(0.f, 0.f);
+	vertices[9].vNormal = Vector3(-1.f, 0.f, 0.f);
+
+	vertices[10].vPos = Vector3(-0.5f, -0.5f, -0.5f);
+	vertices[10].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
+	vertices[10].vUV = Vector2(0.f, 0.f);
+	vertices[10].vNormal = Vector3(-1.f, 0.f, 0.f);
+
+	vertices[11].vPos = Vector3(-0.5f, -0.5f, 0.5f);
+	vertices[11].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
+	vertices[11].vUV = Vector2(0.f, 0.f);
+	vertices[11].vNormal = Vector3(-1.f, 0.f, 0.f);
+
+	// 오른쪽 면
+	vertices[12].vPos = Vector3(0.5f, 0.5f, -0.5f);
+	vertices[12].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
+	vertices[12].vUV = Vector2(0.f, 0.f);
+	vertices[12].vNormal = Vector3(1.f, 0.f, 0.f);
+
+	vertices[13].vPos = Vector3(0.5f, 0.5f, 0.5f);
+	vertices[13].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
+	vertices[13].vUV = Vector2(0.f, 0.f);
+	vertices[13].vNormal = Vector3(1.f, 0.f, 0.f);
+
+	vertices[14].vPos = Vector3(0.5f, -0.5f, 0.5f);
+	vertices[14].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
+	vertices[14].vUV = Vector2(0.f, 0.f);
+	vertices[14].vNormal = Vector3(1.f, 0.f, 0.f);
+
+	vertices[15].vPos = Vector3(0.5f, -0.5f, -0.5f);
+	vertices[15].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
+	vertices[15].vUV = Vector2(0.f, 0.f);
+	vertices[15].vNormal = Vector3(1.f, 0.f, 0.f);
+
+	// 뒷 면
+	vertices[16].vPos = Vector3(0.5f, 0.5f, 0.5f);
+	vertices[16].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
+	vertices[16].vUV = Vector2(0.f, 0.f);
+	vertices[16].vNormal = Vector3(0.f, 0.f, 1.f);
+
+	vertices[17].vPos = Vector3(-0.5f, 0.5f, 0.5f);
+	vertices[17].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
+	vertices[17].vUV = Vector2(0.f, 0.f);
+	vertices[17].vNormal = Vector3(0.f, 0.f, 1.f);
+
+	vertices[18].vPos = Vector3(-0.5f, -0.5f, 0.5f);
+	vertices[18].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
+	vertices[18].vUV = Vector2(0.f, 0.f);
+	vertices[18].vNormal = Vector3(0.f, 0.f, 1.f);
+
+	vertices[19].vPos = Vector3(0.5f, -0.5f, 0.5f);
+	vertices[19].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
+	vertices[19].vUV = Vector2(0.f, 0.f);
+	vertices[19].vNormal = Vector3(0.f, 0.f, 1.f);
+
+	// 앞 면
+	vertices[20].vPos = Vector3(-0.5f, 0.5f, -0.5f);;
+	vertices[20].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
+	vertices[20].vUV = Vector2(0.f, 0.f);
+	vertices[20].vNormal = Vector3(0.f, 0.f, -1.f);
+
+	vertices[21].vPos = Vector3(0.5f, 0.5f, -0.5f);
+	vertices[21].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
+	vertices[21].vUV = Vector2(0.f, 0.f);
+	vertices[21].vNormal = Vector3(0.f, 0.f, -1.f);
+
+	vertices[22].vPos = Vector3(0.5f, -0.5f, -0.5f);
+	vertices[22].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
+	vertices[22].vUV = Vector2(0.f, 0.f);
+	vertices[22].vNormal = Vector3(0.f, 0.f, -1.f);
+
+	vertices[23].vPos = Vector3(-0.5f, -0.5f, -0.5f);
+	vertices[23].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
+	vertices[23].vUV = Vector2(0.f, 0.f);
+	vertices[23].vNormal = Vector3(0.f, 0.f, -1.f);
+
+	// 인덱스
+	for (int i = 0; i < 12; i += 2)
 	{
-		3,1,0,
-		2,1,3,
+		vecIdx.push_back(i * 2);
+		vecIdx.push_back(i * 2 + 1);
+		vecIdx.push_back(i * 2 + 2);
 
-		0,5,4,
-		1,5,0,
-
-		3,4,7,
-		0,4,3,
-
-		1,6,5,
-		2,6,1,
-
-		2,7,6,
-		3,7,2,
-
-		6,4,5,
-		7,4,6,
-	};
+		vecIdx.push_back(i * 2);
+		vecIdx.push_back(i * 2 + 2);
+		vecIdx.push_back(i * 2 + 3);
+	}
 
 	CMesh* pMesh = new CMesh();
-	pMesh->Create(vertices, sizeof(VTX) * 8, arrIdx, sizeof(UINT) * 36, D3D11_USAGE_DEFAULT);
+	pMesh->Create(vertices, sizeof(VTX) * 24, vecIdx.data(), sizeof(UINT) * vecIdx.size(), D3D11_USAGE_DEFAULT);
 
 	AddRes(STR_KEY_CubeMesh, pMesh); // AddResource<CMesh>(STR_KEY_RectMash, pMesh);
 }
@@ -596,6 +696,19 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Line Color") });
 	
 	AddRes(STR_KEY_LineListShader, pShader);
+
+	//---------------------------
+	// Std3D Shader (3D용 기본 쉐이더)
+	
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_VTXShader3D);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_PIXShader3D);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
+	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	AddRes(STR_KEY_Std3DShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -745,6 +858,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderLineList = LoadRes<CGraphicsShader>(STR_KEY_LineListShader);
 	pMtrl->SetShader(pShaderLineList);
 	AddRes(STR_KEY_LineListMtrl, pMtrl);
+
+	// Std 3D 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderStd3D = LoadRes<CGraphicsShader>(STR_KEY_Std3DShader);
+	pMtrl->SetShader(pShaderStd3D);
+	AddRes(STR_KEY_Std3DMtrl, pMtrl);
 }
 
 #include "CTestShader.h"
@@ -772,6 +891,48 @@ void CResourceManager::InitSound()
 
 	// 32개 채널 생성
 	CSound::g_pFMOD->init(32, FMOD_DEFAULT, nullptr);
+}
+
+void CResourceManager::InitInputLayout()
+{
+	g_vecLayoutDesc.push_back(
+		D3D11_INPUT_ELEMENT_DESC{
+			"POSITION",						//SemanticName;
+			0,								//SemanticIndex;
+			DXGI_FORMAT_R32G32B32_FLOAT,	//Format; (offset 0부터 12byte인것을 포멧으로 알려준다.)
+			0,								//InputSlot;
+			0,								//AlignedByteOffset;
+			D3D11_INPUT_PER_VERTEX_DATA,	//InputSlotClass (시멘틱이 정점마다 존재한다 (덩어리 단계로))
+			0								//InstanceDataStepRate;
+		}
+	);
+	g_vecLayoutDesc.push_back(
+		D3D11_INPUT_ELEMENT_DESC{
+			"COLOR",						//SemanticName;
+			0,								//SemanticIndex;
+			DXGI_FORMAT_R32G32B32A32_FLOAT,	//Format; (12byte ~28)
+			0,								//InputSlot;
+			12,								//AlignedByteOffset;
+			D3D11_INPUT_PER_VERTEX_DATA,	//InputSlotClass
+			0								//InstanceDataStepRate;
+		}
+
+	);
+	g_vecLayoutDesc.push_back(
+		D3D11_INPUT_ELEMENT_DESC{
+			"TEXCOORD",						//SemanticName;
+			0,								//SemanticIndex;
+			DXGI_FORMAT_R32G32_FLOAT,		//Format;
+			0,								//InputSlot;
+			28,								//AlignedByteOffset;
+			D3D11_INPUT_PER_VERTEX_DATA,	//InputSlotClass
+			0								//InstanceDataStepRate;
+		}
+	);
+
+	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 });
 }
 
 void CResourceManager::CreateDefaultTexture()

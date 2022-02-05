@@ -83,8 +83,9 @@ void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const 
 	}
 
 	// InputLayout(Sementic) ¼³Á¤
-	UINT iElementsCnt = ARRAYSIZE(g_arrLayoutDesc); // sizeof(g_LayoutDesc) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-	if (FAILED(DEVICE->CreateInputLayout(g_arrLayoutDesc, iElementsCnt, m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), m_pLayout.GetAddressOf()))) {
+	UINT iElementsCnt = g_vecLayoutDesc.size();
+
+	if (FAILED(DEVICE->CreateInputLayout(g_vecLayoutDesc.data(), iElementsCnt, m_pVSBlob->GetBufferPointer(), m_pVSBlob->GetBufferSize(), m_pLayout.GetAddressOf()))) {
 		assert(nullptr);
 	}
 }

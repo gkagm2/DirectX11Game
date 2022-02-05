@@ -24,6 +24,7 @@
 /////////////// Path ///////////////
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
+#define STR_FILE_PATH_Shader3D _T("shader\\std3d.fx")
 #define STR_FILE_PATH_TileMapShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_TileMapLightShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
@@ -83,6 +84,9 @@
 #define STR_FUNC_NAME_VTXLineShader "VS_Line"
 #define STR_FUNC_NAME_PIXLineShader "PS_Line"
 
+#define STR_FUNC_NAME_VTXShader3D "VS_Std3D"
+#define STR_FUNC_NAME_PIXShader3D "PS_Std3D"
+
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -133,6 +137,7 @@
 #define STR_KEY_ButtonUIShader _T("ButtonUIShader")
 #define STR_KEY_GridShader _T("GridShader")
 #define STR_KEY_LineListShader _T("LineListShader")
+#define STR_KEY_Std3DShader _T("StandardShader3D")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -162,6 +167,7 @@
 #define STR_KEY_Fog2DMtrl _T("Fog2DMaterial")
 #define STR_KEY_ButtonUIMtrl _T("ButtonUIMaterial")
 #define STR_KEY_GridMtrl _T("GridMaterial")
+#define STR_KEY_Std3DMtrl _T("StandardMaterial3D")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")

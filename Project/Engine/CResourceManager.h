@@ -33,6 +33,7 @@ public:
 	void CreateComputeShader();
 
 	void InitSound();
+	void InitInputLayout();
 	
 public:
 	SharedPtr<CTexture> CreateTexture(const tstring& _strKey, UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag); // param(_iBindFlag) : D3D11_BIND_FLAG
