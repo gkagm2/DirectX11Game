@@ -49,7 +49,7 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
     
     // pow에 따라서 세기를 조절해줘야 하니까.
     vColor = _in.vColor;
-    vColor.xyz = vColor.xyz * _in.fLightPow * g_vLightColor;
+    vColor.xyz = g_tex_0.Sample(Sample_Point, _in.vUV).xyz * vColor.xyz * _in.fLightPow * g_vLightColor;
     vColor.w = 1.f;
     return vColor;
 }

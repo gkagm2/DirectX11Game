@@ -249,17 +249,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[1].vPos = Vector3(0.5f, 0.5f, 0.5f);
 	vertices[1].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
-	vertices[1].vUV = Vector2(0.f, 0.f);
+	vertices[1].vUV = Vector2(1.f, 0.f);
 	vertices[1].vNormal = Vector3(0.f, 1.f, 0.f);
 
 	vertices[2].vPos = Vector3(0.5f, 0.5f, -0.5f);
 	vertices[2].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
-	vertices[2].vUV = Vector2(0.f, 0.f);
+	vertices[2].vUV = Vector2(1.f, 1.f);
 	vertices[2].vNormal = Vector3(0.f, 1.f, 0.f);
 
 	vertices[3].vPos = Vector3(-0.5f, 0.5f, -0.5f);
 	vertices[3].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
-	vertices[3].vUV = Vector2(0.f, 0.f);
+	vertices[3].vUV = Vector2(0.f, 1.f);
 	vertices[3].vNormal = Vector3(0.f, 1.f, 0.f);
 
 
@@ -271,17 +271,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[5].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[5].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
-	vertices[5].vUV = Vector2(0.f, 0.f);
+	vertices[5].vUV = Vector2(1.f, 0.f);
 	vertices[5].vNormal = Vector3(0.f, -1.f, 0.f);
 
 	vertices[6].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[6].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
-	vertices[6].vUV = Vector2(0.f, 0.f);
+	vertices[6].vUV = Vector2(1.f, 1.f);
 	vertices[6].vNormal = Vector3(0.f, -1.f, 0.f);
 
 	vertices[7].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[7].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
-	vertices[7].vUV = Vector2(0.f, 0.f);
+	vertices[7].vUV = Vector2(0.f, 1.f);
 	vertices[7].vNormal = Vector3(0.f, -1.f, 0.f);
 
 	// ¿ÞÂÊ ¸é
@@ -292,17 +292,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[9].vPos = Vector3(-0.5f, 0.5f, -0.5f);
 	vertices[9].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
-	vertices[9].vUV = Vector2(0.f, 0.f);
+	vertices[9].vUV = Vector2(1.f, 0.f);
 	vertices[9].vNormal = Vector3(-1.f, 0.f, 0.f);
 
 	vertices[10].vPos = Vector3(-0.5f, -0.5f, -0.5f);
 	vertices[10].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
-	vertices[10].vUV = Vector2(0.f, 0.f);
+	vertices[10].vUV = Vector2(1.f, 1.f);
 	vertices[10].vNormal = Vector3(-1.f, 0.f, 0.f);
 
 	vertices[11].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[11].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
-	vertices[11].vUV = Vector2(0.f, 0.f);
+	vertices[11].vUV = Vector2(0.f, 1.f);
 	vertices[11].vNormal = Vector3(-1.f, 0.f, 0.f);
 
 	// ¿À¸¥ÂÊ ¸é
@@ -313,17 +313,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[13].vPos = Vector3(0.5f, 0.5f, 0.5f);
 	vertices[13].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
-	vertices[13].vUV = Vector2(0.f, 0.f);
+	vertices[13].vUV = Vector2(1.f, 0.f);
 	vertices[13].vNormal = Vector3(1.f, 0.f, 0.f);
 
 	vertices[14].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[14].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
-	vertices[14].vUV = Vector2(0.f, 0.f);
+	vertices[14].vUV = Vector2(1.f, 1.f);
 	vertices[14].vNormal = Vector3(1.f, 0.f, 0.f);
 
 	vertices[15].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[15].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
-	vertices[15].vUV = Vector2(0.f, 0.f);
+	vertices[15].vUV = Vector2(0.f, 1.f);
 	vertices[15].vNormal = Vector3(1.f, 0.f, 0.f);
 
 	// µÞ ¸é
@@ -334,17 +334,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[17].vPos = Vector3(-0.5f, 0.5f, 0.5f);
 	vertices[17].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
-	vertices[17].vUV = Vector2(0.f, 0.f);
+	vertices[17].vUV = Vector2(1.f, 0.f);
 	vertices[17].vNormal = Vector3(0.f, 0.f, 1.f);
 
 	vertices[18].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[18].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
-	vertices[18].vUV = Vector2(0.f, 0.f);
+	vertices[18].vUV = Vector2(1.f, 1.f);
 	vertices[18].vNormal = Vector3(0.f, 0.f, 1.f);
 
 	vertices[19].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[19].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
-	vertices[19].vUV = Vector2(0.f, 0.f);
+	vertices[19].vUV = Vector2(0.f, 1.f);
 	vertices[19].vNormal = Vector3(0.f, 0.f, 1.f);
 
 	// ¾Õ ¸é
@@ -355,17 +355,17 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	vertices[21].vPos = Vector3(0.5f, 0.5f, -0.5f);
 	vertices[21].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
-	vertices[21].vUV = Vector2(0.f, 0.f);
+	vertices[21].vUV = Vector2(1.f, 0.f);
 	vertices[21].vNormal = Vector3(0.f, 0.f, -1.f);
 
 	vertices[22].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[22].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
-	vertices[22].vUV = Vector2(0.f, 0.f);
+	vertices[22].vUV = Vector2(1.f, 1.f);
 	vertices[22].vNormal = Vector3(0.f, 0.f, -1.f);
 
 	vertices[23].vPos = Vector3(-0.5f, -0.5f, -0.5f);
 	vertices[23].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
-	vertices[23].vUV = Vector2(0.f, 0.f);
+	vertices[23].vUV = Vector2(0.f, 1.f);
 	vertices[23].vNormal = Vector3(0.f, 0.f, -1.f);
 
 	// ÀÎµ¦½º
