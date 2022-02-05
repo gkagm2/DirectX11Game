@@ -30,7 +30,7 @@ public:
 	void Create2DRectGameObject();
 
 	// 3D 
-	
+	void CreateCube();
 	// UI
 	void CreateTextUI();
 	void CreateImageUI();

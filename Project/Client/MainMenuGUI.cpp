@@ -106,6 +106,9 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Light2D")) {
                 CreateLight2D();
             }
+            if (ImGui::MenuItem("Create Cube")) {
+                CreateCube();
+            }
             if (ImGui::MenuItem("Create Cursor")) {
                 CreateCursorUI();
             }
@@ -321,6 +324,11 @@ void MainMenuGUI::CreateNewScene()
 void MainMenuGUI::Create2DRectGameObject()
 {
     CObjectManager::GetInstance()->Create2DRectGameObject();
+}
+
+void MainMenuGUI::CreateCube()
+{
+    CObjectManager::GetInstance()->CreateCubeGameObject();
 }
 
 void MainMenuGUI::CreateTextUI()

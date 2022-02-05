@@ -21,6 +21,8 @@ UINT g_iEmptyRect2DGameObjectID = 0;
 UINT g_iEmptyParticleSystemGameObjectID = 0;
 UINT g_iEmptyLight2DID = 0;
 
+UINT g_iEmptyCubeGameObjectID = 0;
+
 
 UINT g_iTextUIGameObjectID = 0;
 UINT g_iButtonUIGameObjectID = 0;
@@ -156,6 +158,28 @@ CGameObject* CObjectManager::Create2DRectGameObject(UINT _iLayer)
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
 	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdLight2DMtrl));
+
+	// Tool Camera가 바라보고 있는 위치에 생성
+	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+		vWorldPos.z = 0.f;
+	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+
+	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateCubeGameObject(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Cube GameObject"), g_iEmptyCubeGameObjectID);
+
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CMeshRenderer>();
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_CubeMesh));
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
