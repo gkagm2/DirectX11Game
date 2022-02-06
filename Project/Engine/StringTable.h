@@ -113,6 +113,7 @@
 #define STR_KEY_RectMesh _T("RectMesh")
 #define STR_KEY_RectLineMesh _T("RectLineMesh")
 #define STR_KEY_CubeMesh _T("CubeMesh")
+#define STR_KEY_SphereMesh _T("SphereMesh")
 #define STR_KEY_CircleMesh _T("CircleMesh")
 #define STR_KEY_CircleLineMesh _T("CircleLineMesh")
 #define STR_KEY_LineStripMesh _T("LineStriptMesh")

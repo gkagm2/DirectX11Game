@@ -498,7 +498,7 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE_DEFAULT);
-	AddRes(L"SphereMesh", pMesh);
+	AddRes(STR_KEY_SphereMesh, pMesh);
 
 	vecVtx.clear();
 	vecIdx.clear();

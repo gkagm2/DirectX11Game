@@ -14,6 +14,7 @@ public:
 	CGameObject* Create2DRectGameObject(UINT _iLayer = 0);	
 
 	CGameObject* CreateCubeGameObject(UINT _iLayer = 0);
+	CGameObject* CreateSphereGameobject(UINT _iLayer = 0);
 
 public:
 	CGameObject* CreateTextUI();

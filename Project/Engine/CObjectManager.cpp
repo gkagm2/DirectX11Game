@@ -22,6 +22,7 @@ UINT g_iEmptyParticleSystemGameObjectID = 0;
 UINT g_iEmptyLight2DID = 0;
 
 UINT g_iEmptyCubeGameObjectID = 0;
+UINT g_iEmptySphereGameObjectID = 0;
 
 
 UINT g_iTextUIGameObjectID = 0;
@@ -190,6 +191,31 @@ CGameObject* CObjectManager::CreateCubeGameObject(UINT _iLayer)
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateSphereGameobject(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Sphere GameObject"), g_iEmptySphereGameObjectID);
+
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CMeshRenderer>();
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh));
+
+	// Tool Camera가 바라보고 있는 위치에 생성
+	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+		vWorldPos.z = 0.f;
+	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+
+	return pNewGameObject;
+
+
+	return nullptr;
 }
 
 CGameObject* CObjectManager::_CreateUIGameObject()

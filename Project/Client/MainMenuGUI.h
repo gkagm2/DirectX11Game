@@ -31,6 +31,8 @@ public:
 
 	// 3D 
 	void CreateCube();
+	void CreateSphere();
+
 	// UI
 	void CreateTextUI();
 	void CreateImageUI();
