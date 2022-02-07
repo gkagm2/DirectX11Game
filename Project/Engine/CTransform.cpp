@@ -231,7 +231,7 @@ void CTransform::UpdateData()
 	g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
 
 	pCB->SetData(&g_transform);
-	pCB->UpdateData(E_ShaderStage::NonePixel);
+	pCB->UpdateData(E_ShaderStage::All);
 
 	// b4 레지스터에 상수버퍼 바인딩
 	static const CConstBuffer* pRectCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::RectTransform);

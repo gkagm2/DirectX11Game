@@ -25,7 +25,7 @@ CCamera::CCamera() :
 	m_eProjectionType(E_ProjectionType::Perspective),
 	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45도 60도
 	m_fSize{ 0.02f },
-	m_tClippingPlanes{ 1.f, 999999.f},
+	m_tClippingPlanes{ 0.3f, 999999.f},
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
 	m_matProjection{},
@@ -110,25 +110,25 @@ void CCamera::CalculateViewMatrix()
 	// same
 	// transpose(RotMat) * LocalRotMat * OtherRotMat = IdentityMat
 
-	const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
+	//const Vector3& vPos = GetGameObject()->Transform()->GetLocalPosition();
 
-	Matrix matTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
+	//Matrix matTrans = XMMatrixTranslation(-vPos.x, -vPos.y, -vPos.z);
 
-	Vector3 vRight = Transform()->GetRightVector();
-	Vector3 vUp =	 Transform()->GetUpVector();
-	Vector3 vFront = Transform()->GetFrontVector();
+	//Vector3 vRight = Transform()->GetRightVector();
+	//Vector3 vUp =	 Transform()->GetUpVector();
+	//Vector3 vFront = Transform()->GetFrontVector();
 
-	Matrix matRevolution = XMMatrixIdentity(); // 공전 (회전 량)
+	//Matrix matRevolution = XMMatrixIdentity(); // 공전 (회전 량)
 
-	// 전치된 행렬임 (역행렬 역할을 함. 서로 직교인 벡터이기 때문에 전치 이용함)
-	matRevolution._11 = vRight.x; matRevolution._12 = vUp.x; matRevolution._13 = vFront.x;
-	matRevolution._21 = vRight.y; matRevolution._22 = vUp.y; matRevolution._23 = vFront.y;
-	matRevolution._31 = vRight.z; matRevolution._32 = vUp.z; matRevolution._33 = vFront.z;
+	//// 전치된 행렬임 (역행렬 역할을 함. 서로 직교인 벡터이기 때문에 전치 이용함)
+	//matRevolution._11 = vRight.x; matRevolution._12 = vUp.x; matRevolution._13 = vFront.x;
+	//matRevolution._21 = vRight.y; matRevolution._22 = vUp.y; matRevolution._23 = vFront.y;
+	//matRevolution._31 = vRight.z; matRevolution._32 = vUp.z; matRevolution._33 = vFront.z;
 
-	// 회전 행렬 구하기
-	m_matView = matTrans * matRevolution; // 카메라는 원점으로 이동 후 회전시켜야되므로 위치 * 회전임.
+	//// 회전 행렬 구하기
+	//m_matView = matTrans * matRevolution; // 카메라는 원점으로 이동 후 회전시켜야되므로 위치 * 회전임.
 
-	/*
+	
 #pragma region 똑같은 기능의 다른 버전
 	Vector3 vPos = Transform()->GetLocalPosition();
 	m_matView = XMMatrixIdentity();
@@ -142,7 +142,7 @@ void CCamera::CalculateViewMatrix()
 	m_matView._31 = vRight.z;			m_matView._32 = vUp.z;			m_matView._33 = vFront.z;
 	m_matView._41 = -vPos.Dot(vRight);  m_matView._42 = -vPos.Dot(vUp); m_matView._43 = -vPos.Dot(vFront);
 #pragma endregion
-	*/
+	
 }
 
 void CCamera::CalculateProjectionMatrix()
