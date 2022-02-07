@@ -827,6 +827,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Shader Type") });
 	AddRes(STR_KEY_Std3DShader, pShader);
 }
 
