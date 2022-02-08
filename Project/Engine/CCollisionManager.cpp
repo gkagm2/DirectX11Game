@@ -35,6 +35,9 @@ void CCollisionManager::Update()
 			}
 		}
 	}
+
+	if (InputKeyPress(E_Key::F9))
+		m_bCollisionShow = m_bCollisionShow == true ? false : true;
 }
 
 void CCollisionManager::CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx)

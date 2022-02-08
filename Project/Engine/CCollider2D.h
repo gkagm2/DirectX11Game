@@ -3,7 +3,6 @@
 
 class CCollider2D : public CCollider, public ICollision2DInterface
 {
-	static bool m_bColliderShow;
 protected:
 	Vector2 m_vOffsetPosition;
 	Vector2 m_vOffsetScale;

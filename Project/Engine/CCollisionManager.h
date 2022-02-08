@@ -33,6 +33,8 @@ private:
 	bitset<MAX_SIZE_LAYER> m_bitsetCollisionGroup[MAX_SIZE_LAYER];
 	unordered_map<LONGLONG, bIsCollision> m_unmapCollisionInfo; // first : left와 right, second : 이전 프레임의 충돌 정보
 
+	bool m_bCollisionShow;
+
 public:
 	void Update();
 
@@ -56,6 +58,8 @@ public:
 	bool IsCollision(CCollider2D* _pCol, const Vector3& _vPoint); // 2d collsion
 	// RectTransform에 있는 영역과 ScreenPos의 MousePosition에 대한 충돌 처리
 	bool IsCollision(CRectTransform* _pRT, const Vector2& _vMousePosition);
+
+	bool IsCollisionShow() { return m_bCollisionShow; }
 
 private:
 	// OBB
