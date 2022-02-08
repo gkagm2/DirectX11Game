@@ -23,7 +23,11 @@ struct VTX_OUT
     float3 vViewPos : POSITION;
 };
 
-
+///////////////////////////////////////
+//     Std3D Shader
+#define OutputTex   g_tex_0
+#define SkyboxType      g_int_0
+///////////////////////////////////////
 
 VTX_OUT VS_Std3D(VTX_IN _in)
 {
@@ -87,13 +91,4 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
     //}
     return vColor;
 }
-
-
-
-
-
-
-
-
-
 #endif

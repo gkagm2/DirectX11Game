@@ -12,6 +12,7 @@ class CCollider3D;
 class CAnimator2D;
 class CLight2D;
 class CTileMap;
+class CSkybox;
 class CParticleSystem;
 class CRigidbody2D;
 class CRectTransform;

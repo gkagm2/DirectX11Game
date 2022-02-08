@@ -68,7 +68,9 @@ public:
 	void DeleteCopiedMaterialEvn(const tstring& _strKey);
 	void ChangeResourceKeyEvn(const tstring& _strKey, const tstring& _strKeyChange, E_ResourceType _eResourceType);
 	void DeleteCustomResourceEvn(const tstring& _strKey, E_ResourceType _eResourceType);
-	
+
+	void RenewResourcesFromDir(E_ResourceType _eType);
+
 private:
 	
 	void _DeleteCopiedMaterial(const tstring& _strKey);
@@ -76,6 +78,8 @@ private:
 	bool _DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType);
 	template<typename TYPE>
 	void LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter);
+
+	
 
 	friend class CEventManager;
 };

@@ -21,6 +21,7 @@
 #include "CRectTransform.h"
 #include "CCanvasRenderer.h"
 #include "CSpriteRenderer.h"
+#include "CSkybox.h"
 
 #include "CTextUI.h"
 #include "CButtonUI.h"
@@ -211,6 +212,10 @@ void CGameObject::Render()
 		TileMap()->Render();
 	else if (ParticleSystem() && ParticleSystem()->IsActive())	// 파티클 시스템 렌더링
 		ParticleSystem()->Render();
+	else if (Skybox() && Skybox()->IsActive()) {
+		//Skybox()->Render();
+	}
+		
 
 	if (Collider2D() && Collider2D()->IsActive())		// 충돌체 렌더링
 		Collider2D()->Render();
@@ -808,6 +813,8 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	// 컴포넌트 정보
 	UINT iComIdx = (UINT)E_ComponentType::End;
 	while (true) {
+		if (iComIdx == (UINT)E_ComponentType::Skybox)
+			continue;
 		FRead(iComIdx, _pFile);
 		if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
 			break;
@@ -862,6 +869,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::TileMap:
 		pComponent = new CTileMap;
+		break;
+	case E_ComponentType::Skybox:
+		pComponent = new CSkybox;
 		break;
 	case E_ComponentType::ParticleSystem:
 		pComponent = new CParticleSystem;

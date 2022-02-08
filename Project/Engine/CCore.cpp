@@ -20,7 +20,8 @@ HDC CCore::g_hDC = 0;
 
 CCore::CCore() :
 	m_hWnd(nullptr),
-	m_vWindowResolution{}
+	m_vWindowResolution{},
+	m_bOldVersionUpdate{false}
 {
 #ifdef _DEBUG
 	AllocConsole(); // 콘솔창 생성

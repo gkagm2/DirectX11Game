@@ -20,6 +20,9 @@ protected:
 #endif
 
 protected:
+	static void UpdateOldVersion();
+
+protected:
 	static void SceneStart();					// Done
 	static void Camera();						// Done
 	static void RenderingBoxObject();			// Done

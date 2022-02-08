@@ -829,6 +829,18 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Shader Type") });
 	AddRes(STR_KEY_Std3DShader, pShader);
+
+	//----------------------------
+	// SkyBox Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_SkyboxShader, STR_FUNC_NAME_VTXSkybox);
+	pShader->CreatePixelShader(STR_FILE_PATH_SkyboxShader, STR_FUNC_NAME_PIXSkybox);
+	pShader->SetRasterizerState(E_RasterizerState::CullFront);
+	pShader->SetBlendState(E_BlendState::Default);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Skybox type(0: sphere, 1: cube") });
+	AddRes(STR_KEY_SkyboxShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -984,6 +996,11 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderStd3D = LoadRes<CGraphicsShader>(STR_KEY_Std3DShader);
 	pMtrl->SetShader(pShaderStd3D);
 	AddRes(STR_KEY_Std3DMtrl, pMtrl);
+
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderSkybox = LoadRes<CGraphicsShader>(STR_KEY_SkyboxShader);
+	pMtrl->SetShader(pShaderSkybox);
+	AddRes(STR_KEY_SkyboxMtrl, pMtrl);
 }
 
 #include "CTestShader.h"
@@ -1360,6 +1377,15 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 	m_bFixed = true;
 
 	return bIsDeleted;
+}
+
+void CResourceManager::RenewResourcesFromDir(E_ResourceType _eType)
+{
+	unordered_map<tstring, CResource*>::iterator iter = m_umapResource[(UINT)_eType].begin();
+	for (; iter != m_umapResource[(UINT)_eType].end(); ++iter) {
+		tstring strRelativePath = iter->second->GetRelativePath();
+		iter->second->Save(strRelativePath);
+	}
 }
 
 void CResourceManager::GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut)

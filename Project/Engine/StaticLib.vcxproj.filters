@@ -233,6 +233,9 @@
     <ClInclude Include="CLine.h">
       <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClInclude>
+    <ClInclude Include="CSkybox.h">
+      <Filter>Engine\07. Component\SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -446,6 +449,9 @@
     <ClCompile Include="CLine.cpp">
       <Filter>Engine\07. Component\Transform\InnerClass</Filter>
     </ClCompile>
+    <ClCompile Include="CSkybox.cpp">
+      <Filter>Engine\07. Component\SkyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -625,6 +631,9 @@
     <Filter Include="Engine\Widget">
       <UniqueIdentifier>{694e123c-76d1-4770-9fc5-468d2f68ab0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component\SkyBox">
+      <UniqueIdentifier>{6c46fef0-8717-4762-8b2e-7dfef09b6bf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
@@ -658,6 +667,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="std3d.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

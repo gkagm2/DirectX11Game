@@ -255,6 +255,9 @@ void CCamera::_SortObjects()
 				else if (pObj->TileMap()) {
 					eRenderTimePoint = E_RenderTimePoint::Forward;
 				}
+				else if (pObj->Skybox()) {
+					eRenderTimePoint = E_RenderTimePoint::Forward;
+				}
 				else {
 					//assert(nullptr);
 				}

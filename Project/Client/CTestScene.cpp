@@ -318,6 +318,25 @@ void CTestScene::Shooting2D()
 }
 #endif
 
+void CTestScene::UpdateOldVersion()
+{
+	
+
+	// 모든 프리펩들을 다시 저장하기
+	CResourceManager::GetInstance()->RenewResourcesFromDir(E_ResourceType::Prefab);
+
+	// 모든 씬을 가져오기
+	tstring strContentPath = CPathManager::GetInstance()->GetContentPath();
+	strContentPath += STR_DIR_PATH_Scene;
+	vector<tstring> vecFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
+
+
+
+	//CSceneManager::GetInstance()->GetSc
+
+
+}
+
 void CTestScene::SceneStart()
 {
 	// 씬 생성

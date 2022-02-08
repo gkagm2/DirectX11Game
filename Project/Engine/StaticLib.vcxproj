@@ -202,6 +202,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLine.h" />
     <ClInclude Include="CObjectManager.h" />
     <ClInclude Include="CPathFind2D.h" />
+    <ClInclude Include="CSkybox.h" />
     <ClInclude Include="CTileMapGrid.h" />
     <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyManager.h" />
@@ -282,6 +283,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
     <ClCompile Include="CPathFind2D.cpp" />
+    <ClCompile Include="CSkybox.cpp" />
     <ClCompile Include="CTileMapGrid.cpp" />
     <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
@@ -372,6 +374,16 @@ call EngineCopy.bat</Command>
       </ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="posteffect.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>

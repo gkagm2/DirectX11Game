@@ -55,6 +55,9 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::SpriteRenderer:
 		strComponentType = _T("SpriteRenderer");
 		break;
+	case E_ComponentType::Skybox:
+		strComponentType = _T("Skybox");
+		break;
 	case E_ComponentType::TileMap:
 		strComponentType = _T("TileMap");
 		break;

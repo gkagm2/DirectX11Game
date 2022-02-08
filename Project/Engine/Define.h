@@ -95,13 +95,17 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_COMPONENT(CanvasRenderer)\
 	GET_COMPONENT(TextUI)\
 	GET_COMPONENT(ImageUI)\
-	GET_COMPONENT(ButtonUI)
+	GET_COMPONENT(ButtonUI)\
+	GET_COMPONENT(Skybox)
 
 // TIP : 추가 할 경우 
 // CGameObject .cpp,.h에 선언하기. 
 // .cpp에서 CreateComponent 함수에서도 추가하기.
 // external에서 ComponentTypeToStr 함수에서도 추가히기
 // ComponentType도 설정
+// Render Component일 경우
+//	1. CGameObject.cpp - Render()에 추가
+//	2. CCamera.cpp - SortObject에 렌더 시점 추가
 // ---------- In Component class ----------
 #define GET_OTHER_COMPONENT(name) C##name* name() { return GetGameObject()->name();}
 
@@ -122,7 +126,8 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_OTHER_COMPONENT(CanvasRenderer)\
 	GET_OTHER_COMPONENT(TextUI)\
 	GET_OTHER_COMPONENT(ImageUI)\
-	GET_OTHER_COMPONENT(ButtonUI)
+	GET_OTHER_COMPONENT(ButtonUI)\
+	GET_OTHER_COMPONENT(Skybox)
 #pragma endregion
 
 
@@ -207,12 +212,12 @@ enum class E_ComponentType {
 	Camera,
 	RectTransform,
 	// TODO (Jang) : Terrain, 추가
-	// TODO (Jang) : SkyBox, 추가
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
 	MeshRenderer,
 	SpriteRenderer,
 	ParticleSystem,
+	
 	TileMap,
 #pragma endregion
 
@@ -226,10 +231,12 @@ enum class E_ComponentType {
 	Listener,
 	AudioSource,
 	End,
-
+	Skybox,
 	Script,
 };
 // Warning extern.cpp에 ComponentTypeToStr 함수에도 추가해주기
+// CGameObject.cpp에도 추가.
+// Render Component일 경우 CCamera.cpp에서도 추가.
 
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::CanvasRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
