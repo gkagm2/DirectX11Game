@@ -40,7 +40,8 @@ CGameObject::CGameObject() :
 	m_iTag(0),
 	m_bDead(false),
 	m_bActive(true),
-	m_iLocalAddress(-1)
+	m_iLocalAddress(-1),
+	m_pRenderComponenet{ nullptr }
 {
 }
 
@@ -52,7 +53,8 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_iTag(_origin.m_iTag),
 	m_bDead(false),
 	m_bActive(_origin.m_bActive),
-	m_iLocalAddress(_origin.m_iLocalAddress)
+	m_iLocalAddress(_origin.m_iLocalAddress),
+	m_pRenderComponenet{ nullptr }
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != _origin.m_arrComponent[i])
@@ -202,23 +204,15 @@ void CGameObject::FinalUpdate()
 
 void CGameObject::Render()
 {
-	if (MeshRenderer() && MeshRenderer()->IsActive())		// ¸Þ½¬ ·»´õ¸µ
-		MeshRenderer()->Render();
-	else if (SpriteRenderer() && SpriteRenderer()->IsActive())
-		SpriteRenderer()->Render();
-	else if (CanvasRenderer() && CanvasRenderer()->IsActive())
-		CanvasRenderer()->Render();
-	else if (TileMap() && TileMap()->IsActive())			// Å¸ÀÏ¸Ê ·»´õ¸µ
-		TileMap()->Render();
-	else if (ParticleSystem() && ParticleSystem()->IsActive())	// ÆÄÆ¼Å¬ ½Ã½ºÅÛ ·»´õ¸µ
-		ParticleSystem()->Render();
-	else if (Skybox() && Skybox()->IsActive()) {
-		//Skybox()->Render();
-	}
-		
+	// ·»´õ¸µ¿ë ÄÄÆ÷³ÍÆ®
+	if (m_pRenderComponenet && m_pRenderComponenet->IsActive())
+		m_pRenderComponenet->Render();
 
-	if (Collider2D() && Collider2D()->IsActive())		// Ãæµ¹Ã¼ ·»´õ¸µ
-		Collider2D()->Render();
+	// µð¹ö±ë¿ë ·»´õ¸µ
+	if (CCollisionManager::GetInstance()->IsCollisionShow()) {
+		if (Collider2D() && Collider2D()->IsActive())		// Ãæµ¹Ã¼ ·»´õ¸µ
+			Collider2D()->Render();
+	}
 }
 
 void CGameObject::RegisterAsPrefab(const tstring& _strName)
@@ -659,6 +653,7 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 				return nullptr;
 			}
 		}
+		m_pRenderComponenet = _pComponent;
 	}
 	
 	if (E_ComponentType::Rigidbody2D == _pComponent->GetComponentType()) {

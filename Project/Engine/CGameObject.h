@@ -32,6 +32,7 @@ private:
 	CGameObject* m_pParentObj;
 	vector<CGameObject*> m_vecChildObj;
 	vector<CScript*> m_vecScript;
+	CComponent* m_pRenderComponenet;
 
 	UINT m_iLayer;
 	UINT m_iTag;

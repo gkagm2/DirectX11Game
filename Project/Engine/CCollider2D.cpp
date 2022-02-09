@@ -42,8 +42,7 @@ void CCollider2D::Render()
 	m_pMaterial->UpdateData();
 
 	// 렌더링
-	if (CCollisionManager::GetInstance()->IsCollisionShow())
-		m_pMesh->Render();
+	m_pMesh->Render();
 
 	// 메터리얼 클리어
 	m_pMaterial->Clear();
@@ -58,9 +57,6 @@ void CCollider2D::FinalUpdate()
 	//vOffsetPosition *= fUnit;
 	
 	Matrix matTrans = XMMatrixTranslation(vOffsetPosition.x, vOffsetPosition.y, 0.f);
-
-
-
 	Matrix matScale = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, 1.f);
 
 	m_matColWorld = matScale * matTrans * Transform()->GetWorldMatrix();
