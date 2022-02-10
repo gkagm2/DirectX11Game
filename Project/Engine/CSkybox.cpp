@@ -25,14 +25,14 @@ CSkybox::CSkybox() :
 	CRenderer(E_ComponentType::Skybox),
 	m_eSkyboxType{E_SkyboxType::Sphere}
 {
-	m_pSphereMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SkyboxMtrl);
-	// TOOD : Cube Mtrl
-	m_pCubeMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_CubeMesh);
-	m_pSphereMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
+	m_pSkyboxMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SkyboxMtrl);
 
-	assert(m_pSphereMaterial.Get());
-	assert(m_pCubeMesh.Get());
-	assert(m_pSphereMesh.Get());
+	SetSkyboxType(m_eSkyboxType);
+
+	assert(m_pSkyboxMaterial.Get());
+	// Default skkybox texture setting
+	SetSkyboxTexture(CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Skybox1).Get());
+	assert(m_pSkyboxTexture.Get());
 }
 
 CSkybox::~CSkybox()
@@ -45,12 +45,12 @@ void CSkybox::FinalUpdate()
 
 void CSkybox::UpdateData()
 {
-	m_pSphereMaterial->SetData(E_ShaderParam::Int_0, (int*)&m_eType);
+	m_pSkyboxMaterial->SetData(E_ShaderParam::Int_0, (int*)&m_eSkyboxType);
 }
 
 void CSkybox::Render()
 {
-	if (nullptr == m_pCubeMesh && nullptr == m_pSphereMesh  && nullptr == m_pSphereMaterial)
+	if (nullptr == m_pSkyboxMesh  && nullptr == m_pSkyboxMaterial)
 		return;
 
 	// 위치정보 세팅
@@ -59,7 +59,39 @@ void CSkybox::Render()
 
 	UpdateData();
 	
-	m_pSphereMaterial->UpdateData();	 // 메터리얼 세팅
-	m_pSphereMesh->Render(); // 렌더링
+	m_pSkyboxMaterial->UpdateData();	 // 메터리얼 세팅
+	m_pSkyboxMesh->Render(); // 렌더링
 	//m_pSphereMtrl->Clear();		 // 메터리얼 레지스터 Clear
+}
+
+void CSkybox::SetSkyboxTexture(SharedPtr<CTexture> _pTexture)
+{
+	if (_pTexture->IsCubeTexture())
+		m_pSkyboxMaterial->SetData(E_ShaderParam::TextureCube_0, _pTexture.Get());
+	else
+		m_pSkyboxMaterial->SetData(E_ShaderParam::Texture_0, _pTexture.Get());
+	m_pSkyboxTexture = _pTexture;
+}
+
+SharedPtr<CTexture> CSkybox::GetSkyboxTexture()
+{
+	return SharedPtr<CTexture>();
+}
+
+void CSkybox::SetSkyboxType(E_SkyboxType _eType)
+{
+	m_eSkyboxType = _eType;
+	switch (_eType) {
+	case E_SkyboxType::Cube:
+		m_pSkyboxMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_CubeMesh);
+		break;
+	case E_SkyboxType::Sphere:
+		m_pSkyboxMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
+
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	assert(m_pSkyboxMesh.Get());
 }

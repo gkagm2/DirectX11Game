@@ -26,7 +26,7 @@ struct VTX_OUT
 ///////////////////////////////////////
 //     Std3D Shader
 #define OutputTex   g_tex_0
-#define SkyboxType      g_int_0
+#define bIsBindTex0 bTex_0
 ///////////////////////////////////////
 
 VTX_OUT VS_Std3D(VTX_IN _in)
@@ -53,6 +53,11 @@ VTX_OUT VS_Std3D(VTX_IN _in)
 float4 PS_Std3D(VTX_OUT _in) : SV_Target
 {
     float4 vColor = float4(0.8f, 0.8f, 0.8f, 1.f);
+    
+    if (bIsBindTex0)
+    {
+        vColor = OutputTex.Sample(Sample_Point, _in.vUV);
+    }
     
      
     // View Space에서 light 방향 벡터
@@ -81,6 +86,8 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
                  + g_vLightColor * g_vLightReflect * fReflectPow // 표면에서 반사되어 카메라로 들어오는 빛
                  +  vColor.xyz * g_vAmbient; // 기본적으로 존재하는 최소한의 빛
 
+    
+    
     //if (g_int_0) // textrue 존재 함
     //{
     //    vColor.xyz = g_tex_0.Sample(Sample_Point, _in.vUV).xyz * vColor.xyz * _in.fLightPow + (vColor.xyz * g_vAmbient);

@@ -32,6 +32,7 @@ public:
 	// 3D 
 	void CreateCube();
 	void CreateSphere();
+	void CreateSkybox();
 
 	// UI
 	void CreateTextUI();

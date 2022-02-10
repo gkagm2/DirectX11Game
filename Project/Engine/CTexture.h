@@ -49,6 +49,14 @@ public:
 
 	ComPtr<ID3D11DepthStencilView>	GetDSV() { return m_pDSV; }
 
+public:
+	bool IsCubeTexture() {
+		return  m_tDesc.MiscFlags & D3D11_RESOURCE_MISC_FLAG::D3D11_RESOURCE_MISC_TEXTURECUBE ? true : false;
+	}
+	bool IsArrTextrue() {
+		return m_tDesc.ArraySize > 1 && !IsCubeTexture() ? true : false;
+	}
+
 private:
 	CLONE_DISABLE(CTexture);
 

@@ -112,6 +112,9 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Sphere")) {
                 CreateSphere();
             }
+            if (ImGui::MenuItem("Create Skybox")) {
+                CreateSkybox();
+            }
             if (ImGui::MenuItem("Create Cursor")) {
                 CreateCursorUI();
             }
@@ -337,6 +340,11 @@ void MainMenuGUI::CreateCube()
 void MainMenuGUI::CreateSphere()
 {
     CObjectManager::GetInstance()->CreateSphereGameobject();
+}
+
+void MainMenuGUI::CreateSkybox()
+{
+    CObjectManager::GetInstance()->CreateSkyboxGameObject();
 }
 
 void MainMenuGUI::CreateTextUI()

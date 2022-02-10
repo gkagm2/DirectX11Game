@@ -14,6 +14,7 @@
 
 #include "CCollider2D.h"
 #include "CParticleSystem.h"
+#include "CSkybox.h"
 
 // Test
 #include "CKeyManager.h"
@@ -255,8 +256,11 @@ void CCamera::_SortObjects()
 				else if (pObj->TileMap()) {
 					eRenderTimePoint = E_RenderTimePoint::Forward;
 				}
-				else if (pObj->Skybox()) {
-					eRenderTimePoint = E_RenderTimePoint::Forward;
+				else if (pObj->Skybox() &&
+					pObj->Skybox()->GetMesh().Get() &&
+					pObj->Skybox()->GetMaterial().Get() &&
+					pObj->Skybox()->GetMaterial()->GetShader().Get()) {
+					eRenderTimePoint = pObj->Skybox()->GetMaterial()->GetShader()->GetRenderTimePosition();
 				}
 				else {
 					//assert(nullptr);

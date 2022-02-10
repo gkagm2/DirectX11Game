@@ -188,6 +188,7 @@ inline TYPE* CGameObject::AddComponent()
 				return nullptr;
 			}
 		}
+		m_pRenderComponenet = pComponent;
 	}
 
 

@@ -213,6 +213,13 @@
 #define STR_PATH_Fog2D _T("texture\\Fog2D.png")
 #define STR_PATH_Noise _T("texture\\Noise.png")
 
+#define STR_PATH_Skybox1 _T("texture\\skybox1.jpg")
+#define STR_PATH_Skybox2 _T("texture\\skybox2.jpg")
+#define STR_PATH_Skybox3 _T("texture\\skybox3.jpg")
+#define STR_PATH_Skybox4 _T("texture\\skybox4.jpg")
+#define STR_PATH_Skybox5 _T("texture\\skybox5.jpg")
+#define STR_PATH_Skybox6 _T("texture\\skybox6.jpg")
+
 
 //////////////// Butcher string table
 // Animation Name

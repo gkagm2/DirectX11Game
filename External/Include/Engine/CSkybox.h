@@ -18,15 +18,9 @@ enum class E_SkyboxCubeType {
 class CSkybox : public CRenderer
 {
 private:
-	// Sphere Texture;
-	SharedPtr<CMaterial> m_pSphereMaterial;
-	SharedPtr<CMesh> m_pSphereMesh;
-	SharedPtr<CTexture> m_pSphereTexture;
-	// Cube Texture;
-
-	SharedPtr<CMaterial> m_pCubeMaterial;
-	SharedPtr<CMesh> m_pCubeMesh;
-	SharedPtr<CTexture> m_pCubeTextures[(UINT)E_SkyboxCubeType::End];
+	SharedPtr<CMaterial> m_pSkyboxMaterial;
+	SharedPtr<CMesh> m_pSkyboxMesh;
+	SharedPtr<CTexture> m_pSkyboxTexture;
 	E_SkyboxType m_eSkyboxType;
 
 public:
@@ -35,13 +29,13 @@ public:
 	virtual void Render() override;
 
 public:
-	void SetSkyboxTexture_Sphere(SharedPtr<CTexture> _pTexture) { m_pSphereTexture = _pTexture; }
-	void SetSkyboxTexture_Cube(SharedPtr<CTexture> _pTexture, E_SkyboxCubeType _eType){ m_pCubeTextures[(UINT)_eType] = _pTexture; }
+	SharedPtr<CMesh> GetMesh() { return m_pSkyboxMesh; }
+	SharedPtr<CMaterial> GetMaterial() { return m_pSkyboxMaterial; }
 
-	SharedPtr<CTexture> GetSkyboxTexture_Sphere() { return m_pSphereTexture; }
-	SharedPtr<CTexture> GetSkyboxTexture_Cube(E_SkyboxCubeType _eType) { return m_pCubeTextures[(UINT)_eType]; }
+	void SetSkyboxTexture(SharedPtr<CTexture> _pTexture);
+	SharedPtr<CTexture> GetSkyboxTexture();
 
-	void SetSkyboxType(E_SkyboxType _eType) { m_eSkyboxType = _eType; }
+	void SetSkyboxType(E_SkyboxType _eType);
 	E_SkyboxType GetCurSkyboxType() { return m_eSkyboxType; }
 
 public:
