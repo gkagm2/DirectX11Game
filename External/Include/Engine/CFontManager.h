@@ -26,6 +26,9 @@ private:
 	IFW1Factory*		m_pFW1Factory;
 	IFW1FontWrapper*	m_pFontWrapper;
 
+	IFW1Factory* m_pFW1Factory1;
+	IFW1FontWrapper* m_pFontWrapper1;
+
 public:
 	IFW1Factory* GetIFW1Factory() { return m_pFW1Factory; }
 	IFW1FontWrapper* GetFontWrapper() { return m_pFontWrapper; }
@@ -33,7 +36,9 @@ public:
 	
 public:
 	void Init();
+	void Render();
 	void DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag);
+	void DrawFont1(const wchar_t* _pStr, const wchar_t* _pFontFamily, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag);
 
 	void DrawTextLayout();
 };

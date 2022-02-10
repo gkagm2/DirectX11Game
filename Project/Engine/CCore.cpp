@@ -82,6 +82,7 @@ void CCore::Progress()
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();
+	CFontManager::GetInstance()->Render(); // Test code
 	
 	CTimeManager::GetInstance()->Render();
 	CCursor::_Update();
