@@ -178,7 +178,7 @@ inline TYPE* CGameObject::AddComponent()
 	// 오직 하나만 렌더링할 수 있는 종류의 컴포넌트인지 체크
 	bool bIsOnlyOneRenderComponent = _IsOnlyOnePossibleRenderComponent(eType);
 	if (bIsOnlyOneRenderComponent) {
-		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
 			if (eType == (E_ComponentType)i)
 				continue;
 			if (_IsExistComponent((E_ComponentType)i)) {

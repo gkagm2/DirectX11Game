@@ -619,7 +619,7 @@ bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)
 bool CGameObject::_IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType)
 {
 	bool bIsOnlyOneRenderComponent = false;
-	for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+	for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
 		if (_eComponentType == (E_ComponentType)i) {
 			bIsOnlyOneRenderComponent = true;
 			break;
@@ -643,7 +643,7 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 	// 오직 하나만 렌더링할 수 있는 종류의 컴포넌트인지 체크
 	bool bIsOnlyOneRenderComponent = _IsOnlyOnePossibleRenderComponent(_pComponent->GetComponentType());
 	if (bIsOnlyOneRenderComponent) {
-		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i < ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
+		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
 			if (_pComponent->GetComponentType() == (E_ComponentType)i)
 				continue;
 			if (_IsExistComponent((E_ComponentType)i)) {
