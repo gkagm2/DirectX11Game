@@ -10,6 +10,8 @@
 #include "CCollider3D.h"
 #include "CSound.h"
 
+#include "CKeyManager.h"
+
 class CResourceManager : public CSingleton<CResourceManager>
 {
 	SINGLETON(CResourceManager)
@@ -76,6 +78,8 @@ private:
 	void _DeleteCopiedMaterial(const tstring& _strKey);
 	bool _ChangeResourceKey(const tstring& _strOldKey, const tstring& _strNewKey, E_ResourceType _eResourceType);
 	bool _DeleteCustomResource(const tstring& _strKey, E_ResourceType _eResourceType);
+
+public:
 	template<typename TYPE>
 	void LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter);
 

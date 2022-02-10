@@ -11,6 +11,7 @@
 #include "CRenderManager.h"
 #include "CMouseManager.h"
 #include "CConfigurationManager.h"
+#include "CVersionManager.h"
 #include "CSound.h"
 #include "CUIManager.h"
 #include "CCursor.h"
@@ -20,8 +21,7 @@ HDC CCore::g_hDC = 0;
 
 CCore::CCore() :
 	m_hWnd(nullptr),
-	m_vWindowResolution{},
-	m_bOldVersionUpdate{false}
+	m_vWindowResolution{}
 {
 #ifdef _DEBUG
 	AllocConsole(); // 콘솔창 생성
@@ -58,6 +58,8 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CSceneManager::GetInstance()->Init();
 	CUIManager::GetInstance()->Init();
 	CCursor::_Init();
+
+	CVersionManager::GetInstance()->Init();
 	// Sound Test
 	/*SharedPtr<CSound> pSound = CResourceManager ::GetInstance()->LoadRes<CSound>(L"Sound", L"sound\\BGM_Stage1.wav");
 	int iChannel = pSound->Play(0);
@@ -75,7 +77,7 @@ void CCore::Progress()
 	CResourceManager::GetInstance()->Update();
 	CSound::g_pFMOD->update();
 	CUIManager::GetInstance()->Update();
-	
+	CVersionManager::GetInstance()->Update();
 
 	CSceneManager::GetInstance()->Progress();
 

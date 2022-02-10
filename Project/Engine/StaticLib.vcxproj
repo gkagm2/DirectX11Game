@@ -233,6 +233,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIBehaviour.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CVersionManager.h" />
     <ClInclude Include="Interfaces.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CObject.h" />
@@ -314,6 +315,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIBehaviour.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CVersionManager.cpp" />
     <ClCompile Include="Define.cpp" />
     <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="CMesh.cpp" />

@@ -217,7 +217,7 @@ enum class E_ComponentType {
 	MeshRenderer,
 	SpriteRenderer,
 	ParticleSystem,
-	
+	Skybox,
 	TileMap,
 #pragma endregion
 
@@ -231,7 +231,41 @@ enum class E_ComponentType {
 	Listener,
 	AudioSource,
 	End,
-	Skybox,
+	Script,
+};
+
+enum class E_ComponentTypeOld {
+	Transform,
+	BoundingBox,
+	Collider2D,
+	Collider3D,
+	Rigidbody2D,
+	Rigidbody3D,
+	Animator2D,
+	Animator3D,
+	Light2D,
+	Light3D,
+	Camera,
+	RectTransform,
+	// TODO (Jang) : Terrain, 추가
+#pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
+	CanvasRenderer,
+	MeshRenderer,
+	SpriteRenderer,
+	ParticleSystem,
+	TileMap,
+#pragma endregion
+
+#pragma region UI Component
+	//CanvasUI,
+	ButtonUI,
+	TextUI,
+	ImageUI,
+#pragma endregion
+
+	Listener,
+	AudioSource,
+	End,
 	Script,
 };
 // Warning extern.cpp에 ComponentTypeToStr 함수에도 추가해주기

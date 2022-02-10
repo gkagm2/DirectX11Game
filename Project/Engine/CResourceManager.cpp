@@ -5,7 +5,7 @@
 #include "CGraphicsShader.h"
 #include "CSceneManager.h"
 #include "CScene.h"
-
+#include "CCore.h"
 CResourceManager::CResourceManager() :
 	m_bFixed(false)
 {

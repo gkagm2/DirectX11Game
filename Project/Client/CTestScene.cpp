@@ -126,7 +126,9 @@ void CTestScene::CreateTestScene()
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	//Light2DTest();
-	Butcher();
+	//UpdateOldVersion();
+	CreateNewScene();
+	//Butcher();
 	return;
 	// TODO (Jang) : Test code
 	// 씬 생성
@@ -320,20 +322,19 @@ void CTestScene::Shooting2D()
 
 void CTestScene::UpdateOldVersion()
 {
-	
+	CScene* pNewScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 
-	// 모든 프리펩들을 다시 저장하기
-	CResourceManager::GetInstance()->RenewResourcesFromDir(E_ResourceType::Prefab);
+	// 모든 프리펩들을 불러오기
+	// CResourceManager::GetInstance()->LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
+
+	// P key를 누를 경우 불러온 모든 프리펩들을 전체 다시 저장한다.
 
 	// 모든 씬을 가져오기
-	tstring strContentPath = CPathManager::GetInstance()->GetContentPath();
-	strContentPath += STR_DIR_PATH_Scene;
-	vector<tstring> vecFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
 
 
 
-	//CSceneManager::GetInstance()->GetSc
-
+	// 모든  씬을 순회하면서 다시 저장하게 한다.
 
 }
 

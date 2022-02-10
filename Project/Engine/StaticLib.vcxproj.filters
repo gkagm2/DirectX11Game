@@ -236,6 +236,7 @@
     <ClInclude Include="CSkybox.h">
       <Filter>Engine\07. Component\SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="CVersionManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -452,6 +453,7 @@
     <ClCompile Include="CSkybox.cpp">
       <Filter>Engine\07. Component\SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="CVersionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

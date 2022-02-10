@@ -28,11 +28,11 @@
 #include "CImageUI.h"
 
 #include "CScript.h"
-
+#include "CVersionManager.h"
 
 #include "CResourceManager.h"
 #include "CPrefab.h"
-
+CComponent* CreateComponentOld(E_ComponentTypeOld _eType);
 CGameObject::CGameObject() :
 	m_arrComponent{},
 	m_pParentObj(nullptr),
@@ -805,19 +805,34 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		_AddChildGameObject(pChildObj, true);
 	}
 
-	// 컴포넌트 정보
-	UINT iComIdx = (UINT)E_ComponentType::End;
-	while (true) {
-		if (iComIdx == (UINT)E_ComponentType::Skybox)
-			continue;
-		FRead(iComIdx, _pFile);
-		if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
-			break;
+	if (CVersionManager::GetInstance()->g_bOldVersionUpdate &&
+		CVersionManager::GetInstance()->g_bComponentUpdate) {
+		// 컴포넌트 정보
+		UINT iComIdx = (UINT)E_ComponentTypeOld::End;
+		while (true) {
+			FRead(iComIdx, _pFile);
+			if ((UINT)E_ComponentTypeOld::End == iComIdx) // 마감이 나오면 종료
+				break;
 
-		CComponent* pComponent = CreateComponent((E_ComponentType)iComIdx);
+			CComponent* pComponent = CreateComponentOld((E_ComponentTypeOld)iComIdx);
 
-		pComponent->LoadFromScene(_pFile);
-		AddComponent(pComponent);
+			pComponent->LoadFromScene(_pFile);
+			AddComponent(pComponent);
+		}
+	}
+	else {
+		// 컴포넌트 정보
+		UINT iComIdx = (UINT)E_ComponentType::End;
+		while (true) {
+			FRead(iComIdx, _pFile);
+			if ((UINT)E_ComponentType::End == iComIdx) // 마감이 나오면 종료
+				break;
+
+			CComponent* pComponent = CreateComponent((E_ComponentType)iComIdx);
+
+			pComponent->LoadFromScene(_pFile);
+			AddComponent(pComponent);
+		}
 	}
 
 	// 스크립트 정보
@@ -836,7 +851,66 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		
 	return true;
 }
-
+CComponent* CreateComponentOld(E_ComponentTypeOld _eType) {
+	CComponent* pComponent = nullptr;
+	switch ((E_ComponentTypeOld)_eType) {
+	case E_ComponentTypeOld::Transform:
+		pComponent = new CTransform;
+		break;
+	case E_ComponentTypeOld::MeshRenderer:
+		pComponent = new CMeshRenderer;
+		break;
+	case E_ComponentTypeOld::Camera:
+		pComponent = new CCamera;
+		break;
+	case E_ComponentTypeOld::Collider2D:
+		pComponent = new CCollider2D;
+		break;
+	case E_ComponentTypeOld::Collider3D:
+		pComponent = new CCollider3D;
+		break;
+	case E_ComponentTypeOld::Animator2D:
+		pComponent = new CAnimator2D;
+		break;
+	case E_ComponentTypeOld::Light2D:
+		pComponent = new CLight2D;
+		break;
+	case E_ComponentTypeOld::TileMap:
+		pComponent = new CTileMap;
+		break;
+	case E_ComponentTypeOld::ParticleSystem:
+		pComponent = new CParticleSystem;
+		break;
+	case E_ComponentTypeOld::Rigidbody2D:
+		pComponent = new CRigidbody2D;
+		break;
+	case E_ComponentTypeOld::AudioSource:
+		pComponent = new CAudioSource;
+		break;
+	case E_ComponentTypeOld::RectTransform:
+		pComponent = new CRectTransform;
+		break;
+	case E_ComponentTypeOld::SpriteRenderer:
+		pComponent = new CSpriteRenderer;
+		break;
+	case E_ComponentTypeOld::CanvasRenderer:
+		pComponent = new CCanvasRenderer;
+		break;
+	case E_ComponentTypeOld::TextUI:
+		pComponent = new CTextUI;
+		break;
+	case E_ComponentTypeOld::ImageUI:
+		pComponent = new CImageUI;
+		break;
+	case E_ComponentTypeOld::ButtonUI:
+		pComponent = new CButtonUI;
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+	return pComponent;
+}
 CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 {
 	CComponent* pComponent = nullptr;

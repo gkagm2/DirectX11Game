@@ -17,7 +17,8 @@ CSceneManager::CSceneManager() :
 	m_pSaveScript{},
 	m_eSceneMode(E_SceneMode::Stop),
 	m_iLoadSync(0),
-	m_pNextScene(nullptr)
+	m_pNextScene(nullptr),
+	m_pLoadSceneFunc(nullptr)
 {
 }
 
