@@ -54,8 +54,14 @@
 #define STR_DIR_PATH_Shader _T("shader\\")
 #define STR_DIR_PATH_Material _T("material\\")
 #define STR_DIR_PATH_Anim _T("anim\\")
+#define STR_DIR_PATH_Font _T("font\\")
 
 #define STR_DIR_PATH_Config _T("config\\") // 엔진 환경
+
+// Default font
+#define STR_FONT_NAME_NanumGothic _T("NanumGothic")
+#define STR_FONT_EXTENSION_TTF _T(".ttf")
+
 
 // Extension
 #define STR_EXTENSION_Anim _T(".anim")

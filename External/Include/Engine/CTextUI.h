@@ -25,6 +25,7 @@ private:
 
 	E_TextAlign m_eTextAlignment;
 	tstring m_strTextAlignment;
+	TFont m_tFontType;
 
 private:
 	FW1_TEXT_FLAG m_eFlag;
@@ -35,6 +36,9 @@ public:
 	virtual void Render() override;
 
 public:
+
+	const TFont& GetFontType() { return m_tFontType; }
+	void SetFontType(int iIdx);
 	void SetText(const tstring& _strText) { m_strText = _strText; }
 	const tstring& GetText() { return m_strText; }
 

@@ -18,6 +18,15 @@
 #define FONT_B_FROM_RGBA(b) ((BYTE)(b >> 16))
 #define FONT_A_FROM_RGBA(a) ((BYTE)(a >> 24))
 
+
+struct TFont {
+	tstring strName;
+	tstring strExtension;
+	tstring GetPath() { return strName + strExtension; }
+};
+
+
+
 class CFontManager : public CSingleton<CFontManager>
 {
 	SINGLETON(CFontManager);
@@ -26,13 +35,12 @@ private:
 	IFW1Factory*		m_pFW1Factory;
 	IFW1FontWrapper*	m_pFontWrapper;
 
-	IFW1Factory* m_pFW1Factory1;
-	IFW1FontWrapper* m_pFontWrapper1;
-
 public:
 	IFW1Factory* GetIFW1Factory() { return m_pFW1Factory; }
 	IFW1FontWrapper* GetFontWrapper() { return m_pFontWrapper; }
 
+public:
+	vector<TFont> m_vecFontName;
 	
 public:
 	void Init();
@@ -41,4 +49,9 @@ public:
 	void DrawFont1(const wchar_t* _pStr, const wchar_t* _pFontFamily, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag);
 
 	void DrawTextLayout();
+
+	void LoadFont();
+
+	vector<TFont>& GetFontList() { return m_vecFontName; }
+	int GetFontIdx(const tstring& _strName);
 };

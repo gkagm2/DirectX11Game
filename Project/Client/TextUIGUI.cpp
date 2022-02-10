@@ -25,6 +25,21 @@ void TextUIGUI::Update()
 
 	CTextUI* pTextUI = GetTargetObject()->TextUI();
 
+
+	// Font Type
+	int iFontTypeIdx = CFontManager::GetInstance()->GetFontIdx( pTextUI->GetFontType().strName);
+	const vector<TFont>& vecFonts = CFontManager::GetInstance()->GetFontList();
+	vector<string> vecFontName;
+	for (size_t i = 0; i < vecFonts.size(); ++i) {
+		string strName; 
+		TStringToString(vecFonts[i].strName, strName);
+		vecFontName.push_back(strName);
+	}
+	if (ParamGUI::Render_ComboBox("Font Type", &iFontTypeIdx, vecFontName)) {
+		iFontTypeIdx = CMyMath::Clamp(iFontTypeIdx, 0, (int)max(0, vecFonts.size() - 1));
+		pTextUI->SetFontType(iFontTypeIdx);
+	}
+
 	float fFontSize = pTextUI->GetFontSize();
 	tstring tstrText = pTextUI->GetText();
 	string strText{};

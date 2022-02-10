@@ -49,11 +49,6 @@ void CImGuiManager::Init()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: Experimental. THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
-#pragma region 한글 폰트를 이용하여 인게임에서 입력하기 위한 방법.
-            // io.Fonts->AddFontFromFileTTF(/*폰트 경로*/, /*폰트 크기*/, nullptr, io.Fonts->GetGlyphRangesKorean());  
-#pragma endregion
-
-
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
@@ -70,6 +65,13 @@ void CImGuiManager::Init()
     ImGui_ImplWin32_Init(CCore::GetInstance()->GetWndHandle());
     ImGui_ImplDX11_Init(DEVICE.Get(), CONTEXT.Get());
 
+
+    // 한글 폰트 세팅
+    tstring tstrPath = CPathManager::GetInstance()->GetContentPath();
+    tstrPath += _T("font\\NanumGothic.ttf");
+    string strPath;
+    TStringToString(tstrPath, strPath);
+    io.Fonts->AddFontFromFileTTF(strPath.c_str(), 12, NULL, io.Fonts->GetGlyphRangesKorean());
 
     //ImGuiInitTestCode();
     InitCaptainForeverGUI();

@@ -14,6 +14,7 @@ CTextUI::CTextUI() :
 	m_iColor(FONT_RGBA(0, 0, 0, 255))
 {
 	SetAlign(E_TextAlign::Left);
+	SetFontType(0);
 }
 
 CTextUI::~CTextUI()
@@ -44,10 +45,24 @@ void CTextUI::Render()
 	}
 	float fFontSize = GetFontSize();
 	if (0.f != fFontSize) {
-		CFontManager::GetInstance()->DrawFont(strText.c_str(), m_vScreenPos.x, m_vScreenPos.y, fFontSize, m_iColor, m_eFlag);
+		if (m_tFontType.strName.empty()) {
+			CFontManager::GetInstance()->DrawFont(strText.c_str(), m_vScreenPos.x, m_vScreenPos.y, fFontSize, m_iColor, m_eFlag);
+		}
+		else {
+			CFontManager::GetInstance()->DrawFont1(strText.c_str(), m_tFontType.strName.c_str(), m_vScreenPos.x, m_vScreenPos.y, fFontSize, m_iColor, m_eFlag);
+		}
 	}
 
 	CUI::Render();
+}
+
+void CTextUI::SetFontType(int iIdx)
+{
+	if (iIdx < 0 || iIdx >= CFontManager::GetInstance()->GetFontList().size()) {
+		assert(nullptr);
+		return;
+	}
+	m_tFontType = CFontManager::GetInstance()->GetFontList()[iIdx];
 }
 
 
@@ -104,6 +119,7 @@ bool CTextUI::SaveToScene(FILE* _pFile)
 	FWrite(m_fFontSize, _pFile);
 	FWrite(m_iColor, _pFile);
 	FWrite(m_eTextAlignment, _pFile);
+	// TODO (Jang) : 타입 업데이트
 
 	return true;
 }
@@ -116,6 +132,7 @@ bool CTextUI::LoadFromScene(FILE* _pFile)
 	FRead(m_iColor, _pFile);
 	FRead(m_eTextAlignment, _pFile);
 	SetAlign(m_eTextAlignment);
+	// TODO (Jang) : 타입 업데이트
 
 	return true;
 }
