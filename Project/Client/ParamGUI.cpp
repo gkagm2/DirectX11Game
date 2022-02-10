@@ -28,8 +28,10 @@ bool ParamGUI::Render_Int(const string& _strName, int* _pOut, float* _pHeightOut
 
 	string strLabel = "##";
 	strLabel += strText;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::InputInt(strLabel.c_str(), _pOut, 1))
 		bChanged = true;
+	ImGui::PopID();
 	fHeight += ImGui::GetItemRectSize().y;
 	if(_pHeightOut)
 		*_pHeightOut = fHeight;
@@ -47,8 +49,10 @@ bool ParamGUI::Render_Float(const string& _strName, float* _pOut, float* _pHeigh
 
 	string strLabel = "##";
 	strLabel += strText;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::InputFloat(strLabel.c_str(), _pOut, 1))
 		bChanged = true;
+	ImGui::PopID();
 	fHeight += ImGui::GetItemRectSize().y;
 	if (_pHeightOut)
 		*_pHeightOut = fHeight;
@@ -65,8 +69,10 @@ bool ParamGUI::Render_Vector2(const string& _strName, Vector2* _pOut, float* _pH
 
 	string strLabel = "##";
 	strLabel += strText;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::InputFloat2(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
+	ImGui::PopID();
 	fHeight += ImGui::GetItemRectSize().y;
 	if (_pHeightOut)
 		*_pHeightOut = fHeight;
@@ -83,8 +89,10 @@ bool ParamGUI::Render_Vector3(const string& _strName, Vector3* _pOut, float* _pH
 
 	string strLabel = "##";
 	strLabel += strText;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::InputFloat3(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
+	ImGui::PopID();
 	fHeight += ImGui::GetItemRectSize().y;
 	if (_pHeightOut)
 		*_pHeightOut = fHeight;
@@ -101,8 +109,10 @@ bool ParamGUI::Render_Vector4(const string& _strName, Vector4* _pOut, float* _pH
 
 	string strLabel = "##";
 	strLabel += strText;
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	if (ImGui::InputFloat4(strLabel.c_str(), (float*)_pOut, "%.2f"))
 		bChanged = true;
+	ImGui::PopID();
 	fHeight += ImGui::GetItemRectSize().y;
 	if (_pHeightOut)
 		*_pHeightOut = fHeight;

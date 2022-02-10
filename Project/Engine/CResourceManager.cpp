@@ -839,7 +839,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::Default);
 	pShader->SetDepthStencilState(E_DepthStencilState::Less_Equal);
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Skybox type(0: sphere, 1: cube") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Skybox type(0: cube, 1: sphere)") });
 	AddRes(STR_KEY_SkyboxShader, pShader);
 }
 
@@ -997,9 +997,17 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderStd3D);
 	AddRes(STR_KEY_Std3DMtrl, pMtrl);
 
+	// Skybox
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderSkybox = LoadRes<CGraphicsShader>(STR_KEY_SkyboxShader);
 	pMtrl->SetShader(pShaderSkybox);
+
+	// Default Skybox cube Texture
+	SharedPtr<CTexture> pSkyboxCubeTex = LoadRes<CTexture>(STR_FILE_PATH_SkyboxCubeTexture);
+	SharedPtr<CTexture> pSkyboxSphereTex = LoadRes<CTexture>(STR_FILE_PATH_SkyboxSphereTexture);
+
+	pMtrl->SetData(E_ShaderParam::TextureCube_0, pSkyboxCubeTex.Get());
+	pMtrl->SetData(E_ShaderParam::Texture_0, pSkyboxSphereTex.Get());
 	AddRes(STR_KEY_SkyboxMtrl, pMtrl);
 }
 
@@ -1088,10 +1096,23 @@ void CResourceManager::CreateDefaultTexture()
 	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_NoiseTexture2, pNoiseTex2));
 
 
-
 	pNoiseTex->UpdateData(E_ShaderStage::All, REGISTER_NUM_NoiseTexture);
 	
 	g_globalConst.vNoiseResolution = Vector2((float)pNoiseTex->GetResolution().x, (float)pNoiseTex->GetResolution().y);
+
+	strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += STR_FILE_PATH_SkyboxSphereTexture;
+
+	CTexture* pSkyboxSphereTex = new CTexture();
+	pSkyboxSphereTex->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxSphereTexture, pSkyboxSphereTex));
+
+	strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += STR_FILE_PATH_SkyboxCubeTexture;
+
+	CTexture* pSkyboxCubeTex = new CTexture();
+	pSkyboxCubeTex->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
 
 	//  2021 11 19 fixed
 	//SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);

@@ -23,7 +23,7 @@ tstring SkyboxTypeToStr(E_SkyboxType _eType)
 
 CSkybox::CSkybox() :
 	CRenderer(E_ComponentType::Skybox),
-	m_eSkyboxType{E_SkyboxType::Sphere}
+	m_eSkyboxType{E_SkyboxType::Cube}
 {
 	m_pSkyboxMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SkyboxMtrl);
 
@@ -31,7 +31,7 @@ CSkybox::CSkybox() :
 
 	assert(m_pSkyboxMaterial.Get());
 	// Default skkybox texture setting
-	SetSkyboxTexture(CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Skybox1).Get());
+	m_pSkyboxMaterial->GetData(E_ShaderParam::TextureCube_0, m_pSkyboxTexture.GetAddress());
 	assert(m_pSkyboxTexture.Get());
 }
 

@@ -147,6 +147,8 @@ void CMaterial::SetData(E_ShaderParam _eParam, const void* _pData)
 // Example : 1
 // CTexture* pTex = nullptr;
 // GetData(E_ShaderParam::Texture_0, &pTex);
+// SharedPtr<CTexture> pTex;
+// GetData(E_ShaderParam::Texture_0, pTex.GetAddress());
 void CMaterial::GetData(E_ShaderParam _eParam, void* _pOut)
 {
 	switch (_eParam) {
