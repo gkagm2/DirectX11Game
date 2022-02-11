@@ -1,3 +1,6 @@
+History video
+[https://www.youtube.com/watch?v=KTVVbvkEQa0&list=PL-Ka9bftppLxXEridSRBd848nGoytvqng&index=1]
+
 + x64버전만 사용한다.
 
 + MBCS, WBCS 동시 지원하게 만듬
