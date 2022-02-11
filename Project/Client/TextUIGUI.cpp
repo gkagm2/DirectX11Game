@@ -43,15 +43,16 @@ void TextUIGUI::Update()
 	float fFontSize = pTextUI->GetFontSize();
 	tstring tstrText = pTextUI->GetText();
 	string strText{};
-	TStringToString(tstrText, strText);
-
+	convert_unicode_to_utf8_string(strText, tstrText.data(), tstrText.size());
+	//TStringToString(tstrText, strText);
+	
 	// Text
 	ImGui::Text("Text"); ImGui::SameLine();
 	static char szTextBuff[(UINT)m_gTextBuffSize] = {};
 	char szBuff[(UINT)m_gTextBuffSize] = {};
 	sprintf_s(szBuff, m_gTextBuffSize, "%s", strText.c_str());
-	if (ImGui::InputText("##TextInputUIGUI", szBuff, m_gTextBuffSize)) {
-		StringToTString(szBuff, tstrText);
+	if (ImGui::InputText("##TextInputUIGUI", szBuff, m_gTextBuffSize, ImGuiInputTextFlags_::ImGuiInputTextFlags_CtrlEnterForNewLine)) {
+		convert_utf8_to_unicode_string(tstrText, szBuff, strlen(szBuff));
 		pTextUI->SetText(tstrText);
 	}
 

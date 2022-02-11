@@ -13,7 +13,7 @@ class CPerformanceMonitor
 private:
 	static clock_t m_start;
 	static clock_t m_end;
-	static double m_result;
+	static double m_fms;
 	static tstring m_strLog;
 public:
 	static void TimeStart(const tstring& _log);

@@ -54,11 +54,6 @@ void CFontManager::Init()
 	}
 }
 
-void CFontManager::Render()
-{
-	DrawFont1(_T("¿Ö ¾ÈµÅ³Ä"), _T("NanumGothic"), 300.f, 300.f, 30, FONT_RGBA(200, 30, 30, 255), FW1_CENTER);
-}
-
 void CFontManager::DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag)
 {
 	m_pFontWrapper->DrawString(
