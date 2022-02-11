@@ -52,8 +52,9 @@ void TextUIGUI::Update()
 	char szBuff[(UINT)m_gTextBuffSize] = {};
 	sprintf_s(szBuff, m_gTextBuffSize, "%s", strText.c_str());
 	if (ImGui::InputText("##TextInputUIGUI", szBuff, m_gTextBuffSize, ImGuiInputTextFlags_::ImGuiInputTextFlags_CtrlEnterForNewLine)) {
-		convert_utf8_to_unicode_string(tstrText, szBuff, strlen(szBuff));
-		pTextUI->SetText(tstrText);
+		//convert_utf8_to_unicode_string(tstrText, szBuff, strlen(szBuff));
+		tstring str = UTF8ToUnicode(szBuff);
+		pTextUI->SetText(str);
 	}
 
 	// Font Align

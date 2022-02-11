@@ -166,44 +166,33 @@ inline void StringToTString(const string& _in, tstring& _out) {
 #endif
 }
 
-
 DWORD convert_ansi_to_unicode_string(
 	__out std::wstring& unicode,
 	__in const char* ansi,
 	__in const size_t ansi_size
 );
 
-//
-// convert_unicode_to_ansi_string.
-//
-
 DWORD convert_unicode_to_ansi_string(
 	__out std::string& ansi,
 	__in const wchar_t* unicode,
 	__in const size_t unicode_size
 );
-
-//
-// convert_unicode_to_utf8_string
-//
-
 DWORD convert_unicode_to_utf8_string(
 	__out std::string& utf8,
 	__in const wchar_t* unicode,
 	__in const size_t unicode_size
 );
-
-//
-// convert_utf8_to_unicode_string
-//
-
 DWORD convert_utf8_to_unicode_string(
 	__out std::wstring& unicode,
 	__in const char* utf8,
 	__in const size_t utf8_size
 );
 
+// Unicode -> UTF-8 변환 (ImGui에서 한글 변환할 때 사용)
+string UnicodeToUTF8(const wstring& _wstr);
 
+// UTF-8 -> Unicode 변환
+wstring UTF8ToUnicode(const string& _str);
 
 void StringToTStringVec(const vector<string>& _in, vector<tstring>& _out);
 void TStringToStringVec(const vector<tstring>& _in, vector<string>& _out);

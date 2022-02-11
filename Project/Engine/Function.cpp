@@ -42,9 +42,7 @@ DWORD convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,con
 			break;
 		}
 		unicode.clear();
-		//
-		// getting required cch.
-		//
+
 		int required_cch = ::MultiByteToWideChar(
 			CP_ACP,
 			0,
@@ -56,9 +54,7 @@ DWORD convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,con
 			break;
 		}
 		unicode.resize(required_cch);
-		//
-		// convert.
-		//
+
 		if (0 == ::MultiByteToWideChar(
 			CP_ACP,
 			0,
@@ -68,7 +64,6 @@ DWORD convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,con
 			error = ::GetLastError();
 			break;
 		}
-
 	} while (false);
 
 	return error;
@@ -76,21 +71,14 @@ DWORD convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,con
 
 DWORD convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode, const size_t unicode_size)
 {
-
 	DWORD error = 0;
-
 	do {
-
 		if ((nullptr == unicode) || (0 == unicode_size)) {
 			error = ERROR_INVALID_PARAMETER;
 			break;
 		}
 
 		ansi.clear();
-
-		//
-		// getting required cch.
-		//
 
 		int required_cch = ::WideCharToMultiByte(
 			CP_ACP,
@@ -105,15 +93,7 @@ DWORD convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode, 
 			break;
 		}
 
-		//
-		// allocate.
-		//
-
 		ansi.resize(required_cch);
-
-		//
-		// convert.
-		//
 
 		if (0 == ::WideCharToMultiByte(
 			CP_ACP,
@@ -125,7 +105,6 @@ DWORD convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode, 
 			error = ::GetLastError();
 			break;
 		}
-
 	} while (false);
 
 	return error;
@@ -134,19 +113,13 @@ DWORD convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode, 
 DWORD convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode, const size_t unicode_size)
 {
 	DWORD error = 0;
-
 	do {
-
 		if ((nullptr == unicode) || (0 == unicode_size)) {
 			error = ERROR_INVALID_PARAMETER;
 			break;
 		}
 
 		utf8.clear();
-
-		//
-		// getting required cch.
-		//
 
 		int required_cch = ::WideCharToMultiByte(
 			CP_UTF8,
@@ -161,15 +134,7 @@ DWORD convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode, 
 			break;
 		}
 
-		//
-		// allocate.
-		//
-
 		utf8.resize(required_cch);
-
-		//
-		// convert.
-		//
 
 		if (0 == ::WideCharToMultiByte(
 			CP_UTF8,
@@ -181,7 +146,6 @@ DWORD convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode, 
 			error = ::GetLastError();
 			break;
 		}
-
 	} while (false);
 
 	return error;
@@ -189,21 +153,14 @@ DWORD convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode, 
 
 DWORD convert_utf8_to_unicode_string(std::wstring& unicode, const char* utf8, const size_t utf8_size)
 {
-
 	DWORD error = 0;
-
 	do {
-
 		if ((nullptr == utf8) || (0 == utf8_size)) {
 			error = ERROR_INVALID_PARAMETER;
 			break;
 		}
 
 		unicode.clear();
-
-		//
-		// getting required cch.
-		//
 
 		int required_cch = ::MultiByteToWideChar(
 			CP_UTF8,
@@ -216,15 +173,7 @@ DWORD convert_utf8_to_unicode_string(std::wstring& unicode, const char* utf8, co
 			break;
 		}
 
-		//
-		// allocate.
-		//
-
 		unicode.resize(required_cch);
-
-		//
-		// convert.
-		//
 
 		if (0 == ::MultiByteToWideChar(
 			CP_UTF8,
@@ -235,10 +184,27 @@ DWORD convert_utf8_to_unicode_string(std::wstring& unicode, const char* utf8, co
 			error = ::GetLastError();
 			break;
 		}
-
 	} while (false);
 
 	return error;
+}
+
+string UnicodeToUTF8(const wstring& _wstr)
+{
+	char strUtf8[256] = { 0, };
+	int nLen = WideCharToMultiByte(CP_UTF8, 0, _wstr.c_str(), _wstr.size(), NULL, 0, NULL, NULL);
+	WideCharToMultiByte(CP_UTF8, 0, _wstr.c_str(), _wstr.size(), strUtf8, nLen, NULL, NULL);
+
+	return string(strUtf8);
+}
+
+wstring UTF8ToUnicode(const string& _str)
+{
+	wchar_t strUnicode[256] = { 0, };
+	int nLen = MultiByteToWideChar(CP_UTF8, 0, _str.c_str(), _str.size(), NULL, NULL);
+	MultiByteToWideChar(CP_UTF8, 0, _str.c_str(), _str.size(), strUnicode, nLen);
+
+	return wstring(strUnicode);
 }
 
 void StringToTStringVec(const vector<string>& _in, vector<tstring>& _out)
