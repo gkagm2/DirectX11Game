@@ -23,6 +23,16 @@ struct TFont {
 	tstring strName;
 	tstring strExtension;
 	tstring GetPath() { return strName + strExtension; }
+	bool Save(FILE* _pFile){
+		SaveStringToFile(strName, _pFile);
+		SaveStringToFile(strExtension, _pFile);
+		return true;
+	}
+	bool Load(FILE* _pFile) {
+		LoadStringFromFile(strName, _pFile);
+		LoadStringFromFile(strExtension, _pFile);
+		return true;
+	}
 };
 
 

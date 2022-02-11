@@ -119,7 +119,7 @@ bool CTextUI::SaveToScene(FILE* _pFile)
 	FWrite(m_fFontSize, _pFile);
 	FWrite(m_iColor, _pFile);
 	FWrite(m_eTextAlignment, _pFile);
-	// TODO (Jang) : 타입 업데이트
+	m_tFontType.Save(_pFile);
 
 	return true;
 }
@@ -132,7 +132,7 @@ bool CTextUI::LoadFromScene(FILE* _pFile)
 	FRead(m_iColor, _pFile);
 	FRead(m_eTextAlignment, _pFile);
 	SetAlign(m_eTextAlignment);
-	// TODO (Jang) : 타입 업데이트
+	m_tFontType.Load(_pFile);
 
 	return true;
 }

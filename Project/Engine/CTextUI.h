@@ -14,7 +14,6 @@ enum class E_TextAlign {
 	RightBottom
 };
 
-
 class CTextUI : public CUI
 {
 private:
@@ -55,7 +54,6 @@ public:
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
-
 
 public:
 	CLONE(CTextUI);

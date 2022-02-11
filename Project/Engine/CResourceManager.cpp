@@ -1403,9 +1403,11 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 void CResourceManager::RenewResourcesFromDir(E_ResourceType _eType)
 {
 	unordered_map<tstring, CResource*>::iterator iter = m_umapResource[(UINT)_eType].begin();
+	int iCnt = 0;
 	for (; iter != m_umapResource[(UINT)_eType].end(); ++iter) {
 		tstring strRelativePath = iter->second->GetRelativePath();
 		iter->second->Save(strRelativePath);
+		_tcprintf(_T("[Saved]%s [%d]\n"), strRelativePath.c_str(), ++iCnt); // Using
 	}
 }
 
