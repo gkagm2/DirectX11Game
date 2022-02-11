@@ -8,6 +8,7 @@ typedef CScript* (*pLoadScript)(FILE*);
 typedef bool(*pSaveScript)(CScript*, FILE*);
 
 typedef CScene* (*pLoadScene)(const tstring&,bool);
+typedef bool(*pSAVE_SCENE)(CScene* _pScene, const tstring& _strPath, bool _bIsRelativePath);
 
 class CSceneManager : public CSingleton<CSceneManager>
 {
@@ -25,6 +26,9 @@ public:
 
 	// Scene Load를 위한 함수 포인터
 	pLoadScene m_pLoadSceneFunc;
+
+	// Scene Save를 위한 함수 포인터
+	pSAVE_SCENE m_pSaveSceneFunc;
 
 public:
 	void Init();

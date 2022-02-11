@@ -4,6 +4,7 @@
 #include "CKeyManager.h"
 #include "CResourceManager.h"
 #include "CSceneManager.h"
+#include "CEventManager.h"
 bool CVersionManager::g_bOldVersionUpdate = false;	 // 새롭게 버전을 추가했을 경우에만 사용
 bool CVersionManager::g_bComponentUpdate = false;
 
@@ -28,7 +29,7 @@ void CVersionManager::Init()
 	// 모든 씬을 가져온다.
 	tstring strContentPath = CPathManager::GetInstance()->GetContentPath();
 	strContentPath += STR_DIR_PATH_Scene;
-	vector<tstring> vecSceneFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
+	m_vecSceneFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
 }
 
 void CVersionManager::Update()
@@ -40,13 +41,19 @@ void CVersionManager::Update()
 	if (InputKeyPress(E_Key::P)) {
 		CResourceManager::GetInstance()->RenewResourcesFromDir(E_ResourceType::Prefab);
 	}
-	//if (InputKeyPress(E_Key::O)) {
-	//	// 모든 씬을 순회로 업데이트 할 수 있도록 만든다.
-	//	// TODO (Jang) : 스레드 이용해야될 것 같다.
-	//		// Load
-	//	for (int i = 0; i < vecSceneFileNames.size(); ++i) {
-	//		CScene* pCurScene = CSceneSaveLoad::LoadScene(path, false);
-	//		CSceneManager::GetInstance()->ChangeSceneEvt(pCurScene);
-	//	}
-	//}
+	if (InputKeyPress(E_Key::O)) {
+		// 모든 씬을 순회로 업데이트
+		ReupdateAllSceneEvt();
+	}
+}
+
+void CVersionManager::ReupdateAllSceneEvt()
+{
+	for (int i = 0; i < m_vecSceneFileNames.size(); ++i) {
+		TEvent evn{};
+		evn.eType = E_EventType::Reupdate_All_Scene;
+		tstring* pStrFileName = new tstring(m_vecSceneFileNames[i]);
+		evn.lparam = (DWORD_PTR)pStrFileName;
+		CEventManager::GetInstance()->AddEvent(evn);
+	}
 }

@@ -73,6 +73,7 @@ void CSceneSaveLoad::Init()
 	CSceneManager::GetInstance()->m_pLoadScript = &CSceneSaveLoad::LoadScript;
 
 	CSceneManager::GetInstance()->m_pLoadSceneFunc = &CSceneSaveLoad::LoadScene;
+	CSceneManager::GetInstance()->m_pSaveSceneFunc = &CSceneSaveLoad::SaveScene;
 }
 
 void CSceneSaveLoad::Release()

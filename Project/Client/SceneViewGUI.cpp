@@ -59,17 +59,17 @@ void SceneViewGUI::_RenewTreeView()
 	vector<tstring> vectFileNames;
 	vectFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
 
-	vector<string> vecSceneFileNames;
+	vector<string> m_vecSceneFileNames;
 	UINT fileCnt = (UINT)vectFileNames.size();
 
 	string strFileName;
-	vecSceneFileNames.resize(fileCnt);
+	m_vecSceneFileNames.resize(fileCnt);
 	for (UINT i = 0; i < fileCnt; ++i)
-		TStringToString(vectFileNames[i], vecSceneFileNames[i]);
+		TStringToString(vectFileNames[i], m_vecSceneFileNames[i]);
 
 	// Vector에 들어있는 파일 이름으로 트리뷰를 생성한다.
-	for (UINT i = 0; i < vecSceneFileNames.size(); ++i) {
-		TreeViewNode* pNode = m_treeView.AddItem(vecSceneFileNames[i].c_str(), 0, pRoot);
+	for (UINT i = 0; i < m_vecSceneFileNames.size(); ++i) {
+		TreeViewNode* pNode = m_treeView.AddItem(m_vecSceneFileNames[i].c_str(), 0, pRoot);
 	}
 	m_treeView.SetDoubleClickCallBack(this, (GUI_CALLBACK)&SceneViewGUI::SelectScene);
 }

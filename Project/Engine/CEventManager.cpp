@@ -235,7 +235,7 @@ void CEventManager::_Excute(const TEvent& _event)
 
 		CScene* pScene = CSceneManager::GetInstance()->m_pLoadSceneFunc(*pRelativePath, bRelativePath);
 		CSceneManager::GetInstance()->ChangeScene(pScene);
-		
+		if (pRelativePath) delete pRelativePath;
 	}
 		break;
 	case E_EventType::Chagne_ResourceKey: {
@@ -321,6 +321,17 @@ void CEventManager::_Excute(const TEvent& _event)
 		// ¾øÀ½
 	}
 		break;
+	case E_EventType::Reupdate_All_Scene: {
+		// lparam : next Scene relativePath
+		tstring* pRelativePath = (tstring*)_event.lparam;
+		CScene* pScene = CSceneManager::GetInstance()->m_pLoadSceneFunc(*pRelativePath, true);
+		CSceneManager::GetInstance()->ChangeScene(pScene);
+		CSceneManager::GetInstance()->m_pSaveSceneFunc(pScene, *pRelativePath, true);
+		_tcprintf(_T("[scene]%s [reupdated]\n"), (*pRelativePath).c_str()); // Using
+
+		if(pRelativePath) delete pRelativePath;
+	}
+		break;
 	default:
 		assert(nullptr);
 		break;
@@ -342,6 +353,7 @@ void CEventManager::_Excute(const TEvent& _event)
 	//case E_EventType::Change_SceneMode:
 	case E_EventType::Change_GameObject_And_Childs_Layer:
 	case E_EventType::Change_ToolState:
+	case E_EventType::Reupdate_All_Scene:
 		m_bEventHappened = true;
 		break;
 	}

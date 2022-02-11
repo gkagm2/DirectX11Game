@@ -132,7 +132,8 @@ void CSceneManager::ChangeSceneEvt(const tstring& _pNextScenePath, bool _bRelati
 {
 	TEvent evn = {};
 	evn.eType = E_EventType::Change_Scene_InScript;
-	evn.lparam = (DWORD_PTR)_pNextScenePath.data();
+	tstring* pNextScenePath = new tstring(_pNextScenePath);
+	evn.lparam = (DWORD_PTR)pNextScenePath;
 	evn.wparam = (DWORD_PTR)_bRelativePath;
 	CEventManager::GetInstance()->AddEvent(evn);
 }

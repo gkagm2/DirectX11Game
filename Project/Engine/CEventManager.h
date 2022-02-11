@@ -11,6 +11,7 @@ enum class E_EventType {
 	Change_Scene,
 	Change_Scene_InScript,
 	Chagne_ResourceKey,
+	Reupdate_All_Scene,
 	Remove_Material,
 	Remove_Resource,
 	Change_State, // AI 상태 변환
