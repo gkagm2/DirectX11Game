@@ -202,6 +202,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CLine.h" />
     <ClInclude Include="CObjectManager.h" />
     <ClInclude Include="CPathFind2D.h" />
+    <ClInclude Include="CPerformanceMonitor.h" />
     <ClInclude Include="CSkybox.h" />
     <ClInclude Include="CTileMapGrid.h" />
     <ClInclude Include="CImageUI.h" />
@@ -284,6 +285,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CLine.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
     <ClCompile Include="CPathFind2D.cpp" />
+    <ClCompile Include="CPerformanceMonitor.cpp" />
     <ClCompile Include="CSkybox.cpp" />
     <ClCompile Include="CTileMapGrid.cpp" />
     <ClCompile Include="CImageUI.cpp" />

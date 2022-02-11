@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CFontManager.h"
 #include "CPathManager.h"
+#include "CPerformanceMonitor.h"
 
 #include "CDevice.h"
 
@@ -94,11 +95,13 @@ void CFontManager::DrawTextLayout()
 
 void CFontManager::LoadFont()
 {
+	PM_START(_T("FontManager get files in directory"));
 	// Font 경로에서 모든 경로를 가져온다.
 	tstring strPath = CPathManager::GetInstance()->GetContentPath();
 	strPath += STR_DIR_PATH_Font;
 	vector<tstring> vecFontFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strPath, _T("*") STR_FONT_EXTENSION_TTF);
-
+	PM_END();
+	PM_START(_T("FontManager str processing"));
 	for (size_t i = 0; i < vecFontFileNames.size(); ++i) {
 		tstring strName = vecFontFileNames[i];
 		// 확장명 떼어내기.
@@ -124,7 +127,8 @@ void CFontManager::LoadFont()
 		// 이름과 확장명 저장
 		m_vecFontName.push_back(tFont);
 	}
-
+	PM_END();
+	PM_START(_T("FontManager Add Font Resoruce"));
 	strPath = CPathManager::GetInstance()->GetContentPath();
 	strPath += STR_DIR_PATH_Font;
 
@@ -143,6 +147,7 @@ void CFontManager::LoadFont()
 		}
 #endif
 	}
+	PM_END();
 }
 
 // 찾지 못하면 -1 리턴

@@ -236,7 +236,12 @@
     <ClInclude Include="CSkybox.h">
       <Filter>Engine\07. Component\SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="CVersionManager.h" />
+    <ClInclude Include="CVersionManager.h">
+      <Filter>Engine\04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPerformanceMonitor.h">
+      <Filter>Engine\Support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -453,7 +458,12 @@
     <ClCompile Include="CSkybox.cpp">
       <Filter>Engine\07. Component\SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="CVersionManager.cpp" />
+    <ClCompile Include="CVersionManager.cpp">
+      <Filter>Engine\04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPerformanceMonitor.cpp">
+      <Filter>Engine\Support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

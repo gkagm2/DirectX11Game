@@ -37,6 +37,8 @@ void CVersionManager::Update()
 	if (!g_bOldVersionUpdate)
 		return;
 
+	// TODO (Jang) : Reupdate하기 전 backup기능 만들기
+
 	// load되어있는 모든 프리펩스를 전부 세이브
 	if (InputKeyPress(E_Key::P)) {
 		CResourceManager::GetInstance()->RenewResourcesFromDir(E_ResourceType::Prefab);

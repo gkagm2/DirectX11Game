@@ -6,6 +6,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CCore.h"
+#include "CPerformanceMonitor.h"
 CResourceManager::CResourceManager() :
 	m_bFixed(false)
 {
@@ -23,6 +24,7 @@ CResourceManager::~CResourceManager()
 
 void CResourceManager::Init()
 {
+	PM_START(_T("CResourceManager Init"));
 	InitInputLayout();
 
 	CreateDefaultMesh();
@@ -33,7 +35,9 @@ void CResourceManager::Init()
 	CreateComputeShader();
 	CreateDefaultMaterial();
 	InitSound(); // FMOD 초기화
+	PM_END();
 
+	PM_START(_T("CResourceManager Load Resources From Dir"));
 	E_SceneMode eSceneMode = CSceneManager::GetInstance()->GetSceneMode();
 	if (eSceneMode == E_SceneMode::Stop) {
 		// Texture 로딩
@@ -45,6 +49,7 @@ void CResourceManager::Init()
 		// 메터리얼 로딩
 		LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
 	}
+	PM_END();
 }
 
 void CResourceManager::CreateDefaultMesh()
