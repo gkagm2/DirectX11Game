@@ -15,6 +15,7 @@ CTransform::CTransform() :
 	m_vLocalRotation{},
 	m_matLocal{},
 	m_matWorld{},
+	m_matWorldInv{},
 
 	m_fWidth(100.f),
 	m_fHeight(100.f),
@@ -31,6 +32,7 @@ CTransform::CTransform(E_ComponentType _eComponentType) :
 	m_vLocalRotation{},
 	m_matLocal{},
 	m_matWorld{},
+	m_matWorldInv{},
 
 	m_fWidth(100.f),
 	m_fHeight(100.f),
@@ -133,7 +135,6 @@ void CTransform::_LinkParent()
 	Vector3 vLocalPosition = vChildPos - vParentWorldPos;
 	vLocalPosition = vLocalPosition / vParentScalePos;
 	SetLocalPosition(vLocalPosition);
-
 }
 
 void CTransform::_UnlinkParent(const Vector3& vParentLocalScale, const Vector3& vParentLocalRotation)
@@ -219,6 +220,8 @@ void CTransform::FinalUpdate()
 			m_matWorld_noParentScale *= matParentWorld; 
 		}
 	}
+
+	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 }
 
 void CTransform::UpdateData()
@@ -229,6 +232,7 @@ void CTransform::UpdateData()
 	g_transform.matWorld = m_matWorld;
 	g_transform.matWorldView = g_transform.matWorld * g_transform.matView;
 	g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
+	g_transform.matWorldInv = m_matWorldInv;
 
 	pCB->SetData(&g_transform);
 	pCB->UpdateData(E_ShaderStage::All);

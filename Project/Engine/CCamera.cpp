@@ -144,6 +144,7 @@ void CCamera::CalculateViewMatrix()
 	m_matView._41 = -vPos.Dot(vRight);  m_matView._42 = -vPos.Dot(vUp); m_matView._43 = -vPos.Dot(vFront);
 #pragma endregion
 	
+	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
 }
 
 void CCamera::CalculateProjectionMatrix()
@@ -293,8 +294,11 @@ void CCamera::_SortObjects()
 
 void CCamera::_RenderForward()
 {
+	/////////////////////////////////////
+	// (UpdateData) RenderForward가 제일 먼저 실행되어 여기에 넣어줌.
 	g_transform.matView = m_matView;
 	g_transform.matProjection = m_matProjection;
+	g_transform.matViewInv = m_matViewInv;
 
 	for (UINT i = 0; i < m_vecForward.size(); ++i)
 		m_vecForward[i]->Render();
@@ -302,18 +306,12 @@ void CCamera::_RenderForward()
 
 void CCamera::_RenderParticle()
 {
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-
 	for (UINT i = 0; i < m_vecParticle.size(); ++i)
 		m_vecParticle[i]->Render();
 }
 
 void CCamera::_RenderPostEffect()
 {
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-
 	for (UINT i = 0; i < m_vecPostEffect.size(); ++i) {
 		CRenderManager::GetInstance()->_CopyBackBufferToPostEffectBuffer();
 		m_vecPostEffect[i]->Render();
@@ -322,18 +320,12 @@ void CCamera::_RenderPostEffect()
 
 void CCamera::_RenderCollider2D()
 {
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-
 	for (UINT i = 0; i < m_vecCollider2D.size(); ++i)
 		m_vecCollider2D[i]->Render();
 }
 
 void CCamera::_RenderCanvas()
 {
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-
 	for (UINT i = 0; i < m_vecCanvas.size(); ++i)
 		m_vecCanvas[i]->Render();
 }

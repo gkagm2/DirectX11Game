@@ -39,6 +39,8 @@ public:
 	void Update();
 
 public:
+	void SetCollsionRendering(bool _bIsRender) { m_bCollisionShow = _bIsRender; }
+	bool IsRenderCollisionArea() { return m_bCollisionShow; }
 	void CollisionByLayer(UINT _iLayerOneIdx, UINT _iLayerTwoIdx); // 레이어간 충돌
 
 	void SetOnOffCollision(UINT _iLayerOne, UINT _iLayerTwo, bool _bIsOn); // 선택한 두 레이어들끼리 충돌을 할지 말지 Flag 세팅

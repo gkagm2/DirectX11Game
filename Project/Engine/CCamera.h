@@ -39,6 +39,7 @@ private:
 	////////////////////////////////////////
 	Matrix			 m_matView;			// View 행렬
 	Matrix			 m_matProjection;	// Prjection 행렬
+	Matrix			 m_matViewInv;		// View 역행렬
 	////////////////////////////////////////
 
 	// 렌더링 시점별로 분류된 오브젝트들
@@ -95,6 +96,7 @@ protected:
 	void CalculateProjectionMatrix();
 	const Matrix& GetViewMatrix() { return m_matView; }
 	const Matrix& GetProjectionMatrix() { return m_matProjection; }
+	const Matrix& GetViewInverseMatrix() { return m_matViewInv; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

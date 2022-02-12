@@ -65,21 +65,40 @@ void CResourceManager::CreateDefaultMesh()
 	vertex.vPos = Vector3(-0.5f, 0.5f, 0.f);
 	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 0.f);
+
+	vertex.vTangent = Vector3(1.f, 0.f, 0.f);
+	vertex.vNormal = Vector3(0.f, 0.f, -1.f);
+	vertex.vBinormal = Vector3(0.f, 1.f, 0.f);
+
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(0.5f, 0.5f, 0.f);
 	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(1.f, 0.f);
+
+	vertex.vTangent = Vector3(1.f, 0.f, 0.f);
+	vertex.vNormal = Vector3(0.f, 0.f, -1.f);
+	vertex.vBinormal = Vector3(0.f, 1.f, 0.f);
+
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(0.5f, -0.5f, 0.f);
 	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(1.f, 1.f);
+
+	vertex.vTangent = Vector3(1.f, 0.f, 0.f);
+	vertex.vNormal = Vector3(0.f, 0.f, -1.f);
+	vertex.vBinormal = Vector3(0.f, 1.f, 0.f);
+
 	vecVtx.push_back(vertex);
 
 	vertex.vPos = Vector3(-0.5f, -0.5f, 0.f);
 	vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertex.vUV = Vector2(0.f, 1.f);
+
+	vertex.vTangent = Vector3(1.f, 0.f, 0.f);
+	vertex.vNormal = Vector3(0.f, 0.f, -1.f);
+	vertex.vBinormal = Vector3(0.f, 1.f, 0.f);
 	vecVtx.push_back(vertex);
 
 	// create index buffer

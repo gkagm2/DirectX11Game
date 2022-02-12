@@ -17,7 +17,8 @@ protected:
 	Vector3 m_vWorldRightDir;
 
 	Matrix m_matLocal;
-	Matrix m_matWorld;			// transform의 상태정보를 담은 행렬
+	Matrix m_matWorld;		// transform의 상태정보를 담은 행렬
+	Matrix m_matWorldInv;	// 월드행렬의 역행렬
 
 public:
 	void SetLocalPosition(const Vector3& _vPosition) { m_vLocalPosition = _vPosition;	}
@@ -53,6 +54,7 @@ public:
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
 
+	const Matrix& GetWorldInverseMatrix() { return m_matWorldInv; }
 
 	const Vector3& GetRightVector() { return m_vWorldRightDir; }
 	const Vector3& GetUpVector() { return m_vWorldUpDir; }

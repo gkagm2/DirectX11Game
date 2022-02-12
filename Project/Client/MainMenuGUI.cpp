@@ -4,6 +4,7 @@
 #include <Engine\CSceneManager.h>
 #include <Engine\CScene.h>
 #include <Engine\CObjectManager.h>
+#include <Engine\CCollisionManager.h>
 
 #include "CSceneSaveLoad.h"
 #include "InspectorGUI.h"
@@ -18,6 +19,7 @@
 #include "CollisionEditorGUI.h"
 #include "Animator2DEditorGUI.h"
 #include "ToolCameraGUI.h"
+
 
 // Captain Forever Game
 #include "ModuleCreatorGUI_ca.h"
@@ -72,8 +74,10 @@ void MainMenuGUI::Update()
         }
 
         // File Menu
-        if(ImGui::BeginMenu("File")) {
-
+        if(ImGui::BeginMenu("Setting")) {
+            if (ImGui::MenuItem("Show Collision")) {
+               //CCollisionManager::GetInstance()->Is
+            }
 
             ImGui::EndMenu();
         }

@@ -9,6 +9,9 @@ cbuffer TRANSFORM : register(b0)
     row_major Matrix g_matView;
     row_major Matrix g_matProjection;
     
+    row_major Matrix g_matWorldInv; // world inverse
+    row_major Matrix g_matViewInv;
+    
     row_major Matrix g_matWorldView;     // world * view matrix
     row_major Matrix g_matWorldViewProj; // world * view * projection matrix
 }
