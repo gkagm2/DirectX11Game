@@ -20,7 +20,7 @@ int CTexture::Load(const tstring& _strFilePath)
 	
 	// GetExtension
 	int iDotIdx = 0; 
-	int size = _strFilePath.size();
+	int size = (int)_strFilePath.size();
 	for (int i = size - 1; i >= 0; --i) {
 		if (_strFilePath[i] == _T('.')) {
 			iDotIdx = i;

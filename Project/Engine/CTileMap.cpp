@@ -157,7 +157,7 @@ bool CTileMap::CreateTile(UINT _iCol, UINT _iRow, bool _bIsBlankInit)
 	_InsertTileInfoToBuffer();
 
 	// 흠.. scale을 키워야되나..
-	Transform()->SetLocalScale(Vector3(m_iTileXCnt, m_iTileYCnt, 1));
+	Transform()->SetLocalScale(Vector3((float)m_iTileXCnt, (float)m_iTileYCnt, (float)1));
 
 	if(!m_pGrid)
 		m_pGrid = new CTileMapGrid(this); //Test

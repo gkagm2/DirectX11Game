@@ -3,6 +3,8 @@
 #include <Engine\CLight2D.h>
 #include "ParamGUI.h"
 #include "CImGuiManager.h"
+#include <Engine\CMeshRenderer.h>
+#include <Engine\CResourceManager.h>
 
 Light2DGUI::Light2DGUI() :
 	LightGUI(E_ComponentType::Light2D),

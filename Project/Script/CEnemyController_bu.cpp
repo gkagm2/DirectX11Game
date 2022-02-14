@@ -90,10 +90,10 @@ void CEnemyController_bu::Awake()
 		for (int j = 0; j < iPathFindCol; ++j) {
 			for (int m = 0; m < vecWallObjs.size(); ++m) {
 				if (vecWallObjs[m]->Collider2D()) {
-					bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3(j, i, 0));
+					bool isCol = CCollisionManager::GetInstance()->IsCollision(vecWallObjs[m]->Collider2D(), Vector3((float)j, (float)i, 0));
 					if (isCol) {
-						if (!m_pPathFind->IsObstacle(Vector2(j, i))) {
-							m_pPathFind->AddObstacleTile(Vector2(j, i));
+						if (!m_pPathFind->IsObstacle(Vector2((float)j, (float)i))) {
+							m_pPathFind->AddObstacleTile(Vector2((float)j, (float)i));
 							break;
 						}
 					}
@@ -712,7 +712,7 @@ void CEnemyController_bu::OnJumpEnd()
 void CEnemyController_bu::OnDeadStart()
 {
 	UINT iLayer = (UINT)E_Layer::ObjectParticle;
-	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
+	int size = (int)m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
 	
 	if (m_vBodySplitDir == Vector3::Zero) {
 		float degree = 180.f / size;

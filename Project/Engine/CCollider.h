@@ -14,7 +14,7 @@ protected:
 	SharedPtr<CMaterial> m_pCollisionMaterial;
 	SharedPtr<CMaterial> m_pNonColliedMaterial;
 
-	bool m_bIsTrigger; // 충돌 시 고정 여부 (true : 물체 통과)
+	bool m_bIsTrigger; // 충돌 시 고정 여부 (true : 물체 통과 )
 
 protected:
 	void IncreaseCollisionCnt() { ++m_iCollisionCount; }

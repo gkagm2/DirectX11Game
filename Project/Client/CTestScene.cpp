@@ -36,6 +36,7 @@
 #include "Engine\CAnimation2D.h"
 #include "Engine\Ptr.h"
 #include "Engine\CLight2D.h"
+#include "Engine\CLight3D.h"
 #include "Engine\CTileMap.h"
 #include "Engine\CParticleSystem.h"
 #include "Engine\CPrefab.h"

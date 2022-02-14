@@ -460,8 +460,8 @@ void TileMapEditorGUI::_OptimizeCollisionArea()
 		//pColObj->Transform()->SetLocalPosition(Vector3(x + 0.5f, iRow - y - 0.5f, 0));
 		CObject::AddChildGameObjectEvn(pObj, pColObj);
 
-		float scaleX = tRect.right + 1 - tRect.left;
-		float scaleY = tRect.bottom + 1 - tRect.top;
+		float scaleX = (float)(tRect.right + 1 - tRect.left);
+		float scaleY = (float)(tRect.bottom + 1 - tRect.top);
 
 		pColObj->Collider2D()->SetOffsetScale(Vector2(scaleX, scaleY));
 		Vector2 vOffsetPos = Vector2(scaleX * 0.5f, scaleY * 0.5f);

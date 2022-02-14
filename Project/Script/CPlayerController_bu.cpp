@@ -328,7 +328,7 @@ void CPlayerController_bu::OnJumpEnd()
 void CPlayerController_bu::OnDeadStart()
 {
 	UINT iLayer = (UINT)E_Layer::ObjectParticle;
-	int size = m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
+	int size = (int)m_pBodyPartPref->GetProtoObj()->Animator2D()->GetCurAnimation()->GetAnimationFrame().size();
 	float degree = 180.f / size;
 	for (int i = 0; i < size; ++i) {
 		Vector3 vDir = ::Rotate(Vector3::Right, i * degree);

@@ -106,7 +106,7 @@ void CWeapon_bu::Update()
 				m_pChainSawColObj->SetActive(false);
 
 			if (m_pSoundMgr)
-				m_pSoundMgr->m_pChainsawIdle->Play(1.f, m_fSoundVolume * 0.4f, false);
+				m_pSoundMgr->m_pChainsawIdle->Play(1, m_fSoundVolume * 0.4f, false);
 		}
 	}
 }

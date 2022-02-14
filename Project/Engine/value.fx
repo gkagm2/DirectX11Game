@@ -110,6 +110,7 @@ Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
 StructuredBuffer<TLightInfo> g_Light2DBuffer : register(t51);
 StructuredBuffer<TTileInfo> g_TileBuffer : register(t52);
 Texture2D g_TexNoise : register(t53);
+StructuredBuffer<TLightInfo> g_Light3DBuffer : register(t54);
 
 // Sampler Stage
 SamplerState g_sam_0 : register(s0); // Anisotropic

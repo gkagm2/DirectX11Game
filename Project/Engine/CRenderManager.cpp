@@ -10,6 +10,7 @@
 
 CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr),
+	m_pLight3DBuffer(nullptr),
 	m_pPostEffectTargetTex(nullptr)
 {
 }
@@ -20,9 +21,12 @@ CRenderManager::~CRenderManager()
 
 void CRenderManager::Init()
 {
-	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
 	const UINT iDefaultElementCnt = 5;
+	m_pLight2DBuffer = make_unique<CStructuredBuffer>();
 	m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt, true);
+
+	m_pLight3DBuffer = make_unique<CStructuredBuffer>();
+	m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt, true);
 
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
@@ -31,7 +35,9 @@ void CRenderManager::Init()
 
 void CRenderManager::Render()
 {
+	_Update_GlobalData();
 	_UpdateData_Light2D();
+	_UpdateData_Light3D();
 	// Render
 	// 1. 타겟 클리어
 	CDevice::GetInstance()->ClearTarget();
@@ -150,14 +156,6 @@ void CRenderManager::_CopyBackBufferToPostEffectBuffer()
 
 void CRenderManager::_UpdateData_Light2D()
 {
-	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
-
-	// 글로벌 컨스트 버퍼에 올려서 GPU에 넣자.
-	static const CConstBuffer* pGlobalCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Global);
-	pGlobalCB->SetData(&g_globalConst);
-	pGlobalCB->UpdateData();
-
-
 	UINT iLightSize = (UINT)m_vecLight2D.size();
 	UINT iElementCnt = m_pLight2DBuffer->GetElementCount();
 
@@ -174,7 +172,36 @@ void CRenderManager::_UpdateData_Light2D()
 	m_pLight2DBuffer->UpdateData(REGISTER_NUM_Light2DBuffer);
 }
 
+void CRenderManager::_UpdateData_Light3D()
+{
+	UINT iLightSize = (UINT)m_vecLight3D.size();
+	UINT iElementCnt = m_pLight3DBuffer->GetElementCount();
+
+	if (m_pLight3DBuffer->GetElementCount() < iLightSize) {
+		m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iLightSize, true);
+	}
+
+	vector<TLightInfo> vecLIghtInfo;
+	for (UINT i = 0; i < iLightSize; ++i)
+		vecLIghtInfo.push_back(m_vecLight3D[i]->GetLightInfo());
+
+	m_pLight3DBuffer->SetData(vecLIghtInfo.data(), sizeof(TLightInfo) * (UINT)vecLIghtInfo.size());
+	m_pLight3DBuffer->UpdateData(REGISTER_NUM_Light3DBuffer);
+}
+
+void CRenderManager::_Update_GlobalData()
+{
+	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
+	g_globalConst.iLight3DCount = (int)m_vecLight3D.size();
+
+	// 글로벌 컨스트 버퍼에 올려서 GPU에 넣자.
+	static const CConstBuffer* pGlobalCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Global);
+	pGlobalCB->SetData(&g_globalConst);
+	pGlobalCB->UpdateData();
+}
+
 void CRenderManager::_RenderClear()
 {
 	m_vecLight2D.clear();
+	m_vecLight3D.clear();
 }

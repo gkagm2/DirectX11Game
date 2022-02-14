@@ -18,12 +18,12 @@ CCollider2D::CCollider2D() :
 	m_pMesh(nullptr),
 	m_pMaterial(nullptr)
 {
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectLineMesh);
+	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectLineMesh);
 
-	SharedPtr<CMaterial> pMtrl = m_pNonColliedMaterial;
+	m_pMaterial = m_pNonColliedMaterial;
 
-	SetMesh(pMesh);
-	SetMaterial(pMtrl);
+	SetMesh(m_pMesh);
+	SetMaterial(m_pMaterial);
 }
 
 CCollider2D::~CCollider2D()

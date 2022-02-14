@@ -88,17 +88,17 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 	vDest.x = round(vDest.x);
 	vDest.y = round(vDest.y);
 	m_bFoundDestination = false;
-	if (false == IsValid(vStart.x, vStart.y))
+	if (false == IsValid((int)vStart.x, (int)vStart.y))
 		return false;
-	if (false == IsValid(vDest.x, vDest.y))
-		return false;
-
-	if (false == _IsUnBlocked(vStart.x, vStart.y))
-		return false;
-	if (false == _IsUnBlocked(vDest.x, vDest.y))
+	if (false == IsValid((int)vDest.x, (int)vDest.y))
 		return false;
 
-	if (_IsDestination(vStart.x, vStart.y, vDest))
+	if (false == _IsUnBlocked((int)vStart.x, (int)vStart.y))
+		return false;
+	if (false == _IsUnBlocked((int)vDest.x, (int)vDest.y))
+		return false;
+
+	if (_IsDestination((int)vStart.x, (int)vStart.y, vDest))
 		return false;
 
 	int iRow = m_iRow;
@@ -118,7 +118,7 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 	}
 
 	// 시작 노드를 초기화 한다.
-	int iX = vStart.x, iY = vStart.y; // i = y, j = x
+	int iX = (int)vStart.x, iY = (int)vStart.y; // i = y, j = x
 	cellDetails[iY][iX].f = 0.f;
 	cellDetails[iY][iX].g = 0.f;
 	cellDetails[iY][iX].h = 0.f;
@@ -160,7 +160,7 @@ bool CPathFind2D::FindPath(const Vector2& start, const Vector2& dest)
 			}
 			else if (false == closedList[y][x] && true == _IsUnBlocked(x, y)) {
 				float gNew = cellDetails[iY][iX].g + 1.0f;
-				float hNew = (float)_GetDistance(x, y, vDest.x, vDest.y);
+				float hNew = (float)_GetDistance(x, y, (int)vDest.x, (int)vDest.y);
 				float fNew = gNew + hNew;
 
 				// openList가 아니면 openList에 추가한다.

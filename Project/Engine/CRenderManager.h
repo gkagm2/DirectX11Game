@@ -2,6 +2,7 @@
 #include "CSingleton.h"
 #include "CCamera.h"
 #include "CLight2D.h"
+#include "CLight3D.h"
 #include "CTileMap.h"
 
 class CStructuredBuffer;
@@ -11,10 +12,12 @@ class CRenderManager : public CSingleton<CRenderManager>
 private:
 	vector<CCamera*> m_vecCam;
 	vector<CLight2D*> m_vecLight2D;
+	vector<CLight3D*> m_vecLight3D;
 
 	vector<CCamera*> m_vecToolCam; // Tool용 카메라
 
 	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
+	unique_ptr<CStructuredBuffer> m_pLight3DBuffer;
 	SharedPtr<CTexture> m_pPostEffectTargetTex;
 public:
 	void Init();
@@ -33,6 +36,10 @@ public:
 	int RegisterLight2D(CLight2D* _pLight2D) { 
 		m_vecLight2D.push_back(_pLight2D);
 		return (int)(m_vecLight2D.size() - 1);
+	}
+	int RegisterLight3D(CLight3D* _pLight3D) {
+		m_vecLight3D.push_back(_pLight3D);
+		return (int)(m_vecLight3D.size() - 1);
 	}
 
 	// Tool Camera
@@ -53,6 +60,8 @@ private:
 private:
 	
 	void _UpdateData_Light2D();
+	void _UpdateData_Light3D();
+	void _Update_GlobalData();
 	void _RenderClear();
 
 	friend void CCamera::_RenderPostEffect();

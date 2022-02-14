@@ -17,9 +17,11 @@
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
 #include "CParticleSystem.h"
+#include "CCollider2D.h"
 
 #include "CCamera.h"
 #include "CLight2D.h"
+#include "CLight3D.h"
 #include "CGameObject.h"
 #include "CCursor.h"
 

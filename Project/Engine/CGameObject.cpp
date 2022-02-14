@@ -14,6 +14,7 @@
 #include "CCollider3D.h"
 #include "CAnimator2D.h"
 #include "CLight2D.h"
+#include "CLight3D.h"
 #include "CTileMap.h"
 #include "CParticleSystem.h"
 #include "CRigidbody2D.h"
@@ -504,7 +505,7 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad)
 	// Local Address ¼³Á¤
 	size_t iChildSize = m_vecChildObj.size();
 	for (size_t i = 0; i < m_vecChildObj.size(); ++i)
-		m_vecChildObj[i]->_SetLocalAddress(i);
+		m_vecChildObj[i]->_SetLocalAddress((int)i);
 	
 
 
@@ -559,7 +560,7 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 				vector<CGameObject*> vecRoots;
 				CSceneManager::GetInstance()->GetCurScene()->GetRootGameObjects(vecRoots);
 				for (size_t i = 0; i < vecRoots.size(); ++i)
-					vecRoots[i]->_SetLocalAddress(i);
+					vecRoots[i]->_SetLocalAddress((int)i);
 				break;
 			}
 		}
@@ -580,7 +581,7 @@ void CGameObject::_UnlinkParentGameObject(bool _IsSaveLoad)
 	}
 
 	for (size_t i = 0; i < vecChild.size(); ++i)
-		vecChild[i]->_SetLocalAddress(i);
+		vecChild[i]->_SetLocalAddress((int)i);
 	
 
 	if (true == _IsSaveLoad) {
@@ -878,6 +879,9 @@ CComponent* CreateComponentOld(E_ComponentTypeOld _eType) {
 	case E_ComponentTypeOld::TileMap:
 		pComponent = new CTileMap;
 		break;
+	case E_ComponentTypeOld::Skybox:
+		pComponent = new CSkybox;
+		break;
 	case E_ComponentTypeOld::ParticleSystem:
 		pComponent = new CParticleSystem;
 		break;
@@ -935,6 +939,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Light2D:
 		pComponent = new CLight2D;
+		break;
+	case E_ComponentType::Light3D:
+		pComponent = new CLight3D;
 		break;
 	case E_ComponentType::TileMap:
 		pComponent = new CTileMap;
@@ -998,4 +1005,15 @@ void CGameObject::_DestroyScript(CScript* pScript)
 		m_vecScript.erase(iter);
 		delete pScr;
 	}
+}
+
+
+template<typename TYPE>
+TYPE* CGameObject::GetComponentScript(UINT _iScriptType)
+{
+	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
+		if (m_vecScript[i]->GetScriptType() == _iScriptType)
+			return (TYPE*)m_vecScript[i];
+	}
+	return nullptr;
 }

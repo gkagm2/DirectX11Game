@@ -126,7 +126,7 @@ void CLayer::_UnRegisterInRootGameObject(CGameObject* _pRootObj)
 			vector<CGameObject*> vecRoots;
 			CSceneManager::GetInstance()->GetCurScene()->GetRootGameObjects(vecRoots);
 			for (size_t i = 0; i < vecRoots.size(); ++i)
-				vecRoots[i]->_SetLocalAddress(i);
+				vecRoots[i]->_SetLocalAddress((int)i);
 
 			return;
 		}

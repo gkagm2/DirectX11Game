@@ -86,6 +86,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_COMPONENT(Collider3D)\
 	GET_COMPONENT(Animator2D)\
 	GET_COMPONENT(Light2D)\
+	GET_COMPONENT(Light3D)\
 	GET_COMPONENT(TileMap)\
 	GET_COMPONENT(ParticleSystem)\
 	GET_COMPONENT(Rigidbody2D)\
@@ -117,6 +118,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_OTHER_COMPONENT(Collider3D)\
 	GET_OTHER_COMPONENT(Animator2D)\
 	GET_OTHER_COMPONENT(Light2D)\
+	GET_OTHER_COMPONENT(Light3D)\
 	GET_OTHER_COMPONENT(TileMap)\
 	GET_OTHER_COMPONENT(ParticleSystem)\
 	GET_OTHER_COMPONENT(Rigidbody2D)\
@@ -138,6 +140,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 #define REGISTER_NUM_Light2DBuffer 51
 #define REGISTER_NUM_TileMapBuffer 52
 #define REGISTER_NUM_NoiseTexture  53
+#define REGISTER_NUM_Light3DBuffer 54
 
 #define REGISTER_NUM_Particle 12
 
@@ -253,6 +256,7 @@ enum class E_ComponentTypeOld {
 	MeshRenderer,
 	SpriteRenderer,
 	ParticleSystem,
+	Skybox,
 	TileMap,
 #pragma endregion
 

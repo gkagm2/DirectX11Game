@@ -6,11 +6,13 @@ class CComponent;
 class CTransform;
 class CMeshRenderer;
 class CCamera;
-class CScript;
+
 class CCollider2D;
 class CCollider3D;
 class CAnimator2D;
 class CLight2D;
+class CLight3D;
+class CLight;
 class CTileMap;
 class CSkybox;
 class CParticleSystem;
@@ -24,6 +26,8 @@ class CButtonUI;
 class CUI;
 class CBehaviour;
 class CAudioSource;
+
+class CScript;
 
 class CGameObject : public CObject, ILifeCycleInterface
 {
@@ -120,6 +124,8 @@ public:
 	template<typename TYPE>
 	TYPE* GetComponent();
 	CComponent* GetComponent(E_ComponentType _eType);
+	template<typename TYPE>
+	TYPE* GetComponentScript(UINT _iScriptType);
 
 	const vector<CScript*>& GetScripts() { return m_vecScript; }// 추가되어있는 스크립트 컴포넌트들을 가져온다.
 
@@ -196,29 +202,6 @@ inline TYPE* CGameObject::AddComponent()
 	pComp->m_pGameObj = this;
 
  	return pComponent;
-}
-
-template<typename TYPE>
-inline TYPE* CGameObject::GetComponent()
-{
-	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
-     		TYPE* pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
-		if (nullptr != pComponent) {
-			return pComponent;
-		}
-	}
-
-	// Script Type일 경우    
-	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
-		if (typeid(TYPE) == typeid(*m_vecScript[i]))
-			return (TYPE*)m_vecScript[i];
-		// 부모 클래스에 존재하는지 확인
-		TYPE* pType = dynamic_cast<TYPE*>(m_vecScript[i]);
-		if (pType)
-			return (TYPE*)m_vecScript[i];
-	}
-
-	return nullptr;
 }
 
 template<typename TYPE>
@@ -313,5 +296,30 @@ inline TYPE* CGameObject::FindComponentInParent(bool _bIncludeMine)
 			return pCom;
 		pParent = pParent->GetParentObject();
 	}
+	return nullptr;
+}
+
+template<typename TYPE>
+ TYPE* CGameObject::GetComponent()
+{
+
+	 for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
+		TYPE* pComponent = dynamic_cast<TYPE*>(m_arrComponent[i]);
+		if (nullptr != pComponent) {
+			return pComponent;
+		}
+	 }
+
+	//// Script Type일 경우    
+	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
+		if (typeid(TYPE) == typeid(*m_vecScript[i]))
+			return (TYPE*)m_vecScript[i];
+		// 부모 클래스에 존재하는지 확인
+		TYPE* pComponent = dynamic_cast<TYPE*>(m_vecScript[i]);
+		if (nullptr != pComponent) {
+			return pComponent;
+		}
+	}
+
 	return nullptr;
 }

@@ -131,7 +131,7 @@
       <Filter>Engine\07. Component\Animator\2D</Filter>
     </ClInclude>
     <ClInclude Include="CLight2D.h">
-      <Filter>Engine\07. Component\Light2D</Filter>
+      <Filter>Engine\07. Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="CRenderManager.h">
       <Filter>Engine\04. Manager</Filter>
@@ -241,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="CPerformanceMonitor.h">
       <Filter>Engine\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight3D.h">
+      <Filter>Engine\07. Component\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,7 +359,7 @@
       <Filter>Engine\07. Component\Animator\2D</Filter>
     </ClCompile>
     <ClCompile Include="CLight2D.cpp">
-      <Filter>Engine\07. Component\Light2D</Filter>
+      <Filter>Engine\07. Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="CRenderManager.cpp">
       <Filter>Engine\04. Manager</Filter>
@@ -464,6 +467,9 @@
     <ClCompile Include="CPerformanceMonitor.cpp">
       <Filter>Engine\Support</Filter>
     </ClCompile>
+    <ClCompile Include="CLight3D.cpp">
+      <Filter>Engine\07. Component\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -568,9 +574,6 @@
     <Filter Include="Engine\07. Component\Animator\3D">
       <UniqueIdentifier>{d4a14248-40ce-4e7b-bc6b-da5660910f9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\07. Component\Light2D">
-      <UniqueIdentifier>{12668154-9126-408e-8ef0-55050b002448}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\05. Resource\Prefab">
       <UniqueIdentifier>{76b1c44e-d3a7-4ed4-8fc7-c50d6b3c4406}</UniqueIdentifier>
     </Filter>
@@ -645,6 +648,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\SkyBox">
       <UniqueIdentifier>{6c46fef0-8717-4762-8b2e-7dfef09b6bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\Light">
+      <UniqueIdentifier>{12668154-9126-408e-8ef0-55050b002448}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
