@@ -424,3 +424,12 @@ Vector2 Rotate_Radian(const Vector2& _vVec, float _radian);
 
 // 회전되지 않은 screen 좌표에서 원하는 위치값을 center를 중점으로 회전된 후 좌표를 구함.
 Vector2 GetScreenPosFromCenter(Vector2 _vTargetPos, Vector2 _vCenterPos, float _degree);
+
+// Look At 방향 벡터를 이용하여 회전 매트릭스로 변환
+Matrix GetRotationMatrix(Vector3 _vLookAt);
+
+
+bool IsEqual_Float(const float& a, const float& b, const float& epsilon = std::numeric_limits<float>::epsilon());
+
+// 회전 매트릭스를 분해하여 Vector3 타입으로 변환
+Vector3 DecomposeRotMat(const Matrix& _matRot);
