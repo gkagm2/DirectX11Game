@@ -81,10 +81,10 @@ Vector3 CTransform::GetRotationDegree()
 	return GetRotation() * CMyMath::Rad2Deg();
 }
 
-void CTransform::LookAt2D(const Vector2& m_vWorldPos)
+void CTransform::LookAt2D(const Vector2& _vWorldPos)
 {
 	Vector3 vCurPos = GetPosition();
-	Vector2 vToTargetDir = m_vWorldPos - vCurPos;
+	Vector2 vToTargetDir = _vWorldPos - vCurPos;
 	vToTargetDir.Normalize();
 	float randian = atan2f(vToTargetDir.y, vToTargetDir.x);
 	Vector3 vParentRot {};
@@ -100,6 +100,13 @@ void CTransform::LookAt2D(const Vector2& m_vWorldPos)
 	}
 	
 	SetLocalRotation(vLocalRot);
+}
+
+void CTransform::LookAt3D(const Vector3& _vWorldPos)
+{
+	Vector3 vLookAtDir = _vWorldPos  - Transform()->GetPosition();
+	Matrix matRot = ::GetRotationMatrix(vLookAtDir);
+	m_vLocalRotation = ::DecomposeRotMat(matRot);
 }
 
 void CTransform::_LinkParent()

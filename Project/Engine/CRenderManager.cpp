@@ -35,9 +35,9 @@ void CRenderManager::Init()
 
 void CRenderManager::Render()
 {
-	_Update_GlobalData();
 	_UpdateData_Light2D();
 	_UpdateData_Light3D();
+	_Update_GlobalData();
 	// Render
 	// 1. Å¸°Ù Å¬¸®¾î
 	CDevice::GetInstance()->ClearTarget();

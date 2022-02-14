@@ -86,7 +86,8 @@ public:
 	Vector3 GetLocalScale_RectTR() { return m_vLocalScale_RT; }
 
 public:
-	void LookAt2D(const Vector2& m_vWorldPos);
+	void LookAt2D(const Vector2& _vWorldPos);
+	void LookAt3D(const Vector3& _vWorldPos);
 
 public:
 	void _LinkParent();
