@@ -231,6 +231,10 @@ void CResourceManager::CreateDefaultCircle2DMesh()
 		vtx.vUV.y = (sinf(fRadian * (float)i) + 1.f) * 0.5f;
 		vtx.vUV.y = 1.f - vtx.vUV.y;
 
+		vtx.vTangent = Vector3(1.f, 0.f, 0.f);
+		vtx.vNormal = Vector3(0.f, 0.f, -1.f);
+		vtx.vBinormal = Vector3(0.f, 1.f, 0.f);
+
 		vecVtx.push_back(vtx);
 	}
 
@@ -850,7 +854,8 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetRasterizerState(E_RasterizerState::CullBack);
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Diffuse Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("Normal Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Shader Type") });
 	AddRes(STR_KEY_Std3DShader, pShader);
 

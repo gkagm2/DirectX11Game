@@ -3,16 +3,10 @@
 #include "value.fx"
 #include "function.fx"
 
-// 임의로 Direction Light를 넣어줌
-static float3 g_vLightDir = float3(1.0f, -1.0f, 1.0f);
-static float3 g_vLightColor = float3(1.f, 0.0f, 1.f);
-static float3 g_vLightReflect = float3(0.4f, 0.4f, 0.4f); // 반사각 강도가 최대일 때 빛을 얼마만큼 넣어줄 것인지
-static float3 g_vAmbient = float3(0.15f, 0.15f, 0.15f);
-
 ///////////////////////////////////////
 //     Std3D Shader
 #define DiffTex             g_tex_0     // color texture
-#define NormalTex           g_tex_0     // normal map texture
+#define NormalTex           g_tex_1     // normal map texture
 #define bIsBindDiffTex      bTex_0
 #define bIsBindNormalTex    bTex_1
 #define CubeTex             g_texcube_0
@@ -74,12 +68,12 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
     
     if (bIsBindDiffTex)
     {
-        vOutColor = DiffTex.Sample(Sample_Anisotropic, _in.vUV);
+        vOutColor.xyz = DiffTex.Sample(Sample_Anisotropic, _in.vUV).xyz;
     }
     else if (bIsBindCubeTex)
     {
         float3 vUV = normalize(_in.vLocalPos);
-        vOutColor = CubeTex.Sample(Sample_Anisotropic, vUV);
+        vOutColor.xyz = CubeTex.Sample(Sample_Anisotropic, vUV).xyz;
     }
     
     // 노멀맵이 바인딩되어있으면 노멀맵의 노멀을 쓴다.

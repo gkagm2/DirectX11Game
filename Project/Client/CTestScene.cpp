@@ -41,6 +41,7 @@
 #include "Engine\CParticleSystem.h"
 #include "Engine\CPrefab.h"
 #include "Engine\CRigidbody2D.h"
+#include <Engine\CObjectManager.h>
 
 
 // GameContents
@@ -128,8 +129,9 @@ void CTestScene::CreateTestScene()
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	//Light2DTest();
 	//UpdateOldVersion();
-	CreateNewScene();
+	//CreateNewScene();
 	//Butcher();
+	Light3DTest();
 	return;
 	// TODO (Jang) : Test code
 	// ¾À »ý¼º
@@ -1171,6 +1173,29 @@ void CTestScene::FontRendering()
 	TCHAR szBuffer[255] = _T("");
 	_stprintf_s(szBuffer, 255, _T("FPS : %d"), iFPS);
 	CFontManager::GetInstance()->DrawFont(szBuffer, 10.f, 30.f, 12, FONT_RGBA(200, 30, 30, 255), FW1_TEXT_FLAG::FW1_LEFT);
+}
+
+void CTestScene::Light3DTest()
+{
+	CScene* pScene = new CScene;
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+
+	SharedPtr<CMaterial> p3dMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl);
+	SharedPtr<CTexture> pTileTex = CResourceManager::GetInstance()->FindRes<CTexture>(_T("texture\\tile\\TILE_02.tga"));
+	SharedPtr<CTexture> pTileTexNormal = CResourceManager::GetInstance()->FindRes<CTexture>(_T("texture\\tile\\TILE_01_N.tga"));
+	p3dMtrl->SetData(E_ShaderParam::Texture_0, pTileTex.Get());
+	p3dMtrl->SetData(E_ShaderParam::Texture_1, pTileTexNormal.Get());
+	
+	CGameObject* pCube = CObjectManager::GetInstance()->CreateCubeGameObject();
+	CGameObject* pSphere = CObjectManager::GetInstance()->CreateSphereGameobject();
+	CGameObject* pLight3D = CObjectManager::GetInstance()->CreateLight3D();
+
+	pCube->Transform()->SetLocalPosition(Vector3(100.f, 0.f, 0.f));
+	pCube->Transform()->SetLocalScale(Vector3(50.f, 50.f, 50.f));
+	pSphere->Transform()->SetLocalPosition(Vector3(-100.f, 0.f, 0.f));
+	pSphere->Transform()->SetLocalScale(Vector3(50.f, 50.f, 50.f));
+
+	pLight3D->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 }
 
 void CTestScene::Test()

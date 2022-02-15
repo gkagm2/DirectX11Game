@@ -91,12 +91,12 @@ CGameObject* CObjectManager::CreateEmptyGameObject(UINT _iLayer)
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-
-
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
-		vWorldPos.z = 0.f;
-	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
@@ -117,9 +117,11 @@ CGameObject* CObjectManager::CreateCamera2DGameObject(UINT _iLayer)
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	vWorldPos.z = -500.f;
-	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		vWorldPos.z = -500.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
@@ -164,10 +166,12 @@ CGameObject* CObjectManager::Create2DRectGameObject(UINT _iLayer)
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
-		vWorldPos.z = 0.f;
-	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
@@ -186,10 +190,12 @@ CGameObject* CObjectManager::CreateCubeGameObject(UINT _iLayer)
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
-		vWorldPos.z = 0.f;
-	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
@@ -208,10 +214,12 @@ CGameObject* CObjectManager::CreateSphereGameobject(UINT _iLayer)
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
-		vWorldPos.z = 0.f;
-	pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;
@@ -282,8 +290,10 @@ CGameObject* CObjectManager::_CreateDefaultUICamera()
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
-	Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
-	pUICameraObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		pUICameraObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
+	}
 	CObject::CreateGameObjectEvn(pUICameraObj, NUM_LAYER_UI);
 	return pUICameraObj;
 }

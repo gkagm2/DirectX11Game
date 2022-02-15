@@ -46,6 +46,8 @@ protected:
 	static void SoundTest();					// Done
 	static void FontRendering();				// Done
 
+	static void Light3DTest();
+
 	static void Test();
 
 	// TODO (Jang) : 자식오브젝트가 있는 상태에서 로 Scene Stop 시 오류걸리는거 수정하기

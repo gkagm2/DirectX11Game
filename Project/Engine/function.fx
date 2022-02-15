@@ -67,7 +67,35 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     }
     else if (spot_Type == tInfo.iLightType)
     {
-        // TODO (Jang) : spot light 구현
+        float3 vLightForwardDir = mul(float4(tInfo.vLightDir.xyz, 0.f), g_matView).xyz; // g_vLightDir는 월드상에서 방향 벡터이므로 view 행렬만 곱함.
+        vLightForwardDir = normalize(vLightForwardDir);
+        
+        // View space에서 광원으로부터 표면에 오는 방향과 거리를 구함
+        float3 vLightViewDir = _vViewPos - vLightViewPos;
+        float fDistance = length(vLightViewDir);
+        vLightViewDir = normalize(vLightViewDir);
+        float3 vLightViewOpDir = -vLightViewDir; // 표면에서 빛으로 향하는 방향
+        
+        // 빛이 표면으로 향하는 방향과 빛이 째고 있는 방향을 구해서 내적함.
+        float fRadian =dot(vLightViewDir, vLightForwardDir);
+        float fAngle = acos(fRadian); // radian to degree
+        
+        if (fAngle < tInfo.fAngle * 0.5f)
+        {
+            // 난방사광(확산광) 계수
+            float fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
+        
+            // 반사광 계수, 반사벡터 
+            float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, _vViewNormal) * _vViewNormal;
+            vReflectDir = normalize(vReflectDir);
+        
+            // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
+            float3 vEyeToPosDir = normalize(_vViewPos);
+            fReflectPow = saturate(dot(-vReflectDir, vEyeToPosDir));
+            fReflectPow = pow(fReflectPow, reflect_Pow);
+        
+            fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
+        }
     }
     
     tLight.vDiffuse.xyz = tInfo.color.vDiffuse.xyz * fDiffusePow * fRatio;
