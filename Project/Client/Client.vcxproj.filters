@@ -227,6 +227,9 @@
     <Filter Include="03. Tools\02. ToolObjects\DragAndDrop">
       <UniqueIdentifier>{a68700d1-f11e-44bd-ae4f-6d48bf2f796c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\05. ToolShader">
+      <UniqueIdentifier>{f15a4bd2-00a2-4f2c-9007-c3c5b3895186}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -653,5 +656,10 @@
     <Text Include="LICENSE.txt">
       <Filter>ImGUI</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="tool.fx">
+      <Filter>03. Tools\05. ToolShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

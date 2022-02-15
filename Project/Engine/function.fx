@@ -20,10 +20,11 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     float3 vLightViewPos = mul(float4(tInfo.vLightPos.xyz, 1.f), g_matView).xyz;
     
     // 광원과의 거리에 따른 감쇠 비율
-    float fRatio = 1.f;
+    float fRatio = 0.f;
     
     if (direction_Type == tInfo.iLightType)
     {
+        fRatio = 1.f;
         // View Space에서 light 방향 벡터
         float3 vLightViewDir = mul(float4(tInfo.vLightDir.xyz, 0.f), g_matView).xyz; // g_vLightDir는 월드상에서 방향 벡터이므로 view 행렬만 곱함.
         vLightViewDir = normalize(vLightViewDir);
@@ -50,9 +51,8 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         vLightViewDir = normalize(vLightViewDir);
         float3 vLightViewOpDir = -vLightViewDir; // 표면에서 빛으로 향하는 방향
         
-        
         // 난방사광(확산광) 계수
-        float fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
+        fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
         
         // 반사광 계수, 반사벡터 
         float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, _vViewNormal) * _vViewNormal;
@@ -62,8 +62,8 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         float3 vEyeToPosDir = normalize(_vViewPos);
         fReflectPow = saturate(dot(-vReflectDir, vEyeToPosDir));
         fReflectPow = pow(fReflectPow, reflect_Pow);
-        
-        fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
+        if (fDistance > tInfo.fRange)
+            fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
     }
     else if (spot_Type == tInfo.iLightType)
     {
@@ -77,24 +77,24 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         float3 vLightViewOpDir = -vLightViewDir; // 표면에서 빛으로 향하는 방향
         
         // 빛이 표면으로 향하는 방향과 빛이 째고 있는 방향을 구해서 내적함.
-        float fRadian =dot(vLightViewDir, vLightForwardDir);
+        float fRadian = dot(vLightViewDir, vLightForwardDir);
         float fAngle = acos(fRadian); // radian to degree
         
         if (fAngle < tInfo.fAngle * 0.5f)
         {
-            // 난방사광(확산광) 계수
-            float fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
+        // 난방사광(확산광) 계수
+            fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
         
-            // 반사광 계수, 반사벡터 
+        // 반사광 계수, 반사벡터 
             float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, _vViewNormal) * _vViewNormal;
             vReflectDir = normalize(vReflectDir);
         
-            // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
+        // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
             float3 vEyeToPosDir = normalize(_vViewPos);
             fReflectPow = saturate(dot(-vReflectDir, vEyeToPosDir));
             fReflectPow = pow(fReflectPow, reflect_Pow);
-        
-            fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
+            if (fDistance > tInfo.fRange)
+                fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
         }
     }
     
