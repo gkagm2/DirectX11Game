@@ -25,7 +25,7 @@ public:
 	void SetAngle(float _fDegree) { m_tInfo.fAngle_Radian = _fDegree * CMyMath::Deg2Rad(); }
 	float GetAngle() { return m_tInfo.fAngle_Radian * CMyMath::Rad2Deg(); }
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }
-	const Vector4& GetDiffCOlor() { return m_tInfo.tColor.vDiffuse; }
+	const Vector4& GetDiffColor() { return m_tInfo.tColor.vDiffuse; }
 	void SetSpecular(const Vector4& _vSpecular) { m_tInfo.tColor.vSpecular = _vSpecular; }
 	const Vector4& GetSpecular() { return m_tInfo.tColor.vSpecular; }
 	
