@@ -12,6 +12,7 @@
 #include "CTextUI.h"
 #include "CMeshRenderer.h"
 #include "CSkybox.h"
+#include "CLight3D.h"
 
 
 UINT g_iMtrlID = 0;
@@ -24,6 +25,7 @@ UINT g_iEmptyLight2DID = 0;
 UINT g_iEmptyCubeGameObjectID = 0;
 UINT g_iEmptySphereGameObjectID = 0;
 UINT g_iEmptySkyboxGameObjectID = 0;
+UINT g_iEmptyLight3DID = 0;
 
 UINT g_iTextUIGameObjectID = 0;
 UINT g_iButtonUIGameObjectID = 0;
@@ -227,6 +229,19 @@ CGameObject* CObjectManager::CreateSkyboxGameObject(UINT _iLayer)
 	pNewGameObject->Transform()->SetLocalPosition(Vector3{ 0.f,0.f,0.f });
 
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateLight3D(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Light3D"), g_iEmptyLight3DID);
+
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CLight3D>();
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+
 	return pNewGameObject;
 }
 

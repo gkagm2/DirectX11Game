@@ -3,14 +3,11 @@
 #include <Engine\CLight2D.h>
 #include "ParamGUI.h"
 #include "CImGuiManager.h"
-#include <Engine\CMeshRenderer.h>
-#include <Engine\CResourceManager.h>
 
 Light2DGUI::Light2DGUI() :
 	LightGUI(E_ComponentType::Light2D),
 	m_pLight(nullptr)
 {
-	_InitComboBoxList();
 }
 
 Light2DGUI::~Light2DGUI()
@@ -72,19 +69,7 @@ void Light2DGUI::Update()
 	End();
 }
 
-void Light2DGUI::_InitComboBoxList()
-{
-	string strState;
-	for (UINT i = 0; i < (UINT)E_LightType::End; ++i) {
-		TStringToString(LightTypeToStr((E_LightType)i), strState);
-		for (UINT j = 0; j < strState.size(); ++j)
-			m_vecStrLigthTypeList.push_back(strState[j]);
-		m_vecStrLigthTypeList.push_back('\0');
-	}
-	m_vecStrLigthTypeList.push_back('\0');
-}
-
-void Light2DGUI::_RenderDirection(TLightInfo& tLightInfoRef)
+void Light2DGUI::_RenderDirection(TLightInfo& _tLightInfoRef)
 {
 }
 
@@ -106,25 +91,4 @@ void Light2DGUI::_RenderPoint(TLightInfo& _tLightInfoRef)
 void Light2DGUI::_RenderParam_Range(TLightInfo& _tLightInfoRef)
 {
 	ImGui::DragFloat("Range##Light2D ", &_tLightInfoRef.fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f");
-}
-
-
-void Light2DGUI::_SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw)
-{
-	string strKey = (const char*)_dw1;
-	tstring tstrKey;
-	StringToTString(strKey, tstrKey);
-	SharedPtr<CMesh> pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(tstrKey);
-	assert(pMesh.Get());
-	GetTargetObject()->MeshRenderer()->SetMesh(pMesh);
-}
-
-void Light2DGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
-{
-	string strKey = (const char*)_dw1;
-	tstring tstrKey;
-	StringToTString(strKey, tstrKey);
-	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
-	assert(pMtrl.Get());
-	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
 }

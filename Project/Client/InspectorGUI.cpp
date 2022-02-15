@@ -18,6 +18,7 @@
 #include "Rigidbody2DGUI.h"
 #include "Animator2DGUI.h"
 #include "Light2DGUI.h"
+#include "Light3DGUI.h"
 #include "TileMapGUI.h"
 #include "Collider2DGUI.h"
 #include "RectTransformGUI.h"
@@ -93,6 +94,10 @@ void InspectorGUI::Init()
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Light2D]->SetUISize(ImVec2(0.f, 0.f));
+
+	// Light3D
+	m_arrComGUI[(UINT)E_ComponentType::Light3D] = new Light3DGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Light3D]->SetUISize(ImVec2(0.f, 0.f));
 
 	// TileMap
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;

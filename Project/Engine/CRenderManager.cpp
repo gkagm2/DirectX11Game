@@ -159,41 +159,47 @@ void CRenderManager::_UpdateData_Light2D()
 	UINT iLightSize = (UINT)m_vecLight2D.size();
 	UINT iElementCnt = m_pLight2DBuffer->GetElementCount();
 
-	// 광원 개수가 광원의 정보를 담을 구조화 버퍼 개수보다 크면 사이즈를 늘려줌
-	if (m_pLight2DBuffer->GetElementCount() < iLightSize) {
-		m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iLightSize, true);
+	if (0 == iLightSize)
+		CTexture::Clear(REGISTER_NUM_Light2DBuffer);
+	else {
+		// 광원 개수가 광원의 정보를 담을 구조화 버퍼 개수보다 크면 사이즈를 늘려줌
+		if (m_pLight2DBuffer->GetElementCount() < iLightSize) {
+			m_pLight2DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iLightSize, true);
+		}
+
+		vector<TLightInfo> vecLightInfo;
+		for (UINT i = 0; i < iLightSize; ++i)
+			vecLightInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+
+		m_pLight2DBuffer->SetData(vecLightInfo.data(), sizeof(TLightInfo) * (UINT)vecLightInfo.size());
+		m_pLight2DBuffer->UpdateData(REGISTER_NUM_Light2DBuffer);
 	}
-
-	vector<TLightInfo> vecLightInfo;
-	for (UINT i = 0; i < iLightSize; ++i)
-		vecLightInfo.push_back(m_vecLight2D[i]->GetLightInfo());
-
-	m_pLight2DBuffer->SetData(vecLightInfo.data(), sizeof(TLightInfo) * (UINT)vecLightInfo.size());
-	m_pLight2DBuffer->UpdateData(REGISTER_NUM_Light2DBuffer);
+	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
 }
 
 void CRenderManager::_UpdateData_Light3D()
 {
 	UINT iLightSize = (UINT)m_vecLight3D.size();
 	UINT iElementCnt = m_pLight3DBuffer->GetElementCount();
+	if (0 == iLightSize)
+		CTexture::Clear(REGISTER_NUM_Light3DBuffer);
+	else {
+		if (m_pLight3DBuffer->GetElementCount() < iLightSize) {
+			m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iLightSize, true);
+		}
 
-	if (m_pLight3DBuffer->GetElementCount() < iLightSize) {
-		m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iLightSize, true);
+		vector<TLightInfo> vecLIghtInfo;
+		for (UINT i = 0; i < iLightSize; ++i)
+			vecLIghtInfo.push_back(m_vecLight3D[i]->GetLightInfo());
+
+		m_pLight3DBuffer->SetData(vecLIghtInfo.data(), sizeof(TLightInfo) * (UINT)vecLIghtInfo.size());
+		m_pLight3DBuffer->UpdateData(REGISTER_NUM_Light3DBuffer);
 	}
-
-	vector<TLightInfo> vecLIghtInfo;
-	for (UINT i = 0; i < iLightSize; ++i)
-		vecLIghtInfo.push_back(m_vecLight3D[i]->GetLightInfo());
-
-	m_pLight3DBuffer->SetData(vecLIghtInfo.data(), sizeof(TLightInfo) * (UINT)vecLIghtInfo.size());
-	m_pLight3DBuffer->UpdateData(REGISTER_NUM_Light3DBuffer);
+	g_globalConst.iLight3DCount = (int)m_vecLight3D.size();
 }
 
 void CRenderManager::_Update_GlobalData()
 {
-	g_globalConst.iLight2DCount = (int)m_vecLight2D.size();
-	g_globalConst.iLight3DCount = (int)m_vecLight3D.size();
-
 	// 글로벌 컨스트 버퍼에 올려서 GPU에 넣자.
 	static const CConstBuffer* pGlobalCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Global);
 	pGlobalCB->SetData(&g_globalConst);

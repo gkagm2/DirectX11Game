@@ -10,7 +10,7 @@ CLight3D::CLight3D() :
 {
 	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
-	m_tInfo.eLightType = E_LightType::Point;
+	m_tInfo.eLightType = E_LightType::Direction;
 
 	m_tInfo.fAngle_Radian = PI * 0.5f;
 	m_tInfo.fRange = 2.f;
@@ -36,7 +36,7 @@ void CLight3D::FinalUpdate()
 	}
 	if (isRender) {
 		m_tInfo.vLightPos = Transform()->GetPosition();
-		m_tInfo.vLightDir = Transform()->GetUpVector();
+		m_tInfo.vLightDir = Transform()->GetFrontVector(); // 정면 방향
 		if (GetGameObject()->IsActive() && IsActive())
 			m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight3D(this);
 	}

@@ -437,6 +437,9 @@
     <ClInclude Include="CToolDragAndDropScript.h">
       <Filter>03. Tools\02. ToolObjects\DragAndDrop</Filter>
     </ClInclude>
+    <ClInclude Include="Light3DGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -628,6 +631,9 @@
     </ClCompile>
     <ClCompile Include="CToolDragAndDropScript.cpp">
       <Filter>03. Tools\02. ToolObjects\DragAndDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

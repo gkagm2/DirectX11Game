@@ -1,6 +1,7 @@
 #ifndef _STD3D
 #define _STD3D
 #include "value.fx"
+#include "function.fx"
 
 // 임의로 Direction Light를 넣어줌
 static float3 g_vLightDir = float3(1.0f, -1.0f, 1.0f);
@@ -100,42 +101,30 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
         vViewNormal = normalize(mul(vNormal, matRotate));
     }
      
-    // View Space에서 light 방향 벡터
-    float3 vLightViewDir = mul(float4(g_vLightDir, 0.f), g_matView).xyz; // g_vLightDir는 월드상에서 방향 벡터이므로 view 행렬만 곱함.
-    vLightViewDir = normalize(vLightViewDir);
-    float3 vLightViewOpDir = -vLightViewDir; // 빛이 향하고있는 방향의 반대방향
+    TLightColor tFinalLight = (TLightColor) 0.f;
     
-    
-    // --  램버트 코사인 법칙을 이용하여 난반사광을 구함. --
-    // 난반사광 계수
-    float fDiffusePow = saturate(dot(vLightViewOpDir, vViewNormal));
-    
-    // 표면에 반사된 방향벡터를 구한다.
-    float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, vViewNormal) * vViewNormal;
-    vReflectDir = normalize(vReflectDir);
-    
-    // 카메라에서 물체의 해당 지점으로(픽셀) 향하는 벡터
-    float3 vEyeToPosDir = normalize(_in.vViewPos); 
-    
-    // 반사각 강도
-    float fReflectPow = saturate(dot(vReflectDir, -vEyeToPosDir));
-    fReflectPow  = pow(fReflectPow, 20); // 제곱을 하여 하이라이트 범위 조절
-    
-
-    float4 vEnvironmentColor = (float4) 0.f;
-    if (bIsBindEnvironmentCubeTex)
+    for (int i = 0; i < g_iLight3DCount; ++i)
     {
-        float3 vEyeReflect = normalize(reflect(vEyeToPosDir, vViewNormal));
-        vEyeReflect = normalize(mul(float4(vEyeReflect, 0), g_matViewInv).xyz);
+        TLightColor tCurLight = CalLight3D(i, _in.vViewPos, vViewNormal);
+        tFinalLight.vDiffuse += tCurLight.vDiffuse;
+        tFinalLight.vSpeculer += tCurLight.vSpeculer;
+        tFinalLight.vAmbient += tCurLight.vAmbient;
+    }
+    
+    //float4 vEnvironmentColor = (float4) 0.f;
+    //if (bIsBindEnvironmentCubeTex)
+    //{
+    //    float3 vEyeReflect = normalize(reflect(vEyeToPosDir, vViewNormal));
+    //    vEyeReflect = normalize(mul(float4(vEyeReflect, 0), g_matViewInv).xyz);
         
        
-        vEnvironmentColor = EnvironmentCubeTex.Sample(Sample_Anisotropic, vEyeReflect);
-        vOutColor.xyz += (vOutColor.xyz * vEnvironmentColor.xyz * 0.6f);
-    }
+    //    vEnvironmentColor = EnvironmentCubeTex.Sample(Sample_Anisotropic, vEyeReflect);
+    //    vOutColor.xyz += (vOutColor.xyz * vEnvironmentColor.xyz * 0.6f);
+    //}
         
-    vOutColor.xyz = vOutColor.xyz * g_vLightColor * fDiffusePow // 표면 빛의 진입 강도
-                 + g_vLightColor * g_vLightReflect * fReflectPow // 표면에서 반사되어 카메라로 들어오는 빛
-                 + vOutColor.xyz * g_vAmbient; // 기본적으로 존재하는 최소한의 빛
+    vOutColor.xyz = vOutColor.xyz * tFinalLight.vDiffuse.xyz // 표면 빛의 진입 강도
+                 + tFinalLight.vSpeculer.xyz // 표면에서 반사되어 카메라로 들어오는 빛
+                 + vOutColor.xyz * tFinalLight.vAmbient.xyz; // 기본적으로 존재하는 최소한의 빛(환경광)
     
     return vOutColor;
 }
