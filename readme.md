@@ -10,13 +10,11 @@ External - 외부 종속 파일
  header는 Include 폴더 내에
  library는 Library 폴더 내에 넣어준다.
 
-Engine Library는같이 개발하므로 Engine에서 빌드 시 External쪽에서 생성됨.
-Client는 External쪽에 있는 파일들을 참조하여 새 파일을 만들어 낸다.
+
+Engine 프로젝트에서 빌드 시 External 폴더 안에 생성됨. 
+Client 프로젝트는 External쪽에 있는 파일들을 참조하여 새 파일을 만들어 낸다.
 
 
-Engine, Client 프로젝트 속성에서 C/C++ -> 추가 포함 디렉터리에 boost 라이브러리를 추가
-Engine, Client 프로젝트 속성에서 디버깅 -> 작업 디렉터리에 $(SolutionDir)\OutputFile\bin\ 로 경로 바꾸기.
+## Engine, Client 프로젝트 속성에서 C/C++ -> 추가 포함 디렉터리에 boost 라이브러리를 추가
 
-
-
-
+## Engine, Client 프로젝트 속성에서 디버깅 -> 작업 디렉터리에 $(SolutionDir)\OutputFile\bin\ 로 경로 바꾸기.
