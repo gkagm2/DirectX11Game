@@ -38,6 +38,12 @@ struct TLightInfo {
 	E_LightType eLightType;
 	float fRange;
 	float fAngle_Radian; // 라디안 단위의 각도
+
+	// 감쇠 효과
+	/*float fConstant;
+	float fLinear;
+	float fQuadratic;
+	int iLight_Padding;*/
 };
 
 struct TParticle {

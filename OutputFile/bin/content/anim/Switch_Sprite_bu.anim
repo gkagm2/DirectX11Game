@@ -1,0 +1,79 @@
+Animation_Name
+Switch_Sprite_bu
+Frame_Count
+5
+Left_Top
+0.000000 0.900000
+Frame_Size
+0.166667 0.100000
+Offset
+0.000000 0.000000
+Base_Size
+0.166667 0.100000
+Duration
+0.000000
+
+Left_Top
+0.166667 0.900000
+Frame_Size
+0.166667 0.100000
+Offset
+0.000000 0.000000
+Base_Size
+0.166667 0.100000
+Duration
+0.000000
+
+Left_Top
+0.333333 0.900000
+Frame_Size
+0.166667 0.100000
+Offset
+0.000000 0.000000
+Base_Size
+0.166667 0.100000
+Duration
+0.000000
+
+Left_Top
+0.500000 0.900000
+Frame_Size
+0.166667 0.100000
+Offset
+0.000000 0.000000
+Base_Size
+0.166667 0.100000
+Duration
+0.000000
+
+Left_Top
+0.666667 0.900000
+Frame_Size
+0.166667 0.100000
+Offset
+0.000000 0.000000
+Base_Size
+0.166667 0.100000
+Duration
+0.000000
+
+Texture_Name 0
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Path 0
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Name 1
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Path 1
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Name 2
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Path 2
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Name 3
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Path 3
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Name 4
+texture\Butcher\Resources\Obj\switches51.png
+Texture_Path 4
+texture\Butcher\Resources\Obj\switches51.png

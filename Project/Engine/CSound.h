@@ -7,17 +7,17 @@
 
 #ifdef ENVIRONMENT64
 #ifdef _DEBUG
-#pragma comment(lib, "FMOD/x64/fmodL64_vc.lib")
+#pragma comment(lib, "FMOD/xx64/fmodL64_vc.lib")
 #else
-#pragma comment(lib, "FMOD/x64/fmod64_vc.lib")
+#pragma comment(lib, "FMOD/xx64/fmod64_vc.lib")
 #endif
 #endif
 
 #ifdef ENVIRONMENT32
 #ifdef _DEBUG
-#pragma comment(lib, "FMOD/x64/fmodL_vc.lib")
+#pragma comment(lib, "FMOD/xx64/fmodL_vc.lib")
 #else
-#pragma comment(lib, "FMOD/x64/fmod_vc.lib")
+#pragma comment(lib, "FMOD/xx64/fmod_vc.lib")
 #endif
 #endif
 
