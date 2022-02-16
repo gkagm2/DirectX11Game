@@ -1,7 +1,8 @@
 #pragma once
+// FIXED (Jang) : 빌드 시 오래 걸림. 이게 없으면 CGameObject의 GetComponent에서 Script Type을 알아내지 못함.
+#include "CScript.h" 
 
 class CScene;
-class CScript;
 class CGameObject;
 
 typedef CScript* (*pLoadScript)(FILE*);

@@ -253,7 +253,7 @@ void MaterialGUI::CopyMaterial(CMaterial* _pMtrl)
 	constexpr int iBuffSize = 255;
 	TCHAR szBuff[iBuffSize] = _T("");
 
-	tstring strRelativePath = STR_FILE_PATH_Material;
+	tstring strRelativePath = STR_DIR_PATH_Material;
 	tstring strExtension = STR_EXTENSION_Mtrl;
 
 

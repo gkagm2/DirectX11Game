@@ -19,13 +19,22 @@ private:
 	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
 	unique_ptr<CStructuredBuffer> m_pLight3DBuffer;
 	SharedPtr<CTexture> m_pPostEffectTargetTex;
+
+	// Debug용 렌더링
+	vector<CGameObject*> m_vecDebugObjPool; // 실제 원본을 가리키고 있음
+	list<CGameObject*> m_listDebugObj;  // Rendering 용도
+	SharedPtr<CGraphicsShader> m_pDebugShader;
+	SharedPtr<CMaterial> m_pDebugMtrl;
+
 public:
 	void Init();
+	void Update();
 	void Render(); 
 
 private:
 	void _RenderInGame(); // Play 시 렌더링
 	void _RenderTool(); // Tool용 렌더링
+	void _RenderDebug(); // Debug용 렌더링
 
 public:
 	// In Game Camera
@@ -54,11 +63,16 @@ public:
 	CCamera* GetToolUICamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolUICamera);
 	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }
 
+public:
+	void RenderDebugSphere(const Vector3& _vWorldPos, const Vector3& _vLocalRot, const Vector3& _vColor, float _fRadius, float _fLifeTime);
+private:
+	CGameObject* _GetDebugGameObject();
+	CGameObject* _CreateDebugGameObject();
+
 private:
 	void _CopyBackBufferToPostEffectBuffer();
 
 private:
-	
 	void _UpdateData_Light2D();
 	void _UpdateData_Light3D();
 	void _Update_GlobalData();

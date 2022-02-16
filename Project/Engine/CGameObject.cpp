@@ -522,7 +522,10 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad)
 void CGameObject::_RegisterLayer()
 {
 	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_iLayer);
-	pLayer->RegisterGameObject(this);
+	if (m_iLayer < 0)
+		assert(nullptr);
+	else
+		pLayer->RegisterGameObject(this);
 }
 
 CGameObject* CGameObject::FindGameObjectSameLine(const tstring& _strObjName)
@@ -1006,7 +1009,6 @@ void CGameObject::_DestroyScript(CScript* pScript)
 		delete pScr;
 	}
 }
-
 
 template<typename TYPE>
 TYPE* CGameObject::GetComponentScript(UINT _iScriptType)

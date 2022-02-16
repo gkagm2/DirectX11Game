@@ -82,6 +82,7 @@ void CSceneManager::Progress()
 		assert(nullptr);
 		break;
 	}
+	CRenderManager::GetInstance()->Render();
 
 	CRenderManager::GetInstance()->UnRegisterCamera();
 

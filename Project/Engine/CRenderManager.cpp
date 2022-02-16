@@ -8,6 +8,11 @@
 
 #include "CResourceManager.h"
 
+#include "CEngineDebugScript.h"
+#include "CMesh.h"
+#include "CMaterial.h"
+#include "CMeshRenderer.h"
+
 CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr),
 	m_pLight3DBuffer(nullptr),
@@ -17,6 +22,12 @@ CRenderManager::CRenderManager() :
 
 CRenderManager::~CRenderManager()
 {
+	// Debug
+	Safe_Delete_Vector(m_vecDebugObjPool);
+	if (m_pDebugShader.Get())
+		delete m_pDebugShader.Get();
+	if (m_pDebugMtrl.Get())
+		delete m_pDebugMtrl.Get();
 }
 
 void CRenderManager::Init()
@@ -29,8 +40,54 @@ void CRenderManager::Init()
 	m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt, true);
 
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
-	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
-	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+	m_pPostEffectTargetTex = CResourceManager::GetInstance()->GetPostEffectTargetTex();
+
+	// ----------------- Debug Objects ---------------------
+	//				Debug 오브젝트 관련 초기화
+
+	// Shader, Material 초기화
+
+	m_pDebugShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	tstring strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath = STR_FILE_PATH_DebugSphereShader;
+
+	m_pDebugShader->CreateVertexShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_VTXDebug3D);
+	m_pDebugShader->CreatePixelShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_PIXDebug3D);
+
+	// Rasterizer
+	m_pDebugShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	m_pDebugShader->SetBlendState(E_BlendState::Default);
+
+	// Shader Param
+	m_pDebugShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Color") });
+	
+	m_pDebugMtrl= new CMaterial(true);
+	m_pDebugMtrl->SetName(_T("DebugMaterial"));
+	m_pDebugMtrl->SetShader(m_pDebugShader);
+
+	// Debug GameObject 초기화
+	constexpr int iDebugObjCnt = 10;
+	CGameObject* pNewObj = nullptr;
+	for (int i = 0; i < iDebugObjCnt; ++i) {
+		if (nullptr == pNewObj)
+			pNewObj = _CreateDebugGameObject();
+		else 
+			pNewObj = pNewObj->Clone();
+		m_vecDebugObjPool.push_back(pNewObj);
+	}
+}
+
+void CRenderManager::Update()
+{
+#ifdef _DEBUG
+	list<CGameObject*>::iterator iter = m_listDebugObj.begin();
+	for (; iter != m_listDebugObj.end(); ++iter)
+		(*iter)->Update();
+
+	iter = m_listDebugObj.begin();
+	for (; iter != m_listDebugObj.end(); ++iter)
+		(*iter)->FinalUpdate();
+#endif
 }
 
 void CRenderManager::Render()
@@ -57,6 +114,9 @@ void CRenderManager::Render()
 		assert(nullptr);
 		break;
 	}
+#ifdef _DEBUG
+	_RenderDebug();
+#endif
 
 	_RenderClear();
 }
@@ -85,6 +145,28 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_RenderCollider2D();
 		m_vecToolCam[i]->_RenderPostEffect();
 		m_vecToolCam[i]->_RenderCanvas(); // UI Render
+	}
+}
+
+void CRenderManager::_RenderDebug()
+{
+	list<CGameObject*>::iterator iter = m_listDebugObj.begin();
+	while (iter != m_listDebugObj.end()) {
+		CEngineDebugScript* pDebugScript = (*iter)->GetComponentScript< CEngineDebugScript>();
+		if (pDebugScript) {
+			if (false == pDebugScript->IsUsed())
+				iter = m_listDebugObj.erase(iter);
+			else {
+				Vector4 vColor = pDebugScript->GetColor();
+				(*iter)->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, &vColor);
+				(*iter)->Render();
+				++iter;
+			}
+		}
+		else {
+			assert(nullptr);
+			++iter;
+		}
 	}
 }
 
@@ -146,6 +228,42 @@ CCamera* CRenderManager::GetToolUICamera(const tstring& _strObjName)
 		}
 	}
 	return pToolCam;
+}
+
+void CRenderManager::RenderDebugSphere(const Vector3& _vWorldPos, const Vector3& _vLocalRot, const Vector3& _vColor, float _fRadius, float _fLifeTime)
+{
+
+}
+
+CGameObject* CRenderManager::_GetDebugGameObject()
+{
+	for (size_t i = 0; i < m_vecDebugObjPool.size(); ++i) {
+		CEngineDebugScript* pDebugScript = m_vecDebugObjPool[i]->GetComponentScript<CEngineDebugScript>();
+		if (pDebugScript) {
+			if (false == pDebugScript->IsUsed()) {
+				pDebugScript->SetUsed(true);
+				return m_vecDebugObjPool[i];
+			}
+		}
+	}
+
+	CGameObject* pDebugObj = _CreateDebugGameObject();
+	m_vecDebugObjPool.push_back(pDebugObj);
+
+	return nullptr;
+}
+
+CGameObject* CRenderManager::_CreateDebugGameObject()
+{
+	CGameObject* pDebugObj = new CGameObject;
+	pDebugObj->SetName(_T("Debug GameObject"));
+	pDebugObj->AddComponent<CTransform>();
+	pDebugObj->AddComponent<CMeshRenderer>();
+
+	CMeshRenderer* pMeshRenderer = pDebugObj->GetComponent<CMeshRenderer>();
+
+	pMeshRenderer->SetMaterial(m_pDebugMtrl);
+	return pDebugObj;
 }
 
 void CRenderManager::_CopyBackBufferToPostEffectBuffer()

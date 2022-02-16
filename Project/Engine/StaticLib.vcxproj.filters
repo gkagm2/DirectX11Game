@@ -245,6 +245,9 @@
     <ClInclude Include="CLight3D.h">
       <Filter>Engine\07. Component\Light</Filter>
     </ClInclude>
+    <ClInclude Include="CEngineDebugScript.h">
+      <Filter>Engine\07. Component\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -470,6 +473,9 @@
     <ClCompile Include="CLight3D.cpp">
       <Filter>Engine\07. Component\Light</Filter>
     </ClCompile>
+    <ClCompile Include="CEngineDebugScript.cpp">
+      <Filter>Engine\07. Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -688,6 +694,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="skybox.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="debug.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

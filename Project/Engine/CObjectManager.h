@@ -6,6 +6,8 @@ class CObjectManager : public CSingleton<CObjectManager>
 {
 	SINGLETON(CObjectManager);
 public:
+
+	// Create GameObject and inserted into the current scene
 	CMaterial* CreateEmptyMaterial();
 	CGameObject* CreateEmptyGameObject(UINT _iLayer = 0);
 	CGameObject* CreateCamera2DGameObject(UINT _iLayer = 0);

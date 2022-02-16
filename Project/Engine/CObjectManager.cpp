@@ -14,7 +14,6 @@
 #include "CSkybox.h"
 #include "CLight3D.h"
 
-
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
 UINT g_iEmpty2DCameraGameObjectID = 0;
@@ -56,7 +55,7 @@ CMaterial* CObjectManager::CreateEmptyMaterial()
 	constexpr int iBuffSize = 255;
 	TCHAR szBuff[iBuffSize] = _T("");
 
-	tstring strRelativePath = STR_FILE_PATH_Material;
+	tstring strRelativePath = STR_DIR_PATH_Material;
 	tstring strExtension = STR_EXTENSION_Mtrl;
 	// 고유 이름값 생성
 	while (true) {

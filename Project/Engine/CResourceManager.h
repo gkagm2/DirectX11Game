@@ -20,7 +20,7 @@ private:
 	vector<CMaterial*> m_vecCloneMtrl; // 복사된 메터리얼들을 담을 벡터
 	unordered_map<tstring, CTexture*> m_umapDefaultTex; // 삭제되면 안되는 기본 텍쳐
 	bool m_bFixed; // Resource가 추가, 수정되었는지 여부
-
+	SharedPtr<CTexture> m_pPostEffectTargetTex;
 public:
 	void Init();
 	void Update() { m_bFixed = false; }
@@ -83,6 +83,7 @@ public:
 	template<typename TYPE>
 	void LoadResourcesFromDir(const tstring& _strRelativeDirPath, const tstring& _strFilter);
 
+	SharedPtr<CTexture> GetPostEffectTargetTex() { return m_pPostEffectTargetTex; }
 	
 
 	friend class CEventManager;

@@ -126,6 +126,8 @@ public:
 	CComponent* GetComponent(E_ComponentType _eType);
 	template<typename TYPE>
 	TYPE* GetComponentScript(UINT _iScriptType);
+	template<typename TYPE>
+	TYPE* GetComponentScript();
 
 	const vector<CScript*>& GetScripts() { return m_vecScript; }// 추가되어있는 스크립트 컴포넌트들을 가져온다.
 
@@ -300,7 +302,7 @@ inline TYPE* CGameObject::FindComponentInParent(bool _bIncludeMine)
 }
 
 template<typename TYPE>
- TYPE* CGameObject::GetComponent()
+inline TYPE* CGameObject::GetComponent()
 {
 
 	 for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
@@ -311,15 +313,21 @@ template<typename TYPE>
 	 }
 
 	//// Script Type일 경우    
-	for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
-		if (typeid(TYPE) == typeid(*m_vecScript[i]))
-			return (TYPE*)m_vecScript[i];
-		// 부모 클래스에 존재하는지 확인
-		TYPE* pComponent = dynamic_cast<TYPE*>(m_vecScript[i]);
-		if (nullptr != pComponent) {
-			return pComponent;
-		}
-	}
-
+	TYPE* pComponent = GetComponentScript<TYPE>();
 	return nullptr;
 }
+
+template<typename TYPE>
+inline TYPE* CGameObject::GetComponentScript()
+ {
+	 for (UINT i = 0; i < (UINT)m_vecScript.size(); ++i) {
+		 if (typeid(TYPE) == typeid(*m_vecScript[i]))
+			 return (TYPE*)m_vecScript[i];
+		 TYPE* pComponent = dynamic_cast<TYPE*>(m_vecScript[i]);
+		 // 부모 클래스에 존재하는지 확인
+		 if (nullptr != pComponent) {
+			 return pComponent;
+		 }
+	 }
+	 return nullptr;
+ }

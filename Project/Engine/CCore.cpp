@@ -53,8 +53,8 @@ int CCore::Init(HWND _hOutputWnd, const Vector2& _vWindowResolution, const Vecto
 	CTimeManager::GetInstance()->Init();
 	CFontManager::GetInstance()->Init();
 	CKeyManager::GetInstance()->Init();
-	CRenderManager::GetInstance()->Init(); 
 	CResourceManager::GetInstance()->Init();
+	CRenderManager::GetInstance()->Init(); 
 	CSceneManager::GetInstance()->Init();
 	CUIManager::GetInstance()->Init();
 	CCursor::_Init();

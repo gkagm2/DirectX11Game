@@ -30,8 +30,11 @@
 #define STR_FILE_PATH_TileMapLightShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_ParticleUpdateShader _T("shader\\particle_update.fx")
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
-#define STR_FILE_PATH_Material _T("material\\")
+#define STR_DIR_PATH_Material _T("material\\")
 #define STR_FILE_PATH_PostEffectShader _T("shader\\posteffect.fx")
+
+#define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
+
 
 // Resource의 key이자 path임
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
@@ -93,10 +96,15 @@
 #define STR_FUNC_NAME_VTXLineShader "VS_Line"
 #define STR_FUNC_NAME_PIXLineShader "PS_Line"
 
+// std3d.fx functions name
 #define STR_FUNC_NAME_VTXShader3D "VS_Std3D"
 #define STR_FUNC_NAME_PIXShader3D "PS_Std3D"
+// skybox.fx functions name
 #define STR_FUNC_NAME_VTXSkybox "VS_Skybox"
 #define STR_FUNC_NAME_PIXSkybox "PS_Skybox"
+// debug.fx functions name
+#define STR_FUNC_NAME_VTXDebug3D "VS_Debug3D"
+#define STR_FUNC_NAME_PIXDebug3D "PS_Debug3D"
 
 
 // particle.fx functions name
@@ -129,6 +137,7 @@
 #define STR_KEY_CircleLineMesh _T("CircleLineMesh")
 #define STR_KEY_LineStripMesh _T("LineStriptMesh")
 #define STR_KEY_LineListMesh _T("LineListMesh")
+#define STR_KEY_DebugSphereMesh _T("DebugSphereMesh")
 
 // Shader
 #define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
@@ -182,6 +191,7 @@
 #define STR_KEY_GridMtrl _T("GridMaterial")
 #define STR_KEY_Std3DMtrl _T("StandardMaterial3D")
 #define STR_KEY_SkyboxMtrl _T("SkyBoxMaterial")
+#define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")

@@ -195,6 +195,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CCursor.h" />
     <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CEngineDebugScript.h" />
     <ClInclude Include="CEventManager.h" />
     <ClInclude Include="CFontManager.h" />
     <ClInclude Include="CGameObject.h" />
@@ -279,6 +280,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CCursor.cpp" />
     <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CEngineDebugScript.cpp" />
     <ClCompile Include="CEventManager.cpp" />
     <ClCompile Include="CFontManager.cpp" />
     <ClCompile Include="CGameObject.cpp" />
@@ -343,6 +345,16 @@ call EngineCopy.bat</Command>
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="debug.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="function.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

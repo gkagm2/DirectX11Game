@@ -24,8 +24,7 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     float attenuation = 1.f; // 감쇠 
     
     // 광원과의 거리에 따른 감쇠 비율
-    //float fRatio = 0.f;
-    
+
     if (direction_Type == tInfo.iLightType)
     {
         attenuation = 1.f;

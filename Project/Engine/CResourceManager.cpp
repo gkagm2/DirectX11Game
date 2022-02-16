@@ -7,6 +7,7 @@
 #include "CScene.h"
 #include "CCore.h"
 #include "CPerformanceMonitor.h"
+#include "CDevice.h"
 CResourceManager::CResourceManager() :
 	m_bFixed(false)
 {
@@ -271,7 +272,6 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 	// =========
 	VTX vertices[24] = {};
 	
-	
 	// À­¸é
 	vertices[0].vPos = Vector3(-0.5f, 0.5f, 0.5f);
 	vertices[0].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
@@ -531,6 +531,119 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 	vecVtx.clear();
 	vecIdx.clear();
 
+	{
+		// =============
+		// Debug Sphere Mesh
+		// =============
+
+		float fRadius = 0.5;
+		VTX v = {};
+
+		// Top
+		v.vPos = Vector3(0.f, fRadius, 0.f);
+		v.vUV = Vector2(0.5f, 0.f);
+		v.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		v.vNormal = v.vPos;
+		v.vNormal.Normalize();
+		v.vTangent = Vector3(1.f, 0.f, 0.f);
+		v.vBinormal = Vector3(0.f, 0.f, 1.f);
+		vecVtx.push_back(v);
+
+		// Body
+		UINT iStackCount = 5; // °¡·Î ºÐÇÒ °³¼ö
+		UINT iSliceCount = 5; // ¼¼·Î ºÐÇÒ °³¼ö
+
+		float fStackAngle = XM_PI / iStackCount;
+		float fSliceAngle = XM_2PI / iSliceCount;
+
+		float fUVXStep = 1.f / (float)iSliceCount;
+		float fUVYStep = 1.f / (float)iStackCount;
+
+		for (UINT i = 1; i < iStackCount; ++i)
+		{
+			float phi = i * fStackAngle;
+
+			for (UINT j = 0; j <= iSliceCount; ++j)
+			{
+				float theta = j * fSliceAngle;
+
+				v.vPos = Vector3(fRadius * sinf(i * fStackAngle) * cosf(j * fSliceAngle)
+					, fRadius * cosf(i * fStackAngle)
+					, fRadius * sinf(i * fStackAngle) * sinf(j * fSliceAngle));
+				v.vUV = Vector2(fUVXStep * j, fUVYStep * i);
+				v.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+				v.vNormal = v.vPos;
+				v.vNormal.Normalize();
+
+				v.vTangent.x = -fRadius * sinf(phi) * sinf(theta);
+				v.vTangent.y = 0.f;
+				v.vTangent.z = fRadius * sinf(phi) * cosf(theta);
+				v.vTangent.Normalize();
+
+				v.vTangent.Cross(v.vNormal, v.vBinormal);
+				v.vBinormal.Normalize();
+
+				vecVtx.push_back(v);
+			}
+		}
+
+		// Bottom
+		v.vPos = Vector3(0.f, -fRadius, 0.f);
+		v.vUV = Vector2(0.5f, 1.f);
+		v.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		v.vNormal = v.vPos;
+		v.vNormal.Normalize();
+
+		v.vTangent = Vector3(1.f, 0.f, 0.f);
+		v.vBinormal = Vector3(0.f, 0.f, -1.f);
+		vecVtx.push_back(v);
+
+		// ÀÎµ¦½º
+		// ºÏ±ØÁ¡
+		for (UINT i = 0; i < iSliceCount; ++i)
+		{
+			vecIdx.push_back(0);
+			vecIdx.push_back(i + 2);
+			vecIdx.push_back(i + 1);
+		}
+
+		// ¸öÅë
+		for (UINT i = 0; i < iStackCount - 2; ++i)
+		{
+			for (UINT j = 0; j < iSliceCount; ++j)
+			{
+				// + 
+				// | \
+				// +--+
+				vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+				vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+				vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
+
+				// +--+
+				//  \ |
+				//    +
+				vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
+				vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
+				vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
+			}
+		}
+
+		// ³²±ØÁ¡
+		UINT iBottomIdx = (UINT)vecVtx.size() - 1;
+		for (UINT i = 0; i < iSliceCount; ++i)
+		{
+			vecIdx.push_back(iBottomIdx);
+			vecIdx.push_back(iBottomIdx - (i + 2));
+			vecIdx.push_back(iBottomIdx - (i + 1));
+		}
+
+		pMesh = new CMesh;
+		pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE_DEFAULT);
+		AddRes(STR_KEY_DebugSphereMesh, pMesh);
+
+		vecVtx.clear();
+		vecIdx.clear();
+	}
 }
 
 void CResourceManager::CreateDefaultShader()
@@ -1143,6 +1256,9 @@ void CResourceManager::CreateDefaultTexture()
 	pSkyboxCubeTex->Load(strPath);
 	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
 
+	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
+	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+
 	//  2021 11 19 fixed
 	//SharedPtr<CTexture> pTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture1);
 	//CResourceManager::GetInstance()->LoadRes<CTexture>(STR_FILE_PATH_NoiseTexture2);
@@ -1309,7 +1425,7 @@ bool CResourceManager::_ChangeResourceKey(const tstring& _strOldKey, const tstri
 			strFilePath += pMtrl->GetRelativePath();
 			tstring strOldFilePath = CPathManager::GetInstance()->GetContentPath() + pMtrl->GetRelativePath();
 
-			tstring strNewKeyName = STR_FILE_PATH_Material + _strNewKey + _T(".mtrl");
+			tstring strNewKeyName = STR_DIR_PATH_Material + _strNewKey + _T(".mtrl");
 			tstring strNewFilePath = CPathManager::GetInstance()->GetContentPath() + strNewKeyName;
 				
 			if (_trename(strOldFilePath.c_str(), strNewFilePath.c_str()) == -1) {

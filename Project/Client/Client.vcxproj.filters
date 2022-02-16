@@ -443,6 +443,7 @@
     <ClInclude Include="Light3DGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\CRenderManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">

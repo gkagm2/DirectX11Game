@@ -169,6 +169,7 @@ call ClientCopy.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\CRenderManager.h" />
     <ClInclude Include="Animator2DEditorGUI.h" />
     <ClInclude Include="Animator2DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />

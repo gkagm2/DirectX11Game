@@ -18,12 +18,6 @@ struct TLightInfo
     int     iLightType;
     float   fRange;
     float   fAngle;
-    
-    // °¨¼è È¿°ú
-    //float fConstant;
-    //float fLinear;
-    //float fQuadratic;
-    //int light_padding;
 };
 
 struct TTileInfo
