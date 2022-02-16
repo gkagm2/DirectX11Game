@@ -7,7 +7,9 @@ static const int point_Type = 1;
 static const int spot_Type = 2;
 static const int reflect_Pow = 20;
 
-
+static const float fConstant = 1.f;
+static const float fLinear = 0.09f;
+static const float fQuadratic = 0.032f;
 
 TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
 {
@@ -15,16 +17,17 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     TLightInfo tInfo = g_Light3DBuffer[_iLightIdx];
     
     float fDiffusePow = 0.f;
-    float fReflectPow = 0.f;
+    float fReflectPow = 1.f;
     
     float3 vLightViewPos = mul(float4(tInfo.vLightPos.xyz, 1.f), g_matView).xyz;
     
-    // 광원과의 거리에 따른 감쇠 비율
-    float fRatio = 0.f;
+    float attenuation = 1.f; // 감쇠 
     
+    // 광원과의 거리에 따른 감쇠 비율
+
     if (direction_Type == tInfo.iLightType)
     {
-        fRatio = 1.f;
+        attenuation = 1.f;
         // View Space에서 light 방향 벡터
         float3 vLightViewDir = mul(float4(tInfo.vLightDir.xyz, 0.f), g_matView).xyz; // g_vLightDir는 월드상에서 방향 벡터이므로 view 행렬만 곱함.
         vLightViewDir = normalize(vLightViewDir);
@@ -57,13 +60,16 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         // 반사광 계수, 반사벡터 
         float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, _vViewNormal) * _vViewNormal;
         vReflectDir = normalize(vReflectDir);
-        
+     
         // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
         float3 vEyeToPosDir = normalize(_vViewPos);
         fReflectPow = saturate(dot(-vReflectDir, vEyeToPosDir));
         fReflectPow = pow(fReflectPow, reflect_Pow);
-        if (fDistance > tInfo.fRange)
-            fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
+        
+        // 감쇠 구현
+        //attenuation = saturate(1.f / (fConstant + fLinear * fDistance + fQuadratic * (fDistance * fDistance)));
+        
+        attenuation = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
     }
     else if (spot_Type == tInfo.iLightType)
     {
@@ -82,25 +88,40 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         
         if (fAngle < tInfo.fAngle * 0.5f)
         {
-        // 난방사광(확산광) 계수
+            // 난방사광(확산광) 계수
             fDiffusePow = saturate(dot(vLightViewOpDir, _vViewNormal));
         
-        // 반사광 계수, 반사벡터 
+            // 반사광 계수, 반사벡터 
             float3 vReflectDir = vLightViewDir + 2.f * dot(vLightViewOpDir, _vViewNormal) * _vViewNormal;
             vReflectDir = normalize(vReflectDir);
-        
-        // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
+
+            
+            //float cutOff = 12.5f; // radian
+            
+            //float theta = dot(vLightViewOpDir, -vLightForwardDir);
+            //float epsilon = cutOff - 15.f;
+            //float intensity = clamp((theta - 15.f) / epsilon, 0.0f, 1.0f);
+            
+            
+            //tInfo.color.vDiffuse.xyz *= intensity;
+            //tInfo.color.vSpeculer.xyz * +intensity;
+            
+            // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
             float3 vEyeToPosDir = normalize(_vViewPos);
             fReflectPow = saturate(dot(-vReflectDir, vEyeToPosDir));
             fReflectPow = pow(fReflectPow, reflect_Pow);
-            if (fDistance > tInfo.fRange)
-                fRatio = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
+
+        
+            // 감쇠 구현
+            //attenuation = 1.f / (fConstant + fLinear * fDistance + fQuadratic * (fDistance * fDistance));
+            //if (fDistance > tInfo.fRange)
+            attenuation = saturate(cos((fDistance / tInfo.fRange)) * (PI / 2.f));
         }
     }
     
-    tLight.vDiffuse.xyz = tInfo.color.vDiffuse.xyz * fDiffusePow * fRatio;
-    tLight.vSpeculer.xyz = tInfo.color.vSpeculer.xyz * fReflectPow * fRatio;
-    tLight.vAmbient.xyz = tInfo.color.vAmbient.xyz * fRatio;
+    tLight.vDiffuse.xyz = tInfo.color.vDiffuse.xyz * fDiffusePow * attenuation;
+    tLight.vSpeculer.xyz = tInfo.color.vSpeculer.xyz * fReflectPow * attenuation;
+    tLight.vAmbient.xyz = tInfo.color.vAmbient.xyz * attenuation;
         
     return tLight;
 }
