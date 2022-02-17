@@ -12,11 +12,13 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CMeshRenderer.h"
+#include "CMRT.h"
 
 CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr),
 	m_pLight3DBuffer(nullptr),
-	m_pPostEffectTargetTex(nullptr)
+	m_pPostEffectTargetTex(nullptr),
+	m_arrMRT{}
 {
 }
 
@@ -28,6 +30,7 @@ CRenderManager::~CRenderManager()
 		delete m_pDebugShader.Get();
 	if (m_pDebugMtrl.Get())
 		delete m_pDebugMtrl.Get();
+	Safe_Delete_Array(m_arrMRT);
 }
 
 void CRenderManager::Init()
@@ -41,6 +44,10 @@ void CRenderManager::Init()
 
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->GetPostEffectTargetTex();
+
+
+	// --------------- Multiple Render Targers --------------
+	_CreateMultpleRenderTargets();
 
 	// ----------------- Debug Objects ---------------------
 	//				Debug 오브젝트 관련 초기화
@@ -92,12 +99,17 @@ void CRenderManager::Update()
 
 void CRenderManager::Render()
 {
+	m_arrMRT[(UINT)E_MRTType::SwapChain]->Clear();
+	m_arrMRT[(UINT)E_MRTType::SwapChain]->UpdateData();
+
 	_UpdateData_Light2D();
 	_UpdateData_Light3D();
 	_Update_GlobalData();
+
+	// FIXED (Jang) : 삭제예정
 	// Render
 	// 1. 타겟 클리어
-	CDevice::GetInstance()->ClearTarget();
+	//CDevice::GetInstance()->ClearTarget();
 
 	E_SceneMode eSceneMode = CSceneManager::GetInstance()->GetSceneMode();
 	switch (eSceneMode) {
@@ -270,6 +282,53 @@ void CRenderManager::_CopyBackBufferToPostEffectBuffer()
 {
 	SharedPtr<CTexture> pRenderTargetTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_RTTexture);
 	CONTEXT->CopyResource(m_pPostEffectTargetTex->GetTex2D().Get(), pRenderTargetTex->GetTex2D().Get());
+}
+
+void CRenderManager::_CreateMultpleRenderTargets()
+{
+	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
+
+	// SwapChain MRT
+	{
+		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {
+			{CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_RTTexture)},
+		};
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
+			Vector4{0.4f, 0.4f, 0.4f, 1.f},
+		};
+		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DSTexture);
+		 
+		m_arrMRT[(UINT)E_MRTType::SwapChain] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+	}
+
+	// Deferred MRT
+	{
+		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {};
+
+		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_ColorTargetTex, 
+			(UINT)vResolution.x, (UINT)vResolution.y, 
+			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
+			bindFlag);
+
+		arrTex[1] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_NormalTargetTex, 
+			(UINT)vResolution.x, (UINT)vResolution.y, 
+			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
+			bindFlag);
+
+		arrTex[2] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_PositionTargetTex, 
+			(UINT)vResolution.x, (UINT)vResolution.y, 
+			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
+			bindFlag);
+
+		arrTex[3] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_DataTargetTex, 
+			(UINT)vResolution.x, (UINT)vResolution.y, 
+			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
+			bindFlag);
+
+		m_arrMRT[(UINT)E_MRTType::Deferred] = new CMRT(arrTex, arrClearColor, 4, nullptr, true);
+	}
 }
 
 void CRenderManager::_UpdateData_Light2D()

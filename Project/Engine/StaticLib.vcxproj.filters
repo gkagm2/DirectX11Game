@@ -133,9 +133,6 @@
     <ClInclude Include="CLight2D.h">
       <Filter>Engine\07. Component\Light</Filter>
     </ClInclude>
-    <ClInclude Include="CRenderManager.h">
-      <Filter>Engine\04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CPrefab.h">
       <Filter>Engine\05. Resource\Prefab</Filter>
     </ClInclude>
@@ -223,7 +220,6 @@
     <ClInclude Include="CObjectManager.h">
       <Filter>Engine\04. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CCursor.h" />
     <ClInclude Include="random_generator.hpp">
       <Filter>Engine\Support</Filter>
     </ClInclude>
@@ -247,6 +243,15 @@
     </ClInclude>
     <ClInclude Include="CEngineDebugScript.h">
       <Filter>Engine\07. Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderManager.h">
+      <Filter>Engine\04. Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMRT.h">
+      <Filter>Engine\04. Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CCursor.h">
+      <Filter>Engine\Support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,9 +369,6 @@
     <ClCompile Include="CLight2D.cpp">
       <Filter>Engine\07. Component\Light</Filter>
     </ClCompile>
-    <ClCompile Include="CRenderManager.cpp">
-      <Filter>Engine\04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>Engine\05. Resource\Prefab</Filter>
     </ClCompile>
@@ -454,7 +456,6 @@
     <ClCompile Include="CObjectManager.cpp">
       <Filter>Engine\04. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CCursor.cpp" />
     <ClCompile Include="CPathFind2D.cpp">
       <Filter>Engine\11. Functions</Filter>
     </ClCompile>
@@ -475,6 +476,15 @@
     </ClCompile>
     <ClCompile Include="CEngineDebugScript.cpp">
       <Filter>Engine\07. Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderManager.cpp">
+      <Filter>Engine\04. Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMRT.cpp">
+      <Filter>Engine\04. Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CCursor.cpp">
+      <Filter>Engine\Support</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -657,6 +667,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Light">
       <UniqueIdentifier>{12668154-9126-408e-8ef0-55050b002448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\04. Manager\RenderManager">
+      <UniqueIdentifier>{852b7f49-c8ad-435f-9938-67fee6d4844f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

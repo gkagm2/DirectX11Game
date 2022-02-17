@@ -56,7 +56,8 @@ public:
 	// _bWindowed : 창모드
 	int Init(HWND _hOutputWnd, const Vector2& _vRenderResolution, bool _bWindowMode);
 
-	void ClearTarget();
+	// FIXED (Jang) : 삭제예정
+	//void ClearTarget();
 	void Present();
 
 	ComPtr<ID3D11Device> GetDevice() { return m_pDevice; }

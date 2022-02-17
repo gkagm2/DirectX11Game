@@ -194,10 +194,15 @@
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 
 // Resource View Key
-#define STR_ResourceKey_DSVTexture _T("DepthStencilTexture")
+#define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
 #define STR_ResourceKey_NoiseTexture _T("NoiseTexture")
+
+#define STR_ResourceKey_Deferred_ColorTargetTex _T("ColorTargetTex")
+#define STR_ResourceKey_Deferred_NormalTargetTex _T("NormalTargetTex")
+#define STR_ResourceKey_Deferred_PositionTargetTex _T("PositionTargetTex")
+#define STR_ResourceKey_Deferred_DataTargetTex _T("DataTargetTex")
 
 
 // Tool Object name

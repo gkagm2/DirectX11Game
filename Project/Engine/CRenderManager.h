@@ -5,7 +5,14 @@
 #include "CLight3D.h"
 #include "CTileMap.h"
 
+enum class E_MRTType {
+	SwapChain,
+	Deferred,
+	End
+};
+
 class CStructuredBuffer;
+class CMRT;
 class CRenderManager : public CSingleton<CRenderManager>
 {
 	SINGLETON(CRenderManager)
@@ -19,6 +26,8 @@ private:
 	unique_ptr<CStructuredBuffer> m_pLight2DBuffer;
 	unique_ptr<CStructuredBuffer> m_pLight3DBuffer;
 	SharedPtr<CTexture> m_pPostEffectTargetTex;
+
+	CMRT* m_arrMRT[(UINT)E_MRTType::End];
 
 	// Debug용 렌더링
 	vector<CGameObject*> m_vecDebugObjPool; // 실제 원본을 가리키고 있음
@@ -71,7 +80,7 @@ private:
 
 private:
 	void _CopyBackBufferToPostEffectBuffer();
-
+	void _CreateMultpleRenderTargets();
 private:
 	void _UpdateData_Light2D();
 	void _UpdateData_Light3D();

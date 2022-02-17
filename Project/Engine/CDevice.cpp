@@ -187,7 +187,7 @@ int CDevice::CreateView()
 	// DepthStencilView 만들기
 	//////////////////////////
 	// DepthStencil용 Texture2D 만들기
-	m_pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_DSVTexture, (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+	m_pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_DSTexture, (UINT)m_vRenderResolution.x, (UINT)m_vRenderResolution.y, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
 
 	//////////////////////////
 	// 출력 타겟 및 깊이버퍼 설정
@@ -378,21 +378,23 @@ void CDevice::CreateDepthStencilState()
 	DEVICE->CreateDepthStencilState(&tDesc, m_pDepthStencilStates[(UINT)E_DepthStencilState::No_Test_No_Write].GetAddressOf());
 }
 
-void CDevice::ClearTarget()
-{
-	// ImGui에 의해 추가된 윈도우 쪽으로 렌더타겟이 바뀌게 되므로 출력 타겟을 다시 설정
-	// 출력 타겟 및 깊이버퍼 설정
-	//////////////////////////
-	m_pContext->OMSetRenderTargets(1, m_pRTTex->GetRTV().GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
 
-
-	float fArrColor[4] = { 0.4f, 0.4f, 0.4f, 1.f}; // 색상
-	m_pContext->ClearRenderTargetView(m_pRTTex->GetRTV().Get(), fArrColor);
-
-	float fDepth = 1.0f;
-	UINT8 iStencil = 0;
-	m_pContext->ClearDepthStencilView(m_pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, fDepth, iStencil);
-}
+// FIXED (Jang) : 멀티 렌더 타겟으로 바꾸면 사용하지 않을 것임
+//void CDevice::ClearTarget()
+//{
+//	// ImGui에 의해 추가된 윈도우 쪽으로 렌더타겟이 바뀌게 되므로 출력 타겟을 다시 설정
+//	// 출력 타겟 및 깊이버퍼 설정
+//	//////////////////////////
+//	m_pContext->OMSetRenderTargets(1, m_pRTTex->GetRTV().GetAddressOf(), m_pDSTex->GetDSV().Get()); // OM : output manager
+//
+//
+//	float fArrColor[4] = { 0.4f, 0.4f, 0.4f, 1.f}; // 색상
+//	m_pContext->ClearRenderTargetView(m_pRTTex->GetRTV().Get(), fArrColor);
+//
+//	float fDepth = 1.0f;
+//	UINT8 iStencil = 0;
+//	m_pContext->ClearDepthStencilView(m_pDSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, fDepth, iStencil);
+//}
 
 void CDevice::Present()
 {

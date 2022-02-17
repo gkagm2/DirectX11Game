@@ -202,6 +202,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CLight3D.h" />
     <ClInclude Include="CLine.h" />
+    <ClInclude Include="CMRT.h" />
     <ClInclude Include="CObjectManager.h" />
     <ClInclude Include="CPathFind2D.h" />
     <ClInclude Include="CPerformanceMonitor.h" />
@@ -287,6 +288,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CLight3D.cpp" />
     <ClCompile Include="CLine.cpp" />
+    <ClCompile Include="CMRT.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
     <ClCompile Include="CPathFind2D.cpp" />
     <ClCompile Include="CPerformanceMonitor.cpp" />
