@@ -192,6 +192,7 @@ call ClientCopy.bat</Command>
     <ClInclude Include="CSceneSaveLoad.h" />
     <ClInclude Include="CTestScene.h" />
     <ClInclude Include="CToolCameraScript.h" />
+    <ClInclude Include="CToolGridScript.h" />
     <ClInclude Include="CToolObjManager.h" />
     <ClInclude Include="DebugGUI.h" />
     <ClInclude Include="framework.h" />
@@ -292,6 +293,7 @@ call ClientCopy.bat</Command>
     <ClCompile Include="CSceneSaveLoad.cpp" />
     <ClCompile Include="CTestScene.cpp" />
     <ClCompile Include="CToolCameraScript.cpp" />
+    <ClCompile Include="CToolGridScript.cpp" />
     <ClCompile Include="CToolObjManager.cpp" />
     <ClCompile Include="DebugGUI.cpp" />
     <ClCompile Include="GUI.cpp" />

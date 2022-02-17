@@ -230,6 +230,9 @@
     <Filter Include="03. Tools\05. ToolShader">
       <UniqueIdentifier>{f15a4bd2-00a2-4f2c-9007-c3c5b3895186}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\03. Scripts\Grid">
+      <UniqueIdentifier>{ea7668c0-170a-4c64-a9fd-d0e4b127aca9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -444,6 +447,9 @@
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\CRenderManager.h" />
+    <ClInclude Include="CToolGridScript.h">
+      <Filter>03. Tools\03. Scripts\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -638,6 +644,9 @@
     </ClCompile>
     <ClCompile Include="Light3DGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolGridScript.cpp">
+      <Filter>03. Tools\03. Scripts\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

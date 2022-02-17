@@ -14,9 +14,16 @@ CToolObjManager::CToolObjManager()
 CToolObjManager::~CToolObjManager()
 {
 	Safe_Delete_Vector(m_vecToolObjs);
+	Safe_Delete_Map(m_mapShader);
+	Safe_Delete_Map(m_mapMtrl);
 }
 
-void CToolObjManager::Init()
+void CToolObjManager::_CreateToolMaterial()
+{
+	// TODO (Jang) : MRT 이후 만들기
+}
+
+void CToolObjManager::_CreateToolObject()
 {
 	{
 		CGameObjectEx* pToolCamObj = new CGameObjectEx;
@@ -35,7 +42,7 @@ void CToolObjManager::Init()
 		pToolCamObj->Camera()->SetClippingPlanes(tCP);
 		_AddGameObjectEx(pToolCamObj);
 	}
-	
+
 	{
 		CGameObjectEx* pToolUICamObj = new CGameObjectEx;
 		pToolUICamObj->SetName(STR_TOOL_OBJ_NAME_ToolUICamera);
@@ -65,7 +72,11 @@ void CToolObjManager::Init()
 		pDragAndDropObj->AddComponent<CToolDragAndDropScript>();
 		_AddGameObjectEx(pDragAndDropObj);
 	}
+}
 
+void CToolObjManager::Init()
+{
+	_CreateToolObject();
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
 		m_vecToolObjs[i]->Awake();
 	for (UINT i = 0; i < m_vecToolObjs.size(); ++i)
