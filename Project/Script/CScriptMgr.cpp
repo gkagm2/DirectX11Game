@@ -60,8 +60,10 @@
 #include "CPortal_bu.h"
 #include "CPostProcessingScript.h"
 #include "CRespawnManager_bu.h"
+#include "CRevolutionScript_solar.h"
 #include "CRigidbody2DTestScript.h"
 #include "CRotateZScript.h"
+#include "CRotationSelfScript_solar.h"
 #include "CSoundManager_bu.h"
 #include "CSparkParticle_bu.h"
 #include "CSpotLight_bu.h"
@@ -134,8 +136,10 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPortal_bu");
 	_vec.push_back(L"CPostProcessingScript");
 	_vec.push_back(L"CRespawnManager_bu");
+	_vec.push_back(L"CRevolutionScript_solar");
 	_vec.push_back(L"CRigidbody2DTestScript");
 	_vec.push_back(L"CRotateZScript");
+	_vec.push_back(L"CRotationSelfScript_solar");
 	_vec.push_back(L"CSoundManager_bu");
 	_vec.push_back(L"CSparkParticle_bu");
 	_vec.push_back(L"CSpotLight_bu");
@@ -268,10 +272,14 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPostProcessingScript;
 	if (L"CRespawnManager_bu" == _strScriptName)
 		return new CRespawnManager_bu;
+	if (L"CRevolutionScript_solar" == _strScriptName)
+		return new CRevolutionScript_solar;
 	if (L"CRigidbody2DTestScript" == _strScriptName)
 		return new CRigidbody2DTestScript;
 	if (L"CRotateZScript" == _strScriptName)
 		return new CRotateZScript;
+	if (L"CRotationSelfScript_solar" == _strScriptName)
+		return new CRotationSelfScript_solar;
 	if (L"CSoundManager_bu" == _strScriptName)
 		return new CSoundManager_bu;
 	if (L"CSparkParticle_bu" == _strScriptName)
@@ -476,11 +484,17 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 	case (UINT)SCRIPT_TYPE::RESPAWNMANAGER_BU:
 		return new CRespawnManager_bu;
 		break;
+	case (UINT)SCRIPT_TYPE::REVOLUTIONSCRIPT_SOLAR:
+		return new CRevolutionScript_solar;
+		break;
 	case (UINT)SCRIPT_TYPE::RIGIDBODY2DTESTSCRIPT:
 		return new CRigidbody2DTestScript;
 		break;
 	case (UINT)SCRIPT_TYPE::ROTATEZSCRIPT:
 		return new CRotateZScript;
+		break;
+	case (UINT)SCRIPT_TYPE::ROTATIONSELFSCRIPT_SOLAR:
+		return new CRotationSelfScript_solar;
 		break;
 	case (UINT)SCRIPT_TYPE::SOUNDMANAGER_BU:
 		return new CSoundManager_bu;
@@ -756,12 +770,20 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 		return L"CRespawnManager_bu";
 		break;
 
+	case SCRIPT_TYPE::REVOLUTIONSCRIPT_SOLAR:
+		return L"CRevolutionScript_solar";
+		break;
+
 	case SCRIPT_TYPE::RIGIDBODY2DTESTSCRIPT:
 		return L"CRigidbody2DTestScript";
 		break;
 
 	case SCRIPT_TYPE::ROTATEZSCRIPT:
 		return L"CRotateZScript";
+		break;
+
+	case SCRIPT_TYPE::ROTATIONSELFSCRIPT_SOLAR:
+		return L"CRotationSelfScript_solar";
 		break;
 
 	case SCRIPT_TYPE::SOUNDMANAGER_BU:

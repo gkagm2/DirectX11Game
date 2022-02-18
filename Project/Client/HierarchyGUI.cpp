@@ -158,6 +158,10 @@ void HierarchyGUI::_KeyCheck()
 	if (InputKeyPress(E_Key::Delete))
 		bDelete = true;
 
+	bool bFocus = false;
+	if (InputKeyPress(E_Key::F))
+		bFocus = true;
+
 	if (bDelete) {
 		TreeViewNode* pSelItem = m_treeView._GetSelectdItem();
 		if (!pSelItem)
@@ -166,5 +170,29 @@ void HierarchyGUI::_KeyCheck()
 		CGameObject* pObj = (CGameObject*)pSelItem->GetData();
 		if (pObj)
 			CObject::DestroyGameObjectEvn(pObj);
+	}
+
+	if (bFocus) {
+		TreeViewNode* pSelItem = m_treeView._GetSelectdItem();
+		if (!pSelItem)
+			return;
+		CGameObject* pObj = (CGameObject*)pSelItem->GetData();
+		if (pObj) {
+			CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+			if (pToolCam) {
+				if (E_ProjectionType::Perspective == pToolCam->GetProjectionType()) {
+					Vector3 vObjPos = pObj->Transform()->GetPosition();
+					Vector3 vObjScale = pObj->Transform()->GetScale();
+					Vector3 vNewCamPos = vObjPos;
+					float fMaxScale = max(vObjScale.x, max(vObjScale.y, vObjScale.z));
+					vNewCamPos.z += fMaxScale;
+					
+					pObj->Transform()->GetPosition();
+					pToolCam->Transform()->SetLocalPosition(vNewCamPos);
+					pToolCam->Transform()->LookAt3D(vObjPos);
+				}
+			}
+		}
+
 	}
 }

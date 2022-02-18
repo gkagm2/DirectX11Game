@@ -51,6 +51,8 @@ public:
 	void RotateLocalY(float _fAngle) { m_vLocalRotation.y += _fAngle; }
 	void RotateLocalZ(float _fAngle) { m_vLocalRotation.z += _fAngle; }
 
+	void RotateAround(const Vector3& _vPoint, const Vector3& _vAxis, float _fAngle);
+
 	const Matrix& GetWorldMatrix() { return m_matWorld; }
 	const Matrix& GetLocalMatrix4x4() { return m_matLocal; }
 

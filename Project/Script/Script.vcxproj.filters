@@ -118,6 +118,9 @@
     <Filter Include="Games\Butcher\InGames\Sound">
       <UniqueIdentifier>{b05457b1-89f0-43e0-bbac-53504fc8a7a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Games\SolaSystem">
+      <UniqueIdentifier>{4e35c4f0-cf48-44fa-8cda-a31597464c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBulletScript_sh.h">
@@ -334,6 +337,12 @@
     <ClInclude Include="CLinkTestScript.h">
       <Filter>Games\Test</Filter>
     </ClInclude>
+    <ClInclude Include="CRotationSelfScript_solar.h">
+      <Filter>Games\SolaSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CRevolutionScript_solar.h">
+      <Filter>Games\SolaSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulletScript_sh.cpp">
@@ -549,6 +558,12 @@
     </ClCompile>
     <ClCompile Include="CLinkTestScript.cpp">
       <Filter>Games\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CRotationSelfScript_solar.cpp">
+      <Filter>Games\SolaSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CRevolutionScript_solar.cpp">
+      <Filter>Games\SolaSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

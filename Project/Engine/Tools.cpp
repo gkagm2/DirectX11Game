@@ -183,6 +183,60 @@ Vector2 Rotate_Radian(const Vector2& _vVec, float _radian)
 	);
 }
 
+
+
+Vector3 Rotate3D(E_AngleType _eAngleType, const Vector3& _vAxis, float _fDegree) {
+	float fRadian = CMyMath::DegreeToRadian(_fDegree);
+	if (_eAngleType == E_AngleType::pitch) {
+		return Vector3(
+			_vAxis.x,
+			_vAxis.y * cosf(fRadian) - _vAxis.z * sinf(fRadian),
+			_vAxis.y * sinf(fRadian) + _vAxis.z * cosf(fRadian)
+		);
+	}
+	else if (_eAngleType == E_AngleType::yaw) {
+		return Vector3(
+			_vAxis.z * sinf(fRadian) + _vAxis.x * cosf(fRadian),
+			_vAxis.y,
+			_vAxis.z * cosf(fRadian) - _vAxis.x * sinf(fRadian)
+		);
+	}
+	else if (_eAngleType == E_AngleType::roll) {
+		return Vector3(
+			_vAxis.x * cosf(fRadian) - _vAxis.y * sinf(fRadian),
+			_vAxis.x * sinf(fRadian) + _vAxis.y * cosf(fRadian),
+			_vAxis.z
+		);
+	}
+	assert(nullptr);
+}
+
+Vector3 Rotate3D_Radian(E_AngleType _eAngleType, const Vector3& _vAxis, float _fRadian) {
+	if (_eAngleType == E_AngleType::pitch) {
+		return Vector3(
+			_vAxis.x,
+			_vAxis.y * cosf(_fRadian) - _vAxis.z * sinf(_fRadian),
+			_vAxis.y * sinf(_fRadian) + _vAxis.z * cosf(_fRadian)
+		);
+	}
+	else if (_eAngleType == E_AngleType::yaw) {
+		return Vector3(
+			_vAxis.z * sinf(_fRadian) + _vAxis.x * cosf(_fRadian),
+			_vAxis.y,
+			_vAxis.z * cosf(_fRadian) - _vAxis.x * sinf(_fRadian)
+		);
+	}
+	else if (_eAngleType == E_AngleType::roll) {
+		return Vector3(
+			_vAxis.x * cosf(_fRadian) - _vAxis.y * sinf(_fRadian),
+			_vAxis.x * sinf(_fRadian) + _vAxis.y * cosf(_fRadian),
+			_vAxis.z
+		);
+	}
+	assert(nullptr);
+}
+
+
 Vector2 GetScreenPosFromCenter(Vector2 _vTargetPos, Vector2 _vCenterPos, float _fDegree)
 {
 	float fRadian = _fDegree * CMyMath::Deg2Rad();

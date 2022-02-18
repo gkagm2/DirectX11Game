@@ -81,6 +81,66 @@ Vector3 CTransform::GetRotationDegree()
 	return GetRotation() * CMyMath::Rad2Deg();
 }
 
+void CTransform::RotateAround(const Vector3& _vPoint, const Vector3& _vAxis, float _fAngle)
+{
+	// TODO (Jang) : RotateAround 해야 됨.
+	// 쿼터니언으로 할 경우
+	//private void RotateAround(Vector3 center, Vector3 axis, float angle)
+	//{
+	//	Vector3 pos = this.transform.position;
+	//	Quaternion rot = Quaternion.AngleAxis(angle, axis);     // get the desired rotation
+	//	Vector3 dir = pos - center;                             // find current direction relative to center
+	//	dir = rot * dir;                                        // rotate the direction
+	//	this.transform.position = center + dir;                 // define new position
+	//							// rotate object to keep looking at the center:
+	//	Quaternion myRot = transform.rotation;
+	//	transform.rotation *= Quaternion.Inverse(myRot) * rot * myRot;
+	//}
+
+	////////////////////////////
+	//축을 중심으로 각도를 회전하는 회전을 생성
+	Vector3 pos = GetPosition();
+
+	//Matrix matRot = ::GetRotationMatrix(_vAxis);
+	//Vector3 rot = ::DecomposeRotMat(matRot);
+
+	//Quaternion rot = Quaternion.AngleAxis(angle, axis); // get the desired rotation
+
+	Vector3 dir = pos - _vPoint; // find current direction relative to center
+	_tcprintf(_T("dir : %.2f %.2f %.2f\n"), dir.x, dir.y,dir.z);
+	float fLen = Vector3::Distance(dir, Vector3::Zero);
+
+	//dir = _vAxis * dir; // rotate the direction
+	Vector3 v = Vector3(_vAxis.x , _vAxis.y + _fAngle, _vAxis.z );
+	Vector3 vCurRot = GetRotation();
+	Vector3 vRot = v + vCurRot; // 새로 바뀐 로테이션값을 
+
+
+	Matrix matPos = XMMatrixTranslation(pos.x, pos.y, pos.z);
+
+
+	Matrix matRotX = XMMatrixRotationX(vRot.x);
+	Matrix matRotY = XMMatrixRotationX(vRot.y);
+	Matrix matRotZ = XMMatrixRotationX(vRot.z);
+	Matrix matRot = matRotX * matRotY * matRotZ;
+
+	Matrix matScale = XMMatrixScaling(m_vLocalScale.x, m_vLocalScale.y, m_vLocalScale.z);
+
+	Matrix matTrans = XMMatrixTranslation(_vPoint.x, _vPoint.y, _vPoint.z);
+
+	Matrix matWorld = matScale * matRot * matTrans;
+	SetLocalRotation(vRot);
+	SetLocalPosition(_vPoint + dir);
+
+	m_matWorld = matWorld;
+
+	
+//	SetLocalPosition(_vPoint + dir); // define new position
+											// rotate object to keep looking at the center:
+	/*Quaternion myRot = transform.rotation;
+	transform.rotation *= Quaternion.Inverse(myRot) * rot * myRot;*/
+}
+
 void CTransform::LookAt2D(const Vector2& _vWorldPos)
 {
 	Vector3 vCurPos = GetPosition();

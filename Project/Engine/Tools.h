@@ -420,6 +420,15 @@ Vector3 Rotate_Radian(const Vector3& _vVec, float _radian);
 Vector2 Rotate(const Vector2& _vVec, float _fDegree);
 Vector2 Rotate_Radian(const Vector2& _vVec, float _radian);
 
+// 회전 적용 시  yaw pitch roll 순서
+enum class E_AngleType {
+	pitch,	// x축을 기준으로 회전
+	yaw, 	// y축을 기준으로 회전
+	roll	// z축을 기준으로 회전
+};
+// 벡터 회전 (3D Rotate)
+Vector3 Rotate3D(E_AngleType _eAngleType, const Vector3& _vAxis, float _fDegree);
+Vector3 Rotate3D_Radian(E_AngleType _eAngleType, const Vector3& _vAxis, float _fRadian);
 // center 기준점에서부터 width, height으로부터 떨어진 점을 구한다. 
 
 // 회전되지 않은 screen 좌표에서 원하는 위치값을 center를 중점으로 회전된 후 좌표를 구함.

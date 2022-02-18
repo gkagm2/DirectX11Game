@@ -57,8 +57,10 @@ CPlayerScript_sh
 CPortal_bu
 CPostProcessingScript
 CRespawnManager_bu
+CRevolutionScript_solar
 CRigidbody2DTestScript
 CRotateZScript
+CRotationSelfScript_solar
 CSoundManager_bu
 CSparkParticle_bu
 CSpotLight_bu
