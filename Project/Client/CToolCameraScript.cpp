@@ -156,9 +156,9 @@ void CToolCameraScript::_UpdatePerspective(CCamera* _pCamera)
 	if (InputKeyHold(E_Key::LShift)) {
 		fMoveSpeed *= 30.f;
 	}
-	if (InputKeyHold(E_Key::Q))
-		vPos += Transform()->GetLocalUpVector() * fMoveSpeed;
 	if (InputKeyHold(E_Key::E))
+		vPos += Transform()->GetLocalUpVector() * fMoveSpeed;
+	if (InputKeyHold(E_Key::Q))
 		vPos += -Transform()->GetLocalUpVector() * fMoveSpeed;
 	if (InputKeyHold(E_Key::A))
 		vPos += -Transform()->GetLocalRightVector() * fMoveSpeed;
