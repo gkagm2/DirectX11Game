@@ -233,6 +233,9 @@
     <Filter Include="03. Tools\03. Scripts\Grid">
       <UniqueIdentifier>{ea7668c0-170a-4c64-a9fd-d0e4b127aca9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI">
+      <UniqueIdentifier>{8b2e4b17-0c9f-480c-a2ed-95281fc75b82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -450,6 +453,9 @@
     <ClInclude Include="CToolGridScript.h">
       <Filter>03. Tools\03. Scripts\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="SkyboxGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -647,6 +653,9 @@
     </ClCompile>
     <ClCompile Include="CToolGridScript.cpp">
       <Filter>03. Tools\03. Scripts\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

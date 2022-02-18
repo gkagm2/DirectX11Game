@@ -256,6 +256,7 @@ call ClientCopy.bat</Command>
     <ClInclude Include="RigidbodyGUI.h" />
     <ClInclude Include="SceneViewGUI.h" />
     <ClInclude Include="ScriptGUI.h" />
+    <ClInclude Include="SkyboxGUI.h" />
     <ClInclude Include="SpawningGUI_bu.h" />
     <ClInclude Include="StringTableGUI.h" />
     <ClInclude Include="Struct_Client.h" />
@@ -354,6 +355,7 @@ call ClientCopy.bat</Command>
     <ClCompile Include="RigidbodyGUI.cpp" />
     <ClCompile Include="SceneViewGUI.cpp" />
     <ClCompile Include="ScriptGUI.cpp" />
+    <ClCompile Include="SkyboxGUI.cpp" />
     <ClCompile Include="SpawningGUI_bu.cpp" />
     <ClCompile Include="TextUIGUI.cpp" />
     <ClCompile Include="TextureGUI.cpp" />

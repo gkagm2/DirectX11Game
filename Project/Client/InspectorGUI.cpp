@@ -25,6 +25,7 @@
 #include "CanvasRendererGUI.h"
 #include "AudioSourceGUI.h"
 #include "ParticleSystemGUI.h"
+#include "SkyboxGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -115,6 +116,10 @@ void InspectorGUI::Init()
 	// ParticleSystemGUI
 	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem] = new ParticleSystemGUI;
 	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem]->SetUISize(ImVec2(0.f, 500.f));
+
+	// SkyboxGUI
+	m_arrComGUI[(UINT)E_ComponentType::Skybox] = new SkyboxGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Skybox]->SetUISize(ImVec2(0.f, 0.f));
 
 	// UI
 	// TextUI

@@ -2,7 +2,8 @@
 #include "CRenderer.h"
 enum class E_SkyboxType {
 	Cube,
-	Sphere
+	Sphere,
+	End
 };
 tstring SkyboxTypeToStr(E_SkyboxType _eType);
 enum class E_SkyboxCubeType {
