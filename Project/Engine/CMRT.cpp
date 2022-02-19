@@ -24,10 +24,13 @@ CMRT::~CMRT()
 void CMRT::UpdateData()
 {
 	// 출력 타겟 및 깊이 스텐실 버퍼 설정 (OM Set)
-	ID3D11DepthStencilView* pDSV = nullptr;
+	ComPtr<ID3D11DepthStencilView> pDSV = nullptr;
 	if (nullptr != m_pDSTex)
-		pDSV = m_pDSTex->GetDSV().Get();
-	CONTEXT->OMSetRenderTargets(m_iRTCount, m_arrRTV, pDSV);
+		pDSV = m_pDSTex->GetDSV();
+	else if(m_bUsePrevDS)
+		CONTEXT->OMGetRenderTargets(0, nullptr, pDSV.GetAddressOf());
+
+	CONTEXT->OMSetRenderTargets(m_iRTCount, m_arrRTV, pDSV.Get());
 }
 
 void CMRT::Clear()

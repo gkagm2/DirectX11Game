@@ -13,7 +13,7 @@ private:
 	ID3D11RenderTargetView* m_arrRTV[MAX_RENDER_TARGET_TEX_CNT];	// Render Target View
 	 
 	UINT m_iRTCount;	// Render Target Count
-	bool m_bUsePrevDS;	// Previous Depth Stencil
+	bool m_bUsePrevDS;	// Previous Depth Stencil (이전의 MRT에서 깊이 스텐실 버퍼가 있다면 이어받음 여부)
 
 public:
 	virtual void UpdateData() override;

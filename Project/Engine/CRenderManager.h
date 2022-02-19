@@ -72,6 +72,8 @@ public:
 	CCamera* GetToolUICamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolUICamera);
 	const vector<CCamera*>& GetToolCameras() { return m_vecToolCam; }
 
+	CMRT* GetMultipleRenderTargets(E_MRTType _eType) { return m_arrMRT[(UINT)_eType]; }
+
 public:
 	void RenderDebugSphere(const Vector3& _vWorldPos, const Vector3& _vLocalRot, const Vector3& _vColor, float _fRadius, float _fLifeTime);
 private:
