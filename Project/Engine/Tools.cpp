@@ -289,24 +289,24 @@ Vector3 DecomposeRotMat(const Matrix& _matRot)
 	if (IsEqual_Float(vMat[0].z, -1.0f)) {
 		float x = 0; //gimbal lock, value of x doesn't matter
 		float y = XM_PI / 2;
-		float z = x + atan2(vMat[1].x, vMat[2].x);
+		float z = x + atan2f(vMat[1].x, vMat[2].x);
 		vNewRot = Vector3{ x, y, z };
 	}
 	else if (IsEqual_Float(vMat[0].z, 1.0f)) {
 		float x = 0;
 		float y = -XM_PI / 2;
-		float z = -x + atan2(-vMat[1].x, -vMat[2].x);
+		float z = -x + atan2f(-vMat[1].x, -vMat[2].x);
 		vNewRot = Vector3{ x, y, z };
 	}
 	else { //two solutions exist
 		float y1 = -asin(vMat[0].z);
 		float y2 = XM_PI - y1;
 
-		float x1 = atan2f(vMat[1].z / cos(y1), vMat[2].z / cos(y1));
-		float x2 = atan2f(vMat[1].z / cos(y2), vMat[2].z / cos(y2));
+		float x1 = atan2f(vMat[1].z / cosf(y1), vMat[2].z / cosf(y1));
+		float x2 = atan2f(vMat[1].z / cosf(y2), vMat[2].z / cosf(y2));
 
-		float z1 = atan2f(vMat[0].y / cos(y1), vMat[0].x / cos(y1));
-		float z2 = atan2f(vMat[0].y / cos(y2), vMat[0].x / cos(y2));
+		float z1 = atan2f(vMat[0].y / cosf(y1), vMat[0].x / cosf(y1));
+		float z2 = atan2f(vMat[0].y / cosf(y2), vMat[0].x / cosf(y2));
 
 		//choose one solution to return
 		//for example the "shortest" rotation
