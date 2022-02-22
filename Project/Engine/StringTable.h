@@ -25,6 +25,7 @@
 #define STR_FILE_PATH_Content _T("\\bin\\content\\")
 #define STR_FILE_PATH_Shader _T("shader\\std2d.fx")
 #define STR_FILE_PATH_Shader3D _T("shader\\std3d.fx")
+#define STR_FILE_PATH_Shader3DDeferred _T("shader\\std3d_deferred.fx")
 #define STR_FILE_PATH_SkyboxShader _T("shader\\skybox.fx")
 #define STR_FILE_PATH_TileMapShader _T("shader\\tilemap.fx")
 #define STR_FILE_PATH_TileMapLightShader _T("shader\\tilemap.fx")
@@ -99,6 +100,9 @@
 // std3d.fx functions name
 #define STR_FUNC_NAME_VTXShader3D "VS_Std3D"
 #define STR_FUNC_NAME_PIXShader3D "PS_Std3D"
+// std3d_deferred.fx functions name
+#define STR_FUNC_NAME_VTXShader3DDeferred "VS_Std3D_Deferred"
+#define STR_FUNC_NAME_PIXShader3DDeferred "PS_Std3D_Deferred"
 // skybox.fx functions name
 #define STR_FUNC_NAME_VTXSkybox "VS_Skybox"
 #define STR_FUNC_NAME_PIXSkybox "PS_Skybox"
@@ -159,6 +163,7 @@
 #define STR_KEY_GridShader _T("GridShader")
 #define STR_KEY_LineListShader _T("LineListShader")
 #define STR_KEY_Std3DShader _T("StandardShader3D")
+#define STR_KEY_Std3DDeferredShader _T("StandardDeferredShader3D")
 #define STR_KEY_SkyboxShader _T("Skybox")
 
 // compute shader
@@ -190,6 +195,7 @@
 #define STR_KEY_ButtonUIMtrl _T("ButtonUIMaterial")
 #define STR_KEY_GridMtrl _T("GridMaterial")
 #define STR_KEY_Std3DMtrl _T("StandardMaterial3D")
+#define STR_KEY_Std3DDeferredMtrl _T("StandardDeferredMaterial3D")
 #define STR_KEY_SkyboxMtrl _T("SkyBoxMaterial")
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 

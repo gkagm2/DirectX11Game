@@ -1,5 +1,5 @@
-#ifndef _FUNCTION
-#define _FUNCTION
+#ifndef _FUNCTION_FX
+#define _FUNCTION_FX
 #include "value.fx"
 
 static const int direction_Type = 0;
@@ -104,7 +104,7 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     
     tLight.vDiffuse.xyz = tInfo.color.vDiffuse.xyz * fDiffusePow * attenuation;
     tLight.vSpeculer.xyz = tInfo.color.vSpeculer.xyz * fReflectPow * attenuation;
-    tLight.vAmbient = tInfo.color.vAmbient * attenuation;
+    tLight.vAmbient.xyz = tInfo.color.vAmbient.xyz * attenuation;
         
     return tLight;
 }

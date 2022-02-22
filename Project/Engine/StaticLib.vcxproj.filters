@@ -712,6 +712,9 @@
     <FxCompile Include="debug.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="std3d_deferred.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

@@ -192,6 +192,7 @@ bool CCamera::LoadFromScene(FILE* _pFile)
 
 void CCamera::_SortObjects()
 {
+	m_vecDeferred.clear();
 	m_vecForward.clear();
 	m_vecParticle.clear();
 	m_vecPostEffect.clear();
@@ -268,6 +269,9 @@ void CCamera::_SortObjects()
 				}
 				
 				switch (eRenderTimePoint) {
+				case E_RenderTimePoint::Deferred:
+					m_vecDeferred.push_back(pObj);
+					break;
 				case E_RenderTimePoint::Forward:
 					m_vecForward.push_back(pObj);
 					break;
@@ -290,6 +294,18 @@ void CCamera::_SortObjects()
 			}
 		}
 	}
+}
+
+void CCamera::_RenderDeferred()
+{
+	/////////////////////////////////////
+	// (UpdateData) RenderDeferred가 제일 먼저 실행되어 여기에 넣어줌.
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+	g_transform.matViewInv = m_matViewInv;
+
+	for (UINT i = 0; i < m_vecDeferred.size(); ++i)
+		m_vecDeferred[i]->Render();
 }
 
 void CCamera::_RenderForward()

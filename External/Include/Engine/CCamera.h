@@ -43,6 +43,7 @@ private:
 	////////////////////////////////////////
 
 	// 렌더링 시점별로 분류된 오브젝트들
+	vector<CGameObject*> m_vecDeferred;
 	vector<CGameObject*> m_vecForward;
 	vector<CGameObject*> m_vecParticle;
 	vector<CGameObject*> m_vecCanvas;	// UI
@@ -105,6 +106,7 @@ public:
 private:
 	// For Rendering
 	void _SortObjects(); // 물체들을 렌더링 시점별로 분류
+	void _RenderDeferred();
 	void _RenderForward();
 	void _RenderParticle();
 	void _RenderPostEffect();

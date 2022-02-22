@@ -45,6 +45,7 @@ VTX_OUT VS_Std3D(VTX_IN _in)
     
     // View Space에서 처리하게 하는 이유는 카메라에 대한 정보도 알 수 있기 때문이다. 카메라 정보를 이용하여 연산을 할 것이다. (View Space의 원점이 카메라 위치임. z축이 카메라가 바라보고 있는 방향임.)
     
+    // Cube UV값 계산을 위해 설정.
     vtxOut.vLocalPos = _in.vPosition;
     
     // 정점의 프로젝션 까지 변환한 좌표

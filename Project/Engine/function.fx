@@ -1,5 +1,5 @@
-#ifndef _FUNCTION
-#define _FUNCTION
+#ifndef _FUNCTION_FX
+#define _FUNCTION_FX
 #include "value.fx"
 
 static const int direction_Type = 0;

@@ -8,11 +8,15 @@
 #include <Engine\CScene.h>
 #include <Engine\CLayer.h>
 #include <Engine\CGameObject.h>
+#include <Engine\CRenderManager.h>
+#include <Engine\CTransform.h>
 
 #include "CImGuiManager.h"
 #include "InspectorGUI.h"
 #include "ResourceViewGUI.h"
 #include "TreeViewGUI.h"
+
+
 
 HierarchyGUI::HierarchyGUI() :
 	m_treeView(STR_GUI_HierarchyTree)
@@ -193,6 +197,5 @@ void HierarchyGUI::_KeyCheck()
 				}
 			}
 		}
-
 	}
 }

@@ -99,8 +99,10 @@ void CRenderManager::Update()
 
 void CRenderManager::Render()
 {
-	m_arrMRT[(UINT)E_MRTType::SwapChain]->Clear();
-	m_arrMRT[(UINT)E_MRTType::SwapChain]->UpdateData();
+	for (UINT i = 0; i < (UINT)E_MRTType::End; ++i) {
+		if (m_arrMRT[i])
+			m_arrMRT[i]->Clear();
+	}
 
 	_UpdateData_Light2D();
 	_UpdateData_Light3D();
@@ -137,8 +139,12 @@ void CRenderManager::_RenderInGame()
 {
 	// In Game Scene의 카메라 기준 렌더링
 	for (UINT i = 0; i < m_vecCam.size(); ++i) {
-
 		m_vecCam[i]->_SortObjects();
+
+		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+		m_vecCam[i]->_RenderDeferred();
+
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 		m_vecCam[i]->_RenderForward();
 		m_vecCam[i]->_RenderParticle();
 		m_vecCam[i]->_RenderCollider2D();
@@ -152,6 +158,11 @@ void CRenderManager::_RenderTool()
 	// Tool 기준 렌더링
 	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 		m_vecToolCam[i]->_SortObjects();
+
+		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+		m_vecToolCam[i]->_RenderDeferred();
+
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 		m_vecToolCam[i]->_RenderForward();
 		m_vecToolCam[i]->_RenderParticle();
 		m_vecToolCam[i]->_RenderCollider2D();
@@ -304,7 +315,12 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	// Deferred MRT
 	{
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
-		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {};
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
+			Vector4::Zero,
+			Vector4::Zero,
+			Vector4::Zero,
+			Vector4::Zero,
+		};
 
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_ColorTargetTex, 

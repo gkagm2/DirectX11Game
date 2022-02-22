@@ -695,7 +695,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetBlendState(E_BlendState::AlphaBlend_Coverage);
 	// ShaderParam
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
-	
+
 	AddRes(STR_KEY_StdLight2DShader, pShader);
 
 	//----------------------
@@ -954,12 +954,12 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->SetBlendState(E_BlendState::Default);
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Default Line Color") });
-	
+
 	AddRes(STR_KEY_LineListShader, pShader);
 
 	//---------------------------
 	// Std3D Shader (3D용 기본 쉐이더)
-	
+
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_VTXShader3D);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_PIXShader3D);
@@ -971,6 +971,21 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("Normal Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Shader Type") });
 	AddRes(STR_KEY_Std3DShader, pShader);
+
+	//----------------------------
+	// Std3D Deferred Shader
+
+	pShader = new CGraphicsShader(E_RenderTimePoint::Deferred);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader3DDeferred, STR_FUNC_NAME_VTXShader3DDeferred);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader3DDeferred, STR_FUNC_NAME_PIXShader3DDeferred);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
+	pShader->SetBlendState(E_BlendState::Default);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("ColorTexture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("Normal Map Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_2, _T("Specular Map Texture") });
+	AddRes(STR_KEY_Std3DDeferredShader, pShader);
 
 	//----------------------------
 	// SkyBox Shader
@@ -1138,6 +1153,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderStd3D = LoadRes<CGraphicsShader>(STR_KEY_Std3DShader);
 	pMtrl->SetShader(pShaderStd3D);
 	AddRes(STR_KEY_Std3DMtrl, pMtrl);
+
+	// Std Deferred 3D 재질 생성
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderStd3DDeferred = LoadRes<CGraphicsShader>(STR_KEY_Std3DDeferredShader);
+	pMtrl->SetShader(pShaderStd3DDeferred);
+	AddRes(STR_KEY_Std3DDeferredMtrl, pMtrl);
 
 	// Skybox
 	pMtrl = new CMaterial(true);
