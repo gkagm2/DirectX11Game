@@ -8,9 +8,10 @@
 CLight3D::CLight3D() :
 	CComponent(E_ComponentType::Light3D)
 {
-	m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
+	/*m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
-	m_tInfo.eLightType = E_LightType::Direction;
+	m_tInfo.eLightType = E_LightType::Direction;*/
+	SetLightType(E_LightType::Direction);
 
 	m_tInfo.fAngle_Radian = PI * 0.5f;
 	m_tInfo.fRange = 2.f;
@@ -49,10 +50,12 @@ void CLight3D::SetLightType(E_LightType _eType)
 	// TODO (Jang) : Point, Spot ÀÛ¼º
 	switch (_eType) {
 	case E_LightType::Direction:
+		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
 		break;
 	case E_LightType::Point:
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
-		//m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
+		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
 		break;
 	case E_LightType::Spot:
 		//m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);

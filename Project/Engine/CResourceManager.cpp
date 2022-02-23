@@ -1013,7 +1013,25 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->SetBlendState(E_BlendState::Default);
 
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("View Normal Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("View Position Target Texture") });
+
 	AddRes(STR_KEY_DirectionLightShader, pShader);
+
+
+	//----------------------------
+	// Point Light Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Light);
+	pShader->CreateVertexShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_VTXPointLight);
+	pShader->CreatePixelShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_PIXPointLight);
+	pShader->SetRasterizerState(E_RasterizerState::CullFront);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("View Normal Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("View Position Target Texture") });
+
+	AddRes(STR_KEY_PointLightShader, pShader);
 	
 	//----------------------------
 	// SkyBox Shader
@@ -1193,6 +1211,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderDirectionLight = LoadRes<CGraphicsShader>(STR_KEY_DirectionLightShader);
 	pMtrl->SetShader(pShaderDirectionLight);
 	AddRes(STR_KEY_DirectionLightMtrl, pMtrl);
+
+	// Point light 犁龙 积己
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderPointLight = LoadRes<CGraphicsShader>(STR_KEY_PointLightShader);
+	pMtrl->SetShader(pShaderPointLight);
+	AddRes(STR_KEY_PointLightMtrl, pMtrl);
 
 	// Merge Shader 犁龙 积己
 	pMtrl = new CMaterial(true);

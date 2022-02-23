@@ -145,7 +145,6 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     
     vOutColor = vColor * vDiffuse + vSpecular;
     vOutColor.a = 1.f;
-    
     return vOutColor;
 }
 #endif

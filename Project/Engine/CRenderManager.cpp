@@ -277,7 +277,16 @@ CCamera* CRenderManager::GetToolUICamera(const tstring& _strObjName)
 
 void CRenderManager::RenderDebugSphere(const Vector3& _vWorldPos, const Vector3& _vLocalRot, const Vector3& _vColor, float _fRadius, float _fLifeTime)
 {
+	CGameObject* pDebugObj = _GetDebugGameObject();
+	pDebugObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_DebugSphereMesh));
 
+	pDebugObj->Transform()->SetLocalPosition(_vWorldPos);
+	pDebugObj->Transform()->SetLocalRotation(_vLocalRot);
+	pDebugObj->Transform()->SetLocalScale(Vector3(_fRadius, _fRadius, _fRadius));
+	
+	((CEngineDebugScript*)(pDebugObj->GetScripts()[0]))->SetColor(_vColor);
+
+	m_listDebugObj.push_back(pDebugObj);
 }
 
 CGameObject* CRenderManager::_GetDebugGameObject()
@@ -369,8 +378,15 @@ void CRenderManager::_CreateMultpleRenderTargets()
 
 		// Directional Light Shader 에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅
 		SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
+		assert(pDirLightMtrl.Get());
 		pDirLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
 		pDirLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+
+		// Point Light Shader
+		SharedPtr<CMaterial> pPointLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
+		assert(pPointLightMtrl.Get());
+		pPointLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+		pPointLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
 	}
 
 	// Light MRT
@@ -403,6 +419,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 
 		// Merge shader에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅.
 		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		assert(pMergeMtrl.Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());

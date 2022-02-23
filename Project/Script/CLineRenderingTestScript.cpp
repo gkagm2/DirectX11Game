@@ -29,6 +29,7 @@ void CLineRenderingTestScript::Awake()
 
 void CLineRenderingTestScript::Update()
 {
+	CRenderManager::GetInstance()->RenderDebugSphere(Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f), 400.f, 2.f);
 }
 
 void CLineRenderingTestScript::LateUpdate()

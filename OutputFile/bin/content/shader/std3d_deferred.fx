@@ -108,9 +108,9 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 /////////////////////////////////////
 // Merge Shader (최종 장면 완성)
 // Mesh : RectMesh
-#define ColorTargetTex      g_tex_0
-#define DiffuseTargetTex     g_tex_1
-#define SpecularTargetTex   g_tex_2
+#define ColorTargetTex          g_tex_0
+#define DiffuseTargetTex        g_tex_1
+#define SpecularTargetTex       g_tex_2
 /////////////////////////////////////
 
 struct VS_MERGE_IN
@@ -145,7 +145,6 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     
     vOutColor = vColor * vDiffuse + vSpecular;
     vOutColor.a = 1.f;
-    
     return vOutColor;
 }
 #endif

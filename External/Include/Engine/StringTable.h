@@ -119,6 +119,9 @@
 // light.fx funtions name
 #define STR_FUNC_NAME_VTXDirLight "VS_DirLight" // Dir : direciton
 #define STR_FUNC_NAME_PIXDirLight "PS_DirLight"
+#define STR_FUNC_NAME_VTXPointLight "VS_PointLight"
+#define STR_FUNC_NAME_PIXPointLight "PS_PointLight"
+
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -176,6 +179,7 @@
 #define STR_KEY_MergeShader _T("MergeShader")
 #define STR_KEY_SkyboxShader _T("SkyboxShader")
 #define STR_KEY_DirectionLightShader _T("DirectionLightShader")
+#define STR_KEY_PointLightShader _T("PointLightShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -211,6 +215,7 @@
 #define STR_KEY_SkyboxMtrl _T("SkyBoxMaterial")
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 #define STR_KEY_DirectionLightMtrl _T("DirectionLightMaterial")
+#define STR_KEY_PointLightMtrl _T("PointLightMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
