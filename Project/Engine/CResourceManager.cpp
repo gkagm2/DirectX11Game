@@ -988,6 +988,34 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_Std3DDeferredShader, pShader);
 
 	//----------------------------
+	// Merge Shader 
+
+	pShader = new CGraphicsShader(E_RenderTimePoint::None);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader3DDeferred, STR_FUNC_NAME_VTXShaderMerge);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader3DDeferred, STR_FUNC_NAME_PIXShaderMerge);
+
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
+	pShader->SetBlendState(E_BlendState::Default);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0,  _T("Color Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1,  _T("Diffuse Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_2,  _T("Specular TargetTexture") });
+	
+	AddRes(STR_KEY_MergeShader, pShader);
+
+	//----------------------------
+	// Direction Light Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Light);
+	pShader->CreateVertexShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_VTXDirLight);
+	pShader->CreatePixelShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_PIXDirLight);
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+
+	AddRes(STR_KEY_DirectionLightShader, pShader);
+	
+	//----------------------------
 	// SkyBox Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_SkyboxShader, STR_FUNC_NAME_VTXSkybox);
@@ -1160,6 +1188,18 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderStd3DDeferred);
 	AddRes(STR_KEY_Std3DDeferredMtrl, pMtrl);
 
+	// Direction light 犁龙 积己
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDirectionLight = LoadRes<CGraphicsShader>(STR_KEY_DirectionLightShader);
+	pMtrl->SetShader(pShaderDirectionLight);
+	AddRes(STR_KEY_DirectionLightMtrl, pMtrl);
+
+	// Merge Shader 犁龙 积己
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderMerge = LoadRes<CGraphicsShader>(STR_KEY_MergeShader);
+	pMtrl->SetShader(pShaderMerge);
+	AddRes(STR_KEY_MergeMtrl, pMtrl);
+
 	// Skybox
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderSkybox = LoadRes<CGraphicsShader>(STR_KEY_SkyboxShader);
@@ -1266,16 +1306,16 @@ void CResourceManager::CreateDefaultTexture()
 	strPath = CPathManager::GetInstance()->GetContentPath();
 	strPath += STR_FILE_PATH_SkyboxSphereTexture;
 
-	CTexture* pSkyboxSphereTex = new CTexture();
-	pSkyboxSphereTex->Load(strPath);
-	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxSphereTexture, pSkyboxSphereTex));
+	//CTexture* pSkyboxSphereTex = new CTexture();
+	//pSkyboxSphereTex->Load(strPath);
+	//m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxSphereTexture, pSkyboxSphereTex));
 
-	strPath = CPathManager::GetInstance()->GetContentPath();
-	strPath += STR_FILE_PATH_SkyboxCubeTexture;
+	//strPath = CPathManager::GetInstance()->GetContentPath();
+	//strPath += STR_FILE_PATH_SkyboxCubeTexture;
 
-	CTexture* pSkyboxCubeTex = new CTexture();
-	pSkyboxCubeTex->Load(strPath);
-	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
+	//CTexture* pSkyboxCubeTex = new CTexture();
+	//pSkyboxCubeTex->Load(strPath);
+	//m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
 
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);

@@ -41,11 +41,67 @@ void CLight3D::FinalUpdate()
 			m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight3D(this);
 	}
 }
+
+void CLight3D::SetLightType(E_LightType _eType)
+{
+	m_tInfo.eLightType = _eType;
+
+	// TODO (Jang) : Point, Spot ÀÛ¼º
+	switch (_eType) {
+	case E_LightType::Direction:
+		break;
+	case E_LightType::Point:
+		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
+		//m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
+		break;
+	case E_LightType::Spot:
+		//m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);
+		//m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
+		break;
+	default:
+		assert(nullptr);
+		break;
+	}
+}
+
+
 void CLight3D::SetRange(float _fRange)
 {
 	m_tInfo.fRange = _fRange;
 	Transform()->SetLocalScale(Vector3(_fRange * 2.f, _fRange * 2.f, 1.f));
 }
+void CLight3D::Render()
+{
+	if (nullptr == m_pMesh || 
+		nullptr == m_pMtrl || 
+		nullptr == m_pMtrl->GetShader() || 
+		E_RenderTimePoint::Light == m_pMtrl->GetShader()->GetRenderTimePoint())
+		return;
+
+	switch (m_tInfo.eLightType) {
+	case E_LightType::Direction: {
+		Transform()->UpdateData();
+		break;
+	}
+	case E_LightType::Point: {
+		Transform()->UpdateData();
+		break;
+	}
+	case E_LightType::Spot: {
+		Transform()->UpdateData();
+		break;
+	}
+	default:
+		assert(nullptr);
+		break;
+	}
+
+	m_pMtrl->SetData(E_ShaderParam::Int_0, &m_tInfo.idx);
+	m_pMtrl->UpdateData();
+
+	m_pMesh->Render();
+}
+
 bool CLight3D::LoadFromScene(FILE* _pFile)
 {
 	CComponent::LoadFromScene(_pFile);

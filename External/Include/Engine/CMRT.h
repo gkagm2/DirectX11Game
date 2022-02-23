@@ -22,6 +22,6 @@ public:
 public:
 	CLONE_DISABLE(CMRT);
 	CMRT() = delete;
-	CMRT(SharedPtr<CTexture> _pArrRTTex[MAX_RENDER_TARGET_TEX_CNT], Vector4 _pArrClearColor[MAX_RENDER_TARGET_TEX_CNT], UINT _iRTCount, SharedPtr<CTexture> _pDSTex, bool _bUseDepthPrev = false);
+	CMRT(SharedPtr<CTexture>* _pArrRTTex, Vector4* _pArrClearColor, UINT _iRTCount, SharedPtr<CTexture> _pDSTex, bool _bUseDepthPrev = false);
 	virtual ~CMRT() override;
 };

@@ -64,6 +64,22 @@ void CSkybox::Render()
 	//m_pSphereMtrl->Clear();		 // 메터리얼 레지스터 Clear
 }
 
+bool CSkybox::SaveToScene(FILE* _pFile)
+{
+	CRenderer::SaveToScene(_pFile);
+	SaveResourceToFile(m_pSkyboxMaterial, _pFile);
+	SaveResourceToFile(m_pSkyboxMesh, _pFile);
+	return true;
+}
+
+bool CSkybox::LoadFromScene(FILE* _pFile)
+{
+	CRenderer::LoadFromScene(_pFile);
+	LoadResourceFromFile(m_pSkyboxMaterial, _pFile);
+	LoadResourceFromFile(m_pSkyboxMesh, _pFile);
+	return true;
+}
+
 void CSkybox::SetSkyboxTexture(SharedPtr<CTexture> _pTexture)
 {
 	if (_pTexture->IsCubeTexture())

@@ -29,6 +29,9 @@ public:
 	virtual void UpdateData() override;
 	virtual void Render() override;
 
+	virtual bool SaveToScene(FILE* _pFile) override;
+	virtual bool LoadFromScene(FILE* _pFile) override;
+
 public:
 	SharedPtr<CMesh> GetMesh() { return m_pSkyboxMesh; }
 	SharedPtr<CMaterial> GetMaterial() { return m_pSkyboxMaterial; }

@@ -2,7 +2,7 @@
 #include "CMRT.h"
 #include "CDevice.h"
 
-CMRT::CMRT(SharedPtr<CTexture> _pArrRTTex[MAX_RENDER_TARGET_TEX_CNT], Vector4 _pArrClearColor[MAX_RENDER_TARGET_TEX_CNT], UINT _iRTCount, SharedPtr<CTexture> _pDSTex, bool _bUseDepthPrev) :
+CMRT::CMRT(SharedPtr<CTexture>* _pArrRTTex, Vector4* _pArrClearColor, UINT _iRTCount, SharedPtr<CTexture> _pDSTex, bool _bUseDepthPrev) :
 	m_arrRTV{},
 	m_pDSTex{_pDSTex},
 	m_arrClearColor{},
@@ -19,6 +19,7 @@ CMRT::CMRT(SharedPtr<CTexture> _pArrRTTex[MAX_RENDER_TARGET_TEX_CNT], Vector4 _p
 
 CMRT::~CMRT()
 {
+
 }
 
 void CMRT::UpdateData()
@@ -26,11 +27,11 @@ void CMRT::UpdateData()
 	// Ãâ·Â Å¸°Ù ¹× ±íÀÌ ½ºÅÙ½Ç ¹öÆÛ ¼³Á¤ (OM Set)
 	ComPtr<ID3D11DepthStencilView> pDSV = nullptr;
 	if (nullptr != m_pDSTex)
-		pDSV = m_pDSTex->GetDSV();
+		pDSV = m_pDSTex->GetDSV().Get();
 	else if(m_bUsePrevDS)
 		CONTEXT->OMGetRenderTargets(0, nullptr, pDSV.GetAddressOf());
 
-	CONTEXT->OMSetRenderTargets(m_iRTCount, m_arrRTV, pDSV.Get());
+	CONTEXT->OMSetRenderTargets(MAX_RENDER_TARGET_TEX_CNT, m_arrRTV, pDSV.Get());
 }
 
 void CMRT::Clear()

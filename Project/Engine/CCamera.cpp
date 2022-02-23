@@ -234,7 +234,7 @@ void CCamera::_SortObjects()
 					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial()->GetShader();
 
 					// forward or posteffect
-					eRenderTimePoint = pShader->GetRenderTimePosition();
+					eRenderTimePoint = pShader->GetRenderTimePoint();
 				}
 				// SpriteRenderer
 				else if (pObj->SpriteRenderer() &&
@@ -243,7 +243,7 @@ void CCamera::_SortObjects()
 					SharedPtr<CGraphicsShader> pShader = pObj->SpriteRenderer()->GetSharedMaterial()->GetShader();
 					
 					// forward or posteffect
-					eRenderTimePoint = pShader->GetRenderTimePosition();
+					eRenderTimePoint = pShader->GetRenderTimePoint();
 				}
 				else if (pObj->CanvasRenderer()) {
 					// FIXED(Jang) : RenderTimePoint를 가져올 부분에 대해 설계해봐야 될 듯
@@ -262,7 +262,7 @@ void CCamera::_SortObjects()
 					pObj->Skybox()->GetMesh().Get() &&
 					pObj->Skybox()->GetMaterial().Get() &&
 					pObj->Skybox()->GetMaterial()->GetShader().Get()) {
-					eRenderTimePoint = pObj->Skybox()->GetMaterial()->GetShader()->GetRenderTimePosition();
+					eRenderTimePoint = pObj->Skybox()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
 				else {
 					//assert(nullptr);

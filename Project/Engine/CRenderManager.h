@@ -8,6 +8,7 @@
 enum class E_MRTType {
 	SwapChain,
 	Deferred,
+	Light,
 	End
 };
 

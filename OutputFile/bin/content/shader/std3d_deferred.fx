@@ -104,4 +104,48 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     return vOutput;
 }
 
+
+/////////////////////////////////////
+// Merge Shader (최종 장면 완성)
+// Mesh : RectMesh
+#define ColorTargetTex      g_tex_0
+#define DiffuseTargetTex     g_tex_1
+#define SpecularTargetTex   g_tex_2
+/////////////////////////////////////
+
+struct VS_MERGE_IN
+{
+    float3 vPos : POSITION;
+    float2 vUV : TEXCOORD;
+};
+
+struct VS_MERGE_OUT
+{
+    float4 vPos : SV_Position;
+    float2 vUV : TEXCOORD;
+};
+
+
+VS_MERGE_OUT VS_MergeShader(VS_MERGE_IN _in)
+{
+    VS_MERGE_OUT vOutput = (VS_MERGE_OUT) 0.f;
+
+    vOutput.vPos = float4(_in.vPos * 2.f, 1.f); // projection space로 만듬. 2 size(-1 ~ 1)
+    vOutput.vUV = _in.vUV;
+    
+    return vOutput;
+}
+
+float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
+{
+    float4 vOutColor = (float4) 0.f;
+    float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
+    float4 vDiffuse = DiffuseTargetTex.Sample(Sample_Point, _in.vUV);
+    float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
+    
+    vOutColor = vColor * vDiffuse + vSpecular;
+    vOutColor.a = 1.f;
+    
+    return vOutColor;
+}
 #endif

@@ -16,6 +16,7 @@ private:
 	SharedPtr<CMaterial> m_pMtrl;
 
 public:
+	virtual void Render() override {};
 	virtual bool LoadFromScene(FILE* _pFile) override;
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual void FinalUpdate() override;

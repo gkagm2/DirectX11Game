@@ -12,16 +12,18 @@ private:
 	// Point Light일 경우
 	// Diffuse 사용
 	TLightInfo m_tInfo;
-	SharedPtr<CMesh> m_pMesh;
-	SharedPtr<CMaterial> m_pMtrl;
+	SharedPtr<CMesh> m_pMesh;		// 광원의 범위를 나타낼 볼륨 메쉬
+	SharedPtr<CMaterial> m_pMtrl;   // 광원 MRT 에 광원을 랜더링 하는 재질
 
 public:
+	virtual void Render() override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
 	virtual bool SaveToScene(FILE* _pFile) override;
 	virtual void FinalUpdate() override;
+	//virtual void UpdateData() override;
 
 public:
-	void SetLightType(E_LightType _eType) { m_tInfo.eLightType = _eType; }
+	void SetLightType(E_LightType _eType);
 	void SetAngle(float _fDegree) { m_tInfo.fAngle_Radian = _fDegree * CMyMath::Deg2Rad(); }
 	float GetAngle() { return m_tInfo.fAngle_Radian * CMyMath::Rad2Deg(); }
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }

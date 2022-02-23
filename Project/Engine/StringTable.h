@@ -33,6 +33,8 @@
 #define STR_FILE_PATH_ParticleShader _T("shader\\particle.fx")
 #define STR_DIR_PATH_Material _T("material\\")
 #define STR_FILE_PATH_PostEffectShader _T("shader\\posteffect.fx")
+#define STR_FILE_PATH_ShaderLight _T("shader\\light.fx")
+
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
 
@@ -103,6 +105,10 @@
 // std3d_deferred.fx functions name
 #define STR_FUNC_NAME_VTXShader3DDeferred "VS_Std3D_Deferred"
 #define STR_FUNC_NAME_PIXShader3DDeferred "PS_Std3D_Deferred"
+
+#define STR_FUNC_NAME_VTXShaderMerge "VS_MergeShader"
+#define STR_FUNC_NAME_PIXShaderMerge "PS_MergeShader"
+
 // skybox.fx functions name
 #define STR_FUNC_NAME_VTXSkybox "VS_Skybox"
 #define STR_FUNC_NAME_PIXSkybox "PS_Skybox"
@@ -110,6 +116,9 @@
 #define STR_FUNC_NAME_VTXDebug3D "VS_Debug3D"
 #define STR_FUNC_NAME_PIXDebug3D "PS_Debug3D"
 
+// light.fx funtions name
+#define STR_FUNC_NAME_VTXDirLight "VS_DirLight" // Dir : direciton
+#define STR_FUNC_NAME_PIXDirLight "PS_DirLight"
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -164,7 +173,9 @@
 #define STR_KEY_LineListShader _T("LineListShader")
 #define STR_KEY_Std3DShader _T("StandardShader3D")
 #define STR_KEY_Std3DDeferredShader _T("StandardDeferredShader3D")
-#define STR_KEY_SkyboxShader _T("Skybox")
+#define STR_KEY_MergeShader _T("MergeShader")
+#define STR_KEY_SkyboxShader _T("SkyboxShader")
+#define STR_KEY_DirectionLightShader _T("DirectionLightShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -196,19 +207,26 @@
 #define STR_KEY_GridMtrl _T("GridMaterial")
 #define STR_KEY_Std3DMtrl _T("StandardMaterial3D")
 #define STR_KEY_Std3DDeferredMtrl _T("StandardDeferredMaterial3D")
+#define STR_KEY_MergeMtrl _T("MergeMaterial")
 #define STR_KEY_SkyboxMtrl _T("SkyBoxMaterial")
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
+#define STR_KEY_DirectionLightMtrl _T("DirectionLightMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
 #define STR_ResourceKey_RTTexture _T("RenderTargetTexture")
 #define STR_ResourceKey_PostEffectTargetTexture _T("PostEffectTargetTexture")
+#define STR_ResourceKey_postEffectTargetTexture_RenderMgr _T("PostEffectTargetTexture_RenderMgr")
 #define STR_ResourceKey_NoiseTexture _T("NoiseTexture")
 
 #define STR_ResourceKey_Deferred_ColorTargetTex _T("ColorTargetTex")
 #define STR_ResourceKey_Deferred_NormalTargetTex _T("NormalTargetTex")
 #define STR_ResourceKey_Deferred_PositionTargetTex _T("PositionTargetTex")
 #define STR_ResourceKey_Deferred_DataTargetTex _T("DataTargetTex")
+
+#define STR_ResourceKey_DiffuseTargetTex _T("DiffuseTargetTex")
+#define STR_ResourceKey_SpecularTargetTex _T("SpecularTargetTex")
+#define STR_ResourceKey_ShadowTargetTex _T("ShaderTargetTex")
 
 
 // Tool Object name

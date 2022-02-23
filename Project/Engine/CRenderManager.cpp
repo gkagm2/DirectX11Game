@@ -43,7 +43,12 @@ void CRenderManager::Init()
 	m_pLight3DBuffer->Create(E_StructuredBufferType::ReadOnly, sizeof(TLightInfo), iDefaultElementCnt, true);
 
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
+	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->GetPostEffectTargetTex();
+		/*m_pPostEffectTargetTex  = CResourceManager::GetInstance()->CreateTexture(
+			STR_ResourceKey_postEffectTargetTexture_RenderMgr, 
+			(UINT)vResolution.x, (UINT)vResolution.y, 
+			DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);*/
 
 
 	// --------------- Multiple Render Targers --------------
@@ -159,8 +164,25 @@ void CRenderManager::_RenderTool()
 	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 		m_vecToolCam[i]->_SortObjects();
 
+		// Deferred 물체 정보를 그리기
 		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
 		m_vecToolCam[i]->_RenderDeferred();
+
+		// Light Render 
+		GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
+		for (size_t i = 0; i < m_vecLight2D.size(); ++i)
+			m_vecLight2D[i]->Render();
+		for (size_t i = 0; i < m_vecLight3D.size(); ++i)
+			m_vecLight3D[i]->Render();
+
+		// Deferred에 그려진 정보를 Swapchain Target으로 옮김
+		SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+		assert(pRectMesh.Get());
+		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		assert(pMergeMtrl.Get());
+		pMergeMtrl->UpdateData();
+		pRectMesh->Render();
+		pMergeMtrl->Clear();
 
 		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 		m_vecToolCam[i]->_RenderForward();
@@ -344,6 +366,46 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			bindFlag);
 
 		m_arrMRT[(UINT)E_MRTType::Deferred] = new CMRT(arrTex, arrClearColor, 4, nullptr, true);
+
+		// Directional Light Shader 에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅
+		SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
+		pDirLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+		pDirLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+	}
+
+	// Light MRT
+	{
+		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
+			Vector4::Zero,
+			Vector4::Zero,
+			Vector4::Zero,
+		};
+
+		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+
+		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_DiffuseTargetTex,
+			(UINT)vResolution.x, (UINT)vResolution.y,
+			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
+			bindFlag);
+
+		arrTex[1] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_SpecularTargetTex,
+			(UINT)vResolution.x, (UINT)vResolution.y,
+			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
+			bindFlag);
+
+		arrTex[2] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowTargetTex,
+			(UINT)vResolution.x, (UINT)vResolution.y,
+			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
+			bindFlag);
+
+		m_arrMRT[(UINT)E_MRTType::Light] = new CMRT(arrTex, arrClearColor, 3, nullptr, false);
+
+		// Merge shader에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅.
+		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		pMergeMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
 	}
 }
 

@@ -33,7 +33,13 @@ public:
 
 	virtual ~SharedPtr() {
 		if (nullptr != m_pResource) {
-			m_pResource->SubRef();
+			try {
+				m_pResource->SubRef();
+			}
+			catch (std::exception e)
+			{
+				assert(nullptr && _T("Ptr Error"));
+			}
 		}
 	}
 

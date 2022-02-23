@@ -32,7 +32,7 @@ public:
 	void SetBlendState(E_BlendState _eBlendState) { m_eBlendState = _eBlendState; }
 	void SetDepthStencilState(E_DepthStencilState _eDepthStencilState) { m_eDepthStencilState = _eDepthStencilState; }
 
-	E_RenderTimePoint GetRenderTimePosition() { return m_eRenderTimePoint; }
+	E_RenderTimePoint GetRenderTimePoint() { return m_eRenderTimePoint; }
 
 public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);
