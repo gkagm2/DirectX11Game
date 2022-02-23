@@ -165,6 +165,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "ToolCameraGUI.h"
 
 #include "LayerCheckGUI.h"
+#include "DeferredViewGUI.h"
 
 #include "ModuleCreatorGUI_ca.h"
 
@@ -289,10 +290,15 @@ void CImGuiManager::Init_ShowGameObjectComponent()
     pCollsionEditorGUI->Init();
     AddGUI(pCollsionEditorGUI->GetName(), pCollsionEditorGUI);
 
+    // LayerCheck GUI
     LayerCheckGUI* pLayerCheckGUI = new LayerCheckGUI();
     pLayerCheckGUI->Init();
     AddGUI(pLayerCheckGUI->GetName(), pLayerCheckGUI);
 
+    // DeferredView GUI
+    DeferredViewGUI* pDeferredViewGUI = new DeferredViewGUI();
+    pDeferredViewGUI->Init();
+    AddGUI(pDeferredViewGUI->GetName(), pDeferredViewGUI);
 }
 
 void CImGuiManager::Init_ListViewGUI()

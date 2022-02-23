@@ -19,6 +19,9 @@ public:
 	virtual void UpdateData() override;
 	void Clear();
 
+	UINT GetRenderTargetCount() { return m_iRTCount; }
+	bool DidUsePrevDS() { return m_bUsePrevDS; }
+
 public:
 	CLONE_DISABLE(CMRT);
 	CMRT() = delete;

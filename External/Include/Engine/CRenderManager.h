@@ -11,6 +11,7 @@ enum class E_MRTType {
 	Light,
 	End
 };
+tstring MRTTypeToStr(E_MRTType _eType);
 
 class CStructuredBuffer;
 class CMRT;

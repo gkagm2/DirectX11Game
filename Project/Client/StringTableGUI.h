@@ -17,6 +17,8 @@
 #define STR_GUI_ToolCamera "ToolCamera"
 
 #define STR_GUI_CollisionEditor "Collision Editor"
+
+#define STR_GUI_DeferredView "Deferred View"
 // ComponentType
 
 

@@ -341,6 +341,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DSTexture);
 		 
 		m_arrMRT[(UINT)E_MRTType::SwapChain] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+		m_arrMRT[(UINT)E_MRTType::SwapChain]->SetName(MRTTypeToStr(E_MRTType::SwapChain));
 	}
 
 	// Deferred MRT
@@ -375,6 +376,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			bindFlag);
 
 		m_arrMRT[(UINT)E_MRTType::Deferred] = new CMRT(arrTex, arrClearColor, 4, nullptr, true);
+		m_arrMRT[(UINT)E_MRTType::Deferred]->SetName(MRTTypeToStr(E_MRTType::Deferred));
 
 		// Directional Light Shader 에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅
 		SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
@@ -416,6 +418,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			bindFlag);
 
 		m_arrMRT[(UINT)E_MRTType::Light] = new CMRT(arrTex, arrClearColor, 3, nullptr, false);
+		m_arrMRT[(UINT)E_MRTType::Light]->SetName(MRTTypeToStr(E_MRTType::Light));
 
 		// Merge shader에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅.
 		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
@@ -482,4 +485,21 @@ void CRenderManager::_RenderClear()
 {
 	m_vecLight2D.clear();
 	m_vecLight3D.clear();
+}
+
+tstring MRTTypeToStr(E_MRTType _eType)
+{
+	tstring strName = {};
+	switch (_eType) {
+	case E_MRTType::Deferred:
+		strName = _T("Deferred");
+	case E_MRTType::Light:
+		strName = _T("Light");
+	case E_MRTType::SwapChain:
+		strName = _T("Light");
+	default:
+		assert(nullptr && _T("MRT Type name error"));
+		break;
+	}
+	return strName;
 }

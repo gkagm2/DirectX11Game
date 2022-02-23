@@ -35,8 +35,10 @@ void CGraphicsShader::UpdateData()
 	//// InputLayout(Semantic) 설정
 	CONTEXT->IASetInputLayout(m_pLayout.Get());
 
-	//// 장치가 사용 할 VertexShader, PixelShader 세팅
+	//// 장치가 사용 할 Shader 세팅
 	CONTEXT->VSSetShader(m_pVS.Get(), 0, 0);
+	CONTEXT->HSSetShader(m_pHS.Get(), 0, 0);
+	CONTEXT->DSSetShader(m_pDS.Get(), 0, 0);
 	CONTEXT->GSSetShader(m_pGS.Get(), 0, 0);
 	CONTEXT->PSSetShader(m_pPS.Get(), 0, 0);
 

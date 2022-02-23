@@ -19,6 +19,11 @@ public:
 	virtual void UpdateData() override;
 	void Clear();
 
+	UINT GetRenderTargetCount() { return m_iRTCount; }
+	bool DidUsePrevDS() { return m_bUsePrevDS; }
+	SharedPtr<CTexture>* GetRenderTargetTextures() { return m_arrRTTex; }
+	SharedPtr<CTexture> GetDepthStencilTexture() { return m_pDSTex; }
+
 public:
 	CLONE_DISABLE(CMRT);
 	CMRT() = delete;

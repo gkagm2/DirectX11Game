@@ -78,12 +78,12 @@ void CLight3D::Render()
 	if (nullptr == m_pMesh || 
 		nullptr == m_pMtrl || 
 		nullptr == m_pMtrl->GetShader() || 
-		E_RenderTimePoint::Light == m_pMtrl->GetShader()->GetRenderTimePoint())
+		E_RenderTimePoint::Light != m_pMtrl->GetShader()->GetRenderTimePoint())
 		return;
 
 	switch (m_tInfo.eLightType) {
 	case E_LightType::Direction: {
-		Transform()->UpdateData();
+		//Transform()->UpdateData();
 		break;
 	}
 	case E_LightType::Point: {

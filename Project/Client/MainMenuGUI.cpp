@@ -19,6 +19,7 @@
 #include "CollisionEditorGUI.h"
 #include "Animator2DEditorGUI.h"
 #include "ToolCameraGUI.h"
+#include "DeferredViewGUI.h"
 
 
 // Captain Forever Game
@@ -74,11 +75,10 @@ void MainMenuGUI::Update()
         }
 
         // File Menu
-        if(ImGui::BeginMenu("Setting")) {
-            if (ImGui::MenuItem("Show Collision")) {
-               //CCollisionManager::GetInstance()->Is
+        if(ImGui::BeginMenu("ETC")) {
+            if (ImGui::MenuItem("Deferred Rendering Viewer")) {
+                OpenDeferredViewUI();
             }
-
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
@@ -441,6 +441,16 @@ void MainMenuGUI::OpenDebugUI()
     DebugGUI* pGUI = dynamic_cast<DebugGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_Debug));
     if (!pGUI) {
         assert(nullptr && _T("Debug GUI를 열 수 없다."));
+        return;
+    }
+    pGUI->SetActive(true);
+}
+
+void MainMenuGUI::OpenDeferredViewUI()
+{
+    DeferredViewGUI* pGUI = dynamic_cast<DeferredViewGUI*>(CImGuiManager::GetInstance()->FindGUI(STR_GUI_DeferredView));
+    if (!pGUI) {
+        assert(nullptr && _T("Deferred Viewer를 열 수 없다."));
         return;
     }
     pGUI->SetActive(true);

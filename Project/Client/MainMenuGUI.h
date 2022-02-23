@@ -50,6 +50,7 @@ public:
 	void OpenSceneViewUI();
 	void OpenDebugUI();
 
+	void OpenDeferredViewUI();
 	// Editor
 	void OpenTileMapEditor();
 	void OpenCollisionEditor();

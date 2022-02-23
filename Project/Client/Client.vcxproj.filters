@@ -236,6 +236,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI">
       <UniqueIdentifier>{8b2e4b17-0c9f-480c-a2ed-95281fc75b82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Tools\04. GUI\DeferredView">
+      <UniqueIdentifier>{7cf82a4f-d6e3-43dc-981b-514a1d403b1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -456,6 +459,9 @@
     <ClInclude Include="SkyboxGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI</Filter>
     </ClInclude>
+    <ClInclude Include="DeferredViewGUI.h">
+      <Filter>03. Tools\04. GUI\DeferredView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -656,6 +662,9 @@
     </ClCompile>
     <ClCompile Include="SkyboxGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\SkyboxGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredViewGUI.cpp">
+      <Filter>03. Tools\04. GUI\DeferredView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
