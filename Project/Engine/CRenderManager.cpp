@@ -359,21 +359,25 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			(UINT)vResolution.x, (UINT)vResolution.y, 
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
 			bindFlag);
+		arrTex[0]->SetName(_T("Color Target Texture"));
 
 		arrTex[1] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_NormalTargetTex, 
 			(UINT)vResolution.x, (UINT)vResolution.y, 
 			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
 			bindFlag);
+		arrTex[1]->SetName(_T("Normal Target Texture"));
 
 		arrTex[2] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_PositionTargetTex, 
 			(UINT)vResolution.x, (UINT)vResolution.y, 
 			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
 			bindFlag);
+		arrTex[2]->SetName(_T("Position Target Texture"));
 
 		arrTex[3] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_DataTargetTex, 
 			(UINT)vResolution.x, (UINT)vResolution.y, 
 			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 
 			bindFlag);
+		arrTex[3]->SetName(_T("Data Target Texture"));
 
 		m_arrMRT[(UINT)E_MRTType::Deferred] = new CMRT(arrTex, arrClearColor, 4, nullptr, true);
 		m_arrMRT[(UINT)E_MRTType::Deferred]->SetName(MRTTypeToStr(E_MRTType::Deferred));
@@ -406,16 +410,19 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			(UINT)vResolution.x, (UINT)vResolution.y,
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
 			bindFlag);
+		arrTex[0]->SetName(_T("Diffuse Target Texture"));
 
 		arrTex[1] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_SpecularTargetTex,
 			(UINT)vResolution.x, (UINT)vResolution.y,
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
 			bindFlag);
+		arrTex[1]->SetName(_T("Specular Target Texture"));
 
 		arrTex[2] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowTargetTex,
 			(UINT)vResolution.x, (UINT)vResolution.y,
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
 			bindFlag);
+		arrTex[2]->SetName(_T("Shadow Target Texture"));
 
 		m_arrMRT[(UINT)E_MRTType::Light] = new CMRT(arrTex, arrClearColor, 3, nullptr, false);
 		m_arrMRT[(UINT)E_MRTType::Light]->SetName(MRTTypeToStr(E_MRTType::Light));
@@ -493,10 +500,13 @@ tstring MRTTypeToStr(E_MRTType _eType)
 	switch (_eType) {
 	case E_MRTType::Deferred:
 		strName = _T("Deferred");
+		break;
 	case E_MRTType::Light:
 		strName = _T("Light");
+		break;
 	case E_MRTType::SwapChain:
-		strName = _T("Light");
+		strName = _T("SwapChain");
+		break;
 	default:
 		assert(nullptr && _T("MRT Type name error"));
 		break;

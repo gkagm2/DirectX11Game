@@ -23,6 +23,8 @@ public:
 	bool DidUsePrevDS() { return m_bUsePrevDS; }
 	SharedPtr<CTexture>* GetRenderTargetTextures() { return m_arrRTTex; }
 	SharedPtr<CTexture> GetDepthStencilTexture() { return m_pDSTex; }
+	Vector4* GetClearColor() { return m_arrClearColor; }
+	
 
 public:
 	CLONE_DISABLE(CMRT);
