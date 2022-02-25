@@ -25,11 +25,11 @@ CRenderManager::CRenderManager() :
 CRenderManager::~CRenderManager()
 {
 	// Debug
-	Safe_Delete_Vector(m_vecDebugObjPool);
-	if (m_pDebugShader.Get())
-		delete m_pDebugShader.Get();
 	if (m_pDebugMtrl.Get())
 		delete m_pDebugMtrl.Get();
+	if (m_pDebugShader.Get())
+		delete m_pDebugShader.Get();
+	Safe_Delete_Vector(m_vecDebugObjPool);
 	Safe_Delete_Array(m_arrMRT);
 }
 
@@ -142,14 +142,35 @@ void CRenderManager::Render()
 
 void CRenderManager::_RenderInGame()
 {
-	// In Game Scene의 카메라 기준 렌더링
-	for (UINT i = 0; i < m_vecCam.size(); ++i) {
+	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+
+	for (size_t i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->_SortObjects();
 
-		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+	// Deferred 물체 정보를 그리기
+	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+	for (size_t i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->_RenderDeferred();
 
-		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
+	for (size_t i = 0; i < m_vecCam.size(); ++i) {
+		// Light Render 
+		for (size_t i = 0; i < m_vecLight2D.size(); ++i)
+			m_vecLight2D[i]->Render();
+		for (size_t i = 0; i < m_vecLight3D.size(); ++i)
+			m_vecLight3D[i]->Render();
+	}
+
+	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+	static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+	pMergeMtrl->UpdateData();
+	pRectMesh->Render();
+	pMergeMtrl->Clear();
+
+	for (size_t i = 0; i < m_vecCam.size(); ++i) {
 		m_vecCam[i]->_RenderForward();
 		m_vecCam[i]->_RenderParticle();
 		m_vecCam[i]->_RenderCollider2D();
@@ -160,31 +181,34 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	// Tool 기준 렌더링
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData(); 
+
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
 		m_vecToolCam[i]->_SortObjects();
 
-		// Deferred 물체 정보를 그리기
-		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+	// Deferred 물체 정보를 그리기
+	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
 		m_vecToolCam[i]->_RenderDeferred();
 
+	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 		// Light Render 
-		GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
 		for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 			m_vecLight2D[i]->Render();
 		for (size_t i = 0; i < m_vecLight3D.size(); ++i)
 			m_vecLight3D[i]->Render();
+	}
+	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+	static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+	pMergeMtrl->UpdateData();
+	pRectMesh->Render();
+	pMergeMtrl->Clear();
 
-		// Deferred에 그려진 정보를 Swapchain Target으로 옮김
-		SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
-		assert(pRectMesh.Get());
-		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
-		assert(pMergeMtrl.Get());
-		pMergeMtrl->UpdateData();
-		pRectMesh->Render();
-		pMergeMtrl->Clear();
-
-		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 		m_vecToolCam[i]->_RenderForward();
 		m_vecToolCam[i]->_RenderParticle();
 		m_vecToolCam[i]->_RenderCollider2D();
@@ -348,10 +372,10 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	{
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
 		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
-			Vector4::Zero,
-			Vector4::Zero,
-			Vector4::Zero,
-			Vector4::Zero,
+			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
 		};
 
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -399,9 +423,9 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	{
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
 		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
-			Vector4::Zero,
-			Vector4::Zero,
-			Vector4::Zero,
+			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
 		};
 
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -431,8 +455,8 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
 		assert(pMergeMtrl.Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex).Get());
-		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
-		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DiffuseTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_SpecularTargetTex).Get());
 	}
 }
 

@@ -980,7 +980,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader3DDeferred, STR_FUNC_NAME_PIXShader3DDeferred);
 
 	pShader->SetRasterizerState(E_RasterizerState::CullBack);
-	pShader->SetBlendState(E_BlendState::Default);
+	pShader->SetBlendState(E_BlendState::Default); // 투명처리 X
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("ColorTexture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("Normal Map Texture") });

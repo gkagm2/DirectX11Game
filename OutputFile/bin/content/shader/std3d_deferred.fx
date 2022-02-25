@@ -5,9 +5,9 @@
 
 /////////////////////////////
 // Render Point : Deferred
-#define ColorTex        g_tex_0
+#define ColorTex        g_tex_0 // 물체의 순수 색상
 #define NormalMapTex    g_tex_1
-#define SpecularMapTex  g_tex_2
+#define SpecularMapTex  g_tex_2 // 반사계수
 
 #define bColorTex       bTex_0
 #define bNormalMapTex   bTex_1
@@ -76,7 +76,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
         float3 vNormal = NormalMapTex.Sample(Sample_Anisotropic, _in.vUV).xyz;
         vNormal = vNormal * 2.f - 1.f; // -1 ~ 1 사이로 변환
 
-        // 탄젠트 스페이스에서 픽셀(현재 호출된 쉐이더)의 표면으로 전환하기 위한 회전행렬
+        // 탄젠트 스페이스에서 픽셀(현재 호출된 쉐이더)의 표면좌표로 전환하기 위한 회전행렬
         float3x3 matRotates =
         {
             _in.vViewTangent,
@@ -96,6 +96,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     vOutput.vViewNormal.xyz = vViewNormal;
     vOutput.vViewPos.xyz = _in.vViewPos;
     
+    // 디퍼드 단계에서는 반투명 처리를 하지 않음.
     vOutput.vColor.a = 1.f;
     vOutput.vViewNormal.a = 1.f;
     vOutput.vViewPos.a = 1.f;
@@ -110,6 +111,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 #define ColorTargetTex          g_tex_0
 #define DiffuseTargetTex        g_tex_1
 #define SpecularTargetTex       g_tex_2
+// data target tex : g_tex_3
 /////////////////////////////////////
 
 struct VS_MERGE_IN

@@ -37,6 +37,7 @@ public:
 	void SetTargetResource(CResource* _pTargetResource);
 
 	void SetInspectorUIMode(E_InspectorUIMode _eMode) { m_eMode = _eMode; }
+	E_InspectorUIMode GetInspectorUIMode() { return m_eMode; }
 
 	CGameObject* GetTargetObject() { return m_pTargetObject; }
 	CResource* GetTargetResource() { return m_pTargetResource; }
