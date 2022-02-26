@@ -364,7 +364,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		};
 		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DSTexture);
 		 
-		m_arrMRT[(UINT)E_MRTType::SwapChain] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+		m_arrMRT[(UINT)E_MRTType::SwapChain] = new CMRT(arrTex, arrClearColor, 1, pDSTex, true);
 		m_arrMRT[(UINT)E_MRTType::SwapChain]->SetName(MRTTypeToStr(E_MRTType::SwapChain));
 	}
 
@@ -372,10 +372,10 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	{
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
 		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
-			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
-			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
-			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
-			Vector4(0.0f,0.0f,0.5f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
 		};
 
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -423,9 +423,9 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	{
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
 		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
-			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
-			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
-			Vector4(0.0f,0.5f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
+			Vector4(0.0f,0.0f,0.0f,1.f),//Vector4::Zero,
 		};
 
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -444,7 +444,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 
 		arrTex[2] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowTargetTex,
 			(UINT)vResolution.x, (UINT)vResolution.y,
-			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,
 			bindFlag);
 		arrTex[2]->SetName(_T("Shadow Target Texture"));
 

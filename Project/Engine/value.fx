@@ -116,7 +116,7 @@ StructuredBuffer<TLightInfo> g_Light3DBuffer : register(t54);
 SamplerState g_sam_0 : register(s0); // Anisotropic
 SamplerState g_sam_1 : register(s1); // Point
 #define Sample_Anisotropic g_sam_0
-#define Sample_Point g_sam_1
+#define Sample_Point g_sam_1 // mip map point
 
 // sampler2D : 2D 텍스쳐에서 텍셀 하나를 구해오는데 사용.
 sampler2D DiffuseSampler2D;

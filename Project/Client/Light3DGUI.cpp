@@ -30,9 +30,11 @@ void Light3DGUI::Update()
 	// Type을 String으로 표시
 	int iCurLightType = (int)tLightInfoRef.eLightType;
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
-	ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), (int)m_vecStrLigthTypeList.size());
+	if (ImGui::Combo("Light Type", &iCurLightType, m_vecStrLigthTypeList.data(), (int)m_vecStrLigthTypeList.size())) {
+		m_pLight->SetLightType((E_LightType)iCurLightType);
+	}
 	ImGui::PopID();
-	tLightInfoRef.eLightType = (E_LightType)iCurLightType;
+	
 
 	switch (tLightInfoRef.eLightType) {
 	case E_LightType::Direction:

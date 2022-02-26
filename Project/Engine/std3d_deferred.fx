@@ -141,10 +141,10 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
     float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
-    float4 vDiffuse = DiffuseTargetTex.Sample(Sample_Point, _in.vUV);
+    float4 vDiffuse_Ambi = DiffuseTargetTex.Sample(Sample_Point, _in.vUV); // diffuse와 ambient가 섞여있음.
     float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
     
-    vOutColor = vColor * vDiffuse + vSpecular;
+    vOutColor = vColor * vDiffuse_Ambi + vSpecular;
     vOutColor.a = 1.f;
     return vOutColor;
 }

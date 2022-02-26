@@ -1018,7 +1018,6 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_DirectionLightShader, pShader);
 
-
 	//----------------------------
 	// Point Light Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Light);
