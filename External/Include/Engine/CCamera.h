@@ -50,6 +50,8 @@ private:
 	vector<CGameObject*> m_vecPostEffect;
 	vector<CGameObject*> m_vecCollider2D;
 
+	CGameObject* m_pCamObj;
+
 public:
 	virtual void FinalUpdate() override;
 	

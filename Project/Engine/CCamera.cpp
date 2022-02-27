@@ -30,7 +30,8 @@ CCamera::CCamera() :
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
 	m_matProjection{},
-	m_iLayerCheck(0)
+	m_iLayerCheck(0),
+	m_pCamObj{nullptr}
 {
 	SetLayerCheckAll();
 }

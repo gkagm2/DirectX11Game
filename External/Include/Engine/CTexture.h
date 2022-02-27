@@ -37,6 +37,8 @@ public:
 
 public:
 	Vector2 GetResolution() { return Vector2((float)m_tDesc.Width, (float)m_tDesc.Height); }
+	float GetWidth() { return (float)m_tDesc.Width; }
+	float GetHeight() { return (float)m_tDesc.Height; }
 
 public:
 	static void Clear(UINT _iRegisterNum);

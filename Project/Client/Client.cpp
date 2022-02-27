@@ -96,7 +96,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // TestScene 생성
     
     CTestScene::CreateTestScene();
+
+#ifndef _DEBUG_GRAPHICS
     CImGuiManager::GetInstance()->Init();
+#endif
 
     // Main message loop:
     while (true)
@@ -117,9 +120,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             // Tool Objects
             CToolObjManager::GetInstance()->Progress();
 
+#ifndef _DEBUG_GRAPHICS
             // ImGUI Run
             CImGuiManager::GetInstance()->Progress();
-       
+#endif
+
             // 백버퍼 교체
             CDevice::GetInstance()->Present();
         }
@@ -145,7 +150,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEXW wcex = {};
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 

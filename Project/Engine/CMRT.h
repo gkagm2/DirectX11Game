@@ -15,6 +15,9 @@ private:
 	UINT m_iRTCount;	// Render Target Count
 	bool m_bUsePrevDS;	// Previous Depth Stencil (이전의 MRT에서 깊이 스텐실 버퍼가 있다면 이어받음 여부)
 
+	// ViewPort 정보
+	D3D11_VIEWPORT m_ViewPort;
+
 public:
 	virtual void UpdateData() override;
 	void Clear();

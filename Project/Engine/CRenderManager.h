@@ -7,6 +7,7 @@
 
 enum class E_MRTType {
 	SwapChain,
+	ShadowDepth,
 	Deferred,
 	Light,
 	End

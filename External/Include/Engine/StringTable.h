@@ -233,6 +233,8 @@
 #define STR_ResourceKey_SpecularTargetTex _T("SpecularTargetTex")
 #define STR_ResourceKey_ShadowTargetTex _T("ShaderTargetTex")
 
+#define STR_ResourceKey_ShadowDepthTargetTex _T("ShadowDepthTargetTex")
+
 
 // Tool Object name
 #define STR_TOOL_OBJ_NAME_ToolCamera _T("Tool Camera_Engine")
