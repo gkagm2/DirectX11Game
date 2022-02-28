@@ -34,6 +34,7 @@
 #define STR_DIR_PATH_Material _T("material\\")
 #define STR_FILE_PATH_PostEffectShader _T("shader\\posteffect.fx")
 #define STR_FILE_PATH_ShaderLight _T("shader\\light.fx")
+#define STR_FILE_PATH_ShaderShadow _T("shader\\shadow.fx")
 
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
@@ -122,6 +123,10 @@
 #define STR_FUNC_NAME_VTXPointLight "VS_PointLight"
 #define STR_FUNC_NAME_PIXPointLight "PS_PointLight"
 
+// shadow.fx functions name
+#define STR_FUNC_NAME_VTXShadowDepth "VS_ShadowDepth"
+#define STR_FUNC_NAME_PIXShadowDepth "PS_ShadowDepth"
+
 
 // particle.fx functions name
 #define STR_FUNC_NAME_VTX_Particle "VS_Particle"
@@ -180,6 +185,7 @@
 #define STR_KEY_SkyboxShader _T("SkyboxShader")
 #define STR_KEY_DirectionLightShader _T("DirectionLightShader")
 #define STR_KEY_PointLightShader _T("PointLightShader")
+#define STR_KEY_ShadowDepthShader _T("ShadowDepthShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -216,6 +222,7 @@
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 #define STR_KEY_DirectionLightMtrl _T("DirectionLightMaterial")
 #define STR_KEY_PointLightMtrl _T("PointLightMaterial")
+#define STR_KEY_ShadowDepthMtrl _T("ShadowDepthMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")

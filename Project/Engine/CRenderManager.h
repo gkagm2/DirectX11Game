@@ -7,9 +7,9 @@
 
 enum class E_MRTType {
 	SwapChain,
-	ShadowDepth,
 	Deferred,
 	Light,
+	ShadowMap,
 	End
 };
 tstring MRTTypeToStr(E_MRTType _eType);
@@ -23,6 +23,8 @@ private:
 	vector<CCamera*> m_vecCam;
 	vector<CLight2D*> m_vecLight2D;
 	vector<CLight3D*> m_vecLight3D;
+	// TODO (Jang) : vector로 바꾸기 (directional light)
+	CLight3D* m_pMainDirLight; // 방향성 광원
 
 	vector<CCamera*> m_vecToolCam; // Tool용 카메라
 
@@ -58,10 +60,7 @@ public:
 		m_vecLight2D.push_back(_pLight2D);
 		return (int)(m_vecLight2D.size() - 1);
 	}
-	int RegisterLight3D(CLight3D* _pLight3D) {
-		m_vecLight3D.push_back(_pLight3D);
-		return (int)(m_vecLight3D.size() - 1);
-	}
+	int RegisterLight3D(CLight3D* _pLight3D);
 
 	// Tool Camera
 	void RegisterToolCamera(CCamera* _pCamera) { m_vecToolCam.push_back(_pCamera); }
@@ -91,6 +90,8 @@ private:
 	void _UpdateData_Light3D();
 	void _Update_GlobalData();
 	void _RenderClear();
+	void _Render_Dynamic_ShadowDepth();
+
 
 	friend void CCamera::_RenderPostEffect();
 };

@@ -42,7 +42,8 @@ CGameObject::CGameObject() :
 	m_bDead(false),
 	m_bActive(true),
 	m_iLocalAddress(-1),
-	m_pRenderComponenet{ nullptr }
+	m_pRenderComponenet{ nullptr },
+	m_bDynamicShadow(false)
 {
 }
 
@@ -55,7 +56,8 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_bDead(false),
 	m_bActive(_origin.m_bActive),
 	m_iLocalAddress(_origin.m_iLocalAddress),
-	m_pRenderComponenet{ nullptr }
+	m_pRenderComponenet{ nullptr },
+	m_bDynamicShadow(_origin.m_bDynamicShadow)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != _origin.m_arrComponent[i])
@@ -188,7 +190,8 @@ void CGameObject::LateUpdate()
 
 void CGameObject::FinalUpdate()
 {
-	_RegisterLayer(); // 레이어 등록
+	if(m_iLayer < MAX_SIZE_LAYER)
+		_RegisterLayer(); // 레이어 등록
 
 	if (IsDead())
 		return;
@@ -522,7 +525,7 @@ void CGameObject::_AddChildGameObject(CGameObject* _pChildObj, bool _IsSaveLoad)
 void CGameObject::_RegisterLayer()
 {
 	CLayer* pLayer = CSceneManager::GetInstance()->GetCurScene()->GetLayer(m_iLayer);
-	if (m_iLayer < 0)
+	if (m_iLayer >= MAX_SIZE_LAYER)
 		assert(nullptr);
 	else
 		pLayer->RegisterGameObject(this);
@@ -757,6 +760,9 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 
 	FWrite(m_iTag, _pFile);
 	
+	// TODO (Jang) : 버전업데이트 할 때 추가
+	//FWrite(m_bDynamicShadow, _pFile);
+
 	// 자식 오브젝트
 	UINT iChildCount = (UINT)m_vecChildObj.size();
 	FWrite(iChildCount, _pFile);
@@ -797,6 +803,9 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 		FRead(m_iLayer, _pFile);
 
 	FRead(m_iTag, _pFile);
+	
+	// TODO (Jang) : 버전업데이트 할 때 추가
+	//FRead(m_bDynamicShadow, _pFile);
 
 	// 자식 정보
 	++_iDepth;

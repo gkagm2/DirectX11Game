@@ -15,6 +15,8 @@ private:
 	SharedPtr<CMesh> m_pMesh;		// 광원의 범위를 나타낼 볼륨 메쉬
 	SharedPtr<CMaterial> m_pMtrl;   // 광원 MRT 에 광원을 랜더링 하는 재질
 
+	CGameObject* m_pLightCamObj; // Light 내부 카메라
+
 public:
 	virtual void Render() override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
@@ -24,6 +26,7 @@ public:
 
 public:
 	void SetLightType(E_LightType _eType);
+	E_LightType GetLightType() { return m_tInfo.eLightType; }
 	void SetAngle(float _fDegree) { m_tInfo.fAngle_Radian = _fDegree * CMyMath::Deg2Rad(); }
 	float GetAngle() { return m_tInfo.fAngle_Radian * CMyMath::Rad2Deg(); }
 	void SetDiffColor(const Vector3& _vColor) { m_tInfo.tColor.vDiffuse = _vColor; }
@@ -37,9 +40,14 @@ public:
 	float GetRange() { return m_tInfo.fRange; }
 	const TLightInfo& GetLightInfo() { return m_tInfo; }
 	TLightInfo& GetLightInfoRef() { return m_tInfo; }
+	CCamera* GetLight3DCam() { return m_pLightCamObj->Camera(); }
+
+private:
+	void _CreateLight3DCamera();
 
 public:
 	CLONE(CLight3D);
 	CLight3D();
+	CLight3D(const CLight3D& _origin);
 	virtual ~CLight3D() override;
 };

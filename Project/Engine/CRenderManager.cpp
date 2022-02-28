@@ -18,7 +18,8 @@ CRenderManager::CRenderManager() :
 	m_pLight2DBuffer(nullptr),
 	m_pLight3DBuffer(nullptr),
 	m_pPostEffectTargetTex(nullptr),
-	m_arrMRT{}
+	m_arrMRT{},
+	m_pMainDirLight{ nullptr }
 {
 }
 
@@ -142,6 +143,9 @@ void CRenderManager::Render()
 
 void CRenderManager::_RenderInGame()
 {
+	// directional light 시점에서 동적 그림자 깊이맵 만들기
+	_Render_Dynamic_ShadowDepth();
+
 	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 
@@ -181,7 +185,12 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+
+	// directional light 시점에서 동적 그림자 깊이맵 만들기
+	_Render_Dynamic_ShadowDepth();
+
+	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	 ( Main Camera 시점으로 Rendering)
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData(); 
 
 	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
@@ -237,6 +246,15 @@ void CRenderManager::_RenderDebug()
 			++iter;
 		}
 	}
+}
+
+int CRenderManager::RegisterLight3D(CLight3D* _pLight3D)
+{
+	if (E_LightType::Direction == _pLight3D->GetLightType())
+		m_pMainDirLight = _pLight3D;
+
+	m_vecLight3D.push_back(_pLight3D);
+		return (int)(m_vecLight3D.size() - 1);
 }
 
 CCamera* CRenderManager::GetMainCamera()
@@ -480,7 +498,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 				Vector4::Zero
 		};
 
-		m_arrMRT[(UINT)E_MRTType::ShadowDepth] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+		m_arrMRT[(UINT)E_MRTType::ShadowMap] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
 	}
 }
 
@@ -540,20 +558,38 @@ void CRenderManager::_RenderClear()
 {
 	m_vecLight2D.clear();
 	m_vecLight3D.clear();
+	m_pMainDirLight = nullptr;
+}
+
+
+void CRenderManager::_Render_Dynamic_ShadowDepth()
+{
+	if (!m_pMainDirLight)
+		return;
+
+	// Set Shadow Depth map
+	GetMultipleRenderTargets(E_MRTType::ShadowMap)->UpdateData();
+
+	// 광원에 부착된 카메라 기준으로 물체들을 정렬
+	m_pMainDirLight->GetLight3DCam()->_SortObjects_ShadowDepth();
+	m_pMainDirLight->GetLight3DCam()->_RenderDynamic_ShadowDepth();
 }
 
 tstring MRTTypeToStr(E_MRTType _eType)
 {
 	tstring strName = {};
 	switch (_eType) {
+	case E_MRTType::SwapChain:
+		strName = _T("SwapChain");
+		break;
 	case E_MRTType::Deferred:
 		strName = _T("Deferred");
 		break;
 	case E_MRTType::Light:
 		strName = _T("Light");
 		break;
-	case E_MRTType::SwapChain:
-		strName = _T("SwapChain");
+	case E_MRTType::ShadowMap:
+		strName = _T("ShadowMap");
 		break;
 	default:
 		assert(nullptr && _T("MRT Type name error"));

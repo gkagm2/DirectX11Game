@@ -253,6 +253,9 @@
     <ClInclude Include="CCursor.h">
       <Filter>Engine\Support</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraModule.h">
+      <Filter>Engine\07. Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -486,6 +489,9 @@
     <ClCompile Include="CCursor.cpp">
       <Filter>Engine\Support</Filter>
     </ClCompile>
+    <ClCompile Include="CCameraModule.cpp">
+      <Filter>Engine\07. Component\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -716,6 +722,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="light.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="shadow.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

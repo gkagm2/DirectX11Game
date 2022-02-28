@@ -44,6 +44,7 @@ private:
 	bool m_bDead;
 	bool m_bActive;
 	int m_iLocalAddress;
+	bool m_bDynamicShadow;   // 동적 그림자 생성
 
 public:
 	virtual void Awake() override;
@@ -92,6 +93,10 @@ public:
 	TYPE* FindComponentInParent(bool _bIncludeMine = false);
 	
 	CGameObject* GetRootObject();
+
+public:
+	bool IsDynamicShadow() { return m_bDynamicShadow; }
+	void SetDynamicShadow(bool _bSet) { m_bDynamicShadow = _bSet; }
 
 private:
 	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }

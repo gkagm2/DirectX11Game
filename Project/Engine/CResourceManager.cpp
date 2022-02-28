@@ -1032,6 +1032,20 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_PointLightShader, pShader);
 	
+	// TODO (Jang) : Spot Light
+	//----------------------------
+	// Spot Light Shader
+
+
+	//----------------------------
+	// Shadow Depth Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::ShadowMap);
+	pShader->CreateVertexShader(STR_FILE_PATH_ShaderShadow, STR_FUNC_NAME_VTXShadowDepth);
+	pShader->CreatePixelShader(STR_FILE_PATH_ShaderShadow, STR_FUNC_NAME_PIXShadowDepth);
+	pShader->SetRasterizerState(E_RasterizerState::CullBack);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
+	AddRes(STR_KEY_ShadowDepthShader, pShader);
+
 	//----------------------------
 	// SkyBox Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
@@ -1217,11 +1231,19 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderPointLight);
 	AddRes(STR_KEY_PointLightMtrl, pMtrl);
 
+	// TODO (Jang) : Spot light 犁龙 积己
+
 	// Merge Shader 犁龙 积己
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderMerge = LoadRes<CGraphicsShader>(STR_KEY_MergeShader);
 	pMtrl->SetShader(pShaderMerge);
 	AddRes(STR_KEY_MergeMtrl, pMtrl);
+
+	// Shadow Depth
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderShadowDepth = LoadRes<CGraphicsShader>(STR_KEY_ShadowDepthShader);
+	pMtrl->SetShader(pShaderShadowDepth);
+	AddRes(STR_KEY_ShadowDepthMtrl, pMtrl);
 
 	// Skybox
 	pMtrl = new CMaterial(true);

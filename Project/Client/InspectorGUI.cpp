@@ -111,7 +111,7 @@ void InspectorGUI::Init()
 
 	// CameraGUI
 	m_arrComGUI[(UINT)E_ComponentType::Camera] = new CameraGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 310.f));
+	m_arrComGUI[(UINT)E_ComponentType::Camera]->SetUISize(ImVec2(0.f, 330.f));
 
 	// ParticleSystemGUI
 	m_arrComGUI[(UINT)E_ComponentType::ParticleSystem] = new ParticleSystemGUI;
@@ -317,7 +317,11 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::Checkbox("with child##SelTag", &bWithChild);
 	ImGui::PopID();
 		
-
+	bool bShadow = m_pTargetObject->IsDynamicShadow();
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::Checkbox("Dynamic Shadow##DynamicShadowSel", &bShadow))
+		m_pTargetObject->SetDynamicShadow(bShadow);
+	ImGui::PopID();
 
 	// FIXED(Jang) : 테스트용
 	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());

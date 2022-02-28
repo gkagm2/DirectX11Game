@@ -10,6 +10,7 @@
 #include "CMeshRenderer.h"
 #include "CSpriteRenderer.h"
 #include "CCanvasRenderer.h"
+#include "CResourceManager.h"
 #include "CCore.h"
 
 #include "CCollider2D.h"
@@ -30,10 +31,12 @@ CCamera::CCamera() :
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
 	m_matProjection{},
-	m_iLayerCheck(0),
-	m_pCamObj{nullptr}
+	m_iLayerCheck(0)
 {
 	SetLayerCheckAll();
+
+	m_tViewportRect.fWidth = CDevice::GetInstance()->GetRenderResolution().x;
+	m_tViewportRect.fHeight = CDevice::GetInstance()->GetRenderResolution().y;
 }
 
 CCamera::~CCamera()
@@ -150,13 +153,13 @@ void CCamera::CalculateViewMatrix()
 
 void CCamera::CalculateProjectionMatrix()
 {
-	const Vector2& vRenderResolution = CDevice::GetInstance()->GetRenderResolution();
+	
 	if (E_ProjectionType::Orthographic == m_eProjectionType) {
-		m_matProjection = XMMatrixOrthographicLH(vRenderResolution.x * m_fSize, vRenderResolution.y * m_fSize, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
+		m_matProjection = XMMatrixOrthographicLH(m_tViewportRect.fWidth * m_fSize, m_tViewportRect.fHeight * m_fSize, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
 	}
 	else if (E_ProjectionType::Perspective == m_eProjectionType) {
 		// 화면 종횡비
-
+		const Vector2& vRenderResolution = CDevice::GetInstance()->GetRenderResolution();
 		float fFov = XM_PI / 3.f;
 		float fAspectRatio = vRenderResolution.x / vRenderResolution.y;
 		m_matProjection = XMMatrixPerspectiveFovLH(fFov, fAspectRatio, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
@@ -345,4 +348,54 @@ void CCamera::_RenderCanvas()
 {
 	for (UINT i = 0; i < m_vecCanvas.size(); ++i)
 		m_vecCanvas[i]->Render();
+}
+
+void CCamera::_SortObjects_ShadowDepth()
+{
+	m_vecShadowDepth.clear();
+
+	// 현재 Scene 가져옴
+	CScene* pCurScene = CSceneManager::GetInstance()->GetCurScene();
+
+	for (int i = 0; i < MAX_SIZE_LAYER; ++i) {
+		if ((m_iLayerCheck & (1 << i)) > 0) { // 체크된 레이어면
+			CLayer* pLayer = pCurScene->GetLayer(i);
+
+			const vector<CGameObject*>& vecAllObj = pLayer->GetGameObjects();
+
+			E_RenderTimePoint eRT = E_RenderTimePoint::None;
+
+			for (size_t i = 0; i < vecAllObj.size(); ++i) {
+				if (vecAllObj[i]->IsDynamicShadow() && vecAllObj[i]->MeshRenderer()) {
+					if (nullptr == vecAllObj[i]->MeshRenderer()->GetMesh() ||
+						nullptr == vecAllObj[i]->MeshRenderer()->GetSharedMaterial() ||
+						nullptr == vecAllObj[i]->MeshRenderer()->GetSharedMaterial()->GetShader())
+						continue;
+
+					m_vecShadowDepth.push_back(vecAllObj[i]);
+				}
+			}
+		}
+	}
+}
+
+void CCamera::_RenderDynamic_ShadowDepth()
+{
+	g_transform.matView = m_matView;
+	g_transform.matProjection = m_matProjection;
+	g_transform.matViewInv = m_matViewInv;
+
+	// Shadow Depth Render
+	static SharedPtr<CMaterial> pShadowDepthMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_ShadowDepthMtrl);
+	assert(pShadowDepthMtrl.Get());
+	for (size_t i = 0; i < m_vecShadowDepth.size(); ++i) {
+		// Transform 업데이트
+		m_vecShadowDepth[i]->Transform()->UpdateData();
+
+		// Material 업데이트	
+		pShadowDepthMtrl->UpdateData();
+
+		// 메쉬 업데이트, Pipeline 실행		
+		m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render();
+	}
 }

@@ -5,23 +5,38 @@
 #include "CTransform.h"
 #include "CMesh.h"
 #include "CMaterial.h"
+#include "CCameraModule.h"
+
 CLight3D::CLight3D() :
-	CComponent(E_ComponentType::Light3D)
+	CComponent(E_ComponentType::Light3D),
+	m_tInfo{},
+	m_pLightCamObj{ nullptr }
 {
 	/*m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
 	m_tInfo.eLightType = E_LightType::Direction;*/
+	m_tInfo.idx = -1;
 	SetLightType(E_LightType::Direction);
+}
 
-	m_tInfo.fAngle_Radian = PI * 0.5f;
-	m_tInfo.fRange = 2.f;
-	m_tInfo.tColor.vDiffuse = Vector4(0.8f, 0.8f, 0.8f, 1.f);
-	m_tInfo.tColor.vEmbient = Vector4(0.8f, 0.8f, 0.8f, 1.f);
-	m_tInfo.tColor.vSpecular = Vector4(0.8f, 0.8f, 0.8f, 1.f);
+CLight3D::CLight3D(const CLight3D& _origin) :
+	CComponent(E_ComponentType::Light3D),
+	m_tInfo(_origin.m_tInfo),
+	m_pLightCamObj{ nullptr }
+{
+	m_tInfo.idx = -1;
+	SetLightType((E_LightType)_origin.m_tInfo.eLightType);
+	
+	if (_origin.m_pLightCamObj)
+		m_pLightCamObj = _origin.m_pLightCamObj->Clone();
 }
 
 CLight3D::~CLight3D()
 {
+	if (m_pLightCamObj) {
+		delete m_pLightCamObj;
+		m_pLightCamObj = nullptr;
+	}
 }
 
 void CLight3D::FinalUpdate()
@@ -35,7 +50,18 @@ void CLight3D::FinalUpdate()
 		}
 		pParentObj = pParentObj->GetParentObject();
 	}
+
+	if (m_pLightCamObj) {
+		m_pLightCamObj->Transform()->SetLocalPosition(Transform()->GetPosition());
+		m_pLightCamObj->Transform()->SetLocalScale(Transform()->GetScale());
+		m_pLightCamObj->Transform()->SetLocalRotation(Transform()->GetRotation());
+		m_pLightCamObj->FinalUpdate();
+	}
+
 	if (isRender) {
+		if (m_pLightCamObj && m_pLightCamObj->IsActive() != isRender)
+			m_pLightCamObj->SetActive(isRender);
+
 		m_tInfo.vLightPos = Transform()->GetPosition();
 		m_tInfo.vLightDir = Transform()->GetFrontVector(); // 정면 방향
 		if (GetGameObject()->IsActive() && IsActive())
@@ -52,14 +78,28 @@ void CLight3D::SetLightType(E_LightType _eType)
 	case E_LightType::Direction:
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
+		if (!m_pLightCamObj)
+			_CreateLight3DCamera();
 		break;
 	case E_LightType::Point:
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
+
+		if (m_pLightCamObj) {
+			delete m_pLightCamObj;
+			m_pLightCamObj = nullptr;
+		}
+
 		break;
 	case E_LightType::Spot:
 		//m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);
 		//m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
+
+		if (m_pLightCamObj) {
+			delete m_pLightCamObj;
+			m_pLightCamObj = nullptr;
+		}
+
 		break;
 	default:
 		assert(nullptr);
@@ -110,6 +150,8 @@ bool CLight3D::LoadFromScene(FILE* _pFile)
 	CComponent::LoadFromScene(_pFile);
 	FRead(m_tInfo, _pFile);
 
+	// TODO (Jang) : Light3D Camera 추가.
+
 	LoadResourceFromFile(m_pMesh, _pFile);
 	LoadResourceFromFile(m_pMtrl, _pFile);
 	return true;
@@ -119,7 +161,25 @@ bool CLight3D::SaveToScene(FILE* _pFile)
 	CComponent::SaveToScene(_pFile);
 	FWrite(m_tInfo, _pFile);
 
+	// TODO (Jang) : Light3D Camera 추가.
+
 	SaveResourceToFile(m_pMesh, _pFile);
 	SaveResourceToFile(m_pMtrl, _pFile);
 	return true;
+}
+
+void CLight3D::_CreateLight3DCamera()
+{
+	m_pLightCamObj = new CGameObject;
+	m_pLightCamObj->SetName(_T("Light3D Inner Camera"));
+	m_pLightCamObj->AddComponent<CTransform>();
+	m_pLightCamObj->AddComponent<CCameraModule>();
+
+	// 모든 레이어를 확인하기위해 모두 check on
+	m_pLightCamObj->Camera()->SetLayerCheckAll();
+
+	// 방향성 광원이므로, 물체의 깊이정보를 직교투영으로 그린다.
+	m_pLightCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	m_pLightCamObj->Camera()->SetViewportWidth(4000.f);
+	m_pLightCamObj->Camera()->SetViewportHeight(4000.f);
 }

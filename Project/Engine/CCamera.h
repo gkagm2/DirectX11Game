@@ -17,8 +17,8 @@ struct TClippingPlanes {
 struct TViewportRect {
 	float fX;
 	float fY;
-	float fWidth;
-	float fHeight;
+	float fWidth;  // 직교투영 가로
+	float fHeight; // 직교투영 세로
 };
 
 class CCamera : public CComponent
@@ -30,7 +30,7 @@ private:
 	TFOVAxis		 m_tFOVAxis;		// field of view axis
 
 	////// 직교투영 (Orthographic) //////
-	float			 m_fSize;			// 투영 사이즈 screen size;
+	float			 m_fSize;	// 투영 사이즈 screen size; 
 
 	TClippingPlanes  m_tClippingPlanes; // near far 조절
 	TViewportRect	 m_tViewportRect;	// 뷰포트 조절
@@ -50,7 +50,8 @@ private:
 	vector<CGameObject*> m_vecPostEffect;
 	vector<CGameObject*> m_vecCollider2D;
 
-	CGameObject* m_pCamObj;
+	vector<CGameObject*>    m_vecShadowDepth;
+
 
 public:
 	virtual void FinalUpdate() override;
@@ -72,6 +73,9 @@ public: // Orthographic
 	void SetClippingPlanes(const TClippingPlanes& _tClippingPlanes) { m_tClippingPlanes = _tClippingPlanes; }
 	const TClippingPlanes& GetClippingPlanes() { return m_tClippingPlanes; }
 	void SetViewportRect(const TViewportRect& _tViewportRect) { m_tViewportRect = _tViewportRect; }
+	void SetViewportWidth(float _fWidth) { m_tViewportRect.fWidth = _fWidth; }
+	void SetViewportHeight(float _fHeight) { m_tViewportRect.fHeight = _fHeight; }
+
 	const TViewportRect& GetViewportRect() { return m_tViewportRect; }
 
 	virtual Vector3 GetScreenToWorld2DPosition(const Vector2& _vPosition);
@@ -114,6 +118,11 @@ private:
 	void _RenderPostEffect();
 	void _RenderCollider2D();
 	void _RenderCanvas(); // UI Canvas
+
+	// 동적 그림자를 생성하기로 한 물체만 확인해서 분류
+	void _SortObjects_ShadowDepth();
+	void _RenderDynamic_ShadowDepth();
+
 public:
 	CLONE(CCamera);
 	CCamera();
