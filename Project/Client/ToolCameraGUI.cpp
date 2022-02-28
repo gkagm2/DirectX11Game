@@ -32,7 +32,7 @@ void ToolCameraGUI::Update()
     ImGui::SetNextWindowSize(ImVec2(400, 50), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(STR_GUI_ToolCamera, &m_bGUIOpen, ImGuiWindowFlags_MenuBar))
     {
-        CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+        CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera(STR_TOOL_OBJ_NAME_ToolCamera);
 
 		// Position UI
 		string strObjName;
@@ -52,6 +52,7 @@ void ToolCameraGUI::Update()
 		if (ParamGUI::Render_ComboBox("Camera Type", &iCurItem, m_strList)) {
 			eProjType = (E_ProjectionType)iCurItem;
 			CToolCameraScript* pToolCamScript = pToolCam->GetGameObject()->GetComponent< CToolCameraScript>();
+			assert(pToolCamScript);
 			if (pToolCamScript)
 				pToolCamScript->ChangeProjectionType(eProjType);
 		}

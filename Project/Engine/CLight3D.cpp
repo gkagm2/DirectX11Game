@@ -84,22 +84,18 @@ void CLight3D::SetLightType(E_LightType _eType)
 	case E_LightType::Point:
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
-
 		if (m_pLightCamObj) {
 			delete m_pLightCamObj;
 			m_pLightCamObj = nullptr;
 		}
-
 		break;
 	case E_LightType::Spot:
-		//m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);
-		//m_pMaterial = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
-
+		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);
+		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
 		if (m_pLightCamObj) {
 			delete m_pLightCamObj;
 			m_pLightCamObj = nullptr;
 		}
-
 		break;
 	default:
 		assert(nullptr);
@@ -123,7 +119,8 @@ void CLight3D::Render()
 
 	switch (m_tInfo.eLightType) {
 	case E_LightType::Direction: {
-		//Transform()->UpdateData();
+		Matrix matDirCamVP = m_pLightCamObj->Camera()->GetViewMatrix() * m_pLightCamObj->Camera()->GetProjectionMatrix();
+		m_pMtrl->SetData(E_ShaderParam::Matrix_0, &matDirCamVP);
 		break;
 	}
 	case E_LightType::Point: {

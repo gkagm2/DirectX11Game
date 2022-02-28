@@ -82,7 +82,9 @@ public: // Orthographic
 	virtual Vector2 GetWorldToScreen2DPosition(const Vector3& _vWorldPosition);
 
 	float GetDistancePerFixel(); // 1 pixel당 거리 구하기
-
+	 const Matrix& GetViewMatrix() { return m_matView; }
+	 const Matrix& GetProjectionMatrix() { return m_matProjection; }
+	 const Matrix& GetViewInverseMatrix() { return m_matViewInv; }
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
@@ -101,9 +103,6 @@ public:
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
-	const Matrix& GetViewMatrix() { return m_matView; }
-	const Matrix& GetProjectionMatrix() { return m_matProjection; }
-	const Matrix& GetViewInverseMatrix() { return m_matViewInv; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

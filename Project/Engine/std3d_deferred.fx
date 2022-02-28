@@ -111,7 +111,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 #define ColorTargetTex          g_tex_0
 #define DiffuseTargetTex        g_tex_1
 #define SpecularTargetTex       g_tex_2
-// data target tex : g_tex_3
+#define ShadowPowTargetTex      g_tex_3
 /////////////////////////////////////
 
 struct VS_MERGE_IN
@@ -143,9 +143,19 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
     float4 vDiffuse_Ambi = DiffuseTargetTex.Sample(Sample_Point, _in.vUV); // diffuse와 ambient가 섞여있음.
     float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
+    float fShadowPow = ShadowPowTargetTex.Sample(Sample_Point, _in.vUV).r;
     
-    vOutColor = vColor * vDiffuse_Ambi + vSpecular;
+    if (0.f == fShadowPow)
+    {
+        vOutColor = vColor * vDiffuse + vSpecular;
+    }
+    else
+    {
+        float fRatio = saturate(1.f - fShadowPow);
+        vOutColor = (vColor * vDiffuse_Ambi + vSpecular) * fRatio;
+    }   
     vOutColor.a = 1.f;
+    
     return vOutColor;
 }
 #endif

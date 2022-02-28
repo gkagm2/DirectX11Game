@@ -452,7 +452,6 @@
     <ClInclude Include="Light3DGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LightGUI\Light3DGUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\CRenderManager.h" />
     <ClInclude Include="CToolGridScript.h">
       <Filter>03. Tools\03. Scripts\Grid</Filter>
     </ClInclude>

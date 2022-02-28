@@ -319,7 +319,7 @@ inline TYPE* CGameObject::GetComponent()
 
 	//// Script TypeÀÏ °æ¿ì    
 	TYPE* pComponent = GetComponentScript<TYPE>();
-	return nullptr;
+	return pComponent;
 }
 
 template<typename TYPE>

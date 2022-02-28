@@ -122,6 +122,8 @@
 #define STR_FUNC_NAME_PIXDirLight "PS_DirLight"
 #define STR_FUNC_NAME_VTXPointLight "VS_PointLight"
 #define STR_FUNC_NAME_PIXPointLight "PS_PointLight"
+#define STR_FUNC_NAME_VTXSpotLight "VS_SpotLight"
+#define STR_FUNC_NAME_PIXSpotLight "PS_SpotLight"
 
 // shadow.fx functions name
 #define STR_FUNC_NAME_VTXShadowDepth "VS_ShadowDepth"
@@ -159,6 +161,8 @@
 #define STR_KEY_LineStripMesh _T("LineStriptMesh")
 #define STR_KEY_LineListMesh _T("LineListMesh")
 #define STR_KEY_DebugSphereMesh _T("DebugSphereMesh")
+#define STR_KEY_ConeMesh _T("ConeMesh")
+#define STR_KEY_ConeFrameMesh _T("ConeFrameMesh")
 
 // Shader
 #define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
@@ -185,6 +189,7 @@
 #define STR_KEY_SkyboxShader _T("SkyboxShader")
 #define STR_KEY_DirectionLightShader _T("DirectionLightShader")
 #define STR_KEY_PointLightShader _T("PointLightShader")
+#define STR_KEY_SpotLightShader _T("SpotLightShader")
 #define STR_KEY_ShadowDepthShader _T("ShadowDepthShader")
 
 // compute shader
@@ -222,6 +227,7 @@
 #define STR_KEY_PostEffectMtrl _T("PostEffectMaterial")
 #define STR_KEY_DirectionLightMtrl _T("DirectionLightMaterial")
 #define STR_KEY_PointLightMtrl _T("PointLightMaterial")
+#define STR_KEY_SpotLightMtrl _T("SpotLightMaterial")
 #define STR_KEY_ShadowDepthMtrl _T("ShadowDepthMaterial")
 
 // Resource View Key
@@ -241,6 +247,7 @@
 #define STR_ResourceKey_ShadowTargetTex _T("ShaderTargetTex")
 
 #define STR_ResourceKey_ShadowDepthTargetTex _T("ShadowDepthTargetTex")
+#define STR_ResourceKey_ShadowDepthStencilTex _T("ShadowDepthStencilTex")
 
 
 // Tool Object name

@@ -116,6 +116,9 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create Sphere")) {
                 CreateSphere();
             }
+            if (ImGui::MenuItem("Create Cone")) {
+                CreateCone();
+            }
             if (ImGui::MenuItem("Create Skybox")) {
                 CreateSkybox();
             }
@@ -357,6 +360,11 @@ void MainMenuGUI::CreateSkybox()
 void MainMenuGUI::CreateLight3D()
 {
     CObjectManager::GetInstance()->CreateLight3D();
+}
+
+void MainMenuGUI::CreateCone()
+{
+    CObjectManager::GetInstance()->CreateCone();
 }
 
 void MainMenuGUI::CreateTextUI()

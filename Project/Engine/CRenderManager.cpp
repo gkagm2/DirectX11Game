@@ -475,6 +475,9 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		pMergeMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DiffuseTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_SpecularTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_3, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowTargetTex).Get());
+
+		assert(CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowTargetTex).Get());
 	}
 
 	// Shadow Depth
@@ -482,23 +485,26 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		// 그림자 판정을 위해서, 광원 시점에서 깊이값을 저장 할 타겟
 		SharedPtr<CTexture> arrTex[8] = {};
 
-		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-
-
 		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(
 			STR_ResourceKey_ShadowDepthTargetTex,
 			4096, 4096,
 			DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,
-			bindFlag);
+			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 
-		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->CreateTexture(L"ShadowDepthStencilTex"
-			, 4096, 4096, DXGI_FORMAT_D32_FLOAT, D3D11_BIND_DEPTH_STENCIL);
+		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowDepthStencilTex,
+			4096, 4096, 
+			DXGI_FORMAT_D32_FLOAT, 
+			D3D11_BIND_DEPTH_STENCIL);
 
 		Vector4 arrClearColor[8] = {
-				Vector4::Zero
+				Vector4(0.f,0.f,0.5f,1.f)
 		};
 
-		m_arrMRT[(UINT)E_MRTType::ShadowMap] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+		m_arrMRT[(UINT)E_MRTType::ShadowDepth] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
+
+		SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
+
+		pDirLightMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowDepthTargetTex).Get());
 	}
 }
 
@@ -568,7 +574,7 @@ void CRenderManager::_Render_Dynamic_ShadowDepth()
 		return;
 
 	// Set Shadow Depth map
-	GetMultipleRenderTargets(E_MRTType::ShadowMap)->UpdateData();
+	GetMultipleRenderTargets(E_MRTType::ShadowDepth)->UpdateData();
 
 	// 광원에 부착된 카메라 기준으로 물체들을 정렬
 	m_pMainDirLight->GetLight3DCam()->_SortObjects_ShadowDepth();
@@ -588,8 +594,8 @@ tstring MRTTypeToStr(E_MRTType _eType)
 	case E_MRTType::Light:
 		strName = _T("Light");
 		break;
-	case E_MRTType::ShadowMap:
-		strName = _T("ShadowMap");
+	case E_MRTType::ShadowDepth:
+		strName = _T("ShadowDepth");
 		break;
 	default:
 		assert(nullptr && _T("MRT Type name error"));

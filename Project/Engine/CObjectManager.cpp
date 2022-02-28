@@ -25,6 +25,7 @@ UINT g_iEmptyCubeGameObjectID = 0;
 UINT g_iEmptySphereGameObjectID = 0;
 UINT g_iEmptySkyboxGameObjectID = 0;
 UINT g_iEmptyLight3DID = 0;
+UINT g_iEmptyConeID = 0;
 
 UINT g_iTextUIGameObjectID = 0;
 UINT g_iButtonUIGameObjectID = 0;
@@ -247,6 +248,29 @@ CGameObject* CObjectManager::CreateLight3D(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CLight3D>();
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+
+	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateCone(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Cone"), g_iEmptyConeID);
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CMeshRenderer>();
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh));
+
+	// Tool Camera가 바라보고 있는 위치에 생성
+	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
 	return pNewGameObject;

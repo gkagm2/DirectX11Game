@@ -8,6 +8,7 @@
 #include "CCore.h"
 #include "CPerformanceMonitor.h"
 #include "CDevice.h"
+#include "CTransform.h"
 CResourceManager::CResourceManager() :
 	m_bFixed(false)
 {
@@ -30,7 +31,7 @@ void CResourceManager::Init()
 
 	CreateDefaultMesh();
 	CreateDefaultCircle2DMesh();
-	CreateDefaultCubeMesh3D();
+	CreateDefaultMesh3D();
 	CreateDefaultShader();
 	CreateDefaultTexture();
 	CreateComputeShader();
@@ -262,16 +263,16 @@ void CResourceManager::CreateDefaultCircle2DMesh()
 	AddRes(STR_KEY_CircleLineMesh, pMesh);
 }
 
-void CResourceManager::CreateDefaultCubeMesh3D()
+void CResourceManager::CreateDefaultMesh3D()
 {
-	 vector<VTX> vecVtx;
-	 vector<UINT> vecIdx;
+	vector<VTX> vecVtx;
+	vector<UINT> vecIdx;
 
 	// =========
 	// Cube Mesh
 	// =========
 	VTX vertices[24] = {};
-	
+
 	// 拉搁
 	vertices[0].vPos = Vector3(-0.5f, 0.5f, 0.5f);
 	vertices[0].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
@@ -614,7 +615,7 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 			{
 				// + 
 				// | \
-				// +--+
+								// +--+
 				vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
 				vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
 				vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
@@ -644,7 +645,84 @@ void CResourceManager::CreateDefaultCubeMesh3D()
 		vecVtx.clear();
 		vecIdx.clear();
 	}
+
+	{
+		// Cone Mesh 
+
+		VTX vtx = {};
+		
+		int tDiv = 6;
+		int yDiv = 6;
+		double maxTheta = CMyMath::DegreeToRadian(360.0);
+		double minY = -1.0;
+		double maxY = 1.0;
+
+		double dt = maxTheta / tDiv;
+		double dy = (maxY - minY) / yDiv;
+
+		for (int yi = 0; yi <= yDiv; yi++)
+		{
+			double y = minY + yi * dy;
+
+			for (int ti = 0; ti <= tDiv; ti++)
+			{
+				float t = ti * dt;
+				
+
+				// Get Position
+				{
+					float r = (1 - y) / 2;
+					float x = r * cosf(t);
+					float z = r * sinf(t);
+					vtx.vPos = Vector3(x, y, z);
+				}
+				
+				// Get Normal
+				{
+					float x = 2 * cosf(t);
+					float z = 2 * sinf(t);
+					vtx.vNormal = Vector3(x, 1, z);
+				}
+				
+				// Get Texture Coordinate
+				{
+					Matrix m = XMMatrixScaling(float(1.f / (2.f * PI)), -0.5f, 0.f);
+					Vector2 p = Vector2(t, y);
+					p = XMVector2Transform(p, m);
+					vtx.vUV = p;
+				}
+				vecVtx.push_back(vtx);
+			}
+		}
+
+		for (int yi = 0; yi < yDiv; yi++)
+		{
+			for (int ti = 0; ti < tDiv; ti++)
+			{
+				int x0 = ti;
+				int x1 = (ti + 1);
+				int y0 = yi * (tDiv + 1);
+				int y1 = (yi + 1) * (tDiv + 1);
+
+				vecIdx.push_back(x0 + y0);
+				vecIdx.push_back(x0 + y1);
+				vecIdx.push_back(x1 + y0);
+
+				vecIdx.push_back(x1 + y0);
+				vecIdx.push_back(x0 + y1);
+				vecIdx.push_back(x1 + y1);
+			}
+		}
+
+		CMesh* pMesh = new CMesh;
+		pMesh->Create(vecVtx.data(), sizeof(VTX)* (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT)* (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		AddRes(STR_KEY_ConeMesh, pMesh);
+
+		vecVtx.clear();
+		vecIdx.clear();
+	}
 }
+
 
 void CResourceManager::CreateDefaultShader()
 {
@@ -1000,7 +1078,7 @@ void CResourceManager::CreateDefaultShader()
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0,  _T("Color Target Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1,  _T("Diffuse Target Texture") });
-	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_2,  _T("Specular TargetTexture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_2,  _T("Specular Target Texture") });
 	
 	AddRes(STR_KEY_MergeShader, pShader);
 
@@ -1015,6 +1093,9 @@ void CResourceManager::CreateDefaultShader()
 
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("View Normal Target Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("View Position Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_2, _T("Shadow Depth Target Tex") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Matrix_0, _T("Directional cam VP mat") });
+
 
 	AddRes(STR_KEY_DirectionLightShader, pShader);
 
@@ -1032,14 +1113,23 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_PointLightShader, pShader);
 	
-	// TODO (Jang) : Spot Light
 	//----------------------------
 	// Spot Light Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Light);
+	pShader->CreateVertexShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_VTXSpotLight);
+	pShader->CreatePixelShader(STR_FILE_PATH_ShaderLight, STR_FUNC_NAME_PIXSpotLight);
+	pShader->SetRasterizerState(E_RasterizerState::CullFront);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
 
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("View Normal Target Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("View Position Target Texture") });
+
+	AddRes(STR_KEY_SpotLightShader, pShader);
 
 	//----------------------------
 	// Shadow Depth Shader
-	pShader = new CGraphicsShader(E_RenderTimePoint::ShadowMap);
+	pShader = new CGraphicsShader(E_RenderTimePoint::ShadowDepth);
 	pShader->CreateVertexShader(STR_FILE_PATH_ShaderShadow, STR_FUNC_NAME_VTXShadowDepth);
 	pShader->CreatePixelShader(STR_FILE_PATH_ShaderShadow, STR_FUNC_NAME_PIXShadowDepth);
 	pShader->SetRasterizerState(E_RasterizerState::CullBack);
@@ -1232,6 +1322,11 @@ void CResourceManager::CreateDefaultMaterial()
 	AddRes(STR_KEY_PointLightMtrl, pMtrl);
 
 	// TODO (Jang) : Spot light 犁龙 积己
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderSpotLight = LoadRes<CGraphicsShader>(STR_KEY_SpotLightShader);
+	pMtrl->SetShader(pShaderSpotLight);
+	AddRes(STR_KEY_SpotLightMtrl, pMtrl);
+
 
 	// Merge Shader 犁龙 积己
 	pMtrl = new CMaterial(true);

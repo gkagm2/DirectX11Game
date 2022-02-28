@@ -19,6 +19,7 @@ public:
 	CGameObject* CreateSphereGameobject(UINT _iLayer = 0);
 	CGameObject* CreateSkyboxGameObject(UINT _iLayer = 0);
 	CGameObject* CreateLight3D(UINT _iLayer = 0);
+	CGameObject* CreateCone(UINT _iLayer = 0);
 
 public:
 	CGameObject* CreateTextUI();

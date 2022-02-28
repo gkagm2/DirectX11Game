@@ -65,7 +65,6 @@ void CLayer::AddGameObject(CGameObject* _pObj, bool _bChangeChildLayer)
 {
 	assert(!(m_iLayer == _pObj->GetLayer()) && _T("오브젝트를 이미 속한 동일 레이어로 다시 넣었습니다."));
 
-
 	// _pObj가 다른 Layer의 최상위 부모로 속해있었던 경우
 	if (0 <= (int)_pObj->GetLayer() && (int)_pObj->GetLayer() < MAX_SIZE_LAYER) {
 		m_pOwnScene->GetLayer(_pObj->GetLayer())->_ResignGameObject(_pObj);

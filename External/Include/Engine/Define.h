@@ -193,7 +193,7 @@ enum class E_ShaderStage {
 
 enum class E_RenderTimePoint {
 	Forward,
-	ShadowMap,
+	ShadowDepth,
 	Deferred,
 	Light,
 	Particle,

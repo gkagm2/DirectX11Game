@@ -28,7 +28,7 @@ public:
 public:
 	void CreateDefaultMesh();
 	void CreateDefaultCircle2DMesh();
-	void CreateDefaultCubeMesh3D();
+	void CreateDefaultMesh3D();
 	void CreateDefaultTexture();
 	void CreateDefaultShader();
 	void CreateDefaultMaterial();

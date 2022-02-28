@@ -9,7 +9,7 @@ enum class E_MRTType {
 	SwapChain,
 	Deferred,
 	Light,
-	ShadowMap,
+	ShadowDepth,
 	End
 };
 tstring MRTTypeToStr(E_MRTType _eType);
