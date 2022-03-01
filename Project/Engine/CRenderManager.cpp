@@ -184,7 +184,7 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	//GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 
 	// directional light 시점에서 동적 그림자 깊이맵 만들기
 	_Render_Dynamic_ShadowDepth();
@@ -202,6 +202,7 @@ void CRenderManager::_RenderTool()
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
 	
+	// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
 	// Light Render 
 	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
 		m_vecLight2D[j]->Render();
@@ -211,8 +212,8 @@ void CRenderManager::_RenderTool()
 	}*/
 	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-	static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
-	static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+	SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+	SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
 	pMergeMtrl->UpdateData();
 	pRectMesh->Render();
 	pMergeMtrl->Clear();

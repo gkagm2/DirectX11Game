@@ -1446,16 +1446,16 @@ void CResourceManager::CreateDefaultTexture()
 	strPath = CPathManager::GetInstance()->GetContentPath();
 	strPath += STR_FILE_PATH_SkyboxSphereTexture;
 
-	//CTexture* pSkyboxSphereTex = new CTexture();
-	//pSkyboxSphereTex->Load(strPath);
-	//m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxSphereTexture, pSkyboxSphereTex));
+	CTexture* pSkyboxSphereTex = new CTexture();
+	pSkyboxSphereTex->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxSphereTexture, pSkyboxSphereTex));
 
-	//strPath = CPathManager::GetInstance()->GetContentPath();
-	//strPath += STR_FILE_PATH_SkyboxCubeTexture;
+	strPath = CPathManager::GetInstance()->GetContentPath();
+	strPath += STR_FILE_PATH_SkyboxCubeTexture;
 
-	//CTexture* pSkyboxCubeTex = new CTexture();
-	//pSkyboxCubeTex->Load(strPath);
-	//m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
+	CTexture* pSkyboxCubeTex = new CTexture();
+	pSkyboxCubeTex->Load(strPath);
+	m_umapDefaultTex.insert(std::make_pair(STR_FILE_PATH_SkyboxCubeTexture, pSkyboxCubeTex));
 
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_PostEffectTargetTexture, (UINT)vResolution.x, (UINT)vResolution.y, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);

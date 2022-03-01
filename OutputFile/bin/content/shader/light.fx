@@ -41,7 +41,7 @@ VS_OUT VS_DirLight(VS_IN _in)
 PS_OUT PS_DirLight(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
-    
+ 
     float2 vUV = _in.vPos.xy / g_vResolution.xy;
     float3 vViewPos = ViewPosTargetTex.Sample(Sample_Anisotropic, vUV).xyz;
     if (0.f == vViewPos.z)
@@ -104,6 +104,9 @@ VS_OUT VS_PointLight(VS_IN _in)
 PS_OUT PS_PointLight(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
+    output.vDiffuseLight = float4(1.f, 1.f, 1.f, 1.f);
+    output.vSpecularLight = float4(1.f, 1.f, 1.f, 1.f);
+    return output;
     
     // Point Target으로 부터 해당 지점에 존재하는 물체의 위치를 확인한다.
     float2 vUV = _in.vPos.xy / g_vResolution.xy;

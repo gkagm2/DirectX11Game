@@ -87,21 +87,24 @@ void CLight3D::SetLightType(E_LightType _eType)
 
 	// TODO (Jang) : Point, Spot 작성
 	switch (_eType) {
-	case E_LightType::Direction:
+	case E_LightType::Direction: {
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
 		if (!m_pLightCamObj)
 			_CreateLight3DCamera();
 		break;
-	case E_LightType::Point:
+	}
+	case E_LightType::Point: {
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
+
 		if (m_pLightCamObj) {
 			delete m_pLightCamObj;
 			m_pLightCamObj = nullptr;
 		}
 		break;
-	case E_LightType::Spot:
+	}
+	case E_LightType::Spot: {
 		m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh);
 		m_pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
 		if (m_pLightCamObj) {
@@ -109,10 +112,13 @@ void CLight3D::SetLightType(E_LightType _eType)
 			m_pLightCamObj = nullptr;
 		}
 		break;
+	}
 	default:
 		assert(nullptr);
 		break;
 	}
+	assert(m_pMesh.Get());
+	assert(m_pMtrl.Get());
 }
 
 
@@ -160,10 +166,11 @@ void CLight3D::Render()
 		break;
 	}
 
+	
 	m_pMtrl->SetData(E_ShaderParam::Int_0, &m_tInfo.idx);
 	m_pMtrl->UpdateData();
-
 	m_pMesh->Render();
+	m_pMtrl->Clear();		 // 메터리얼 레지스터 Clear
 }
 
 bool CLight3D::LoadFromScene(FILE* _pFile)

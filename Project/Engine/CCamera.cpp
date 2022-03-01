@@ -211,8 +211,8 @@ void CCamera::_SortObjects()
 
 			const vector<CGameObject*>& vecAllObjs = pLayer->GetGameObjects();
 
-			for (UINT i = 0; i < vecAllObjs.size(); ++i) {
-				CGameObject* pObj = vecAllObjs[i];
+			for (UINT j = 0; j < vecAllObjs.size(); ++j) {
+				CGameObject* pObj = vecAllObjs[j];
 				if (!pObj->IsActive())
 					continue;
 				

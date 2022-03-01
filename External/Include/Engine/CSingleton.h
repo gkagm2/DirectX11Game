@@ -14,7 +14,7 @@ public:
 		return g_pInstance;
 	}
 
-private:
+public:
 	static void Destroy() {
 		if (nullptr != g_pInstance) {
 			delete g_pInstance;
