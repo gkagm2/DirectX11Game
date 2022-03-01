@@ -183,7 +183,7 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	//GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 
 	// directional light 시점에서 동적 그림자 깊이맵 만들기
 	_Render_Dynamic_ShadowDepth();
@@ -432,6 +432,12 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		assert(pPointLightMtrl.Get());
 		pPointLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
 		pPointLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+
+		// Spot Light Shader
+		SharedPtr<CMaterial> pSpotLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
+		assert(pSpotLightMtrl.Get());
+		pSpotLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+		pSpotLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
 	}
 
 	// Light MRT
@@ -473,14 +479,12 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DiffuseTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_SpecularTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_3, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowTargetTex).Get());
-
-		assert(CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowTargetTex).Get());
 	}
 
 	// Shadow Depth
 	{
 		// 그림자 판정을 위해서, 광원 시점에서 깊이값을 저장 할 타겟
-		SharedPtr<CTexture> arrTex[8] = {};
+		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
 
 		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(
 			STR_ResourceKey_ShadowDepthTargetTex,
@@ -493,8 +497,8 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			DXGI_FORMAT_D32_FLOAT, 
 			D3D11_BIND_DEPTH_STENCIL);
 
-		Vector4 arrClearColor[8] = {
-				Vector4(0.f,0.f,0.5f,1.f)
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
+				Vector4::Zero,
 		};
 
 		m_arrMRT[(UINT)E_MRTType::ShadowDepth] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
