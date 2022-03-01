@@ -123,8 +123,6 @@ void CRenderManager::Render()
 	switch (eSceneMode) {
 	case E_SceneMode::Play:
 		_RenderInGame();
-		// TODO (Jang) : InGame Camera, Tool Camera를 나눴을 때 만들기
-		//_RenderTool();
 		break;
 	case E_SceneMode::Stop:
 	case E_SceneMode::Pause:
@@ -260,7 +258,6 @@ int CRenderManager::RegisterLight3D(CLight3D* _pLight3D)
 CCamera* CRenderManager::GetMainCamera()
 {
 	CCamera* pMainCamera = nullptr;
-	// TODO (Jang) : 어떤 카메라를 가져올지 설정한 카메로 가져오기
 
 	if (E_SceneMode::Play == CSceneManager::GetInstance()->GetSceneMode()) {
 		for (UINT i = 0; i < m_vecCam.size(); ++i) {
