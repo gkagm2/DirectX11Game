@@ -89,8 +89,8 @@ void Light3DGUI::_RenderDirection(TLightInfo& _tLightInfoRef)
 void Light3DGUI::_RenderSpot(TLightInfo& _tLightInfoRef)
 {
 	float fDegree = m_pLight->GetAngle();
-	ImGui::DragFloat("Degree##Light3D ", &fDegree, 0.1f, FLOAT_MIN, FLOAT_MAX, "%.2f");
-	m_pLight->SetAngle(fDegree);
+	if(ImGui::DragFloat("Degree##Light3D ", &fDegree, 0.1f, FLOAT_MIN, FLOAT_MAX, "%.2f"))
+		m_pLight->SetAngle(fDegree);
 
 	_RenderParam_Range(_tLightInfoRef);
 }
@@ -102,7 +102,9 @@ void Light3DGUI::_RenderPoint(TLightInfo& _tLightInfoRef)
 
 void Light3DGUI::_RenderParam_Range(TLightInfo& _tLightInfoRef)
 {
-	ImGui::DragFloat("Range##Light3D ", &_tLightInfoRef.fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f");
+	float fRange = _tLightInfoRef.fRange;
+	if (ImGui::DragFloat("Range##Light3D ", &fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f"))
+		m_pLight->SetRange(fRange);
 }
 
 void Light3DGUI::_RenderParam_LightColor(TLightInfo& _tLightInfoRef)

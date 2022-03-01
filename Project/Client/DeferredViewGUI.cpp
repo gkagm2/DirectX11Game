@@ -74,6 +74,11 @@ void DeferredViewGUI::Update()
 		if (m_pInspectorGUI) {
 			if (E_InspectorUIMode::GameObject == m_pInspectorGUI->GetInspectorUIMode()) {
 				CGameObject* pTargetObj = m_pInspectorGUI->GetTargetObject();
+
+				string strObjName = {};
+				TStringToString(pTargetObj->GetName(), strObjName);
+				ImGui::Text("Object Name : %s", strObjName.c_str());
+
 				if (pTargetObj && 
 					pTargetObj->MeshRenderer() && 
 					pTargetObj->MeshRenderer()->GetSharedMaterial().Get() &&
@@ -108,10 +113,28 @@ void DeferredViewGUI::Update()
 
 					}
 				}
+				else if (pTargetObj && pTargetObj->Light3D()) {
+					CMesh* pMesh = pTargetObj->Light3D()->GetLightMesh().Get();
+					CMaterial* pMaterial = pTargetObj->Light3D()->GetLightMaterial().Get();
+
+					CTexture* pTex = nullptr;
+					int iNum[4] = {
+						(int)E_ShaderParam::Texture_0,
+						(int)E_ShaderParam::Texture_1,
+						(int)E_ShaderParam::Texture_2,
+						(int)E_ShaderParam::Texture_3
+					};
+
+					for (int i = 0; i < 4; ++i) {
+						ImGui::Text("Texture %d", i);
+						ImGui::SameLine();
+						pMaterial->GetData((E_ShaderParam)iNum[i], &pTex);
+						ParamGUI::Render_Texture("", pTex, nullptr, nullptr, false);
+					}
+				}
 			}
 		}
 	}
-
 
 	ImGui::End();
 }

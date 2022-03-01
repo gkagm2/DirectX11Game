@@ -156,13 +156,14 @@ void CRenderManager::_RenderInGame()
 		m_vecCam[i]->_RenderDeferred();
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-	for (size_t i = 0; i < m_vecCam.size(); ++i) {
-		// Light Render 
-		for (size_t i = 0; i < m_vecLight2D.size(); ++i)
-			m_vecLight2D[i]->Render();
-		for (size_t i = 0; i < m_vecLight3D.size(); ++i)
-			m_vecLight3D[i]->Render();
-	}
+	// Light Render 
+	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+		m_vecLight2D[j]->Render();
+	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
+		m_vecLight3D[j]->Render();
+	/*for (size_t i = 0; i < m_vecCam.size(); ++i) {
+	}*/
+	
 
 	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
@@ -200,13 +201,14 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_RenderDeferred();
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
-		// Light Render 
-		for (size_t i = 0; i < m_vecLight2D.size(); ++i)
-			m_vecLight2D[i]->Render();
-		for (size_t i = 0; i < m_vecLight3D.size(); ++i)
-			m_vecLight3D[i]->Render();
-	}
+	
+	// Light Render 
+	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+		m_vecLight2D[j]->Render();
+	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
+		m_vecLight3D[j]->Render();
+	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+	}*/
 	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 	static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
@@ -421,23 +423,27 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		m_arrMRT[(UINT)E_MRTType::Deferred] = new CMRT(arrTex, arrClearColor, 4, nullptr, true);
 		m_arrMRT[(UINT)E_MRTType::Deferred]->SetName(MRTTypeToStr(E_MRTType::Deferred));
 
-		// Directional Light Shader 에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅
-		SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
-		assert(pDirLightMtrl.Get());
-		pDirLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
-		pDirLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
-
-		// Point Light Shader
-		SharedPtr<CMaterial> pPointLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl);
-		assert(pPointLightMtrl.Get());
-		pPointLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
-		pPointLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
-
-		// Spot Light Shader
-		SharedPtr<CMaterial> pSpotLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
-		assert(pSpotLightMtrl.Get());
-		pSpotLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
-		pSpotLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+		{
+			// Directional Light Shader 에 전달인자로 디퍼드 타겟 텍스쳐들을 세팅
+			SharedPtr<CMaterial> pDirLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DirectionLightMtrl);
+			assert(pDirLightMtrl.Get());
+			pDirLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+			pDirLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+		}
+		{
+			// Point Light Shader
+			SharedPtr<CMaterial> pPointLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PointLightMtrl); 
+			assert(pPointLightMtrl.Get());
+			pPointLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+			pPointLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+		}
+		{
+			// Spot Light Shader
+			SharedPtr<CMaterial> pSpotLightMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_SpotLightMtrl);
+			assert(pSpotLightMtrl.Get());
+			pSpotLightMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_NormalTargetTex).Get());
+			pSpotLightMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
+		}
 	}
 
 	// Light MRT
@@ -491,7 +497,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			4096, 4096,
 			DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,
 			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
-
+		arrTex[0]->SetName(_T("Shadow Depth Target Texture"));
 		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowDepthStencilTex,
 			4096, 4096, 
 			DXGI_FORMAT_D32_FLOAT, 

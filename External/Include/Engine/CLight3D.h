@@ -17,6 +17,8 @@ private:
 
 	CGameObject* m_pLightCamObj; // Light 내부 카메라
 
+	Matrix m_matLightWorld;
+
 public:
 	virtual void Render() override;
 	virtual bool LoadFromScene(FILE* _pFile) override;
@@ -41,6 +43,9 @@ public:
 	const TLightInfo& GetLightInfo() { return m_tInfo; }
 	TLightInfo& GetLightInfoRef() { return m_tInfo; }
 	CCamera* GetLight3DCam() { return m_pLightCamObj->Camera(); }
+
+	SharedPtr<CMesh> GetLightMesh() { return m_pMesh; }
+	SharedPtr<CMaterial> GetLightMaterial() { return m_pMtrl; }
 
 private:
 	void _CreateLight3DCamera();

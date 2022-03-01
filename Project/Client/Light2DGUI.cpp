@@ -91,5 +91,7 @@ void Light2DGUI::_RenderPoint(TLightInfo& _tLightInfoRef)
 
 void Light2DGUI::_RenderParam_Range(TLightInfo& _tLightInfoRef)
 {
-	ImGui::DragFloat("Range##Light2D ", &_tLightInfoRef.fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f");
+	float fRange = _tLightInfoRef.fRange;
+	if (ImGui::DragFloat("Range##Light2D ", &fRange, 0.2f, 0.f, FLOAT_MAX, "%.2f"))
+		m_pLight->SetRange(fRange);
 }

@@ -1321,7 +1321,7 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderPointLight);
 	AddRes(STR_KEY_PointLightMtrl, pMtrl);
 
-	// TODO (Jang) : Spot light 犁龙 积己
+	// Spot light 犁龙 积己
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderSpotLight = LoadRes<CGraphicsShader>(STR_KEY_SpotLightShader);
 	pMtrl->SetShader(pShaderSpotLight);

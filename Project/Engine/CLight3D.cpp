@@ -6,11 +6,13 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CCameraModule.h"
-
+#include "CDevice.h"
+#include "CConstBuffer.h"
 CLight3D::CLight3D() :
 	CComponent(E_ComponentType::Light3D),
 	m_tInfo{},
-	m_pLightCamObj{ nullptr }
+	m_pLightCamObj{ nullptr },
+	m_matLightWorld{}
 {
 	/*m_pMesh = CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_CircleLineMesh);
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
@@ -62,11 +64,21 @@ void CLight3D::FinalUpdate()
 		if (m_pLightCamObj && m_pLightCamObj->IsActive() != isRender)
 			m_pLightCamObj->SetActive(isRender);
 
+
 		m_tInfo.vLightPos = Transform()->GetPosition();
 		m_tInfo.vLightDir = Transform()->GetFrontVector(); // 정면 방향
 		if (GetGameObject()->IsActive() && IsActive())
 			m_tInfo.idx = CRenderManager::GetInstance()->RegisterLight3D(this);
 	}
+
+	/*Vector3 vTrans = Transform()->GetLocalPosition();
+	Vector3 vScale = Transform()->GetLocalScale();
+	Vector3 vRot = Transform()->GetLocalRotation();
+
+	float fScale = m_tInfo.fRange * 2.f;
+	Matrix matTrans = XMMatrixTranslation(vTrans.x, vTrans.y, vTrans.z);
+	Matrix matScale = XMMatrixScaling(fScale, fScale, fScale);
+	m_matLightWorld = matScale * matTrans * Transform()->GetWorldMatrix();*/
 }
 
 void CLight3D::SetLightType(E_LightType _eType)
@@ -107,7 +119,7 @@ void CLight3D::SetLightType(E_LightType _eType)
 void CLight3D::SetRange(float _fRange)
 {
 	m_tInfo.fRange = _fRange;
-	Transform()->SetLocalScale(Vector3(_fRange * 2.f, _fRange * 2.f, 1.f));
+	Transform()->SetLocalScale(Vector3(_fRange * 2.f, _fRange * 2.f, _fRange * 2.f));
 }
 void CLight3D::Render()
 {
@@ -125,10 +137,22 @@ void CLight3D::Render()
 	}
 	case E_LightType::Point: {
 		Transform()->UpdateData();
+		/*static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Transform);
+		g_transform.matWorld = m_matLightWorld;
+		g_transform.matWorldView = g_transform.matWorld * g_transform.matView;
+		g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
+		pCB->SetData(&g_transform);
+		pCB->UpdateData(E_ShaderStage::Vertex);*/
 		break;
 	}
 	case E_LightType::Spot: {
 		Transform()->UpdateData();
+		/*static const CConstBuffer* pCB = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Transform);
+		g_transform.matWorld = m_matLightWorld;
+		g_transform.matWorldView = g_transform.matWorld * g_transform.matView;
+		g_transform.matWorldViewProj = g_transform.matWorldView * g_transform.matProjection;
+		pCB->SetData(&g_transform);
+		pCB->UpdateData(E_ShaderStage::Vertex);*/
 		break;
 	}
 	default:
