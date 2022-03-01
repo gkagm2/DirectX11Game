@@ -183,7 +183,7 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	//GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 
 	// directional light 시점에서 동적 그림자 깊이맵 만들기
 	_Render_Dynamic_ShadowDepth();

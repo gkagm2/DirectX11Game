@@ -365,14 +365,14 @@ void CCamera::_SortObjects_ShadowDepth()
 
 			E_RenderTimePoint eRT = E_RenderTimePoint::None;
 
-			for (size_t i = 0; i < vecAllObj.size(); ++i) {
-				if (vecAllObj[i]->IsDynamicShadow() && vecAllObj[i]->MeshRenderer()) {
-					if (nullptr == vecAllObj[i]->MeshRenderer()->GetMesh() ||
-						nullptr == vecAllObj[i]->MeshRenderer()->GetSharedMaterial() ||
-						nullptr == vecAllObj[i]->MeshRenderer()->GetSharedMaterial()->GetShader())
+			for (size_t j = 0; j < vecAllObj.size(); ++j) {
+				if (vecAllObj[j]->IsDynamicShadow() && vecAllObj[j]->MeshRenderer()) {
+					if (nullptr == vecAllObj[j]->MeshRenderer()->GetMesh() ||
+						nullptr == vecAllObj[j]->MeshRenderer()->GetSharedMaterial() ||
+						nullptr == vecAllObj[j]->MeshRenderer()->GetSharedMaterial()->GetShader())
 						continue;
 
-					m_vecShadowDepth.push_back(vecAllObj[i]);
+					m_vecShadowDepth.push_back(vecAllObj[j]);
 				}
 			}
 		}

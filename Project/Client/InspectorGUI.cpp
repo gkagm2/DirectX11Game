@@ -316,12 +316,14 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
 	ImGui::Checkbox("with child##SelTag", &bWithChild);
 	ImGui::PopID();
-		
-	bool bShadow = m_pTargetObject->IsDynamicShadow();
-	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
-	if (ImGui::Checkbox("Dynamic Shadow##DynamicShadowSel", &bShadow))
-		m_pTargetObject->SetDynamicShadow(bShadow);
-	ImGui::PopID();
+
+	if (m_pTargetObject->MeshRenderer()) {
+		bool bShadow = m_pTargetObject->IsDynamicShadow();
+		ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+		if (ImGui::Checkbox("Dynamic Shadow##DynamicShadowSel", &bShadow))
+			m_pTargetObject->SetDynamicShadow(bShadow);
+		ImGui::PopID();
+	}
 
 	// FIXED(Jang) : 테스트용
 	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());
