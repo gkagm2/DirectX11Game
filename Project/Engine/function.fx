@@ -17,17 +17,14 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
     TLightInfo tInfo = g_Light3DBuffer[_iLightIdx];
     
     float fDiffusePow = 0.f;
-    float fReflectPow = 1.f;
+    float fReflectPow = 0.f;
     
     float3 vLightViewPos = mul(float4(tInfo.vLightPos.xyz, 1.f), g_matView).xyz;
     
-    float attenuation = 1.f; // 감쇠 
-    
-    // 광원과의 거리에 따른 감쇠 비율
+    float attenuation = 1.f; // 광원과의 거리에 따른 감쇠 비율
 
     if (direction_Type == tInfo.iLightType)
     {
-        attenuation = 1.f;
         // 뷰스페이스 에서의 광원의 방향    
         float3 vLightViewDir = mul(float4(tInfo.vLightDir.xyz, 0.f), g_matView).xyz; // vLightDir는 월드상에서 방향 벡터이므로 view 행렬만 곱함.
         vLightViewDir = -normalize(vLightViewDir);
@@ -63,7 +60,7 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
         // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
         float3 vEye = -normalize(_vViewPos);
         fReflectPow = saturate(dot(vReflect, vEye));
-        fReflectPow = pow(fReflectPow, 20);
+        fReflectPow = pow(fReflectPow, reflect_Pow);
                         
         attenuation = saturate(cos(saturate(fDistance / tInfo.fRange) * (PI / 2.f)));
     }
@@ -94,7 +91,7 @@ TLightColor CalLight3D(int _iLightIdx, float3 _vViewPos, float3 _vViewNormal)
          // 카메라에서 해당 지점으로(픽셀) 향하는 벡터
         float3 vEye = -normalize(_vViewPos);
         fReflectPow = saturate(dot(vReflect, vEye));
-        fReflectPow = pow(fReflectPow, 20);
+        fReflectPow = pow(fReflectPow, reflect_Pow);
         attenuation = saturate(cos(saturate(fDistance / tInfo.fRange) * (PI / 2.f)));
         if (fAngle > tInfo.fAngle * 0.5f)
         { 
