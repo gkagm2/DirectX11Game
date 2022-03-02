@@ -12,8 +12,15 @@ CMRT::CMRT(SharedPtr<CTexture>* _pArrRTTex, Vector4* _pArrClearColor, UINT _iRTC
 
 {
 	assert(!(m_iRTCount > MAX_RENDER_TARGET_TEX_CNT));
-	memcpy(m_arrRTTex, _pArrRTTex, sizeof(SharedPtr<CTexture>)* m_iRTCount);
-	memcpy(m_arrClearColor, _pArrClearColor, sizeof(Vector4)* m_iRTCount);
+	//memcpy(m_arrRTTex, _pArrRTTex, sizeof(SharedPtr<CTexture>)* m_iRTCount);
+	for (size_t i = 0; i < MAX_RENDER_TARGET_TEX_CNT; ++i) {
+		m_arrRTTex[i] = _pArrRTTex[i];
+	}
+
+	for (size_t i = 0; i < MAX_RENDER_TARGET_TEX_CNT; ++i) {
+		m_arrClearColor[i] = _pArrClearColor[i];
+	}
+	//memcpy(m_arrClearColor, _pArrClearColor, sizeof(Vector4)* m_iRTCount);
 
 	for (size_t i = 0; i < m_iRTCount; ++i)
 		m_arrRTV[i] = m_arrRTTex[i]->GetRTV().Get();
