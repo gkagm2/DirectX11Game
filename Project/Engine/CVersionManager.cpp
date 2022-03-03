@@ -8,7 +8,6 @@
 bool CVersionManager::g_bOldVersionUpdate = false;	 // 새롭게 버전을 추가했을 경우에만 사용
 bool CVersionManager::g_bComponentUpdate = false;
 
-// TODO (Jang) : CGameObject의 dynamic shadow 멤버변수 추가함. 20220228 (전체 업데이트 해야 함)
 // TODO (Jang) : CLight3D에 Light3D camera 멤버변수 추가함. 20220228 
 
 CVersionManager::CVersionManager() : 
@@ -25,8 +24,9 @@ void CVersionManager::Init()
 	if (!g_bOldVersionUpdate)
 		return;
 
+	// 프리펩 세이브 시 사용하기
 	// 모든 프리펩 로딩
-	//CResourceManager::GetInstance()->LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
+	CResourceManager::GetInstance()->LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
 
 
 	// 모든 씬을 가져온다.

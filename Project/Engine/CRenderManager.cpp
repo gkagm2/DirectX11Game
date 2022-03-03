@@ -201,13 +201,13 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_RenderDeferred();
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-	
 	// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
 	// Light Render 
 	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
 		m_vecLight2D[j]->Render();
 	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
 		m_vecLight3D[j]->Render();
+
 	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 	}*/
 	// Deferred에 그려진 정보를 Swapchain Target으로 옮김

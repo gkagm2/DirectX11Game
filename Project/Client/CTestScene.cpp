@@ -128,10 +128,11 @@ void CTestScene::CreateTestScene()
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	//Light2DTest();
-	//UpdateOldVersion();
+	UpdateOldVersion();
 	//CreateNewScene();
 	//Butcher();
-	Light3DTest();
+	//Light3DTest();
+
 	return;
 	// TODO (Jang) : Test code
 	// ¾À »ý¼º

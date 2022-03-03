@@ -760,8 +760,7 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 
 	FWrite(m_iTag, _pFile);
 	
-	// TODO (Jang) : 버전업데이트 할 때 추가
-	//FWrite(m_bDynamicShadow, _pFile);
+	FWrite(m_bDynamicShadow, _pFile);
 
 	// 자식 오브젝트
 	UINT iChildCount = (UINT)m_vecChildObj.size();
@@ -804,8 +803,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 
 	FRead(m_iTag, _pFile);
 	
-	// TODO (Jang) : 버전업데이트 할 때 추가
-	//FRead(m_bDynamicShadow, _pFile);
+	FRead(m_bDynamicShadow, _pFile);
 
 	// 자식 정보
 	++_iDepth;
