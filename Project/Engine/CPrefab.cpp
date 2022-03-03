@@ -12,8 +12,7 @@ CPrefab::CPrefab(CGameObject* _pProtoObj) :
 
 CPrefab::~CPrefab()
 {
-	if (nullptr != m_pProtoObj)
-		delete m_pProtoObj;
+	SAFE_DELETE(m_pProtoObj);
 }
 
 CGameObject* CPrefab::Instantiate()

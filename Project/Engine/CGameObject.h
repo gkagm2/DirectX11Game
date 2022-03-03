@@ -44,7 +44,8 @@ private:
 	bool m_bDead;
 	bool m_bActive;
 	int m_iLocalAddress;
-	bool m_bDynamicShadow;   // 동적 그림자 생성
+	bool m_bDynamicShadow;		// 동적 그림자 생성
+	bool m_bUseFrustumCulling;	// 카메라 절두체 컬링 영향
 
 public:
 	virtual void Awake() override;
@@ -97,6 +98,8 @@ public:
 public:
 	bool IsDynamicShadow() { return m_bDynamicShadow; }
 	void SetDynamicShadow(bool _bSet) { m_bDynamicShadow = _bSet; }
+	bool IsFrustumCulling() { return m_bUseFrustumCulling; }
+	void SetFrustumCulling(bool _bSet) { m_bUseFrustumCulling = _bSet; }
 
 private:
 	void _SetLayer(UINT _iLayer) { m_iLayer = _iLayer; }
@@ -168,7 +171,7 @@ inline TYPE* CGameObject::AddComponent()
 	TYPE* pComponent = new TYPE();
 	CComponent* pComp = dynamic_cast<CComponent*>(pComponent);
 	if (nullptr == pComp) {
-		delete pComponent;
+		SAFE_DELETE(pComponent);
 		assert(nullptr && _T("컴포넌트 타입이 아님."));
 		return nullptr;
 	}
@@ -183,7 +186,7 @@ inline TYPE* CGameObject::AddComponent()
 
 	// 이미 존재하면
 	if (_IsExistComponent(eType)) {
-		delete pComponent;
+		SAFE_DELETE(pComponent);
 		pComponent = dynamic_cast<TYPE*>(m_arrComponent[(UINT)eType]);
 		return pComponent;
 	}
@@ -196,8 +199,7 @@ inline TYPE* CGameObject::AddComponent()
 				continue;
 			if (_IsExistComponent((E_ComponentType)i)) {
 				assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
-				if (pComponent)
-					delete pComponent;
+				SAFE_DELETE(pComponent);
 				return nullptr;
 			}
 		}

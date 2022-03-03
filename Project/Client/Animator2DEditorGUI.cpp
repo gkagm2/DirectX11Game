@@ -862,8 +862,7 @@ void Animator2DEditorGUI::_OnSaveAnimation()
 			pAnim->Create(vecAnim2DDesc);
 
 			pAnim->Save(STR_DIR_PATH_Anim, animFileName);
-			delete pAnim;
-			pAnim = nullptr;
+			SAFE_DELETE(pAnim);
 		}
 	}
 }

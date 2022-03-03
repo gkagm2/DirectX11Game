@@ -10,10 +10,7 @@ CLineRenderingTestScript::CLineRenderingTestScript() :
 
 CLineRenderingTestScript::~CLineRenderingTestScript()
 {
-	if (m_pLine) {
-		delete m_pLine;
-		m_pLine = nullptr;
-	}
+	SAFE_DELETE(m_pLine);
 }
 
 void CLineRenderingTestScript::Awake()

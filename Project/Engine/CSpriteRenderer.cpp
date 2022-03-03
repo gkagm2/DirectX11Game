@@ -15,10 +15,7 @@ CSpriteRenderer::CSpriteRenderer() :
 
 CSpriteRenderer::~CSpriteRenderer()
 {
-	if (nullptr != m_pCloneMaterial.Get()) {
-		delete m_pCloneMaterial.Get();
-		m_pCloneMaterial = nullptr;
-	}
+	SAFE_DELETE_PTR(m_pCloneMaterial);
 }
 
 SharedPtr<CMaterial> CSpriteRenderer::GetCloneMaterial()

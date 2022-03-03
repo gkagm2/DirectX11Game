@@ -50,11 +50,8 @@ CEnemyController_bu::CEnemyController_bu(const CEnemyController_bu& _origin) :
 
 CEnemyController_bu::~CEnemyController_bu()
 {
+	SAFE_DELETE(m_pPathFind);
 	//AIEnd();
-	if (m_pPathFind) {
-		delete m_pPathFind;
-		m_pPathFind = nullptr;
-	}
 }
 
 void CEnemyController_bu::Awake()

@@ -63,10 +63,7 @@ CTileMap::CTileMap(const CTileMap& _origin) :
 
 CTileMap::~CTileMap()
 {
-	if (m_pGrid) {
-		delete m_pGrid;
-		m_pGrid = nullptr;
-	}
+	SAFE_DELETE(m_pGrid);
 }
 
 void CTileMap::FinalUpdate()
@@ -231,8 +228,7 @@ bool CTileMap::LoadFromScene(FILE* _pFile)
 	bool bIsGridExist = false;
 	FRead(bIsGridExist, _pFile);
 	if (bIsGridExist) {
-		if (m_pGrid)
-			delete m_pGrid;
+		SAFE_DELETE(m_pGrid);
 		m_pGrid = new CTileMapGrid(this);
 		m_pGrid->Init();
 	}

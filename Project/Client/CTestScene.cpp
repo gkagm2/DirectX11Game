@@ -1391,7 +1391,7 @@ void CTestScene::SceneSaveLoadPrefabTest()
 		pBulletPrefab->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
 
 		pBulletPrefab->RegisterAsPrefab();
-		delete pBulletPrefab;
+		SAFE_DELETE(pBulletPrefab);
 
 		SharedPtr<CPrefab> pRes = CResourceManager::GetInstance()->FindRes<CPrefab>(_T("Bullet"));
 		pRes->Save(_T("prefab\\bullet.pref"));
@@ -1666,7 +1666,7 @@ void CTestScene::PrefabRegisterTest()
 	pBulletPrefab->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
 
 	pBulletPrefab->RegisterAsPrefab();
-	delete pBulletPrefab;
+	SAFE_DELETE(pBulletPrefab);
 
 	// CPlayerScript_sh 안에 보면 미사일 프리펩이 있음.
 

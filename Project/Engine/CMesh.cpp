@@ -15,10 +15,8 @@ CMesh::CMesh() :
 
 CMesh::~CMesh()
 {
-	if (nullptr != m_pVtxSys)
-		delete m_pVtxSys;
-	if (nullptr != m_pIdxSys)
-		delete m_pIdxSys;
+	SAFE_DELETE(m_pVtxSys);
+	SAFE_DELETE(m_pIdxSys);
 }
 
 void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage)

@@ -18,6 +18,15 @@
 								virtual ~type();
 #define SINGLETON_SCRIPT_CPP(type) type* type::m_pInst = nullptr;
 
+#define SAFE_DELETE(value) if(value) {\
+		delete value;\
+		value = nullptr;\
+	}
+#define SAFE_DELETE_PTR(value) if(nullptr != value.Get()) { \
+		delete value.Get();\
+		value = nullptr;\
+	}
+
 // 복사생성자에서 Param을 추가할 경우 적용시켜야 됨
 #define AddParam_LINKOBJ(pTargetObj_OUT, pOriginTargetObj, TYPE) if (((TYPE*)&_origin)->GetGameObject()->IsExistGameObjectInTree(pOriginTargetObj))\
 CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
@@ -217,6 +226,8 @@ enum class E_ComponentType {
 	Light3D,
 	Camera,
 	RectTransform,
+	//Terrain,
+	//Decal,
 	// TODO (Jang) : Terrain, 추가
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
@@ -253,7 +264,7 @@ enum class E_ComponentTypeOld {
 	Light3D,
 	Camera,
 	RectTransform,
-	// TODO (Jang) : Terrain, 추가
+
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
 	MeshRenderer,

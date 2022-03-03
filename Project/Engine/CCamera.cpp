@@ -17,6 +17,8 @@
 #include "CParticleSystem.h"
 #include "CSkybox.h"
 
+#include "CFrustum.h"
+
 // Test
 #include "CKeyManager.h"
 #include "CTimeManager.h"
@@ -31,26 +33,54 @@ CCamera::CCamera() :
 	m_tViewportRect{0.f,0.f,1.f,1.f},
 	m_matView{},
 	m_matProjection{},
+	m_matProjectionInv{},
 	m_iLayerCheck(0)
 {
 	SetLayerCheckAll();
 
 	m_tViewportRect.fWidth = CDevice::GetInstance()->GetRenderResolution().x;
 	m_tViewportRect.fHeight = CDevice::GetInstance()->GetRenderResolution().y;
+
+	m_pFrustum = new CFrustum;
+}
+
+CCamera::CCamera(const CCamera& _origin) :
+	CComponent(_origin),
+	m_eProjectionType(_origin.m_eProjectionType),
+	m_tFOVAxis{ _origin.m_tFOVAxis }, // XM_PI / 3.f 45도 60도
+	m_fSize{ _origin.m_fSize },
+	m_tClippingPlanes{ _origin.m_tClippingPlanes},
+	m_tViewportRect{ _origin.m_tViewportRect},
+	m_matView{},
+	m_matProjection{},
+	m_matProjectionInv{},
+	m_iLayerCheck(_origin.m_iLayerCheck)
+{
+	if (_origin.m_pFrustum) {
+		m_pFrustum = _origin.m_pFrustum->Clone();
+	}
 }
 
 CCamera::~CCamera()
 {
+	SAFE_DELETE(m_pFrustum);
 }
 
 void CCamera::FinalUpdate()
 {
 	CalculateViewMatrix();
 	CalculateProjectionMatrix();
+	GetFrustum()->FinalUpdate();
+	CRenderManager::GetInstance()->RegisterCamera(this);
+}
 
+void CCamera::UpdateData()
+{
 	g_transform.matView = GetViewMatrix();
 	g_transform.matProjection = GetProjectionMatrix();
-	CRenderManager::GetInstance()->RegisterCamera(this);
+	g_transform.matViewInv = GetViewInverseMatrix();
+	g_transform.matWorldViewProj = GetProjectionInverseMatrix();
+	g_transform.matProjInv = GetProjectionInverseMatrix();
 }
 
 Vector3 CCamera::GetScreenToWorld2DPosition(const Vector2& _vPosition)
@@ -164,6 +194,7 @@ void CCamera::CalculateProjectionMatrix()
 		float fAspectRatio = vRenderResolution.x / vRenderResolution.y;
 		m_matProjection = XMMatrixPerspectiveFovLH(fFov, fAspectRatio, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
 	}
+	m_matProjectionInv = XMMatrixInverse(nullptr, m_matProjection);
 }
 
 bool CCamera::SaveToScene(FILE* _pFile)
@@ -304,9 +335,7 @@ void CCamera::_RenderDeferred()
 {
 	/////////////////////////////////////
 	// (UpdateData) RenderDeferred가 제일 먼저 실행되어 여기에 넣어줌.
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-	g_transform.matViewInv = m_matViewInv;
+	UpdateData();
 
 	for (UINT i = 0; i < m_vecDeferred.size(); ++i)
 		m_vecDeferred[i]->Render();
@@ -316,9 +345,8 @@ void CCamera::_RenderForward()
 {
 	/////////////////////////////////////
 	// (UpdateData) RenderForward가 제일 먼저 실행되어 여기에 넣어줌.
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-	g_transform.matViewInv = m_matViewInv;
+	UpdateData();
+
 
 	for (UINT i = 0; i < m_vecForward.size(); ++i)
 		m_vecForward[i]->Render();
@@ -381,9 +409,7 @@ void CCamera::_SortObjects_ShadowDepth()
 
 void CCamera::_RenderDynamic_ShadowDepth()
 {
-	g_transform.matView = m_matView;
-	g_transform.matProjection = m_matProjection;
-	g_transform.matViewInv = m_matViewInv;
+	UpdateData();
 
 	// Shadow Depth Render
 	static SharedPtr<CMaterial> pShadowDepthMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_ShadowDepthMtrl);

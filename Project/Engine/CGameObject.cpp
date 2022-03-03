@@ -43,7 +43,8 @@ CGameObject::CGameObject() :
 	m_bActive(true),
 	m_iLocalAddress(-1),
 	m_pRenderComponenet{ nullptr },
-	m_bDynamicShadow(false)
+	m_bDynamicShadow(false),
+	m_bUseFrustumCulling(false)
 {
 }
 
@@ -57,7 +58,8 @@ CGameObject::CGameObject(const CGameObject& _origin) :
 	m_bActive(_origin.m_bActive),
 	m_iLocalAddress(_origin.m_iLocalAddress),
 	m_pRenderComponenet{ nullptr },
-	m_bDynamicShadow(_origin.m_bDynamicShadow)
+	m_bDynamicShadow(_origin.m_bDynamicShadow),
+	m_bUseFrustumCulling(_origin.m_bUseFrustumCulling)
 {
 	for (UINT i = 0; i < (UINT)E_ComponentType::End; ++i) {
 		if (nullptr != _origin.m_arrComponent[i])
@@ -655,8 +657,7 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 				continue;
 			if (_IsExistComponent((E_ComponentType)i)) {
 				assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
-				if (_pComponent)
-					delete _pComponent;
+				SAFE_DELETE(_pComponent);
 				return nullptr;
 			}
 		}
@@ -995,10 +996,7 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 
 void CGameObject::_DestroyComponent(E_ComponentType _eType)
 {
-	if (m_arrComponent[(UINT)_eType]) {
-		delete m_arrComponent[(UINT)_eType];
-		m_arrComponent[(UINT)_eType] = nullptr;
-	}
+	SAFE_DELETE(m_arrComponent[(UINT)_eType]);
 }
 
 void CGameObject::_DestroyScript(CScript* pScript)
@@ -1013,7 +1011,7 @@ void CGameObject::_DestroyScript(CScript* pScript)
 	if (iter != m_vecScript.end()) {
 		CScript* pScr = *iter;
 		m_vecScript.erase(iter);
-		delete pScr;
+		SAFE_DELETE(pScr);
 	}
 }
 

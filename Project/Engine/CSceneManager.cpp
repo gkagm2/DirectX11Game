@@ -24,11 +24,8 @@ CSceneManager::CSceneManager() :
 
 CSceneManager::~CSceneManager()
 {
-	if (nullptr != m_pCurScene)
-		delete m_pCurScene;
-
-	if (nullptr != m_pLoadingScene)
-		delete m_pLoadingScene;
+	SAFE_DELETE(m_pCurScene);
+	SAFE_DELETE(m_pLoadingScene);
 }
 
 void CSceneManager::Init()
@@ -103,8 +100,10 @@ void CSceneManager::ChangeScene(CScene* _pNextScene)
 {
 	CUIManager::GetInstance()->Init();
 
-	if (m_pCurScene && m_pCurScene != m_pLoadingScene)
-		delete m_pCurScene;
+	
+	if (m_pCurScene && m_pCurScene != m_pLoadingScene) {
+		SAFE_DELETE(m_pCurScene);
+	}
 	m_pCurScene = _pNextScene;
 }
 
@@ -143,8 +142,7 @@ void CSceneManager::SceneLoadStart()
 {
 	m_iLoadSync = 0; // 씽크 초기화
 	// 기존에 있던 Scene 삭제
-	if (m_pCurScene)
-		delete m_pCurScene;
+	SAFE_DELETE(m_pCurScene);
 
 	// 스레드 로딩중일 때 노출시킬 LoadingScene을 잠시 현재 Scene으로 설정한다.
 	m_pCurScene = m_pLoadingScene;

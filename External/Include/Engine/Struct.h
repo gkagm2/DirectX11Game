@@ -68,6 +68,7 @@ struct TTransform {
 
 	Matrix matWorldInv;
 	Matrix matViewInv;
+	Matrix matProjInv;
 
 	Matrix matWorldView;	 // World * View Matrix
 	Matrix matWorldViewProj; // World * View * Projection Matrix

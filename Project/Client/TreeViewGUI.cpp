@@ -243,9 +243,7 @@ TreeViewNode* TreeViewGUI::AddItem(const string& _str, DWORD_PTR _dwData, TreeVi
 
 void TreeViewGUI::Clear()
 {
-	if (m_pRootNode)
-		delete m_pRootNode;
-	m_pRootNode = nullptr;
+	SAFE_DELETE(m_pRootNode);
 
 	m_pSelectedNode = nullptr;
 

@@ -21,9 +21,12 @@ struct TViewportRect {
 	float fHeight; // 직교투영 세로
 };
 
+class CFrustum;
 class CCamera : public CComponent
 {
 private:
+	CFrustum* m_pFrustum;
+
 	E_ProjectionType m_eProjectionType;	// 투영 방식
 	
 	////// 원근투영 (Perspective)  //////
@@ -40,6 +43,7 @@ private:
 	Matrix			 m_matView;			// View 행렬
 	Matrix			 m_matProjection;	// Prjection 행렬
 	Matrix			 m_matViewInv;		// View 역행렬
+	Matrix			 m_matProjectionInv;// Projection 역행렬
 	////////////////////////////////////////
 
 	// 렌더링 시점별로 분류된 오브젝트들
@@ -55,6 +59,7 @@ private:
 
 public:
 	virtual void FinalUpdate() override;
+	virtual void UpdateData() override; // 특별히 Final Update 내부에서 처리함 
 	
 public:
 	
@@ -85,6 +90,7 @@ public: // Orthographic
 	 const Matrix& GetViewMatrix() { return m_matView; }
 	 const Matrix& GetProjectionMatrix() { return m_matProjection; }
 	 const Matrix& GetViewInverseMatrix() { return m_matViewInv; }
+	 const Matrix& GetProjectionInverseMatrix() { return m_matProjectionInv; }
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
@@ -103,6 +109,7 @@ public:
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
+	CFrustum* GetFrustum() { return m_pFrustum; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;
@@ -125,6 +132,7 @@ private:
 public:
 	CLONE(CCamera);
 	CCamera();
+	CCamera(const CCamera& _origin);
 	virtual ~CCamera() override;
 
 	friend class CRenderManager;

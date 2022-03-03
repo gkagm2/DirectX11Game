@@ -115,10 +115,7 @@ void CAnimator2D::DeleteAnimation(const tstring& _strName)
 		m_pCurAnimation = nullptr;
 	}
 	CAnimation2D* pAnim = (*iter).second;
-	if (pAnim) {
-		delete pAnim;
-		pAnim = nullptr;
-	}
+	SAFE_DELETE(pAnim);
 	m_unmapAnim.erase(iter);
 	
 }

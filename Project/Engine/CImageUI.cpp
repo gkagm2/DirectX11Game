@@ -42,10 +42,7 @@ CImageUI::CImageUI(E_ComponentType _eType) :
 
 CImageUI::~CImageUI()
 {
-	if (nullptr != m_pCloneMtrl) {
-		delete m_pCloneMtrl.Get();
-		m_pCloneMtrl = nullptr;
-	}
+	SAFE_DELETE_PTR(m_pCloneMtrl);
 }
 
 void CImageUI::FinalUpdate()

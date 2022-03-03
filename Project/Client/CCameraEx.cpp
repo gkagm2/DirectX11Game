@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "CCameraEx.h"
+#include <Engine\CCamera.h>
 #include <Engine\CRenderManager.h>
-
+#include <Engine\CFrustum.h>
 CCameraEx::CCameraEx()
 {
 
@@ -15,8 +16,6 @@ void CCameraEx::FinalUpdate()
 {
 	CalculateViewMatrix();
 	CalculateProjectionMatrix();
-
-	g_transform.matView = GetViewMatrix();
-	g_transform.matProjection = GetProjectionMatrix();
+	GetFrustum()->FinalUpdate();
 	CRenderManager::GetInstance()->RegisterToolCamera(this);
 }

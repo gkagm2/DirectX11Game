@@ -26,10 +26,8 @@ CRenderManager::CRenderManager() :
 CRenderManager::~CRenderManager()
 {
 	// Debug
-	if (m_pDebugMtrl.Get())
-		delete m_pDebugMtrl.Get();
-	if (m_pDebugShader.Get())
-		delete m_pDebugShader.Get();
+	SAFE_DELETE_PTR(m_pDebugMtrl);
+	SAFE_DELETE_PTR(m_pDebugShader);
 	Safe_Delete_Vector(m_vecDebugObjPool);
 	Safe_Delete_Array(m_arrMRT);
 }

@@ -1547,8 +1547,7 @@ void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
 				if ((*iter)->GetKey() == _strKey) {
 					m_bFixed = true;
 					CMaterial* pMtrl = *iter;
-					if (pMtrl)
-						delete pMtrl;
+					SAFE_DELETE(pMtrl);
 					m_vecCloneMtrl.erase(iter);
 					break;
 				}
@@ -1560,8 +1559,7 @@ void CResourceManager::_DeleteCopiedMaterial(const tstring& _strKey)
 				if ((*iter).first == _strKey) {
 					m_bFixed = true;
 					CResource* pMtrl = iter->second;
-					if (pMtrl)
-						delete pMtrl;
+					SAFE_DELETE(pMtrl);
 					m_umapResource[(UINT)E_ResourceType::Material].erase(iter);
 					break;
 				}
@@ -1736,8 +1734,7 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 		}
 	}
 	if (bIsDeleted) {
-		delete iter->second;
-		iter->second = nullptr;
+		SAFE_DELETE(iter->second);
 		m_umapResource[(UINT)eResourceType].erase(iter);
 	}
 

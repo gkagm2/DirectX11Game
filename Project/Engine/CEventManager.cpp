@@ -45,8 +45,7 @@ void CEventManager::Update()
 		}
 	}
 	for (UINT i = 0; i < m_vecDeadObj.size(); ++i) {
-		delete m_vecDeadObj[i];
-		m_vecDeadObj[i] = nullptr;
+		SAFE_DELETE(m_vecDeadObj[i]);
 		m_bEventHappened = true;
 	}
 	
@@ -62,10 +61,7 @@ void CEventManager::Update()
 			CGameObject* pTargetGameObject = pCurScene->FindGameObject(ids);
 			if (pObj)
 				*pObj = pTargetGameObject;
-			if (id) {
-				delete id;
-				id = nullptr;
-			}
+			SAFE_DELETE(id);
 		}
 	}
 	m_vecTargetLinkObj.clear();
@@ -97,9 +93,7 @@ void CEventManager::Update()
 				*pTargetObj = pObj;
 			}
 		}
-		if (pStrLocalAdr) {
-			delete pStrLocalAdr; pStrLocalAdr = nullptr;
-		}
+		SAFE_DELETE(pStrLocalAdr);
 	}
 	m_vecTargetLinkObj2.clear();
 
@@ -235,7 +229,7 @@ void CEventManager::_Excute(const TEvent& _event)
 
 		CScene* pScene = CSceneManager::GetInstance()->m_pLoadSceneFunc(*pRelativePath, bRelativePath);
 		CSceneManager::GetInstance()->ChangeScene(pScene);
-		if (pRelativePath) delete pRelativePath;
+		SAFE_DELETE(pRelativePath);
 	}
 		break;
 	case E_EventType::Chagne_ResourceKey: {
@@ -247,17 +241,15 @@ void CEventManager::_Excute(const TEvent& _event)
 		E_ResourceType eResourceType = (E_ResourceType)_event.mparam;
 
 		CResourceManager::GetInstance()->_ChangeResourceKey(*pStrKey, *pStrKeyChange, eResourceType);
-
-		if (pStrKey) delete pStrKey;
-		if (pStrKeyChange)delete pStrKeyChange;
+		SAFE_DELETE(pStrKey);
+		SAFE_DELETE(pStrKeyChange);
 	}
 		break;
 	case E_EventType::Remove_Material: {
 		// lparam : tstring material Key
 		tstring* pStrKey = (tstring*)_event.lparam;
 		CResourceManager::GetInstance()->_DeleteCopiedMaterial(*pStrKey);
-		if (pStrKey)
-			delete pStrKey;
+		SAFE_DELETE(pStrKey);
 	}
 		break;
 	case E_EventType::Remove_Resource: {
@@ -267,7 +259,7 @@ void CEventManager::_Excute(const TEvent& _event)
 		E_ResourceType eResourceType = (E_ResourceType)_event.wparam;
 		CResourceManager::GetInstance()->_DeleteCustomResource(*pStrResourceKey, eResourceType);
 		
-		if (pStrResourceKey) delete pStrResourceKey;
+		SAFE_DELETE(pStrResourceKey);
 	}
 		break;
 	case E_EventType::Change_State: {
@@ -329,7 +321,7 @@ void CEventManager::_Excute(const TEvent& _event)
 		CSceneManager::GetInstance()->m_pSaveSceneFunc(pScene, *pRelativePath, true);
 		_tcprintf(_T("[scene]%s [reupdated]\n"), (*pRelativePath).c_str()); // Using
 
-		if(pRelativePath) delete pRelativePath;
+		SAFE_DELETE(pRelativePath);
 	}
 		break;
 	default:

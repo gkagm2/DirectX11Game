@@ -3,17 +3,26 @@
 
 /*
    Cube
-				4-------5
-			    |       |
-	0-------1	|       |
-	|       |	|       |
-	|       |	7-------6
-	|       |
-	3-------2
+			   4--------5
+			 / |        |
+		0-------1  z=1  |
+		|       |       |
+		|  z=0 7|-------6
+		|       |
+		3-------2
 	
 */
 
-const Vector3 CFrustum::g_arrProjPos[8] = {};
+const Vector3 CFrustum::g_arrProjPos[8] = {
+	Vector3(-1.f, 1.f, 0.f),
+	Vector3(1.f, 1.f, 0.f),
+	Vector3(1.f, -1.f, 0.f),
+	Vector3(-1.f, -1.f, 0.f),
+	Vector3(-1.f, 1.f, 1.f),
+	Vector3(1.f, 1.f, 1.f),
+	Vector3(1.f, -1.f, 1.f),
+	Vector3(-1.f, -1.f, 1.f),
+};
 
 CFrustum::CFrustum() :
 	m_pOwner{ nullptr },
