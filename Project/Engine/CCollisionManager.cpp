@@ -219,6 +219,49 @@ bool CCollisionManager::IsCollisionSphere(CCollider3D* _pLeft, CCollider3D* _pRi
 	return false;
 }
 
+// 2D Triangle, Point
+bool CCollisionManager::IsCollisionTriangle_Point(CCollider2D* _pLeft, const Vector3& _vPoint)
+{
+	// 삼각형 출동 ( 삼각메쉬는 만들지 않았음 )
+	// 유향선분을 이용한 삼각형 내부의 점 충돌 검사
+	static Vector3 arrLocal[4] = { // 시계방향
+	Vector3(0.f, 0.5f, 0.f),
+	Vector3(0.5f, -0.5f, 0.f),
+	Vector3(-0.5f,0.5f, 0.f),
+	};
+
+	// 삼각형 사이클 벡터
+	Vector3 v3TriVec0 = XMVector3TransformCoord(arrLocal[0], _pLeft->GetWorldMatrix());
+	Vector3 v3TriVec1 = XMVector3TransformCoord(arrLocal[1], _pLeft->GetWorldMatrix());
+	Vector3 v3TriVec2 = XMVector3TransformCoord(arrLocal[2], _pLeft->GetWorldMatrix());
+
+	Vector3 vTriDirVec0 = v3TriVec1 - v3TriVec0;
+	Vector3 vTriDirVec1 = v3TriVec2 - v3TriVec1;
+	Vector3 vTriDirVec2 = v3TriVec0 - v3TriVec2;
+
+
+	// 삼각형 정점에서 플레이어로 향한 벡터
+	Vector3 vHitDirVec0 = _vPoint - v3TriVec0;
+	Vector3 vHitDirVec1 = _vPoint - v3TriVec1;
+	Vector3 vHitDirVec2 = _vPoint - v3TriVec2;
+
+	// 각각 외적
+	float fCross0 = v3TriVec0.z * vHitDirVec0.x - v3TriVec0.x * vHitDirVec0.z;
+	float fCross1 = v3TriVec1.z * vHitDirVec1.x - v3TriVec1.x * vHitDirVec1.z;
+	float fCross2 = v3TriVec2.z * vHitDirVec2.x - v3TriVec2.x * vHitDirVec2.z;
+
+	bool bHit = false;
+	if (fCross0 >= 0.f) {
+		if (fCross1 >= 0.f && fCross2 >= 0.f)
+			bHit = true;
+	}
+	else {
+		if (fCross1 < 0.f && fCross2 < 0.f)
+			bHit = true;
+	}
+	return bHit;
+}
+
 // 2D Box, Point
 bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
 {

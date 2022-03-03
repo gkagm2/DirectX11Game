@@ -57,6 +57,7 @@ public:
 	bool IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, bool m_bPushIntersection, TRigidCollisionInfo* _pPushIntersectionInfo = nullptr);
 
 	bool IsCollisionSphere(CCollider3D* _pLeft, CCollider3D* _pRight);
+	bool IsCollisionTriangle_Point(CCollider2D* _pLeft, const Vector3& _vPoint);
 
 	// BoxCollider, WorldPoint 2d
 	bool IsCollision(CCollider2D* _pCol, const Vector3& _vPoint); // 2d collsion
