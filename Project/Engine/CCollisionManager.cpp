@@ -204,6 +204,21 @@ bool CCollisionManager::IsCollision(CCollider2D* _pLeft, CCollider2D* _pRight, b
 	return false;
 }
 
+bool CCollisionManager::IsCollisionSphere(CCollider3D* _pLeft, CCollider3D* _pRight)
+{
+	// TODO (Jang) : 구 충돌 Radius를 Collider3D 컴포넌트에 추가하기.
+	const Vector3& vLeftPos = _pLeft->Transform()->GetPosition();
+	const Vector3& vRightPos = _pRight->Transform()->GetPosition();
+
+	float fLeftRadius = _pLeft->Transform()->GetScale().x;
+	float fRightRadius = _pRight->Transform()->GetScale().x;
+
+	float fDis = Vector3::Distance(vLeftPos, vRightPos);
+	if (fDis < (fLeftRadius + fRightRadius) * (fLeftRadius + fRightRadius))
+		return true;
+	return false;
+}
+
 // 2D Box, Point
 bool CCollisionManager::IsCollision(CCollider2D* _pCol, const Vector3& _vPoint)
 {
