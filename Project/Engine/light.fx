@@ -104,6 +104,7 @@ VS_OUT VS_PointLight(VS_IN _in)
 PS_OUT PS_PointLight(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
+    
     output.vDiffuseLight = float4(1.f, 1.f, 1.f, 1.f);
     output.vSpecularLight = float4(1.f, 1.f, 1.f, 1.f);
     return output;

@@ -218,6 +218,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CEngineDebugScript.h" />
     <ClInclude Include="CEventManager.h" />
     <ClInclude Include="CFontManager.h" />
+    <ClInclude Include="CFrustum.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CGraphicsShader.h" />
     <ClInclude Include="CLight3D.h" />
@@ -305,6 +306,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CEngineDebugScript.cpp" />
     <ClCompile Include="CEventManager.cpp" />
     <ClCompile Include="CFontManager.cpp" />
+    <ClCompile Include="CFrustum.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CGraphicsShader.cpp" />
     <ClCompile Include="CLight3D.cpp" />

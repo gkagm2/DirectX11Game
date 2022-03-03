@@ -256,6 +256,9 @@
     <ClInclude Include="CCameraModule.h">
       <Filter>Engine\07. Component\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="CFrustum.h">
+      <Filter>Engine\07. Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -490,6 +493,9 @@
       <Filter>Engine\Support</Filter>
     </ClCompile>
     <ClCompile Include="CCameraModule.cpp">
+      <Filter>Engine\07. Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CFrustum.cpp">
       <Filter>Engine\07. Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>

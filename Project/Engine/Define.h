@@ -217,6 +217,8 @@ enum class E_ComponentType {
 	Light3D,
 	Camera,
 	RectTransform,
+	//Terrain,
+	//Decal,
 	// TODO (Jang) : Terrain, 추가
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
@@ -253,7 +255,7 @@ enum class E_ComponentTypeOld {
 	Light3D,
 	Camera,
 	RectTransform,
-	// TODO (Jang) : Terrain, 추가
+
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
 	MeshRenderer,
