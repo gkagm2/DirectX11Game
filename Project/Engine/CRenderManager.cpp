@@ -150,6 +150,12 @@ void CRenderManager::_RenderInGame()
 
 	// Deferred 물체 정보를 그리기
 	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+	CCamera* pCam = GetMainCamera();
+	if (pCam)
+		pCam->_RenderDeferred();
+	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
+		m_vecCam[i]->_RenderDeferred();
+	*/
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 		m_vecCam[i]->_RenderDeferred();
 
@@ -195,8 +201,13 @@ void CRenderManager::_RenderTool()
 
 	// Deferred 물체 정보를 그리기
 	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
+	CCamera* pCam = GetMainCamera();
+	if (pCam)
+		pCam->_RenderDeferred();
+	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
 		m_vecToolCam[i]->_RenderDeferred();
+	*/
+		
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
 	// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
@@ -490,15 +501,16 @@ void CRenderManager::_CreateMultpleRenderTargets()
 	{
 		// 그림자 판정을 위해서, 광원 시점에서 깊이값을 저장 할 타겟
 		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
-
+		constexpr UINT sizeX = 4096;
+		constexpr UINT sizeY = 4096;
 		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(
 			STR_ResourceKey_ShadowDepthTargetTex,
-			4096, 4096,
+			sizeX, sizeY,
 			DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,
 			D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 		arrTex[0]->SetName(_T("Shadow Depth Target Texture"));
 		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowDepthStencilTex,
-			4096, 4096, 
+			sizeX, sizeY,
 			DXGI_FORMAT_D32_FLOAT, 
 			D3D11_BIND_DEPTH_STENCIL);
 
