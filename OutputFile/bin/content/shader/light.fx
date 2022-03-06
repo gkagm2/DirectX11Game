@@ -134,14 +134,14 @@ PS_OUT PS_PointLight(VS_OUT _in)
 VS_OUT VS_SpotLight(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
-
+    output.vPos = mul(float4(_in.vPos, 1.f), g_matWorldViewProj);
     return output;
 }
 
 PS_OUT PS_SpotLight(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
-       
+    
     // Point Target으로 부터 해당 지점에 존재하는 물체의 위치를 확인한다.
     float2 vUV = _in.vPos.xy / g_vResolution.xy;
     float3 vViewPos = ViewPosTargetTex.Sample(Sample_Point, vUV).xyz;
@@ -160,9 +160,6 @@ PS_OUT PS_SpotLight(VS_OUT _in)
     float3 vViewNormal = ViewNormalTargetTex.Sample(Sample_Point, vUV).xyz;
     
     TLightColor color = CalLight3D(iLightIdx, vViewPos, vViewNormal);
-    
-    //TLightColor tLight = (TLightColor) 0.f;
-    //TLightInfo tInfo = g_Light3DBuffer[_iLightIdx];
     
     output.vDiffuseLight.xyz = color.vDiffuse.xyz + color.vAmbient.xyz;
     output.vSpecularLight.xyz = color.vSpeculer.xyz;

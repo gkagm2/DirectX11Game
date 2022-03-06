@@ -651,7 +651,7 @@ void CResourceManager::CreateDefaultMesh3D()
 
 		VTX vtx = {};
 		
-		int tDiv = 6;
+		int tDiv = 15;
 		int yDiv = 6;
 		double maxTheta = CMyMath::DegreeToRadian(360.0);
 		double minY = -1.0;

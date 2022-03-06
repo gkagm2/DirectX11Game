@@ -13,6 +13,6 @@ CRotationSelfScript_solar::~CRotationSelfScript_solar()
 void CRotationSelfScript_solar::Update()
 {
 	Vector3 vRot = Transform()->GetRotationDegree();
-	vRot.y += 10.f * DT;
+	vRot.y += DT;
 	Transform()->SetLocalRotationDegree(vRot);
 }
