@@ -1147,6 +1147,15 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Output Texture") });
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("Skybox type(0: cube, 1: sphere)") });
 	AddRes(STR_KEY_SkyboxShader, pShader);
+
+	//----------------------------
+	// Decal Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Decal);
+	pShader->CreateVertexShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_VTX_DebugDecal);
+	pShader->CreatePixelShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_PIX_DebugDecal);
+	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Write);
+	AddRes(STR_KEY_DecalShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1345,13 +1354,18 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderSkybox = LoadRes<CGraphicsShader>(STR_KEY_SkyboxShader);
 	pMtrl->SetShader(pShaderSkybox);
 
-	// Default Skybox cube Texture
 	SharedPtr<CTexture> pSkyboxCubeTex = LoadRes<CTexture>(STR_FILE_PATH_SkyboxCubeTexture);
 	SharedPtr<CTexture> pSkyboxSphereTex = LoadRes<CTexture>(STR_FILE_PATH_SkyboxSphereTexture);
 
 	pMtrl->SetData(E_ShaderParam::TextureCube_0, pSkyboxCubeTex.Get());
 	pMtrl->SetData(E_ShaderParam::Texture_0, pSkyboxSphereTex.Get());
 	AddRes(STR_KEY_SkyboxMtrl, pMtrl);
+
+	// Decal
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDecal = LoadRes<CGraphicsShader>(STR_KEY_DecalShader);
+	pMtrl->SetShader(pShaderDecal);
+	AddRes(STR_KEY_DecalDebugMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

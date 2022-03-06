@@ -39,6 +39,8 @@
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
 
+#define STR_FILE_PATH_DecalShader _T("shader\\decal.fx")
+
 
 // Resource의 key이자 path임
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
@@ -148,6 +150,8 @@
 #define STR_FUNC_NAME_VTX_Noise "VS_Noise"
 #define STR_FUNC_NAME_PIX_Noise "PS_Noise"
 
+#define STR_FUNC_NAME_VTX_DebugDecal "VS_DebugDecal"
+#define STR_FUNC_NAME_PIX_DebugDecal "PS_DebugDecal"
 
 ////////// Resource Key ///////////////
 // Mesh
@@ -191,6 +195,7 @@
 #define STR_KEY_PointLightShader _T("PointLightShader")
 #define STR_KEY_SpotLightShader _T("SpotLightShader")
 #define STR_KEY_ShadowDepthShader _T("ShadowDepthShader")
+#define STR_KEY_DecalShader _T("DecalShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -229,6 +234,7 @@
 #define STR_KEY_PointLightMtrl _T("PointLightMaterial")
 #define STR_KEY_SpotLightMtrl _T("SpotLightMaterial")
 #define STR_KEY_ShadowDepthMtrl _T("ShadowDepthMaterial")
+#define STR_KEY_DecalDebugMtrl _T("DecalDebugMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")

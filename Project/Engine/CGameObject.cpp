@@ -23,6 +23,7 @@
 #include "CCanvasRenderer.h"
 #include "CSpriteRenderer.h"
 #include "CSkybox.h"
+#include "CDecal.h"
 
 #include "CTextUI.h"
 #include "CButtonUI.h"
@@ -986,6 +987,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::ButtonUI:
 		pComponent = new CButtonUI;
+		break;
+	case E_ComponentType::Decal:
+		pComponent = new CDecal;
 		break;
 	default:
 		assert(nullptr);

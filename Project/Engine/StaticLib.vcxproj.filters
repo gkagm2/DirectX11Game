@@ -259,6 +259,9 @@
     <ClInclude Include="CFrustum.h">
       <Filter>Engine\07. Component\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="CDecal.h">
+      <Filter>Engine\07. Component\Decal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -498,6 +501,9 @@
     <ClCompile Include="CFrustum.cpp">
       <Filter>Engine\07. Component\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="CDecal.cpp">
+      <Filter>Engine\07. Component\Decal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -683,6 +689,9 @@
     <Filter Include="Engine\04. Manager\RenderManager">
       <UniqueIdentifier>{852b7f49-c8ad-435f-9938-67fee6d4844f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component\Decal">
+      <UniqueIdentifier>{ff9b9861-f5be-447c-b0f7-cea49a738890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
@@ -731,6 +740,9 @@
       <Filter>Shader Script</Filter>
     </FxCompile>
     <FxCompile Include="shadow.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
+    <FxCompile Include="decal.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

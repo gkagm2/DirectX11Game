@@ -214,6 +214,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CCursor.h" />
+    <ClInclude Include="CDecal.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CEngineDebugScript.h" />
     <ClInclude Include="CEventManager.h" />
@@ -302,6 +303,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CCursor.cpp" />
+    <ClCompile Include="CDecal.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CEngineDebugScript.cpp" />
     <ClCompile Include="CEventManager.cpp" />
@@ -376,6 +378,20 @@ call EngineCopy.bat</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="decal.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_Graphics|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_Graphics|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug_Graphics|x64'">
       </ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>

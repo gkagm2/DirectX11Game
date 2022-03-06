@@ -106,7 +106,8 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_COMPONENT(TextUI)\
 	GET_COMPONENT(ImageUI)\
 	GET_COMPONENT(ButtonUI)\
-	GET_COMPONENT(Skybox)
+	GET_COMPONENT(Skybox)\
+	GET_COMPONENT(Decal)
 
 // TIP : 추가 할 경우 
 // CGameObject .cpp,.h에 선언하기. 
@@ -138,7 +139,8 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_OTHER_COMPONENT(TextUI)\
 	GET_OTHER_COMPONENT(ImageUI)\
 	GET_OTHER_COMPONENT(ButtonUI)\
-	GET_OTHER_COMPONENT(Skybox)
+	GET_OTHER_COMPONENT(Skybox)\
+	GET_OTHER_COMPONENT(Decal)
 #pragma endregion
 
 
@@ -201,10 +203,12 @@ enum class E_ShaderStage {
 };
 
 enum class E_RenderTimePoint {
-	Forward,
+	
 	ShadowDepth,
 	Deferred,
 	Light,
+	Decal,
+	Forward,
 	Particle,
 	PostEffect,
 	Collider,
@@ -227,7 +231,6 @@ enum class E_ComponentType {
 	Camera,
 	RectTransform,
 	//Terrain,
-	//Decal,
 	// TODO (Jang) : Terrain, 추가
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
@@ -236,6 +239,7 @@ enum class E_ComponentType {
 	ParticleSystem,
 	Skybox,
 	TileMap,
+	Decal,
 #pragma endregion
 
 #pragma region UI Component
@@ -264,7 +268,9 @@ enum class E_ComponentTypeOld {
 	Light3D,
 	Camera,
 	RectTransform,
-
+	//Terrain,
+	// 
+	// TODO (Jang) : Terrain, 추가
 #pragma region 오직 하나만 렌더링할 수 있는 종류의 컴포넌트들. (오브젝트에 아래의 컴포넌트가 한개라도 존재할경우 아래의 다른 컴포넌트는 추가할 수 없음)
 	CanvasRenderer,
 	MeshRenderer,

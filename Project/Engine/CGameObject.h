@@ -26,6 +26,7 @@ class CButtonUI;
 class CUI;
 class CBehaviour;
 class CAudioSource;
+class CDecal;
 
 class CScript;
 

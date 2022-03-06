@@ -16,7 +16,7 @@
 #include "CCollider2D.h"
 #include "CParticleSystem.h"
 #include "CSkybox.h"
-
+#include "CDecal.h"
 #include "CFrustum.h"
 
 // Test
@@ -26,6 +26,7 @@
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
+	m_pFrustum{ nullptr },
 	m_eProjectionType(E_ProjectionType::Perspective),
 	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45도 60도
 	m_fSize{ 0.02f },
@@ -42,10 +43,12 @@ CCamera::CCamera() :
 	m_tViewportRect.fHeight = CDevice::GetInstance()->GetRenderResolution().y;
 
 	m_pFrustum = new CFrustum;
+	m_pFrustum->m_pOwner = this;
 }
 
 CCamera::CCamera(const CCamera& _origin) :
 	CComponent(_origin),
+	m_pFrustum{ nullptr },
 	m_eProjectionType(_origin.m_eProjectionType),
 	m_tFOVAxis{ _origin.m_tFOVAxis }, // XM_PI / 3.f 45도 60도
 	m_fSize{ _origin.m_fSize },
@@ -58,6 +61,7 @@ CCamera::CCamera(const CCamera& _origin) :
 {
 	if (_origin.m_pFrustum) {
 		m_pFrustum = _origin.m_pFrustum->Clone();
+		m_pFrustum->m_pOwner = this;
 	}
 }
 
@@ -227,6 +231,7 @@ bool CCamera::LoadFromScene(FILE* _pFile)
 
 void CCamera::_SortObjects()
 {
+	m_vecDecal.clear();
 	m_vecDeferred.clear();
 	m_vecForward.clear();
 	m_vecParticle.clear();
@@ -299,8 +304,19 @@ void CCamera::_SortObjects()
 					pObj->Skybox()->GetMaterial()->GetShader().Get()) {
 					eRenderTimePoint = pObj->Skybox()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
+				else if (pObj->Decal() &&
+					pObj->Decal()->GetMesh().Get() &&
+					pObj->Decal()->GetMaterial().Get() &&
+					pObj->Decal()->GetMaterial()->GetShader().Get()) {
+					eRenderTimePoint = pObj->Decal()->GetMaterial()->GetShader()->GetRenderTimePoint();
+				}
 				else {
-					//assert(nullptr);
+
+					if (eRenderTimePoint != E_RenderTimePoint::None &&
+						pObj->IsFrustumCulling() && 
+						!m_pFrustum->CheckSphere(pObj->Transform()->GetPosition(), pObj->Transform()->GetScale().x * 0.5f)) {
+						eRenderTimePoint = E_RenderTimePoint::None;
+					}
 				}
 				
 				switch (eRenderTimePoint) {
@@ -322,6 +338,9 @@ void CCamera::_SortObjects()
 				case E_RenderTimePoint::PostEffect:
 					m_vecPostEffect.push_back(pObj);
 					break;
+				case E_RenderTimePoint::Decal:
+					m_vecDecal.push_back(pObj);
+					break;
 				default:
 					//assert(nullptr);
 					break;
@@ -329,6 +348,14 @@ void CCamera::_SortObjects()
 			}
 		}
 	}
+}
+
+void CCamera::_RenderDecal()
+{
+	UpdateData();
+
+	for (UINT i = 0; i < m_vecDecal.size(); ++i)
+		m_vecDecal[i]->Render();
 }
 
 void CCamera::_RenderDeferred()
@@ -394,11 +421,17 @@ void CCamera::_SortObjects_ShadowDepth()
 			E_RenderTimePoint eRT = E_RenderTimePoint::None;
 
 			for (size_t j = 0; j < vecAllObj.size(); ++j) {
-				if (vecAllObj[j]->IsDynamicShadow() && vecAllObj[j]->MeshRenderer()) {
-					if (nullptr == vecAllObj[j]->MeshRenderer()->GetMesh() ||
-						nullptr == vecAllObj[j]->MeshRenderer()->GetSharedMaterial() ||
-						nullptr == vecAllObj[j]->MeshRenderer()->GetSharedMaterial()->GetShader())
+				CGameObject* pObj = vecAllObj[j];
+				if (pObj->IsDynamicShadow() && pObj->MeshRenderer()) {
+					if (nullptr == pObj->MeshRenderer()->GetMesh() ||
+						nullptr == pObj->MeshRenderer()->GetSharedMaterial())
 						continue;
+
+					// Sphere Type으로 검사
+					if (pObj->IsFrustumCulling() &&
+						!m_pFrustum->CheckSphere(pObj->Transform()->GetPosition(), pObj->Transform()->GetScale().x * 0.5f)) {
+						continue;
+					}
 
 					m_vecShadowDepth.push_back(vecAllObj[j]);
 				}

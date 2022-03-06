@@ -10,6 +10,7 @@ enum class E_MRTType {
 	Deferred,
 	Light,
 	ShadowDepth,
+	Decal,
 	End
 };
 tstring MRTTypeToStr(E_MRTType _eType);

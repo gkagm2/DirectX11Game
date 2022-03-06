@@ -5,8 +5,8 @@
 #include "CResourceManager.h"
 #include "CSceneManager.h"
 #include "CEventManager.h"
-bool CVersionManager::g_bOldVersionUpdate = false;	 // 새롭게 버전을 추가했을 경우에만 사용
-bool CVersionManager::g_bComponentUpdate = false;
+bool CVersionManager::g_bOldVersionUpdate = true;	 // 새롭게 버전을 추가했을 경우에만 사용
+bool CVersionManager::g_bComponentUpdate = true;
 
 // TODO (Jang) : CLight3D에 Light3D camera 멤버변수 추가함. 20220228 
 

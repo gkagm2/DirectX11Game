@@ -168,6 +168,9 @@ void CRenderManager::_RenderInGame()
 	/*for (size_t i = 0; i < m_vecCam.size(); ++i) {
 	}*/
 	
+	// Decal 정보 그리기
+	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
+	pCam->_RenderDecal();
 
 	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
 	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
@@ -188,8 +191,6 @@ void CRenderManager::_RenderInGame()
 
 void CRenderManager::_RenderTool()
 {
-	//GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-
 	// directional light 시점에서 동적 그림자 깊이맵 만들기
 	_Render_Dynamic_ShadowDepth();
 
@@ -216,6 +217,11 @@ void CRenderManager::_RenderTool()
 		m_vecLight2D[j]->Render();
 	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
 		m_vecLight3D[j]->Render();
+
+
+	// Decal 정보 그리기
+	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
+	pCam->_RenderDecal();
 
 	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 	}*/
@@ -524,6 +530,19 @@ void CRenderManager::_CreateMultpleRenderTargets()
 
 		pDirLightMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowDepthTargetTex).Get());
 	}
+
+	// Decal MRT
+	{
+		SharedPtr<CTexture> arrTex[MAX_RENDER_TARGET_TEX_CNT] = {};
+		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
+			Vector4::Zero,
+			Vector4::Zero,
+		};
+
+		m_arrMRT[(UINT)E_MRTType::Decal] = new CMRT(arrTex, arrClearColor, 2, nullptr, true);
+
+		SharedPtr<CMaterial> pDecalMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DecalDebugMtrl);
+	}
 }
 
 void CRenderManager::_UpdateData_Light2D()
@@ -614,6 +633,9 @@ tstring MRTTypeToStr(E_MRTType _eType)
 		break;
 	case E_MRTType::ShadowDepth:
 		strName = _T("ShadowDepth");
+		break;
+	case E_MRTType::Decal:
+		strName = _T("Decal");
 		break;
 	default:
 		assert(nullptr && _T("MRT Type name error"));
