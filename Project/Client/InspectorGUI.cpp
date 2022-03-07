@@ -330,6 +330,13 @@ void InspectorGUI::UpdateObjectGUI()
 		ImGui::PopID();
 	}
 
+	ImGui::Text("FrustumCulling");
+	bool bFrustumCulling = m_pTargetObject->IsFrustumCulling();
+	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
+	if (ImGui::Checkbox("Frustum CUlling##GameObject", &bFrustumCulling))
+		m_pTargetObject->SetFrustumCulling(bFrustumCulling);
+	ImGui::PopID();
+
 	// FIXED(Jang) : 테스트용
 	ImGui::Text("ID : [%s]", to_string(m_pTargetObject->GetUUID()).c_str());
 	tstring strLocalAddress = m_pTargetObject->GetLocalAddressTotal().c_str();

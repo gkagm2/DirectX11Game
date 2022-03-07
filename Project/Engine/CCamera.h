@@ -55,7 +55,7 @@ private:
 	vector<CGameObject*> m_vecPostEffect;
 	vector<CGameObject*> m_vecCollider2D;
 
-	vector<CGameObject*>    m_vecShadowDepth;
+	vector<CGameObject*> m_vecShadowDepth;
 
 
 public:

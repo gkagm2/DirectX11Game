@@ -311,9 +311,10 @@ void CCamera::_SortObjects()
 					eRenderTimePoint = pObj->Decal()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
 				else {
+				}
 
-					if (eRenderTimePoint != E_RenderTimePoint::None &&
-						pObj->IsFrustumCulling() && 
+				if (eRenderTimePoint != E_RenderTimePoint::None) {
+					if (pObj->IsFrustumCulling() &&
 						!m_pFrustum->CheckSphere(pObj->Transform()->GetPosition(), pObj->Transform()->GetScale().x * 0.5f)) {
 						eRenderTimePoint = E_RenderTimePoint::None;
 					}
