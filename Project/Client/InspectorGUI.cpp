@@ -333,7 +333,7 @@ void InspectorGUI::UpdateObjectGUI()
 	ImGui::Text("FrustumCulling");
 	bool bFrustumCulling = m_pTargetObject->IsFrustumCulling();
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
-	if (ImGui::Checkbox("Frustum CUlling##GameObject", &bFrustumCulling))
+	if (ImGui::Checkbox("Frustum Culling##GameObject", &bFrustumCulling))
 		m_pTargetObject->SetFrustumCulling(bFrustumCulling);
 	ImGui::PopID();
 
