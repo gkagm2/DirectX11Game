@@ -629,13 +629,18 @@ bool CGameObject::_IsAncestorGameObject(CGameObject* _pObj)
 bool CGameObject::_IsOnlyOnePossibleRenderComponent(E_ComponentType _eComponentType)
 {
 	bool bIsOnlyOneRenderComponent = false;
-	for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
-		if (_eComponentType == (E_ComponentType)i) {
+
+	if (CVersionManager::GetInstance()->g_bOldVersionUpdate && CVersionManager::GetInstance()->g_bComponentUpdate) {
+		if ((UINT)_eComponentType >= ONLY_ONE_POSSIBLE_RENDERING_START_IDX_OLD && (UINT)_eComponentType <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX_OLD) {
 			bIsOnlyOneRenderComponent = true;
-			break;
 		}
 	}
-
+	else {
+		if ((UINT)_eComponentType >= ONLY_ONE_POSSIBLE_RENDERING_START_IDX && (UINT)_eComponentType <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX) {
+			bIsOnlyOneRenderComponent = true;
+		}
+	}
+	
 	return bIsOnlyOneRenderComponent;
 }
 
@@ -653,14 +658,10 @@ CComponent* CGameObject::AddComponent(CComponent* _pComponent)
 	// 오직 하나만 렌더링할 수 있는 종류의 컴포넌트인지 체크
 	bool bIsOnlyOneRenderComponent = _IsOnlyOnePossibleRenderComponent(_pComponent->GetComponentType());
 	if (bIsOnlyOneRenderComponent) {
-		for (UINT i = ONLY_ONE_POSSIBLE_RENDERING_START_IDX; i <= ONLY_ONE_POSSIBLE_RENDERING_END_IDX; ++i) {
-			if (_pComponent->GetComponentType() == (E_ComponentType)i)
-				continue;
-			if (_IsExistComponent((E_ComponentType)i)) {
-				assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
-				SAFE_DELETE(_pComponent);
-				return nullptr;
-			}
+		if (_IsExistComponent((E_ComponentType)_pComponent->GetComponentType())) {
+			assert(nullptr && _T("이미 렌더링하는 다른 컴포넌트가 존재함"));
+			SAFE_DELETE(_pComponent);
+			return nullptr;
 		}
 		m_pRenderComponenet = _pComponent;
 	}
@@ -763,6 +764,7 @@ bool CGameObject::SaveToScene(FILE* _pFile)
 	FWrite(m_iTag, _pFile);
 	
 	FWrite(m_bDynamicShadow, _pFile);
+	FWrite(m_bUseFrustumCulling, _pFile);
 
 	// 자식 오브젝트
 	UINT iChildCount = (UINT)m_vecChildObj.size();
@@ -806,6 +808,7 @@ bool CGameObject::LoadFromScene(FILE* _pFile, int _iDepth)
 	FRead(m_iTag, _pFile);
 	
 	FRead(m_bDynamicShadow, _pFile);
+	FRead(m_bUseFrustumCulling, _pFile);
 
 	// 자식 정보
 	++_iDepth;
@@ -887,6 +890,9 @@ CComponent* CreateComponentOld(E_ComponentTypeOld _eType) {
 		break;
 	case E_ComponentTypeOld::Light2D:
 		pComponent = new CLight2D;
+		break;
+	case E_ComponentTypeOld::Light3D:
+		pComponent = new CLight3D;
 		break;
 	case E_ComponentTypeOld::TileMap:
 		pComponent = new CTileMap;

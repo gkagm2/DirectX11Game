@@ -26,6 +26,7 @@
 #include "AudioSourceGUI.h"
 #include "ParticleSystemGUI.h"
 #include "SkyboxGUI.h"
+#include "DecalGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -120,6 +121,10 @@ void InspectorGUI::Init()
 	// SkyboxGUI
 	m_arrComGUI[(UINT)E_ComponentType::Skybox] = new SkyboxGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Skybox]->SetUISize(ImVec2(0.f, 0.f));
+
+	// DecalGUI
+	m_arrComGUI[(UINT)E_ComponentType::Decal] = new DecalGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Decal]->SetUISize(ImVec2(0.f, 0.f));
 
 	// UI
 	// TextUI

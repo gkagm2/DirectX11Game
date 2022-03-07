@@ -239,6 +239,9 @@
     <Filter Include="03. Tools\04. GUI\DeferredView">
       <UniqueIdentifier>{7cf82a4f-d6e3-43dc-981b-514a1d403b1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI">
+      <UniqueIdentifier>{8ffe57f8-8743-4746-972e-8282f6c2a91b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -461,6 +464,9 @@
     <ClInclude Include="DeferredViewGUI.h">
       <Filter>03. Tools\04. GUI\DeferredView</Filter>
     </ClInclude>
+    <ClInclude Include="DecalGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -664,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="DeferredViewGUI.cpp">
       <Filter>03. Tools\04. GUI\DeferredView</Filter>
+    </ClCompile>
+    <ClCompile Include="DecalGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

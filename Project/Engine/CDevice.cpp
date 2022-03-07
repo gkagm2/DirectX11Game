@@ -283,6 +283,7 @@ void CDevice::CreateRasterizerState()
 void CDevice::CreateBlendState()
 {
 	D3D11_BLEND_DESC tDesc = {};
+	
 	tDesc.AlphaToCoverageEnable = false;
 	tDesc.IndependentBlendEnable = false; // false 설정 시 RenderTarget은 [0] 멤버만 설정
 
@@ -322,6 +323,36 @@ void CDevice::CreateBlendState()
 	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	
 	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::One_One].GetAddressOf());
+
+
+	// Decal Blend
+	tDesc.AlphaToCoverageEnable = false;    // 불투명한 영역과 투명한 영역에 대해서 깊이 비교 문제를 해결해 준다.
+	tDesc.IndependentBlendEnable = true;		// 렌더 타겟별로 별도의 블랜드 공식을 적용
+
+	tDesc.RenderTarget[0].BlendEnable = true;
+
+	tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+	tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	tDesc.RenderTarget[1].BlendEnable = true;
+	tDesc.RenderTarget[1].BlendOp = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[1].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	tDesc.RenderTarget[1].DestBlend = D3D11_BLEND_ONE;
+
+	tDesc.RenderTarget[1].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	tDesc.RenderTarget[1].SrcBlendAlpha = D3D11_BLEND_ONE;
+	tDesc.RenderTarget[1].DestBlendAlpha = D3D11_BLEND_ONE;
+
+	tDesc.RenderTarget[1].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	DEVICE->CreateBlendState(&tDesc, m_pBlendStates[(UINT)E_BlendState::DecalBlend].GetAddressOf());
 }
 
 void CDevice::CreateDepthStencilState()

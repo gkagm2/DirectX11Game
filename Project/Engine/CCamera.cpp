@@ -354,7 +354,7 @@ void CCamera::_RenderDecal()
 {
 	UpdateData();
 
-	for (UINT i = 0; i < m_vecDecal.size(); ++i)
+	for (size_t i = 0; i < m_vecDecal.size(); ++i)
 		m_vecDecal[i]->Render();
 }
 
@@ -364,7 +364,7 @@ void CCamera::_RenderDeferred()
 	// (UpdateData) RenderDeferred가 제일 먼저 실행되어 여기에 넣어줌.
 	UpdateData();
 
-	for (UINT i = 0; i < m_vecDeferred.size(); ++i)
+	for (size_t i = 0; i < m_vecDeferred.size(); ++i)
 		m_vecDeferred[i]->Render();
 }
 
@@ -375,19 +375,19 @@ void CCamera::_RenderForward()
 	UpdateData();
 
 
-	for (UINT i = 0; i < m_vecForward.size(); ++i)
+	for (size_t i = 0; i < m_vecForward.size(); ++i)
 		m_vecForward[i]->Render();
 }
 
 void CCamera::_RenderParticle()
 {
-	for (UINT i = 0; i < m_vecParticle.size(); ++i)
+	for (size_t i = 0; i < m_vecParticle.size(); ++i)
 		m_vecParticle[i]->Render();
 }
 
 void CCamera::_RenderPostEffect()
 {
-	for (UINT i = 0; i < m_vecPostEffect.size(); ++i) {
+	for (size_t i = 0; i < m_vecPostEffect.size(); ++i) {
 		CRenderManager::GetInstance()->_CopyBackBufferToPostEffectBuffer();
 		m_vecPostEffect[i]->Render();
 	}
@@ -395,13 +395,13 @@ void CCamera::_RenderPostEffect()
 
 void CCamera::_RenderCollider2D()
 {
-	for (UINT i = 0; i < m_vecCollider2D.size(); ++i)
+	for (size_t i = 0; i < m_vecCollider2D.size(); ++i)
 		m_vecCollider2D[i]->Render();
 }
 
 void CCamera::_RenderCanvas()
 {
-	for (UINT i = 0; i < m_vecCanvas.size(); ++i)
+	for (size_t i = 0; i < m_vecCanvas.size(); ++i)
 		m_vecCanvas[i]->Render();
 }
 

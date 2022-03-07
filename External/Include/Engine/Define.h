@@ -238,8 +238,8 @@ enum class E_ComponentType {
 	SpriteRenderer,
 	ParticleSystem,
 	Skybox,
-	TileMap,
 	Decal,
+	TileMap,
 #pragma endregion
 
 #pragma region UI Component
@@ -298,6 +298,9 @@ enum class E_ComponentTypeOld {
 
 #define ONLY_ONE_POSSIBLE_RENDERING_START_IDX (UINT)E_ComponentType::CanvasRenderer
 #define ONLY_ONE_POSSIBLE_RENDERING_END_IDX (UINT)E_ComponentType::TileMap
+
+#define ONLY_ONE_POSSIBLE_RENDERING_START_IDX_OLD (UINT)E_ComponentTypeOld::CanvasRenderer
+#define ONLY_ONE_POSSIBLE_RENDERING_END_IDX_OLD (UINT)E_ComponentTypeOld::TileMap
 
 
 #define MAX_SIZE_LAYER 32
@@ -398,7 +401,8 @@ enum class E_BlendState {
 	Default,
 	AlphaBlend,
 	AlphaBlend_Coverage, // 깊이 정렬 안해도 알아서 alpha처리
-	One_One, // 1대1로 섞음
+	One_One,	// 1대1로 섞음
+	DecalBlend, // Alpha Blend + One_One
 	End,
 };
 

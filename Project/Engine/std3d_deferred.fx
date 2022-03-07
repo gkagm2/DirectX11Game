@@ -146,16 +146,22 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
     float fShadowPow = ShadowPowTargetTex.Sample(Sample_Point, _in.vUV).r;
     
-    if (0.f == fShadowPow)
+    
+    if (0.f == vColor.a) // 알파가 0일 경우 빛에 영향받지 않음
+    {
+        vOutColor = vColor;
+    }
+    else if (0.f == fShadowPow)
     {
         vOutColor = vColor * vDiffuse_Ambi + vSpecular;
+        vOutColor.a = 1.f;
     }
     else
     {
         float fRatio = saturate(1.f - fShadowPow);
         vOutColor = (vColor * vDiffuse_Ambi + vSpecular); // * fRatio;
+        vOutColor.a = 1.f;
     }   
-    vOutColor.a = 1.f;
     
     return vOutColor;
 }

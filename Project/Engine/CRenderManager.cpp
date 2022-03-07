@@ -161,13 +161,11 @@ void CRenderManager::_RenderInGame()
 
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
 	// Light Render 
-	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
-		m_vecLight2D[j]->Render();
+	//for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+	//	m_vecLight2D[j]->Render();
 	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
 		m_vecLight3D[j]->Render();
-	/*for (size_t i = 0; i < m_vecCam.size(); ++i) {
-	}*/
-	
+
 	// Decal 정보 그리기
 	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
 	pCam->_RenderDecal();
@@ -213,15 +211,16 @@ void CRenderManager::_RenderTool()
 	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
 	// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
 	// Light Render 
-	for (size_t j = 0; j < m_vecLight2D.size(); ++j)
-		m_vecLight2D[j]->Render();
+	/*for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+		m_vecLight2D[j]->Render();*/
 	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
 		m_vecLight3D[j]->Render();
 
 
 	// Decal 정보 그리기
 	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
-	pCam->_RenderDecal();
+	if(pCam)
+		pCam->_RenderDecal();
 
 	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
 	}*/
@@ -538,10 +537,16 @@ void CRenderManager::_CreateMultpleRenderTargets()
 			Vector4::Zero,
 			Vector4::Zero,
 		};
+		arrTex[0] = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex);
+		arrTex[1] = CResourceManager::GetInstance()->FindRes< CTexture>(STR_ResourceKey_SpecularTargetTex);
 
-		m_arrMRT[(UINT)E_MRTType::Decal] = new CMRT(arrTex, arrClearColor, 2, nullptr, true);
+		SharedPtr<CTexture> pDepthTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DecalDepthStencilTex);
 
-		SharedPtr<CMaterial> pDecalMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DecalDebugMtrl);
+
+		m_arrMRT[(UINT)E_MRTType::Decal] = new CMRT(arrTex, arrClearColor, 2, pDepthTex, false);
+
+		SharedPtr<CMaterial> pDecalMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DecalMtrl);
+		pDecalMtrl->SetData(E_ShaderParam::Texture_0, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_PositionTargetTex).Get());
 	}
 }
 

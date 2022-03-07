@@ -152,6 +152,8 @@
 
 #define STR_FUNC_NAME_VTX_DebugDecal "VS_DebugDecal"
 #define STR_FUNC_NAME_PIX_DebugDecal "PS_DebugDecal"
+#define STR_FUNC_NAME_VTX_Decal "VS_Decal"
+#define STR_FUNC_NAME_PIX_Decal "PS_Decal"
 
 ////////// Resource Key ///////////////
 // Mesh
@@ -195,6 +197,7 @@
 #define STR_KEY_PointLightShader _T("PointLightShader")
 #define STR_KEY_SpotLightShader _T("SpotLightShader")
 #define STR_KEY_ShadowDepthShader _T("ShadowDepthShader")
+#define STR_KEY_DecalDebugShader _T("DecalDebugShader")
 #define STR_KEY_DecalShader _T("DecalShader")
 
 // compute shader
@@ -235,6 +238,7 @@
 #define STR_KEY_SpotLightMtrl _T("SpotLightMaterial")
 #define STR_KEY_ShadowDepthMtrl _T("ShadowDepthMaterial")
 #define STR_KEY_DecalDebugMtrl _T("DecalDebugMaterial")
+#define STR_KEY_DecalMtrl _T("DecalMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
@@ -254,6 +258,7 @@
 
 #define STR_ResourceKey_ShadowDepthTargetTex _T("ShadowDepthTargetTex")
 #define STR_ResourceKey_ShadowDepthStencilTex _T("ShadowDepthStencilTex")
+#define STR_ResourceKey_DecalDepthStencilTex _T("DecalDepthStencilTex")
 
 
 // Tool Object name

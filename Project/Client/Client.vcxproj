@@ -216,6 +216,7 @@ call ClientCopy.bat</Command>
     <ClInclude Include="CToolGridScript.h" />
     <ClInclude Include="CToolObjManager.h" />
     <ClInclude Include="DebugGUI.h" />
+    <ClInclude Include="DecalGUI.h" />
     <ClInclude Include="DeferredViewGUI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
@@ -319,6 +320,7 @@ call ClientCopy.bat</Command>
     <ClCompile Include="CToolGridScript.cpp" />
     <ClCompile Include="CToolObjManager.cpp" />
     <ClCompile Include="DebugGUI.cpp" />
+    <ClCompile Include="DecalGUI.cpp" />
     <ClCompile Include="DeferredViewGUI.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="HierarchyGUI.cpp" />

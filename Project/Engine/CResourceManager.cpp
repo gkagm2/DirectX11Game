@@ -1149,12 +1149,23 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_SkyboxShader, pShader);
 
 	//----------------------------
-	// Decal Shader
+	// Decal Debug Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Decal);
 	pShader->CreateVertexShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_VTX_DebugDecal);
 	pShader->CreatePixelShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_PIX_DebugDecal);
 	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Write);
+	pShader->SetBlendState(E_BlendState::Default);
+	AddRes(STR_KEY_DecalDebugShader, pShader);
+
+	//----------------------------
+	// Decal Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Decal);
+	pShader->CreateVertexShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_VTX_Decal);
+	pShader->CreatePixelShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_PIX_Decal);
+	pShader->SetRasterizerState(E_RasterizerState::CullFront);
+	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
+	pShader->SetBlendState(E_BlendState::DecalBlend);
 	AddRes(STR_KEY_DecalShader, pShader);
 }
 
@@ -1361,11 +1372,17 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetData(E_ShaderParam::Texture_0, pSkyboxSphereTex.Get());
 	AddRes(STR_KEY_SkyboxMtrl, pMtrl);
 
+	// Decal Debug
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderDecalDebug = LoadRes<CGraphicsShader>(STR_KEY_DecalDebugShader);
+	pMtrl->SetShader(pShaderDecalDebug);
+	AddRes(STR_KEY_DecalDebugMtrl, pMtrl);
+
 	// Decal
 	pMtrl = new CMaterial(true);
 	SharedPtr<CGraphicsShader> pShaderDecal = LoadRes<CGraphicsShader>(STR_KEY_DecalShader);
 	pMtrl->SetShader(pShaderDecal);
-	AddRes(STR_KEY_DecalDebugMtrl, pMtrl);
+	AddRes(STR_KEY_DecalMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

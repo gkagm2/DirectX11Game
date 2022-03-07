@@ -5,8 +5,8 @@
 #include "CResourceManager.h"
 #include "CSceneManager.h"
 #include "CEventManager.h"
-bool CVersionManager::g_bOldVersionUpdate = true;	 // 새롭게 버전을 추가했을 경우에만 사용
-bool CVersionManager::g_bComponentUpdate = true;
+bool CVersionManager::g_bOldVersionUpdate = false;	 // 새롭게 버전을 추가했을 경우에만 사용
+bool CVersionManager::g_bComponentUpdate = false;
 
 // TODO (Jang) : CLight3D에 Light3D camera 멤버변수 추가함. 20220228 
 
@@ -23,16 +23,16 @@ void CVersionManager::Init()
 {
 	if (!g_bOldVersionUpdate)
 		return;
+	if (g_bOldVersionUpdate) {
+		// 프리펩 세이브 시 사용하기
+		// 모든 프리펩 로딩
+		CResourceManager::GetInstance()->LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
 
-	// 프리펩 세이브 시 사용하기
-	// 모든 프리펩 로딩
-	CResourceManager::GetInstance()->LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
-
-
-	// 모든 씬을 가져온다.
-	tstring strContentPath = CPathManager::GetInstance()->GetContentPath();
-	strContentPath += STR_DIR_PATH_Scene;
-	m_vecSceneFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
+		// 모든 씬을 가져온다.
+		tstring strContentPath = CPathManager::GetInstance()->GetContentPath();
+		strContentPath += STR_DIR_PATH_Scene;
+		m_vecSceneFileNames = CPathManager::GetInstance()->GetFilesInDirectory(strContentPath, _T("*.scene"));
+	}
 }
 
 void CVersionManager::Update()
