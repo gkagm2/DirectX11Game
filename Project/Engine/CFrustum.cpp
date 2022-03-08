@@ -29,6 +29,8 @@ CFrustum::CFrustum() :
 	m_pOwner{ nullptr },
 	m_arrFace{}
 {
+	//m_pMesh = ;
+	//m_pMaterial;
 }
 
 CFrustum::~CFrustum()
