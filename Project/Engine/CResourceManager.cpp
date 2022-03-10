@@ -721,6 +721,55 @@ void CResourceManager::CreateDefaultMesh3D()
 		vecVtx.clear();
 		vecIdx.clear();
 	}
+	{
+		CMesh* pMesh = new CMesh;
+		float fLen = 100.f;
+
+		VTX vertex = {};
+		vertex.vPos = Vector3(0.f, 0.f, 0.f);
+		vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(vertex);
+
+		
+		vertex.vPos = Vector3(-0.5f * fLen,0.5f * fLen,0.5f * fLen);
+		vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(vertex);
+
+		vertex.vPos = Vector3(0.5f * fLen, 0.5f * fLen, 0.5f * fLen);
+		vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(vertex);
+
+		vertex.vPos = Vector3(0.5f * fLen, -0.5f * fLen, 0.5f * fLen);
+		vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(vertex);
+
+		vertex.vPos = Vector3(-0.5f * fLen, -0.5f * fLen, 0.5f * fLen);
+		vertex.vColor = Vector4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(vertex);
+
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(1);
+		vecIdx.push_back(2);
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(2);
+		vecIdx.push_back(3);
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(3);
+		vecIdx.push_back(4);
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(4);
+		vecIdx.push_back(1);
+
+		pMesh->Create(vecVtx.data(), sizeof(VTX)* (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT)* (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		AddRes(STR_KEY_FrustumMesh, pMesh);
+
+		vecVtx.clear();
+		vecIdx.clear();
+	}
 }
 
 
@@ -1167,6 +1216,16 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::No_Test_No_Write);
 	pShader->SetBlendState(E_BlendState::DecalBlend);
 	AddRes(STR_KEY_DecalShader, pShader);
+
+	//----------------------------
+	// Frustum
+	pShader = new CGraphicsShader(E_RenderTimePoint::After);
+	pShader->CreateVertexShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_VTX_Std3DFrame);
+	pShader->CreatePixelShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_PIX_Std3DFrame);
+	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
+	pShader->SetBlendState(E_BlendState::Default);
+	AddRes(STR_KEY_Std3DFrameShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1383,6 +1442,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderDecal = LoadRes<CGraphicsShader>(STR_KEY_DecalShader);
 	pMtrl->SetShader(pShaderDecal);
 	AddRes(STR_KEY_DecalMtrl, pMtrl);
+	
+	// Frustum
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderFrustum = LoadRes<CGraphicsShader>(STR_KEY_Std3DFrameShader);
+	pMtrl->SetShader(pShaderFrustum);
+	AddRes(STR_KEY_Std3DFrameMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

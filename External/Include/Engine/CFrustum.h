@@ -12,6 +12,8 @@ enum class E_FaceType {
 };
 
 class CCamera;
+class CMesh;
+class CMaterial;
 class CFrustum : public CObject
 {
 private:
@@ -24,6 +26,7 @@ private:
 	
 public:
 	virtual void UpdateData() override;
+	virtual void Render();
 
 	void FinalUpdate();
 	bool CheckPoint(const Vector3& _vPos);

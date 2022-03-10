@@ -123,4 +123,29 @@ float4 PS_Std3D(VTX_OUT _in) : SV_Target
     
     return vOutColor;
 }
+
+struct VS_IN_Frustum
+{
+    float3 vPos : POSITION;
+};
+
+struct VS_OUT_Frustum
+{
+    float4 vPos : SV_Position;
+};
+
+VS_OUT_Frustum VS_Std3DFrame(VS_IN_Frustum _in)
+{
+    VS_OUT_Frustum output = (VS_OUT_Frustum) 0.f;
+    output.vPos = mul(float4(_in.vPos, 1.f), g_matWorldViewProj);
+    return output;
+}
+
+float4 PS_Std3DFrame(VS_OUT_Frustum _in) : SV_Target
+{
+    float4 vColor = float4(1.0f, 0.f, 0.f, 1.f);
+    return vColor;
+}
+
+
 #endif

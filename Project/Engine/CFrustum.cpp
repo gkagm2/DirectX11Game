@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "CFrustum.h"
 #include "CCamera.h"
+#include "CResourceManager.h"
+#include "CMesh.h"
+#include "CGraphicsShader.h"
+#include "CMaterial.h"
 
 /*
    Cube
@@ -29,8 +33,8 @@ CFrustum::CFrustum() :
 	m_pOwner{ nullptr },
 	m_arrFace{}
 {
-	//m_pMesh = ;
-	//m_pMaterial;
+	m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_FrustumMesh);
+	m_pMaterial =CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DFrameMtrl);
 }
 
 CFrustum::~CFrustum()
@@ -39,6 +43,13 @@ CFrustum::~CFrustum()
 
 void CFrustum::UpdateData()
 {
+}
+
+void CFrustum::Render()
+{
+	m_pMaterial->UpdateData();
+	m_pMesh->Render();
+	m_pMaterial->Clear();
 }
 
 void CFrustum::FinalUpdate()

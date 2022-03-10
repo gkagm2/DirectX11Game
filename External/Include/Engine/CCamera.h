@@ -61,6 +61,7 @@ private:
 public:
 	virtual void FinalUpdate() override;
 	virtual void UpdateData() override; // 특별히 Final Update 내부에서 처리함 
+	void Render();
 	
 public:
 	

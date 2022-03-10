@@ -459,3 +459,8 @@ void CCamera::_RenderDynamic_ShadowDepth()
 		m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render();
 	}
 }
+
+void CCamera::Render()
+{
+	m_pFrustum->Render();
+}

@@ -105,6 +105,8 @@
 // std3d.fx functions name
 #define STR_FUNC_NAME_VTXShader3D "VS_Std3D"
 #define STR_FUNC_NAME_PIXShader3D "PS_Std3D"
+#define STR_FUNC_NAME_VTX_Std3DFrame "VS_Std3DFrame"
+#define STR_FUNC_NAME_PIX_Std3DFrame "PS_Std3DFrame"
 // std3d_deferred.fx functions name
 #define STR_FUNC_NAME_VTXShader3DDeferred "VS_Std3D_Deferred"
 #define STR_FUNC_NAME_PIXShader3DDeferred "PS_Std3D_Deferred"
@@ -169,7 +171,7 @@
 #define STR_KEY_DebugSphereMesh _T("DebugSphereMesh")
 #define STR_KEY_ConeMesh _T("ConeMesh")
 #define STR_KEY_ConeFrameMesh _T("ConeFrameMesh")
-
+#define STR_KEY_FrustumMesh _T("FrustumMesh")
 // Shader
 #define STR_KEY_StdAlphaBlend_CoverageShader _T("StandardShaderAlphaBlendCoverage")
 #define STR_KEY_StdAlphaBlendShader _T("StandardShaderAlphaBlend")
@@ -199,6 +201,7 @@
 #define STR_KEY_ShadowDepthShader _T("ShadowDepthShader")
 #define STR_KEY_DecalDebugShader _T("DecalDebugShader")
 #define STR_KEY_DecalShader _T("DecalShader")
+#define STR_KEY_Std3DFrameShader _T("Std3DFrameShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -239,6 +242,7 @@
 #define STR_KEY_ShadowDepthMtrl _T("ShadowDepthMaterial")
 #define STR_KEY_DecalDebugMtrl _T("DecalDebugMaterial")
 #define STR_KEY_DecalMtrl _T("DecalMaterial")
+#define STR_KEY_Std3DFrameMtrl _T("Standard3DFrameMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")

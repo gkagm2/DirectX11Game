@@ -183,6 +183,7 @@ void CRenderManager::_RenderInGame()
 		m_vecCam[i]->_RenderParticle();
 		m_vecCam[i]->_RenderCollider2D();
 		m_vecCam[i]->_RenderPostEffect();
+		m_vecCam[i]->Render();
 		m_vecCam[i]->_RenderCanvas(); // UI Render
 	}
 }
@@ -237,8 +238,10 @@ void CRenderManager::_RenderTool()
 		m_vecToolCam[i]->_RenderParticle();
 		m_vecToolCam[i]->_RenderCollider2D();
 		m_vecToolCam[i]->_RenderPostEffect();
+		m_vecToolCam[i]->Render();
 		m_vecToolCam[i]->_RenderCanvas(); // UI Render
 	}
+
 }
 
 void CRenderManager::_RenderDebug()
