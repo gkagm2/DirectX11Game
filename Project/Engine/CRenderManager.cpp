@@ -139,109 +139,101 @@ void CRenderManager::Render()
 
 void CRenderManager::_RenderInGame()
 {
-	// directional light 시점에서 동적 그림자 깊이맵 만들기
-	_Render_Dynamic_ShadowDepth();
-
-	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-
-	for (size_t i = 0; i < m_vecCam.size(); ++i)
-		m_vecCam[i]->_SortObjects();
-
-	// Deferred 물체 정보를 그리기
-	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
 	CCamera* pCam = GetMainCamera();
-	if (pCam)
+	if (pCam) {
+		// directional light 시점에서 동적 그림자 깊이맵 만들기
+		_Render_Dynamic_ShadowDepth();
+
+		// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+
+		pCam->_SortObjects();
+
+		// Deferred 물체 정보를 그리기
+		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+
 		pCam->_RenderDeferred();
-	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
-		m_vecCam[i]->_RenderDeferred();
-	*/
-	for (size_t i = 0; i < m_vecCam.size(); ++i)
-		m_vecCam[i]->_RenderDeferred();
 
-	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-	// Light Render 
-	//for (size_t j = 0; j < m_vecLight2D.size(); ++j)
-	//	m_vecLight2D[j]->Render();
-	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
-		m_vecLight3D[j]->Render();
+		GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
+		// Light Render 
+		//for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+		//	m_vecLight2D[j]->Render();
+		for (size_t j = 0; j < m_vecLight3D.size(); ++j)
+			m_vecLight3D[j]->Render();
 
-	// Decal 정보 그리기
-	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
-	pCam->_RenderDecal();
+		// Decal 정보 그리기
+		GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
+		pCam->_RenderDecal();
 
-	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-	static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
-	static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
-	pMergeMtrl->UpdateData();
-	pRectMesh->Render();
-	pMergeMtrl->Clear();
+		// Deferred에 그려진 정보를 Swapchain Target으로 Q옮김
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+		static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+		static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		pMergeMtrl->UpdateData();
+		pRectMesh->Render();
+		pMergeMtrl->Clear();
 
-	for (size_t i = 0; i < m_vecCam.size(); ++i) {
-		m_vecCam[i]->_RenderForward();
-		m_vecCam[i]->_RenderParticle();
-		m_vecCam[i]->_RenderCollider2D();
-		m_vecCam[i]->_RenderPostEffect();
-		m_vecCam[i]->Render();
-		m_vecCam[i]->_RenderCanvas(); // UI Render
+		pCam->_RenderForward();
+		pCam->_RenderParticle();
+		pCam->_RenderCollider2D();
+		pCam->_RenderPostEffect();
+		pCam->_RenderCanvas(); // UI Render
 	}
 }
 
 void CRenderManager::_RenderTool()
 {
-	// directional light 시점에서 동적 그림자 깊이맵 만들기
-	_Render_Dynamic_ShadowDepth();
-
-	// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	 ( Main Camera 시점으로 Rendering)
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData(); 
-
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i)
-		m_vecToolCam[i]->_SortObjects();
-
-	// Deferred 물체 정보를 그리기
-	GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
 	CCamera* pCam = GetMainCamera();
-	if (pCam)
+	if (pCam) {
+		// directional light 시점에서 동적 그림자 깊이맵 만들기
+		_Render_Dynamic_ShadowDepth();
+
+		// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	 ( Main Camera 시점으로 Rendering)
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+
+
+		pCam->_SortObjects();
+
+		// Deferred 물체 정보를 그리기
+		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
 		pCam->_RenderDeferred();
-	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
-		m_vecToolCam[i]->_RenderDeferred();
-	*/
-		
-
-	GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-	// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
-	// Light Render 
-	/*for (size_t j = 0; j < m_vecLight2D.size(); ++j)
-		m_vecLight2D[j]->Render();*/
-	for (size_t j = 0; j < m_vecLight3D.size(); ++j)
-		m_vecLight3D[j]->Render();
+		/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
+			m_vecToolCam[i]->_RenderDeferred();
+		*/
 
 
-	// Decal 정보 그리기
-	GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
-	if(pCam)
+		GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
+		// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
+		// Light Render 
+		/*for (size_t j = 0; j < m_vecLight2D.size(); ++j)
+			m_vecLight2D[j]->Render();*/
+		for (size_t j = 0; j < m_vecLight3D.size(); ++j)
+			m_vecLight3D[j]->Render();
+
+
+		// Decal 정보 그리기
+		GetMultipleRenderTargets(E_MRTType::Decal)->UpdateData();
 		pCam->_RenderDecal();
 
-	/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
-	}*/
-	// Deferred에 그려진 정보를 Swapchain Target으로 옮김
-	GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-	SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
-	SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
-	pMergeMtrl->UpdateData();
-	pRectMesh->Render();
-	pMergeMtrl->Clear();
+		/*for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
+		}*/
+		// Deferred에 그려진 정보를 Swapchain Target으로 옮김
+		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
+		SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		pMergeMtrl->UpdateData();
+		pRectMesh->Render();
+		pMergeMtrl->Clear();
 
-	for (UINT i = 0; i < m_vecToolCam.size(); ++i) {
-		m_vecToolCam[i]->_RenderForward();
-		m_vecToolCam[i]->_RenderParticle();
-		m_vecToolCam[i]->_RenderCollider2D();
-		m_vecToolCam[i]->_RenderPostEffect();
-		m_vecToolCam[i]->Render();
-		m_vecToolCam[i]->_RenderCanvas(); // UI Render
+		pCam->_RenderForward();
+		pCam->_RenderParticle();
+		pCam->_RenderCollider2D();
+		pCam->_RenderPostEffect();
+
+		for(size_t i=0 ;i , m_vecCam.size(); ++i)
+			m_vecCam[i]->Render();
+		pCam->_RenderCanvas(); // UI Render
 	}
-
 }
 
 void CRenderManager::_RenderDebug()

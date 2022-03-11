@@ -18,7 +18,8 @@ struct PS_OUT
 
 float4 VS_DebugDecal(float3 _vPos : POSITION) : SV_Position
 {
-    float4 vProjPos = mul(float4(_vPos, 1.f), g_matWorldViewProj);
+    float4 vProjPos = (float4) 0.f;
+    vProjPos = mul(float4(_vPos, 1.f), g_matWorldViewProj);
     return vProjPos;
 }
 
@@ -26,8 +27,7 @@ PS_OUT PS_DebugDecal(float4 _vPos : SV_Position)
 {
     PS_OUT output = (PS_OUT) 0.f;
     
-    // TODO (Jang) : 초록색 테스트
-    output.vColorTarget = float4(1.f, 0.f, 1.f, 1.f);
+    output.vColorTarget = float4(0.2f, 0.8f, 0.2f, 0.f); // Alpha를 0으로 설정하여 
     
     return output;
 }
@@ -81,7 +81,9 @@ PS_OUT PS_Decal(float4 _ScreenPos : SV_Position)
             output.vColorTarget = float4(1.f, 0.f, 0.f, 1.f);
     }
     else
+    {
         clip(-1);
+    }
             
     return output;
 }

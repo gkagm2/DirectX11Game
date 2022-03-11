@@ -35,7 +35,8 @@ CCamera::CCamera() :
 	m_matView{},
 	m_matProjection{},
 	m_matProjectionInv{},
-	m_iLayerCheck(0)
+	m_iLayerCheck(0),
+	m_bRenderFrustum{true}
 {
 	SetLayerCheckAll();
 
@@ -57,7 +58,8 @@ CCamera::CCamera(const CCamera& _origin) :
 	m_matView{},
 	m_matProjection{},
 	m_matProjectionInv{},
-	m_iLayerCheck(_origin.m_iLayerCheck)
+	m_iLayerCheck(_origin.m_iLayerCheck),
+	m_bRenderFrustum(_origin.m_bRenderFrustum)
 {
 	if (_origin.m_pFrustum) {
 		m_pFrustum = _origin.m_pFrustum->Clone();
@@ -462,5 +464,12 @@ void CCamera::_RenderDynamic_ShadowDepth()
 
 void CCamera::Render()
 {
-	m_pFrustum->Render();
+	if (IsRenderFrustum()) {
+		if (E_ProjectionType::Perspective == GetProjectionType()) {
+			if (Transform()) {
+				Transform()->UpdateData();
+				m_pFrustum->Render();
+			}
+		}
+	}
 }

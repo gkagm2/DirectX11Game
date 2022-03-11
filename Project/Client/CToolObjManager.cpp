@@ -40,6 +40,7 @@ void CToolObjManager::_CreateToolObject()
 		tCP.fFar = 99999.f;
 		tCP.fNear = 1.f;
 		pToolCamObj->Camera()->SetClippingPlanes(tCP);
+		pToolCamObj->Camera()->SetRenderFrustum(false);
 		_AddGameObjectEx(pToolCamObj);
 	}
 
@@ -54,6 +55,7 @@ void CToolObjManager::_CreateToolObject()
 		pToolUICamObj->Camera()->SetLayerCheck(NUM_LAYER_UI, true);
 		pToolUICamObj->Camera()->SetSize(1.f);
 		pToolUICamObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
+		pToolUICamObj->Camera()->SetRenderFrustum(false);
 		_AddGameObjectEx(pToolUICamObj);
 	}
 

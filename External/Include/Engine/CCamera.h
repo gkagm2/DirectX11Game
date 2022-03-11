@@ -26,6 +26,7 @@ class CCamera : public CComponent
 {
 private:
 	CFrustum* m_pFrustum;
+	bool m_bRenderFrustum;
 
 	E_ProjectionType m_eProjectionType;	// 투영 방식
 	
@@ -112,6 +113,10 @@ protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
 	CFrustum* GetFrustum() { return m_pFrustum; }
+
+public:
+	void SetRenderFrustum(bool _bRender) { m_bRenderFrustum = _bRender; }
+	bool IsRenderFrustum() { return m_bRenderFrustum; }
 
 public:
 	virtual bool SaveToScene(FILE* _pFile) override;

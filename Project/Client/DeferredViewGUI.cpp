@@ -11,6 +11,7 @@
 #include <Engine\CMeshRenderer.h>
 #include <Engine\CGameObject.h>
 #include <Engine\CGraphicsShader.h>
+#include <Engine\CDecal.h>
 
 DeferredViewGUI::DeferredViewGUI() :
 	m_pInspectorGUI(nullptr)
@@ -114,7 +115,6 @@ void DeferredViewGUI::Update()
 					}
 				}
 				else if (pTargetObj && pTargetObj->Light3D()) {
-					CMesh* pMesh = pTargetObj->Light3D()->GetLightMesh().Get();
 					CMaterial* pMaterial = pTargetObj->Light3D()->GetLightMaterial().Get();
 
 					CTexture* pTex = nullptr;
@@ -131,6 +131,23 @@ void DeferredViewGUI::Update()
 						pMaterial->GetData((E_ShaderParam)iNum[i], &pTex);
 						ParamGUI::Render_Texture("", pTex, nullptr, nullptr, false);
 					}
+				}
+				else if (pTargetObj && pTargetObj->Decal()) {
+					CMaterial* pMaterial = pTargetObj->Decal()->GetMaterial().Get();
+
+					CTexture* pTex = nullptr;
+					int iNum[2] = {
+						(int)E_ShaderParam::Texture_0,
+						(int)E_ShaderParam::Texture_1,
+					};
+
+					for (int i = 0; i < 2; ++i) {
+						ImGui::Text("Texture %d", i);
+						ImGui::SameLine();
+						pMaterial->GetData((E_ShaderParam)iNum[i], &pTex);
+						ParamGUI::Render_Texture("", pTex, nullptr, nullptr, false);
+					}
+
 				}
 			}
 		}

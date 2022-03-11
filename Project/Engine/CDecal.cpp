@@ -6,7 +6,7 @@
 
 CDecal::CDecal() :
 	CRenderer(E_ComponentType::Decal),
-	m_bLighting{ false }
+	m_bLighting{ true }
 {
 	m_pMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_CubeMesh);
 	m_pDebugMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DecalDebugMtrl);
@@ -23,8 +23,12 @@ void CDecal::FinalUpdate()
 
 void CDecal::Render()
 {
-	UpdateData();
+	Transform()->UpdateData();
 
+	if (nullptr != m_pTexture)
+		m_pDecalMtrl->SetData(E_ShaderParam::Texture_1, m_pTexture.Get());
+
+	m_pDecalMtrl->UpdateData();
 	m_pMesh->Render();
 
 	if (E_SceneMode::Play != CSceneManager::GetInstance()->GetSceneMode()) {
@@ -33,13 +37,18 @@ void CDecal::Render()
 	}
 }
 
-void CDecal::UpdateData()
+bool CDecal::SaveToScene(FILE* _pFile)
 {
-	Transform()->UpdateData();
+	CRenderer::SaveToScene(_pFile);
+	FWrite(m_bLighting, _pFile);
+	SaveResourceToFile(m_pTexture, _pFile);
+	return true;
+}
 
-	if (nullptr != m_pTexture)
-		m_pDecalMtrl->SetData(E_ShaderParam::Texture_0, m_pTexture.Get());
-
-	m_pDecalMtrl->UpdateData();
-	m_pDebugMtrl->UpdateData();
+bool CDecal::LoadFromScene(FILE* _pFile)
+{
+	CRenderer::LoadFromScene(_pFile);
+	FRead(m_bLighting, _pFile);
+	LoadResourceFromFile(m_pTexture, _pFile);
+	return true;
 }

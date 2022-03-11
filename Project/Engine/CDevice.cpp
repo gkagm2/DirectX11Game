@@ -326,7 +326,7 @@ void CDevice::CreateBlendState()
 
 
 	// Decal Blend
-	tDesc.AlphaToCoverageEnable = false;    // 불투명한 영역과 투명한 영역에 대해서 깊이 비교 문제를 해결해 준다.
+	tDesc.AlphaToCoverageEnable = false;    // 불투명한 영역과 투명한 영역에 대해서 깊이 비교	문제를 해결해 준다.
 	tDesc.IndependentBlendEnable = true;		// 렌더 타겟별로 별도의 블랜드 공식을 적용
 
 	tDesc.RenderTarget[0].BlendEnable = true;
@@ -375,7 +375,6 @@ void CDevice::CreateDepthStencilState()
 	tDesc.FrontFace;
 	tDesc.StencilReadMask;
 	tDesc.StencilWriteMask;*/
-	
 
 	// Greater
 	tDesc = {};

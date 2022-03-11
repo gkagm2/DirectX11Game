@@ -1203,7 +1203,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreateVertexShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_VTX_DebugDecal);
 	pShader->CreatePixelShader(STR_FILE_PATH_DecalShader, STR_FUNC_NAME_PIX_DebugDecal);
 	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
-	pShader->SetDepthStencilState(E_DepthStencilState::No_Write);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->SetBlendState(E_BlendState::Default);
 	AddRes(STR_KEY_DecalDebugShader, pShader);
 
