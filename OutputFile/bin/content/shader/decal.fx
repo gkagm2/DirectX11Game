@@ -46,6 +46,7 @@ PS_OUT PS_DebugDecal(float4 _vPos : SV_Position)
 #define PositionTargetTex g_tex_0
 #define DecalTex g_tex_1
 #define IsDecalTex bTex_1
+#define Lighting g_int_0
 // =====================
 
 float4 VS_Decal(float3 _vPos : POSITION) : SV_Position
@@ -75,7 +76,8 @@ PS_OUT PS_Decal(float4 _ScreenPos : SV_Position)
         {
             float2 vDecalUV = float2(vDecalLocalPos.x + 0.5f, 1.f - (vDecalLocalPos.z + 0.5f));
             output.vColorTarget = DecalTex.Sample(Sample_Anisotropic, vDecalUV);
-            output.vSpecularTarget = DecalTex.Sample(Sample_Anisotropic, vDecalUV);
+            if (Lighting)
+                output.vSpecularTarget = DecalTex.Sample(Sample_Anisotropic, vDecalUV);    
         }
         else
             output.vColorTarget = float4(1.f, 0.f, 0.f, 1.f);

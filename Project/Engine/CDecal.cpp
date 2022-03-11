@@ -27,6 +27,7 @@ void CDecal::Render()
 
 	if (nullptr != m_pTexture)
 		m_pDecalMtrl->SetData(E_ShaderParam::Texture_1, m_pTexture.Get());
+	m_pDecalMtrl->SetData(E_ShaderParam::Int_0, (void*)&m_bLighting);
 
 	m_pDecalMtrl->UpdateData();
 	m_pMesh->Render();
