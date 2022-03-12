@@ -1218,7 +1218,7 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_DecalShader, pShader);
 
 	//----------------------------
-	// Frustum
+	// Frustum Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::After);
 	pShader->CreateVertexShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_VTX_Std3DFrame);
 	pShader->CreatePixelShader(STR_FILE_PATH_Shader3D, STR_FUNC_NAME_PIX_Std3DFrame);
@@ -1226,6 +1226,19 @@ void CResourceManager::CreateDefaultShader()
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->SetBlendState(E_BlendState::Default);
 	AddRes(STR_KEY_Std3DFrameShader, pShader);
+
+	//----------------------------
+	// Tessellation Test Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_VTX_Tess);
+	pShader->CreatePixelShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_PIX_Tess);
+	pShader->CreateDomainShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_DS_Tess);
+	pShader->CreateHullShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_HS_Tess);
+	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
+	pShader->SetBlendState(E_BlendState::Default);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	AddRes(STR_KEY_TessellationTestShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1448,6 +1461,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderFrustum = LoadRes<CGraphicsShader>(STR_KEY_Std3DFrameShader);
 	pMtrl->SetShader(pShaderFrustum);
 	AddRes(STR_KEY_Std3DFrameMtrl, pMtrl);
+
+	// Tessellation Test
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderTessTest = LoadRes<CGraphicsShader>(STR_KEY_TessellationTestShader);
+	pMtrl->SetShader(pShaderTessTest);
+	AddRes(STR_KEY_TessellationTestMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

@@ -37,6 +37,8 @@
 #define STR_FILE_PATH_PostEffectShader _T("shader\\posteffect.fx")
 #define STR_FILE_PATH_ShaderLight _T("shader\\light.fx")
 #define STR_FILE_PATH_ShaderShadow _T("shader\\shadow.fx")
+#define STR_FILE_PATH_TessellationShader _T("shader\\tessellation.fx")
+
 
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
@@ -159,6 +161,12 @@
 #define STR_FUNC_NAME_VTX_Decal "VS_Decal"
 #define STR_FUNC_NAME_PIX_Decal "PS_Decal"
 
+// tessellation.fx functions name
+#define STR_FUNC_NAME_VTX_Tess "VS_Tess"
+#define STR_FUNC_NAME_PIX_Tess "PS_Tess"
+#define STR_FUNC_NAME_DS_Tess "DS_Tess"
+#define STR_FUNC_NAME_HS_Tess "HS_Tess"
+
 ////////// Resource Key ///////////////
 // Mesh
 #define STR_KEY_PointMesh _T("PointMesh")
@@ -204,6 +212,7 @@
 #define STR_KEY_DecalDebugShader _T("DecalDebugShader")
 #define STR_KEY_DecalShader _T("DecalShader")
 #define STR_KEY_Std3DFrameShader _T("Std3DFrameShader")
+#define STR_KEY_TessellationTestShader _T("TessellationTestShader")
 
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
@@ -245,6 +254,7 @@
 #define STR_KEY_DecalDebugMtrl _T("DecalDebugMaterial")
 #define STR_KEY_DecalMtrl _T("DecalMaterial")
 #define STR_KEY_Std3DFrameMtrl _T("Standard3DFrameMaterial")
+#define STR_KEY_TessellationTestMtrl _T("TessellationTestMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
