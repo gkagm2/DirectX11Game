@@ -19,6 +19,8 @@
 #define STR_MSG_FailedToCreatePixelShader "픽셀 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreateComputeShader "컴퓨트 쉐이더 생성 실패"
 #define STR_MSG_FailedToCreateGeometryShader "지오메트리 쉐이더 생성 실패"
+#define STR_MSG_FailedToCreateHullShader "Hull Shader 생성 실패"
+#define STR_MSG_FailedToCreateDomainShader "Domain Shader 생성 실패"
 
 
 /////////////// Path ///////////////

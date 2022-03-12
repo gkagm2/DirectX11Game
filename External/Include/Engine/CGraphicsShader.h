@@ -36,8 +36,8 @@ public:
 
 public:
 	void CreateVertexShader(const tstring& _strRelativePath, const string& _strFuncName);
-	//void CreateHullShader(const tstring& _strRelativePath, const string& _strFuncName);
-	//void CreateDomainShader(const tstring& _strRelativePath, const string& _strFuncName);
+	void CreateHullShader(const tstring& _strRelativePath, const string& _strFuncName);
+	void CreateDomainShader(const tstring& _strRelativePath, const string& _strFuncName);
 	void CreateGeometryShader(const tstring& _strRelativePath, const string& _strFuncName);
 	void CreatePixelShader(const tstring& _strRelativePath, const string& _strFuncName);
 

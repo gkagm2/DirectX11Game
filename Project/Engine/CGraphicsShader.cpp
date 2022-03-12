@@ -92,6 +92,52 @@ void CGraphicsShader::CreateVertexShader(const tstring& _strRelativePath, const 
 	}
 }
 
+void CGraphicsShader::CreateHullShader(const tstring& _strRelativePath, const string& _strFuncName)
+{
+	tstring strShaderFilePath = CPathManager::GetInstance()->GetContentPath();
+	strShaderFilePath += _strRelativePath;
+
+	UINT iFlag = D3DCOMPILE_DEBUG;
+
+	// D3DCompileFromFile -> D3DCompile2
+	if (FAILED(D3DCompileFromFile(strShaderFilePath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str(), "hs_5_0", iFlag, 0, m_pHSBlob.GetAddressOf(), m_pErrBlob.GetAddressOf()))) {
+		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErrorMessage, STR_MSG_FailedToCreateHullShader, MB_OK);
+		assert(nullptr);
+	}
+	if (m_pErrBlob.Get()) {
+		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErrorMessage, STR_MSG_FailedToCreateHullShader, MB_OK);
+		assert(nullptr);
+	}
+	if (FAILED(DEVICE->CreateHullShader(m_pHSBlob->GetBufferPointer(), m_pHSBlob->GetBufferSize(), nullptr, m_pHS.GetAddressOf()))) {
+		assert(nullptr);
+	}
+}
+
+void CGraphicsShader::CreateDomainShader(const tstring& _strRelativePath, const string& _strFuncName)
+{
+	tstring strShaderFilePath = CPathManager::GetInstance()->GetContentPath();
+	strShaderFilePath += _strRelativePath;
+
+	UINT iFlag = D3DCOMPILE_DEBUG;
+
+	// D3DCompileFromFile -> D3DCompile2
+	if (FAILED(D3DCompileFromFile(strShaderFilePath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, _strFuncName.c_str(), "ds_5_0", iFlag, 0, m_pDSBlob.GetAddressOf(), m_pErrBlob.GetAddressOf()))) {
+		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErrorMessage, STR_MSG_FailedToCreateDomainShader, MB_OK);
+		assert(nullptr);
+	}
+	if (m_pErrBlob.Get()) {
+		char* pErrorMessage = (char*)m_pErrBlob->GetBufferPointer();
+		MessageBoxA(nullptr, pErrorMessage, STR_MSG_FailedToCreateDomainShader, MB_OK);
+		assert(nullptr);
+	}
+	if (FAILED(DEVICE->CreateDomainShader(m_pDSBlob->GetBufferPointer(), m_pDSBlob->GetBufferSize(), nullptr, m_pDS.GetAddressOf()))) {
+		assert(nullptr);
+	}
+}
+
 void CGraphicsShader::CreateGeometryShader(const tstring& _strRelativePath, const string& _strFuncName)
 {
 	tstring strShaderFilePath = CPathManager::GetInstance()->GetContentPath();
