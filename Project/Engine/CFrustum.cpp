@@ -18,6 +18,7 @@
 	
 */
 
+// NDC 안에 있는 좌표들.
 const Vector3 CFrustum::g_arrProjPos[8] = {
 	Vector3(-1.f, 1.f, 0.f),
 	Vector3(1.f, 1.f, 0.f),
