@@ -2,6 +2,7 @@
 #include "ComponentGUI.h"
 class RectTransformGUI : public ComponentGUI
 {
+public:
 	virtual void Update() override;
 
 public:

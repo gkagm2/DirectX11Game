@@ -15,7 +15,7 @@
 #include "CRigidbody.h"
 
 CCollisionManager::CCollisionManager() : 
-	m_bCollisionShow{ false }
+	m_bCollisionShow{ true }
 {
 }
 

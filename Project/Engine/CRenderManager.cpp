@@ -230,7 +230,7 @@ void CRenderManager::_RenderTool()
 		pCam->_RenderCollider2D();
 		pCam->_RenderPostEffect();
 
-		for(size_t i=0 ;i , m_vecCam.size(); ++i)
+		for(size_t i=0 ;i < m_vecCam.size(); ++i)
 			m_vecCam[i]->Render();
 		pCam->_RenderCanvas(); // UI Render
 	}
@@ -355,7 +355,7 @@ CGameObject* CRenderManager::_GetDebugGameObject()
 	CGameObject* pDebugObj = _CreateDebugGameObject();
 	m_vecDebugObjPool.push_back(pDebugObj);
 
-	return nullptr;
+	return pDebugObj;
 }
 
 CGameObject* CRenderManager::_CreateDebugGameObject()
@@ -364,6 +364,7 @@ CGameObject* CRenderManager::_CreateDebugGameObject()
 	pDebugObj->SetName(_T("Debug GameObject"));
 	pDebugObj->AddComponent<CTransform>();
 	pDebugObj->AddComponent<CMeshRenderer>();
+	pDebugObj->AddComponent<CEngineDebugScript>();
 
 	CMeshRenderer* pMeshRenderer = pDebugObj->GetComponent<CMeshRenderer>();
 

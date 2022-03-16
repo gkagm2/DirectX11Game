@@ -200,6 +200,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CAnimation2D.h" />
     <ClInclude Include="CAnimator2D.h" />
     <ClInclude Include="CBehaviour.h" />
+    <ClInclude Include="CBoundingBox.h" />
     <ClInclude Include="CButtonUI.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCameraModule.h" />
@@ -289,6 +290,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CAnimation2D.cpp" />
     <ClCompile Include="CAnimator2D.cpp" />
     <ClCompile Include="CBehaviour.cpp" />
+    <ClCompile Include="CBoundingBox.cpp" />
     <ClCompile Include="CButtonUI.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCameraModule.cpp" />

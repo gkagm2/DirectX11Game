@@ -24,6 +24,7 @@
 #include "CSpriteRenderer.h"
 #include "CSkybox.h"
 #include "CDecal.h"
+#include "CBoundingBox.h"
 
 #include "CTextUI.h"
 #include "CButtonUI.h"
@@ -219,6 +220,9 @@ void CGameObject::Render()
 	if (CCollisionManager::GetInstance()->IsCollisionShow()) {
 		if (Collider2D() && Collider2D()->IsActive())		// 충돌체 렌더링
 			Collider2D()->Render();
+	}
+	if (BoundingBox() && BoundingBox()->IsActive()) {
+		BoundingBox()->Render();
 	}
 }
 
@@ -942,6 +946,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::MeshRenderer:
 		pComponent = new CMeshRenderer;
+		break;
+	case E_ComponentType::BoundingBox:
+		pComponent = new CBoundingBox;
 		break;
 	case E_ComponentType::Camera:
 		pComponent = new CCamera;

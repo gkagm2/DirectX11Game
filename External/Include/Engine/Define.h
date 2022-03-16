@@ -89,6 +89,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 
 #define GET_COMPONENT_COMPOTABLE \
 	GET_COMPONENT(Transform)\
+	GET_COMPONENT(BoundingBox)\
 	GET_COMPONENT(MeshRenderer)\
 	GET_COMPONENT(Camera)\
 	GET_COMPONENT(Collider2D)\
@@ -122,6 +123,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 
 #define GET_COMPONENT_FROM_GAMEOBJECT \
 	GET_OTHER_COMPONENT(Transform)\
+	GET_OTHER_COMPONENT(BoundingBox)\
 	GET_OTHER_COMPONENT(MeshRenderer)\
 	GET_OTHER_COMPONENT(Camera)\
 	GET_OTHER_COMPONENT(Collider2D)\

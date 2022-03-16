@@ -262,6 +262,9 @@
     <ClInclude Include="CDecal.h">
       <Filter>Engine\07. Component\Decal</Filter>
     </ClInclude>
+    <ClInclude Include="CBoundingBox.h">
+      <Filter>Engine\07. Component\BoundingBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -504,6 +507,9 @@
     <ClCompile Include="CDecal.cpp">
       <Filter>Engine\07. Component\Decal</Filter>
     </ClCompile>
+    <ClCompile Include="CBoundingBox.cpp">
+      <Filter>Engine\07. Component\BoundingBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -691,6 +697,9 @@
     </Filter>
     <Filter Include="Engine\07. Component\Decal">
       <UniqueIdentifier>{ff9b9861-f5be-447c-b0f7-cea49a738890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\07. Component\BoundingBox">
+      <UniqueIdentifier>{a6bae8d0-c172-4a73-b54e-32e03fb3ba91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

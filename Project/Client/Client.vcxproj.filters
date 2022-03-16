@@ -242,6 +242,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI">
       <UniqueIdentifier>{8ffe57f8-8743-4746-972e-8282f6c2a91b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI">
+      <UniqueIdentifier>{18ed1698-cc34-46e4-a1b6-f867aef22448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -467,6 +470,9 @@
     <ClInclude Include="DecalGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingBoxGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -673,6 +679,9 @@
     </ClCompile>
     <ClCompile Include="DecalGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\DecalGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBoxGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

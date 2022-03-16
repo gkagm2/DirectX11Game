@@ -27,6 +27,7 @@
 #include "ParticleSystemGUI.h"
 #include "SkyboxGUI.h"
 #include "DecalGUI.h"
+#include "BoundingBoxGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -72,6 +73,10 @@ void InspectorGUI::Init()
 	// RectTransformGUI
 	m_arrComGUI[(UINT)E_ComponentType::RectTransform] = new RectTransformGUI;
 	m_arrComGUI[(UINT)E_ComponentType::RectTransform]->SetUISize(ImVec2(0.f, 150.f));
+
+	// BoundingBoxGUI
+	m_arrComGUI[(UINT)E_ComponentType::BoundingBox] = new BoundingBoxGUI;
+	m_arrComGUI[(UINT)E_ComponentType::BoundingBox]->SetUISize(ImVec2(0.f, 0.f));
 
 	// MeshRendererGUI
 	m_arrComGUI[(UINT)E_ComponentType::MeshRenderer] = new MeshRendererGUI;

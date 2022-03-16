@@ -18,6 +18,10 @@ CLight3D::CLight3D() :
 	m_pMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_Collider2DCollisionMtrl);
 	m_tInfo.eLightType = E_LightType::Direction;*/
 	m_tInfo.idx = -1;
+	m_tInfo.tColor.vDiffuse = Vector4(0.8f, 0.8f, 0.8f, 1.f);
+	m_tInfo.tColor.vEmbient= Vector4(0.2f, 0.2f, 0.2f, 1.f);
+	m_tInfo.tColor.vSpecular = Vector4(0.8f, 0.8f, 0.8f, 1.f);
+
 	SetLightType(E_LightType::Direction);
 }
 

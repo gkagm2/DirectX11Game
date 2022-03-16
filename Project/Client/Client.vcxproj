@@ -195,6 +195,7 @@ call ClientCopy.bat</Command>
     <ClInclude Include="Animator2DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />
     <ClInclude Include="AudioSourceGUI.h" />
+    <ClInclude Include="BoundingBoxGUI.h" />
     <ClInclude Include="ButtonUIGUI.h" />
     <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CanvasRendererGUI.h" />
@@ -299,6 +300,7 @@ call ClientCopy.bat</Command>
     <ClCompile Include="Animator2DGUI.cpp" />
     <ClCompile Include="AnimatorGUI.cpp" />
     <ClCompile Include="AudioSourceGUI.cpp" />
+    <ClCompile Include="BoundingBoxGUI.cpp" />
     <ClCompile Include="ButtonUIGUI.cpp" />
     <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CanvasRendererGUI.cpp" />
