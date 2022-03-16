@@ -274,8 +274,6 @@
 
 #define STR_ResourceKey_ShadowDepthTargetTex _T("ShadowDepthTargetTex")
 #define STR_ResourceKey_ShadowDepthStencilTex _T("ShadowDepthStencilTex")
-#define STR_ResourceKey_DecalDepthStencilTex _T("DecalDepthStencilTex")
-
 
 // Tool Object name
 #define STR_TOOL_OBJ_NAME_ToolCamera _T("Tool Camera_Engine")

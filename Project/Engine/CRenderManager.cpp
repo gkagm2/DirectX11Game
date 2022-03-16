@@ -536,7 +536,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		arrTex[0] = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_ColorTargetTex);
 		arrTex[1] = CResourceManager::GetInstance()->FindRes< CTexture>(STR_ResourceKey_SpecularTargetTex);
 
-		SharedPtr<CTexture> pDepthTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DecalDepthStencilTex);
+		SharedPtr<CTexture> pDepthTex = CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DSTexture);
 
 
 		m_arrMRT[(UINT)E_MRTType::Decal] = new CMRT(arrTex, arrClearColor, 2, pDepthTex, false);
