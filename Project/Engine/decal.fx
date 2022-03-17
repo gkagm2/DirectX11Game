@@ -36,9 +36,9 @@ PS_OUT PS_DebugDecal(float4 _vPos : SV_Position)
 
 // ====================
 // Decal Shader
-// Blend : 0 target : Alpha Blend
-//       : 1 target : Add Blend
-// DepthStencil : DepthTest, No Write
+// Blend : 0 target : Alpha Blend (0번타겟 한정)
+//       : 1 target : Add Blend (가산혼합 블랜딩)
+// DepthStencil : DepthTest, No Write (깊이 체크 받고, 면을 다 채워서 호출하게되므로 데칼 체크하려고 배치한것임 실제 존재하지는 않음. 데칼물체 자체에 깊이를 남기지 않음.)
 // Render Time Point : Decal
 
 // g_tex_0 : Position Target
@@ -67,14 +67,17 @@ PS_OUT PS_Decal(float4 _ScreenPos : SV_Position)
     
     float3 vWorldPos = mul(float4(vViewPos, 1.f), g_matViewInv).xyz;
     float3 vDecalLocalPos = mul(float4(vWorldPos, 1.f), g_matWorldInv).xyz;
-        
+
+    // 육면체 Local Space기준으로 검사.
     if (-0.5f < vDecalLocalPos.x && vDecalLocalPos.x < 0.5f
         && -0.5f < vDecalLocalPos.y && vDecalLocalPos.y < 0.5f
         && -0.5f < vDecalLocalPos.z && vDecalLocalPos.z < 0.5f)
     {
         if (IsDecalTex)
         {
+            // 육면체 -0.5 ~ 0.5 범위를 UV로 변환 (x,z 평면 기준)
             float2 vDecalUV = float2(vDecalLocalPos.x + 0.5f, 1.f - (vDecalLocalPos.z + 0.5f));
+            
             output.vColorTarget = DecalTex.Sample(Sample_Anisotropic, vDecalUV);
             if (Lighting)
                 output.vSpecularTarget = DecalTex.Sample(Sample_Anisotropic, vDecalUV);    

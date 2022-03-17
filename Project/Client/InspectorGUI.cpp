@@ -129,7 +129,7 @@ void InspectorGUI::Init()
 
 	// DecalGUI
 	m_arrComGUI[(UINT)E_ComponentType::Decal] = new DecalGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Decal]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::Decal]->SetUISize(ImVec2(0.f, 300.f));
 
 	// UI
 	// TextUI
