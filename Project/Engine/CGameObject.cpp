@@ -25,7 +25,7 @@
 #include "CSkybox.h"
 #include "CDecal.h"
 #include "CBoundingBox.h"
-
+#include "CLandscape.h"
 #include "CTextUI.h"
 #include "CButtonUI.h"
 #include "CImageUI.h"
@@ -880,6 +880,9 @@ CComponent* CreateComponentOld(E_ComponentTypeOld _eType) {
 	case E_ComponentTypeOld::MeshRenderer:
 		pComponent = new CMeshRenderer;
 		break;
+	case E_ComponentTypeOld::BoundingBox:
+		pComponent = new CBoundingBox;
+		break;
 	case E_ComponentTypeOld::Camera:
 		pComponent = new CCamera;
 		break;
@@ -930,6 +933,9 @@ CComponent* CreateComponentOld(E_ComponentTypeOld _eType) {
 		break;
 	case E_ComponentTypeOld::ButtonUI:
 		pComponent = new CButtonUI;
+		break;
+	case E_ComponentTypeOld::Decal:
+		pComponent = new CDecal;
 		break;
 	default:
 		assert(nullptr);
@@ -1003,6 +1009,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Decal:
 		pComponent = new CDecal;
+		break;
+	case E_ComponentType::Landscape:
+		pComponent = new CLandscape;
 		break;
 	default:
 		assert(nullptr);

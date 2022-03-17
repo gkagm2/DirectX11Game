@@ -1,5 +1,8 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CMaterial.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CMeshRenderer.cpp"
 
 
@@ -25,7 +28,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CRenderer.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CRenderManager.cpp"
 
