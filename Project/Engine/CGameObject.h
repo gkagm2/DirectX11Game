@@ -27,6 +27,7 @@ class CUI;
 class CBehaviour;
 class CAudioSource;
 class CDecal;
+class CLandscape;
 
 class CScript;
 

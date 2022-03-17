@@ -312,6 +312,10 @@ void CCamera::_SortObjects()
 					pObj->Decal()->GetMaterial()->GetShader().Get()) {
 					eRenderTimePoint = pObj->Decal()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
+				else if (pObj->Landscape()) {
+					// FIXED (Jang) :Deferred 로 바꾸기 전, 임시 forward로 설정.
+					eRenderTimePoint = E_RenderTimePoint::Forward;
+				}
 				else {
 				}
 

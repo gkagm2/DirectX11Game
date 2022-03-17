@@ -108,7 +108,8 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_COMPONENT(ImageUI)\
 	GET_COMPONENT(ButtonUI)\
 	GET_COMPONENT(Skybox)\
-	GET_COMPONENT(Decal)
+	GET_COMPONENT(Decal)\
+	GET_COMPONENT(Landscape)
 
 // TIP : 추가 할 경우 
 // CGameObject .cpp,.h에 선언하기. 
@@ -142,7 +143,8 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_OTHER_COMPONENT(ImageUI)\
 	GET_OTHER_COMPONENT(ButtonUI)\
 	GET_OTHER_COMPONENT(Skybox)\
-	GET_OTHER_COMPONENT(Decal)
+	GET_OTHER_COMPONENT(Decal)\
+	GET_OTHER_COMPONENT(Landscape)
 #pragma endregion
 
 
