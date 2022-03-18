@@ -44,7 +44,7 @@ void TileMapGUI::Update()
 		string strKey;
 		TStringToString(pTex->GetKey().c_str(), strKey);
 
-		if (ParamGUI::Render_Texture(strKey.c_str(), pTex, this, (GUI_CALLBACK)&TileMapGUI::SelectTexture)) {
+		if (ParamGUI::Render_Texture(strKey.c_str(), pTex, this, (GUI_CALLBACK)&TileMapGUI::_SelectHeightMapTexture)) {
 		}
 	}
 	
@@ -113,7 +113,7 @@ void TileMapGUI::ShowMeshRenderer()
 	}
 }
 
-void TileMapGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+void TileMapGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	// 선택한 텍스쳐를 알아낸다.
 	const char* pStr = (const char*)_pStr;

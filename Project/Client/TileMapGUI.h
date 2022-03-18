@@ -7,7 +7,7 @@ public:
 
 	void ShowMeshRenderer();
 public:
-	void SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
+	void _SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
 
 	// callback¿ë ÇÔ¼ö
 	void _SetMesh(DWORD_PTR _dw1, DWORD_PTR _dw);

@@ -183,7 +183,7 @@ void MaterialGUI::Update()
 			case E_ShaderParam::TextureCube_1: {
 				CTexture* pTex = nullptr;
 				pMtrl->GetData(vecParam[i].eType, &pTex);
-				if (ParamGUI::Render_Texture(strName, pTex, this, (GUI_CALLBACK)&MaterialGUI::SelectTexture))
+				if (ParamGUI::Render_Texture(strName, pTex, this, (GUI_CALLBACK)&MaterialGUI::_SelectHeightMapTexture))
 					m_eSelectedTexParam = vecParam[i].eType;
 			}
 				break;
@@ -209,7 +209,7 @@ void MaterialGUI::SetShader(DWORD_PTR _pShaderName, DWORD_PTR _NONE)
 	pMtrl->SetShader(pShader);
 }
 
-void MaterialGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+void MaterialGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	// 선택한 텍스쳐를 알아낸다.
 	const char* pStr = (const char*)_pStr;

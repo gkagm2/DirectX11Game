@@ -15,7 +15,7 @@ public:
 	void SetShader(DWORD_PTR _pShaderName, DWORD_PTR _NONE);
 
 public:	
-	void SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
+	void _SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
 
 private:
 	void CopyMaterial(CMaterial* _pMtrl);

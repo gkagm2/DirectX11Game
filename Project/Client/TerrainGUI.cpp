@@ -2,6 +2,7 @@
 #include "TerrainGUI.h"
 #include "ParamGUI.h"
 #include <Engine\CTerrain.h>
+#include <Engine\CResourceManager.h>
 
 TerrainGUI::TerrainGUI() :
 	ComponentGUI(E_ComponentType::Terrain)
@@ -45,6 +46,15 @@ void TerrainGUI::Update()
 		UINT iCompX = GetTargetObject()->Terrain()->GetComponentX();
 		UINT iCompZ = GetTargetObject()->Terrain()->GetComponentZ();
 
+		CTexture* pHeightMapTex = nullptr;
+		if (nullptr != GetTargetObject()->Terrain()->GetHeightMapTex())
+			pHeightMapTex = GetTargetObject()->Terrain()->GetHeightMapTex().Get();
+
+		ParamGUI::Render_Texture("Height Map Texture", pHeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectHeightMapTexture , true);
+
+		CTexture* pWeightMapTex = nullptr;
+		ParamGUI::Render_Texture("Weight Map Texture", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
+
 		// QUAD
 		ImGui::Text("Current Quad %dx%d", iQuadX, iQuadZ);
 
@@ -69,4 +79,32 @@ void TerrainGUI::Update()
 	}
 
 	End();
+}
+
+void TerrainGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+{
+	// 선택한 텍스쳐를 알아낸다.
+	const char* pStr = (const char*)_pStr;
+	string str = pStr;
+	tstring tStr;
+	StringToTString(str, tStr);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStr).Get();
+	assert(pTex);
+
+	GetTargetObject()->Terrain()->SetHeightMapTex(pTex);
+}
+
+void TerrainGUI::_SelectWeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+{
+	// 선택한 텍스쳐를 알아낸다.
+	const char* pStr = (const char*)_pStr;
+	string str = pStr;
+	tstring tStr;
+	StringToTString(str, tStr);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStr).Get();
+	assert(pTex);
+
+	GetTargetObject()->Terrain()->SetWeightMapTex(pTex);
 }

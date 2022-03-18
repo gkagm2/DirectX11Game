@@ -28,7 +28,7 @@ void ImageUIGUI::Update()
 	if (pImageTexture)
 		TStringToString(pImageTexture->GetKey(), strKey);
 	
-	ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ImageUIGUI::SelectTexture, true);
+	ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ImageUIGUI::_SelectHeightMapTexture, true);
 
 	ImGui::Spacing();
 	UINT iColor = pImageUI->GetColor();
@@ -60,7 +60,7 @@ void ImageUIGUI::Update()
 	End();
 }
 
-void ImageUIGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+void ImageUIGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	const char* pStrKey = (const char*)_pStr;
 	string strKey = pStrKey;

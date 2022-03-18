@@ -25,7 +25,7 @@ void DecalGUI::Update()
 	if (nullptr != GetTargetObject()->Decal()->GetDecalTexture())
 		pDecalTex = GetTargetObject()->Decal()->GetDecalTexture().Get();
 	
-	if (ParamGUI::Render_Texture("Select##DelcalTexture", pDecalTex, this, (GUI_CALLBACK)&DecalGUI::SelectTexture)) {
+	if (ParamGUI::Render_Texture("Select##DelcalTexture", pDecalTex, this, (GUI_CALLBACK)&DecalGUI::_SelectHeightMapTexture)) {
 	}
 
 	ImGui::PushID(CImGuiManager::GetInstance()->GetWidgetID());
@@ -37,7 +37,7 @@ void DecalGUI::Update()
 	End();
 }
 
-void DecalGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+void DecalGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	// 선택한 텍스쳐를 알아낸다.
 	const char* pStr = (const char*)_pStr;

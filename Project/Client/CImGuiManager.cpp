@@ -154,7 +154,7 @@ void CImGuiManager::AddGUI(const string& _strName, GUI* _pGUI)
 #include "MeshRendererGUI.h"
 #include "InspectorGUI.h"
 #include "HierarchyGUI.h"
-#include "ResourceGUI.h"
+#include "ResourceGUI.h"    
 #include "Collider2DGUI.h"
 #include "ResourceViewGUI.h"
 #include "MenuGUI.h"

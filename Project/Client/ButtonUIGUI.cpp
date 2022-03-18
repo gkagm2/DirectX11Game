@@ -30,7 +30,7 @@ void ButtonUIGUI::Update()
 	if (pImageTexture)
 		TStringToString(pImageTexture->GetKey().c_str(), strKey);
 		
-	ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ButtonUIGUI::SelectTexture, true);
+	ParamGUI::Render_Texture(strKey.c_str(), pImageTexture, this, (GUI_CALLBACK)&ButtonUIGUI::_SelectHeightMapTexture, true);
 
 
 
@@ -70,7 +70,7 @@ void ButtonUIGUI::Update()
 	End();
 }
 
-void ButtonUIGUI::SelectTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+void ButtonUIGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 {
 	const char* pStrKey = (const char*)_pStr;
 	string strKey = pStrKey;
