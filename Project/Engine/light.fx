@@ -67,16 +67,19 @@ PS_OUT PS_DirLight(VS_OUT _in)
         // w 로 나눠서 Proj 좌표를 얻은 뒤에, 투영좌표에 해당하는 UV 값으로 환산
         vDirCamProj.xy /= vDirCamProj.w;
         float2 vDepthTargetUV = float2((vDirCamProj.x + 1.f) / 2.f, (-vDirCamProj.y + 1.f) / 2.f);
-        
-        // 광원 시점에서 해당 지점이 보이지 않는 경우
-        if (vDepthTargetUV.x < 0.f || 1.f < vDepthTargetUV.x
-            || vDepthTargetUV.y < 0.f || 1.f < vDepthTargetUV.y)
+            
+        float fTargetDepth = 0.f;
+
+        // 광원 시점에서 해당 지점이 보이는 경우
+        if (0.f >= vDepthTargetUV.x && 1.f <= vDepthTargetUV.x &&
+            0.f >= vDepthTargetUV.y && 1.f <= vDepthTargetUV.y)
         {
-            return output;
+            // 구한 UV 를 이용해서 광원 쉐도우 뎁스 타겟에서 저장되어있는 깊이 값을 추출
+            fTargetDepth = ShadowDepthTargetTex.Sample(Sample_Anisotropic, vDepthTargetUV).r;
         }
-    
-        // 구한 UV 를 이용해서 광원 쉐도우 뎁스 타겟에서 저장되어있는 깊이 값을 추출
-        float fTargetDepth = ShadowDepthTargetTex.Sample(Sample_Anisotropic, vDepthTargetUV).r;
+        
+        if (0.f == fTargetDepth)
+            return output;
     
         if (fTargetDepth + 0.002f < fCurDepth)
         {
