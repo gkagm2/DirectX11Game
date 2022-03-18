@@ -1884,7 +1884,6 @@ bool CResourceManager::_DeleteCustomResource(const tstring& _strKey, E_ResourceT
 		pResource = FindRes<CComputeShader>(_strKey).Get();
 		break;
 	case E_ResourceType::Mesh:
-		assert(nullptr && _T("아직 쓰기에는 위험하다"));
 		pResource = FindRes<CMesh>(_strKey).Get();
 		break;
 	case E_ResourceType::Texture:

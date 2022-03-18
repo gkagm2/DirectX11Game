@@ -35,6 +35,12 @@ public:
 	void Create();
 
 public:
+	UINT GetQuadX() { return m_iQuadX; }
+	UINT GetQuadZ() { return m_iQuadZ; }
+	UINT GetComponentX() { return m_iComponentX; }
+	UINT GetComponentZ() { return m_iComponentZ; }
+
+public:
 	CLONE(CLandscape);
 	CLandscape();
 	virtual ~CLandscape() override;
