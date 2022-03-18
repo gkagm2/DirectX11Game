@@ -36,7 +36,7 @@ public:
 	void CreateLight3D();
 	void CreateCone();
 	void CreateDecal();
-	void CreateLandscape();
+	void CreateTerrain();
 
 	// UI
 	void CreateTextUI();

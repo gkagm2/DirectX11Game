@@ -257,7 +257,7 @@ call ClientCopy.bat</Command>
     </ClInclude>
     <ClInclude Include="InspectorGUI.h" />
     <ClInclude Include="InspectorViewGUI.h" />
-    <ClInclude Include="LandscapeGUI.h" />
+    <ClInclude Include="TerrainGUI.h" />
     <ClInclude Include="LayerCheckGUI.h" />
     <ClInclude Include="Light2DGUI.h" />
     <ClInclude Include="Light3DGUI.h" />
@@ -358,7 +358,7 @@ call ClientCopy.bat</Command>
     </ClCompile>
     <ClCompile Include="InspectorGUI.cpp" />
     <ClCompile Include="InspectorViewGUI.cpp" />
-    <ClCompile Include="LandscapeGUI.cpp" />
+    <ClCompile Include="TerrainGUI.cpp" />
     <ClCompile Include="LayerCheckGUI.cpp" />
     <ClCompile Include="Light2DGUI.cpp" />
     <ClCompile Include="Light3DGUI.cpp" />

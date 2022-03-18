@@ -79,8 +79,8 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Decal:
 		strComponentType = _T("Decal");
 		break;
-	case E_ComponentType::Landscape:
-		strComponentType = _T("Landscape");
+	case E_ComponentType::Terrain:
+		strComponentType = _T("Terrain");
 		break;
 		// UI
 	case E_ComponentType::ButtonUI:

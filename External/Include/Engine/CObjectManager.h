@@ -21,7 +21,7 @@ public:
 	CGameObject* CreateLight3D(UINT _iLayer = 0);
 	CGameObject* CreateCone(UINT _iLayer = 0);
 	CGameObject* CreateDecal(UINT _iLayer = 0);
-	CGameObject* CreateLandscape(UINT _iLayer = 0);
+	CGameObject* CreateTerrain(UINT _iLayer = 0);
 
 public:
 	CGameObject* CreateTextUI();

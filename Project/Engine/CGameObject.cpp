@@ -25,7 +25,7 @@
 #include "CSkybox.h"
 #include "CDecal.h"
 #include "CBoundingBox.h"
-#include "CLandscape.h"
+#include "CTerrain.h"
 #include "CTextUI.h"
 #include "CButtonUI.h"
 #include "CImageUI.h"
@@ -1010,8 +1010,8 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 	case E_ComponentType::Decal:
 		pComponent = new CDecal;
 		break;
-	case E_ComponentType::Landscape:
-		pComponent = new CLandscape;
+	case E_ComponentType::Terrain:
+		pComponent = new CTerrain;
 		break;
 	default:
 		assert(nullptr);

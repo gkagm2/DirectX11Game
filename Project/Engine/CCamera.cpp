@@ -18,7 +18,7 @@
 #include "CSkybox.h"
 #include "CDecal.h"
 #include "CFrustum.h"
-#include "CLandscape.h"
+#include "CTerrain.h"
 
 // Test
 #include "CKeyManager.h"
@@ -313,11 +313,11 @@ void CCamera::_SortObjects()
 					pObj->Decal()->GetMaterial()->GetShader().Get()) {
 					eRenderTimePoint = pObj->Decal()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
-				else if (pObj->Landscape() &&
-					pObj->Landscape()->GetMesh().Get() &&
-					pObj->Landscape()->GetMaterial().Get() &&
-					pObj->Landscape()->GetMaterial()->GetShader().Get()) {
-					eRenderTimePoint = pObj->Landscape()->GetMaterial()->GetShader()->GetRenderTimePoint();
+				else if (pObj->Terrain() &&
+					pObj->Terrain()->GetMesh().Get() &&
+					pObj->Terrain()->GetMaterial().Get() &&
+					pObj->Terrain()->GetMaterial()->GetShader().Get()) {
+					eRenderTimePoint = pObj->Terrain()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
 				else {
 				}
@@ -432,18 +432,25 @@ void CCamera::_SortObjects_ShadowDepth()
 
 			for (size_t j = 0; j < vecAllObj.size(); ++j) {
 				CGameObject* pObj = vecAllObj[j];
+				// Sphere Type으로 검사
+				if (pObj->IsFrustumCulling() &&
+					!m_pFrustum->CheckSphere(pObj->Transform()->GetPosition(), pObj->Transform()->GetScale().x * 0.5f)) {
+					continue;
+				}
+
 				if (pObj->IsDynamicShadow() && pObj->MeshRenderer()) {
 					if (nullptr == pObj->MeshRenderer()->GetMesh() ||
 						nullptr == pObj->MeshRenderer()->GetSharedMaterial())
 						continue;
 
-					// Sphere Type으로 검사
-					if (pObj->IsFrustumCulling() &&
-						!m_pFrustum->CheckSphere(pObj->Transform()->GetPosition(), pObj->Transform()->GetScale().x * 0.5f)) {
+					m_vecShadowDepth.push_back(pObj);
+				}
+				else if (pObj->Terrain()) {
+					if (nullptr == pObj->Terrain()->GetMesh() ||
+						nullptr == pObj->Terrain()->GetMaterial() ||
+						nullptr == pObj->Terrain()->GetMaterial()->GetShader())
 						continue;
-					}
-
-					m_vecShadowDepth.push_back(vecAllObj[j]);
+					m_vecShadowDepth.push_back(pObj);
 				}
 			}
 		}
@@ -465,7 +472,10 @@ void CCamera::_RenderDynamic_ShadowDepth()
 		pShadowDepthMtrl->UpdateData();
 
 		// 메쉬 업데이트, Pipeline 실행		
-		m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render();
+		if (m_vecShadowDepth[i]->MeshRenderer())
+			m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render();
+		else if (m_vecShadowDepth[i]->Terrain())
+			m_vecShadowDepth[i]->Terrain()->GetMesh()->Render();
 	}
 }
 

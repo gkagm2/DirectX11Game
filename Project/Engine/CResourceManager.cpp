@@ -1289,17 +1289,24 @@ void CResourceManager::CreateDefaultShader()
 	AddRes(STR_KEY_TessellationTestShader, pShader);
 
 	//---------------------------
-	// Landscape Shader
-	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
-	pShader->CreateVertexShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_VTX_Landscape);
-	pShader->CreateHullShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_HS_Landscape);
-	pShader->CreateDomainShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_DS_Landscape);
-	pShader->CreatePixelShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_PIX_Landscape);
+	// Terrain Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Deferred);
+	pShader->CreateVertexShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_VTX_Terrain);
+	pShader->CreateHullShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_HS_Terrain);
+	pShader->CreateDomainShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_DS_Terrain);
+	pShader->CreatePixelShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_PIX_Terrain);
 	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->SetBlendState(E_BlendState::Default);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
-	AddRes(STR_KEY_LandscapeShader, pShader);
+
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("FaceX Count") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("FaceZ Count") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("Height Map Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_1, _T("Weight Map Texture") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Height Map Resolution") });
+
+	AddRes(STR_KEY_TerrainShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1529,11 +1536,11 @@ void CResourceManager::CreateDefaultMaterial()
 	pMtrl->SetShader(pShaderTessTest);
 	AddRes(STR_KEY_TessellationTestMtrl, pMtrl);
 
-	// Landscape Mtrl
+	// Terrain Mtrl
 	pMtrl = new CMaterial(true);
-	SharedPtr<CGraphicsShader> pShaderLandscape = LoadRes<CGraphicsShader>(STR_KEY_LandscapeShader);
-	pMtrl->SetShader(pShaderLandscape);
-	AddRes(STR_KEY_LandscapeMtrl, pMtrl);
+	SharedPtr<CGraphicsShader> pShaderTerrain = LoadRes<CGraphicsShader>(STR_KEY_TerrainShader);
+	pMtrl->SetShader(pShaderTerrain);
+	AddRes(STR_KEY_TerrainMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

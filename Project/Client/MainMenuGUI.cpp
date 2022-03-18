@@ -129,8 +129,8 @@ void MainMenuGUI::Update()
                 if (ImGui::MenuItem("Decal")) {
                     CreateDecal();
                 }
-                if (ImGui::MenuItem("Landscape")) {
-                    CreateLandscape();
+                if (ImGui::MenuItem("Terrain")) {
+                    CreateTerrain();
                 }
                 ImGui::EndMenu();
             }
@@ -384,9 +384,9 @@ void MainMenuGUI::CreateDecal()
     CObjectManager::GetInstance()->CreateDecal();
 }
 
-void MainMenuGUI::CreateLandscape()
+void MainMenuGUI::CreateTerrain()
 {
-    CObjectManager::GetInstance()->CreateLandscape();
+    CObjectManager::GetInstance()->CreateTerrain();
 }
 
 void MainMenuGUI::CreateTextUI()

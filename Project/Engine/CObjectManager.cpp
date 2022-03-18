@@ -14,7 +14,7 @@
 #include "CSkybox.h"
 #include "CLight3D.h"
 #include "CDecal.h"
-#include "CLandscape.h"
+#include "CTerrain.h"
 
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
@@ -34,7 +34,7 @@ UINT g_iButtonUIGameObjectID = 0;
 UINT g_iImageUIGameObjectID = 0;
 
 UINT g_iEmptyDecalID = 0;
-UINT g_iEmptyLandscapeID = 0;
+UINT g_iEmptyTerrainID = 0;
 
 CObjectManager::CObjectManager(){}
 CObjectManager::~CObjectManager(){}
@@ -302,15 +302,15 @@ CGameObject* CObjectManager::CreateDecal(UINT _iLayer)
 	return pNewGameObject;
 }
 
-CGameObject* CObjectManager::CreateLandscape(UINT _iLayer)
+CGameObject* CObjectManager::CreateTerrain(UINT _iLayer)
 {
-	tstring strObjName = _CreateObjectName(_T("Decal"), g_iEmptyDecalID);
+	tstring strObjName = _CreateObjectName(_T("Terrain"), g_iEmptyDecalID);
 	CGameObject* pNewGameObject = new CGameObject;
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
-	pNewGameObject->AddComponent<CLandscape>();
+	pNewGameObject->AddComponent<CTerrain>();
 
-	pNewGameObject->Landscape()->Create();
+	pNewGameObject->Terrain()->Create();
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();

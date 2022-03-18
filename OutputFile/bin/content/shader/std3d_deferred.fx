@@ -60,6 +60,7 @@ struct PS_OUT
     float4 vViewPos     : SV_Target2;
     float4 vData        : SV_Target3;
 };
+
 PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 {
     PS_OUT vOutput = (PS_OUT) 0.f;

@@ -265,8 +265,8 @@
     <ClInclude Include="CBoundingBox.h">
       <Filter>Engine\07. Component\BoundingBox</Filter>
     </ClInclude>
-    <ClInclude Include="CLandscape.h">
-      <Filter>Engine\07. Component\Landscape</Filter>
+    <ClInclude Include="CTerrain.h">
+      <Filter>Engine\07. Component\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -513,8 +513,8 @@
     <ClCompile Include="CBoundingBox.cpp">
       <Filter>Engine\07. Component\BoundingBox</Filter>
     </ClCompile>
-    <ClCompile Include="CLandscape.cpp">
-      <Filter>Engine\07. Component\Landscape</Filter>
+    <ClCompile Include="CTerrain.cpp">
+      <Filter>Engine\07. Component\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -707,7 +707,7 @@
     <Filter Include="Engine\07. Component\BoundingBox">
       <UniqueIdentifier>{a6bae8d0-c172-4a73-b54e-32e03fb3ba91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\07. Component\Landscape">
+    <Filter Include="Engine\07. Component\Terrain">
       <UniqueIdentifier>{ae5578de-aa64-48c4-a4a5-2f02208d3dda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -766,7 +766,7 @@
     <FxCompile Include="tessellation.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
-    <FxCompile Include="landscape.fx">
+    <FxCompile Include="terrain.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>
