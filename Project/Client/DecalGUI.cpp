@@ -21,7 +21,10 @@ void DecalGUI::Update()
 
 	ImGui::Text("Material");
 
-	CTexture* pDecalTex = GetTargetObject()->Decal()->GetDecalTexture().Get();
+	CTexture* pDecalTex = nullptr;
+	if (nullptr != GetTargetObject()->Decal()->GetDecalTexture())
+		pDecalTex = GetTargetObject()->Decal()->GetDecalTexture().Get();
+	
 	if (ParamGUI::Render_Texture("Select##DelcalTexture", pDecalTex, this, (GUI_CALLBACK)&DecalGUI::SelectTexture)) {
 	}
 

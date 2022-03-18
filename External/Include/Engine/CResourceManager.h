@@ -51,7 +51,8 @@ public:
 	template<typename T>
 	SharedPtr<T> FindRes(const tstring& _strKey);
 
-	
+	template<typename T>
+	bool ForceDeleteRes(const tstring& _strKey);
 
 
 	template<typename T>
@@ -187,6 +188,15 @@ inline SharedPtr<T> CResourceManager::FindRes(const tstring& _strKey)
 
 	return pResource;
 }
+
+template<typename T>
+inline bool CResourceManager::ForceDeleteRes(const tstring& _strKey)
+{
+	E_ResourceType eResourceType = GetResourceType<T>();
+	return _DeleteCustomResource(_strKey, eResourceType);
+}
+
+
 
 template<typename T>
 inline bool CResourceManager::IsExistRes(const tstring& _strKey)

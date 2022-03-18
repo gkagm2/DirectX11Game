@@ -245,6 +245,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI">
       <UniqueIdentifier>{18ed1698-cc34-46e4-a1b6-f867aef22448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LandscapeGUI">
+      <UniqueIdentifier>{46b901dc-c0d9-49f9-93f8-6819f3ffea44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -473,6 +476,9 @@
     <ClInclude Include="BoundingBoxGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI</Filter>
     </ClInclude>
+    <ClInclude Include="LandscapeGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LandscapeGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -682,6 +688,9 @@
     </ClCompile>
     <ClCompile Include="BoundingBoxGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\BoundingBoxGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\LandscapeGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

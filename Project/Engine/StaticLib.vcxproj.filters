@@ -766,6 +766,9 @@
     <FxCompile Include="tessellation.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="landscape.fx">
+      <Filter>Shader Script</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

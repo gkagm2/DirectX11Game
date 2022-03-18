@@ -341,6 +341,7 @@ namespace DirectX
             static const Vector3 Forward;
 			static const Vector3 Front;
             static const Vector3 Backward;
+            static const Vector3 Back;
         };
 
         // Binary operators

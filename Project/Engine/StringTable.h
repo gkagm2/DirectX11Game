@@ -38,6 +38,7 @@
 #define STR_FILE_PATH_ShaderLight _T("shader\\light.fx")
 #define STR_FILE_PATH_ShaderShadow _T("shader\\shadow.fx")
 #define STR_FILE_PATH_TessellationShader _T("shader\\tessellation.fx")
+#define STR_FILE_PATH_LandscapeShader _T("shader\\landscape.fx")
 
 
 
@@ -164,8 +165,14 @@
 // tessellation.fx functions name
 #define STR_FUNC_NAME_VTX_Tess "VS_Tess"
 #define STR_FUNC_NAME_PIX_Tess "PS_Tess"
-#define STR_FUNC_NAME_DS_Tess "DS_Tess"
 #define STR_FUNC_NAME_HS_Tess "HS_Tess"
+#define STR_FUNC_NAME_DS_Tess "DS_Tess"
+
+// landscape.fx functions name
+#define STR_FUNC_NAME_VTX_Landscape "VS_Landscape"
+#define STR_FUNC_NAME_PIX_Landscape "PS_Landscape"
+#define STR_FUNC_NAME_HS_Landscape "HS_Landscape"
+#define STR_FUNC_NAME_DS_Landscape "DS_Landscape"
 
 ////////// Resource Key ///////////////
 // Mesh
@@ -213,7 +220,7 @@
 #define STR_KEY_DecalShader _T("DecalShader")
 #define STR_KEY_Std3DFrameShader _T("Std3DFrameShader")
 #define STR_KEY_TessellationTestShader _T("TessellationTestShader")
-
+#define STR_KEY_LandscapeShader _T("LandscapeShader")
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
 
@@ -255,6 +262,7 @@
 #define STR_KEY_DecalMtrl _T("DecalMaterial")
 #define STR_KEY_Std3DFrameMtrl _T("Standard3DFrameMaterial")
 #define STR_KEY_TessellationTestMtrl _T("TessellationTestMaterial")
+#define STR_KEY_LandscapeMtrl _T("LandscapeMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")

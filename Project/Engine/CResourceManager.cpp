@@ -278,21 +278,29 @@ void CResourceManager::CreateDefaultMesh3D()
 	vertices[0].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertices[0].vUV = Vector2(0.f, 0.f);
 	vertices[0].vNormal = Vector3(0.f, 1.f, 0.f);
+	vertices[0].vTangent = Vector3(1.f, 0.f, 0.f);
+	vertices[0].vBinormal = Vector3(0.f, 0.f, -1.f);
 
 	vertices[1].vPos = Vector3(0.5f, 0.5f, 0.5f);
 	vertices[1].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertices[1].vUV = Vector2(1.f, 0.f);
 	vertices[1].vNormal = Vector3(0.f, 1.f, 0.f);
+	vertices[1].vTangent = Vector3(1.f, 0.f, 0.f);
+	vertices[1].vBinormal = Vector3(0.f, 0.f, -1.f);
 
 	vertices[2].vPos = Vector3(0.5f, 0.5f, -0.5f);
 	vertices[2].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertices[2].vUV = Vector2(1.f, 1.f);
 	vertices[2].vNormal = Vector3(0.f, 1.f, 0.f);
+	vertices[2].vTangent = Vector3(1.f, 0.f, 0.f);
+	vertices[2].vBinormal = Vector3(0.f, 0.f, -1.f);
 
 	vertices[3].vPos = Vector3(-0.5f, 0.5f, -0.5f);
 	vertices[3].vColor = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertices[3].vUV = Vector2(0.f, 1.f);
 	vertices[3].vNormal = Vector3(0.f, 1.f, 0.f);
+	vertices[3].vTangent = Vector3(1.f, 0.f, 0.f);
+	vertices[3].vBinormal = Vector3(0.f, 0.f, -1.f);
 
 
 	// ¾Æ·§ ¸é	
@@ -300,105 +308,145 @@ void CResourceManager::CreateDefaultMesh3D()
 	vertices[4].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
 	vertices[4].vUV = Vector2(0.f, 0.f);
 	vertices[4].vNormal = Vector3(0.f, -1.f, 0.f);
+	vertices[4].vTangent = Vector3(-1.f, 0.f, 0.f);
+	vertices[4].vBinormal = Vector3(0.f, 0.f, 1.f);
 
 	vertices[5].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[5].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
 	vertices[5].vUV = Vector2(1.f, 0.f);
 	vertices[5].vNormal = Vector3(0.f, -1.f, 0.f);
+	vertices[5].vTangent = Vector3(-1.f, 0.f, 0.f);
+	vertices[5].vBinormal = Vector3(0.f, 0.f, 1.f);
 
 	vertices[6].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[6].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
 	vertices[6].vUV = Vector2(1.f, 1.f);
 	vertices[6].vNormal = Vector3(0.f, -1.f, 0.f);
+	vertices[6].vTangent = Vector3(-1.f, 0.f, 0.f);
+	vertices[6].vBinormal = Vector3(0.f, 0.f, 1.f);
 
 	vertices[7].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[7].vColor = Vector4(1.f, 0.f, 0.f, 1.f);
 	vertices[7].vUV = Vector2(0.f, 1.f);
 	vertices[7].vNormal = Vector3(0.f, -1.f, 0.f);
+	vertices[7].vTangent = Vector3(-1.f, 0.f, 0.f);
+	vertices[7].vBinormal = Vector3(0.f, 0.f, 1.f);
 
 	// ¿ÞÂÊ ¸é
 	vertices[8].vPos = Vector3(-0.5f, 0.5f, 0.5f);
 	vertices[8].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertices[8].vUV = Vector2(0.f, 0.f);
 	vertices[8].vNormal = Vector3(-1.f, 0.f, 0.f);
+	vertices[8].vTangent = Vector3::Up;
+	vertices[8].vBinormal = Vector3::Back;
 
 	vertices[9].vPos = Vector3(-0.5f, 0.5f, -0.5f);
 	vertices[9].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertices[9].vUV = Vector2(1.f, 0.f);
 	vertices[9].vNormal = Vector3(-1.f, 0.f, 0.f);
+	vertices[9].vTangent = Vector3::Up;
+	vertices[9].vBinormal = Vector3::Back;
 
 	vertices[10].vPos = Vector3(-0.5f, -0.5f, -0.5f);
 	vertices[10].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertices[10].vUV = Vector2(1.f, 1.f);
 	vertices[10].vNormal = Vector3(-1.f, 0.f, 0.f);
+	vertices[10].vTangent = Vector3::Up;
+	vertices[10].vBinormal = Vector3::Back;
 
 	vertices[11].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[11].vColor = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertices[11].vUV = Vector2(0.f, 1.f);
 	vertices[11].vNormal = Vector3(-1.f, 0.f, 0.f);
+	vertices[11].vTangent = Vector3::Up;
+	vertices[11].vBinormal = Vector3::Back;
 
 	// ¿À¸¥ÂÊ ¸é
 	vertices[12].vPos = Vector3(0.5f, 0.5f, -0.5f);
 	vertices[12].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertices[12].vUV = Vector2(0.f, 0.f);
 	vertices[12].vNormal = Vector3(1.f, 0.f, 0.f);
+	vertices[12].vTangent = Vector3::Down;
+	vertices[12].vBinormal = Vector3::Back;
 
 	vertices[13].vPos = Vector3(0.5f, 0.5f, 0.5f);
 	vertices[13].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertices[13].vUV = Vector2(1.f, 0.f);
 	vertices[13].vNormal = Vector3(1.f, 0.f, 0.f);
+	vertices[13].vTangent = Vector3::Down;
+	vertices[13].vBinormal = Vector3::Back;
 
 	vertices[14].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[14].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertices[14].vUV = Vector2(1.f, 1.f);
 	vertices[14].vNormal = Vector3(1.f, 0.f, 0.f);
+	vertices[14].vTangent = Vector3::Down;
+	vertices[14].vBinormal = Vector3::Back;
 
 	vertices[15].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[15].vColor = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertices[15].vUV = Vector2(0.f, 1.f);
 	vertices[15].vNormal = Vector3(1.f, 0.f, 0.f);
+	vertices[15].vTangent = Vector3::Down;
+	vertices[15].vBinormal = Vector3::Back;
 
 	// µÞ ¸é
 	vertices[16].vPos = Vector3(0.5f, 0.5f, 0.5f);
 	vertices[16].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
 	vertices[16].vUV = Vector2(0.f, 0.f);
 	vertices[16].vNormal = Vector3(0.f, 0.f, 1.f);
+	vertices[16].vTangent = Vector3::Right;
+	vertices[16].vBinormal = Vector3::Up;
 
 	vertices[17].vPos = Vector3(-0.5f, 0.5f, 0.5f);
 	vertices[17].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
 	vertices[17].vUV = Vector2(1.f, 0.f);
 	vertices[17].vNormal = Vector3(0.f, 0.f, 1.f);
+	vertices[17].vTangent = Vector3::Right;
+	vertices[17].vBinormal = Vector3::Up;
 
 	vertices[18].vPos = Vector3(-0.5f, -0.5f, 0.5f);
 	vertices[18].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
 	vertices[18].vUV = Vector2(1.f, 1.f);
 	vertices[18].vNormal = Vector3(0.f, 0.f, 1.f);
+	vertices[18].vTangent = Vector3::Right;
+	vertices[18].vBinormal = Vector3::Up;
 
 	vertices[19].vPos = Vector3(0.5f, -0.5f, 0.5f);
 	vertices[19].vColor = Vector4(1.f, 1.f, 0.f, 1.f);
 	vertices[19].vUV = Vector2(0.f, 1.f);
 	vertices[19].vNormal = Vector3(0.f, 0.f, 1.f);
+	vertices[19].vTangent = Vector3::Right;
+	vertices[19].vBinormal = Vector3::Up;
 
 	// ¾Õ ¸é
 	vertices[20].vPos = Vector3(-0.5f, 0.5f, -0.5f);;
 	vertices[20].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
 	vertices[20].vUV = Vector2(0.f, 0.f);
 	vertices[20].vNormal = Vector3(0.f, 0.f, -1.f);
+	vertices[20].vTangent = Vector3::Right;
+	vertices[20].vBinormal = Vector3::Down;
 
 	vertices[21].vPos = Vector3(0.5f, 0.5f, -0.5f);
 	vertices[21].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
 	vertices[21].vUV = Vector2(1.f, 0.f);
 	vertices[21].vNormal = Vector3(0.f, 0.f, -1.f);
+	vertices[21].vTangent = Vector3::Right;
+	vertices[21].vBinormal = Vector3::Down;
 
 	vertices[22].vPos = Vector3(0.5f, -0.5f, -0.5f);
 	vertices[22].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
 	vertices[22].vUV = Vector2(1.f, 1.f);
 	vertices[22].vNormal = Vector3(0.f, 0.f, -1.f);
+	vertices[22].vTangent = Vector3::Right;
+	vertices[22].vBinormal = Vector3::Down;
 
 	vertices[23].vPos = Vector3(-0.5f, -0.5f, -0.5f);
 	vertices[23].vColor = Vector4(1.f, 0.f, 1.f, 1.f);
 	vertices[23].vUV = Vector2(0.f, 1.f);
 	vertices[23].vNormal = Vector3(0.f, 0.f, -1.f);
+	vertices[23].vTangent = Vector3::Right;
+	vertices[23].vBinormal = Vector3::Down;
 
 	// ÀÎµ¦½º
 	for (int i = 0; i < 12; i += 2)
@@ -1231,14 +1279,27 @@ void CResourceManager::CreateDefaultShader()
 	// Tessellation Test Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_VTX_Tess);
-	pShader->CreatePixelShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_PIX_Tess);
-	pShader->CreateDomainShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_DS_Tess);
 	pShader->CreateHullShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_HS_Tess);
+	pShader->CreateDomainShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_DS_Tess);
+	pShader->CreatePixelShader(STR_FILE_PATH_TessellationShader, STR_FUNC_NAME_PIX_Tess);
 	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->SetBlendState(E_BlendState::Default);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 	AddRes(STR_KEY_TessellationTestShader, pShader);
+
+	//---------------------------
+	// Landscape Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_VTX_Landscape);
+	pShader->CreateHullShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_HS_Landscape);
+	pShader->CreateDomainShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_DS_Landscape);
+	pShader->CreatePixelShader(STR_FILE_PATH_LandscapeShader, STR_FUNC_NAME_PIX_Landscape);
+	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	pShader->SetDepthStencilState(E_DepthStencilState::Less);
+	pShader->SetBlendState(E_BlendState::Default);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	AddRes(STR_KEY_LandscapeShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1467,6 +1528,12 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderTessTest = LoadRes<CGraphicsShader>(STR_KEY_TessellationTestShader);
 	pMtrl->SetShader(pShaderTessTest);
 	AddRes(STR_KEY_TessellationTestMtrl, pMtrl);
+
+	// Landscape Mtrl
+	pMtrl = new CMaterial(true);
+	SharedPtr<CGraphicsShader> pShaderLandscape = LoadRes<CGraphicsShader>(STR_KEY_LandscapeShader);
+	pMtrl->SetShader(pShaderLandscape);
+	AddRes(STR_KEY_LandscapeMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

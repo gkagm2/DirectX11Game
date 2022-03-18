@@ -13,6 +13,8 @@
 #include "CMeshRenderer.h"
 #include "CSkybox.h"
 #include "CLight3D.h"
+#include "CDecal.h"
+#include "CLandscape.h"
 
 UINT g_iMtrlID = 0;
 UINT g_iEmptyGameObjectID = 0;
@@ -30,6 +32,9 @@ UINT g_iEmptyConeID = 0;
 UINT g_iTextUIGameObjectID = 0;
 UINT g_iButtonUIGameObjectID = 0;
 UINT g_iImageUIGameObjectID = 0;
+
+UINT g_iEmptyDecalID = 0;
+UINT g_iEmptyLandscapeID = 0;
 
 CObjectManager::CObjectManager(){}
 CObjectManager::~CObjectManager(){}
@@ -273,6 +278,50 @@ CGameObject* CObjectManager::CreateCone(UINT _iLayer)
 	}
 	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 
+	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateDecal(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Decal"), g_iEmptyDecalID);
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CDecal>();
+	
+	// Tool Camera가 바라보고 있는 위치에 생성
+	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
+
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
+	return pNewGameObject;
+}
+
+CGameObject* CObjectManager::CreateLandscape(UINT _iLayer)
+{
+	tstring strObjName = _CreateObjectName(_T("Decal"), g_iEmptyDecalID);
+	CGameObject* pNewGameObject = new CGameObject;
+	pNewGameObject->SetName(strObjName);
+	pNewGameObject->AddComponent<CTransform>();
+	pNewGameObject->AddComponent<CLandscape>();
+
+	pNewGameObject->Landscape()->Create();
+
+	// Tool Camera가 바라보고 있는 위치에 생성
+	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
+	if (pToolCam) {
+		Vector3 vWorldPos = pToolCam->Transform()->GetPosition();
+		if (E_ProjectionType::Orthographic == pToolCam->GetProjectionType())
+			vWorldPos.z = 0.f;
+		pNewGameObject->Transform()->SetLocalPosition(vWorldPos);
+	}
+
+	CObject::CreateGameObjectEvn(pNewGameObject, _iLayer);
 	return pNewGameObject;
 }
 

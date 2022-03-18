@@ -107,27 +107,34 @@ void MainMenuGUI::Update()
             if (ImGui::MenuItem("Create ParticleSystem")) {
                 CreateParticleSystemGameObject();
             }
-            if (ImGui::MenuItem("Create Light2D")) {
-                CreateLight2D();
+            if (ImGui::BeginMenu("Lights")) {
+                if (ImGui::MenuItem("Create Light2D")) {
+                    CreateLight2D();
+                }
+                if (ImGui::MenuItem("Create Light3D")) {
+                    CreateLight3D();
+                }
+                ImGui::EndMenu();
             }
-            if (ImGui::MenuItem("Create Cube")) {
-                CreateCube();
+            if (ImGui::BeginMenu("3D Object")) {
+                if (ImGui::MenuItem("Create Cube")) {
+                    CreateCube();
+                }
+                if (ImGui::MenuItem("Create Sphere")) {
+                    CreateSphere();
+                }
+                if (ImGui::MenuItem("Create Cone")) {
+                    CreateCone();
+                }
+                if (ImGui::MenuItem("Decal")) {
+                    CreateDecal();
+                }
+                if (ImGui::MenuItem("Landscape")) {
+                    CreateLandscape();
+                }
+                ImGui::EndMenu();
             }
-            if (ImGui::MenuItem("Create Sphere")) {
-                CreateSphere();
-            }
-            if (ImGui::MenuItem("Create Cone")) {
-                CreateCone();
-            }
-            if (ImGui::MenuItem("Create Skybox")) {
-                CreateSkybox();
-            }
-            if (ImGui::MenuItem("Create Light3D")) {
-                CreateLight3D();
-            }
-            if (ImGui::MenuItem("Create Cursor")) {
-                CreateCursorUI();
-            }
+
             if (ImGui::BeginMenu("Create UI")) {
                 if (ImGui::MenuItem("Button UI")) {
                     CreateButtonUI();
@@ -138,10 +145,15 @@ void MainMenuGUI::Update()
                 if (ImGui::MenuItem("Text UI")) {
                     CreateTextUI();
                 }
-
                 ImGui::EndMenu();
             }
 
+            if (ImGui::MenuItem("Create Skybox")) {
+                CreateSkybox();
+            }
+            if (ImGui::MenuItem("Create Cursor")) {
+                CreateCursorUI();
+            }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("CF Game")) {
@@ -365,6 +377,16 @@ void MainMenuGUI::CreateLight3D()
 void MainMenuGUI::CreateCone()
 {
     CObjectManager::GetInstance()->CreateCone();
+}
+
+void MainMenuGUI::CreateDecal()
+{
+    CObjectManager::GetInstance()->CreateDecal();
+}
+
+void MainMenuGUI::CreateLandscape()
+{
+    CObjectManager::GetInstance()->CreateLandscape();
 }
 
 void MainMenuGUI::CreateTextUI()

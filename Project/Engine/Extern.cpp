@@ -79,6 +79,9 @@ tstring ComponentTypeToStr(E_ComponentType _eType)
 	case E_ComponentType::Decal:
 		strComponentType = _T("Decal");
 		break;
+	case E_ComponentType::Landscape:
+		strComponentType = _T("Landscape");
+		break;
 		// UI
 	case E_ComponentType::ButtonUI:
 		strComponentType = _T("ButtonUI");
@@ -178,10 +181,12 @@ UINT ChangeColorVector4ToUint(float _vColor[4])
 	return iColor;
 }
 
+const Vector3 Vector3::Left = Vector3(-1.f, 0.f, 0.f);
 const Vector3 Vector3::Right = Vector3(1.f, 0.f, 0.f);
 const Vector3 Vector3::Up = Vector3(0.f, 1.f, 0.f);
+const Vector3 Vector3::Down = Vector3(0.f, -1.f, 0.f);
 const Vector3 Vector3::Front = Vector3(0.f, 0.f, 1.f);
-const Vector3 Vector3::Zero = Vector3(0.f, 0.f, 0.f);
+const Vector3 Vector3::Back = Vector3(0.f, 0.f, -1.f);
 const Vector3 Vector3::One = Vector3(1.f, 1.f, 1.f);
-
+const Vector3 Vector3::Zero = Vector3(0.f, 0.f, 0.f);
 const Vector4 Vector4::Zero = Vector4(0.f, 0.f, 0.f, 0.f);

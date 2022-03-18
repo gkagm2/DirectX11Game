@@ -35,6 +35,8 @@ public:
 	void CreateSkybox();
 	void CreateLight3D();
 	void CreateCone();
+	void CreateDecal();
+	void CreateLandscape();
 
 	// UI
 	void CreateTextUI();

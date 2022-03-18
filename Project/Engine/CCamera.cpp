@@ -18,6 +18,7 @@
 #include "CSkybox.h"
 #include "CDecal.h"
 #include "CFrustum.h"
+#include "CLandscape.h"
 
 // Test
 #include "CKeyManager.h"
@@ -312,9 +313,11 @@ void CCamera::_SortObjects()
 					pObj->Decal()->GetMaterial()->GetShader().Get()) {
 					eRenderTimePoint = pObj->Decal()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
-				else if (pObj->Landscape()) {
-					// FIXED (Jang) :Deferred 로 바꾸기 전, 임시 forward로 설정.
-					eRenderTimePoint = E_RenderTimePoint::Forward;
+				else if (pObj->Landscape() &&
+					pObj->Landscape()->GetMesh().Get() &&
+					pObj->Landscape()->GetMaterial().Get() &&
+					pObj->Landscape()->GetMaterial()->GetShader().Get()) {
+					eRenderTimePoint = pObj->Landscape()->GetMaterial()->GetShader()->GetRenderTimePoint();
 				}
 				else {
 				}

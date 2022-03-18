@@ -28,6 +28,7 @@
 #include "SkyboxGUI.h"
 #include "DecalGUI.h"
 #include "BoundingBoxGUI.h"
+#include "LandscapeGUI.h"
 
 // Contents UI
 #include "TextUIGUI.h"
@@ -130,6 +131,10 @@ void InspectorGUI::Init()
 	// DecalGUI
 	m_arrComGUI[(UINT)E_ComponentType::Decal] = new DecalGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Decal]->SetUISize(ImVec2(0.f, 300.f));
+
+	// Landscape
+	m_arrComGUI[(UINT)E_ComponentType::Landscape] = new LandscapeGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Landscape]->SetUISize(ImVec2(0.f, 0.f));
 
 	// UI
 	// TextUI
