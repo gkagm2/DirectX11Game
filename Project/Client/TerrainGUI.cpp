@@ -50,10 +50,10 @@ void TerrainGUI::Update()
 		if (nullptr != GetTargetObject()->Terrain()->GetHeightMapTex())
 			pHeightMapTex = GetTargetObject()->Terrain()->GetHeightMapTex().Get();
 
-		ParamGUI::Render_Texture("Height Map Texture", pHeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectHeightMapTexture , true);
+		ParamGUI::Render_Texture("Height Map", pHeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectHeightMapTexture, true);
 
 		CTexture* pWeightMapTex = nullptr;
-		ParamGUI::Render_Texture("Weight Map Texture", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
+		ParamGUI::Render_Texture("Weight Map", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
 
 		// QUAD
 		ImGui::Text("Current Quad %dx%d", iQuadX, iQuadZ);
@@ -96,7 +96,7 @@ void TerrainGUI::_SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 }
 
 void TerrainGUI::_SelectWeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
-{
+{	
 	// 선택한 텍스쳐를 알아낸다.
 	const char* pStr = (const char*)_pStr;
 	string str = pStr;
