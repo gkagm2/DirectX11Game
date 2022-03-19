@@ -39,43 +39,43 @@ void TerrainGUI::Init()
 
 void TerrainGUI::Update()
 {
-	if (Start()) {
-		
-		UINT iQuadX = GetTargetObject()->Terrain()->GetQuadX();
-		UINT iQuadZ = GetTargetObject()->Terrain()->GetQuadZ();
-		UINT iCompX = GetTargetObject()->Terrain()->GetComponentX();
-		UINT iCompZ = GetTargetObject()->Terrain()->GetComponentZ();
+	if (false == Start())
+		return;
 
-		CTexture* pHeightMapTex = nullptr;
-		if (nullptr != GetTargetObject()->Terrain()->GetHeightMapTex())
-			pHeightMapTex = GetTargetObject()->Terrain()->GetHeightMapTex().Get();
+	UINT iQuadX = GetTargetObject()->Terrain()->GetQuadX();
+	UINT iQuadZ = GetTargetObject()->Terrain()->GetQuadZ();
+	UINT iCompX = GetTargetObject()->Terrain()->GetComponentX();
+	UINT iCompZ = GetTargetObject()->Terrain()->GetComponentZ();
 
-		ParamGUI::Render_Texture("Height Map", pHeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectHeightMapTexture, true);
+	CTexture* pHeightMapTex = nullptr;
+	if (nullptr != GetTargetObject()->Terrain()->GetHeightMapTex())
+		pHeightMapTex = GetTargetObject()->Terrain()->GetHeightMapTex().Get();
 
-		CTexture* pWeightMapTex = nullptr;
-		ParamGUI::Render_Texture("Weight Map", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
+	ParamGUI::Render_Texture("Height Map", pHeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectHeightMapTexture, true);
 
-		// QUAD
-		ImGui::Text("Current Quad %dx%d", iQuadX, iQuadZ);
+	CTexture* pWeightMapTex = nullptr;
+	ParamGUI::Render_Texture("Weight Map", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
 
-		static int iCurQuad = 0;
-		ParamGUI::Render_ComboBox("Quad", &iCurQuad, m_vecQuadList);
+	// QUAD
+	ImGui::Text("Current Quad %dx%d", iQuadX, iQuadZ);
 
-
-		// COMPONENT 
-		ImGui::Text("Cur Compnoent %dx%d", iCompX, iCompZ);
-
-		static int iCurComponent = 0;
-		ParamGUI::Render_ComboBox("Component", &iCurComponent, m_vecComponentList);
+	static int iCurQuad = 0;
+	ParamGUI::Render_ComboBox("Quad", &iCurQuad, m_vecQuadList);
 
 
-		if (ImGui::Button("Create##Terrain")) {
-			iQuadX = iQuadZ = m_vecQuadNumList[iCurQuad];
-			iCompX = iCompZ = m_vecCompNumList[iCurComponent];
-			GetTargetObject()->Terrain()->SetQuard(iQuadX, iQuadZ);
-			GetTargetObject()->Terrain()->SetComponent(iCompX, iCompZ);
-			GetTargetObject()->Terrain()->Create();
-		}
+	// COMPONENT 
+	ImGui::Text("Cur Compnoent %dx%d", iCompX, iCompZ);
+
+	static int iCurComponent = 0;
+	ParamGUI::Render_ComboBox("Component", &iCurComponent, m_vecComponentList);
+
+
+	if (ImGui::Button("Create##Terrain")) {
+		iQuadX = iQuadZ = m_vecQuadNumList[iCurQuad];
+		iCompX = iCompZ = m_vecCompNumList[iCurComponent];
+		GetTargetObject()->Terrain()->SetQuard(iQuadX, iQuadZ);
+		GetTargetObject()->Terrain()->SetComponent(iCompX, iCompZ);
+		GetTargetObject()->Terrain()->Create();
 	}
 
 	End();
