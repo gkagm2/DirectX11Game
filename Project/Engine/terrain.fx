@@ -2,7 +2,7 @@
 #define _Terrain_FX
 
 #include "value.fx"
-
+#include "function.fx"
 //------------------------------------------
 // Terrain Shader
 // Deferred
@@ -11,6 +11,9 @@
 #define HeightMapTex g_tex_0
 #define WeightMapTEx g_tex_1
 #define HeightMapResolution g_vec2_0
+
+// g_tex_2 : color
+// g_tex_3 : normal Tex
 //------------------------------------------
 
 struct VTX_IN
@@ -48,10 +51,14 @@ PatchParam HS_PatchConstant(InputPatch<VTX_OUT, 3> _patch, uint _patchID : SV_Pr
 {
     PatchParam param = (PatchParam) 0.f;
 
-    param.edgeParam[0] = 1.f;
-    param.edgeParam[1] = 1.f;
-    param.edgeParam[2] = 1.f;
-    param.insideParam = 1.f;
+    float3 vViewSidePos = (_patch[0].vViewPos + _patch[2].vViewPos) * 0.5f;
+    float3 vViewUpDownPos = (_patch[1].vViewPos + _patch[2].vViewPos) * 0.5f;
+    float3 vViewSlidePos = (_patch[0].vViewPos + _patch[1].vViewPos) * 0.5f;
+    
+    param.edgeParam[0] = GetTessFactor(vViewUpDownPos, 1.f, 16.f, 1000.f, 5000.f);
+    param.edgeParam[1] = GetTessFactor(vViewSidePos, 1.f, 16.f, 1000.f, 5000.f);
+    param.edgeParam[2] = GetTessFactor(vViewSlidePos, 1.f, 16.f, 1000.f, 5000.f);
+    param.insideParam = param.edgeParam[2];
 
     return param;
 }
@@ -80,6 +87,10 @@ struct DS_OUT
     float4 vPos : SV_Position;
     float2 vUV : TEXCOORD;
     float3 vViewPos : POSITION;
+    
+    float3 vViewTangent : TANGENT;
+    float3 vViewBinormal: BINORAML;
+    float3 vViewNormal  : NORMAL;
 };
 
 // Domain Shader
@@ -106,13 +117,18 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     
     // 각 정점들이 자기 위치에 맞는 높이값을 높이맵에서 추출 한 후, 자신의 로컬 높이로 지정
     vLocalPos.y = HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUV, 0).r;
-    
-    //float3 vTerrainLocalPosStep = float2(1.f / FaceXCount, 1.f / FaceZCount);
-    //float3 vLocalLeftPos  = float3(vLocalPos;
-    //float3 vLocalRightPos = ;
-    //float3 vLocalUpPos    = ;
-    //float3 vLocalDownPos  = ;
+  
+    float2 vTerrainLocalPosStep = float2(1.f / FaceXCount, 1.f / FaceZCount);
 
+    float3 vLocalUpPos = float3(vLocalPos.x, HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUpUV, 0).r, vLocalPos.z + vTerrainLocalPosStep.y);
+    float3 vLocalDownPos = float3(vLocalPos.x, HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainDownUV, 0).r, vLocalPos.z - vTerrainLocalPosStep.y);
+    float3 vLocalLeftPos = float3(vLocalPos.x - vTerrainLocalPosStep.x, HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainLeftUV, 0).r, vLocalPos.z);
+    float3 vLocalRightPos = float3(vLocalPos.x + vTerrainLocalPosStep.x, HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainRightUV, 0).r, vLocalPos.z);
+    
+    // Tangent, Binormal, Normal 재계산        
+    output.vViewTangent = normalize(mul(float4(vLocalRightPos - vLocalLeftPos, 0.f), g_matWorldView)).xyz;
+    output.vViewBinormal = normalize(mul(float4(vLocalUpPos - vLocalDownPos, 0.f), g_matWorldView)).xyz;
+    output.vViewNormal = normalize(cross(output.vViewBinormal, output.vViewTangent)).xyz;
     
     // 투영좌표계 연산
     output.vPos = mul(float4(vLocalPos, 1.f), g_matWorldViewProj);
@@ -131,9 +147,9 @@ struct PS_OUT
 PS_OUT PS_Terrain(DS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
-    output.vColor = float4(1.f, 0.f, 1.f, 1.f);
-    output.vViewNormal = float4(float3(0.f, 1.f, 0.f), 1.f);
+    output.vColor = float4(0.7f, 0.7f, 0.7f, 1.f);
     output.vViewPos = float4(_in.vViewPos, 1.f);
+    output.vViewNormal = float4(_in.vViewNormal, 1.f);
     return output;
 }
 

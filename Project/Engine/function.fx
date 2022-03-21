@@ -147,5 +147,20 @@ float Rand(in float _fKey)
     return gaussian5x5Sample(vUV, g_TexNoise);
 }
 
+// 카메라와 패치사이의 거리에 따른 테셀레이션 레벨 계산
+float GetTessFactor(float3 _vViewPos, float _fMinLevel, float _fMaxLevel, float _fMaxDist, float _fMinDist)
+{
+    if (_fMinLevel > _fMaxLevel || _fMaxDist > _fMinDist)
+        return 1.f;
+    
+    // 카메라와의 거리
+    float fDist = length(_vViewPos);
 
+    float fRatio = (fDist - _fMaxDist) / (_fMinDist - _fMaxDist);
+    float fLevelStep = _fMaxLevel - _fMinLevel - 1.f;
+    
+    float fTessLv = _fMaxLevel - (fLevelStep * fRatio);
+    
+    return clamp(fTessLv, _fMinLevel, _fMaxLevel);
+}
 #endif
