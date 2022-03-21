@@ -43,7 +43,7 @@ struct PatchParam
     float insideParam : SV_InsideTessFactor;
 };
 
-// 덮개 쉐이더 (패치 상수  )
+// 덮개 쉐이더 (패치 상수 함수)
 PatchParam HS_PatchConstant(InputPatch<VTX_OUT, 3> _patch, uint _patchID : SV_PrimitiveID)
 {
     PatchParam param = (PatchParam) 0.f;
@@ -93,11 +93,11 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     float3 vLocalPos = _patch[0].vPos * _vLocation[0] + _patch[1].vPos * _vLocation[1] + _patch[2].vPos * _vLocation[2];
     float2 vUV = _patch[0].vUV * _vLocation[0] + _patch[1].vUV * _vLocation[1] + _patch[2].vUV * _vLocation[2];
     output.vViewPos = _patch[0].vViewPos * _vLocation[0] + _patch[1].vViewPos * _vLocation[1] + _patch[1].vViewPos * _vLocation[1];
-    output.vPos = mul(float4(vLocalPos, 1.f), g_matWorldViewProj);
     output.vUV = vUV;
 
+    // 지형 전체 기준 UV로 전환
     float2 vTerrainUVStep = 1.f / HeightMapResolution;
-    float2 vTerrainUV = float2(vUV.x / FaceXCount, vUV.y / FaceZCount);
+    float2 vTerrainUV = float2(vUV.x / (float) FaceXCount, vUV.y / (float) FaceZCount);
     
     float2 vTerrainUpUV = float2(vTerrainUV.x, vTerrainUV.y - vTerrainUVStep.y);
     float2 vTerrainDownUV = float2(vTerrainUV.x, vTerrainUV.y + vTerrainUVStep.y);
@@ -106,6 +106,12 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     
     // 각 정점들이 자기 위치에 맞는 높이값을 높이맵에서 추출 한 후, 자신의 로컬 높이로 지정
     vLocalPos.y = HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUV, 0).r;
+    
+    //float3 vTerrainLocalPosStep = float2(1.f / FaceXCount, 1.f / FaceZCount);
+    //float3 vLocalLeftPos  = float3(vLocalPos;
+    //float3 vLocalRightPos = ;
+    //float3 vLocalUpPos    = ;
+    //float3 vLocalDownPos  = ;
 
     
     // 투영좌표계 연산

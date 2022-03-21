@@ -106,6 +106,12 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     
     // 각 정점들이 자기 위치에 맞는 높이값을 높이맵에서 추출 한 후, 자신의 로컬 높이로 지정
     vLocalPos.y = HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUV, 0).r;
+    
+    //float3 vTerrainLocalPosStep = float2(1.f / FaceXCount, 1.f / FaceZCount);
+    //float3 vLocalLeftPos  = float3(vLocalPos;
+    //float3 vLocalRightPos = ;
+    //float3 vLocalUpPos    = ;
+    //float3 vLocalDownPos  = ;
 
     
     // 투영좌표계 연산

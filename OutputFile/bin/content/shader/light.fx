@@ -71,8 +71,8 @@ PS_OUT PS_DirLight(VS_OUT _in)
         float fTargetDepth = 0.f;
 
         // 광원 시점에서 해당 지점이 보이는 경우
-        if (0.f >= vDepthTargetUV.x && 1.f <= vDepthTargetUV.x &&
-            0.f >= vDepthTargetUV.y && 1.f <= vDepthTargetUV.y)
+        if (0.f <= vDepthTargetUV.x && 1.f >= vDepthTargetUV.x &&
+            0.f <= vDepthTargetUV.y && 1.f >= vDepthTargetUV.y)
         {
             // 구한 UV 를 이용해서 광원 쉐도우 뎁스 타겟에서 저장되어있는 깊이 값을 추출
             fTargetDepth = ShadowDepthTargetTex.Sample(Sample_Anisotropic, vDepthTargetUV).r;
