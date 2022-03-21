@@ -8,7 +8,7 @@ CMRT::CMRT(SharedPtr<CTexture>* _pArrRTTex, Vector4* _pArrClearColor, UINT _iRTC
 	m_arrClearColor{},
 	m_iRTCount{ _iRTCount },
 	m_bUsePrevDS{_bUseDepthPrev},
-	m_ViewPort{}
+	m_tViewPort{}
 
 {
 	assert(!(m_iRTCount > MAX_RENDER_TARGET_TEX_CNT));
@@ -25,12 +25,12 @@ CMRT::CMRT(SharedPtr<CTexture>* _pArrRTTex, Vector4* _pArrClearColor, UINT _iRTC
 	for (size_t i = 0; i < m_iRTCount; ++i)
 		m_arrRTV[i] = m_arrRTTex[i]->GetRTV().Get();
 
-	m_ViewPort.TopLeftX = 0;
-	m_ViewPort.TopLeftY = 0;
-	m_ViewPort.MinDepth = 0;
-	m_ViewPort.MaxDepth = 1;
-	m_ViewPort.Width = _pArrRTTex[0]->GetWidth();
-	m_ViewPort.Height = _pArrRTTex[0]->GetHeight();
+	m_tViewPort.TopLeftX = 0;
+	m_tViewPort.TopLeftY = 0;
+	m_tViewPort.MinDepth = 0;
+	m_tViewPort.MaxDepth = 1;
+	m_tViewPort.Width = _pArrRTTex[0]->GetWidth();
+	m_tViewPort.Height = _pArrRTTex[0]->GetHeight();
 }
 
 CMRT::~CMRT()
@@ -40,7 +40,7 @@ CMRT::~CMRT()
 
 void CMRT::UpdateData()
 {
-	CONTEXT->RSSetViewports(1, &m_ViewPort);
+	CONTEXT->RSSetViewports(1, &m_tViewPort);
 
 	// 출력 타겟 및 깊이 스텐실 버퍼 설정 (OM Set)
 	ComPtr<ID3D11DepthStencilView> pDSV = nullptr;

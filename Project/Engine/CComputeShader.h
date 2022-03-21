@@ -2,19 +2,16 @@
 #include "CShader.h"
 
 class CStructuredBuffer;
-class CConstBuffer;
 class CComputeShader : public CShader
 {
-protected:
-	static const CConstBuffer* g_pMtrlBuffer;
-
 private:
 	ComPtr<ID3DBlob> m_pCSBlob;		   // Compute Shader Blob
 	ComPtr<ID3D11ComputeShader> m_pCS; // CS : ComputeShader
 
-	UINT m_iThreadNumX;
-	UINT m_iThreadNumY;
-	UINT m_iThreadNumZ;
+	// 그룹 당 스레드 개수
+	UINT m_iGroupThreadNumX;
+	UINT m_iGroupThreadNumY;
+	UINT m_iGroupThreadNumZ;
 
 protected:
 	TMaterialParam  m_tInfo;
@@ -29,9 +26,9 @@ public:
 
 public:
 	void Dispatch(UINT _x, UINT _y, UINT _z);
-	UINT GetThreadX() { return m_iThreadNumX; }
-	UINT GetThreadY() { return m_iThreadNumY; }
-	UINT GetThreadZ() { return m_iThreadNumZ; }
+	UINT GetGroupPerThreadX() { return m_iGroupThreadNumX; }
+	UINT GetGroupPerThreadY() { return m_iGroupThreadNumY; }
+	UINT GetGroupPerThreadZ() { return m_iGroupThreadNumZ; }
 
 	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
 

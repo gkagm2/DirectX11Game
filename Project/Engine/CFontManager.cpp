@@ -54,6 +54,16 @@ void CFontManager::Init()
 	}
 }
 
+void CFontManager::Render()
+{
+	for (size_t i = 0; i < m_vecUIFont.size(); ++i) {
+		wstring str = {};
+		TStringToWString(m_vecUIFont[i].strName, str);
+		DrawFont(str.c_str(), m_vecUIFont[i].fPosX, m_vecUIFont[i].fPosY, m_vecUIFont[i].fFontSize, m_vecUIFont[i].iColor, m_vecUIFont[i].eFlag);
+	}
+	m_vecUIFont.clear();
+}
+
 void CFontManager::DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag)
 {
 	m_pFontWrapper->DrawString(
@@ -79,6 +89,18 @@ void CFontManager::DrawFont1(const wchar_t* _pStr, const wchar_t* _pFontFamily, 
 		_Color,// Text color, 0xAaBbGgRr
 		_eFlag      // Flags (for example FW1_RESTORESTATE to keep context states unchanged)
 	);
+}
+
+void CFontManager::DrawUIFont(const wchar_t* _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _iColor, FW1_TEXT_FLAG _eFlag)
+{
+	TFontInfo tInfo = {};
+	tInfo.strName = _pStr;
+	tInfo.fPosX = _fPosX;
+	tInfo.fPosY = _fPosY;
+	tInfo.fFontSize = _fFontSize;
+	tInfo.iColor = _iColor;
+	tInfo.eFlag = _eFlag;
+	m_vecUIFont.push_back(tInfo);
 }
 
 void CFontManager::DrawTextLayout()

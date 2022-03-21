@@ -45,7 +45,7 @@ void CToolObjManager::_CreateToolObject()
 	}
 
 	{
-		CGameObjectEx* pToolUICamObj = new CGameObjectEx;
+		/*CGameObjectEx* pToolUICamObj = new CGameObjectEx;
 		pToolUICamObj->SetName(STR_TOOL_OBJ_NAME_ToolUICamera);
 		pToolUICamObj->AddComponent<CTransform>();
 		pToolUICamObj->AddComponent<CCameraEx>();
@@ -56,7 +56,7 @@ void CToolObjManager::_CreateToolObject()
 		pToolUICamObj->Camera()->SetSize(1.f);
 		pToolUICamObj->Transform()->SetLocalPosition(DEFAULT_UI_CAM_POS);
 		pToolUICamObj->Camera()->SetRenderFrustum(false);
-		_AddGameObjectEx(pToolUICamObj);
+		_AddGameObjectEx(pToolUICamObj);*/
 	}
 
 	// Orthogonal AxisCoordinate

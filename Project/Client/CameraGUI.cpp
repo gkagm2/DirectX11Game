@@ -71,13 +71,18 @@ void CameraGUI::_ShowPerspectiveUI()
 
 	TFOVAxis tFovAxis = pCam->GetFOVAxis();
 
+	// fVertical을 Fov값으로 설정함
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
+	if (ImGui::DragFloat("Fov##camFovAxis", &tFovAxis.fVertical, 1.f, 0.1f, +FLT_MAX, "%.2f", flags))
+		pCam->SetFOVAxis(tFovAxis);
+
+	/*ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
 	if (ImGui::DragFloat("Horizontal##camFovAxis", &tFovAxis.fHorizontal, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags))
 		pCam->SetFOVAxis(tFovAxis);
 
 	ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
 	if(ImGui::DragFloat("Vertical##camFovAxis", &tFovAxis.fVertical, 1.f, -FLT_MAX, +FLT_MAX, "%.2f", flags))
-		pCam->SetFOVAxis(tFovAxis);
+		pCam->SetFOVAxis(tFovAxis);*/
 }
 
 void CameraGUI::_ShowOrthographicUI()

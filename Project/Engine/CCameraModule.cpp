@@ -14,5 +14,4 @@ void CCameraModule::FinalUpdate()
 {
 	CalculateViewMatrix();
 	CalculateProjectionMatrix();
-	GetFrustum()->FinalUpdate();
 }

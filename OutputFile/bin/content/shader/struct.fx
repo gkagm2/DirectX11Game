@@ -47,4 +47,11 @@ struct TSharedParticleData
     uint m_iCurActivedCount; // 현재 활성화되어있는 파티클의 개수
     uint m_iPad[2];
 };
+
+struct TRaycastOut
+{
+    float2 vUV;
+    int iDist;
+    int iSuccess;
+};
 #endif

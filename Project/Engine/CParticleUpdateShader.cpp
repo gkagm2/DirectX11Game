@@ -51,21 +51,17 @@ void CParticleUpdateShader::UpdateData()
 
 	m_tInfo.v4Arr[0] = m_vObjectPos;
 	m_tInfo.v4Arr[1] = m_vRadius; // Vector3->Vector4
-
-	g_pMtrlBuffer->SetData(&m_tInfo);
-	g_pMtrlBuffer->UpdateData(E_ShaderStage::Compute);
 }
 
 void CParticleUpdateShader::Clear()
 {
 	m_pParticleBuffer->ClearRW();
 	m_pSharedBuffer->ClearRW();
-	g_pMtrlBuffer->Clear(E_ShaderStage::Compute);
 }
 
 void CParticleUpdateShader::Excute()
 {
 	UINT iElementCnt = m_pParticleBuffer->GetElementCount();
-	UINT iThreadX = (iElementCnt / GetThreadX()) + 1;
+	UINT iThreadX = (iElementCnt / GetGroupPerThreadX()) + 1;
 	Dispatch(iThreadX, 1, 1);
 }

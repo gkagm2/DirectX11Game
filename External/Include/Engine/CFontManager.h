@@ -35,6 +35,14 @@ struct TFont {
 	}
 };
 
+struct TFontInfo {
+	tstring strName;
+	float fPosX;
+	float fPosY;
+	float fFontSize;
+	UINT iColor;
+	FW1_TEXT_FLAG eFlag;
+};
 
 
 class CFontManager : public CSingleton<CFontManager>
@@ -50,12 +58,16 @@ public:
 	IFW1FontWrapper* GetFontWrapper() { return m_pFontWrapper; }
 
 public:
-	vector<TFont> m_vecFontName;
+	vector<TFont> m_vecFontName; // 폰트 이름을 저장 할 벡터
+	vector<TFontInfo> m_vecUIFont; // 맨 마지막 화면에 출력 시킬 폰트들을 저장 할 벡터
 	
 public:
 	void Init();
+	void Render();
 	void DrawFont(const wchar_t * _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag);
 	void DrawFont1(const wchar_t* _pStr, const wchar_t* _pFontFamily, float _fPosX, float _fPosY, float _fFontSize, UINT _Color, FW1_TEXT_FLAG _eFlag);
+
+	void DrawUIFont(const wchar_t* _pStr, float _fPosX, float _fPosY, float _fFontSize, UINT _iColor, FW1_TEXT_FLAG _eFlag);
 
 	void DrawTextLayout();
 

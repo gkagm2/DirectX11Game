@@ -202,6 +202,10 @@ void CLight3D::_CreateLight3DCamera()
 
 	// 방향성 광원이므로, 물체의 깊이정보를 직교투영으로 그린다.
 	m_pLightCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	TClippingPlanes tCp;
+	tCp.fNear = 1.f;
+	tCp.fFar = 999999.f;
+	m_pLightCamObj->Camera()->SetClippingPlanes(tCp);
 	m_pLightCamObj->Camera()->SetViewportWidth(4000.f);
 	m_pLightCamObj->Camera()->SetViewportHeight(4000.f);
 }

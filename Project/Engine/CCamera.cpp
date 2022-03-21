@@ -19,6 +19,7 @@
 #include "CDecal.h"
 #include "CFrustum.h"
 #include "CTerrain.h"
+#include "CMRT.h"
 
 // Test
 #include "CKeyManager.h"
@@ -27,9 +28,10 @@
 
 CCamera::CCamera() :
 	CComponent(E_ComponentType::Camera),
+	m_tRay{},
 	m_pFrustum{ nullptr },
 	m_eProjectionType(E_ProjectionType::Perspective),
-	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45도 60도
+	m_tFOVAxis{60.f, 67.f}, // XM_PI / 3.f 45도 60도 // fVertical값을 Fov값으로 설정함 (Horizon값 사용안함)
 	m_fSize{ 0.02f },
 	m_tClippingPlanes{ 0.3f, 999999.f},
 	m_tViewportRect{0.f,0.f,1.f,1.f},
@@ -50,6 +52,7 @@ CCamera::CCamera() :
 
 CCamera::CCamera(const CCamera& _origin) :
 	CComponent(_origin),
+	m_tRay{},
 	m_pFrustum{ nullptr },
 	m_eProjectionType(_origin.m_eProjectionType),
 	m_tFOVAxis{ _origin.m_tFOVAxis }, // XM_PI / 3.f 45도 60도
@@ -77,6 +80,7 @@ void CCamera::FinalUpdate()
 {
 	CalculateViewMatrix();
 	CalculateProjectionMatrix();
+	CalculateRay();
 	GetFrustum()->FinalUpdate();
 	CRenderManager::GetInstance()->RegisterCamera(this);
 }
@@ -86,7 +90,6 @@ void CCamera::UpdateData()
 	g_transform.matView = GetViewMatrix();
 	g_transform.matProjection = GetProjectionMatrix();
 	g_transform.matViewInv = GetViewInverseMatrix();
-	g_transform.matWorldViewProj = GetProjectionInverseMatrix();
 	g_transform.matProjInv = GetProjectionInverseMatrix();
 }
 
@@ -197,11 +200,35 @@ void CCamera::CalculateProjectionMatrix()
 	else if (E_ProjectionType::Perspective == m_eProjectionType) {
 		// 화면 종횡비
 		const Vector2& vRenderResolution = CDevice::GetInstance()->GetRenderResolution();
-		float fFov = XM_PI / 3.f;
+		float fFov = GetFOVAxis().fVertical * CMyMath::Deg2Rad();
+		//m_tFOVAxis.
 		float fAspectRatio = vRenderResolution.x / vRenderResolution.y;
 		m_matProjection = XMMatrixPerspectiveFovLH(fFov, fAspectRatio, m_tClippingPlanes.fNear, m_tClippingPlanes.fFar);
 	}
 	m_matProjectionInv = XMMatrixInverse(nullptr, m_matProjection);
+}
+
+void CCamera::CalculateRay()
+{
+	// 마우스 방향을 향하는 Ray 구하기
+	// SwapChain 타겟의 ViewPort 정보
+	CMRT* pSwapChain = CRenderManager::GetInstance()->GetMultipleRenderTargets(E_MRTType::SwapChain);
+	D3D11_VIEWPORT tVP = pSwapChain->GetViewPort();
+
+	//  현재 마우스 좌표
+	Vector2 vMousePos = MousePosition;
+
+	// 직선은 카메라의 좌표를 반드시 지난다.
+	m_tRay.vStartPos = Transform()->GetPosition();
+
+	// view space에서의 방향
+	m_tRay.vDir.x = ((((vMousePos.x - tVP.TopLeftX) * 2.f / tVP.Width) - 1.f) - m_matProjection._31) / m_matProjection._11;
+	m_tRay.vDir.y = (-(((vMousePos.y - tVP.TopLeftY) * 2.f / tVP.Height) - 1.f) - m_matProjection._32) / m_matProjection._22;
+	m_tRay.vDir.z = 1.f;
+
+	// world space 에서의 방향
+	m_tRay.vDir = XMVector3TransformNormal(m_tRay.vDir, m_matViewInv);
+	m_tRay.vDir.Normalize();
 }
 
 bool CCamera::SaveToScene(FILE* _pFile)

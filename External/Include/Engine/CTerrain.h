@@ -1,6 +1,9 @@
 #pragma once
-#include "CRenderer.h"
 // Component, Quad - Unreal Engine Landscape와 개념이 비슷 
+
+#include "CRenderer.h"
+#include "CRaycastShader.h"
+#include "CHeightMapShader.h"
 
 class CTerrain : public CRenderer {
 private:
@@ -9,6 +12,11 @@ private:
 
 	SharedPtr<CTexture> m_pHeightMapTex;
 	SharedPtr<CTexture> m_pWeightMapTex;
+
+	SharedPtr<CRaycastShader> m_pCSRaycast;
+	SharedPtr<CHeightMapShader> m_pCSHeightMap;
+
+	unique_ptr<CStructuredBuffer> m_pCrossBuffer; // 마우스 피킹되는 지점을 받는 버퍼
 
 	// 쿼드 개수
 	UINT m_iQuadX;
@@ -53,5 +61,6 @@ public:
 public:
 	CLONE(CTerrain);
 	CTerrain();
+	CTerrain(const CTerrain& _origin);
 	virtual ~CTerrain() override;
 };

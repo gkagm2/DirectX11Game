@@ -28,6 +28,8 @@ private:
 	CFrustum* m_pFrustum;
 	bool m_bRenderFrustum;
 
+	TRay m_tRay; // 마우스 방향으로 향하는 직선
+
 	E_ProjectionType m_eProjectionType;	// 투영 방식
 	
 	////// 원근투영 (Perspective)  //////
@@ -94,6 +96,7 @@ public: // Orthographic
 	 const Matrix& GetProjectionMatrix() { return m_matProjection; }
 	 const Matrix& GetViewInverseMatrix() { return m_matViewInv; }
 	 const Matrix& GetProjectionInverseMatrix() { return m_matProjectionInv; }
+	 const TRay& GetRay() { return m_tRay; }
 public:
 	void SetLayerCheck(int _iLayerIdx, bool _bFlag) {
 		if (_bFlag)
@@ -112,6 +115,7 @@ public:
 protected:
 	void CalculateViewMatrix();
 	void CalculateProjectionMatrix();
+	void CalculateRay();
 	CFrustum* GetFrustum() { return m_pFrustum; }
 
 public:

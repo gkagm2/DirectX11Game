@@ -1545,6 +1545,7 @@ void CResourceManager::CreateDefaultMaterial()
 
 #include "CTestShader.h"
 #include "CParticleUpdateShader.h"
+#include "CRaycastShader.h"
 void CResourceManager::CreateComputeShader()
 {
 	// TODO (Jang) : Test용 컴퓨트 쉐이더를 생성하고있음. 나중에 고치기
@@ -1557,6 +1558,11 @@ void CResourceManager::CreateComputeShader()
 	pShader = new CParticleUpdateShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_ParticleUpdateShader, STR_FUNC_NAME_ParticleUpdate);
 	AddRes(STR_KEY_ParticleUpdateShader, pShader);
+
+	// Raycast Shader
+	pShader = new CRaycastShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_RaycastShader, STR_FUNC_NAME_Raycast);
+	AddRes(STR_KEY_RaycastShader, pShader);
 }
 
 void CResourceManager::InitSound()

@@ -191,11 +191,11 @@ void CRenderManager::_RenderTool()
 		// swapchain의 DS Buffer를 이어받기 위해 먼저 선언	 ( Main Camera 시점으로 Rendering)
 		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
 
-
 		pCam->_SortObjects();
 
 		// Deferred 물체 정보를 그리기
 		GetMultipleRenderTargets(E_MRTType::Deferred)->UpdateData();
+
 		pCam->_RenderDeferred();
 		/*for (UINT i = 0; i < m_vecToolCam.size(); ++i)
 			m_vecToolCam[i]->_RenderDeferred();
@@ -203,7 +203,6 @@ void CRenderManager::_RenderTool()
 
 
 		GetMultipleRenderTargets(E_MRTType::Light)->UpdateData();
-		// FIXED (Jang) : point light, spot light 쉐이더가 실행되지 않는 이유를 찾아야됨
 		// Light Render 
 		/*for (size_t j = 0; j < m_vecLight2D.size(); ++j)
 			m_vecLight2D[j]->Render();*/
@@ -219,8 +218,8 @@ void CRenderManager::_RenderTool()
 		}*/
 		// Deferred에 그려진 정보를 Swapchain Target으로 옮김
 		GetMultipleRenderTargets(E_MRTType::SwapChain)->UpdateData();
-		SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
-		SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
+		static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
+		static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
 		pMergeMtrl->UpdateData();
 		pRectMesh->Render();
 		pMergeMtrl->Clear();
@@ -230,32 +229,51 @@ void CRenderManager::_RenderTool()
 		pCam->_RenderCollider2D();
 		pCam->_RenderPostEffect();
 
-		for(size_t i=0 ;i < m_vecCam.size(); ++i)
-			m_vecCam[i]->Render();
+		CCamera* pInGameMainCam = GetInGameMainCamera();
+		if (pInGameMainCam)
+			pInGameMainCam->Render();
+
 		pCam->_RenderCanvas(); // UI Render
 	}
 }
 
 void CRenderManager::_RenderDebug()
 {
+	//list<CGameObject*>::iterator iter = m_listDebugObj.begin();
+	//while (iter != m_listDebugObj.end()) {
+	//	CEngineDebugScript* pDebugScript = (*iter)->GetComponentScript< CEngineDebugScript>();
+	//	if (pDebugScript) {
+	//		if (false == pDebugScript->IsUsed())
+	//			iter = m_listDebugObj.erase(iter);
+	//		else {
+	//			Vector4 vColor = pDebugScript->GetColor();
+	//			(*iter)->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, &vColor);
+	//			(*iter)->Render();
+	//			++iter;
+	//		}
+	//	}
+	//	else {
+	//		assert(nullptr);
+	//		++iter;
+	//	}
+	//}
+	// 
 	list<CGameObject*>::iterator iter = m_listDebugObj.begin();
 	while (iter != m_listDebugObj.end()) {
 		CEngineDebugScript* pDebugScript = (*iter)->GetComponentScript< CEngineDebugScript>();
 		if (pDebugScript) {
-			if (false == pDebugScript->IsUsed())
-				iter = m_listDebugObj.erase(iter);
-			else {
 				Vector4 vColor = pDebugScript->GetColor();
 				(*iter)->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, &vColor);
 				(*iter)->Render();
 				++iter;
-			}
 		}
 		else {
 			assert(nullptr);
 			++iter;
 		}
 	}
+
+	m_listDebugObj.clear();
 }
 
 int CRenderManager::RegisterLight3D(CLight3D* _pLight3D)
@@ -264,7 +282,7 @@ int CRenderManager::RegisterLight3D(CLight3D* _pLight3D)
 		m_pMainDirLight = _pLight3D;
 
 	m_vecLight3D.push_back(_pLight3D);
-		return (int)(m_vecLight3D.size() - 1);
+	return (int)(m_vecLight3D.size() - 1);
 }
 
 CCamera* CRenderManager::GetMainCamera()
@@ -302,6 +320,18 @@ CCamera* CRenderManager::GetUICamera()
 	return pUICam;
 }
 
+CCamera* CRenderManager::GetInGameMainCamera()
+{
+	CCamera* pMainCamera = nullptr;
+	for (UINT i = 0; i < m_vecCam.size(); ++i) {
+		if (NUM_LAYER_UI == m_vecCam[i]->GetGameObject()->GetLayer())
+			continue;
+		pMainCamera = m_vecCam[i];
+		break;
+	}
+	return pMainCamera;
+}
+
 CCamera* CRenderManager::GetToolCamera(const tstring& _strObjName)
 {
 	CCamera* pToolCam = nullptr;
@@ -329,7 +359,6 @@ CCamera* CRenderManager::GetToolUICamera(const tstring& _strObjName)
 void CRenderManager::RenderDebugSphere(const Vector3& _vWorldPos, const Vector3& _vLocalRot, const Vector3& _vColor, float _fRadius, float _fLifeTime)
 {
 	CGameObject* pDebugObj = _GetDebugGameObject();
-	pDebugObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_DebugSphereMesh));
 
 	pDebugObj->Transform()->SetLocalPosition(_vWorldPos);
 	pDebugObj->Transform()->SetLocalRotation(_vLocalRot);
@@ -367,8 +396,9 @@ CGameObject* CRenderManager::_CreateDebugGameObject()
 	pDebugObj->AddComponent<CEngineDebugScript>();
 
 	CMeshRenderer* pMeshRenderer = pDebugObj->GetComponent<CMeshRenderer>();
-
 	pMeshRenderer->SetMaterial(m_pDebugMtrl);
+	pDebugObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_DebugSphereMesh));
+
 	return pDebugObj;
 }
 
@@ -512,11 +542,11 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		arrTex[0]->SetName(_T("Shadow Depth Target Texture"));
 		SharedPtr<CTexture> pDSTex = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_ShadowDepthStencilTex,
 			sizeX, sizeY,
-			DXGI_FORMAT_D32_FLOAT, 
+			DXGI_FORMAT_D32_FLOAT,
 			D3D11_BIND_DEPTH_STENCIL);
 
 		Vector4 arrClearColor[MAX_RENDER_TARGET_TEX_CNT] = {
-				Vector4::Zero,
+				Vector4(0.f,1.f,0.f,1.f),
 		};
 
 		m_arrMRT[(UINT)E_MRTType::ShadowDepth] = new CMRT(arrTex, arrClearColor, 1, pDSTex, false);
@@ -603,6 +633,13 @@ void CRenderManager::_RenderClear()
 	m_vecLight2D.clear();
 	m_vecLight3D.clear();
 	m_pMainDirLight = nullptr;
+	for (size_t i = 0; i < m_vecDebugObjPool.size(); ++i) {
+		CEngineDebugScript* pDebugScript = m_vecDebugObjPool[i]->GetComponentScript<CEngineDebugScript>();
+		if (pDebugScript) {
+			if (true == pDebugScript->IsUsed())
+				pDebugScript->SetUsed(false);
+		}
+	}
 }
 
 

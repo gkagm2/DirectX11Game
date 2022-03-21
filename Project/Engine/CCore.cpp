@@ -82,8 +82,8 @@ void CCore::Progress()
 	CSceneManager::GetInstance()->Progress();
 
 	CRenderManager::GetInstance()->Render();
-	
 	CTimeManager::GetInstance()->Render();
+	CFontManager::GetInstance()->Render();
 	CCursor::_Update();
 
 	// Event ผ๖วเ

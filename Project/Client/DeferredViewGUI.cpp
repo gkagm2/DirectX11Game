@@ -96,7 +96,8 @@ void DeferredViewGUI::Update()
 
 						deferredMtrl->GetData(E_ShaderParam::Texture_0, &pColorTargetTex);
 						deferredMtrl->GetData(E_ShaderParam::Texture_1, &pNormalTargetTex);
-						deferredMtrl->GetData(E_ShaderParam::Texture_2, &pPositionTargetTex); deferredMtrl->GetData(E_ShaderParam::Texture_3, &pDataTargetTex);
+						deferredMtrl->GetData(E_ShaderParam::Texture_2, &pPositionTargetTex); 
+						deferredMtrl->GetData(E_ShaderParam::Texture_3, &pDataTargetTex);
 
 						ImGui::Text("Color Target Tex");
 						ImGui::SameLine();

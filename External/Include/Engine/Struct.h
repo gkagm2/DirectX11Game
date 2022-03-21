@@ -16,6 +16,17 @@ struct VTX { // Vertex
 /////////////////////////////
 // Strctured Buffer Usage
 
+struct TRay {
+	Vector3 vStartPos;
+	Vector3 vDir;
+};
+
+struct TRaycastOut {
+	Vector2 vUV;
+	int iDist;
+	int bSuccess;
+};
+
 struct TTileInfo {
 	int idx;
 	int iTilePadding[3];

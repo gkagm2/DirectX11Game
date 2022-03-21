@@ -69,7 +69,7 @@ public:
 
 	CCamera* GetMainCamera();
 	CCamera* GetUICamera();
-
+	CCamera* GetInGameMainCamera();
 	
 	CCamera* GetToolCamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolCamera);
 	CCamera* GetToolUICamera(const tstring& _strObjName = STR_TOOL_OBJ_NAME_ToolUICamera);

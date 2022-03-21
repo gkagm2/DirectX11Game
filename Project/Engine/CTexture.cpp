@@ -121,19 +121,23 @@ void CTexture::_CreateTexture2D_InnerFunc()
 		}
 
 		if (D3D11_BIND_SHADER_RESOURCE & m_tDesc.BindFlags) {
-			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+			/*D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
 			tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 			tSRVDesc.Texture2D.MipLevels = 1;
 			tSRVDesc.Texture2D.MostDetailedMip = 0;
-			hr = DEVICE->CreateShaderResourceView(m_pTex2D.Get(), &tSRVDesc, m_pSRV.GetAddressOf());
+			hr = DEVICE->CreateShaderResourceView(m_pTex2D.Get(), &tSRVDesc, m_pSRV.GetAddressOf());*/
+			hr = DEVICE->CreateShaderResourceView(m_pTex2D.Get(), 0, m_pSRV.GetAddressOf());
+
 			if (FAILED(hr)) assert(nullptr);
 		}
 
 		if (D3D11_BIND_UNORDERED_ACCESS & m_tDesc.BindFlags) {
+			/*D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());*/
 			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
 			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
-
-			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
+			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), 0, m_pUAV.GetAddressOf());
 			if (FAILED(hr)) assert(nullptr);
 		}
 	}

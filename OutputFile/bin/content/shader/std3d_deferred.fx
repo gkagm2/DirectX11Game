@@ -88,10 +88,10 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     }
     
     
-    if (bSpecularMapTex)
-    {
-        // TODO (Jang) : 
-    }
+    //if (bSpecularMapTex)
+    //{
+    //    // TODO (Jang) : 
+    //}
     
     vOutput.vColor.xyz = vObjColor.xyz;
     vOutput.vViewNormal.xyz = vViewNormal;
@@ -141,13 +141,11 @@ VS_MERGE_OUT VS_MergeShader(VS_MERGE_IN _in)
 float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
 {
     float4 vOutColor = (float4) 0.f;
-    float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
     
+    float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
     float4 vDiffuse_Ambi = DiffuseTargetTex.Sample(Sample_Point, _in.vUV); // diffuse와 ambient가 섞여있음.
     float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
     float fShadowPow = ShadowPowTargetTex.Sample(Sample_Point, _in.vUV).r;
-    
-    
     if (0.f == vColor.a) // 알파가 0일 경우 빛에 영향받지 않음
     {
         vOutColor = vColor;
@@ -160,9 +158,9 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     else
     {
         float fRatio = saturate(1.f - fShadowPow);
-        vOutColor = (vColor * vDiffuse_Ambi + vSpecular); // * fRatio;
+        vOutColor = (vColor * vDiffuse_Ambi + vSpecular) * fRatio;
         vOutColor.a = 1.f;
-    }   
+    }
     
     return vOutColor;
 }

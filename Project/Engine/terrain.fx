@@ -69,8 +69,8 @@ PatchParam HS_PatchConstant(InputPatch<VTX_OUT, 3> _patch, uint _patchID : SV_Pr
 [outputcontrolpoints(3)]
 [patchconstantfunc("HS_PatchConstant")]
 [maxtessfactor(64.0)]
-[partitioning("integer")]
-//[partitioning("fractional_odd")]
+//[partitioning("integer")]
+[partitioning("fractional_odd")]
 VTX_OUT HS_Terrain(InputPatch<VTX_OUT, 3> _patch, uint _ctrPointID : SV_OutputControlPointID, uint _patchID : SV_PrimitiveID)
 {
     VTX_OUT output = (VTX_OUT) 0.f;

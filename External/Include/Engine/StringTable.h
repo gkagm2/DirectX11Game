@@ -39,7 +39,7 @@
 #define STR_FILE_PATH_ShaderShadow _T("shader\\shadow.fx")
 #define STR_FILE_PATH_TessellationShader _T("shader\\tessellation.fx")
 #define STR_FILE_PATH_TerrainShader _T("shader\\terrain.fx")
-
+#define STR_FILE_PATH_RaycastShader _T("shader\\raycast.fx")
 
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
@@ -147,6 +147,9 @@
 // particle_update.fx functions name
 #define STR_FUNC_NAME_ParticleUpdate "CS_ParticleUpdate"
 
+// raycast.fx functions name
+#define STR_FUNC_NAME_Raycast "CS_Raycast"
+
 // posteffect.fx functions name
 #define STR_FUNC_NAME_VTX_Distortion "VS_Distortion"
 #define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
@@ -223,6 +226,7 @@
 #define STR_KEY_TerrainShader _T("TerrainShader")
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
+#define STR_KEY_RaycastShader _T("RaycastShader")
 
  /////// / // Test ///// / / /
 #define STR_KEY_TestComputeShader _T("TestComputeShader")

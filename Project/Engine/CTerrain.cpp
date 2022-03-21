@@ -2,7 +2,10 @@
 #include "CTerrain.h"
 #include "CTransform.h"
 #include "CMesh.h"
+#include "CRenderManager.h"
+#include "CStructuredBuffer.h"
 #include "CResourceManager.h"
+#include "CFontManager.h"
 
 CTerrain::CTerrain() :
 	CRenderer(E_ComponentType::Terrain),
@@ -13,6 +16,21 @@ CTerrain::CTerrain() :
 	m_iComponentX(1),
 	m_iComponentZ(1)
 {
+	m_pCrossBuffer = make_unique<CStructuredBuffer>();
+	m_pCrossBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TRaycastOut), 1, true, nullptr);
+}
+
+CTerrain::CTerrain(const CTerrain& _origin) :
+	CRenderer(E_ComponentType::Terrain),
+	m_iQuadX(_origin.m_iQuadX),
+	m_iQuadZ(_origin.m_iQuadZ),
+	m_iFaceX(_origin.m_iFaceX),
+	m_iFaceZ(_origin.m_iFaceZ),
+	m_iComponentX(_origin.m_iComponentX),
+	m_iComponentZ(_origin.m_iComponentZ)
+{
+	m_pCrossBuffer = make_unique<CStructuredBuffer>();
+	m_pCrossBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TRaycastOut), 1, true, nullptr);
 }
 
 CTerrain::~CTerrain()
@@ -20,8 +38,42 @@ CTerrain::~CTerrain()
 	SAFE_DELETE_PTR(m_pMtrl);
 }
 
+
 void CTerrain::FinalUpdate()
 {
+	// RayCasting
+	CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
+	if (nullptr == pMainCam)
+		return;
+
+	Vector3 vMainCamPos = pMainCam->Transform()->GetPosition();
+	m_pMtrl->SetData(E_ShaderParam::Vector4_0, &vMainCamPos);
+
+	const Matrix& matWorldInv = Transform()->GetWorldInverseMatrix();
+	const TRay& ray = pMainCam->GetRay();
+
+	TRay CamRay = {};
+	CamRay.vStartPos= XMVector3TransformCoord(ray.vStartPos, matWorldInv);
+	CamRay.vDir = XMVector3TransformNormal(ray.vDir, matWorldInv);
+	CamRay.vDir.Normalize();
+
+	// 지형과 카메라 Ray 의 교점을 구함
+	TRaycastOut out = { Vector2(0.f, 0.f), 0x7fffffff, 0 }; // 최상위 비트만 0
+	m_pCrossBuffer->SetData(&out, 1);
+
+	m_pCSRaycast->SetHeightMap(m_pHeightMapTex);
+	m_pCSRaycast->SetFaceCount(m_iFaceX, m_iFaceZ);
+	m_pCSRaycast->SetCameraRay(CamRay);
+	m_pCSRaycast->SetOuputBuffer(m_pCrossBuffer.get());
+
+	m_pCSRaycast->Excute();
+
+	TRaycastOut output = {};
+	m_pCrossBuffer->GetData(&output, sizeof(TRaycastOut));
+
+	wchar_t szBuffer[255] = {};
+	swprintf_s(szBuffer, L"Picking UV (%f, %f)", output.vUV.x, output.vUV.y);
+	CFontManager::GetInstance()->DrawUIFont(szBuffer, 10, 60, 12, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
 }
 
 void CTerrain::Render()
@@ -108,6 +160,9 @@ void CTerrain::Create()
 	m_pMtrl->SetData(E_ShaderParam::Int_1, &m_iFaceZ);
 
 	SetHeightMapTex(m_pHeightMapTex);
+
+	// 지형 피킹 컴퓨트 쉐이더
+	m_pCSRaycast = (CRaycastShader*)CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_RaycastShader).Get();
 }
 
 void CTerrain::SetHeightMapTex(SharedPtr<CTexture> m_pTex)

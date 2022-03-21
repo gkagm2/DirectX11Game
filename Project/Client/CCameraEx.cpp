@@ -16,6 +16,7 @@ void CCameraEx::FinalUpdate()
 {
 	CalculateViewMatrix();
 	CalculateProjectionMatrix();
+	CalculateRay();
 	GetFrustum()->FinalUpdate();
 	CRenderManager::GetInstance()->RegisterToolCamera(this);
 }

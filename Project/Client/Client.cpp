@@ -76,9 +76,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Game _Init
     Vector2 vWindowResolution{ 1440, 810 };
     Vector2 vRenderResolution{ 1440, 810 };
+    //  1920, 1080
 
-
-    CResourceManager::GetInstance();
+    //CResourceManager::GetInstance();
     CSceneSaveLoad::Init();
 
     CCore::g_Wnd = g_hWnd;

@@ -78,13 +78,14 @@ PS_OUT PS_DirLight(VS_OUT _in)
             fTargetDepth = ShadowDepthTargetTex.Sample(Sample_Anisotropic, vDepthTargetUV).r;
         }
         
+        // 광원 시점에서 해당 지점이 보이지 않는  경우
         if (0.f == fTargetDepth)
             return output;
     
         if (fTargetDepth + 0.002f < fCurDepth)
         {
             // 그림자       
-            output.fShadowPow = 0.8f;
+            output.fShadowPow = 3.8f;
         }
     }
     return output;

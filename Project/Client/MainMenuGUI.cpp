@@ -282,9 +282,13 @@ void MainMenuGUI::LoadScene()
 void MainMenuGUI::ShowSceneMode()
 {
     if (ImGui::MenuItem("Play", "CTLR+P", false, bPlay)) {
-        _SetSceneModeMenu(E_SceneMode::Play);
-        CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Play);
-        CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), STR_FILE_PATH_TempScene);
+        if (!CRenderManager::GetInstance()->GetInGameMainCamera())
+            MessageBox(CCore::GetInstance()->GetWndHandle(), _T("In Game Camera ¾øÀ½"), _T("Warning"), MB_OK);
+        else {
+            _SetSceneModeMenu(E_SceneMode::Play);
+            CSceneManager::GetInstance()->ChangeSceneModeEvt(E_SceneMode::Play);
+            CSceneSaveLoad::SaveScene(CSceneManager::GetInstance()->GetCurScene(), STR_FILE_PATH_TempScene);
+        }
     }
     if (ImGui::MenuItem("Pause", "CTRL+P", false, bPause)) {
         _SetSceneModeMenu(E_SceneMode::Pause);

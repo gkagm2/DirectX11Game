@@ -2,17 +2,15 @@
 #include "CPathManager.h"
 #include "CComputeShader.h"
 #include "CDevice.h"
+#include "CConstBuffer.h"
 
-const CConstBuffer* CComputeShader::g_pMtrlBuffer = nullptr;
 CComputeShader::CComputeShader(UINT _iThreadNumX, UINT _iThreadNumY, UINT _iThreadNumZ) :
 	CShader(E_ResourceType::ComputeShader),
-	m_iThreadNumX(_iThreadNumX),
-	m_iThreadNumY(_iThreadNumY),
-	m_iThreadNumZ(_iThreadNumZ),
+	m_iGroupThreadNumX(_iThreadNumX),
+	m_iGroupThreadNumY(_iThreadNumY),
+	m_iGroupThreadNumZ(_iThreadNumZ),
 	m_tInfo{}
 {
-	if (nullptr == g_pMtrlBuffer)
-		g_pMtrlBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Material_Param);
 }
 
 CComputeShader::~CComputeShader()
@@ -39,9 +37,15 @@ void CComputeShader::CreateComputeShader(const tstring& _strRelativePath, const 
 void CComputeShader::Dispatch(UINT _x, UINT _y, UINT _z)
 {
 	UpdateData();
+
+	static const CConstBuffer* pCBMtrlBuffer = CDevice::GetInstance()->GetConstBuffer(E_ConstBuffer::Material_Param);
+	
+	pCBMtrlBuffer->SetData(&m_tInfo, sizeof(TMaterialParam));
+	pCBMtrlBuffer->UpdateData(E_ShaderStage::Compute);
+
 	CONTEXT->CSSetShader(m_pCS.Get(), 0, 0);
 	CONTEXT->Dispatch(_x, _y, _z); // CS ½ÇÇà
 
 	Clear();
+	//pCBMtrlBuffer->Clear();
 }
-

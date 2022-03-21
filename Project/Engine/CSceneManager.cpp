@@ -79,8 +79,7 @@ void CSceneManager::Progress()
 		assert(nullptr);
 		break;
 	}
-	CRenderManager::GetInstance()->Render();
-
+	CRenderManager::GetInstance()->Update();
 	CRenderManager::GetInstance()->UnRegisterCamera();
 
 	// FinalUpdate 도중에 카메라가 등록 될 것임
