@@ -1307,6 +1307,20 @@ void CResourceManager::CreateDefaultShader()
 	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector2_0, _T("Height Map Resolution") });
 
 	AddRes(STR_KEY_TerrainShader, pShader);
+
+	// Debug ·»´õ¸µ¿ë Shader
+	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
+	pShader->CreateVertexShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_VTXDebug3D);
+	pShader->CreatePixelShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_PIXDebug3D);
+
+	// Rasterizer
+	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	pShader->SetBlendState(E_BlendState::Default);
+
+	// Shader Param
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Color") });
+
+	AddRes(STR_KEY_DebugRenderingShader, pShader);
 }
 
 void CResourceManager::CreateDefaultMaterial()
@@ -1541,6 +1555,13 @@ void CResourceManager::CreateDefaultMaterial()
 	SharedPtr<CGraphicsShader> pShaderTerrain = LoadRes<CGraphicsShader>(STR_KEY_TerrainShader);
 	pMtrl->SetShader(pShaderTerrain);
 	AddRes(STR_KEY_TerrainMtrl, pMtrl);
+
+	// Debug Rendering Mtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetName(_T("DebugMaterial"));
+	SharedPtr<CGraphicsShader> pShaderDebugRendering = LoadRes<CGraphicsShader>(STR_KEY_DebugRenderingShader);
+	pMtrl->SetShader(pShaderDebugRendering);
+	AddRes(STR_KEY_DebugRenderingMtrl, pMtrl);
 }
 
 #include "CTestShader.h"

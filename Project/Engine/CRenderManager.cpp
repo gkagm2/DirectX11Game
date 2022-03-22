@@ -58,23 +58,10 @@ void CRenderManager::Init()
 
 	// Shader, Material 초기화
 
-	m_pDebugShader = new CGraphicsShader(E_RenderTimePoint::Forward);
-	tstring strPath = CPathManager::GetInstance()->GetContentPath();
-	strPath = STR_FILE_PATH_DebugSphereShader;
-
-	m_pDebugShader->CreateVertexShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_VTXDebug3D);
-	m_pDebugShader->CreatePixelShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_PIXDebug3D);
-
-	// Rasterizer
-	m_pDebugShader->SetRasterizerState(E_RasterizerState::Wireframe);
-	m_pDebugShader->SetBlendState(E_BlendState::Default);
-
-	// Shader Param
-	m_pDebugShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Color") });
-	
-	m_pDebugMtrl= new CMaterial(true);
-	m_pDebugMtrl->SetName(_T("DebugMaterial"));
-	m_pDebugMtrl->SetShader(m_pDebugShader);
+	m_pDebugShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(STR_KEY_DebugRenderingShader);
+	assert(m_pDebugShader.Get());
+	m_pDebugMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DebugRenderingMtrl);
+	assert(m_pDebugMtrl.Get());
 
 	// Debug GameObject 초기화
 	constexpr int iDebugObjCnt = 10;

@@ -224,6 +224,8 @@
 #define STR_KEY_Std3DFrameShader _T("Std3DFrameShader")
 #define STR_KEY_TessellationTestShader _T("TessellationTestShader")
 #define STR_KEY_TerrainShader _T("TerrainShader")
+#define STR_KEY_DebugRenderingShader _T("DebugRenderingShader")
+
 // compute shader
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
 #define STR_KEY_RaycastShader _T("RaycastShader")
@@ -267,6 +269,7 @@
 #define STR_KEY_Std3DFrameMtrl _T("Standard3DFrameMaterial")
 #define STR_KEY_TessellationTestMtrl _T("TessellationTestMaterial")
 #define STR_KEY_TerrainMtrl _T("TerrainMaterial")
+#define STR_KEY_DebugRenderingMtrl _T("DebugRenderingMaterial")
 
 // Resource View Key
 #define STR_ResourceKey_DSTexture _T("DepthStencilTexture")
