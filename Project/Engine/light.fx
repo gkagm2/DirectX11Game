@@ -84,7 +84,7 @@ PS_OUT PS_DirLight(VS_OUT _in)
         if (0.f == fTargetDepth)
             return output;
     
-        if (fTargetDepth + 0.002f < fCurDepth)
+        if (fTargetDepth + 0.00001f < fCurDepth)
             output.fShadowPow = 0.8f; // ±×¸²ÀÚ
     }
     return output;
