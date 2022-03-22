@@ -133,6 +133,7 @@ void CLight3D::Render()
 	case E_LightType::Direction: {
 		Matrix matDirCamVP = m_pLightCamObj->Camera()->GetViewMatrix() * m_pLightCamObj->Camera()->GetProjectionMatrix();
 		m_pMtrl->SetData(E_ShaderParam::Matrix_0, &matDirCamVP);
+		
 		break;
 	}
 	case E_LightType::Point: {
@@ -202,9 +203,10 @@ void CLight3D::_CreateLight3DCamera()
 
 	// 방향성 광원이므로, 물체의 깊이정보를 직교투영으로 그린다.
 	m_pLightCamObj->Camera()->SetProjectionType(E_ProjectionType::Orthographic);
+	m_pLightCamObj->Camera()->SetSize(1.f);
 	TClippingPlanes tCp;
 	tCp.fNear = 1.f;
-	tCp.fFar = 999999.f;
+	tCp.fFar = 100000.f;
 	m_pLightCamObj->Camera()->SetClippingPlanes(tCp);
 	m_pLightCamObj->Camera()->SetViewportWidth(4000.f);
 	m_pLightCamObj->Camera()->SetViewportHeight(4000.f);

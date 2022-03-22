@@ -70,7 +70,7 @@ void CS_Raycast(int3 _iThreadID : SV_DispatchThreadID)
         
         InterlockedMin(g_tOutput[0].iDist, iDist, iDistOut);
         
-        if (iDistOut > iDist)
+        if (iDistOut < iDist)
         {
             // ½ÇÆÐ
             return;

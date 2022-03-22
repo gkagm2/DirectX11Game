@@ -61,6 +61,8 @@ PS_OUT PS_DirLight(VS_OUT _in)
     {
         // 해당 지점이 그림자가 생겨야 할지 판단하기    
         float3 vWorldPos = mul(float4(vViewPos, 1.f), g_matViewInv).xyz; // 빛을 받을 지점의 월드상의 좌표    
+        
+        // 광원 카메라쪽으로 투영
         float4 vDirCamProj = mul(float4(vWorldPos, 1.f), DirCamViewProjMat);
         float fCurDepth = vDirCamProj.z / vDirCamProj.w;
     
@@ -83,10 +85,7 @@ PS_OUT PS_DirLight(VS_OUT _in)
             return output;
     
         if (fTargetDepth + 0.002f < fCurDepth)
-        {
-            // 그림자       
-            output.fShadowPow = 3.8f;
-        }
+            output.fShadowPow = 0.8f; // 그림자
     }
     return output;
 }
