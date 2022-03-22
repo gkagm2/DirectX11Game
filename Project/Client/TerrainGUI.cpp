@@ -78,6 +78,31 @@ void TerrainGUI::Update()
 		GetTargetObject()->Terrain()->Create();
 	}
 
+
+	static bool bEditMode = false;
+	if (ImGui::Checkbox("Edit Mode##Terrain, ", &bEditMode)) {
+	}
+
+	// TODO (Jang) : this
+	if (bEditMode) {
+		CTerrain* pTerrain = GetTargetObject()->Terrain();
+		if (pTerrain) {
+			// On Mode
+
+			//pTerrain->Brush
+
+
+			// Off Mode
+
+
+
+
+
+		}
+	}
+	
+
+
 	End();
 }
 

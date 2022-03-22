@@ -146,8 +146,8 @@ void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 {
 	// FIXED(Jang) : ??
 	//// u 레지스터 바인딩이 불가능한 구조화버퍼인 경우
-	if ((UINT)E_StructuredBufferType::Read_Write == _iRegisterNum)
-		assert(nullptr);
+	//if ((UINT)E_StructuredBufferType::Read_Write == _iRegisterNum)
+	//	assert(nullptr);
 
 	m_iRecentRegisterNum = _iRegisterNum;
 	UINT iInitialzedCnt = -1;

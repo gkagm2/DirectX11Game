@@ -1,6 +1,5 @@
 #pragma once
 // Component, Quad - Unreal Engine Landscape와 개념이 비슷 
-
 #include "CRenderer.h"
 #include "CRaycastShader.h"
 #include "CHeightMapShader.h"
@@ -12,11 +11,16 @@ private:
 
 	SharedPtr<CTexture> m_pHeightMapTex;
 	SharedPtr<CTexture> m_pWeightMapTex;
+	SharedPtr<CTexture> m_pBrushArrTex;
 
 	SharedPtr<CRaycastShader> m_pCSRaycast;
 	SharedPtr<CHeightMapShader> m_pCSHeightMap;
 
 	unique_ptr<CStructuredBuffer> m_pCrossBuffer; // 마우스 피킹되는 지점을 받는 버퍼
+
+	// Brush 크기 (비율)
+	Vector2 m_vBrushScale;
+	UINT m_iBrushIdx;
 
 	// 쿼드 개수
 	UINT m_iQuadX;

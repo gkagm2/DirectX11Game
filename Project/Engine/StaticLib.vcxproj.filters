@@ -728,10 +728,64 @@
     <Filter Include="Shader Script\ComputeShader\HeightMapShader">
       <UniqueIdentifier>{facb7032-cf79-4f08-9c77-4f2a44f2fded}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Script\GraphicsShader">
+      <UniqueIdentifier>{4a48b472-ec98-4952-9d99-7a306850d6dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="heightmap.fx">
+      <Filter>Shader Script\ComputeShader\HeightMapShader</Filter>
+    </FxCompile>
+    <FxCompile Include="particle_update.fx">
+      <Filter>Shader Script\ComputeShader\ParticleUpdate</Filter>
+    </FxCompile>
+    <FxCompile Include="raycast.fx">
+      <Filter>Shader Script\ComputeShader\RaycastShader</Filter>
+    </FxCompile>
+    <FxCompile Include="debug.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="decal.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="LambertCosineLaw.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="light.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="posteffect.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="shadow.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
     <FxCompile Include="std2d.fx">
-      <Filter>Shader Script</Filter>
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="std3d.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="std3d_deferred.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="terrain.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="tessellation.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="testShader.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
+    </FxCompile>
+    <FxCompile Include="tilemap.fx">
+      <Filter>Shader Script\GraphicsShader</Filter>
     </FxCompile>
     <FxCompile Include="value.fx">
       <Filter>Shader Script</Filter>
@@ -739,55 +793,7 @@
     <FxCompile Include="struct.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
-    <FxCompile Include="testShader.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="particle.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
     <FxCompile Include="function.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="particle_update.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="posteffect.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="LambertCosineLaw.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="tilemap.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="std3d.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="skybox.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="debug.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="std3d_deferred.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="light.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="shadow.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="decal.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="tessellation.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="terrain.fx">
-      <Filter>Shader Script</Filter>
-    </FxCompile>
-    <FxCompile Include="raycast.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
   </ItemGroup>

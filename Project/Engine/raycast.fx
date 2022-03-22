@@ -65,7 +65,7 @@ void CS_Raycast(int3 _iThreadID : SV_DispatchThreadID)
     
     if (IntersectsLay(vPos, CamPos.xyz, CamDir.xyz, vCrossPoint, fDist))
     {
-        int iDist = (int) (999999.f * fDist);
+        int iDist = (int) (10000.f * fDist);
         int iDistOut = 0;
         
         InterlockedMin(g_tOutput[0].iDist, iDist, iDistOut);

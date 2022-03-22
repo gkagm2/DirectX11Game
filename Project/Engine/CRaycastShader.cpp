@@ -3,6 +3,11 @@
 #include "CConstBuffer.h"
 #include "CStructuredBuffer.h"
 
+#include "CCamera.h"
+#include "CRenderManager.h"
+#include "CTransform.h"
+#include "CFontManager.h"
+
 CRaycastShader::CRaycastShader() :
 	CComputeShader(32, 32, 1),
 	m_iXFace{},
@@ -32,10 +37,22 @@ void CRaycastShader::UpdateData()
 	m_tInfo.v4Arr[0] = m_tRay.vStartPos;
 	m_tInfo.v4Arr[1] = m_tRay.vDir;
 
+
+	CCamera* pCam = CRenderManager::GetInstance()->GetMainCamera();
+	if (pCam) {
+		Vector3 pos = pCam->Transform()->GetPosition();
+		wchar_t szBuffer[255] = {};
+		swprintf_s(szBuffer, L"pos (%.2f, %.2f. %.2f)", pos.x, pos.y, pos.z);
+		CFontManager::GetInstance()->DrawUIFont(szBuffer, 10.f, 90.f, 20, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
+
+		swprintf_s(szBuffer, L"start pos (%.2f, %.2f, %.2f)", m_tRay.vStartPos.x, m_tRay.vStartPos.y, m_tRay.vStartPos.z);
+		CFontManager::GetInstance()->DrawUIFont(szBuffer, 10.f, 120.f, 20, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
+	}
+
+
 	// Height Map
 	if (nullptr != m_pHeightMap) {
 		m_pHeightMap->UpdateData(E_ShaderStage::Compute, 0);
-		//m_pHeightMap->UpdateRWData(0);
 	}
 
 	// 출력 버퍼	

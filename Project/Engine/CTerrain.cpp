@@ -9,6 +9,8 @@
 
 CTerrain::CTerrain() :
 	CRenderer(E_ComponentType::Terrain),
+	m_vBrushScale(Vector2(0.1f,0.1f)),
+	m_iBrushIdx(0),
 	m_iQuadX(7),
 	m_iQuadZ(7),
 	m_iFaceX(7),
@@ -22,6 +24,8 @@ CTerrain::CTerrain() :
 
 CTerrain::CTerrain(const CTerrain& _origin) :
 	CRenderer(E_ComponentType::Terrain),
+	m_vBrushScale(_origin.m_vBrushScale),
+	m_iBrushIdx(_origin.m_iBrushIdx),
 	m_iQuadX(_origin.m_iQuadX),
 	m_iQuadZ(_origin.m_iQuadZ),
 	m_iFaceX(_origin.m_iFaceX),
@@ -59,7 +63,7 @@ void CTerrain::FinalUpdate()
 
 	// 지형과 카메라 Ray 의 교점을 구함
 	TRaycastOut out = { Vector2(0.f, 0.f), 0x7fffffff, 0 }; // 최상위 비트만 0
-	m_pCrossBuffer->SetData(&out, 1);
+	m_pCrossBuffer->SetData(&out, sizeof(TRaycastOut));
 
 	m_pCSRaycast->SetHeightMap(m_pHeightMapTex);
 	m_pCSRaycast->SetFaceCount(m_iFaceX, m_iFaceZ);
@@ -74,6 +78,15 @@ void CTerrain::FinalUpdate()
 	wchar_t szBuffer[255] = {};
 	swprintf_s(szBuffer, L"Picking UV (%f, %f)", output.vUV.x, output.vUV.y);
 	CFontManager::GetInstance()->DrawUIFont(szBuffer, 10, 60, 12, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
+
+	// 교점 위치정보를 토대로 높이를 수정함 		
+	m_pCSHeightMap->SetBrushTexture(m_pBrushArrTex);
+	m_pCSHeightMap->SetBrushIdx(m_iBrushIdx);
+	m_pCSHeightMap->SetBrushScale(m_vBrushScale); // 브러쉬 크기
+	m_pCSHeightMap->SetHeigtMapTexture(m_pHeightMapTex);
+	m_pCSHeightMap->SetInputBuffer(m_pCrossBuffer.get()); // 레이 캐스트 위치
+
+	m_pCSHeightMap->Excute();
 }
 
 void CTerrain::Render()
@@ -145,9 +158,27 @@ void CTerrain::Create()
 	m_pMesh = new CMesh;
 	m_pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
-	// TODO (Jang) : Key 값 자동 생성하기
 	tstring strNewKey = _T("TerrainMesh"); // auto generate key
 	CResourceManager::GetInstance()->AddRes<CMesh>(strNewKey, m_pMesh.Get());
+
+	// 지형 피킹 컴퓨트 쉐이더
+	m_pCSRaycast = dynamic_cast<CRaycastShader*>(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_RaycastShader).Get());
+	assert(m_pCSRaycast.Get());
+
+	// 높이맵 컴퓨트 쉐이더
+	m_pCSHeightMap = dynamic_cast<CHeightMapShader*>(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_HeightMapShader).Get());
+	assert(m_pCSHeightMap.Get());
+
+	// 높이맵 텍스쳐 세팅 (자체 세팅)
+	SetHeightMapTex(m_pHeightMapTex);
+	m_pHeightMapTex = CResourceManager::GetInstance()->CreateTexture(_T("_HeightMapTex"),
+		2048, /*width*/
+		2048, /*height*/
+		DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,
+		D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS);
+
+	// 브러쉬 텍스쳐 세팅
+	m_pBrushArrTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\brush\\Brush_02.png"));
 
 	// TODO (Jang) : Save 되는 문제 발생.
 	if (nullptr == m_pMtrl) {
@@ -158,11 +189,6 @@ void CTerrain::Create()
 
 	m_pMtrl->SetData(E_ShaderParam::Int_0, &m_iFaceX);
 	m_pMtrl->SetData(E_ShaderParam::Int_1, &m_iFaceZ);
-
-	SetHeightMapTex(m_pHeightMapTex);
-
-	// 지형 피킹 컴퓨트 쉐이더
-	m_pCSRaycast = (CRaycastShader*)CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_RaycastShader).Get();
 }
 
 void CTerrain::SetHeightMapTex(SharedPtr<CTexture> m_pTex)
@@ -190,7 +216,10 @@ bool CTerrain::SaveToScene(FILE* _pFile)
 	SaveResourceToFile(m_pMtrl, _pFile);
 	SaveResourceToFile(m_pHeightMapTex, _pFile);
 	SaveResourceToFile(m_pWeightMapTex, _pFile);
+	SaveResourceToFile(m_pBrushArrTex, _pFile);
 
+	FWrite(m_vBrushScale, _pFile);
+	FWrite(m_iBrushIdx, _pFile);
 	FWrite(m_iQuadX, _pFile);
 	FWrite(m_iQuadZ, _pFile);
 	FWrite(m_iComponentX, _pFile);
@@ -209,7 +238,10 @@ bool CTerrain::LoadFromScene(FILE* _pFile)
 	LoadResourceFromFile(m_pMtrl, _pFile);
 	LoadResourceFromFile(m_pHeightMapTex, _pFile);
 	LoadResourceFromFile(m_pWeightMapTex, _pFile);
+	LoadResourceFromFile(m_pBrushArrTex, _pFile);
 
+	FRead(m_vBrushScale, _pFile);
+	FRead(m_iBrushIdx, _pFile);
 	FRead(m_iQuadX, _pFile);
 	FRead(m_iQuadZ, _pFile);
 	FRead(m_iComponentX, _pFile);

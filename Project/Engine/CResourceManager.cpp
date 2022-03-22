@@ -1567,6 +1567,7 @@ void CResourceManager::CreateDefaultMaterial()
 #include "CTestShader.h"
 #include "CParticleUpdateShader.h"
 #include "CRaycastShader.h"
+#include "CHeightMapShader.h"
 void CResourceManager::CreateComputeShader()
 {
 	// TODO (Jang) : Test용 컴퓨트 쉐이더를 생성하고있음. 나중에 고치기
@@ -1583,7 +1584,18 @@ void CResourceManager::CreateComputeShader()
 	// Raycast Shader
 	pShader = new CRaycastShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_RaycastShader, STR_FUNC_NAME_Raycast);
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Texture_0, _T("HeightMapTex") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_0, _T("Camera Pos") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Vector4_1, _T("Camera Dir") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_0, _T("FaceX") });
+	pShader->AddShaderParam(TShaderParam{ E_ShaderParam::Int_1, _T("FaceZ") });
 	AddRes(STR_KEY_RaycastShader, pShader);
+
+	// Height Map Shader
+	pShader = new CHeightMapShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_HeightMapShader, STR_FUNC_NAME_HeightMap);
+
+	AddRes(STR_KEY_HeightMapShader, pShader);
 }
 
 void CResourceManager::InitSound()

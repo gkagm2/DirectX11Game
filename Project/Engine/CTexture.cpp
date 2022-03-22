@@ -161,7 +161,6 @@ void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)
 
 void CTexture::UpdateRWData(UINT _iUAVRegisterNum)
 {
-	assert(m_pUAV);
 	UINT iUAVIntialCounts = -1;
 	CONTEXT->CSSetUnorderedAccessViews(_iUAVRegisterNum, 1, m_pUAV.GetAddressOf(), &iUAVIntialCounts);
 }

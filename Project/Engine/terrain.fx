@@ -117,7 +117,7 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     
     // 각 정점들이 자기 위치에 맞는 높이값을 높이맵에서 추출 한 후, 자신의 로컬 높이로 지정
     vLocalPos.y = HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUV, 0).r;
-  
+    output.vViewPos = mul(float4(vLocalPos, 1.f), g_matWorldView).xyz;
     float2 vTerrainLocalPosStep = float2(1.f / FaceXCount, 1.f / FaceZCount);
 
     float3 vLocalUpPos = float3(vLocalPos.x, HeightMapTex.SampleLevel(Sample_Anisotropic, vTerrainUpUV, 0).r, vLocalPos.z + vTerrainLocalPosStep.y);
