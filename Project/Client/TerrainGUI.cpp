@@ -89,15 +89,13 @@ void TerrainGUI::Update()
 		if (pTerrain) {
 			// On Mode
 
-			//pTerrain->Brush
-
+			// Brush texture
+			CTexture* pBrushTex = pTerrain->GetBrushTex().Get();
+			if (nullptr != pTerrain->GetBrushTex()) {
+				ParamGUI::Render_Texture("Brush Texture##Terrain", pBrushTex, nullptr, nullptr, false);
+			}
 
 			// Off Mode
-
-
-
-
-
 		}
 	}
 	

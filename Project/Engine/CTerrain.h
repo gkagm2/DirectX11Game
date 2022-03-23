@@ -61,6 +61,7 @@ public:
 	UINT GetComponentZ() { return m_iComponentZ; }
 	UINT GetFaceX() { return m_iFaceX; }
 	UINT GetFaceZ() { return m_iFaceZ; }
+	SharedPtr<CTexture> GetBrushTex() { return m_pBrushArrTex; }
 
 public:
 	CLONE(CTerrain);
