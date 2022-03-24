@@ -209,6 +209,7 @@ Vector3 Rotate3D(E_AngleType _eAngleType, const Vector3& _vAxis, float _fDegree)
 		);
 	}
 	assert(nullptr);
+	return Vector3{};
 }
 
 Vector3 Rotate3D_Radian(E_AngleType _eAngleType, const Vector3& _vAxis, float _fRadian) {

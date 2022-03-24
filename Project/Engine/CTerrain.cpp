@@ -7,6 +7,7 @@
 #include "CResourceManager.h"
 #include "CFontManager.h"
 
+
 CTerrain::CTerrain() :
 	CRenderer(E_ComponentType::Terrain),
 	m_vBrushScale(Vector2(0.1f,0.1f)),
@@ -250,4 +251,9 @@ bool CTerrain::LoadFromScene(FILE* _pFile)
 	FRead(m_iFaceZ, _pFile);
 
 	return true;
+}
+
+void CTerrain::_Raycasting()
+{
+
 }

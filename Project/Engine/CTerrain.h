@@ -12,6 +12,12 @@ struct TWeight8 {
 	float arrWeight[8];
 };
 
+enum class E_TerrainMode {
+	HeightMap,
+	Splat,
+	NONE,
+};
+
 
 class CTerrain : public CRenderer {
 private:
@@ -24,8 +30,16 @@ private:
 
 	SharedPtr<CRaycastShader> m_pCSRaycast;
 	SharedPtr<CHeightMapShader> m_pCSHeightMap;
+	SharedPtr<CWeightMapShader> m_pCSWeightMap;
 
 	unique_ptr<CStructuredBuffer> m_pCrossBuffer; // 마우스 피킹되는 지점을 받는 버퍼
+
+	CStructuredBuffer* m_pWeightMapBuffer;
+	UINT m_iWeightWidth; // 가중치 버퍼 가로 행렬수
+	UINT m_iWeightHeight; // 가중치 버퍼 세로 행렬수
+	UINT m_iWeightIdx;	// 증가시킬 가중치 부위
+
+	E_TerrainMode m_eTerrainMode; // 지형 툴모드에서 상태값
 
 	// Brush 크기 (비율)
 	Vector2 m_vBrushScale;
@@ -71,6 +85,9 @@ public:
 	UINT GetFaceX() { return m_iFaceX; }
 	UINT GetFaceZ() { return m_iFaceZ; }
 	SharedPtr<CTexture> GetBrushTex() { return m_pBrushArrTex; }
+
+private:
+	void _Raycasting();
 
 public:
 	CLONE(CTerrain);

@@ -31,6 +31,11 @@ public:
 	void SetBrushIdx(int _iIdx) { m_iBrushIdx = _iIdx; }
 	void SetWeightIdx(int _iIdx) { m_iWeightIdx = _iIdx; }
 
+	SharedPtr<CTexture> GetBrushArrTex() { return m_pBrushArrTex; }
+	const Vector2& GetBrushScale() { return m_vBrushScale; }
+	int GetBrushIdx() { return m_iBrushIdx; }
+	int GetWeightIdx() { return m_iWeightIdx; }
+
 public:
 	CWeightMapShader();
 	virtual ~CWeightMapShader() override;
