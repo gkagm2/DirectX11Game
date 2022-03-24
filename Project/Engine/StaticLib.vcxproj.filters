@@ -274,6 +274,9 @@
     <ClInclude Include="CHeightMapShader.h">
       <Filter>Shader Script\ComputeShader\HeightMapShader</Filter>
     </ClInclude>
+    <ClInclude Include="CWeightMapShader.h">
+      <Filter>Shader Script\ComputeShader\WeightMapShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -528,6 +531,9 @@
     <ClCompile Include="CHeightMapShader.cpp">
       <Filter>Shader Script\ComputeShader\HeightMapShader</Filter>
     </ClCompile>
+    <ClCompile Include="CWeightMapShader.cpp">
+      <Filter>Shader Script\ComputeShader\WeightMapShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -730,6 +736,9 @@
     </Filter>
     <Filter Include="Shader Script\GraphicsShader">
       <UniqueIdentifier>{4a48b472-ec98-4952-9d99-7a306850d6dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Script\ComputeShader\WeightMapShader">
+      <UniqueIdentifier>{0e1b2bf1-56ca-4042-acdf-869b25520a75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

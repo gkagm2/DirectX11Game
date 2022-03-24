@@ -3,6 +3,15 @@
 #include "CRenderer.h"
 #include "CRaycastShader.h"
 #include "CHeightMapShader.h"
+#include "CWeightMapShader.h"
+
+struct TWeight4 {
+	float arrWeight[4];
+};
+struct TWeight8 {
+	float arrWeight[8];
+};
+
 
 class CTerrain : public CRenderer {
 private:

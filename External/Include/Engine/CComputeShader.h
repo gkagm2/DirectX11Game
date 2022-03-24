@@ -21,8 +21,8 @@ public:
 
 public:
 	virtual void UpdateData() = 0;
-	virtual void Clear() = 0;
 	virtual void Excute() = 0;
+	virtual void Clear() = 0;
 
 public:
 	void Dispatch(UINT _x, UINT _y, UINT _z);
