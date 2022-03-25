@@ -95,7 +95,11 @@ void CTerrain::Render()
 	if (nullptr == m_pMtrl || nullptr == m_pMesh)
 		return;
 	Transform()->UpdateData();
+	
+	Vector2 vWeightMapResolution = Vector2((float)m_iWeightWidth, (float)m_iWeightHeight);
+	m_pMtrl->SetData(E_ShaderParam::Vector2_1, &vWeightMapResolution);
 	m_pMtrl->UpdateData();
+
 	m_pMesh->Render();
 }
 
@@ -255,5 +259,29 @@ bool CTerrain::LoadFromScene(FILE* _pFile)
 
 void CTerrain::_Raycasting()
 {
+	CCamera* pMainCam = CRenderManager::GetInstance()->GetMainCamera();
+	if (nullptr == pMainCam)
+		return;
 
+	Vector3 vMainCamPos = pMainCam->Transform()->GetPosition();
+	m_pMtrl->SetData(E_ShaderParam::Vector4_0, &vMainCamPos);
+
+	const Matrix& matWorldInv = Transform()->GetWorldInverseMatrix();
+	const TRay& ray = pMainCam->GetRay();
+
+	TRay CamRay = {};
+	CamRay.vStartPos = XMVector3TransformCoord(ray.vStartPos, matWorldInv);
+	CamRay.vDir = XMVector3TransformNormal(ray.vDir, matWorldInv);
+	CamRay.vDir.Normalize();
+
+	// 지형과 카메라 Ray 의 교점을 구함
+	TRaycastOut out = { Vector2(0.f, 0.f), 0x7fffffff, 0 };
+	m_pCrossBuffer->SetData(&out, 1);
+
+	m_pCSRaycast->SetHeightMap(m_pHeightMapTex);
+	m_pCSRaycast->SetFaceCount(m_iFaceX, m_iFaceZ);
+	m_pCSRaycast->SetCameraRay(CamRay);
+	m_pCSRaycast->SetOuputBuffer(m_pCrossBuffer.get());
+
+	m_pCSRaycast->Excute();
 }

@@ -11,6 +11,7 @@
 #define HeightMapTex g_tex_0
 #define WeightMapTEx g_tex_1
 #define HeightMapResolution g_vec2_0
+#define WeightMapResolution g_vec2_1
 
 // g_tex_2 : color
 // g_tex_3 : normal Tex
