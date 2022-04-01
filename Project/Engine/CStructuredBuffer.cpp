@@ -153,7 +153,7 @@ void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 	if (E_StructuredBufferType::ReadOnly == m_eType)
 		assert(nullptr);
 
-	m_iRecentRegisterNum = _iRegisterNum;
+	m_iRecentRegisterNumRW = _iRegisterNum;
 	UINT iInitialzedCnt = -1;
 	UINT iNumUAVs = 1;
 	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, iNumUAVs, m_UAV.GetAddressOf(), &iInitialzedCnt);
@@ -181,7 +181,7 @@ void CStructuredBuffer::ClearRW()
 	ID3D11UnorderedAccessView* pUAV = nullptr;
 	UINT iInitialzedCnt = -1;
 	UINT iNumUAVs = 1;
-	CONTEXT->CSSetUnorderedAccessViews(m_iRecentRegisterNum, iNumUAVs, &pUAV, &iInitialzedCnt);
+	CONTEXT->CSSetUnorderedAccessViews(m_iRecentRegisterNumRW, iNumUAVs, &pUAV, &iInitialzedCnt);
 }
 
 void CStructuredBuffer::Release()
