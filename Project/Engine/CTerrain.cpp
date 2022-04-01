@@ -110,7 +110,7 @@ void CTerrain::Render()
 
 void CTerrain::Create()
 {
-	tstring strKey = {};// FindResName<CMesh>(_T("TerrainMesh"));
+	tstring strKey = FindResNameIfNoExistRetNewName<CMesh>(_T("TerrainMesh")); // auto generate key
 
 	// 메쉬 만들기
 	
@@ -168,8 +168,7 @@ void CTerrain::Create()
 	m_pMesh = new CMesh;
 	m_pMesh->Create(vecVtx.data(), sizeof(VTX) * (UINT)vecVtx.size(), vecIdx.data(), sizeof(UINT) * (UINT)vecIdx.size(), D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
-	tstring strNewKey = _T("TerrainMesh"); // auto generate key
-	CResourceManager::GetInstance()->AddRes<CMesh>(strNewKey, m_pMesh.Get());
+	CResourceManager::GetInstance()->AddRes<CMesh>(strKey, m_pMesh.Get());
 
 	// 지형 피킹 컴퓨트 쉐이더
 	m_pCSRaycast = dynamic_cast<CRaycastShader*>(CResourceManager::GetInstance()->FindRes<CComputeShader>(STR_KEY_RaycastShader).Get());
@@ -185,7 +184,8 @@ void CTerrain::Create()
 	
 	// type 2: 높이맵 텍스쳐 세팅 (자체 세팅)
 	if (nullptr == m_pHeightMapTex) {
-		pHeightMapTex = CResourceManager::GetInstance()->CreateTexture(_T("_HeightMapTex"),
+		tstring strHeightMapTex = FindResNameIfNoExistRetNewName<CTexture>(_T("_HeightMapTex"));
+		pHeightMapTex = CResourceManager::GetInstance()->CreateTexture(strHeightMapTex,
 			2048, /*width*/
 			2048, /*height*/
 			DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT,

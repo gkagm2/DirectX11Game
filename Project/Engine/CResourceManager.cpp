@@ -1308,6 +1308,7 @@ void CResourceManager::CreateDefaultShader()
 
 	AddRes(STR_KEY_TerrainShader, pShader);
 
+	//----------------------
 	// Debug ·»´õ¸µ¿ë Shader
 	pShader = new CGraphicsShader(E_RenderTimePoint::Forward);
 	pShader->CreateVertexShader(STR_FILE_PATH_DebugSphereShader, STR_FUNC_NAME_VTXDebug3D);

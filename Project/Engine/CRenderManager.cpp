@@ -26,10 +26,11 @@ CRenderManager::CRenderManager() :
 CRenderManager::~CRenderManager()
 {
 	// Debug
-	SAFE_DELETE_PTR(m_pDebugMtrl);
-	SAFE_DELETE_PTR(m_pDebugShader);
 	Safe_Delete_Vector(m_vecDebugObjPool);
 	Safe_Delete_Array(m_arrMRT);
+	m_pPostEffectTargetTex = nullptr;
+	m_pDebugShader = nullptr;
+	m_pDebugMtrl = nullptr;
 }
 
 void CRenderManager::Init()
@@ -44,10 +45,10 @@ void CRenderManager::Init()
 	// Post effect용 타겟 텍스쳐 생성 및 post effect 메터리얼 설정
 	Vector2 vResolution = CDevice::GetInstance()->GetRenderResolution();
 	m_pPostEffectTargetTex = CResourceManager::GetInstance()->GetPostEffectTargetTex();
-		/*m_pPostEffectTargetTex  = CResourceManager::GetInstance()->CreateTexture(
-			STR_ResourceKey_postEffectTargetTexture_RenderMgr, 
-			(UINT)vResolution.x, (UINT)vResolution.y, 
-			DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);*/
+	/*m_pPostEffectTargetTex  = CResourceManager::GetInstance()->CreateTexture(
+		STR_ResourceKey_postEffectTargetTexture_RenderMgr, 
+		(UINT)vResolution.x, (UINT)vResolution.y, 
+		DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);*/
 
 
 	// --------------- Multiple Render Targers --------------
@@ -57,7 +58,6 @@ void CRenderManager::Init()
 	//				Debug 오브젝트 관련 초기화
 
 	// Shader, Material 초기화
-
 	m_pDebugShader = CResourceManager::GetInstance()->FindRes<CGraphicsShader>(STR_KEY_DebugRenderingShader);
 	assert(m_pDebugShader.Get());
 	m_pDebugMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DebugRenderingMtrl);

@@ -212,3 +212,26 @@ tstring to_tstring(const T& x) { return std::to_wstring(x); }
 template<class T>
 tstring to_tstring(const T& x) { return std::to_string(x); }
 #endif
+
+
+template<typename RES_TYPE>
+tstring FindResNameIfNoExistRetNewName(const tstring& _strBaseName)
+{
+	TCHAR szName[256] = {};
+	TCHAR szNum[10] = {};
+
+	_tcscpy_s(szName, 256, _strBaseName.c_str());
+	tstring strFindName;
+
+	for (UINT i = 1; i < 100; ++i)
+	{
+		_stprintf_s(szNum, 10, _T("_%02d"), i);
+		strFindName = tstring(szName) + szNum;
+		if (nullptr == CResourceManager::GetInstance()->FindRes<RES_TYPE>(strFindName))
+		{
+			return strFindName;
+		}
+	}
+
+	return tstring();
+}
