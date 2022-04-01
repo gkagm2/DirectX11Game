@@ -50,11 +50,14 @@ HRESULT CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementS
 	
 	if (_pInitial) {
 		D3D11_SUBRESOURCE_DATA tSub = {};
+		tSub.pSysMem = _pInitial;
 		bResult = DEVICE->CreateBuffer(&m_desc, &tSub, m_SB.GetAddressOf());
+		if (FAILED(bResult)) return E_FAIL;
 	}
-	else
+	else {
 		bResult = DEVICE->CreateBuffer(&m_desc, nullptr, m_SB.GetAddressOf());
-	if (FAILED(bResult)) return E_FAIL;
+		if (FAILED(bResult)) return E_FAIL;
+	}
 
 	// SRV 생성
 	D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
@@ -107,6 +110,7 @@ void CStructuredBuffer::SetData(void* _pSysMem, UINT _iSize) const
 	int iElementCnt = m_iElementSize / _iSize;
 	if (m_iElementCount < iElementCnt) {
 		assert(nullptr && _T("버퍼를 재생성하여 늘려줘야 함"));
+		//Create(m_eType, _iSize , (UINT)iElementCnt, m_bCpuAccess, nullptr);
 	}
 
 	// system -> m_sb_cpu_write
@@ -135,17 +139,17 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 {
 	m_iRecentRegisterNum = _iRegisterNum;
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Vertex)
-		CONTEXT->VSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->VSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Hull)
-		CONTEXT->HSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->HSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Domain)
-		CONTEXT->DSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->DSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Geometry)
-		CONTEXT->GSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->GSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Pixel)
-		CONTEXT->PSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->PSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 	if ((UINT)_eStage & (UINT)E_ShaderStage::Compute)
-		CONTEXT->CSSetShaderResources(_iRegisterNum, 1, m_SRV.GetAddressOf());
+		CONTEXT->CSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 }
 
 void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
@@ -156,7 +160,7 @@ void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 	m_iRecentRegisterNumRW = _iRegisterNum;
 	UINT iInitialzedCnt = -1;
 	UINT iNumUAVs = 1;
-	CONTEXT->CSSetUnorderedAccessViews(_iRegisterNum, iNumUAVs, m_UAV.GetAddressOf(), &iInitialzedCnt);
+	CONTEXT->CSSetUnorderedAccessViews(m_iRecentRegisterNumRW, iNumUAVs, m_UAV.GetAddressOf(), &iInitialzedCnt);
 }
 
 void CStructuredBuffer::Clear(E_ShaderStage _eStage)

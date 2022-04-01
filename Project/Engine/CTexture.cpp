@@ -134,9 +134,10 @@ void CTexture::_CreateTexture2D_InnerFunc()
 		if (D3D11_BIND_UNORDERED_ACCESS & m_tDesc.BindFlags) {
 			/*D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
 			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
-			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());*/
+			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), &tUAVDesc, m_pUAV.GetAddressOf());
 			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
 			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+			*/
 			hr = DEVICE->CreateUnorderedAccessView(m_pTex2D.Get(), 0, m_pUAV.GetAddressOf());
 			if (FAILED(hr)) assert(nullptr);
 		}
@@ -161,8 +162,9 @@ void CTexture::UpdateData(E_ShaderStage _eShaderStage, UINT _iRegisterNum)
 
 void CTexture::UpdateRWData(UINT _iUAVRegisterNum)
 {
+	ID3D11UnorderedAccessView* pUAV = m_pUAV.Get();
 	UINT iUAVIntialCounts = -1;
-	CONTEXT->CSSetUnorderedAccessViews(_iUAVRegisterNum, 1, m_pUAV.GetAddressOf(), &iUAVIntialCounts);
+	CONTEXT->CSSetUnorderedAccessViews(_iUAVRegisterNum, 1, &pUAV, &iUAVIntialCounts);
 }
 
 void CTexture::Clear(UINT _iRegisterNum)
