@@ -37,23 +37,9 @@ void CRaycastShader::UpdateData()
 	m_tInfo.v4Arr[0] = m_tRay.vStartPos;
 	m_tInfo.v4Arr[1] = m_tRay.vDir;
 
-
-	CCamera* pCam = CRenderManager::GetInstance()->GetMainCamera();
-	if (pCam) {
-		Vector3 pos = pCam->Transform()->GetPosition();
-		wchar_t szBuffer[255] = {};
-		swprintf_s(szBuffer, L"pos (%.2f, %.2f. %.2f)", pos.x, pos.y, pos.z);
-		CFontManager::GetInstance()->DrawUIFont(szBuffer, 10.f, 90.f, 20, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
-
-		swprintf_s(szBuffer, L"start pos (%.2f, %.2f, %.2f)", m_tRay.vStartPos.x, m_tRay.vStartPos.y, m_tRay.vStartPos.z);
-		CFontManager::GetInstance()->DrawUIFont(szBuffer, 10.f, 120.f, 20, FONT_RGBA(255, 20, 20, 127), FW1_TEXT_FLAG::FW1_LEFT);
-	}
-
-
 	// Height Map
-	if (nullptr != m_pHeightMap) {
+	if(nullptr != m_pHeightMap)
 		m_pHeightMap->UpdateData(E_ShaderStage::Compute, 0);
-	}
 
 	// 출력 버퍼	
 	m_pOutputBuffer->UpdateDataCS(0); // u0 register
@@ -62,5 +48,6 @@ void CRaycastShader::UpdateData()
 void CRaycastShader::Clear()
 {
 	m_pHeightMap->Clear(0);
+	m_pOutputBuffer->Clear();
 	m_pOutputBuffer->ClearRW();
 }

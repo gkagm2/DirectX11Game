@@ -45,6 +45,17 @@ enum class E_Key {
 	NUM8,
 	NUM9,
 
+	NUMPAD0,
+	NUMPAD1,
+	NUMPAD2,
+	NUMPAD3,
+	NUMPAD4,
+	NUMPAD5,
+	NUMPAD6,
+	NUMPAD7,
+	NUMPAD8,
+	NUMPAD9,
+
 	LCtrl,
 	LAlt,
 	LShift,

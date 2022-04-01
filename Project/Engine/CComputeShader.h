@@ -25,7 +25,7 @@ public:
 	virtual void Clear() = 0;
 
 public:
-	void Dispatch(UINT _x, UINT _y, UINT _z);
+	void Dispatch(UINT _iGroupX, UINT _iGroupY, UINT _iGroupZ);
 	UINT GetGroupPerThreadX() { return m_iGroupThreadNumX; }
 	UINT GetGroupPerThreadY() { return m_iGroupThreadNumY; }
 	UINT GetGroupPerThreadZ() { return m_iGroupThreadNumZ; }

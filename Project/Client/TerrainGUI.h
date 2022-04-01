@@ -3,6 +3,9 @@
 class TerrainGUI : public ComponentGUI
 {
 private:
+	bool m_bEditMode;
+
+
 	vector<string> m_vecQuadList;
 	vector<string> m_vecComponentList;
 	vector<UINT> m_vecQuadNumList;

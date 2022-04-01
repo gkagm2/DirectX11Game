@@ -88,7 +88,7 @@ void CTexture::Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _i
 
 	m_tDesc.BindFlags = _iBindFlag;
 	m_tDesc.Usage = D3D11_USAGE_DEFAULT;
-
+	m_tDesc.CPUAccessFlags = 0;
 
 	HRESULT hr = DEVICE->CreateTexture2D(&m_tDesc, nullptr, m_pTex2D.GetAddressOf());
 	if (FAILED(hr)) assert(nullptr);

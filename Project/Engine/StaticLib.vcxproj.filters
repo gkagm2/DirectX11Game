@@ -805,6 +805,9 @@
     <FxCompile Include="function.fx">
       <Filter>Shader Script</Filter>
     </FxCompile>
+    <FxCompile Include="weightmap.fx">
+      <Filter>Shader Script\ComputeShader\WeightMapShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

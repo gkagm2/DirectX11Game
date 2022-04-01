@@ -28,7 +28,7 @@ void CWeightMapShader::UpdateData()
 
 	m_pWeightMapBuff->UpdateDataCS(0);
 	m_pBrushArrTex->UpdateData(E_ShaderStage::Compute, 0);
-	m_pRaycastInfoBuff->UpdateDataCS(16);
+	m_pRaycastInfoBuff->UpdateData(16, E_ShaderStage::Compute);
 }
 
 void CWeightMapShader::Excute()
@@ -45,6 +45,7 @@ void CWeightMapShader::Excute()
 void CWeightMapShader::Clear()
 {
 	if (nullptr != m_pWeightMapBuff) {
+		m_pWeightMapBuff->Clear();
 		m_pWeightMapBuff->ClearRW();
 		m_pWeightMapBuff = nullptr;
 	}
@@ -55,6 +56,7 @@ void CWeightMapShader::Clear()
 	}
 
 	if (nullptr != m_pRaycastInfoBuff) {
+		m_pRaycastInfoBuff->Clear();
 		m_pRaycastInfoBuff->ClearRW();
 		m_pRaycastInfoBuff = nullptr;
 	}

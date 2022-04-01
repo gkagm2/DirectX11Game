@@ -28,12 +28,12 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
     int2 vCenterPos = float2(WIDTH, HEIGHT) * LOCATION[0].vUV;
     int2 vScale = float2(WIDTH, HEIGHT) * SCALE;
     
-    if (_iThreadID.x < vCenterPos.x - (int) (vScale.x / 2) || vCenterPos.x + (int) (vScale.x / 2) < _iThreadID.x
-         || _iThreadID.y < vCenterPos.y - (int) (vScale.y / 2) || vCenterPos.y + (int) (vScale.y / 2) < _iThreadID.y)
+    if (_iThreadID.x < vCenterPos.x - (vScale.x / 2) || vCenterPos.x + (vScale.x / 2) < _iThreadID.x
+         || _iThreadID.y < vCenterPos.y - (vScale.y / 2) || vCenterPos.y + (vScale.y / 2) < _iThreadID.y)
     {
         return;
     }
-        
+    
     // brush texture 로 높이 설정
     int2 vLTPos = vCenterPos - (vScale / 2);
     float2 vUV = float2(_iThreadID.xy - vLTPos) / float2(vScale);
@@ -47,7 +47,5 @@ void CS_HeightMap(int3 _iThreadID : SV_DispatchThreadID)
     //float vDist = (distance(vCenterPos, _iThreadID.xy) / vScale) * 3.1415926535f;        
     //HEIGHT_MAP[_iThreadID.xy] += saturate(g_dt * cos(vDist));    
 }
-
-
 
 #endif

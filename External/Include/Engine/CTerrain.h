@@ -1,5 +1,6 @@
 #pragma once
 // Component, Quad - Unreal Engine Landscape와 개념이 비슷 
+
 #include "CRenderer.h"
 #include "CRaycastShader.h"
 #include "CHeightMapShader.h"
@@ -18,7 +19,6 @@ enum class E_TerrainMode {
 	NONE,
 };
 
-
 class CTerrain : public CRenderer {
 private:
 	SharedPtr<CMesh> m_pMesh;
@@ -32,7 +32,7 @@ private:
 	SharedPtr<CHeightMapShader> m_pCSHeightMap;
 	SharedPtr<CWeightMapShader> m_pCSWeightMap;
 
-	unique_ptr<CStructuredBuffer> m_pCrossBuffer; // 마우스 피킹되는 지점을 받는 버퍼
+	CStructuredBuffer* m_pCrossBuffer; // 마우스 피킹되는 지점을 받는 버퍼
 
 	CStructuredBuffer* m_pWeightMapBuffer;
 	UINT m_iWeightWidth; // 가중치 버퍼 가로 행렬수
@@ -52,7 +52,7 @@ private:
 	// 컴포넌트 개수
 	UINT m_iComponentX;
 	UINT m_iComponentZ;
-	
+
 	// 최종 계산된 면 개수
 	UINT m_iFaceX;
 	UINT m_iFaceZ;
@@ -71,9 +71,8 @@ public:
 public:
 	SharedPtr<CMesh> GetMesh() { return m_pMesh; }
 	SharedPtr<CMaterial> GetMaterial() { return m_pMtrl; }
-	void SetHeightMapTex(SharedPtr<CTexture> m_pTex);
-	// TODO (Jang) : Weight map도 mtrl param과 연동 시 따로 빼기
-	void SetWeightMapTex(SharedPtr<CTexture> m_pTex);
+	void SetHeightMapTex(SharedPtr<CTexture> _pTex);
+	void SetWeightMapTex(SharedPtr<CTexture> _pTex);
 	SharedPtr<CTexture> GetHeightMapTex() { return m_pHeightMapTex; }
 	SharedPtr<CTexture> GetWeightMapTex() { return m_pWeightMapTex; }
 	void SetQuard(UINT _iX, UINT _iZ) { m_iQuadX = _iX, m_iQuadZ = _iZ; }
@@ -85,6 +84,10 @@ public:
 	UINT GetFaceX() { return m_iFaceX; }
 	UINT GetFaceZ() { return m_iFaceZ; }
 	SharedPtr<CTexture> GetBrushTex() { return m_pBrushArrTex; }
+	void ChangeMode(E_TerrainMode _eMode) { m_eTerrainMode = _eMode; }
+	E_TerrainMode GetTerrainMode() { return m_eTerrainMode; }
+	void SetBrushScale(const Vector2& _vScale) { m_vBrushScale = _vScale; }
+	const Vector2& GetBrushScale() { return m_vBrushScale; }
 
 private:
 	void _Raycasting();

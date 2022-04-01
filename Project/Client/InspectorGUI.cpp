@@ -134,7 +134,7 @@ void InspectorGUI::Init()
 
 	// Terrain
 	m_arrComGUI[(UINT)E_ComponentType::Terrain] = new TerrainGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Terrain]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::Terrain]->SetUISize(ImVec2(0.f, 3000.f));
 
 	// UI
 	// TextUI

@@ -11,10 +11,14 @@
 #define HeightMapTex g_tex_0
 #define WeightMapTEx g_tex_1
 #define HeightMapResolution g_vec2_0
+#define WeightMapResolution g_vec2_1
 
 // g_tex_2 : color
 // g_tex_3 : normal Tex
 //------------------------------------------
+
+StructuredBuffer<float4> WEIGHT_MAP : register(t17);
+
 
 struct VTX_IN
 {
@@ -26,6 +30,7 @@ struct VTX_OUT
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
+    float2 vFullUV : TEXCOORD1;
     float3 vViewPos : POSITION1;
 };
 
@@ -35,6 +40,7 @@ VTX_OUT VS_Terrain(VTX_IN _in)
 
     output.vPos = _in.vPos;
     output.vUV = _in.vUV;
+    output.vFullUV = _in.vUV / float2(FaceXCount, FaceZCount);
     output.vViewPos = mul(float4(_in.vPos, 1.f), g_matWorldView).xyz;
 
     return output;
@@ -86,6 +92,7 @@ struct DS_OUT
 {
     float4 vPos : SV_Position;
     float2 vUV : TEXCOORD;
+    float2 vFullUV : TEXCOORD1;
     float3 vViewPos : POSITION;
     
     float3 vViewTangent : TANGENT;
@@ -102,13 +109,12 @@ DS_OUT DS_Terrain(float3 _vLocation : SV_DomainLocation, const OutputPatch<VTX_O
     // _vLocaltion : 생성된 정점, 혹은 원본 정점
     // _patch : 원본 정점 (보간값)
     float3 vLocalPos = _patch[0].vPos * _vLocation[0] + _patch[1].vPos * _vLocation[1] + _patch[2].vPos * _vLocation[2];
-    float2 vUV = _patch[0].vUV * _vLocation[0] + _patch[1].vUV * _vLocation[1] + _patch[2].vUV * _vLocation[2];
-    output.vViewPos = _patch[0].vViewPos * _vLocation[0] + _patch[1].vViewPos * _vLocation[1] + _patch[1].vViewPos * _vLocation[1];
-    output.vUV = vUV;
-
+    output.vUV = _patch[0].vUV * _vLocation[0] + _patch[1].vUV * _vLocation[1] + _patch[2].vUV * _vLocation[2];
+    output.vFullUV = _patch[0].vFullUV * _vLocation[0] + _patch[1].vFullUV * _vLocation[1] + _patch[2].vFullUV * _vLocation[2];
+    
     // 지형 전체 기준 UV로 전환
-    float2 vTerrainUVStep = 1.f / HeightMapResolution;
-    float2 vTerrainUV = float2(vUV.x / (float) FaceXCount, vUV.y / (float) FaceZCount);
+    float2 vTerrainUVStep = float2(1.f / HeightMapResolution.x, 1.f / HeightMapResolution.y);
+    float2 vTerrainUV = float2(output.vUV.x / (float) FaceXCount, output.vUV.y / (float) FaceZCount);
     
     float2 vTerrainUpUV = float2(vTerrainUV.x, vTerrainUV.y - vTerrainUVStep.y);
     float2 vTerrainDownUV = float2(vTerrainUV.x, vTerrainUV.y + vTerrainUVStep.y);
@@ -147,7 +153,11 @@ struct PS_OUT
 PS_OUT PS_Terrain(DS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
-    output.vColor = float4(0.7f, 0.7f, 0.7f, 1.f);
+    
+    int2 iWeightIdx = (int2)(_in.vFullUV * WeightMapResolution);
+    float4 vWeight = WEIGHT_MAP[iWeightIdx.y * (int) WeightMapResolution.x + iWeightIdx.x];
+    
+    output.vColor = float4(vWeight.g, vWeight.g, vWeight.g, 1.f);
     output.vViewPos = float4(_in.vViewPos, 1.f);
     output.vViewNormal = float4(_in.vViewNormal, 1.f);
     return output;

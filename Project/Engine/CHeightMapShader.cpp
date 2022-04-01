@@ -44,7 +44,7 @@ void CHeightMapShader::UpdateData()
 
 	// Picking info
 	static UINT iRegisterNum = 16;
-	m_pInputBuffer->UpdateDataCS(iRegisterNum);
+	m_pInputBuffer->UpdateData(iRegisterNum, E_ShaderStage::Compute);
 }
 
 void CHeightMapShader::Clear()
@@ -58,6 +58,7 @@ void CHeightMapShader::Clear()
 		m_pBrushTex = nullptr;
 	}
 	if (nullptr != m_pInputBuffer) {
+		m_pInputBuffer->Clear();
 		m_pInputBuffer->ClearRW();
 		m_pInputBuffer = nullptr;
 	}

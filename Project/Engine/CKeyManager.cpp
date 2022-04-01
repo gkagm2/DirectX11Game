@@ -48,6 +48,17 @@ int g_arrVK[(int)E_Key::END] = {
 	0x38,
 	0x39,
 
+	VK_NUMPAD0, // number pad
+	VK_NUMPAD1,
+	VK_NUMPAD2,
+	VK_NUMPAD3,
+	VK_NUMPAD4,
+	VK_NUMPAD5,
+	VK_NUMPAD6,
+	VK_NUMPAD7,
+	VK_NUMPAD8,
+	VK_NUMPAD9,
+
 	VK_CONTROL, // Left Ctrl
 	VK_MENU, // Left Alt
 	VK_LSHIFT,

@@ -1295,7 +1295,7 @@ void CResourceManager::CreateDefaultShader()
 	pShader->CreateHullShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_HS_Terrain);
 	pShader->CreateDomainShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_DS_Terrain);
 	pShader->CreatePixelShader(STR_FILE_PATH_TerrainShader, STR_FUNC_NAME_PIX_Terrain);
-	pShader->SetRasterizerState(E_RasterizerState::Wireframe);
+	//pShader->SetRasterizerState(E_RasterizerState::Wireframe);
 	pShader->SetDepthStencilState(E_DepthStencilState::Less);
 	pShader->SetBlendState(E_BlendState::Default);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
@@ -1568,6 +1568,8 @@ void CResourceManager::CreateDefaultMaterial()
 #include "CParticleUpdateShader.h"
 #include "CRaycastShader.h"
 #include "CHeightMapShader.h"
+#include "CWeightMapShader.h"
+
 void CResourceManager::CreateComputeShader()
 {
 	// TODO (Jang) : Test용 컴퓨트 쉐이더를 생성하고있음. 나중에 고치기
@@ -1594,8 +1596,12 @@ void CResourceManager::CreateComputeShader()
 	// Height Map Shader
 	pShader = new CHeightMapShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_HeightMapShader, STR_FUNC_NAME_HeightMap);
-
 	AddRes(STR_KEY_HeightMapShader, pShader);
+
+	// Weight Map Shader
+	pShader = new CWeightMapShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_WeightMapShader, STR_FUNC_NAME_WeightMap);
+	AddRes(STR_KEY_WeightMapShader, pShader);
 }
 
 void CResourceManager::InitSound()

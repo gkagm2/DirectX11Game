@@ -41,6 +41,7 @@
 #define STR_FILE_PATH_TerrainShader _T("shader\\terrain.fx")
 #define STR_FILE_PATH_RaycastShader _T("shader\\raycast.fx")
 #define STR_FILE_PATH_HeightMapShader _T("shader\\heightmap.fx")
+#define STR_FILE_PATH_WeightMapShader _T("shader\\weightmap.fx")
 
 #define STR_FILE_PATH_DebugSphereShader _T("shader\\debug.fx")
 
@@ -153,6 +154,9 @@
 // heightmap.fx functions name
 #define STR_FUNC_NAME_HeightMap "CS_HeightMap"
 
+// weightmap.fx functions name
+#define STR_FUNC_NAME_WeightMap "CS_WeightMap"
+
 // posteffect.fx functions name
 #define STR_FUNC_NAME_VTX_Distortion "VS_Distortion"
 #define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
@@ -233,6 +237,7 @@
 #define STR_KEY_ParticleUpdateShader _T("ParticleUpdateShader")
 #define STR_KEY_RaycastShader _T("RaycastShader")
 #define STR_KEY_HeightMapShader _T("HeightMapShader")
+#define STR_KEY_WeightMapShader _T("WeightMapShader")
 
 
  /////// / // Test ///// / / /

@@ -103,6 +103,12 @@ HRESULT CStructuredBuffer::Create(E_StructuredBufferType _eType, UINT _iElementS
 
 void CStructuredBuffer::SetData(void* _pSysMem, UINT _iSize) const
 {
+	// 버퍼 크기보다 더 큰 데이터가 들어오려고 한다면
+	int iElementCnt = m_iElementSize / _iSize;
+	if (m_iElementCount < iElementCnt) {
+		assert(nullptr && _T("버퍼를 재생성하여 늘려줘야 함"));
+	}
+
 	// system -> m_sb_cpu_write
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 	CONTEXT->Map(m_SB_CPU_Write.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
@@ -144,10 +150,8 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 
 void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 {
-	// FIXED(Jang) : ??
-	//// u 레지스터 바인딩이 불가능한 구조화버퍼인 경우
-	//if ((UINT)E_StructuredBufferType::Read_Write == _iRegisterNum)
-	//	assert(nullptr);
+	if (E_StructuredBufferType::ReadOnly == m_eType)
+		assert(nullptr);
 
 	m_iRecentRegisterNum = _iRegisterNum;
 	UINT iInitialzedCnt = -1;

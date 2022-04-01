@@ -3,9 +3,11 @@
 #include "ParamGUI.h"
 #include <Engine\CTerrain.h>
 #include <Engine\CResourceManager.h>
+#include <Engine\CKeyManager.h>
 
 TerrainGUI::TerrainGUI() :
-	ComponentGUI(E_ComponentType::Terrain)
+	ComponentGUI(E_ComponentType::Terrain),
+	m_bEditMode{ false }
 {
 	Init();
 }
@@ -39,8 +41,11 @@ void TerrainGUI::Init()
 
 void TerrainGUI::Update()
 {
-	if (false == Start())
+	if (false == Start()) {
+		m_bEditMode = false;
 		return;
+	}
+		
 
 	UINT iQuadX = GetTargetObject()->Terrain()->GetQuadX();
 	UINT iQuadZ = GetTargetObject()->Terrain()->GetQuadZ();
@@ -78,27 +83,59 @@ void TerrainGUI::Update()
 		GetTargetObject()->Terrain()->Create();
 	}
 
+	ImGui::Checkbox("Edit Mode##Terrain, ", &m_bEditMode);
 
-	static bool bEditMode = false;
-	if (ImGui::Checkbox("Edit Mode##Terrain, ", &bEditMode)) {
-	}
+	
+	CTerrain* pTerrain = GetTargetObject()->Terrain();
+	if (pTerrain) {
+		static E_TerrainMode eMode = E_TerrainMode::NONE;
+		static E_TerrainMode eCurMode = E_TerrainMode::NONE;
+		if (m_bEditMode) {
+			ImGui::Text("Mode - 0:None,1:HeightMap,2:Splat");
+			
+			if (InputKeyPress(E_Key::NUMPAD0))
+				eMode = E_TerrainMode::NONE;
+			if (InputKeyPress(E_Key::NUMPAD1))
+				eMode = E_TerrainMode::HeightMap;
+			if (InputKeyPress(E_Key::NUMPAD2))
+				eMode = E_TerrainMode::Splat;
 
-	// TODO (Jang) : this
-	if (bEditMode) {
-		CTerrain* pTerrain = GetTargetObject()->Terrain();
-		if (pTerrain) {
 			// On Mode
-
-			// Brush texture
-			CTexture* pBrushTex = pTerrain->GetBrushTex().Get();
-			if (nullptr != pTerrain->GetBrushTex()) {
-				ParamGUI::Render_Texture("Brush Texture##Terrain", pBrushTex, nullptr, nullptr, false);
+			if (InputKeyHold(E_Key::LBUTTON)) {
+				eCurMode = eMode;
+				// 왼쪽 버튼 클릭 시
+				pTerrain->ChangeMode(eCurMode);
 			}
-
+			if (InputKeyRelease(E_Key::LBUTTON)) {
+				eCurMode = E_TerrainMode::NONE;
+				pTerrain->ChangeMode(eCurMode);
+			}
+		}
+		else {
 			// Off Mode
+			if(eMode != E_TerrainMode::NONE)
+				eMode = E_TerrainMode::NONE;
+		}
+
+		// Brush texture
+		if (nullptr != pTerrain->GetBrushTex()) {
+			CTexture* pBrushTex = pTerrain->GetBrushTex().Get();
+			ParamGUI::Render_Texture("Brush Texture##Terrain", pBrushTex, nullptr, nullptr, false);
+		}
+
+		// Height Map Texture
+		if (nullptr != pTerrain->GetHeightMapTex()) {
+			CTexture* pHeightTex = pTerrain->GetHeightMapTex().Get();
+			ParamGUI::Render_Texture("HeightMap Texture##Terrain", pHeightTex, nullptr, nullptr, false);
+		}
+
+		// Weight Map Texture
+		if (nullptr != pTerrain->GetWeightMapTex()) {
+			CTexture* pWeightTex = pTerrain->GetWeightMapTex().Get();
+			ParamGUI::Render_Texture("WeightMap Texture##Terrain", pWeightTex, nullptr, nullptr, false);
 		}
 	}
-	
+
 
 
 	End();

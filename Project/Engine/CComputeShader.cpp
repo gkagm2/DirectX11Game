@@ -34,7 +34,7 @@ void CComputeShader::CreateComputeShader(const tstring& _strRelativePath, const 
 	}
 }
 
-void CComputeShader::Dispatch(UINT _x, UINT _y, UINT _z)
+void CComputeShader::Dispatch(UINT _iGroupX, UINT _iGroupY, UINT _iGroupZ)
 {
 	UpdateData();
 
@@ -44,7 +44,7 @@ void CComputeShader::Dispatch(UINT _x, UINT _y, UINT _z)
 	pCBMtrlBuffer->UpdateData(E_ShaderStage::Compute);
 
 	CONTEXT->CSSetShader(m_pCS.Get(), 0, 0);
-	CONTEXT->Dispatch(_x, _y, _z); // CS 실행
+	CONTEXT->Dispatch(_iGroupX, _iGroupY, _iGroupZ); // CS 실행
 
 	Clear();
 	//pCBMtrlBuffer->Clear();
