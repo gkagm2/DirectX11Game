@@ -22,13 +22,14 @@ private:
 
 	D3D11_TEXTURE2D_DESC				m_tDesc;
 
-
-
 private:
-	virtual int Load(const tstring& _strFilePath);
+	virtual int Load(const tstring& _strFilePath) override;
+	int Load(const tstring& _strFilePath, int _iMipLevel);
+	virtual bool Save(const tstring& _strRelativePath) override;
 
 	void Create(UINT _iWidth, UINT _iHeight, DXGI_FORMAT _eFormat, UINT _iBindFlag);
 	void Create(ComPtr<ID3D11Texture2D> _pTexture2D);
+	void CreateArrayTexture(const vector<SharedPtr<CTexture>>& _vecTex, int _iMapLevel = 1);
 	void _CreateTexture2D_InnerFunc(); // Create함수 내부에서 사용.
 
 public:
@@ -39,6 +40,10 @@ public:
 	Vector2 GetResolution() { return Vector2((float)m_tDesc.Width, (float)m_tDesc.Height); }
 	float GetWidth() { return (float)m_tDesc.Width; }
 	float GetHeight() { return (float)m_tDesc.Height; }
+	const D3D11_TEXTURE2D_DESC& GetDesc() { return m_tDesc; }
+	void* GetSysMem() { return m_Image.GetPixels(); }
+	UINT GetRowPitch() const { return (UINT)m_Image.GetImages()->rowPitch; }
+	UINT GetSlicePitch()const { return (UINT)m_Image.GetImages()->slicePitch; }
 
 public:
 	static void Clear(UINT _iRegisterNum);

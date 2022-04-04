@@ -1988,6 +1988,28 @@ void CResourceManager::RenewResourcesFromDir(E_ResourceType _eType)
 	}
 }
 
+SharedPtr<CTexture> CResourceManager::LoadTexture(const tstring& _strKey, const tstring& _strRelativePath, int _iMapLevel)
+{
+	CTexture* pRes = FindRes<CTexture>(_strKey).Get();
+	if (nullptr != pRes)
+		return pRes;
+
+	pRes = new CTexture;
+
+	wstring strFilePath = CPathManager::GetInstance()->GetContentPath();
+	strFilePath += _strRelativePath;
+
+	if (FAILED(pRes->Load(strFilePath, _iMapLevel)))
+		return nullptr;
+
+	pRes->SetKey(_strKey);
+	pRes->SetRelativePath(_strRelativePath);
+	AddRes<CTexture>(_strKey, (CTexture*)pRes);
+
+	m_bFixed = true;
+	return pRes;
+}
+
 void CResourceManager::GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut)
 {
 	_vecOut.clear();

@@ -1,8 +1,8 @@
 #ifndef _Terrain_FX
 #define _Terrain_FX
 
-#include "value.fx"
 #include "function.fx"
+
 //------------------------------------------
 // Terrain Shader
 // Deferred
@@ -10,6 +10,8 @@
 #define FaceZCount g_int_1
 #define HeightMapTex g_tex_0
 #define WeightMapTEx g_tex_1
+#define TileTexArr      g_texarr_0
+#define TileCount       g_float_0
 #define HeightMapResolution g_vec2_0
 #define WeightMapResolution g_vec2_1
 
@@ -154,12 +156,49 @@ PS_OUT PS_Terrain(DS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
     
-    int2 iWeightIdx = (int2)(_in.vFullUV * WeightMapResolution);
-    float4 vWeight = WEIGHT_MAP[iWeightIdx.y * (int) WeightMapResolution.x + iWeightIdx.x];
+    //output.vColor = float4(0.8f, 0.8f, 0.8f, 1.f);    
+    //output.vColor += TileTexArr.Sample(sam, float3(_in.vUV, 3));
     
-    output.vColor = float4(vWeight.g, vWeight.g, vWeight.g, 1.f);
+    float3 vViewNormal = _in.vViewNormal;
+    
+    // 타일 배열텍스쳐가 있으면
+    if (bTexArr_0)
+    {
+        float2 derivX = ddx(_in.vUV); // 인접픽셀과 x축 편미분값을 구한다
+        float2 derivY = ddy(_in.vUV); // 인접픽셀과 y축 편미분값을 구한다
+                        
+        // 타일 색상
+        int2 iWeightIdx = (int2) (_in.vFullUV * WeightMapResolution);
+        float4 vWeight = WEIGHT_MAP[iWeightIdx.y * (int) WeightMapResolution.x + iWeightIdx.x];
+        float4 vColor = (float4) 0.f;
+        
+        int iMaxWeightIdx = 0;
+        float fMaxWeight = 0.f;
+        for (int i = 0; i < 4; ++i)
+        {
+            //vColor += TileTexArr.SampleGrad(sam, float3(_in.vUV, i), derivX, derivY) * vWeight[i];
+            vColor += TileTexArr.Sample(Sample_Anisotropic, float3(_in.vUV, i)) * vWeight[i];
+                        
+            if (fMaxWeight < vWeight[i])
+            {
+                fMaxWeight = vWeight[i];
+                iMaxWeightIdx = i;
+            }
+        }
+        output.vColor = float4(vColor.rgb, 1.f);
+    
+        // 타일 노말
+        float3 vTangentSpaceNormal = TileTexArr.SampleGrad(Sample_Anisotropic, float3(_in.vUV, iMaxWeightIdx + TileCount), derivX, derivY).xyz;
+        //float3 vTangentSpaceNormal = TileTexArr.Sample(sam, float3(_in.vUV, iMaxWeightIdx + TileCount)).xyz;
+        vTangentSpaceNormal = vTangentSpaceNormal * 2.f - 1.f;
+        
+        float3x3 matTBN = { _in.vViewTangent, _in.vViewBinormal, _in.vViewNormal };
+        vViewNormal = normalize(mul(vTangentSpaceNormal, matTBN));
+    }
+   
     output.vViewPos = float4(_in.vViewPos, 1.f);
-    output.vViewNormal = float4(_in.vViewNormal, 1.f);
+    output.vViewNormal = float4(vViewNormal, 1.f);
+    
     return output;
 }
 

@@ -27,6 +27,8 @@ private:
 	SharedPtr<CTexture> m_pHeightMapTex;
 	SharedPtr<CTexture> m_pWeightMapTex;
 	SharedPtr<CTexture> m_pBrushArrTex;
+	SharedPtr<CTexture> m_pTileArrTex;
+	float m_fTileCnt;
 
 	SharedPtr<CRaycastShader> m_pCSRaycast;
 	SharedPtr<CHeightMapShader> m_pCSHeightMap;
@@ -88,6 +90,8 @@ public:
 	E_TerrainMode GetTerrainMode() { return m_eTerrainMode; }
 	void SetBrushScale(const Vector2& _vScale) { m_vBrushScale = _vScale; }
 	const Vector2& GetBrushScale() { return m_vBrushScale; }
+	SharedPtr<CTexture> GetTileArrTexture() { return m_pTileArrTex; }
+	void SetTileArrTexture(SharedPtr<CTexture> _pTexture) { m_pTileArrTex = _pTexture; }
 
 private:
 	void _Raycasting();

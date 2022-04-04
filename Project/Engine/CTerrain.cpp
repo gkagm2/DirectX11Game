@@ -22,7 +22,8 @@ CTerrain::CTerrain() :
 	m_iWeightWidth{ 0 },
 	m_iWeightHeight{ 0 },
 	m_iWeightIdx{ 0 },
-	m_pWeightMapBuffer{ nullptr }
+	m_pWeightMapBuffer{ nullptr },
+	m_fTileCnt{ 3.f }
 {
 	m_pCrossBuffer = new  CStructuredBuffer;
 	m_pCrossBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TRaycastOut), 1, true, nullptr);
@@ -42,7 +43,8 @@ CTerrain::CTerrain(const CTerrain& _origin) :
 	m_iWeightWidth{ _origin.m_iWeightWidth},
 	m_iWeightHeight{ _origin.m_iWeightHeight },
 	m_iWeightIdx{ _origin.m_iWeightIdx },
-	m_pWeightMapBuffer{ nullptr }
+	m_pWeightMapBuffer{ nullptr },
+	m_fTileCnt{_origin.m_fTileCnt}
 {
 	m_pCrossBuffer = new CStructuredBuffer;
 	m_pCrossBuffer->Create(E_StructuredBufferType::Read_Write, sizeof(TRaycastOut), 1, true, nullptr);
@@ -100,9 +102,12 @@ void CTerrain::Render()
 	Transform()->UpdateData();
 	
 	m_pWeightMapBuffer->UpdateData(17, E_ShaderStage::Pixel);
+	// FIXED (Jang) : 테스트 하고 멤버변수로 넣기.
 
 	Vector2 vWeightMapResolution = Vector2((float)m_iWeightWidth, (float)m_iWeightHeight);
 	m_pMtrl->SetData(E_ShaderParam::Vector2_1, &vWeightMapResolution);
+	m_pMtrl->SetData(E_ShaderParam::TextureArr_0, m_pTileArrTex.Get()); // 타일 배열 텍스쳐
+	m_pMtrl->SetData(E_ShaderParam::Float_0, &m_fTileCnt);
 	m_pMtrl->UpdateData();
 
 	m_pMesh->Render();
@@ -205,6 +210,10 @@ void CTerrain::Create()
 
 	// 브러쉬 텍스쳐 세팅
 	m_pBrushArrTex = CResourceManager::GetInstance()->LoadRes<CTexture>(_T("texture\\brush\\Brush_02.png"));
+
+	// 타일 텍스쳐
+	//SetTileArrTexture(CResourceManager::GetInstance()->LoadRes<CTexture>(L"TileTex", L"texture\\tile\\TILE_ARR.dds"));
+	SetTileArrTexture(CResourceManager::GetInstance()->LoadTexture(_T("TileTex"), _T("texture\\tile\\TILE_ARR.dds"), 8));
 
 	// TODO (Jang) : Save 되는 문제 발생.
 	if (nullptr == m_pMtrl) {

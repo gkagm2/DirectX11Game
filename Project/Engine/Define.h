@@ -306,6 +306,7 @@ enum class E_ComponentTypeOld {
 
 #define MAX_SIZE_LAYER 32
 #define MAX_SIZE_TAG 32
+#define MAX_MIP 8
 
 // TODO (Jang) : 환경설정 파일을 따로 만들어볼까
 

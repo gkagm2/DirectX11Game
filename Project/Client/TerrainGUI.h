@@ -18,6 +18,7 @@ public:
 private:
 	void _SelectHeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
 	void _SelectWeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
+	void _SelectTileArrTexture(DWORD_PTR _pStr, DWORD_PTR _NONE);
 
 public:
 	TerrainGUI();

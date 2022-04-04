@@ -54,6 +54,7 @@ public:
 	template<typename T>
 	bool ForceDeleteRes(const tstring& _strKey);
 
+	SharedPtr<CTexture> LoadTexture(const tstring& _strKey, const tstring& _strRelativePath, int _iMapLevel);
 
 	template<typename T>
 	bool IsExistRes(const tstring& _strKey);

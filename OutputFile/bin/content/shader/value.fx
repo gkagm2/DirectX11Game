@@ -114,8 +114,8 @@ Texture2D g_TexNoise : register(t53);
 StructuredBuffer<TLightInfo> g_Light3DBuffer : register(t54);
 
 // Sampler Stage
-SamplerState g_sam_0 : register(s0); // Anisotropic
-SamplerState g_sam_1 : register(s1); // Point
+SamplerState g_sam_0 : register(s1); // Anisotropic
+SamplerState g_sam_1 : register(s2); // Point
 #define Sample_Anisotropic g_sam_0
 #define Sample_Point g_sam_1 // mip map point
 

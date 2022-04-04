@@ -61,6 +61,9 @@ void TerrainGUI::Update()
 	CTexture* pWeightMapTex = nullptr;
 	ParamGUI::Render_Texture("Weight Map", pWeightMapTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectWeightMapTexture, true);
 
+	CTexture* pTileArrTex = nullptr;
+	ParamGUI::Render_Texture("Tile Arr Tex", pTileArrTex, this, (GUI_CALLBACK)&TerrainGUI::_SelectTileArrTexture, true);
+
 	// QUAD
 	ImGui::Text("Current Quad %dx%d", iQuadX, iQuadZ);
 
@@ -167,4 +170,18 @@ void TerrainGUI::_SelectWeightMapTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
 	assert(pTex);
 
 	GetTargetObject()->Terrain()->SetWeightMapTex(pTex);
+}
+
+void TerrainGUI::_SelectTileArrTexture(DWORD_PTR _pStr, DWORD_PTR _NONE)
+{
+	// 선택한 텍스쳐를 알아낸다.
+	const char* pStr = (const char*)_pStr;
+	string str = pStr;
+	tstring tStr;
+	StringToTString(str, tStr);
+
+	CTexture* pTex = CResourceManager::GetInstance()->FindRes<CTexture>(tStr).Get();
+	assert(pTex);
+
+	GetTargetObject()->Terrain()->SetTileArrTexture(pTex);
 }

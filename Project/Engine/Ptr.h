@@ -47,6 +47,10 @@ public:
 	T* operator ->() {
 		return m_pResource;
 	}
+	
+	T* operator ->() const {
+		return m_pResource;
+	}
 
 	SharedPtr& operator =(T* _pResource) {
 		if (nullptr != m_pResource) // 다른것을 가리키고 있는 경우

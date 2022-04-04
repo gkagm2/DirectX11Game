@@ -237,23 +237,31 @@ void CDevice::CreateSampler()
 	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	DEVICE->CreateSamplerState(&tDesc, m_pSamplerStates[0].GetAddressOf());
+
+	CONTEXT->VSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+	CONTEXT->HSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+	CONTEXT->DSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+	CONTEXT->GSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+	CONTEXT->PSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+	CONTEXT->CSSetSamplers(1, 1, m_pSamplerStates[0].GetAddressOf());
+
 
 	tDesc = {}; // 확대 시 픽셀의 각진 느낌 그대로 유지
 	tDesc.Filter = D3D11_FILTER_MINIMUM_MIN_MAG_MIP_POINT;
 	tDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	tDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	tDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	DEVICE->CreateSamplerState(&tDesc, m_pSamplerStates[1].GetAddressOf());
 
-	ID3D11SamplerState* arrSamplerState[2] = { m_pSamplerStates[0].Get(), m_pSamplerStates[1].Get() };
-
-	CONTEXT->VSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->HSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->DSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->GSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->PSSetSamplers(0, 2, arrSamplerState);
-	CONTEXT->CSSetSamplers(0, 2, arrSamplerState);
+	CONTEXT->VSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
+	CONTEXT->HSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
+	CONTEXT->DSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
+	CONTEXT->GSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
+	CONTEXT->PSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
+	CONTEXT->CSSetSamplers(2, 1, m_pSamplerStates[1].GetAddressOf());
 }
 
 void CDevice::CreateRasterizerState()
