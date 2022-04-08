@@ -19,7 +19,7 @@ step 1.
 Download
 
 step 2. 파일 다운로드
-External\Include\FBXLoader 폴더와 External\Library\FBXLoader 폴더 안에 다운로드 받은 x64,x86 파일들을 넣어줌.
+External\Library\FBXLoader 폴더 안에 다운로드 받은 x64,x86 파일들을 넣어줌.
 FBXLoader파일 링크
 [https://drive.google.com/drive/folders/1g7FrTsCg7j3HBuRXDhU5yPXCWhX-APIK?usp=sharing]
 
