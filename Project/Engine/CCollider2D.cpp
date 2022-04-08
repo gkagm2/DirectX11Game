@@ -42,7 +42,7 @@ void CCollider2D::Render()
 	m_pMaterial->UpdateData();
 
 	// 렌더링
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 
 	// 메터리얼 클리어
 	m_pMaterial->Clear();

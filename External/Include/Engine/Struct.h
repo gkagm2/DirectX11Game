@@ -11,6 +11,9 @@ struct VTX { // Vertex
 	Vector3 vTangent; // 표면의 접선 벡터   (평행)
 	Vector3 vNormal;  // 표면의 법선 벡터   (수직)
 	Vector3 vBinormal;// 표면의 종법선 벡터 (평행)
+
+	Vector4 vWeights;	// 3D Animation 본 가중치
+	Vector4 vIndices;	// 3D Animation 본 인덱스
 };
 
 /////////////////////////////
@@ -95,6 +98,7 @@ struct TMaterialData {
 	Vector4 vDiffuse; // 분산광
 	Vector4 vSpecular;// 반영광
 	Vector4 vAmbiant; // 주변광
+	Vector4 vEmission;
 };
 
 struct TMaterialParam {

@@ -69,7 +69,7 @@ void SkyboxGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
 	StringToTString(strKey, tstrKey);
 	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
 	assert(pMtrl.Get());
-	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
+	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl, 0);
 }
 
 void SkyboxGUI::_SelectTexture(DWORD_PTR _strKey, DWORD_PTR _NONE)

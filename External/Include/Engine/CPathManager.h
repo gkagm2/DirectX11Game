@@ -17,6 +17,7 @@ public:
 	const TCHAR* GetContentPath() {
 		return m_strContentPath.c_str();
 	 }
+	tstring GetRelativePath(const TCHAR* _filePath);
 
 	vector<tstring> GetFilesInDirectory(const tstring& _absolutePath, const tstring& _filter);
 

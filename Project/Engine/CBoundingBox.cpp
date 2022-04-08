@@ -22,5 +22,5 @@ void CBoundingBox::Render()
 	
 	m_pMtrl->SetData(E_ShaderParam::Vector4_0, &vColor);
 	m_pMtrl->UpdateData();
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 }

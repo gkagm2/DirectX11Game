@@ -36,8 +36,8 @@ void CEnemyScript_sh::Start()
 	m_fDoorMoveTime = (float)(rand() % 5 + 5);
 
 	GetGameObject()->SetName(STR_OBJ_NAME_Enemy);
-	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
-	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial();
+	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial(0);
+	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial(0);
 
 	m_vOriginalScale = Transform()->GetScale();
 	m_fOriginalHp = m_fHp;

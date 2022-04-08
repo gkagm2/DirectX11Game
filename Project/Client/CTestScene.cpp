@@ -78,7 +78,7 @@ CGameObject* TestCreateObj() {
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -128,7 +128,8 @@ void CTestScene::CreateTestScene()
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	//Light2DTest();
-	UpdateOldVersion();
+	FBXLoadingTest();
+	//UpdateOldVersion();
 	//CreateNewScene();
 	//Butcher();
 	//Light3DTest();
@@ -175,7 +176,7 @@ void CTestScene::CreateTestScene()
 
 		SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
 
-		pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
+		pPlayer->MeshRenderer()->SetMaterial(pLightMtrl, 0);
 
 		TAnimation2DDesc tAnimDesc;
 		tAnimDesc.fDuration = 0.1f;
@@ -222,8 +223,8 @@ void CTestScene::CreateTestScene()
 
 		CGameObject* pObj = TestCreateObj();
 		pObj->MeshRenderer()->SetMesh(pMesh);
-		pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
-		pObj->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
+		pObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl), 0);
+		pObj->MeshRenderer()->GetSharedMaterial(0)->SetData(E_ShaderParam::Texture_0, pTestTexture.Get());
 		CObject::CreateGameObjectEvn(pObj, 0);
 	}
 
@@ -346,10 +347,8 @@ void CTestScene::SceneStart()
 {
 	// 씬 생성
 	CScene* pNewScene = new CScene;
+	
 
-	// Scene 초기화
-	pNewScene->Awake();
-	pNewScene->Start();
 	CSceneManager::GetInstance()->ChangeScene(pNewScene);
 }
 
@@ -396,7 +395,7 @@ void CTestScene::RenderingBoxObject()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -445,7 +444,7 @@ void CTestScene::RenderingAnimationTexture()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
-	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
 
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -514,7 +513,7 @@ void CTestScene::SceneSaveLoadTest()
 			SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
 			SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
 
-			pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
+			pPlayer->MeshRenderer()->SetMaterial(pLightMtrl, 0);
 
 			TAnimation2DDesc tAnimDesc;
 			tAnimDesc.fDuration = 0.1f;
@@ -602,7 +601,7 @@ void CTestScene::ImGuiTest()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -642,7 +641,7 @@ void CTestScene::ImGuiTest()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
-	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
 
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -733,7 +732,7 @@ void CTestScene::DistortionObject()
 	pDistortionObj->AddComponent<CMeshRenderer>();
 
 	pDistortionObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	pDistortionObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DistortionMtrl));
+	pDistortionObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_DistortionMtrl), 0);
 	CObject::CreateGameObjectEvn(pDistortionObj, 0);
 
 
@@ -751,7 +750,7 @@ void CTestScene::DistortionObject()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -791,7 +790,7 @@ void CTestScene::DistortionObject()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
-	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
 
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -872,8 +871,8 @@ void CTestScene::FishEyePostEffect()
 	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x , vResolution.x, 1.f));
 	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
 	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
-	pBGObj->MeshRenderer()->SetMaterial(mtrl);
-	pBGObj->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
+	pBGObj->MeshRenderer()->SetMaterial(mtrl, 0);
+	pBGObj->MeshRenderer()->GetCloneMaterial(0)->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
 
 	CObject::CreateGameObjectEvn(pBGObj, 0);
 
@@ -885,7 +884,7 @@ void CTestScene::FishEyePostEffect()
 	pFishEyeObj->AddComponent<CMeshRenderer>();
 
 	pFishEyeObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	pFishEyeObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_FishEyeMtrl));
+	pFishEyeObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_FishEyeMtrl), 0);
 
 	pFishEyeObj->Transform()->SetLocalScale(Vector3(300.f, 300.f, 1.f));
 	CObject::CreateGameObjectEvn(pFishEyeObj, 0);
@@ -905,7 +904,7 @@ void CTestScene::FishEyePostEffect()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -945,7 +944,7 @@ void CTestScene::FishEyePostEffect()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
-	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
 
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -1029,8 +1028,8 @@ void CTestScene::BlurEffect()
 	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x, vResolution.x, 1.f));
 	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
 	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
-	pBGObj->MeshRenderer()->SetMaterial(mtrl);
-	pBGObj->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
+	pBGObj->MeshRenderer()->SetMaterial(mtrl, 0);
+	pBGObj->MeshRenderer()->GetCloneMaterial(0)->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
 
 	CObject::CreateGameObjectEvn(pBGObj, 0);
 
@@ -1105,8 +1104,8 @@ void CTestScene::PaperBurnPostEffect()
 	pBGObj->Transform()->SetLocalScale(Vector3(vResolution.x, vResolution.x, 1.f));
 	pBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
 	SharedPtr<CMaterial> mtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl)->Clone();
-	pBGObj->MeshRenderer()->SetMaterial(mtrl);
-	pBGObj->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
+	pBGObj->MeshRenderer()->SetMaterial(mtrl, 0);
+	pBGObj->MeshRenderer()->GetCloneMaterial(0)->SetData(E_ShaderParam::Texture_0, pBGTex.Get());
 
 	CObject::CreateGameObjectEvn(pBGObj, 0);
 
@@ -1118,7 +1117,7 @@ void CTestScene::PaperBurnPostEffect()
 	pPaperBurnObj->AddComponent<CMeshRenderer>();
 
 	pPaperBurnObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	pPaperBurnObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PaperBurnMtrl));
+	pPaperBurnObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_PaperBurnMtrl), 0);
 
 	pPaperBurnObj->Transform()->SetLocalScale(Vector3(300.f, 300.f, 1.f));
 	CObject::CreateGameObjectEvn(pPaperBurnObj, 0);
@@ -1135,7 +1134,7 @@ void CTestScene::PaperBurnPostEffect()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -1199,6 +1198,22 @@ void CTestScene::Light3DTest()
 	pLight3D->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 }
 
+void CTestScene::FBXLoadingTest()
+{
+	CScene* pScene = new CScene;
+
+	// FBX Loading
+	SharedPtr<CMeshData> pMeshData = nullptr;
+	pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("House.fbx"));
+
+	CGameObject* pHouseObj = pMeshData->Instantiate();
+	pHouseObj->SetName(_T("House"));
+
+	CObject::CreateGameObjectEvn(pHouseObj, 0);
+
+	CSceneManager::GetInstance()->ChangeScene(pScene);
+}
+
 void CTestScene::Test()
 {
 	CScene* pScene = new CScene;
@@ -1244,7 +1259,7 @@ void CTestScene::MaterialCreateTest()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -1284,7 +1299,7 @@ void CTestScene::MaterialCreateTest()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
-	pPlayer->MeshRenderer()->SetMaterial(pMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
 
 	SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
@@ -1380,15 +1395,15 @@ void CTestScene::SceneSaveLoadPrefabTest()
 		pBulletPrefab->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
 
 		pBulletPrefab->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh));
-		pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+		pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl), 0);
 		CBulletScript_sh* pBullet = pBulletPrefab->GetComponent<CBulletScript_sh>();
 		pBullet->SetDirection(Vector3(0.f, 1.f, 0.f));
 		pBullet->SetBulletSpeed(800.f);
-		CMaterial* pMaterial = pBulletPrefab->MeshRenderer()->GetSharedMaterial()->Clone();
-		pBulletPrefab->MeshRenderer()->SetMaterial(pMaterial);
+		CMaterial* pMaterial = pBulletPrefab->MeshRenderer()->GetSharedMaterial(0)->Clone();
+		pBulletPrefab->MeshRenderer()->SetMaterial(pMaterial, 0);
 
 		SharedPtr<CTexture> pBulletTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
-		pBulletPrefab->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
+		pBulletPrefab->MeshRenderer()->GetCloneMaterial(0)->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
 
 		pBulletPrefab->RegisterAsPrefab();
 		SAFE_DELETE(pBulletPrefab);
@@ -1418,7 +1433,7 @@ void CTestScene::SceneSaveLoadPrefabTest()
 			SharedPtr<CMaterial> pLightMtrl = CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdLight2DMtrl);
 			SharedPtr<CTexture> pAnimTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Anim);
 
-			pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
+			pPlayer->MeshRenderer()->SetMaterial(pLightMtrl, 0);
 
 			TAnimation2DDesc tAnimDesc;
 			tAnimDesc.fDuration = 0.1f;
@@ -1520,7 +1535,7 @@ void CTestScene::Light2DTest()
 
 
 	pPlayer->MeshRenderer()->SetMesh(pMesh);
-	pPlayer->MeshRenderer()->SetMaterial(pLightMtrl);
+	pPlayer->MeshRenderer()->SetMaterial(pLightMtrl, 0);
 
 	TAnimation2DDesc tAnimDesc;
 	tAnimDesc.fDuration = 0.1f;
@@ -1634,12 +1649,12 @@ void CTestScene::PrefabRegisterTest()
 	pPlayer->AddComponent<CTransform>();
 	pPlayer->AddComponent<CPlayerScript_sh>();
 	pPlayer->AddComponent<CMeshRenderer>();
-	pPlayer->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	pPlayer->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl), 0);
 	pPlayer->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
 	CObject::CreateGameObjectEvn(pPlayer, 0);
 
 	SharedPtr<CTexture> pPlayerTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Player);
-	pPlayer->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
+	pPlayer->MeshRenderer()->GetSharedMaterial(0)->SetData(E_ShaderParam::Texture_0, pPlayerTexture.Get());
 
 	pPlayer->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
 	pPlayer->Transform()->SetLocalScale(Vector3(60.f, 60.f, 1.f));
@@ -1655,15 +1670,15 @@ void CTestScene::PrefabRegisterTest()
 	pBulletPrefab->Transform()->SetLocalScale(Vector3(50.f, 50.f, 1.f));
 
 	pBulletPrefab->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->LoadRes<CMesh>(STR_KEY_RectMesh));
-	pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	pBulletPrefab->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->LoadRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl), 0);
 	CBulletScript_sh* pBullet = pBulletPrefab->GetComponent<CBulletScript_sh>();
 	pBullet->SetDirection(Vector3(0.f, 1.f, 0.f));
 	pBullet->SetBulletSpeed(800.f);
-	CMaterial* pMaterial = pBulletPrefab->MeshRenderer()->GetSharedMaterial()->Clone();
-	pBulletPrefab->MeshRenderer()->SetMaterial(pMaterial);
+	CMaterial* pMaterial = pBulletPrefab->MeshRenderer()->GetSharedMaterial(0)->Clone();
+	pBulletPrefab->MeshRenderer()->SetMaterial(pMaterial, 0);
 
 	SharedPtr<CTexture> pBulletTexture = CResourceManager::GetInstance()->LoadRes<CTexture>(STR_PATH_Box);
-	pBulletPrefab->MeshRenderer()->GetCloneMaterial()->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
+	pBulletPrefab->MeshRenderer()->GetCloneMaterial(0)->SetData(E_ShaderParam::Texture_0, pBulletTexture.Get());
 
 	pBulletPrefab->RegisterAsPrefab();
 	SAFE_DELETE(pBulletPrefab);
@@ -1779,7 +1794,7 @@ void CTestScene::Collision2DTest()
 	
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -1840,7 +1855,7 @@ void CTestScene::Collision2DTest2()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));
@@ -1904,7 +1919,7 @@ void CTestScene::Collision2DMouseAndRect()
 
 	pMtrl->SetData(E_ShaderParam::Texture_0, pBoxTexture.Get());
 
-	pObj->MeshRenderer()->SetMaterial(pMtrl);
+	pObj->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pObj->MeshRenderer()->SetMesh(pMesh);
 
 	pObj->Transform()->SetLocalPosition(Vector3(0.f, 0.f, 0.f));

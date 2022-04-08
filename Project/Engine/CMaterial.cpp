@@ -66,12 +66,22 @@ void CMaterial::UpdateData()
 	pCB->UpdateData();
 }
 
+//void CMaterial::SetShader(SharedPtr<CGraphicsShader>& _pShader)
+//{
+//	m_pShader = _pShader;
+//	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
+//	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode()) {
+//		if(false == m_bIsCloneMtrlInnerEngine)
+//			Save(GetRelativePath());
+//	}
+//}
 
-void CMaterial::SetShader(SharedPtr<CGraphicsShader>& _pShader) {
+void CMaterial::SetShader(SharedPtr<CGraphicsShader> _pShader)
+{
 	m_pShader = _pShader;
 	// 엔진 기본 메터리얼이 아니여야 하고, Scene이 StopMode일때만 메터리얼의 변경점을 저장.
 	if (!m_bIsDefaultMtrl && E_SceneMode::Stop == CSceneManager::GetInstance()->GetSceneMode()) {
-		if(false == m_bIsCloneMtrlInnerEngine)
+		if (false == m_bIsCloneMtrlInnerEngine)
 			Save(GetRelativePath());
 	}
 }

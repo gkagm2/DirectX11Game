@@ -167,7 +167,7 @@ CGameObject* CObjectManager::Create2DRectGameObject(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
-	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdLight2DMtrl));
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdLight2DMtrl), 0);
 
 	// Tool Camera가 바라보고 있는 위치에 생성
 	CCamera* pToolCam = CRenderManager::GetInstance()->GetToolCamera();
@@ -190,7 +190,7 @@ CGameObject* CObjectManager::CreateCubeGameObject(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
-	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl), 0);
 	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_CubeMesh));
 
 	// Tool Camera가 바라보고 있는 위치에 생성
@@ -214,7 +214,7 @@ CGameObject* CObjectManager::CreateSphereGameobject(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
-	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl), 0);
 	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_SphereMesh));
 
 	// Tool Camera가 바라보고 있는 위치에 생성
@@ -265,7 +265,7 @@ CGameObject* CObjectManager::CreateCone(UINT _iLayer)
 	pNewGameObject->SetName(strObjName);
 	pNewGameObject->AddComponent<CTransform>();
 	pNewGameObject->AddComponent<CMeshRenderer>();
-	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl));
+	pNewGameObject->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_Std3DMtrl), 0);
 	pNewGameObject->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_ConeMesh));
 
 	// Tool Camera가 바라보고 있는 위치에 생성

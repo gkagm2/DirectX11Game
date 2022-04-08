@@ -164,7 +164,7 @@ void CLight3D::Render()
 	
 	m_pMtrl->SetData(E_ShaderParam::Int_0, &m_tInfo.idx);
 	m_pMtrl->UpdateData();
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 	m_pMtrl->Clear();		 // 메터리얼 레지스터 Clear
 }
 

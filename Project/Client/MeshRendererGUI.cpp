@@ -21,7 +21,7 @@ void MeshRendererGUI::Update()
 
 	CMeshRenderer* pMeshRenderer = GetTargetObject()->MeshRenderer();
 	SharedPtr<CMesh> pMesh = pMeshRenderer->GetMesh();
-	SharedPtr<CMaterial> pMaterial = pMeshRenderer->GetSharedMaterial();
+	SharedPtr<CMaterial> pMaterial = pMeshRenderer->GetSharedMaterial(0);
 
 	char strMeshName[255];
 	GetResourceName(pMesh.Get(), strMeshName, 255);
@@ -83,5 +83,5 @@ void MeshRendererGUI::_SetMatrial(DWORD_PTR _dw1, DWORD_PTR _dw)
 	StringToTString(strKey, tstrKey);
 	SharedPtr<CMaterial> pMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(tstrKey);
 	assert(pMtrl.Get());
-	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl);
+	GetTargetObject()->MeshRenderer()->SetMaterial(pMtrl, 0);
 }

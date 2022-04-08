@@ -157,7 +157,7 @@ void CRenderManager::_RenderInGame()
 		static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
 		static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
 		pMergeMtrl->UpdateData();
-		pRectMesh->Render();
+		pRectMesh->Render(0);
 		pMergeMtrl->Clear();
 
 		pCam->_RenderForward();
@@ -208,7 +208,7 @@ void CRenderManager::_RenderTool()
 		static SharedPtr<CMesh> pRectMesh = CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh);
 		static SharedPtr<CMaterial> pMergeMtrl = CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_MergeMtrl);
 		pMergeMtrl->UpdateData();
-		pRectMesh->Render();
+		pRectMesh->Render(0);
 		pMergeMtrl->Clear();
 
 		pCam->_RenderForward();
@@ -250,7 +250,7 @@ void CRenderManager::_RenderDebug()
 		CEngineDebugScript* pDebugScript = (*iter)->GetComponentScript< CEngineDebugScript>();
 		if (pDebugScript) {
 				Vector4 vColor = pDebugScript->GetColor();
-				(*iter)->MeshRenderer()->GetSharedMaterial()->SetData(E_ShaderParam::Vector4_0, &vColor);
+				(*iter)->MeshRenderer()->GetSharedMaterial(0)->SetData(E_ShaderParam::Vector4_0, &vColor);
 				(*iter)->Render();
 				++iter;
 		}
@@ -383,7 +383,7 @@ CGameObject* CRenderManager::_CreateDebugGameObject()
 	pDebugObj->AddComponent<CEngineDebugScript>();
 
 	CMeshRenderer* pMeshRenderer = pDebugObj->GetComponent<CMeshRenderer>();
-	pMeshRenderer->SetMaterial(m_pDebugMtrl);
+	pMeshRenderer->SetMaterial(m_pDebugMtrl, 0);
 	pDebugObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_DebugSphereMesh));
 
 	return pDebugObj;

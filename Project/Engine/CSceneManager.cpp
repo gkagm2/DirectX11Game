@@ -46,7 +46,7 @@ void CSceneManager::Init()
 	pScreenBGObj->AddComponent<CTransform>();
 	pScreenBGObj->AddComponent<CMeshRenderer>();
 	pScreenBGObj->MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	pScreenBGObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl));
+	pScreenBGObj->MeshRenderer()->SetMaterial(CResourceManager::GetInstance()->FindRes<CMaterial>(STR_KEY_StdAlphaBlend_CoverageMtrl), 0);
 	const Vector2& vRenderResolution =  CDevice::GetInstance()->GetRenderResolution();
 	pScreenBGObj->Transform()->SetLocalScale(Vector3(vRenderResolution));
 

@@ -34,6 +34,18 @@ void CPathManager::Init() {
 #define T_FIND_NEXT _tfindnext64
 #endif
 
+tstring CPathManager::GetRelativePath(const TCHAR* _filePath)
+{
+	tstring strFilePath = _filePath;
+
+	size_t iAbsLen = m_strContentPath.size();
+	size_t iFullLen = strFilePath.length();
+
+	wstring strRelativePath = strFilePath.substr(iAbsLen, iFullLen - iAbsLen);
+
+	return strRelativePath;
+}
+
 vector<tstring> CPathManager::GetFilesInDirectory(const tstring& _absolutePath, const tstring& _filter)
 {
 	tstring searching = _absolutePath + _filter;

@@ -30,11 +30,11 @@ void CDecal::Render()
 	m_pDecalMtrl->SetData(E_ShaderParam::Int_0, (void*)&m_bLighting);
 
 	m_pDecalMtrl->UpdateData();
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 
 	if (E_SceneMode::Play != CSceneManager::GetInstance()->GetSceneMode()) {
 		m_pDebugMtrl->UpdateData();
-		m_pMesh->Render();
+		m_pMesh->Render(0);
 	}
 }
 

@@ -47,6 +47,7 @@ protected:
 	static void FontRendering();				// Done
 
 	static void Light3DTest();
+	static void FBXLoadingTest();
 
 	static void Test();
 

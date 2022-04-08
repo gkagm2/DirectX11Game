@@ -17,7 +17,7 @@ COrthogonalLineScript::~COrthogonalLineScript()
 
 void COrthogonalLineScript::Start()
 {
-	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial();
+	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial(0);
 
 	// 라인 초기화
 	m_vecXLine.push_back(Vector3(0.f, 0.f, 0.f));

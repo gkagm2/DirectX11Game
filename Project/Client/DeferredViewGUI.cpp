@@ -82,12 +82,12 @@ void DeferredViewGUI::Update()
 
 				if (pTargetObj && 
 					pTargetObj->MeshRenderer() && 
-					pTargetObj->MeshRenderer()->GetSharedMaterial().Get() &&
-					pTargetObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get()) {
-					CGraphicsShader* pShader = pTargetObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get();
+					pTargetObj->MeshRenderer()->GetSharedMaterial(0).Get() &&
+					pTargetObj->MeshRenderer()->GetSharedMaterial(0)->GetShader().Get()) {
+					CGraphicsShader* pShader = pTargetObj->MeshRenderer()->GetSharedMaterial(0)->GetShader().Get();
 					if (E_RenderTimePoint::Deferred == pShader->GetRenderTimePoint()) {
 
-						CMaterial* deferredMtrl = pTargetObj->MeshRenderer()->GetSharedMaterial().Get();
+						CMaterial* deferredMtrl = pTargetObj->MeshRenderer()->GetSharedMaterial(0).Get();
 
 						CTexture* pColorTargetTex = nullptr;
 						CTexture* pNormalTargetTex = nullptr;

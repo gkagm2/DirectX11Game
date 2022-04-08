@@ -175,6 +175,7 @@ enum class E_ResourceType {
 	Mesh,
 	Texture,
 	Sound,
+	MeshData,
 	End,
 };
 // Warning : Resource Type 추가 시 Extern.cpp에서 ResourceTypeToStr함수에 문자열 추가하기

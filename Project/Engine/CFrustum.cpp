@@ -49,7 +49,7 @@ void CFrustum::UpdateData()
 void CFrustum::Render()
 {
 	m_pMaterial->UpdateData();
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 	m_pMaterial->Clear();
 }
 

@@ -21,7 +21,7 @@ void CPostProcessingScript::Start()
 	assert(m_pPostEffectMtrl.Get());
 	m_pPostEffectMtrl = m_pPostEffectMtrl->Clone();
 	MeshRenderer()->SetMesh(CResourceManager::GetInstance()->FindRes<CMesh>(STR_KEY_RectMesh));
-	MeshRenderer()->SetMaterial(m_pPostEffectMtrl);
+	MeshRenderer()->SetMaterial(m_pPostEffectMtrl, 0);
 
 
 }

@@ -135,6 +135,9 @@ tstring ResourceTypeToStr(E_ResourceType _eType)
 	case E_ResourceType::Sound:
 		strResourceType = _T("Sound");
 		break;
+	case E_ResourceType::MeshData:
+		strResourceType = _T("MeshData");
+		break;
 	default:
 		assert(nullptr && _T("리소스 타입을 String으로 바꿀 수 없음"));
 		break;

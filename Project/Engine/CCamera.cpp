@@ -299,9 +299,9 @@ void CCamera::_SortObjects()
 
 				//MeshRenderer 
 				if (pObj->MeshRenderer() &&
-					pObj->MeshRenderer()->GetSharedMaterial().Get() &&
-					pObj->MeshRenderer()->GetSharedMaterial()->GetShader().Get()) {
-					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial()->GetShader();
+					pObj->MeshRenderer()->GetSharedMaterial(0).Get() &&
+					pObj->MeshRenderer()->GetSharedMaterial(0)->GetShader().Get()) {
+					SharedPtr<CGraphicsShader> pShader = pObj->MeshRenderer()->GetSharedMaterial(0)->GetShader();
 
 					// forward or posteffect
 					eRenderTimePoint = pShader->GetRenderTimePoint();
@@ -467,7 +467,7 @@ void CCamera::_SortObjects_ShadowDepth()
 
 				if (pObj->IsDynamicShadow() && pObj->MeshRenderer()) {
 					if (nullptr == pObj->MeshRenderer()->GetMesh() ||
-						nullptr == pObj->MeshRenderer()->GetSharedMaterial())
+						nullptr == pObj->MeshRenderer()->GetSharedMaterial(0))
 						continue;
 
 					m_vecShadowDepth.push_back(pObj);
@@ -500,9 +500,9 @@ void CCamera::_RenderDynamic_ShadowDepth()
 
 		// 메쉬 업데이트, Pipeline 실행		
 		if (m_vecShadowDepth[i]->MeshRenderer())
-			m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render();
+			m_vecShadowDepth[i]->MeshRenderer()->GetMesh()->Render(0);
 		else if (m_vecShadowDepth[i]->Terrain())
-			m_vecShadowDepth[i]->Terrain()->GetMesh()->Render();
+			m_vecShadowDepth[i]->Terrain()->GetMesh()->Render(0);
 	}
 }
 

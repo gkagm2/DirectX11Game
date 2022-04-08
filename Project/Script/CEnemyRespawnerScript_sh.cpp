@@ -50,7 +50,7 @@ void CEnemyRespawnerScript_sh::CreateEnemy()
 	pEnemy->AddComponent<CEnemyScript_sh>();
 	pEnemy->AddComponent<CCollider2D>();
 
-	pEnemy->MeshRenderer()->SetMaterial(pMtrl);
+	pEnemy->MeshRenderer()->SetMaterial(pMtrl, 0);
 	pEnemy->MeshRenderer()->SetMesh(pMesh);
 
 	float fMiddleX = 0.f;

@@ -22,10 +22,20 @@ public:
 	virtual void UpdateData() override;
 
 public:
-	void SetShader(SharedPtr<CGraphicsShader>& _pShader);
+	//void SetShader(SharedPtr<CGraphicsShader>& _pShader);
+	void SetShader(SharedPtr<CGraphicsShader> _pShader);
 	SharedPtr<CGraphicsShader> GetShader() { return m_pShader; }
 	void SetData(E_ShaderParam _eParam, const void* _pData);
 	void GetData(E_ShaderParam _eParam, void* _pOut);
+
+	void SetMaterialCoefficient(Vector4 _vDiff, Vector4 _vSpec, Vector4 _vAmb, Vector4 _vEmis)
+	{
+		m_tParam.mtrl.vDiffuse = _vDiff;
+		m_tParam.mtrl.vAmbiant = _vAmb;
+		m_tParam.mtrl.vSpecular = _vSpec;
+		m_tParam.mtrl.vEmission = _vEmis;
+	}
+
 
 	bool IsDefaultMaterial() { return m_bIsDefaultMtrl; }
 	static void Clear();

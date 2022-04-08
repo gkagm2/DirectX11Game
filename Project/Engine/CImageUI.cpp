@@ -62,7 +62,7 @@ void CImageUI::Render()
 	RectTransform()->UpdateData();
 
 	m_pMtrl->UpdateData();	 // 메터리얼 세팅
-	m_pMesh->Render();		 // 렌더링
+	m_pMesh->Render(0);		 // 렌더링
 
 	m_pMtrl->Clear();		 // 메터리얼 레지스터 Clear
 

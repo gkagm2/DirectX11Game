@@ -110,7 +110,7 @@ void CTerrain::Render()
 	m_pMtrl->SetData(E_ShaderParam::Float_0, &m_fTileCnt);
 	m_pMtrl->UpdateData();
 
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 }
 
 void CTerrain::Create()

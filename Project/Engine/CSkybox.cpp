@@ -60,7 +60,7 @@ void CSkybox::Render()
 	UpdateData();
 	
 	m_pSkyboxMaterial->UpdateData();	 // 메터리얼 세팅
-	m_pSkyboxMesh->Render(); // 렌더링
+	m_pSkyboxMesh->Render(0); // 렌더링
 	//m_pSphereMtrl->Clear();		 // 메터리얼 레지스터 Clear
 }
 

@@ -56,5 +56,5 @@ void CLine::UpdateData()
 	m_pMtrl->SetData(E_ShaderParam::Vector4_0, &m_vLineColor);
 	m_pMtrl->UpdateData();
 	for (size_t i = 0; i < m_vecMesh.size(); ++i)
-		m_vecMesh[i]->Render(); // TODO (Jang) : Instancing Rendering으로 바꾸기
+		m_vecMesh[i]->Render(0); // TODO (Jang) : Instancing Rendering으로 바꾸기
 }

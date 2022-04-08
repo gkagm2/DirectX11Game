@@ -16,7 +16,7 @@ CResourceManager::CResourceManager() :
 
 CResourceManager::~CResourceManager()
 {
-	Safe_Delete_Vector(m_vecCloneMtrl);
+	//Safe_Delete_Vector(m_vecCloneMtrl);
 
 	for (UINT i = 0; i < (UINT)E_ResourceType::End; ++i)
 		Safe_Delete_UnorderedMap(m_umapResource[i]);
@@ -2008,6 +2008,28 @@ SharedPtr<CTexture> CResourceManager::LoadTexture(const tstring& _strKey, const 
 
 	m_bFixed = true;
 	return pRes;
+}
+
+SharedPtr<CMeshData> CResourceManager::LoadFBX(const wstring& _strPath)
+{
+	wstring strFileName = path(_strPath).stem();
+
+	wstring strName = L"meshdata\\";
+	strName += strFileName + L".mdat";
+
+	SharedPtr<CMeshData> pMeshData = FindRes<CMeshData>(strName);
+
+	if (nullptr != pMeshData)
+		return pMeshData;
+
+	pMeshData = CMeshData::LoadFromFBX(_strPath);
+	pMeshData->SetKey(strName);
+	pMeshData->SetRelativePath(strName);
+	m_umapResource[(UINT)E_ResourceType::MeshData].insert(make_pair(strName, pMeshData.Get()));
+
+	m_bFixed = true;
+
+	return pMeshData;
 }
 
 void CResourceManager::GetResourceKeys(E_ResourceType _eType, vector<tstring>& _vecOut)

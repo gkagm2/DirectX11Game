@@ -13,6 +13,9 @@
 #include <conio.h> // Console screen
 #endif
 
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+using std::experimental::filesystem::path;
 
 // Boost Library
 #include <boost/uuid/uuid.hpp>

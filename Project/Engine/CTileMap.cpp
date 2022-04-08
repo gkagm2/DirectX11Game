@@ -112,7 +112,7 @@ void CTileMap::UpdateData()
 void CTileMap::Render()
 {
 	UpdateData();
-	m_pMesh->Render();
+	m_pMesh->Render(0);
 
 	if (!m_pGrid->DidInit())
 		m_pGrid->Init();

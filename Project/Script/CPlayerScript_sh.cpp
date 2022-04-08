@@ -29,8 +29,8 @@ void CPlayerScript_sh::Start()
 
 	GetGameObject()->SetName(_T("Player"));
 
-	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial();
-	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial();
+	m_pSharedMtrl = MeshRenderer()->GetSharedMaterial(0);
+	m_pCloneMtrl = MeshRenderer()->GetCloneMaterial(0);
 	/*m_pMissilePrefab = CResourceManager::GetInstance()->LoadRes<CPrefab>(_T("Bullet"), _T("prefab\\bullet.pref"));*/
 }
 
@@ -60,12 +60,12 @@ void CPlayerScript_sh::Update()
 
 		if (a == 1) {
 			a = 0;
-			MeshRenderer()->SetMaterial(m_pSharedMtrl);
+			MeshRenderer()->SetMaterial(m_pSharedMtrl, 0);
 		}
 		else {
 			a = 1;
 			m_pCloneMtrl->SetData(E_ShaderParam::Int_0, &a);
-			MeshRenderer()->SetMaterial(m_pCloneMtrl);
+			MeshRenderer()->SetMaterial(m_pCloneMtrl, 0);
 		}
 	}
 }

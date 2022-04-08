@@ -9,6 +9,7 @@
 #include "CCollider2D.h"
 #include "CCollider3D.h"
 #include "CSound.h"
+#include "CMeshData.h"
 
 #include "CKeyManager.h"
 
@@ -19,7 +20,7 @@ private:
 	unordered_map<tstring, CResource*> m_umapResource[(UINT)E_ResourceType::End];
 	vector<CMaterial*> m_vecCloneMtrl; // 복사된 메터리얼들을 담을 벡터
 	unordered_map<tstring, CTexture*> m_umapDefaultTex; // 삭제되면 안되는 기본 텍쳐
-	bool m_bFixed; // Resource가 추가, 수정되었는지 여부
+	bool m_bFixed; // Resource가 추가, 수정되었는지 여부s
 	SharedPtr<CTexture> m_pPostEffectTargetTex;
 public:
 	void Init();
@@ -55,6 +56,7 @@ public:
 	bool ForceDeleteRes(const tstring& _strKey);
 
 	SharedPtr<CTexture> LoadTexture(const tstring& _strKey, const tstring& _strRelativePath, int _iMapLevel);
+	SharedPtr<CMeshData> LoadFBX(const wstring& _strPath);
 
 	template<typename T>
 	bool IsExistRes(const tstring& _strKey);
@@ -103,6 +105,7 @@ E_ResourceType GetResourceType() {
 	const type_info& computeShader= typeid(CComputeShader);
 	const type_info& texture = typeid(CTexture);
 	const type_info& sound = typeid(CSound);
+	const type_info& meshData = typeid(CMeshData);
 
 	E_ResourceType eResourceType = E_ResourceType::End;
 
@@ -120,6 +123,8 @@ E_ResourceType GetResourceType() {
 		eResourceType = E_ResourceType::Texture;
 	else if (&info == &sound)
 		eResourceType = E_ResourceType::Sound;
+	else if (&info == &meshData)
+		eResourceType = E_ResourceType::MeshData;
 
 	return eResourceType;
 }
