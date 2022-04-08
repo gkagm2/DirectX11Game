@@ -1,0 +1,154 @@
+Animation_Name
+EnemyTorsoSprite_bu
+Frame_Count
+10
+Left_Top
+0.000000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.100000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.200000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.300000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.400000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.500000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.600000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.700000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.800000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Left_Top
+0.900000 0.000000
+Frame_Size
+0.100000 1.000000
+Offset
+0.003333 0.100000
+Base_Size
+0.100000 1.000000
+Duration
+0.000000
+
+Texture_Name 0
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 0
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 1
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 1
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 2
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 2
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 3
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 3
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 4
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 4
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 5
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 5
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 6
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 6
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 7
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 7
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 8
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 8
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Name 9
+texture\Butcher\Resources\Obj\Torso62.png
+Texture_Path 9
+texture\Butcher\Resources\Obj\Torso62.png

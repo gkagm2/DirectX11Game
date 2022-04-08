@@ -1,0 +1,64 @@
+Animation_Name
+BulletBouncingBloodParticleSprite_bu
+Frame_Count
+4
+Left_Top
+0.467158 0.269041
+Frame_Size
+0.028100 0.009473
+Offset
+0.000000 0.000000
+Base_Size
+0.028100 0.009473
+Duration
+0.100000
+
+Left_Top
+0.508304 0.269041
+Frame_Size
+0.024085 0.008526
+Offset
+0.000000 0.000000
+Base_Size
+0.024085 0.008526
+Duration
+0.100000
+
+Left_Top
+0.544935 0.268094
+Frame_Size
+0.019068 0.010421
+Offset
+0.000000 0.000000
+Base_Size
+0.019068 0.010421
+Duration
+0.100000
+
+Left_Top
+0.576547 0.269515
+Frame_Size
+0.011541 0.008052
+Offset
+0.000000 0.000000
+Base_Size
+0.011541 0.008052
+Duration
+0.100000
+
+Texture_Name 0
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Path 0
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Name 1
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Path 1
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Name 2
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Path 2
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Name 3
+texture\Butcher\Resources\Obj\particles79.png
+Texture_Path 3
+texture\Butcher\Resources\Obj\particles79.png

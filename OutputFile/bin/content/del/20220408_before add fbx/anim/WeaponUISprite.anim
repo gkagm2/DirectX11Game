@@ -1,0 +1,94 @@
+Animation_Name
+WeaponUISprite
+Frame_Count
+6
+Left_Top
+0.000000 0.000000
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Left_Top
+0.000000 0.166667
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Left_Top
+0.000000 0.333333
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Left_Top
+0.000000 0.500000
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Left_Top
+0.000000 0.666667
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Left_Top
+0.000000 0.833333
+Frame_Size
+1.000000 0.166667
+Offset
+0.156250 0.000000
+Base_Size
+1.000000 0.166667
+Duration
+0.000000
+
+Texture_Name 0
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 0
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Name 1
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 1
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Name 2
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 2
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Name 3
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 3
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Name 4
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 4
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Name 5
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png
+Texture_Path 5
+texture\Butcher\Resources\UI\weapon_icons_64x1684.png

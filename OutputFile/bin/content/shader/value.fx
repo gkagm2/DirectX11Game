@@ -22,6 +22,7 @@ cbuffer MATERIAL_PARAM : register(b1)
     float4 vDiffuse;
     float4 vSpectrum;
     float4 vAmbiant;
+    float4 vEnvironment;
     
     int g_int_0;
     int g_int_1;
