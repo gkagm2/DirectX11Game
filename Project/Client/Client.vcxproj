@@ -210,6 +210,7 @@ call ClientCopy.bat</Command>
   <ItemGroup>
     <ClInclude Include="Animator2DEditorGUI.h" />
     <ClInclude Include="Animator2DGUI.h" />
+    <ClInclude Include="Animator3DGUI.h" />
     <ClInclude Include="AnimatorGUI.h" />
     <ClInclude Include="AudioSourceGUI.h" />
     <ClInclude Include="BoundingBoxGUI.h" />
@@ -217,6 +218,7 @@ call ClientCopy.bat</Command>
     <ClInclude Include="CameraGUI.h" />
     <ClInclude Include="CanvasRendererGUI.h" />
     <ClInclude Include="CCameraEx.h" />
+    <ClInclude Include="Collider3DGUI.h" />
     <ClInclude Include="CToolDragAndDropScript.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="CImGuiManager.h">
@@ -316,6 +318,7 @@ call ClientCopy.bat</Command>
   <ItemGroup>
     <ClCompile Include="Animator2DEditorGUI.cpp" />
     <ClCompile Include="Animator2DGUI.cpp" />
+    <ClCompile Include="Animator3DGUI.cpp" />
     <ClCompile Include="AnimatorGUI.cpp" />
     <ClCompile Include="AudioSourceGUI.cpp" />
     <ClCompile Include="BoundingBoxGUI.cpp" />
@@ -323,6 +326,7 @@ call ClientCopy.bat</Command>
     <ClCompile Include="CameraGUI.cpp" />
     <ClCompile Include="CanvasRendererGUI.cpp" />
     <ClCompile Include="CCameraEx.cpp" />
+    <ClCompile Include="Collider3DGUI.cpp" />
     <ClCompile Include="CToolDragAndDropScript.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="CImGuiManager.cpp">

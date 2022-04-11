@@ -36,6 +36,8 @@ public:
 		m_tParam.mtrl.vEmission = _vEmis;
 	}
 
+	void SetAnim3D(bool _bTrue) { m_tParam.arrAnimData[0] = (int)_bTrue; }
+	void SetBoneCount(int _iBoneCount) { m_tParam.arrAnimData[1] = _iBoneCount; }
 
 	bool IsDefaultMaterial() { return m_bIsDefaultMtrl; }
 	static void Clear();

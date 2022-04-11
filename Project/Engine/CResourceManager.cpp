@@ -49,7 +49,7 @@ void CResourceManager::Init()
 		LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
 
 		// 메터리얼 로딩
-		LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
+		//LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));
 	}
 	PM_END();
 }
@@ -1570,6 +1570,7 @@ void CResourceManager::CreateDefaultMaterial()
 #include "CRaycastShader.h"
 #include "CHeightMapShader.h"
 #include "CWeightMapShader.h"
+#include "CAnimation3DShader.h"
 
 void CResourceManager::CreateComputeShader()
 {
@@ -1603,6 +1604,11 @@ void CResourceManager::CreateComputeShader()
 	pShader = new CWeightMapShader;
 	pShader->CreateComputeShader(STR_FILE_PATH_WeightMapShader, STR_FUNC_NAME_WeightMap);
 	AddRes(STR_KEY_WeightMapShader, pShader);
+
+	// Animation3D Update Shader
+	pShader = new CAnimation3DShader;
+	pShader->CreateComputeShader(STR_FILE_PATH_Animation3DShader, STR_FUNC_NAME_Animation3d_CS);
+	AddRes(STR_KEY_Animation3DShader, pShader);
 }
 
 void CResourceManager::InitSound()
@@ -1656,6 +1662,9 @@ void CResourceManager::InitInputLayout()
 	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 });
 	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
 	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+
+	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 72, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+	g_vecLayoutDesc.push_back(D3D11_INPUT_ELEMENT_DESC{ "BLENDINDICES", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 88, D3D11_INPUT_PER_VERTEX_DATA, 0 });
 }
 
 void CResourceManager::CreateDefaultTexture()

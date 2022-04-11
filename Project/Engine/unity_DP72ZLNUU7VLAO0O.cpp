@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CRenderManager.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CRigidbody.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CRigidbody2D.cpp"
 
 
@@ -25,10 +31,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CTexture.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CTileMap.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CUI.cpp"
 

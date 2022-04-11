@@ -62,6 +62,10 @@ cbuffer MATERIAL_PARAM : register(b1)
     int bTexCube_0;
     int bTexCube_1;
     
+    // 3D Animation Info
+    int g_iAnim;
+    int g_iBoneCount;
+    int2 iPadding;
 }
 
 cbuffer ANIMATION2D_DATA : register(b2)
@@ -106,6 +110,8 @@ Texture2DArray g_texarr_1 : register(t9);
 
 TextureCube g_texcube_0 : register(t10);
 TextureCube g_texcube_1 : register(t11);
+
+StructuredBuffer<Matrix> g_arrBoneMat : register(t30); // Aniation 3D Bone mat
 
 Texture2D g_TexAnimAtlas : register(t50); // Animation's 2D  Atlas Texture
 

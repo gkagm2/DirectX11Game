@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CAnimation3DShader.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CAnimator3D.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CAudioSource.cpp"
 
 
@@ -25,10 +31,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCanvasRenderer.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCollider.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCollider2D.cpp"
 

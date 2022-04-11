@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCollider.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCollider2D.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CCollider3D.cpp"
 
 
@@ -25,10 +31,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CDecal.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CDevice.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Engine\CEngineDebugScript.cpp"
 

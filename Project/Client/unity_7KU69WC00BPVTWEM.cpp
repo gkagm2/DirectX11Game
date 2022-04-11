@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\SpawningGUI_bu.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\TextUIGUI.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\TextureGUI.cpp"
 
 

@@ -13,6 +13,7 @@
 #include "CCollider2D.h"
 #include "CCollider3D.h"
 #include "CAnimator2D.h"
+#include "CAnimator3D.h"
 #include "CLight2D.h"
 #include "CLight3D.h"
 #include "CTileMap.h"
@@ -967,6 +968,9 @@ CComponent* CGameObject::CreateComponent(E_ComponentType _eType)
 		break;
 	case E_ComponentType::Animator2D:
 		pComponent = new CAnimator2D;
+		break;
+	case E_ComponentType::Animator3D:
+		pComponent = new CAnimator3D;
 		break;
 	case E_ComponentType::Light2D:
 		pComponent = new CLight2D;

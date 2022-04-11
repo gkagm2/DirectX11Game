@@ -1202,14 +1202,27 @@ void CTestScene::FBXLoadingTest()
 {
 	CScene* pScene = new CScene;
 
-	// FBX Loading
-	SharedPtr<CMeshData> pMeshData = nullptr;
-	pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("House.fbx"));
+	{
+		// FBX Loading
+		SharedPtr<CMeshData> pMeshData = nullptr;
+		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("House.fbx"));
 
-	CGameObject* pHouseObj = pMeshData->Instantiate();
-	pHouseObj->SetName(_T("House"));
+		CGameObject* pHouseObj = pMeshData->Instantiate();
+		pHouseObj->SetName(_T("House"));
 
-	CObject::CreateGameObjectEvn(pHouseObj, 0);
+		CObject::CreateGameObjectEvn(pHouseObj, 0);
+	}
+
+	{
+		// FBX Loading
+		SharedPtr<CMeshData> pMeshData = nullptr;
+		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("Monster.fbx"));
+
+		CGameObject* pMonsterObj = pMeshData->Instantiate();
+		pMonsterObj->SetName(_T("Monster"));
+
+		CObject::CreateGameObjectEvn(pMonsterObj, 0);
+	}
 
 	CSceneManager::GetInstance()->ChangeScene(pScene);
 }

@@ -95,6 +95,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_COMPONENT(Collider2D)\
 	GET_COMPONENT(Collider3D)\
 	GET_COMPONENT(Animator2D)\
+	GET_COMPONENT(Animator3D)\
 	GET_COMPONENT(Light2D)\
 	GET_COMPONENT(Light3D)\
 	GET_COMPONENT(TileMap)\
@@ -130,6 +131,7 @@ CObject::LinkObjectWhenCloneGameObjEvn(this, &pTargetObj_OUT, pOriginTargetObj);
 	GET_OTHER_COMPONENT(Collider2D)\
 	GET_OTHER_COMPONENT(Collider3D)\
 	GET_OTHER_COMPONENT(Animator2D)\
+	GET_OTHER_COMPONENT(Animator3D)\
 	GET_OTHER_COMPONENT(Light2D)\
 	GET_OTHER_COMPONENT(Light3D)\
 	GET_OTHER_COMPONENT(TileMap)\

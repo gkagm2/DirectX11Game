@@ -12,6 +12,7 @@
 #include "CRectTransform.h"
 #include "CAnimator2D.h"
 #include "CAnimation2D.h"
+#include "CAnimator3D.h"
 
 
 CMeshRenderer::CMeshRenderer() :
@@ -36,20 +37,38 @@ void CMeshRenderer::Render()
 	if (nullptr == m_pMesh || m_vecMtrls.empty())
 		return;
 
+	// Animation2D정보 업데이트
+	if (Animator2D())
+		Animator2D()->UpdateData();
+	else
+		CAnimation2D::Clear();
+
+	// Animation3D정보 업데이트
+	if (Animator3D()) {
+		Animator3D()->UpdateData();
+
+		for (size_t i = 0; i < m_vecMtrls.size(); ++i) {
+			if (nullptr == m_vecMtrls[i].pMtrl)
+				continue;
+
+			m_vecMtrls[i].pMtrl->SetAnim3D(true);
+			m_vecMtrls[i].pMtrl->SetBoneCount(Animator3D()->GetBoneCount());
+		}
+	}
+
+
 	for (size_t i = 0; i < m_vecMtrls.size(); ++i) {
 		// 위치정보 세팅
 		if (Transform())
 			Transform()->UpdateData();
-
-		if (Animator2D())
-			Animator2D()->UpdateData();
-		else
-			CAnimation2D::Clear();
-
+		
 		m_vecMtrls[i].pMtrl->UpdateData();	 // 메터리얼 세팅
 		m_pMesh->Render(i);		 // 렌더링
 		m_vecMtrls[i].pMtrl->Clear(); // 메터리얼 레지스터 Clear
 	}
+
+	if (Animator3D())
+		Animator3D()->ClearData();
 }
 
 void CMeshRenderer::SetMesh(SharedPtr<CMesh> _pMesh)

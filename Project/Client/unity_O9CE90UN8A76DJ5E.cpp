@@ -6,6 +6,9 @@
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\Animator2DGUI.cpp"
 
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\Animator3DGUI.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\AnimatorGUI.cpp"
 
 
@@ -27,6 +30,9 @@
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CCameraEx.cpp"
 
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\Collider3DGUI.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CToolDragAndDropScript.cpp"
 
 
@@ -46,10 +52,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\COrthogonalLineScript.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CSceneSaveLoad.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CTestScene.cpp"
 

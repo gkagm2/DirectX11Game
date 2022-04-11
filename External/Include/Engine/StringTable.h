@@ -47,6 +47,8 @@
 
 #define STR_FILE_PATH_DecalShader _T("shader\\decal.fx")
 
+#define STR_FILE_PATH_Animation3DShader _T("shader\\animation3d.fx")
+
 
 // Resource의 key이자 path임
 #define STR_FILE_PATH_NoiseTexture1 _T("texture\\noise\\noise_01.png")
@@ -157,6 +159,8 @@
 // weightmap.fx functions name
 #define STR_FUNC_NAME_WeightMap "CS_WeightMap"
 
+// animation3d.fx functions name
+#define STR_FUNC_NAME_Animation3d_CS "CS_Animation3D"
 // posteffect.fx functions name
 #define STR_FUNC_NAME_VTX_Distortion "VS_Distortion"
 #define STR_FUNC_NAME_PIX_Distortion "PS_Distortion"
@@ -238,7 +242,7 @@
 #define STR_KEY_RaycastShader _T("RaycastShader")
 #define STR_KEY_HeightMapShader _T("HeightMapShader")
 #define STR_KEY_WeightMapShader _T("WeightMapShader")
-
+#define STR_KEY_Animation3DShader _T("Animation3DShader")
 
  /////// / // Test ///// / / /
 #define STR_KEY_TestComputeShader _T("TestComputeShader")

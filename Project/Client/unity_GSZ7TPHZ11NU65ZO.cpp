@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\ListViewGUI.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\MainMenuGUI.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\MaterialGUI.cpp"
 
 
@@ -46,10 +52,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\SkyboxGUI.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\SpawningGUI_bu.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\TextUIGUI.cpp"
 

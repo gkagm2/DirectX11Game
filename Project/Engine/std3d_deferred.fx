@@ -22,6 +22,9 @@ struct VS_IN
     float3 vTangent : TANGENT;
     float3 vNormal : NORMAL;
     float3 vBinormal : BINORMAL;
+    
+    float4 vWeights : BLENDWEIGHT;
+    float4 vIndices : BLENDINDICES;
 };
 
 struct VS_OUT
@@ -39,6 +42,11 @@ VS_OUT VS_Std3D_Deferred(VS_IN _in)
 {
     VS_OUT vOutput = (VS_OUT) 0.f;
 
+    if (g_iAnim)
+    {
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal, _in.vWeights, _in.vIndices, 0);
+    }
+    
     vOutput.vPos = mul(float4(_in.vPos, 1.f), g_matWorldViewProj);
     vOutput.vUV = _in.vUV;
 

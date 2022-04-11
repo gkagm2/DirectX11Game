@@ -248,6 +248,9 @@
     <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TerrainGUI">
       <UniqueIdentifier>{46b901dc-c0d9-49f9-93f8-6819f3ffea44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\Collider3DGUI">
+      <UniqueIdentifier>{e4710b5f-b27d-41d5-bb5a-d5d30cb74d73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -479,6 +482,12 @@
     <ClInclude Include="TerrainGUI.h">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TerrainGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Animator3DGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator3DGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider3DGUI.h">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\Collider3DGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsMessageMap.cpp">
@@ -691,6 +700,12 @@
     </ClCompile>
     <ClCompile Include="TerrainGUI.cpp">
       <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\TerrainGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3DGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\AnimatorGUI\Animator3DGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider3DGUI.cpp">
+      <Filter>02. GUI\InspectorGUI\InspectorViewGUI\ComponentGUI\ColliderGUI\Collider3DGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

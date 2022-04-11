@@ -10,6 +10,7 @@ class CBoundingBox;
 class CCollider2D;
 class CCollider3D;
 class CAnimator2D;
+class CAnimator3D;
 class CLight2D;
 class CLight3D;
 class CLight;

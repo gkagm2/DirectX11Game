@@ -235,3 +235,5 @@ tstring FindResNameIfNoExistRetNewName(const tstring& _strBaseName)
 
 	return tstring();
 }
+
+Matrix GetMatrixFromFbxMatrix(const FbxAMatrix& _mat);

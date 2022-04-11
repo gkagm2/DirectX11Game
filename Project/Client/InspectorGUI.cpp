@@ -17,10 +17,12 @@
 #include "MeshRendererGUI.h"
 #include "Rigidbody2DGUI.h"
 #include "Animator2DGUI.h"
+#include "Animator3DGUI.h"
 #include "Light2DGUI.h"
 #include "Light3DGUI.h"
 #include "TileMapGUI.h"
 #include "Collider2DGUI.h"
+#include "Collider3DGUI.h"
 #include "RectTransformGUI.h"
 #include "CanvasRendererGUI.h"
 #include "AudioSourceGUI.h"
@@ -91,6 +93,10 @@ void InspectorGUI::Init()
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D] = new Collider2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Collider2D]->SetUISize(ImVec2(0.f, 110.f));
 
+	// Collider3D
+	m_arrComGUI[(UINT)E_ComponentType::Collider3D] = new Collider3DGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Collider3D]->SetUISize(ImVec2(0.f, 0.f));
+
 	// Rigidbody2D
 	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D] = new Rigidbody2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Rigidbody2D]->SetUISize(ImVec2(0.f, 220.f));
@@ -98,6 +104,10 @@ void InspectorGUI::Init()
 	// Animator2D
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D] = new Animator2DGUI;
 	m_arrComGUI[(UINT)E_ComponentType::Animator2D]->SetUISize(ImVec2(0.f, 370.f));
+
+	// Animator3D
+	m_arrComGUI[(UINT)E_ComponentType::Animator3D] = new Animator3DGUI;
+	m_arrComGUI[(UINT)E_ComponentType::Animator3D]->SetUISize(ImVec2(0.f, 0.f));
 
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;

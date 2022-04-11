@@ -1,16 +1,11 @@
 #pragma once
 #include "Global.h"
 
-
-// Fbx Loader
-#include <FBXLoader/fbxsdk.h>
-
 #ifdef _DEBUG
 #pragma comment(lib, "FBXLoader/x64/debug/libfbxsdk-md.lib")
 #else
 #pragma comment(lib, "FBXLoader/x64/release/libfbxsdk-md.lib")
 #endif
-
 
 //===============
 // Struct of FBX 

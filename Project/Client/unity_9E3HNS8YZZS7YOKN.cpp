@@ -1,5 +1,11 @@
 #include "pch.h"
 
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CSceneSaveLoad.cpp"
+
+
+#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CTestScene.cpp"
+
+
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\CToolCameraScript.cpp"
 
 
@@ -46,10 +52,4 @@
 
 
 #include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\LightGUI.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\ListViewGUI.cpp"
-
-
-#include "N:\Project\DirectX2019Game\Dx11GameEngine\Project\Client\MainMenuGUI.cpp"
 

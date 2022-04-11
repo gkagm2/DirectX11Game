@@ -152,6 +152,7 @@ void CStructuredBuffer::UpdateData(UINT _iRegisterNum, E_ShaderStage _eStage)
 		CONTEXT->CSSetShaderResources(m_iRecentRegisterNum, 1, m_SRV.GetAddressOf());
 }
 
+// Read, Write¿ë
 void CStructuredBuffer::UpdateDataCS(UINT _iRegisterNum)
 {
 	if (E_StructuredBufferType::ReadOnly == m_eType)
