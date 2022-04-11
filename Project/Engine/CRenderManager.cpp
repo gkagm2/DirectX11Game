@@ -426,7 +426,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		UINT bindFlag = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		arrTex[0] = CResourceManager::GetInstance()->CreateTexture(STR_ResourceKey_Deferred_ColorTargetTex, 
 			(UINT)vResolution.x, (UINT)vResolution.y, 
-			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
+			DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT,
 			bindFlag);
 		arrTex[0]->SetName(_T("Color Target Texture"));
 
@@ -513,6 +513,7 @@ void CRenderManager::_CreateMultpleRenderTargets()
 		pMergeMtrl->SetData(E_ShaderParam::Texture_1, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_DiffuseTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_2, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_SpecularTargetTex).Get());
 		pMergeMtrl->SetData(E_ShaderParam::Texture_3, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_ShadowTargetTex).Get());
+		pMergeMtrl->SetData(E_ShaderParam::Texture_4, CResourceManager::GetInstance()->FindRes<CTexture>(STR_ResourceKey_Deferred_DataTargetTex).Get());
 	}
 
 	// Shadow Depth

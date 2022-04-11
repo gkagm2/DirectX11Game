@@ -15,9 +15,8 @@ AnimatorGUI::~AnimatorGUI()
 
 void AnimatorGUI::Update()
 {
-	if (!Start())
+	if (false == Start())
 		return;
-
 
 	End();
 }

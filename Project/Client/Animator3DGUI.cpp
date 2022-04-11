@@ -15,7 +15,6 @@ void Animator3DGUI::Update()
 {
 	if (false == Start())
 		return;
-
 	End();
 }
 

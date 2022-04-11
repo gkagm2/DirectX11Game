@@ -1202,26 +1202,47 @@ void CTestScene::FBXLoadingTest()
 {
 	CScene* pScene = new CScene;
 
-	{
-		// FBX Loading
-		SharedPtr<CMeshData> pMeshData = nullptr;
-		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("House.fbx"));
+	
+	//SharedPtr<CMeshData> pMeshData = nullptr;
+	//{
+	//	// FBX Loading
+	//	pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("House.fbx"));
+	//	pMeshData->Save(pMeshData->GetRelativePath());
+	//	CGameObject* pHouseObj = pMeshData->Instantiate();
+	//	pHouseObj->SetName(_T("House"));
 
-		CGameObject* pHouseObj = pMeshData->Instantiate();
-		pHouseObj->SetName(_T("House"));
+	//	CObject::CreateGameObjectEvn(pHouseObj, 0);
+	//}
 
-		CObject::CreateGameObjectEvn(pHouseObj, 0);
-	}
-
-	{
-		// FBX Loading
-		SharedPtr<CMeshData> pMeshData = nullptr;
+	// FBX Loading
+	SharedPtr<CMeshData> pMeshData = nullptr;
+	/*{
+		
 		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("Monster.fbx"));
-
 		CGameObject* pMonsterObj = pMeshData->Instantiate();
 		pMonsterObj->SetName(_T("Monster"));
 
 		CObject::CreateGameObjectEvn(pMonsterObj, 0);
+	}*/
+	
+
+	bool isSave = false;
+	
+	if (isSave) {
+		// Mesh Data Save
+		pMeshData->Save(pMeshData->GetRelativePath());
+	}
+	else {
+		// Mesh Data Load
+		{
+			pMeshData = CResourceManager::GetInstance()->LoadRes<CMeshData>(_T("Monstser"), _T("meshdata\\Monster.mdat"));
+			if (nullptr != pMeshData) {
+				pMeshData->SetName(_T("Loaded Monstser"));
+
+				CGameObject* pHouseObj = pMeshData->Instantiate();
+				CObject::CreateGameObjectEvn(pHouseObj, 0);
+			}
+		}
 	}
 
 	CSceneManager::GetInstance()->ChangeScene(pScene);

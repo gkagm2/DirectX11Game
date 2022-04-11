@@ -4,6 +4,7 @@
 
 #include "CResourceManager.h"
 #include "CPathManager.h"
+#include "CPerformanceMonitor.h"
 
 CFBXLoader::CFBXLoader()
 	: m_pManager(NULL)
@@ -49,6 +50,9 @@ void CFBXLoader::init()
 
 void CFBXLoader::LoadFbx(const wstring& _strPath)
 {
+	TCHAR szStr[128] = {};
+	_stprintf_s(szStr, 128, _T("Load FBX (CFBXLoader class) [%s]\n"), _strPath.c_str());
+	PM_START(szStr);
 	m_vecContainer.clear();
 
 	m_pImporter = FbxImporter::Create(m_pManager, "");
@@ -91,6 +95,8 @@ void CFBXLoader::LoadFbx(const wstring& _strPath)
 
 	// 필요한 메테리얼 생성
 	CreateMaterial();
+
+	PM_END();
 }
 
 void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)

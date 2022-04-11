@@ -2,6 +2,7 @@
 #include "CMesh.h"
 #include "CDevice.h"
 #include "CStructuredBuffer.h"
+#include "CPathManager.h"
 #pragma warning (disable:6387)
 
 CMesh::CMesh() :
@@ -27,6 +28,206 @@ CMesh::~CMesh()
 	// Animation3D Info
 	SAFE_DELETE(m_pBoneFrameData);
 	SAFE_DELETE(m_pBoneOffset);
+}
+
+bool CMesh::Save(const tstring& _strRelativePath)
+{
+	tstring strFileName = CPathManager::GetInstance()->GetContentPath();
+	strFileName += _strRelativePath;
+	SetRelativePath(_strRelativePath);
+
+	FILE* pFile = nullptr;
+	errno_t err = _tfopen_s(&pFile, strFileName.c_str(), _T("wb"));
+
+	assert(pFile);
+
+	// 키값, 상대 경로
+	SaveStringToFile(GetName(), pFile);
+	SaveStringToFile(GetRelativePath(), pFile);
+
+	// 정점 데이터 저장				
+	UINT iByteSize = m_tVtxDesc.ByteWidth;
+	FWrite(iByteSize, pFile);
+	fwrite(m_pVtxSys, iByteSize, 1, pFile);
+	//FWrite(m_pVtxSys, pFile, iByteSize, 1);
+
+	// 인덱스 정보
+	UINT iMtrlCount = (UINT)m_vecIdxInfo.size();
+	FWrite(iMtrlCount, pFile);
+
+	UINT iIdxBuffSize = 0;
+	for (UINT i = 0; i < iMtrlCount; ++i) {
+		FWrite(m_vecIdxInfo[i], pFile);
+		fwrite(m_vecIdxInfo[i].pIdxSysMem, m_vecIdxInfo[i].iIdxCount * sizeof(UINT), 1, pFile);
+	}
+
+	// Animation3D 정보 
+	UINT iCount = (UINT)m_vecAnimClip.size();
+	FWrite(iCount, pFile);
+	for (UINT i = 0; i < iCount; ++i) {
+		SaveStringToFile(m_vecAnimClip[i].strAnimName, pFile);
+		FWrite(m_vecAnimClip[i].dStartTime, pFile);
+		FWrite(m_vecAnimClip[i].dEndTime, pFile);
+		FWrite(m_vecAnimClip[i].dTimeLength, pFile);
+		FWrite(m_vecAnimClip[i].eMode, pFile);
+		FWrite(m_vecAnimClip[i].fUpdateTime, pFile);
+		FWrite(m_vecAnimClip[i].iStartFrame, pFile);
+		FWrite(m_vecAnimClip[i].iEndFrame, pFile);
+		FWrite(m_vecAnimClip[i].iFrameLength, pFile);
+	}
+
+	iCount = (UINT)m_vecBones.size();
+	FWrite(iCount, pFile);
+
+	for (UINT i = 0; i < iCount; ++i) {
+		SaveStringToFile(m_vecBones[i].strBoneName, pFile);
+		FWrite(m_vecBones[i].iDepth, pFile);
+		FWrite(m_vecBones[i].iParentIndx, pFile);
+		FWrite(m_vecBones[i].matBone, pFile);
+		FWrite(m_vecBones[i].matOffset, pFile);
+
+		int iFrameCount = (int)m_vecBones[i].vecKeyFrame.size();
+		FWrite(iFrameCount, pFile);
+
+		for (int j = 0; j < m_vecBones[i].vecKeyFrame.size(); ++j)
+			FWrite(m_vecBones[i].vecKeyFrame[j], pFile);
+	}
+
+
+	fclose(pFile);
+
+	return true;
+}
+
+int CMesh::Load(const tstring& _strFilePath)
+{
+	FILE* pFile = nullptr;
+	errno_t err = _tfopen_s(&pFile, _strFilePath.c_str(), _T("rb"));
+	if (err) {
+		assert(nullptr);
+		return E_FAIL;
+	}
+
+	// 키값, 상대경로
+	tstring strKey, strRelativePath;
+	LoadStringFromFile(strKey, pFile);
+	LoadStringFromFile(strRelativePath, pFile);
+
+	SetKey(strKey);
+	SetRelativePath(strRelativePath);
+
+	// 정점데이터
+	UINT iByteSize = 0;
+	FRead(iByteSize, pFile);
+
+	m_pVtxSys = (VTX*)malloc(iByteSize);
+	fread(m_pVtxSys, 1, iByteSize, pFile);
+	//FRead(m_pVtxSys, pFile, iByteSize, 1);
+
+
+	D3D11_BUFFER_DESC tDesc = {};
+	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	tDesc.ByteWidth = iByteSize;
+	tDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	D3D11_SUBRESOURCE_DATA tSubData = {};
+	tSubData.pSysMem = m_pVtxSys;
+
+	if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_pVB.GetAddressOf())))
+		assert(nullptr);
+
+	// 인덱스 정보
+	UINT iMtrlCount = 0;
+	FRead(iMtrlCount, pFile);
+
+	for (UINT i = 0; i < iMtrlCount; ++i) {
+		tIndexInfo info = {};
+		FRead(info, pFile);
+
+		UINT iByteWidth = info.iIdxCount * sizeof(UINT);
+
+		void* pSysMem = malloc(iByteWidth);
+		info.pIdxSysMem = pSysMem;
+		fread(info.pIdxSysMem, iByteWidth, 1, pFile);
+		//FRead(info.pIdxSysMem, pFile, iByteWidth, 1);
+
+		tSubData.pSysMem = info.pIdxSysMem;
+
+		if (FAILED(DEVICE->CreateBuffer(&info.tIBDesc, &tSubData, info.pIB.GetAddressOf())))
+			assert(nullptr);
+
+		m_vecIdxInfo.push_back(info);
+	}
+
+	// Animation3D 정보 읽기
+	UINT iCount = 0;
+	FRead(iCount, pFile);
+	for (UINT i = 0; i < iCount; ++i) {
+		tMTAnimClip tClip = {};
+
+		LoadStringFromFile(tClip.strAnimName, pFile);
+		FRead(tClip.dStartTime, pFile);
+		FRead(tClip.dEndTime, pFile);
+		FRead(tClip.dTimeLength, pFile);
+		FRead(tClip.eMode, pFile);
+		FRead(tClip.fUpdateTime, pFile);
+		FRead(tClip.iStartFrame, pFile);
+		FRead(tClip.iEndFrame, pFile);
+		FRead(tClip.iFrameLength, pFile);
+
+		m_vecAnimClip.push_back(tClip);
+	}
+
+	iCount = 0;
+	FRead(iCount, pFile);
+	m_vecBones.resize(iCount);
+
+	UINT _iFrameCount = 0;
+	for (int i = 0; i < iCount; ++i) {
+		LoadStringFromFile(m_vecBones[i].strBoneName, pFile);
+		FRead(m_vecBones[i].iDepth, pFile);
+		FRead(m_vecBones[i].iParentIndx, pFile);
+		FRead(m_vecBones[i].matBone, pFile);
+		FRead(m_vecBones[i].matOffset, pFile);
+
+		UINT iFrameCount = 0;
+		FRead(iFrameCount, pFile);
+		m_vecBones[i].vecKeyFrame.resize(iFrameCount);
+		_iFrameCount = max(_iFrameCount, iFrameCount);
+		for (UINT j = 0; j < iFrameCount; ++j)
+			FRead(m_vecBones[i].vecKeyFrame[j], pFile);
+	}
+
+	// Animation 이 있는 Mesh 경우 Bone StructuredBuffer 만들기
+	if (m_vecAnimClip.size() > 0 && m_vecBones.size() > 0) {
+		tstring strBone = GetName();
+
+		// BoneOffet 행렬
+		vector<Matrix> vecOffset;
+		vector<tFrameTrans> vecFrameTrans;
+		vecFrameTrans.resize((UINT)m_vecBones.size() * _iFrameCount);
+
+		for (size_t i = 0; i < m_vecBones.size(); ++i) {
+			vecOffset.push_back(m_vecBones[i].matOffset);
+
+			for (size_t j = 0; j < m_vecBones[i].vecKeyFrame.size(); ++j) {
+				vecFrameTrans[(UINT)m_vecBones.size() * j + i]
+					= tFrameTrans{ Vector4(m_vecBones[i].vecKeyFrame[j].vTranslate, 0.f)
+					, Vector4(m_vecBones[i].vecKeyFrame[j].vScale, 0.f)
+					, Vector4(m_vecBones[i].vecKeyFrame[j].qRot) };
+			}
+		}
+
+		m_pBoneOffset = new CStructuredBuffer;
+		m_pBoneOffset->Create(E_StructuredBufferType::ReadOnly, sizeof(Matrix), (UINT)vecOffset.size(), false, vecOffset.data());
+
+		m_pBoneFrameData = new CStructuredBuffer;
+		m_pBoneFrameData->Create(E_StructuredBufferType::ReadOnly, sizeof(tFrameTrans), (UINT)vecOffset.size() * (UINT)_iFrameCount, false, vecFrameTrans.data());
+	}
+
+	fclose(pFile);
+
+	return S_OK;
 }
 
 void CMesh::Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage)

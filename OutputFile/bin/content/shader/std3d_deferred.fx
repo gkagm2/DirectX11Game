@@ -95,20 +95,26 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
         vViewNormal = normalize(mul(vNormal, matRotates));
     }
     
-    
-    //if (bSpecularMapTex)
-    //{
-    //    // TODO (Jang) : 
-    //}
+    // 스펙큘러 텍스쳐 존재 시
+    float4 vMtrlCoeff = float4(1.f, 1.f, 1.f, 1.f);
+    if (bSpecularMapTex)
+    {
+        vMtrlCoeff = SpecularMapTex.Sample(Sample_Anisotropic, _in.vUV);
+    }
     
     vOutput.vColor.xyz = vObjColor.xyz;
+    // 디퍼드 단계에서는 반투명 처리를 하지 않음.
+    vOutput.vColor.a = 1.f;
+    
+    //output.vColor.r = encode(float4(vObjectColor, 1.f));
     vOutput.vViewNormal.xyz = vViewNormal;
     vOutput.vViewPos.xyz = _in.vViewPos;
     
-    // 디퍼드 단계에서는 반투명 처리를 하지 않음.
-    vOutput.vColor.a = 1.f;
+    
     vOutput.vViewNormal.a = 1.f;
     vOutput.vViewPos.a = 1.f;
+    
+    vOutput.vData.r = encode(vMtrlCoeff);
     
     return vOutput;
 }
@@ -121,6 +127,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 #define DiffuseTargetTex        g_tex_1
 #define SpecularTargetTex       g_tex_2
 #define ShadowPowTargetTex      g_tex_3
+#define DataTargetTex           g_tex_4
 /////////////////////////////////////
 
 struct VS_MERGE_IN
@@ -151,22 +158,27 @@ float4 PS_MergeShader(VS_MERGE_OUT _in) : SV_Target
     float4 vOutColor = (float4) 0.f;
     
     float4 vColor = ColorTargetTex.Sample(Sample_Point, _in.vUV);
+    //float4 vColor = decode(ColorTargetTex.Sample(Sample_Point, _in.vUV).r);
     float4 vDiffuse_Ambi = DiffuseTargetTex.Sample(Sample_Point, _in.vUV); // diffuse와 ambient가 섞여있음.
     float4 vSpecular = SpecularTargetTex.Sample(Sample_Point, _in.vUV);
     float fShadowPow = ShadowPowTargetTex.Sample(Sample_Point, _in.vUV).r;
+    float4 vMtrlCoeff = decode(DataTargetTex.Sample(Sample_Point, _in.vUV).r);
+    
     if (0.f == vColor.a) // 알파가 0일 경우 빛에 영향받지 않음
     {
         vOutColor = vColor;
     }
     else if (0.f == fShadowPow)
     {
-        vOutColor = vColor * vDiffuse_Ambi + vSpecular;
+        //vOutColor = vColor * vDiffuse_Ambi + vSpecular;
+        vOutColor = vColor * vDiffuse_Ambi + (vSpecular * vMtrlCoeff);
         vOutColor.a = 1.f;
     }
     else
     {
         float fRatio = saturate(1.f - fShadowPow);
-        vOutColor = (vColor * vDiffuse_Ambi + vSpecular) * fRatio;
+        //vOutColor = (vColor * vDiffuse_Ambi + vSpecular) * fRatio;
+        vOutColor = (vColor * vDiffuse_Ambi + (vSpecular * vMtrlCoeff)) * fRatio;
         vOutColor.a = 1.f;
     }
     

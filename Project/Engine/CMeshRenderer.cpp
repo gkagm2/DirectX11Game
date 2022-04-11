@@ -157,8 +157,9 @@ bool CMeshRenderer::LoadFromScene(FILE* _pFile)
 	CRenderer::LoadFromScene(_pFile);
 	LoadResourceFromFile(m_pMesh, _pFile);
 
-	UINT iMtrlCount = (UINT)m_vecMtrls.size();
+	UINT iMtrlCount = 0;
 	FRead(iMtrlCount, _pFile);
+	m_vecMtrls.resize(iMtrlCount);
 	for (UINT i = 0; i < iMtrlCount; ++i) {
 		LoadResourceFromFile(m_vecMtrls[i].pSharedMtrl, _pFile);
 		SetMaterial(m_vecMtrls[i].pSharedMtrl, i);

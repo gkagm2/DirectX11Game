@@ -241,4 +241,24 @@ void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinorma
     _vNormal = normalize(info.vNormal);
 }
 
+// 압축 16byte -> 4byte
+float encode(float4 _value)
+{
+    uint rgba = (uint(_value.x * 255.f) << 24) + (uint(_value.y * 255.f) << 16) + (uint(_value.z * 255.f) << 8) + uint(_value.w * 255.f);
+    return asfloat(rgba);
+}
+
+// 압축 해제 4byte -> 16byte
+float4 decode(float _value)
+{
+    uint rgba = asint(_value);
+    
+    float r = (float) (rgba >> 24) / 255.f;
+    float g = (float) ((rgba & 0x00ff0000) >> 16) / 255.f;
+    float b = (float) ((rgba & 0x0000ff00) >> 8) / 255.f;
+    float a = (float) (rgba & 0x000000ff) / 255.f;
+    
+    return float4(r, g, b, a);
+}
+
 #endif

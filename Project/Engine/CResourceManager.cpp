@@ -43,10 +43,10 @@ void CResourceManager::Init()
 	E_SceneMode eSceneMode = CSceneManager::GetInstance()->GetSceneMode();
 	if (eSceneMode == E_SceneMode::Stop) {
 		// Texture 로딩
-		LoadResourcesFromDir<CTexture>(_T("texture\\"), _T("*.*"));
+		//LoadResourcesFromDir<CTexture>(_T("texture\\"), _T("*.*"));
 
 		// 프리펩 로딩
-		LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
+		//LoadResourcesFromDir<CPrefab>(_T("prefab\\"), _T("*.pref"));
 
 		// 메터리얼 로딩
 		//LoadResourcesFromDir<CMaterial>(_T("material\\"), _T("*.mtrl"));

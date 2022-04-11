@@ -17,13 +17,14 @@ private:
 
 public:
 	static CMeshData* LoadFromFBX(const wstring& _strFilePath);
-	virtual int Load(const tstring& _strFilePath) override { return S_OK; }
-
 	CGameObject* Instantiate();
 
-	CLONE_DISABLE(CMeshData);
+public:
+	virtual bool Save(const tstring& _strRelativePath) override;
+	virtual int Load(const tstring& _strFilePath) override;
 
 public:
+	CLONE_DISABLE(CMeshData);
 	CMeshData();
 	virtual ~CMeshData();
 };

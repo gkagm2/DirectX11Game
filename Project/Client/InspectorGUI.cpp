@@ -111,11 +111,11 @@ void InspectorGUI::Init()
 
 	// Light2D
 	m_arrComGUI[(UINT)E_ComponentType::Light2D] = new Light2DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Light2D]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::Light2D]->SetUISize(ImVec2(0.f, 200.f));
 
 	// Light3D
 	m_arrComGUI[(UINT)E_ComponentType::Light3D] = new Light3DGUI;
-	m_arrComGUI[(UINT)E_ComponentType::Light3D]->SetUISize(ImVec2(0.f, 0.f));
+	m_arrComGUI[(UINT)E_ComponentType::Light3D]->SetUISize(ImVec2(0.f, 200.f));
 
 	// TileMap
 	m_arrComGUI[(UINT)E_ComponentType::TileMap] = new TileMapGUI;

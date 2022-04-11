@@ -20,7 +20,7 @@ private:
 	ComPtr<ID3D11Buffer> m_pVB;  // 정점 정보를 저장하는 버퍼 vertex buffer
 	D3D11_BUFFER_DESC m_tVtxDesc;
 	UINT m_iVtxCount;
-	void* m_pVtxSys;			 //  VtxSys : Vertex System (VTX*)
+	VTX* m_pVtxSys;			 //  VtxSys : Vertex System (VTX*)
 
 	// 하나의 버텍스버퍼에 여러개의 인덱스버퍼가 연결
 	vector<tIndexInfo>		m_vecIdxInfo;
@@ -35,8 +35,9 @@ private:
 public:
 	void* GetVtxSysMem() { return m_pVtxSys; }
 
-private:
-	virtual int Load(const tstring& _strFilePath) { return S_OK; }
+public:
+	virtual bool Save(const tstring& _strRelativePath) override;
+	virtual int Load(const tstring& _strFilePath) override;
 	
 public:
 	virtual void Create(void* _pVtxSys, UINT _iVtxBufferSize, void* _pIdxSys, UINT _iIdxBufferSize, D3D11_USAGE _eIdxUsage);

@@ -13,7 +13,7 @@ Collider3DGUI::~Collider3DGUI()
 void Collider3DGUI::Update()
 {
 	if (false == Start())
-		return
+		return;
 
 	End();
 }
