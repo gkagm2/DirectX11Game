@@ -95,6 +95,10 @@ cbuffer RECT_TRANSFORM : register(b4)
     row_major Matrix g_matRectProjection;
 }
 
+cbuffer ANIMATION3D_DATA : register(b6)
+{
+}
+
 // Texture register (t)
 Texture2D g_tex_0 : register(t0);
 Texture2D g_tex_1 : register(t1);

@@ -147,7 +147,7 @@ inline SharedPtr<T> CResourceManager::LoadRes(const tstring& _strKey, const tstr
 	pResource = new T;
 
 	if (FAILED(((CResource*)pResource)->Load(strFilePath))) {
-		assert(nullptr && _T("리소스 로딩 실패"));
+		//assert(nullptr && _T("리소스 로딩 실패"));
 		m_bFixed = false;
 		return nullptr;
 	}

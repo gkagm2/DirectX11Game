@@ -198,3 +198,6 @@ struct TGlobalConst {
 	int iLight2DCount;
 	int iLight3DCount;
 };
+
+struct TAnimation3DData {
+};

@@ -228,6 +228,9 @@ void CDevice::CreateConstBuffer()
 
 	m_arrCB[(UINT)E_ConstBuffer::Particle] = new CConstBuffer;
 	m_arrCB[(UINT)E_ConstBuffer::Particle]->Create(_T("Particle ConstBuffer"), E_ConstBuffer::Particle, sizeof(TParticleData));
+
+	m_arrCB[(UINT)E_ConstBuffer::Animation3D_Data] = new CConstBuffer;
+	m_arrCB[(UINT)E_ConstBuffer::Animation3D_Data]->Create(_T("Animation3D Const Buffer"), E_ConstBuffer::Animation3D_Data, sizeof(TAnimation3DData));
 }
 
 void CDevice::CreateSampler()

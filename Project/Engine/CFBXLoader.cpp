@@ -37,15 +37,19 @@ CFBXLoader::~CFBXLoader()
 void CFBXLoader::init()
 {
 	m_pManager = FbxManager::Create();
-	if (NULL == m_pManager)
+	if (NULL == m_pManager) {
 		assert(NULL);
+		return;
+	}
 
 	FbxIOSettings* pIOSettings = FbxIOSettings::Create(m_pManager, IOSROOT);
 	m_pManager->SetIOSettings(pIOSettings);
 
 	m_pScene = FbxScene::Create(m_pManager, "");
-	if (NULL == m_pScene)
+	if (NULL == m_pScene) {
 		assert(NULL);
+		return;
+	}
 }
 
 void CFBXLoader::LoadFbx(const wstring& _strPath)
@@ -60,9 +64,11 @@ void CFBXLoader::LoadFbx(const wstring& _strPath)
 	//wstring str = wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(strName.c_str());
 	string strPath(_strPath.begin(), _strPath.end());
 
-	if (!m_pImporter->Initialize(strPath.c_str(), -1, m_pManager->GetIOSettings()))
+	if (!m_pImporter->Initialize(strPath.c_str(), -1, m_pManager->GetIOSettings())) {
 		assert(nullptr);
-
+		return;
+	}
+		
 	m_pImporter->Import(m_pScene);
 
 	/*FbxAxisSystem originAxis = FbxAxisSystem::eMax;
@@ -166,8 +172,10 @@ void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 
 	// 폴리곤을 구성하는 정점 개수
 	int iPolySize = _pFbxMesh->GetPolygonSize(0);
-	if (3 != iPolySize)
+	if (3 != iPolySize) {
 		assert(NULL); // Polygon 구성 정점이 3개가 아닌 경우
+		return;
+	}
 
 	UINT arrIdx[3] = {};
 	UINT iVtxOrder = 0; // 폴리곤 순서로 접근하는 순번
@@ -237,9 +245,11 @@ void CFBXLoader::GetTangent(FbxMesh* _pMesh
 	, int _iVtxOrder /*폴리곤 단위로 접근하는 순서*/)
 {
 	int iTangentCnt = _pMesh->GetElementTangentCount();
-	if (1 != iTangentCnt)
+	if (1 != iTangentCnt) {
 		assert(NULL); // 정점 1개가 포함하는 탄젠트 정보가 2개 이상이다.
-
+		return;
+	}
+	
 	// 탄젠트 data 의 시작 주소
 	FbxGeometryElementTangent* pTangent = _pMesh->GetElementTangent();
 	UINT iTangentIdx = 0;
@@ -269,8 +279,10 @@ void CFBXLoader::GetTangent(FbxMesh* _pMesh
 void CFBXLoader::GetBinormal(FbxMesh* _pMesh, tContainer* _pContainer, int _iIdx, int _iVtxOrder)
 {
 	int iBinormalCnt = _pMesh->GetElementBinormalCount();
-	if (1 != iBinormalCnt)
+	if (1 != iBinormalCnt) {
 		assert(NULL); // 정점 1개가 포함하는 종법선 정보가 2개 이상이다.
+		return;
+	}
 
 	// 종법선 data 의 시작 주소
 	FbxGeometryElementBinormal* pBinormal = _pMesh->GetElementBinormal();
@@ -301,9 +313,11 @@ void CFBXLoader::GetBinormal(FbxMesh* _pMesh, tContainer* _pContainer, int _iIdx
 void CFBXLoader::GetNormal(FbxMesh* _pMesh, tContainer* _pContainer, int _iIdx, int _iVtxOrder)
 {
 	int iNormalCnt = _pMesh->GetElementNormalCount();
-	if (1 != iNormalCnt)
+	if (1 != iNormalCnt) {
 		assert(NULL); // 정점 1개가 포함하는 종법선 정보가 2개 이상이다.
-
+		return;
+	}
+		
 					  // 종법선 data 의 시작 주소
 	FbxGeometryElementNormal* pNormal = _pMesh->GetElementNormal();
 	UINT iNormalIdx = 0;

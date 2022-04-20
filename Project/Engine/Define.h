@@ -190,6 +190,7 @@ enum class E_ConstBuffer {
 	Global,			 // b3
 	RectTransform,	 // b4
 	Particle,		 // b5
+	Animation3D_Data,// b6
 	End,
 };
 

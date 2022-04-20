@@ -202,6 +202,7 @@ call ClientCopy.bat</Command>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>N:\Project\UsefulLibrary\boost_1_78_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

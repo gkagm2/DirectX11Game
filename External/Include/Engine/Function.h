@@ -60,15 +60,6 @@ template<typename T>
 size_t FRead(T& _data, FILE* _pFile, UINT _iElementCount = 1) {
 	return fread(&_data, sizeof(T), _iElementCount, _pFile);
 }
-//template<typename T>
-//size_t FWrite(T& _data, FILE* _pFile, UINT _iByteSize, UINT _iElementCount) {
-//	return fwrite(&_data, _iByteSize, _iElementCount, _pFile);
-//}
-//
-//template<typename T>
-//size_t FRead(T& _data, FILE* _pFile, UINT _iByteSize, UINT _iElementCount) {
-//	return fread(&_data, _iByteSize, _iElementCount, _pFile);
-//}
 
 template<typename T>
 uuid FWriteObj(T& _Data, FILE* _pFile) {

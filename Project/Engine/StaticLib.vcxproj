@@ -210,6 +210,9 @@ call EngineCopy.bat</Command>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <UnityFilesDirectory>$(ProjectDir)</UnityFilesDirectory>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -238,11 +241,7 @@ call EngineCopy.bat</Command>
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CEngineDebugScript.h" />
     <ClInclude Include="CEventManager.h" />
-    <ClInclude Include="CFBXLoader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Graphics|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="CFBXLoader.h" />
     <ClInclude Include="CFontManager.h" />
     <ClInclude Include="CFrustum.h" />
     <ClInclude Include="CGameObject.h" />
@@ -340,11 +339,7 @@ call EngineCopy.bat</Command>
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CEngineDebugScript.cpp" />
     <ClCompile Include="CEventManager.cpp" />
-    <ClCompile Include="CFBXLoader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Graphics|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="CFBXLoader.cpp" />
     <ClCompile Include="CFontManager.cpp" />
     <ClCompile Include="CFrustum.cpp" />
     <ClCompile Include="CGameObject.cpp" />

@@ -27,11 +27,6 @@ CAnimator3D::~CAnimator3D()
 	SAFE_DELETE(m_pBoneFinalMatBuffer);
 }
 
-
-void CAnimator3D::Update()
-{
-}
-
 void CAnimator3D::LateUpdate()
 {
 }

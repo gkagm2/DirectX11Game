@@ -25,7 +25,6 @@ void CAnimation3DShader::UpdateData()
 	m_pOutputBuffer->UpdateDataCS(0);   // u0
 }
 
-
 void CAnimation3DShader::Excute()
 {
 	UINT iGrounX = (m_tInfo.iArr[0] / GetGroupPerThreadX()) + 1;

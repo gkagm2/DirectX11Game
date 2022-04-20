@@ -128,11 +128,12 @@ void CTestScene::CreateTestScene()
 	//Collision2DTest();
 	//CSceneSaveLoad::LoadScene(STR_FILE_PATH_TempScene);
 	//Light2DTest();
-	FBXLoadingTest();
+	//Test();
+	//FBXLoadingTest();
 	//UpdateOldVersion();
 	//CreateNewScene();
 	//Butcher();
-	//Light3DTest();
+	Light3DTest();
 
 	return;
 	// TODO (Jang) : Test code
@@ -1215,7 +1216,7 @@ void CTestScene::FBXLoadingTest()
 	//}
 
 	// FBX Loading
-	SharedPtr<CMeshData> pMeshData = nullptr;
+	//SharedPtr<CMeshData> pMeshData = nullptr;
 	/*{
 		
 		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("Monster.fbx"));
@@ -1224,26 +1225,34 @@ void CTestScene::FBXLoadingTest()
 
 		CObject::CreateGameObjectEvn(pMonsterObj, 0);
 	}*/
-	
+
+	SharedPtr<CMeshData> pMeshData = nullptr;
+	{
+		pMeshData = CResourceManager::GetInstance()->LoadFBX(_T("WarriorMale.fbx"));
+		CGameObject* pMonsterObj = pMeshData->Instantiate();
+		pMonsterObj->SetName(_T("Monster"));
+
+		CObject::CreateGameObjectEvn(pMonsterObj, 0);
+	}
 
 	bool isSave = false;
 	
-	if (isSave) {
-		// Mesh Data Save
-		pMeshData->Save(pMeshData->GetRelativePath());
-	}
-	else {
-		// Mesh Data Load
-		{
-			pMeshData = CResourceManager::GetInstance()->LoadRes<CMeshData>(_T("Monstser"), _T("meshdata\\Monster.mdat"));
-			if (nullptr != pMeshData) {
-				pMeshData->SetName(_T("Loaded Monstser"));
+	//if (isSave) {
+	//	// Mesh Data Save
+	//	pMeshData->Save(pMeshData->GetRelativePath());
+	//}
+	//else {
+	//	// Mesh Data Load
+	//	{
+	//		pMeshData = CResourceManager::GetInstance()->LoadRes<CMeshData>(_T("Monstser"), _T("meshdata\\Monster.mdat"));
+	//		if (nullptr != pMeshData) {
+	//			pMeshData->SetName(_T("Loaded Monstser"));
 
-				CGameObject* pHouseObj = pMeshData->Instantiate();
-				CObject::CreateGameObjectEvn(pHouseObj, 0);
-			}
-		}
-	}
+	//			CGameObject* pHouseObj = pMeshData->Instantiate();
+	//			CObject::CreateGameObjectEvn(pHouseObj, 0);
+	//		}
+	//	}
+	//}
 
 	CSceneManager::GetInstance()->ChangeScene(pScene);
 }
