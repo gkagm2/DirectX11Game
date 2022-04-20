@@ -14,6 +14,11 @@ External - 외부 종속 파일
 Engine 프로젝트에서 빌드 시 External 폴더 안에 생성됨. 
 Client 프로젝트는 External쪽에 있는 파일들을 참조하여 새 파일을 만들어 낸다.
 
+# 게임 실행
+My Game 폴더 안에 실행 파일이 있음.
+
+
+# 프로젝트 실행 방법.
 
 step 1. 
 Download
